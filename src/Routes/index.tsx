@@ -1,5 +1,5 @@
-import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket} from '@Modules'
-import {Login, Otp, Splash, RegisterUser} from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket } from '@Modules'
+import { Login, Otp, Splash, RegisterUser,IssueDetails } from '@Modules'
 
 export const ROUTES = {
   AUTH: {
@@ -7,7 +7,8 @@ export const ROUTES = {
     SPLASH: "/",
     OTP: "/otp",
     REGISTER: '/register',
-    VIEW_GOOGLE_BUSINESS: '/view-google-business'
+    VIEW_GOOGLE_BUSINESS: '/view-google-business',
+    SEND: '/issueDetails'
   },
   HOME: {
     Admin: "/admin/issues",
@@ -28,46 +29,51 @@ export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
- };
+};
 
 export const AUTH_ROUTES = [
   {
     key: 1,
     path: AUTH_PATH.SPLASH,
-    component: <Splash/>
+    component: <Splash />
   },
   {
     key: 2,
     path: AUTH_PATH.LOGIN,
-    component: <Login/>
+    component: <Login />
   },
   {
     key: 3,
     path: AUTH_PATH.OTP,
-    component: <Otp/>
+    component: <Otp />
+  },
+  {
+    key: 4,
+    path: ROUTES.AUTH.SEND,
+    component: <IssueDetails />
   },
 ];
 export const ADMIN_ROUTES = [
-  
+
   {
     path: "/issues",
     name: "Issues",
     icon: "ni ni-bell-55 text-red",
     layout: "/admin",
-    component: <Issues/>
+    component: <Issues />
   },
   {
     path: "/companies",
     name: "Companies",
     icon: "ni ni-square-pin text-primary",
     layout: "/admin",
-    component: <Companies/>
+    component: <Companies />
   }, {
     path: "/settings",
     name: "Settings",
     icon: "ni ni-settings-gear-65 text-gray",
     layout: "/admin",
-    component: <Settings/>
+    component: <Settings />
   },
 ];
 

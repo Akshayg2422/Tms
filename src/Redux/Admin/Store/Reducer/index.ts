@@ -148,6 +148,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
      */
 
     case SET_SELECTED_ISSUES:
+      
       state = {...state, selectedIssues: action.payload};
       break;
 

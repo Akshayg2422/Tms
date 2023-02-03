@@ -13,7 +13,7 @@ const SERVER =
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
     ? 'live_local'
     : BUILD_TYPE === BUILD_TYPE_STAGING
-    ? 'http://43.204.204.165'
+    ? 'http://192.168.29.5:8000'
     : 'local_ip_here';
 
 const axiosApi = axios.create({
@@ -27,7 +27,7 @@ axios.interceptors.request.use(function (config) {
 const getHeaders = async () => {
   try {
              
-    const value =  localStorage.setItem(USER_TOKEN);
+    const value =  localStorage.getItem(USER_TOKEN);
 
     console.log(JSON.stringify(value)+"+===Token");
 

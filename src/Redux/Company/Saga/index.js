@@ -71,7 +71,7 @@ function* getTicketEventsSaga(action) {
     // yield put(showLoader());
     const response = yield call(getTicketEventsApi, action.payload.params);
 
-    console.log(JSON.stringify());
+    
     if (response.success) {
       // yield put(hideLoader());
       yield put(getTicketsEventsSuccess({...response}));
@@ -89,7 +89,8 @@ function* getTicketEventsSaga(action) {
 function* addTicketEventSaga(action) {
   try {
     // yield put(showLoader());
-    const response = yield call(addTicketEventApi, action.payload.params);
+    const response = yield call(addTicketEventApi, action.payload);
+    console.log(JSON.stringify(response)+'lllllllllllllllll8888888888888');
     if (response.success) {
       // yield put(hideLoader());
       yield put(addTicketEventSuccess(response));
