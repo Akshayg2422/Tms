@@ -1,5 +1,5 @@
-import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket} from '@Modules'
-import {Login, Otp, Splash, RegisterUser} from '@Modules'
+import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, UserItem} from '@Modules'
+import {Login, Otp, Splash, RegisterUser,User} from '@Modules'
 
 export const ROUTES = {
   AUTH: {
@@ -11,6 +11,7 @@ export const ROUTES = {
   },
   HOME: {
     Admin: "/admin/issues",
+    // Admin: "/admin/issues",
     Company: "/company/open",
     DASHBOARD: "/dashboard",
   },
@@ -54,7 +55,7 @@ export const ADMIN_ROUTES = [
     name: "Issues",
     icon: "ni ni-bell-55 text-red",
     layout: "/admin",
-    component: <Issues/>
+    component: <User/>
   },
   {
     path: "/companies",
