@@ -110,6 +110,7 @@ function* addDesignation(action) {
       const response = yield call(postAddDesignationApi, action.payload.params);
 
       if (response.success) {
+       
           yield put(hideLoader());
           yield put(addDesignationSuccess(response.details));
           yield call(action.payload.onSuccess(response));
@@ -160,6 +161,7 @@ function* getDepartments(action) {
     const response = yield call(fetchDepartmentDataApi, action.payload.params);
 
     if (response.success) {
+
       yield put(hideLoader());
       yield put(getDepartmentDataSuccess(response.details));
       yield call(action.payload.onSuccess(response));

@@ -32,7 +32,9 @@
     "alternativeContactNumber": "Alternative Contact Number",
     "business": "Business",
     "businessAppName": "Quanta Business",
-    "businessAppSubtext": "For Business Owner and Store Agent"
+    "businessAppSubtext": "For Business Owner and Store Agent",
+    "courses":"courses",
+    "department":"Department"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -135,5 +137,11 @@
     "allEmployeesAreRequestedSurvey": "All employees are requested survey",
     "showTheQRCodeForEasyCheckin": "Show the QR Code for easy check in",
     "paulRaymond": "paul_raymond"
+  },
+  "course":{
+    "course":"Course",
+    "view":"View",
+    "hide":"Hide",
+    "start":"Start"
   }
 }

@@ -31,7 +31,10 @@
         "alternativeContactNumber": "மாற்று தொடர்பு எண்",
         "business": "வணிகஅலுவல்",
         "businessAppName": "குவாண்டா வணிகம்",
-        "businessAppSubtext": "வணிக உரிமையாளர் மற்றும் ஸ்டோர் ஏஜெண்டிற்கு"
+        "businessAppSubtext": "வணிக உரிமையாளர் மற்றும் ஸ்டோர் ஏஜெண்டிற்கு",
+        "courses": "படிப்புகள்",
+
+        "department":"துறை"
     },
     "errors": {
         "invalidEmail": "Invalid email address."
@@ -133,5 +136,12 @@
         "allEmployeesAreRequestedSurvey": "அனைத்து ஊழியர்களும் கணக்கெடுப்பு கோரப்படுகிறார்கள்",
         "showTheQRCodeForEasyCheckin": "எளிதாக செக் -இன் செய்ய  QR  கோட் காட்டுங்கள்",
         "paulRaymond": "paul_raymond"
+    },
+    
+    "course": {
+        "course":"நிச்சயமாக",
+        "view":"காண்க",
+        "hide":"மறை",
+        "start":"தொடங்கு"
     }
 }

@@ -27,7 +27,7 @@ axios.interceptors.request.use(function (config) {
 const getHeaders = async () => {
   try {
              
-    const value =  localStorage.setItem(USER_TOKEN);
+    const value =  localStorage.getItem(USER_TOKEN);  
 
     console.log(JSON.stringify(value)+"+===Token");
 

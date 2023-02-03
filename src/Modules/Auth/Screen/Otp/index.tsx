@@ -51,7 +51,6 @@ function Otp() {
           otpLogin({
             params,
             onSuccess: response => {
-            
               dispatch(
                 userLoginDetails({
                   ...loginDetails,

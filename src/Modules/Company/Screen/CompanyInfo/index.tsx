@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAssociatedBranch } from '@Redux'
-import { Card, Divider, Button, HomeContainer } from '@Components'
-import { CompanyItem, } from '@Modules'
-import {useNavigation} from '@Hooks'
-import { COMPANY_ROUTES, HOME_PATH, INFO} from '@Routes'
+import { Card, Divider, HomeContainer } from '@Components'
+import { CompanyInfoItem, } from '@Modules'
 
-function Companies() {
+function CompanyInfo() {
 
     const dispatch = useDispatch()
-    const {goTo} = useNavigation()
 
     const { associatedCompanies } = useSelector(
         (state: any) => state.AdminReducer,
@@ -17,27 +14,22 @@ function Companies() {
 
     useEffect(() => {
         const params = { q: '' };
-       
         dispatch(
             getAssociatedBranch({
-                params,
+                params
             }),
         );
     }, []);
 
     return (
-        <HomeContainer  >
-            <div className='col text-right'>
-                <Button text={'Create Company'} onClick={() => {
-                    goTo(HOME_PATH.DASHBOARD+HOME_PATH.CREATE_COMPANY)
-                }} />
-            </div>
-            <Card title={'Companies'} className='mt-4' onClick={()=>{goTo(HOME_PATH.DASHBOARD+INFO.COMPANY_INFO)}} >
+        <HomeContainer>
+        
+            <Card className='mt-4'>
                 {
                     associatedCompanies && associatedCompanies.data.length > 0 && associatedCompanies.data.map((company: any, index: number) => {
                         return (
                             <>
-                                <CompanyItem key={company.id} item={company} />
+                                <CompanyInfoItem key={company.id} item={company} />
                                 {index !== associatedCompanies.data.length - 1 && <div className='mx-9'><Divider /></div>}
                             </>
                         )
@@ -48,4 +40,4 @@ function Companies() {
 
     )
 }
-export { Companies }
+export { CompanyInfo}
