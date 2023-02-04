@@ -13,7 +13,7 @@ const SERVER =
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
     ? 'live_local'
     : BUILD_TYPE === BUILD_TYPE_STAGING
-    ? 'http://192.168.29.5:8000'
+    ? 'http://43.204.204.165'
     : 'local_ip_here';
 
 const axiosApi = axios.create({

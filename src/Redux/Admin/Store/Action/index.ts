@@ -68,6 +68,8 @@ export const getDashboardFailure = (error: any) => {
  */
 
 export const setSelectedIssues = (response: any) => {
+  console.log('response----------->>>>', response);
+  
   return {
     type: SET_SELECTED_ISSUES,
     payload: response,

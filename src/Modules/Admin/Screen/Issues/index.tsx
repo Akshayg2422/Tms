@@ -3,11 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
 import { HomeContainer, Divider, Button } from '@Components';
 import { TicketItem } from '@Modules';
-import { useNavigation } from '@Hooks'
-import { ROUTES } from '@Routes';
 
 function Issues() {
-    const { goTo } = useNavigation()
+
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
     const dispatch = useDispatch();
@@ -19,12 +17,6 @@ function Issues() {
 
     return (
         <HomeContainer isCard title={'Issues'} >
-            <Button
-                text={'test'}
-                onClick={() => {        
-                    goTo(ROUTES.AUTH.SEND)
-                }}
-            />
             {
                 tickets && tickets.data.length > 0 && tickets.data.map((eachTickets: any, index: number) => {
                     return (

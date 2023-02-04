@@ -2,18 +2,21 @@ import React from 'react'
 import { TicketItemProps } from './interfaces'
 import { H, Image } from '@Components'
 import { icons } from '@Assets'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setSelectedIssues } from '@Redux'
+import { useNavigation } from '@Hooks'
+import { ROUTES } from '@Routes';
 
 function TicketItem({ item, onClick }: TicketItemProps) {
-
+    const { goTo } = useNavigation()
     const dispatch = useDispatch()
-
     const { title, by_user, raised_by_company } = item
     return (
 
-        <div className='row d-flex justify-content-center' onClick={() => console.log('item', item)
-        }>
+        <div className='row d-flex justify-content-center' onClick={() => {
+            dispatch(setSelectedIssues(item))
+            goTo(ROUTES.AUTH.SEND)
+        }}>
             <div className='col col-sm-8'>
                 <H tag={'h3'} text={title} />
                 <div>
