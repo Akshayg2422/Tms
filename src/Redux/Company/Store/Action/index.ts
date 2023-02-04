@@ -163,7 +163,6 @@ export const getEmployee = (params: any) => {
 };
 
 export const getEmployeeSuccess = (response: any) => {
-  console.log("loggggggg", response);
   return {
     type: GET_EMPLOYEE_SUCCESS,
     payload: response,

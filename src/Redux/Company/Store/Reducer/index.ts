@@ -22,15 +22,14 @@ import {
   ADD_EMPLOYEE_FAILURE
 } from '../ActionTypes';
 import {CompanyStateProp} from '../../Interfaces';
-import { Console } from 'console';
 
 const initialState: CompanyStateProp = {
   tickets: undefined,
   getTicketTags: undefined,
   ticketEvents: undefined,
   addTicketEvent: undefined,
-  getEmployeeData: undefined,
-  addEmployeeData: undefined
+  getEmployeeDetails: undefined,
+  addEmployeeDetails: undefined
 };
 
 const CompanyReducer = (
@@ -119,34 +118,35 @@ const CompanyReducer = (
       
       case GET_EMPLOYEE:
       state = {
-        ...state, getEmployeeData:undefined
+        ...state, getEmployeeDetails:undefined
       };
 
       break;
     case GET_EMPLOYEE_SUCCESS:
+      console.log(action.payload,"sdilkh")
       state = {
         ...state,
-        getEmployeeData: action.payload.details,
+        getEmployeeDetails: action.payload,
       };
       break;
     case GET_EMPLOYEE_FAILURE:
-      state = {...state, getEmployeeData: undefined};
+      state = {...state, getEmployeeDetails: undefined};
       break; 
       case ADD_EMPLOYEE:
       state = {
         ...state,
-        addEmployeeData: undefined,
+        addEmployeeDetails: undefined,
       };
 
       break;
     case ADD_EMPLOYEE_SUCCESS:
       state = {
         ...state,
-        addEmployeeData: action.payload.details,
+        addEmployeeDetails: action.payload.details,
       };
       break;
     case ADD_EMPLOYEE_FAILURE:
-      state = {...state, addEmployeeData: undefined};
+      state = {...state, addEmployeeDetails: undefined};
       break;
     default:
       state = state;

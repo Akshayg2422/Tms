@@ -1,5 +1,5 @@
 import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, UserItem} from '@Modules'
-import {Login, Otp, Splash, RegisterUser,User} from '@Modules'
+import {Login, Otp, Splash, RegisterUser,CompanyUsers,AddUser} from '@Modules'
 
 export const ROUTES = {
   AUTH: {
@@ -11,7 +11,6 @@ export const ROUTES = {
   },
   HOME: {
     Admin: "/admin/issues",
-    // Admin: "/admin/issues",
     Company: "/company/open",
     DASHBOARD: "/dashboard",
   },
@@ -29,6 +28,7 @@ export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
+  ADD_USER: "/add-user"
  };
 
 export const AUTH_ROUTES = [
@@ -55,14 +55,14 @@ export const ADMIN_ROUTES = [
     name: "Issues",
     icon: "ni ni-bell-55 text-red",
     layout: "/admin",
-    component: <User/>
+    component: <AddUser/>
   },
   {
     path: "/companies",
     name: "Companies",
     icon: "ni ni-square-pin text-primary",
     layout: "/admin",
-    component: <Companies/>
+    component: <CompanyUsers/>
   }, {
     path: "/settings",
     name: "Settings",

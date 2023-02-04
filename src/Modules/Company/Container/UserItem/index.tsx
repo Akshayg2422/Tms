@@ -2,7 +2,7 @@ import React from 'react'
 import { Badge, Card } from '@Components'
 import { UserItemProps } from './interface'
 function  UserItem({ item }: UserItemProps) {
-     const { name, phone, email } = item
+     const { name, mobile_number, email } = item
 
     return (
         <>
@@ -12,7 +12,7 @@ function  UserItem({ item }: UserItemProps) {
                 <div className='row d-flex justify-content-between'>
                     <div className='col'>
                     <h6 className='text-uppercase text-muted mb-0'>PHONE</h6>
-                    <h5>{phone}</h5>
+                    <h5>{mobile_number}</h5>
                     </div>
                     <div className=''>
                     <Badge pill color={'primary'} text={'Call'} />

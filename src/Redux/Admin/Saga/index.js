@@ -32,7 +32,6 @@ import {
 } from '@Redux';
 
 function* getAssociatedCompaniesSaga(action) {
-  console.log('sasa');
   try {
     yield put(showLoader());
     const response = yield call(

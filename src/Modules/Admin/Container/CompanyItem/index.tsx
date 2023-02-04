@@ -7,7 +7,7 @@ function CompanyItem({ item }: CompanyItemProps) {
 
     const { display_name, logo, address, phone , email} = item
 
-    console.log(logo + '=====');
+    // console.log(logo + '=====');
 
     return (
 
