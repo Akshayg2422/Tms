@@ -45,7 +45,7 @@ export const USER_FORM_RULES = {
 
 export const BUSINESS_FORM_RULES = {
   businessName: {
-    presence: { allowEmpty: false, message: 'Business Name cannot be empty' },
+    presence: { message: 'Business Name cannot be empty' },
   },
   businessAddress: {
     presence: { allowEmpty: false, message: 'Business Address cannot be empty' },

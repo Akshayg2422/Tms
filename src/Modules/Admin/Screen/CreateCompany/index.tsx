@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { CreateCompanyProps } from './interfaces'
-import { HomeContainer, Input, DropDown, H, Divider, Button } from '@Components'
+import { HomeContainer, Input, DropDown, H, Divider, Button,showToast} from '@Components'
 import {
     GENDER_LIST,
     DESIGNATION_LIST,
@@ -45,7 +45,7 @@ function CreateCompany({ }: CreateCompanyProps) {
         const {dashboardDetails} = useSelector((state: any) => state.AdminReducer);
 
 
-    console.log(JSON.stringify(dashboardDetails) + "====");
+    console.log(JSON.stringify(dashboardDetails) + "==== pammmmm");
 
 
 
@@ -69,23 +69,27 @@ function CreateCompany({ }: CreateCompanyProps) {
 
         console.log(JSON.stringify(params));
         
-        // const validation = validate(USER_FORM_RULES, params);
+        const validation = validate(USER_FORM_RULES, params);
     
-        // if (ifObjectExist(validation)) {
-        //   dispatch(
-        //     registerAdmin({
-        //       params,
-        //       onSuccess: () => {
-        //         onRegisterCompany();
-        //       },
-        //       onError: () => {},
-        //     }),
-        //   );
-        // } else {
-        // }
+        if (ifObjectExist(validation)) {
+          dispatch(
+            registerAdmin({
+              params,
+              onSuccess: (success) => {
+                onRegisterCompany();
+                console.log('registerAdmin----->',success)
+              },
+              onError: (error) => {console.log('errrrr----->',error)},
+            }),
+          );
+        } else {
+  showToast(getValidateError(validation));
+
+        }
       };
 
       const onRegisterCompany = () => {
+        console.log('onregistreeee------>')
         const params = {
           brand_name: businessName.value,
           communication_address: businessAddress.value,
@@ -102,18 +106,20 @@ function CreateCompany({ }: CreateCompanyProps) {
     
         const validation = validate(BUSINESS_FORM_RULES, params);
         if (ifObjectExist(validation)) {
+          console.log("validatesuccessss")
           dispatch(
             registerCompany({
               params,
               onSuccess: (response: any) => {
 
-                console.log(JSON.stringify(response)+"+======");
+                console.log(JSON.stringify(response)+"+====Sucessssssssssssssssssssss==");
                 
               },
-              onError: () => {},
+              onError: (error) => {console.log('errrror---company--->',error)},
             }),
           );
         } else {
+          showToast(getValidateError(validation))
         }
       };
     
@@ -156,6 +162,8 @@ function CreateCompany({ }: CreateCompanyProps) {
                         block text={'Submit'}
                         onClick={
                             submitRegisteredAdminHandler
+                            
+                            
                         }
                     />
                 </div>

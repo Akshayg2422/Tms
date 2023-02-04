@@ -309,6 +309,7 @@ export const setAlternativeMobileNumber = (params: any) => {
  */
 
 export const registerCompany = (params: any) => {
+  console.log(params,"naveen===>registercompany params")
   return {
     type: REGISTER_COMPANY,
     payload: params,
@@ -316,6 +317,7 @@ export const registerCompany = (params: any) => {
 };
 
 export const registerCompanySuccess = (response: any) => {
+  console.log(response,"naveen==>reg com success")
   return {
     type: REGISTER_COMPANY_SUCCESS,
     payload: response,

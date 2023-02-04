@@ -14,8 +14,6 @@ function CompanyInfoItem({ item }: CompanyInfoItemProps ) {
         <div className='row d-flex justify-content-center'>
             <div className='col col-sm-8 justify-content-center '>
 
-
-
                     <div className='text-center'>
                         <Image variant={'rounded'} size={'xxl'} src={'https://picsum.photos/200/300'} />
                     </div>
@@ -29,7 +27,7 @@ function CompanyInfoItem({ item }: CompanyInfoItemProps ) {
                         <div className='col  justify-content-between pt-3 text-sm-0'>
                             <div className='row'>
 
-                            <div className='col pl-sm-0 pl-0'>
+                            <div className='col pl-sm-0 pl-0 pl-lg-2'>
                                 <h6 className="text-uppercase text-muted mb-0">PHONE</h6>
                                 <h5>{phone}</h5>
                             </div>
@@ -38,8 +36,8 @@ function CompanyInfoItem({ item }: CompanyInfoItemProps ) {
                             </div>
                             </div>
 
-                        <div className='row   pt-1 '>
-                            <div className='col-10 pl-sm-0 pl-0 pr-sm-0 '>
+                        <div className='row   pt-1'>
+                            <div className='col-10 pl-sm-0 pl-0 pr-sm-0 pl-lg-2   mr-sm-0 mr--2'>
                                 <h6 className="text-uppercase text-muted mb-0">E-MAIL</h6>
                                 <h5>{email}</h5>
                             </div>

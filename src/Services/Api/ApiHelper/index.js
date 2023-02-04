@@ -12,6 +12,8 @@ const SERVER =
     ? 'https://api.zenyq.com'
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
     ? 'live_local'
+    :BUILD_TYPE===BUILD_TYPE_LOCAL
+   ?'http://192.168.8.5:8001/'
     : BUILD_TYPE === BUILD_TYPE_STAGING
     ? 'http://43.204.204.165'
     : 'local_ip_here';

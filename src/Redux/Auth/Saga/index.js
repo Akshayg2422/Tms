@@ -245,12 +245,15 @@ function* businessPlaceDetailsSaga(action) {
 }
 
 function* registerCompanySaga(action) {
+  console.log(action,"naveen==>reg com sage")
+
   try {
     yield put(showLoader());
     const response = yield call(registerCompanyApi, action.payload);
     if (response.success) {
       yield put(hideLoader());
       yield put(registerCompanySuccess({ ...response }));
+      console.log(response," reg com saga success")
     } else {
       yield put(hideLoader());
       yield put(registerCompanyFailure(response.error_message));
