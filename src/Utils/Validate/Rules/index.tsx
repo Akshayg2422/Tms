@@ -44,31 +44,34 @@ export const USER_FORM_RULES = {
 };
 
 export const BUSINESS_FORM_RULES = {
-  businessName: {
-    presence: { message: 'Business Name cannot be empty' },
+  brand_name: {
+    presence: {message: 'Business Name cannot be empty' },
   },
-  businessAddress: {
+  communication_address: {
     presence: { allowEmpty: false, message: 'Business Address cannot be empty' },
   },
-  pinCode: {
+  pincode: {
     presence: { allowEmpty: false, message: 'PinCode cannot be empty' },
     length: { is: 6, message: 'PinCode should be 6 number' },
   },
-  ...MOBILE_NUMBER_RULES,
-  alternativeMobileNumber: {
+  mobile_number1: {
+    presence: { message: 'Mobile number cannot be empty' },
+    length: { is: 10, message: 'Mobile number should be 10 number' },
+  },
+  mobile_number2: {
     presence: {
       allowEmpty: false,
       message: 'Alternative Mobile number cannot be empty',
     },
     length: { is: 10, message: 'Alternative Mobile number should be 10 number' },
   },
-  businessSector: {
+  brand_sector_id: {
     presence: { message: 'Please Select Business Sector' },
   },
-  businessServiceType: {
+  brand_service_type_id: {
     presence: { message: 'Please Select Business Service Type' },
   },
-  serviceProvider: {
-    presence: { message: 'Please Select  Service Provider' },
-  },
+  // serviceProvider: {
+  //   presence: { message: 'Please Select  Service Provider' },
+  // },
 };

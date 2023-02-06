@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, CommonTable, Input, Modal, NoRecordsFound } from '@Components'
+import { Button, Card, CommonTable, Input, Modal, NoRecordsFound, showToast } from '@Components'
 import { translate } from '@I18n'
 import { addDepartment, addDesignation, getDepartmentData, getDesignationData } from '@Redux';
 import { useDispatch, useSelector } from "react-redux";
@@ -71,7 +71,7 @@ function Settings() {
                 dispatch(getDepartmentData({}));
                 setIsDepartmentModal(false)
                 setDepartment('')
-                // showToast('success', success.message)
+                showToast('success', success.message)
             },
             onError: (error: string) => {
                 postAddingDepartmentLoader.hideLoader()
@@ -92,7 +92,7 @@ function Settings() {
                 dispatch(getDesignationData({}));
                 setIsDesignationModal(false)
                 setDesignation('')
-                // showToast('success', success.message)
+                showToast('success', success.message)
             },
             onError: (error: string) => {
                 postAddingDesignationLoader.hideLoader()
