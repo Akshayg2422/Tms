@@ -14,6 +14,12 @@ import {
   GET_TICKET_EVENTS,
   GET_TICKET_EVENTS_SUCCESS,
   GET_TICKET_EVENTS_FAILURE,
+  GET_EMPLOYEE,
+  GET_EMPLOYEE_SUCCESS,
+  GET_EMPLOYEE_FAILURE,
+  ADD_EMPLOYEE,
+  ADD_EMPLOYEE_SUCCESS,
+  ADD_EMPLOYEE_FAILURE
 } from '../ActionTypes';
 
 export const raiseNewTicket = (params: any) => {
@@ -139,6 +145,60 @@ export const getTicketsEventsSuccess = (response: any) => {
 export const getTicketsEventsFailure = (error: any) => {
   return {
     type: GET_TICKET_EVENTS_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ *get Employee tags
+ * @param params
+ * @returns
+ */
+
+export const getEmployee = (params: any) => {
+  return {
+    type: GET_EMPLOYEE,
+    payload: params,
+  };
+};
+
+export const getEmployeeSuccess = (response: any) => {
+  return {
+    type: GET_EMPLOYEE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getEmployeeFailure = (error: any) => {
+  return {
+    type: GET_EMPLOYEE_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ *add Employee tags
+ * @param params
+ * @returns
+ */
+
+export const addEmployee = (params: any) => {
+  return {
+    type: ADD_EMPLOYEE,
+    payload: params,
+  };
+};
+
+export const addEmployeeSuccess = (response: any) => {
+  return {
+    type: ADD_EMPLOYEE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addEmployeeFailure = (error: any) => {
+  return {
+    type: ADD_EMPLOYEE_FAILURE,
     payload: error,
   };
 };

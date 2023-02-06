@@ -15,7 +15,10 @@ const SERVER =
    ?'http://192.168.8.5:8002/'
     : BUILD_TYPE === BUILD_TYPE_STAGING
     ? 'http://43.204.204.165'
-    : 'local_ip_here';
+    :BUILD_TYPE ===BUILD_TYPE_LOCAL
+    ?'http://192.168.8.5:8000/'
+    :'http://localhost:8000/'
+
 
 const axiosApi = axios.create({
   baseURL: SERVER,
@@ -30,7 +33,7 @@ const getHeaders = async () => {
              
     const value =  localStorage.getItem(USER_TOKEN);  
 
-    console.log(JSON.stringify(value)+"+===Token");
+    // console.log(JSON.stringify(value)+"+===Token");
 
     
     if (value) {

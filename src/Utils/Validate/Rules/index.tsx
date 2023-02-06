@@ -5,6 +5,46 @@ export const MOBILE_NUMBER_RULES = {
   },
 };
 
+
+export const FIRST_NAME_RULES = {
+  'first_name': {
+    presence: { message: 'Full Name cannot be empty' },
+    length: { minimum: 3, message: 'Mobile number should be 10 number' },
+  },
+};
+
+
+
+
+
+export const ADD_USER_RULES = {
+  'first_name': {
+    presence: { message: 'First name cannot be empty' },
+    length: { minimum: 3, message: 'First name minimum 3 chars' },
+  },
+  'last_name': {
+    presence: false,
+  },
+  'mobile_number': {
+    presence: { message: 'Mobile number cannot be empty' },
+    length: { is: 10, message: 'Mobile number should be 10 number' },
+  },
+  email: {
+    presence: { allowEmpty: false, message: 'email cannot be empty' },
+    email: {
+      message: "doesn't look like a valid email",
+    },
+  },
+  gender: {
+    presence: { message: 'Please Select Gender' },
+  },
+  'designation_name': {
+    presence: {  allowEmpty: false, message: 'Designation cannot be empty' }
+  }
+};
+
+
+
 export const OTP_RULES = {
   'mobile_number': {
     presence: { message: 'Mobile number cannot be empty' },

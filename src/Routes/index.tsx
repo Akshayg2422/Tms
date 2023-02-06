@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,CompanyInfo} from '@Modules'
 import {Login, Otp, Splash, RegisterUser} from '@Modules'
+=======
+import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, UserItem} from '@Modules'
+import {Login, Otp, Splash, RegisterUser,CompanyUsers,AddUser} from '@Modules'
+>>>>>>> b195278084d83bb37024761046e3dabb00c4e828
 
 export const ROUTES = {
   AUTH: {

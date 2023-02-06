@@ -3,4 +3,6 @@ export interface CompanyStateProp {
   getTicketTags: any;
   ticketEvents: any;
   addTicketEvent: any;
+  getEmployeeDetails: any;
+  addEmployeeDetails: any;
 }
