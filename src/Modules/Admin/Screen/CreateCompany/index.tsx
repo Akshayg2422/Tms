@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { CreateCompanyProps } from './interfaces'
-import { HomeContainer, Input, DropDown, H, Divider, Button } from '@Components'
+import { HomeContainer, Input, DropDown, H, Divider, Button,showToast} from '@Components'
 import {
     GENDER_LIST,
     DESIGNATION_LIST,
@@ -45,7 +45,7 @@ function CreateCompany({ }: CreateCompanyProps) {
         const {dashboardDetails} = useSelector((state: any) => state.AdminReducer);
 
 
-    console.log(JSON.stringify(dashboardDetails) + "==+==");
+    console.log(JSON.stringify(dashboardDetails) + "==== pammmmm");
 
 
 
@@ -71,22 +71,25 @@ function CreateCompany({ }: CreateCompanyProps) {
         
         const validation = validate(USER_FORM_RULES, params);
     
-        // if (ifObjectExist(validation)) {
-        //   dispatch(
-        //     registerAdmin({
-        //       params,
-        //       onSuccess: () => {
-        //         onRegisterCompany();
-        //       },
-        //       onError: () => {},
-        //     }),
-        //   );
-        // } else {
-        // }
+        if (ifObjectExist(validation)) {
+          dispatch(
+            registerAdmin({
+              params,
+              onSuccess: (success) => {
+                onRegisterCompany();
+              },
+              onError: (error) => {console.log('errrrr----->',error)},
+            }),
+          );
+        } else {
+  showToast(getValidateError(validation));
+
+        }
       };
 
       const onRegisterCompany = () => {
         const params = {
+          registered_name: firstName.value,
           brand_name: businessName.value,
           communication_address: businessAddress.value,
           pincode: pinCode.value,
@@ -94,26 +97,27 @@ function CreateCompany({ }: CreateCompanyProps) {
           mobile_number2: alternativeMobileNumber.value,
           brand_sector_id: businessSector.value?.id,
           brand_service_type_id: '8647e16d-40df-44e2-b05b-32cb28cd3368',
-          isp: false,
+          isp: true,
           referral_id: '',
-          registered_name: businessName,
-        //   provider_company_branch_id: dashboardDetails.permission_details.branch_id,
+          // provider_company_branch_id: dashboardDetails.permission_details.branch_id,
         };
-    
+      
         const validation = validate(BUSINESS_FORM_RULES, params);
         if (ifObjectExist(validation)) {
+          
           dispatch(
             registerCompany({
               params,
               onSuccess: (response: any) => {
 
-                console.log(JSON.stringify(response)+"+======");
+                console.log(JSON.stringify(response)+"+====Sucessssssssssssssssssssss==");
                 
               },
-              onError: () => {},
+              onError: (error) => {console.log('errrror---company--->',error)},
             }),
           );
         } else {
+          showToast(getValidateError(validation))
         }
       };
     
@@ -156,6 +160,8 @@ function CreateCompany({ }: CreateCompanyProps) {
                         block text={'Submit'}
                         onClick={
                             submitRegisteredAdminHandler
+                            
+                            
                         }
                     />
                 </div>

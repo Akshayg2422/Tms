@@ -1,5 +1,5 @@
-import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, UserItem} from '@Modules'
-import {Login, Otp, Splash, RegisterUser,CompanyUsers,AddUser} from '@Modules'
+import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,CompanyInfo} from '@Modules'
+import {Login, Otp, Splash, RegisterUser} from '@Modules'
 
 export const ROUTES = {
   AUTH: {
@@ -28,8 +28,15 @@ export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
-  ADD_USER: "/add-user"
- };
+ }
+ 
+ export const INFO ={
+  DASHBOARD: "/admin",
+  COMPANY: "/company",
+  COMPANY_INFO:"/CompanyInfo"
+ }
+
+
 
 export const AUTH_ROUTES = [
   {
@@ -48,6 +55,9 @@ export const AUTH_ROUTES = [
     component: <Otp/>
   },
 ];
+
+
+
 export const ADMIN_ROUTES = [
   
   {
@@ -110,6 +120,9 @@ export const COMPANY_ROUTES = [
     layout: "/company",
     component: <Settings />
   },
+
+  
+
 ];
 
 export * from "./RequireAuth";

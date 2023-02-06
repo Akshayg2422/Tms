@@ -6,8 +6,7 @@ import { icons } from '@Assets'
 function CompanyItem({ item }: CompanyItemProps) {
 
     const { display_name, logo, address, phone , email} = item
-
-    // console.log(logo + '=====');
+    console.log(logo + '=====');
 
     return (
 
@@ -23,7 +22,7 @@ function CompanyItem({ item }: CompanyItemProps) {
                         <H tag={'h3'} className='mb-0' text={display_name} />
                         <p className='text-sm'>{address}</p>
 
-                        <div className='row d-flex justify-content-between'>
+                        <div className='row d-flex justify-content-between '>
                             <div className='col'>
                                 <h6 className="text-uppercase text-muted mb-0">PHONE</h6>
                                 <h5>{phone}</h5>
@@ -43,7 +42,6 @@ function CompanyItem({ item }: CompanyItemProps) {
                                 <Badge pill color={'success'} text={'Email'} />
                             </div>
                         </div>
-
 
                     </div>
                 </div>

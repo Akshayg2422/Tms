@@ -309,13 +309,14 @@ export const setAlternativeMobileNumber = (params: any) => {
  */
 
 export const registerCompany = (params: any) => {
+
   return {
     type: REGISTER_COMPANY,
     payload: params,
   };
 };
 
-export const registerCompanySuccess = (response: any) => {
+export const registerCompanySuccess = (response: any) => { 
   return {
     type: REGISTER_COMPANY_SUCCESS,
     payload: response,

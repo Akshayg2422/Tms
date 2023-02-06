@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, CommonTable, Input, Modal, NoRecordsFound } from '@Components'
+import { Button, Card, CommonTable, Input, Modal, NoRecordsFound, showToast } from '@Components'
 import { translate } from '@I18n'
 import { addDepartment, addDesignation, getDepartmentData, getDesignationData } from '@Redux';
 import { useDispatch, useSelector } from "react-redux";
@@ -13,9 +13,10 @@ function Settings() {
     );
 
     console.log("departmentData--->", departmentData);
+    console.log('designation',designationData )
 
 
-    const [isDesignationModal, setIsDesignationModal] = useState(false)
+    const [isDesignationModal,  setIsDesignationModal] = useState(false)
     const [isDepartmentModal, setIsDepartmentModal] = useState(false)
     const [departmentListStatus, setDepartmentListStatus] = useState(false)
     const [designationListStatus, setDesignationListStatus] = useState(false)
@@ -69,7 +70,8 @@ function Settings() {
                 postAddingDepartmentLoader.hideLoader()
                 dispatch(getDepartmentData({}));
                 setIsDepartmentModal(false)
-                // showToast('success', success.message)
+                setDepartment('')
+                showToast('success', success.message)
             },
             onError: (error: string) => {
                 postAddingDepartmentLoader.hideLoader()
@@ -80,7 +82,7 @@ function Settings() {
     const postAddingDesignation = () => {
         const params = {
             name: convertToUpperCase(designation),
-            is_admin: false
+            is_admin: true
         }
         postAddingDesignationLoader.showLoader()
         dispatch(addDesignation({
@@ -89,7 +91,8 @@ function Settings() {
                 postAddingDesignationLoader.hideLoader()
                 dispatch(getDesignationData({}));
                 setIsDesignationModal(false)
-                // showToast('success', success.message)
+                setDesignation('')
+                showToast('success', success.message)
             },
             onError: (error: string) => {
                 postAddingDesignationLoader.hideLoader()
@@ -126,11 +129,11 @@ function Settings() {
                         <Card>
                             <div className='row'>
                                 <div className='col'>
-                                    <h3>course</h3>
+                                <h3>{translate('common.department')}</h3>
                                 </div>
                                 <div className='text-right mr-3 '>
                                     <Button
-                                        text={departmentListStatus ? 'hide' :'view'}
+                                        text={departmentListStatus ? translate('course.hide') : translate('course.view')}
                                         size={'sm'}
                                         onClick={() => {
                                             if (!departmentData) {
@@ -140,7 +143,7 @@ function Settings() {
                                         }}
                                     />
                                     <Button
-                                        text={'addcourse'}
+                                        text={translate('product.addItem')}
                                         size={'sm'}
                                         onClick={() => setIsDepartmentModal(!isDepartmentModal)}
                                     />
@@ -166,11 +169,11 @@ function Settings() {
                         <Card>
                             <div className='row'>
                                 <div className='col'>
-                                    <h3>factility role</h3>
+                                <h3>{translate('auth.designation')}</h3>
                                 </div>
                                 <div className='text-right mr-3 '>
                                     <Button
-                                        text={designationListStatus ?'hide': 'view'}
+                                           text={designationListStatus ? translate('course.hide') : translate('course.view')}
                                         size={'sm'}
                                         onClick={() => {
                                             if (!designationData) {
@@ -180,7 +183,7 @@ function Settings() {
                                         }}
                                     />
                                     <Button
-                                        text={'add role'}
+                                          text={translate('product.addItem')}
                                         size={'sm'}
                                         onClick={() => setIsDesignationModal(!isDesignationModal)}
                                     />
@@ -211,10 +214,10 @@ function Settings() {
             */}
           
 
-                <Modal isModalLoading={postAddingDepartmentLoader.loader} isOpen={isDepartmentModal} onClose={() => setIsDepartmentModal(!isDepartmentModal)} title={'addcourse'} >
+                <Modal isModalLoading={postAddingDepartmentLoader.loader} isOpen={isDepartmentModal} onClose={() => setIsDepartmentModal(!isDepartmentModal)} title={translate('common.department')!} >
                     <div className="">
                         <Input
-                            placeholder={'course'}
+                           placeholder={translate('common.department')!}
                             value={department}
                             onChange={(e) => setDepartment(e.target.value)}
                         />
@@ -230,6 +233,7 @@ function Settings() {
                             text={translate('common.submit')}
                             onClick={() => {
                                 postAddingDepartment()
+                               
                             }}
                         />
                     </div>
@@ -239,10 +243,10 @@ function Settings() {
             * Designation
             */}
 
-                <Modal isModalLoading={postAddingDesignationLoader.loader} isOpen={isDesignationModal} onClose={() => setIsDesignationModal(!isDesignationModal)} title={'addfac'}>
+                <Modal isModalLoading={postAddingDesignationLoader.loader} isOpen={isDesignationModal} onClose={() => setIsDesignationModal(!isDesignationModal)} title={translate('auth.designation')!}>
                     <div className="">
                         <Input
-                            placeholder={'role'!}
+                            placeholder={translate('auth.designation')!}
                             value={designation}
                             onChange={(e) => setDesignation(e.target.value)}
                         />
@@ -257,6 +261,8 @@ function Settings() {
                             text={translate('common.submit')}
                             onClick={() => {
                                 postAddingDesignation()
+                              
+                                
                             }}
                         />
                     </div>
