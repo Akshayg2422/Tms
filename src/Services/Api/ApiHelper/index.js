@@ -7,7 +7,7 @@ const BUILD_TYPE_LOCAL = 4;
 
 const BUILD_TYPE = BUILD_TYPE_STAGING;
 
-const SERVER =  'http://192.168.8.5:8000'
+const SERVER =  'http://192.168.8.5:8003'
   // BUILD_TYPE === BUILD_TYPE_LIVE
   //   ? 'https://api.zenyq.com'
   //   : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
