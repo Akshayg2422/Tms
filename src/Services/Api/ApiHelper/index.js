@@ -5,7 +5,7 @@ const BUILD_TYPE_LIVE_DEMO = 2;
 const BUILD_TYPE_STAGING = 3;
 const BUILD_TYPE_LOCAL = 4;
 
-const BUILD_TYPE = BUILD_TYPE_STAGING;
+const BUILD_TYPE = BUILD_TYPE_LOCAL;
 
 const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
@@ -14,7 +14,10 @@ const SERVER =
     ? 'live_local'
     : BUILD_TYPE === BUILD_TYPE_STAGING
     ? 'http://43.204.204.165'
-    : 'local_ip_here';
+    :BUILD_TYPE ===BUILD_TYPE_LOCAL
+    ?'http://192.168.8.5:8000/'
+    :'http://localhost:8000/'
+
 
 const axiosApi = axios.create({
   baseURL: SERVER,
@@ -27,9 +30,9 @@ axios.interceptors.request.use(function (config) {
 const getHeaders = async () => {
   try {
              
-    const value =  localStorage.setItem(USER_TOKEN);
+    const value =  localStorage.getItem(USER_TOKEN);
 
-    console.log(JSON.stringify(value)+"+===Token");
+    // console.log(JSON.stringify(value)+"+===Token");
 
     
     if (value) {

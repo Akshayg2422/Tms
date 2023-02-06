@@ -26,6 +26,8 @@ export const VALIDATE_USER_BUSINESS = AUTH + 'validateUserBusiness';
 export const BUSINESS_PLACES_DETAILS = AUTH + 'getBusinessPlaceDetails';
 export const REGISTER_COMPANY = AUTH + 'registerCompany';
 export const REGISTER_ADMIN = AUTH + 'registerAdmin';
+export const GET_EMPLOYEE = EMPLOYEE + 'getEmployees';
+export const ADD_EMPLOYEE = EMPLOYEE + 'addEmployee';
 
 /**
  *  Company

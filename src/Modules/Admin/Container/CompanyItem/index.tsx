@@ -7,11 +7,11 @@ function CompanyItem({ item }: CompanyItemProps) {
 
     const { display_name, logo, address, phone , email} = item
 
-    console.log(logo + '=====');
+    // console.log(logo + '=====');
 
     return (
 
-        <div className='row d-flex justify-content-center'>
+        <div className=' row d-flex justify-content-center'>
             <div className='col col-sm-8'>
 
 

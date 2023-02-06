@@ -1,5 +1,5 @@
-import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket} from '@Modules'
-import {Login, Otp, Splash, RegisterUser} from '@Modules'
+import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, UserItem} from '@Modules'
+import {Login, Otp, Splash, RegisterUser,CompanyUsers,AddUser} from '@Modules'
 
 export const ROUTES = {
   AUTH: {
@@ -28,6 +28,7 @@ export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
+  ADD_USER: "/add-user"
  };
 
 export const AUTH_ROUTES = [

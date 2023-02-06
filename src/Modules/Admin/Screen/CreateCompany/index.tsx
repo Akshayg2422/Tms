@@ -45,7 +45,7 @@ function CreateCompany({ }: CreateCompanyProps) {
         const {dashboardDetails} = useSelector((state: any) => state.AdminReducer);
 
 
-    console.log(JSON.stringify(dashboardDetails) + "====");
+    console.log(JSON.stringify(dashboardDetails) + "==+==");
 
 
 
@@ -69,7 +69,7 @@ function CreateCompany({ }: CreateCompanyProps) {
 
         console.log(JSON.stringify(params));
         
-        // const validation = validate(USER_FORM_RULES, params);
+        const validation = validate(USER_FORM_RULES, params);
     
         // if (ifObjectExist(validation)) {
         //   dispatch(

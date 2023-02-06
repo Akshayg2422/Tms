@@ -5,6 +5,9 @@ import {
   getTicketEventsApi,
   addTicketEventApi,
   getTicketTagsApi,
+  getEmployeeApi,
+  addEmployeeApi
+
 } from '@Services';
 import {
   showLoader,
@@ -28,6 +31,12 @@ import {
   getTicketsEvents,
   getTicketsEventsFailure,
   getTicketsEventsSuccess,
+  GET_EMPLOYEE,
+  getEmployeeSuccess,
+  getEmployeeFailure,
+  ADD_EMPLOYEE,
+  addEmployeeSuccess,
+  addEmployeeFailure
 } from '@Redux';
 
 function* raiseNewTicketSaga(action) {
@@ -122,12 +131,51 @@ function* getTicketTagsSaga(action) {
   }
 }
 
+
+function* getEmployeeSaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(getEmployeeApi, action.payload.params);
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getEmployeeSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getEmployeeFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+  }
+}
+
+function* addEmployeeSaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(addEmployeeApi, action.payload.params);
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(addEmployeeSuccess({...response}));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(addEmployeeFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+  }
+}
+
 function* CompanySaga() {
   yield takeLatest(RAISE_NEW_TICKET, raiseNewTicketSaga);
   yield takeLatest(GET_TICKETS, getTicketsSaga);
   yield takeLatest(GET_TICKET_EVENTS, getTicketEventsSaga);
   yield takeLatest(GET_TICKET_TAGS, getTicketTagsSaga);
   yield takeLatest(ADD_TICKET_EVENT, addTicketEventSaga);
+  yield takeLatest(GET_EMPLOYEE,getEmployeeSaga);
+  yield takeLatest(ADD_EMPLOYEE,addEmployeeSaga);
 }
 
 export default CompanySaga;
