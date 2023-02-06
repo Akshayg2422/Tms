@@ -43,7 +43,6 @@ function CompanyItem({ item }: CompanyItemProps) {
                             </div>
                         </div>
 
-
                     </div>
                 </div>
 

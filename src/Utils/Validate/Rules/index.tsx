@@ -5,8 +5,6 @@ export const MOBILE_NUMBER_RULES = {
   },
 };
 
-
-
 export const OTP_RULES = {
   'mobile_number': {
     presence: { message: 'Mobile number cannot be empty' },
@@ -17,7 +15,6 @@ export const OTP_RULES = {
     length: { is: 4, message: 'Otp should be 4 number' },
   },
 };
-
 
 
 
@@ -71,7 +68,5 @@ export const BUSINESS_FORM_RULES = {
   brand_service_type_id: {
     presence: { message: 'Please Select Business Service Type' },
   },
-  // serviceProvider: {
-  //   presence: { message: 'Please Select  Service Provider' },
-  // },
+  
 };
