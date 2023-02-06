@@ -56,7 +56,6 @@ const CompanyReducer = (
         ...state,
         tickets: undefined,
       };
-
       break;
     case GET_TICKETS_SUCCESS:
       state = {
@@ -88,7 +87,6 @@ const CompanyReducer = (
         ...state,
         ticketEvents: undefined,
       };
-
       break;
     case GET_TICKET_EVENTS_SUCCESS:
       state = {
@@ -104,7 +102,6 @@ const CompanyReducer = (
         ...state,
         addTicketEvent: undefined,
       };
-
       break;
     case ADD_TICKET_EVENT_SUCCESS:
       state = {
@@ -123,7 +120,6 @@ const CompanyReducer = (
 
       break;
     case GET_EMPLOYEE_SUCCESS:
-      console.log(action.payload,"sdilkh")
       state = {
         ...state,
         getEmployeeDetails: action.payload,
@@ -137,7 +133,6 @@ const CompanyReducer = (
         ...state,
         addEmployeeDetails: undefined,
       };
-
       break;
     case ADD_EMPLOYEE_SUCCESS:
       state = {

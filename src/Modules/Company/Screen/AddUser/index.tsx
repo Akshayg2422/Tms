@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
-import { HomeContainer, Input, DropDown, H, Button } from '@Components'
-import { GENDER_LIST, USER_FORM_RULES, validate, ifObjectExist } from '@Utils';
+import { HomeContainer, Input, DropDown, H, Button, showToast } from '@Components'
+import { GENDER_LIST, ADD_USER_RULES, validate, ifObjectExist, getValidateError } from '@Utils';
 import { useInput, useDropDown } from '@Hooks';
 import { addEmployee } from '@Redux'
 function AddUser() {
@@ -25,8 +25,15 @@ function AddUser() {
             gender: gender.value?.id,
             designation_name: designation.value
         }
-      dispatch(addEmployee({ params})); 
-          
+
+
+        const validation = validate(ADD_USER_RULES, params);
+        if (ifObjectExist(validation)) {
+            dispatch(addEmployee({ params }));
+        } else {
+           showToast(getValidateError(validation))
+        }
+
     }
 
     return (

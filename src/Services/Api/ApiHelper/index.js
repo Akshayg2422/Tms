@@ -15,7 +15,7 @@ const SERVER =
     : BUILD_TYPE === BUILD_TYPE_STAGING
     ? 'http://43.204.204.165'
     :BUILD_TYPE ===BUILD_TYPE_LOCAL
-    ?'http://192.168.8.5:8001/'
+    ?'http://192.168.8.5:8000/'
     :'http://localhost:8000/'
 
 

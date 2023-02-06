@@ -55,14 +55,14 @@ export const ADMIN_ROUTES = [
     name: "Issues",
     icon: "ni ni-bell-55 text-red",
     layout: "/admin",
-    component: <AddUser/>
+    component: <Issues/>
   },
   {
     path: "/companies",
     name: "Companies",
     icon: "ni ni-square-pin text-primary",
     layout: "/admin",
-    component: <CompanyUsers/>
+    component: <Companies/>
   }, {
     path: "/settings",
     name: "Settings",
