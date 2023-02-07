@@ -2,41 +2,36 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAssociatedBranch } from '@Redux'
 import { Card, Divider, HomeContainer } from '@Components'
-import { CompanyInfoItem, } from '@Modules'
+import { CompanyInfoItem, CompanyUsers, } from '@Modules'
 
 function CompanyInfo() {
+    
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-    const { associatedCompanies } = useSelector(
+    const { companyDetailsSelected } = useSelector(
         (state: any) => state.AdminReducer,
     );
 
-    useEffect(() => {
-        const params = { q: '' };
-        dispatch(
-            getAssociatedBranch({
-                params
-            }),
-        );
-    }, []);
-
+    console.log('companyDetailsSelected',companyDetailsSelected);
+    
     return (
+        <>
         <HomeContainer>
         
             <Card className='mt-4'>
-                {
-                    associatedCompanies && associatedCompanies.data.length > 0 && associatedCompanies.data.map((company: any, index: number) => {
-                        return (
                             <>
-                                <CompanyInfoItem key={company.id} item={company} />
-                                {index !== associatedCompanies.data.length - 1 && <div className='mx-9'><Divider /></div>}
+                                <CompanyInfoItem item/>
+                               
                             </>
-                        )
-                    })
-                }
+
             </Card>
+           
+           
         </HomeContainer>
+        <CompanyUsers/>
+        </>
+        
 
     )
 }

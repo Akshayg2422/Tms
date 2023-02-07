@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { translate } from "@I18n";
 import { CreateCompanyProps } from './interfaces'
 import { HomeContainer, Input, DropDown, H, Divider, Button,showToast} from '@Components'
 import {
@@ -20,9 +21,11 @@ import {
 } from '@Redux';
 
 import { useInput, useDropDown } from '@Hooks'
+import { Dropzone } from '@Components//Core/DropZone';
 
 
 function CreateCompany({ }: CreateCompanyProps) {
+  const [image , setImage]=useState('')
 
     const dispatch = useDispatch()
 
@@ -99,8 +102,10 @@ function CreateCompany({ }: CreateCompanyProps) {
           brand_service_type_id: '8647e16d-40df-44e2-b05b-32cb28cd3368',
           isp: true,
           referral_id: '',
+          attachment_logo: image
           // provider_company_branch_id: dashboardDetails.permission_details.branch_id,
         };
+        console.log(params,"naveen====>onre")
       
         const validation = validate(BUSINESS_FORM_RULES, params);
         if (ifObjectExist(validation)) {
@@ -123,41 +128,53 @@ function CreateCompany({ }: CreateCompanyProps) {
     
 
     return (
-        <HomeContainer isCard title={'Create Company'} >
+        <HomeContainer isCard title={translate('common.createCompany')!} >
             <div className='col-md-9 col-lg-7'>
-                <H tag={'h3'} className="heading mb-3" text={'ADMIN DETAILS'} />
-                <Input heading={'First Name'} value={firstName.value} onChange={firstName.onChange} />
-                <Input heading={'Last Name'} value={lastName.value} onChange={lastName.onChange} />
-                <Input type={'number'} heading={'Contact Number'} maxLength={10}  value={contactNumber.value} onChange={contactNumber.onChange} />
-                <Input heading={'Email'} value={email.value} onChange={email.onChange} />
-                <DropDown heading={'Gender'} data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
-                <DropDown heading={'Designation'} data={DESIGNATION_LIST} value={designation.value} onChange={designation.onChange} />
+                <H tag={'h3'} className="heading mb-3" text={translate('common.adminDetails')} />
+                <Input heading={translate('auth.firstName')} value={firstName.value} onChange={firstName.onChange} />
+                <Input heading={translate('auth.lastName')} value={lastName.value} onChange={lastName.onChange} />
+                <Input type={'number'} heading={translate('auth.contactNumber')} maxLength={10}  value={contactNumber.value} onChange={contactNumber.onChange} />
+                <Input heading={translate('auth.email')}value={email.value} onChange={email.onChange} />
+                <DropDown heading={translate('auth.gender')} data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
+                <DropDown heading={translate('auth.designation')} data={DESIGNATION_LIST} value={designation.value} onChange={designation.onChange} />
             </div>
 
             <Divider />
 
             <div className='col-md-9 col-lg-7'>
-                <H tag={'h3'} className="heading  mb-3" text={'COMPANY DETAILS'} />
-                <Input heading={'Business Name'} value={businessName.value} onChange={businessName.onChange} />
-                <Input heading={'Business Address'} value={businessAddress.value} onChange={businessAddress.onChange}/>
-                <Input  type={'number'} heading={'Pin code'} maxLength={6} value={pinCode.value} onChange={pinCode.onChange} />
-                <Input disabled heading={'Mobile Number'} value={contactNumber.value} />
-                <Input type={'number'} heading={'Alternative Mobile Number'} maxLength={10}   value={alternativeMobileNumber.value} onChange={alternativeMobileNumber.onChange} />
+                <H tag={'h3'} className="heading  mb-3" text={translate('common.companyDetails')} />
+                <Input heading={translate('common.businessName')}  value={businessName.value} onChange={businessName.onChange} />
+                <Input heading={translate('common.businessAddress')}  value={businessAddress.value} onChange={businessAddress.onChange}/>
+                <Input  type={'number'} heading={translate('common.PinCode')}  maxLength={6} value={pinCode.value} onChange={pinCode.onChange} />
+                <Input disabled heading={translate('auth.mobileNumber')} value={contactNumber.value} />
+                <Input type={'number'} heading={translate('common.alternativeMobileNumber')} maxLength={10}   value={alternativeMobileNumber.value} onChange={alternativeMobileNumber.onChange} />
                 {businessSectorDropdownData && businessSectorDropdownData.length > 0 &&
                     <DropDown
-                        heading={'Business Sector'}
+                        heading={translate('common.businessSector')}
                         data={changeDropDownDataKey(businessSectorDropdownData)}
                         value={businessSector.value}
                         onChange={businessSector.onChange}
 
                     />
                 }
+
+<label className={`form-control-label`}>{translate('auth.attach Photo Or Logo')}</label>
+            <div>
+              <Dropzone variant='ICON'
+                icon={image}
+                onSelect={(image) => {
+                  let encoded = image.toString().replace(/^data:(.*,)?/, '');
+                  setImage(encoded)
+                }}
+               
+              />
+            </div>
             </div>
 
             <div className='row justify-content-end'>
                 <div className='col-md-6 col-lg-4  my-4'>
                     <Button
-                        block text={'Submit'}
+                        block text={translate('common.submit')}
                         onClick={
                             submitRegisteredAdminHandler
                             

@@ -23,6 +23,8 @@ import {
   FETCH_DESIGNATION,
   FETCH_DESIGNATION_SUCCESS,
   FETCH_DESIGNATION_FAILURE,
+
+  COMPANY_SELECTED_DETAILS,
 } from '../ActionTypes';
 
 import {AdminStateProp} from '../../Interfaces';
@@ -35,8 +37,8 @@ const initialState: AdminStateProp = {
   error: '',
   designationData: undefined,
   departmentData: undefined,
+  companyDetailsSelected:undefined,
 
-  
 };
 
 const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
@@ -142,6 +144,15 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
         loading: false,
       };
       break;
+      /**
+       * COMPANY SELECTED DETAILS
+       */
+       case COMPANY_SELECTED_DETAILS :
+        state ={
+          ...state,
+          companyDetailsSelected:action.payload
+        };
+        break;
 
     /**
      * Issue Item

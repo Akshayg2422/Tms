@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { HomeContainer, Input, DropDown, H, Button, showToast } from '@Components'
 import { GENDER_LIST, ADD_USER_RULES, validate, ifObjectExist, getValidateError } from '@Utils';
 import { useInput, useDropDown } from '@Hooks';
+import { translate } from "@I18n";
 import { addEmployee } from '@Redux'
 function AddUser() {
     const dispatch = useDispatch()
@@ -38,21 +39,21 @@ function AddUser() {
 
     return (
         <>
-            <HomeContainer isCard title={'ADD USER'}>
+            <HomeContainer isCard title={translate('common.addUser')!}>
                 <div className='row'>
                     <div className='col-md-9 col-lg-7'>
-                        <H tag={'h3'} className="heading mb-3" text={'Company Details'} />
-                        <Input heading={'First Name'} value={firstName.value} onChange={firstName.onChange} />
-                        <Input heading={'Last Name'} value={lastName.value} onChange={lastName.onChange} />
-                        <Input type={"number"} heading={'Contact Number'} maxLength={10} value={contactNumber.value} onChange={contactNumber.onChange} />
-                        <Input heading={'Email'} value={email.value} onChange={email.onChange} />
-                        <DropDown heading={'Gender'} data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
-                        <Input heading={'Designation'} value={designation.value} onChange={designation.onChange} />
+                        <H tag={'h3'} className="heading mb-3" text={translate('common.companyDetails')}  />
+                        <Input heading={translate('auth.firstName')}value={firstName.value} onChange={firstName.onChange} />
+                        <Input heading={translate('auth.lastName')}value={lastName.value} onChange={lastName.onChange} />
+                        <Input type={"number"} heading={translate('auth.contactNumber')} maxLength={10} value={contactNumber.value} onChange={contactNumber.onChange} />
+                        <Input heading={translate('auth.email')} value={email.value} onChange={email.onChange} />
+                        <DropDown heading={translate('auth.gender')} data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
+                        <Input heading={translate('auth.designation')} value={designation.value} onChange={designation.onChange} />
                     </div>
                 </div>
                 <div className='row justify-content-end'>
                     <div className='col-md-6 col-lg-4  my-4'>
-                        <Button block text={'Submit'} onClick={submitAddUserHandler} />
+                        <Button block text={translate('common.submit')} onClick={submitAddUserHandler} />
                     </div>
                 </div>
             </HomeContainer>
