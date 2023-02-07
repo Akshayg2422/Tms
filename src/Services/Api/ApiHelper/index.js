@@ -5,7 +5,7 @@ const BUILD_TYPE_LIVE_DEMO = 2;
 const BUILD_TYPE_STAGING = 3;
 const BUILD_TYPE_LOCAL = 4;
 
-const BUILD_TYPE =  BUILD_TYPE_STAGING;
+const BUILD_TYPE = BUILD_TYPE_STAGING;
 const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
     ? 'https://api.zenyq.com'

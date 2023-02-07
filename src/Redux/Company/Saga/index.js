@@ -61,6 +61,7 @@ function* getTicketsSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTicketsApi, action.payload.params);
+    console.log(response,"get tickets")
     if (response.success) {
       yield put(hideLoader());
       yield put(getTicketsSuccess({...response}));
