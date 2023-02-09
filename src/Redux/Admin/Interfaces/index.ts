@@ -8,4 +8,5 @@ export interface AdminStateProp {
   error?:string;
   departmentData?:any;
   designationData?:any;
+  companyDetailsSelected?:any;
 }
