@@ -19,6 +19,7 @@ function Issues() {
         <HomeContainer isCard title={'Issues'} >
             {
                 tickets && tickets.data.length > 0 && tickets.data.map((eachTickets: any, index: number) => {
+                    
                     return (
                         <>
                             <TicketItem item={eachTickets} />

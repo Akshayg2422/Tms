@@ -2,18 +2,15 @@ import { getTicketsEvents } from '@Redux';
 import { ChatProps } from './interfaces';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { log } from 'console';
 
 function Sent({ item }: any) {
     const dispatch = useDispatch()
-    const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
 
-    console.log('ticketEvent------------->', JSON.stringify(item))
+    // console.log('ticketEvent------------->', JSON.stringify(item))
     return (
         <>
             {
                 item && item.map((eachticketEvents: any, index: number) => {
-                    console.log('eachticketEvents', eachticketEvents)
                     return (
                         <div className='d-flex justify-content-end'>
                             {item ? <div className=" col-4 alert alert-info fade show bg-gradient-info text-white">{eachticketEvents.message}</div> : null}
@@ -37,10 +34,7 @@ function Receive({ item }: any) {
                         {attachments ? <div className=" col-4 alert alert-info fade show bg-gradient-info text-white" role="alert">receive</div> : null}
                     </div>
                 )
-
-            })
-
-            }
+            })}
         </>
     )
 
@@ -51,7 +45,7 @@ function Chat({ item }: ChatProps) {
 
     const { ticketEvents } = useSelector((state: any) => state.CompanyReducer);
 
-    console.log('item======', JSON.stringify(item));
+    console.log('ticketEvents======', JSON.stringify(ticketEvents));
 
     function getChatComponents() {
 
