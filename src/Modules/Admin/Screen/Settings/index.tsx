@@ -33,10 +33,10 @@ function Settings() {
 
   const [department, setDepartment] = useState("");
   const [designation, setDesignation] = useState("");
-  const departmentListLoader = useLoader(false);
-  const designationListLoader = useLoader(false);
-  const postAddingDepartmentLoader = useLoader(false);
-  const postAddingDesignationLoader = useLoader(false);
+  // const departmentListLoader = useLoader(false);
+  // const designationListLoader = useLoader(false);
+  // const postAddingDepartmentLoader = useLoader(false);
+  // const postAddingDesignationLoader = useLoader(false);
 
   const getDepartmentList = () => {
     const params = {};
@@ -46,10 +46,10 @@ function Settings() {
         params,
         onSuccess: (success: any) => {
         setShowDepartments(!showDepartments)
-          departmentListLoader.hideLoader();
+          // departmentListLoader.hideLoader();
         },
         onError: (error: string) => {
-          departmentListLoader.hideLoader();
+          // departmentListLoader.hideLoader();
         },
       })
     );
@@ -62,11 +62,11 @@ function Settings() {
         getDesignationData({
           params,
           onSuccess: (success: any) => {
-            designationListLoader.hideLoader();
+            // designationListLoader.hideLoader();
             setShowDesignations(!showDesignations)
           },
           onError: (error: string) => {
-            designationListLoader.hideLoader();
+            // designationListLoader.hideLoader();
           },
         })
       );
@@ -76,19 +76,19 @@ function Settings() {
       const params = {
         name: convertToUpperCase(department),
       };
-      postAddingDepartmentLoader.showLoader();
+      // postAddingDepartmentLoader.showLoader();
       dispatch(
         addDepartment({
           params,
           onSuccess: (success: any) => {
             addDepartMentModal.hide()
-            postAddingDepartmentLoader.hideLoader();
+            // postAddingDepartmentLoader.hideLoader();
             dispatch(getDepartmentData({}));
             setDepartment("");
             showToast("success", success.message);
           },
           onError: (error: string) => {
-            postAddingDepartmentLoader.hideLoader();
+            // postAddingDepartmentLoader.hideLoader();
           },
         })
       );
@@ -99,19 +99,19 @@ function Settings() {
         name: convertToUpperCase(designation),
         is_admin: true,
       };
-      postAddingDesignationLoader.showLoader();
+      // postAddingDesignationLoader.showLoader();
       dispatch(
         addDesignation({
           params,
           onSuccess: (success: any) => {
             addDesignationModal.hide()
-            postAddingDesignationLoader.hideLoader();
+            // postAddingDesignationLoader.hideLoader();
             dispatch(getDesignationData({}));
             setDesignation("");
             showToast("success", success.message);
           },
           onError: (error: string) => {
-            postAddingDesignationLoader.hideLoader();
+            // postAddingDesignationLoader.hideLoader();
           },
         })
       );
@@ -177,7 +177,7 @@ function Settings() {
                 {departmentData && departmentData?.length > 0 ? (
                   <CommonTable
                     displayDataSet={normalizedDepartmentData(departmentData)}
-                    isLoading={departmentListLoader.loader}
+                    // isLoading={departmentListLoader.loader}
                   />
                 ) : (
                   <div
@@ -233,7 +233,7 @@ function Settings() {
                 {designationData && designationData?.length > 0 ? (
                   <CommonTable
                     displayDataSet={normalizedDesignationData(designationData)}
-                    isLoading={designationListLoader.loader}
+                    // isLoading={designationListLoader.loader}
                   />
                 ) : (
                   <div
@@ -255,7 +255,7 @@ function Settings() {
          */}
 
         <Modal
-          isModalLoading={postAddingDepartmentLoader.loader}
+          // isModalLoading={postAddingDepartmentLoader.loader}
           isOpen={addDepartMentModal.visible}
           onClose={() => addDepartMentModal.hide()}
           title={translate("common.department")!}
@@ -287,7 +287,7 @@ function Settings() {
          */}
         
         <Modal
-          isModalLoading={postAddingDesignationLoader.loader}
+          // isModalLoading={postAddingDesignationLoader.loader}
           isOpen={addDesignationModal.visible}
           onClose={() => addDesignationModal.hide()}
           title={translate("auth.designation")!}

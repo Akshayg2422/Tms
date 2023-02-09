@@ -21,12 +21,6 @@ import { addEmployee } from "@Redux";
 
 
 function AddUser() {
-
- 
-  const { associatedCompanies } = useSelector(
-    (state: any) => state.AdminReducer
-  );
-  console.log(associatedCompanies ,'response..')
   const dispatch = useDispatch();
   const firstName = useInput("");
   const lastName = useInput("");
@@ -39,7 +33,7 @@ function AddUser() {
 
   const submitAddUserHandler = () => {
     const params = {
-      branch_id: associatedCompanies.branch_id,
+      branch_id: '60ec3438-d820-4ce7-8e1e-ea1804e1de18',
       first_name: firstName.value,
       last_name: lastName.value,
       mobile_number: contactNumber.value,

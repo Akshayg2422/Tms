@@ -3,6 +3,6 @@ export * from './OpenTicket'
 export * from './ClosedTicket'
 export * from './OtherTicket'
 export * from './CompanyUsers'
-export * from './AddUser'
+export * from '../Container/AddUser'
 export * from './CompanyInfo'
 

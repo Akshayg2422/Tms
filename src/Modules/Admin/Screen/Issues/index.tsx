@@ -14,6 +14,8 @@ function Issues() {
     useEffect(() => {
         const params = { q: '' };
         dispatch(getTickets({ params }));
+      
+        
     }, []);
 
     return (

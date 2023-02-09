@@ -40,7 +40,7 @@ function CompanyItem({ item }: CompanyItemProps) {
                                 <h5>{email}</h5>
                             </div>
                             <div className='text-center'>
-                                <Badge pill color={'success'} text={'Email'} />
+                                <Badge pill color={'success'} text={'Email'}  />
                             </div>
                         </div>
 

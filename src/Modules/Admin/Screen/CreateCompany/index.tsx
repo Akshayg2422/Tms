@@ -20,12 +20,14 @@ import {
     registerAdmin,
 } from '@Redux';
 
-import { useInput, useDropDown } from '@Hooks'
+import { useInput, useDropDown,useNavigation } from '@Hooks'
 import { Dropzone } from '@Components//Core/DropZone';
+
 
 
 function CreateCompany({ }: CreateCompanyProps) {
   const [image , setImage]=useState('')
+  const {goBack} = useNavigation()
 
     const dispatch = useDispatch()
 
@@ -80,8 +82,11 @@ function CreateCompany({ }: CreateCompanyProps) {
               params,
               onSuccess: (success) => {
                 onRegisterCompany();
+               
               },
-              onError: (error) => {console.log('errrrr----->',error)},
+              onError: (error) => {
+
+              },
             }),
           );
         } else {
@@ -105,7 +110,7 @@ function CreateCompany({ }: CreateCompanyProps) {
           attachment_logo: image
           // provider_company_branch_id: dashboardDetails.permission_details.branch_id,
         };
-        console.log(params,"naveen====>onre")
+      
       
         const validation = validate(BUSINESS_FORM_RULES, params);
         if (ifObjectExist(validation)) {
@@ -114,11 +119,13 @@ function CreateCompany({ }: CreateCompanyProps) {
             registerCompany({
               params,
               onSuccess: (response: any) => {
+                goBack()
 
-                console.log(JSON.stringify(response)+"+====Sucessssssssssssssssssssss==");
                 
               },
-              onError: (error) => {console.log('errrror---company--->',error)},
+              onError: (error) => {
+                
+              },
             }),
           );
         } else {
