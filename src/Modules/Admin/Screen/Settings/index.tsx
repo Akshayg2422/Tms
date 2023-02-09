@@ -17,13 +17,14 @@ import {
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase } from "@Utils";
-import { useLoader, useModal } from "@Hooks";
+import { useModal } from "@Hooks";
 
 function Settings() {
   const dispatch = useDispatch();
   const { departmentData, designationData } = useSelector(
     (state: any) => state.AdminReducer
   );
+ 
 
   const [showDepartments, setShowDepartments] = useState(false);
   const [showDesignations, setShowDesignations] = useState(false);
@@ -33,40 +34,41 @@ function Settings() {
 
   const [department, setDepartment] = useState("");
   const [designation, setDesignation] = useState("");
-  // const departmentListLoader = useLoader(false);
-  // const designationListLoader = useLoader(false);
-  // const postAddingDepartmentLoader = useLoader(false);
-  // const postAddingDesignationLoader = useLoader(false);
+
 
   const getDepartmentList = () => {
     const params = {};
+   
 
     dispatch(
       getDepartmentData({
         params,
         onSuccess: (success: any) => {
         setShowDepartments(!showDepartments)
-          // departmentListLoader.hideLoader();
+         
         },
         onError: (error: string) => {
-          // departmentListLoader.hideLoader();
+      
         },
       })
     );
   };
 
     const getDesignationList = () => {
+      console.log(getDesignationData,"data")
       const params = {};
 
       dispatch(
         getDesignationData({
           params,
+          
           onSuccess: (success: any) => {
-            // designationListLoader.hideLoader();
+            console.log(success)
+          
             setShowDesignations(!showDesignations)
           },
           onError: (error: string) => {
-            // designationListLoader.hideLoader();
+         
           },
         })
       );
@@ -76,19 +78,19 @@ function Settings() {
       const params = {
         name: convertToUpperCase(department),
       };
-      // postAddingDepartmentLoader.showLoader();
+    
       dispatch(
         addDepartment({
           params,
           onSuccess: (success: any) => {
             addDepartMentModal.hide()
-            // postAddingDepartmentLoader.hideLoader();
+          
             dispatch(getDepartmentData({}));
             setDepartment("");
             showToast("success", success.message);
           },
           onError: (error: string) => {
-            // postAddingDepartmentLoader.hideLoader();
+       
           },
         })
       );
@@ -99,19 +101,20 @@ function Settings() {
         name: convertToUpperCase(designation),
         is_admin: true,
       };
-      // postAddingDesignationLoader.showLoader();
+     
       dispatch(
         addDesignation({
+
           params,
           onSuccess: (success: any) => {
             addDesignationModal.hide()
-            // postAddingDesignationLoader.hideLoader();
+           
             dispatch(getDesignationData({}));
             setDesignation("");
             showToast("success", success.message);
           },
           onError: (error: string) => {
-            // postAddingDesignationLoader.hideLoader();
+           
           },
         })
       );
@@ -132,6 +135,10 @@ function Settings() {
       };
     });
   };
+
+  {console.log('designationData-------------->>>>>>>>>', designationData.data);
+  {console.log("department-----===== ",departmentData)}
+}
 
   return (
     <>
@@ -177,7 +184,7 @@ function Settings() {
                 {departmentData && departmentData?.length > 0 ? (
                   <CommonTable
                     displayDataSet={normalizedDepartmentData(departmentData)}
-                    // isLoading={departmentListLoader.loader}
+                   
                   />
                 ) : (
                   <div
@@ -230,16 +237,16 @@ function Settings() {
                  
                 }}
               >
-                {designationData && designationData?.length > 0 ? (
+                {designationData.data && designationData.data?.length > 0 ? (
                   <CommonTable
-                    displayDataSet={normalizedDesignationData(designationData)}
-                    // isLoading={designationListLoader.loader}
+                    displayDataSet={normalizedDesignationData(designationData.data)}
+                 
                   />
                 ) : (
                   <div
                     className=" d-flex justify-content-center align-items-center"
                     style={{
-                      height: "80.5vh",
+                      height: "70.5vh",
                     }}
                   >
                     <NoRecordsFound />
@@ -255,7 +262,7 @@ function Settings() {
          */}
 
         <Modal
-          // isModalLoading={postAddingDepartmentLoader.loader}
+         
           isOpen={addDepartMentModal.visible}
           onClose={() => addDepartMentModal.hide()}
           title={translate("common.department")!}
@@ -287,7 +294,7 @@ function Settings() {
          */}
         
         <Modal
-          // isModalLoading={postAddingDesignationLoader.loader}
+         
           isOpen={addDesignationModal.visible}
           onClose={() => addDesignationModal.hide()}
           title={translate("auth.designation")!}
