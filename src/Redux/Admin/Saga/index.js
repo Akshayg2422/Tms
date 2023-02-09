@@ -38,8 +38,6 @@ function* getAssociatedCompaniesSaga(action) {
       getAssociatedCompaniesApi,
       action.payload.params,
     );
-
-    console.log(JSON.stringify(response)+"======response");
     if (response.success) {
       yield put(hideLoader());
       yield put(getAssociatedBranchSuccess({...response}));
@@ -58,7 +56,6 @@ function* getDashboardSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getDashboardApi, action.payload.params);
-
     if (response.success) {
       yield put(hideLoader());
       yield put(getDashboardSuccess({...response}));
