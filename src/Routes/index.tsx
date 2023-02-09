@@ -1,5 +1,5 @@
 import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,CompanyInfo} from '@Modules'
-import {Login, Otp, Splash, RegisterUser} from '@Modules'
+import {Login, Otp, Splash} from '@Modules'
 
 export const ROUTES = {
   AUTH: {
