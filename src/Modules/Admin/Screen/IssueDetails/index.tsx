@@ -6,7 +6,7 @@ import { addTicketEvent, getTicketsEvents } from '@Redux';
 import { useInput, useModal } from '@Hooks';
 import { Dropzone } from '@Components';
 import { icons } from '@Assets';
-import { text } from 'stream/consumers';
+
 
 
 function IssueDetails() {
@@ -109,7 +109,7 @@ function IssueDetails() {
                         setSelectAttachments(!selectAttachments)
                     }}>
                     <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={() => setSelectAttachments(true)} />
-
+                    {/* onChange={modalName.onChange} */}
                     {selectDropzone && selectDropzone.map((el, index) => {
                         return (
                             <Dropzone variant='ICON'

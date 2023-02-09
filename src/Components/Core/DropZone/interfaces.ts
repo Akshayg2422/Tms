@@ -1,5 +1,3 @@
-import { Variants } from "@Components//Interfaces";
-
 export interface DropZoneProps {
     onSelect: (image: any) => void;
     variant?: "ICON" | 'BUTTON'
