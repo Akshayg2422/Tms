@@ -3,7 +3,9 @@ const useNavigation = () => {
   const navigation = useNav();
   const goTo = (to: string, replace: boolean = false) =>
     navigation(to, { replace: replace });
-  return { goTo };
+
+  const goBack= () => navigation(-1)
+  return { goTo , goBack};
 };
 
 export { useNavigation };

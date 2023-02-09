@@ -100,5 +100,6 @@ export const icons = {
   equalizer: require('./Equalizer/icon.png'),
   clinic: require('./Clinic/icon.png'),
   back: require('./Back/icon.png'),
+  addFillGray:require('./AddFillGray/icons8-plus-math-64.png')
 
 };

@@ -36,6 +36,12 @@ export const HOME_PATH = {
   COMPANY_INFO:"/CompanyInfo"
  }
 
+ export const ADD_USER_INFO={
+  DASHBOARD: "/admin",
+  COMPANY: "/company",
+  ADD_USER:"/AddUser"
+ }
+
 
 
 export const AUTH_ROUTES = [

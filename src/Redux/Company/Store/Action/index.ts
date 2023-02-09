@@ -129,6 +129,7 @@ export const addTicketEventFailure = (error: any) => {
  * @returns
  */
 export const getTicketsEvents = (params: any) => {
+ 
   return {
     type: GET_TICKET_EVENTS,
     payload: params,
@@ -136,6 +137,7 @@ export const getTicketsEvents = (params: any) => {
 };
 
 export const getTicketsEventsSuccess = (response: any) => {
+ 
   return {
     type: GET_TICKET_EVENTS_SUCCESS,
     payload: response,
@@ -143,6 +145,7 @@ export const getTicketsEventsSuccess = (response: any) => {
 };
 
 export const getTicketsEventsFailure = (error: any) => {
+
   return {
     type: GET_TICKET_EVENTS_FAILURE,
     payload: error,

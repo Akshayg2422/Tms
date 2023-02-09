@@ -76,6 +76,7 @@ function* getTicketsSaga(action) {
 }
 
 function* getTicketEventsSaga(action) {
+
   try {
     // yield put(showLoader());
     const response = yield call(getTicketEventsApi, action.payload.params);

@@ -34,7 +34,14 @@
         "businessAppSubtext": "வணிக உரிமையாளர் மற்றும் ஸ்டோர் ஏஜெண்டிற்கு",
         "courses": "படிப்புகள்",
 
-        "department":"துறை"
+        "department":"துறை",
+        "PinCode":"அஞ்சல் குறியீடு",
+        "alternativeMobileNumber":"மாற்றுமொபைல் எண்",
+        "businessSector":"வணிக துறை",
+        "companyDetails":"நிறுவன விவரங்கள்",
+        "createCompany":"நிறுவனத்தை உருவாக்கு",
+        "adminDetails":  "நிர்வாகம் விவரங்கள்",
+        "addUser":"சேர்ப்பவர்"
     },
     "errors": {
         "invalidEmail": "Invalid email address."
@@ -74,7 +81,10 @@
         "contactNumber": "தொடர்பு எண்",
         "prefilled With Login Mobile Number": "உள்நுழைவு மொபைல் எண்ணுடன் முன்பே நிரப்பப்பட்டது",
         "designation": "பதவி",
-        "notYourBusiness": "உங்கள் பணி அல்ல ?"
+        "notYourBusiness": "உங்கள் பணி அல்ல ?",
+
+        "attach Photo Or Logo":"புகைப்படம் அல்லது லோகோவை இணைக்கவும்",
+        "email":"மின்னஞ்சல்"
     },
     "product": {
         "Store": "ஸ்டோர்",

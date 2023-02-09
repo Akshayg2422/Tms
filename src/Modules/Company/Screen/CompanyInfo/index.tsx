@@ -1,43 +1,68 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { getAssociatedBranch } from '@Redux'
-import { Card, Divider, HomeContainer } from '@Components'
-import { CompanyInfoItem, } from '@Modules'
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { CompanyUsers } from "@Modules";
+import { CompanyInfoProps } from "./interfaces";
+import { H, Image, Badge, Card, HomeContainer } from "@Components";
+import { getPhoto } from '@Utils' 
+function CompanyInfo({ item }: CompanyInfoProps) {
+  const { companyDetailsSelected } = useSelector(
+    (state: any) => state.AdminReducer
+  );
 
-function CompanyInfo() {
+  const { display_name, attachment_logo, address, phone, email } = companyDetailsSelected;
+  
 
-    const dispatch = useDispatch()
+  return (
+    <div>
+      <div>
+      <HomeContainer>
+        <Card>
+          <div>
+            <div className="text-center">
+              <Image
+                variant={"rounded"}
+                size={"xxl"}
+                src={getPhoto(attachment_logo)}
+              />
+            </div>
 
-    const { associatedCompanies } = useSelector(
-        (state: any) => state.AdminReducer,
-    );
+            <div className="col-sm pt-3 pl-lg-5 pr-lg-5">
+              <div className="text-center">
+                <H tag={"h3"} className="mb-0" text={display_name} />
+                <p className="text-sm">{address}</p>
+              </div>
 
-    useEffect(() => {
-        const params = { q: '' };
-        dispatch(
-            getAssociatedBranch({
-                params
-            }),
-        );
-    }, []);
+              <div className="col  justify-content-between pt-3 text-sm-0">
+                <div className="row">
+                  <div className="col pl-sm-0  ml-lg--4  ml-sm-0 ml--3 ">
+                    <h6 className="text-uppercase text-muted mb-0">PHONE</h6>
+                    <h5>{phone}</h5>
+                  </div>
+                  <div className="text-center pl-lg-0 mr-lg--5 pl-sm-0 pl-0 mr-sm-0 mr--3">
+                    <Badge pill color={"primary"} text={"Call"} />
+                  </div>
+                </div>
 
-    return (
-        <HomeContainer>
-        
-            <Card className='mt-4'>
-                {
-                    associatedCompanies && associatedCompanies.data.length > 0 && associatedCompanies.data.map((company: any, index: number) => {
-                        return (
-                            <>
-                                <CompanyInfoItem key={company.id} item={company} />
-                                {index !== associatedCompanies.data.length - 1 && <div className='mx-9'><Divider /></div>}
-                            </>
-                        )
-                    })
-                }
-            </Card>
-        </HomeContainer>
-
-    )
+                <div className="row   pt-1">
+                  <div className="col-10 pl-sm-0 pl-0 pr-sm-0  ml-lg--4   mr-sm-0 ">
+                    <h6 className="text-uppercase text-muted mb-0">E-MAIL</h6>
+                    <h5>{email}</h5>
+                  </div>
+                  <div className="text-center  pl-sm-0 pl-0 pl-lg-6 col-2 ">
+                    <Badge pill color={"success"} text={"Email"} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </HomeContainer>
+      </div>
+      <div className="mt--4 ">
+      <CompanyUsers />
+      </div>
+    </div>
+  );
 }
-export { CompanyInfo}
+
+export { CompanyInfo };
