@@ -3,21 +3,21 @@ import { translate } from "@I18n";
 import { CreateCompanyProps } from './interfaces'
 import { HomeContainer, Input, DropDown, H, Divider, Button,showToast} from '@Components'
 import {
-    GENDER_LIST,
-    DESIGNATION_LIST,
-    changeDropDownDataKey,
-    validate,
-    BUSINESS_FORM_RULES,
-    USER_FORM_RULES,
-    getValidateError,
-    ifObjectExist
+  GENDER_LIST,
+  DESIGNATION_LIST,
+  changeDropDownDataKey,
+  validate,
+  BUSINESS_FORM_RULES,
+  USER_FORM_RULES,
+  getValidateError,
+  ifObjectExist
 } from '@Utils';
 import { useDispatch, useSelector } from 'react-redux'
 import {
-    brandSectors,
-    sectorServiceTypes,
-    registerCompany,
-    registerAdmin,
+  brandSectors,
+  sectorServiceTypes,
+  registerCompany,
+  registerAdmin,
 } from '@Redux';
 
 import { useInput, useDropDown,useNavigation } from '@Hooks'
@@ -29,35 +29,35 @@ function CreateCompany({ }: CreateCompanyProps) {
   const [image , setImage]=useState('')
   const {goBack} = useNavigation()
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-    const firstName = useInput('')
-    const lastName = useInput('')
-    const contactNumber = useInput('')
-    const email = useInput('')
-    const gender = useDropDown({})
-    const designation = useDropDown({})
-    const businessName = useInput('')
-    const businessAddress = useInput('')
-    const pinCode = useInput('')
-    const alternativeMobileNumber = useInput('')
-    const businessSector = useDropDown({})
+  const firstName = useInput('')
+  const lastName = useInput('')
+  const contactNumber = useInput('')
+  const email = useInput('')
+  const gender = useDropDown({})
+  const designation = useDropDown({})
+  const businessName = useInput('')
+  const businessAddress = useInput('')
+  const pinCode = useInput('')
+  const alternativeMobileNumber = useInput('')
+  const businessSector = useDropDown({})
 
 
-    const { businessServiceTypesDropdownData, businessSectorDropdownData } =
-        useSelector((state: any) => state.AuthReducer);
+  const { businessServiceTypesDropdownData, businessSectorDropdownData } =
+    useSelector((state: any) => state.AuthReducer);
 
-        const {dashboardDetails} = useSelector((state: any) => state.AdminReducer);
+  const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
 
 
     console.log(JSON.stringify(dashboardDetails) + "==== pammmmm");
 
 
 
-    useEffect(() => {
-        dispatch(brandSectors({ q: '' }));
-        dispatch(sectorServiceTypes({ q: '' }));
-    }, []);
+  useEffect(() => {
+    dispatch(brandSectors({ q: '' }));
+    dispatch(sectorServiceTypes({ q: '' }));
+  }, []);
 
 
 
@@ -195,4 +195,4 @@ function CreateCompany({ }: CreateCompanyProps) {
     )
 }
 
-export { CreateCompany }
+  export { CreateCompany }

@@ -1,19 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { Image } from '@Components';
 import { icons } from '@Assets';
-import { Icons } from 'react-toastify';
+import { DropZoneProps } from './interfaces'
 
-interface Props {
-    onSelect: (image: any) => void;
-    variant?: "ICON" | 'BUTTON'
-    text?: string
-    icon?: string | null
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'|'xxl';
-}
-
-const Dropzone: React.FC<Props> = ({ onSelect, variant = 'BUTTON', text, icon, size = "xl" }) => {
+const Dropzone = ({ onSelect, variant = 'BUTTON', text, icon, size = "lg" }: DropZoneProps) => {
     const fileInputRef = useRef<any>();
-    const [image, setImage] = useState<any>(icon ? icon : icons.addFillGray) 
+    const [image, setImage] = useState<any>(icon)
     const handleRefClick = () => {
         fileInputRef.current.click();
     };
@@ -31,7 +23,6 @@ const Dropzone: React.FC<Props> = ({ onSelect, variant = 'BUTTON', text, icon, s
             reader.readAsDataURL(file);
         }
     };
-
     return (
         <>
             {variant === 'BUTTON' &&
@@ -43,15 +34,13 @@ const Dropzone: React.FC<Props> = ({ onSelect, variant = 'BUTTON', text, icon, s
             }
             {variant === 'ICON' &&
                 <> <input type="file" ref={fileInputRef}
-                    style={{ display: 'none'}} onChange={handleChange} accept="image/*" />
+                    style={{ display: 'none' }} onChange={handleChange} accept="image/*" />
                     {/* <i className="ni ni-spaceship me-2 text-dark opacity-6" onClick={handleRefClick} >{text}</i> */}
                     <Image
-                        src={image}
-                        variant='avatar'
+                        src={image || icons.addFillGray}
+                        variant='rounded'
                         onClick={handleRefClick}
                         size={size}
-                        className='bg-secondary'
-                        
                     />
                 </>
             }

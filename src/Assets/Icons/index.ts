@@ -7,6 +7,8 @@ export const icons = {
   downArrowOutline: require('./DownarrowOutline/icon.png'),
   search: require('./Search/icon.png'),
   addFill: require('./AddFill/icon.png'),
+  addFillRounded: require('./AddFillRounded/icon.png'),
+  addFillSquare: require('./AddFillSquare/icon.png'),
   addOutline: require('./AddOutline/icon.png'),
   navigationArrow: require('./NavigationArrow/icon.png'),
   arrowRight: require('./ArrowRight/icon.png'),

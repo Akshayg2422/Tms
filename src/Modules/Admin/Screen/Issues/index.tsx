@@ -6,8 +6,6 @@ import { TicketItem } from '@Modules';
 import { Form, FormGroup, InputGroupText, InputGroup } from "reactstrap";
 import {getStatusFromCode} from '@Utils'
 
-
-
 function Issues() {
     const [modal, setModal] = useState(false);
     const [data, setData] = useState('All');
@@ -20,6 +18,7 @@ function Issues() {
 
 
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
+    const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
     const dispatch = useDispatch();
 
     const getTicketHandler = () => {
@@ -113,4 +112,5 @@ function Issues() {
         </>
     )
 }
+
 export { Issues }
