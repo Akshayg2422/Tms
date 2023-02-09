@@ -22,18 +22,12 @@ export const ADD_USER_RULES = {
     presence: { message: 'First name cannot be empty' },
     length: { minimum: 3, message: 'First name minimum 3 chars' },
   },
-  'last_name': {
-    presence: false,
-  },
   'mobile_number': {
     presence: { message: 'Mobile number cannot be empty' },
     length: { is: 10, message: 'Mobile number should be 10 number' },
   },
   email: {
-    presence: { allowEmpty: false, message: 'email cannot be empty' },
-    email: {
-      message: "doesn't look like a valid email",
-    },
+      email : { message: "doesn't look like a valid email"}
   },
   gender: {
     presence: { message: 'Please Select Gender' },

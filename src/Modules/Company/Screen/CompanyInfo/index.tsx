@@ -10,8 +10,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
   );
 
   const { display_name, attachment_logo, address, phone, email } = companyDetailsSelected;
-  
-
+ 
   return (
     <div>
       <div>

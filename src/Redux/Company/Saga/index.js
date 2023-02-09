@@ -155,6 +155,7 @@ function* addEmployeeSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(addEmployeeApi, action.payload.params);
+    console.log('resAddEmployee--------------->',response)
     if (response.success) {
       yield put(hideLoader());
       yield put(addEmployeeSuccess({...response}));

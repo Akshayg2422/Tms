@@ -25,7 +25,6 @@ function Settings() {
     (state: any) => state.AdminReducer
   );
  
-
   const [showDepartments, setShowDepartments] = useState(false);
   const [showDesignations, setShowDesignations] = useState(false);
 
@@ -39,7 +38,6 @@ function Settings() {
   const getDepartmentList = () => {
     const params = {};
    
-
     dispatch(
       getDepartmentData({
         params,
