@@ -19,7 +19,7 @@ function IssueDetails() {
     const [image, setImage] = useState('')
     const [selectAttachments, setSelectAttachments] = useState(false)
     const [selectDropzone, setSelectDropzone] = useState([{}])
-console.log('selectDropzone------------>',selectDropzone)
+    console.log('selectDropzone------------>', selectDropzone)
     useEffect(() => {
         beginGetTicketEvents()
     }, []);
@@ -61,9 +61,10 @@ console.log('selectDropzone------------>',selectDropzone)
 
     const onModalSubmitHandler = () => {
         const params = {
-            id:selectedIssues.id,
+            event_type: 'MEA',
+            id: selectedIssues.id,
             message: textMessage,
-            attachments: null,
+            attachments: [{}],
             modalName,
         };
         setSelectAttachments(!selectAttachments);
@@ -118,11 +119,9 @@ console.log('selectDropzone------------>',selectDropzone)
                                     let file = image.toString().replace(/^data:(.*,)?/, '');
                                     // setImage(file)
                                     handleImagePicker(index, file)
-                                }
-                                }
+                                }}
                             />
                         )
-
                     })}
                     <div className='d-flex flex-row pt-4'>
                         <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => onModalSubmitHandler()} />
