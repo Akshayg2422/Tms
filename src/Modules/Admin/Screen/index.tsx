@@ -3,7 +3,6 @@ export * from './Issues'
 export * from './Settings'
 export * from './AdminDashboard'
 export * from './CreateCompany'
-export * from './FilteredIssues'
 
 
 
