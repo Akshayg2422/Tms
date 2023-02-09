@@ -2,9 +2,9 @@
 import React, { useEffect } from 'react';
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 import { Sidebar } from '@Components'
-import { ADMIN_ROUTES, HOME_PATH } from '@Routes'
+import { ADD_USER_INFO, ADMIN_ROUTES, HOME_PATH, INFO } from '@Routes'
 import { icons } from '@Assets'
-import { CreateCompany } from '@Modules'
+import { AddUser, CompanyInfo, CreateCompany} from '@Modules'
 import {getDashboard} from '@Redux';
 import {useDispatch} from 'react-redux'
 
@@ -38,7 +38,7 @@ function AdminDashboard() {
 
 
   const getRoutes = (routes: any) => {
-    console.log(JSON.stringify(routes));
+    // console.log(JSON.stringify(routes));
 
     return routes.map((prop: any, key: any) => {
       if (prop.collapse) {
@@ -89,6 +89,8 @@ function AdminDashboard() {
         <Routes>
           {getRoutes(ADMIN_ROUTES)}
           <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany/>} />
+          <Route path={INFO.COMPANY_INFO} element={<CompanyInfo/>} />
+          <Route path={ADD_USER_INFO.ADD_USER} element={<AddUser/>} />
           {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
         </Routes>
       </div>

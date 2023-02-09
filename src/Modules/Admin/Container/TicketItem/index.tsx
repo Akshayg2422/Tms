@@ -15,7 +15,7 @@ function TicketItem({ item, onClick }: TicketItemProps) {
 
         <div className='row d-flex justify-content-center' onClick={() => {
             dispatch(setSelectedIssues(item))
-            goTo(ROUTES.AUTH.SEND)
+            goTo(ROUTES.AUTH.ISSUE_DETAILS)
         }}>
             <div className='col col-sm-8'>
                 <H tag={'h3'} text={title} />

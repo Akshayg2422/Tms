@@ -32,7 +32,16 @@
     "alternativeContactNumber": "Alternative Contact Number",
     "business": "Business",
     "businessAppName": "Quanta Business",
-    "businessAppSubtext": "For Business Owner and Store Agent"
+    "businessAppSubtext": "For Business Owner and Store Agent",
+    "courses":"courses",
+    "department":"Department",
+    "PinCode":"PinCode",
+    "alternativeMobileNumber":"AlternativeMobileNumber",
+    "businessSector":"BusinessSector",
+    "companyDetails":"COMPANY DETAILS",
+    "createCompany":"CREATE COMPANY",
+    "adminDetails":"ADMIN DETAILS",
+    "addUser":"ADD USER"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -73,7 +82,9 @@
     "prefilled With Login Mobile Number": "Prefilled With Login Mobile Number",
     "designation": "Designation",
     "selectLanguage": "Select language",
-    "notYourBusiness": "Not Your Business ?"
+    "notYourBusiness": "Not Your Business ?",
+    "attach Photo Or Logo":"Attach Photo Or Logo",
+    "email":"Email"
   },
   "product": {
     "Store": "Store",
@@ -85,7 +96,7 @@
     "orderPlaced": "ORDER PLACED",
     "allProducts": "Services Offered",
     "addCustomProduct": "Can find Product ?",
-    "addItem": "ADD",
+    "addItem": "Add",
     "addProduct": "Add product",
     "price": "Price"
   },
@@ -135,5 +146,11 @@
     "allEmployeesAreRequestedSurvey": "All employees are requested survey",
     "showTheQRCodeForEasyCheckin": "Show the QR Code for easy check in",
     "paulRaymond": "paul_raymond"
+  },
+  "course":{
+    "course":"Course",
+    "view":"View",
+    "hide":"Hide",
+    "start":"Start"
   }
 }

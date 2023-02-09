@@ -1,4 +1,4 @@
-import {post} from '../ApiHelper';
+import { post } from '../ApiHelper';
 import {
   VALIDATE_USER,
   VALIDATE_REGISTER_USER,
@@ -13,19 +13,21 @@ import {
   SECTOR_SERVICE_TYPES,
   GET_ASSOCIATED_COMPANIES,
   URL_GET_DASHBOARD,
-   GET_TICKETS,
-   RAISE_NEW_TICKET,
-   GET_TICKET_EVENTS,
-   GET_TICKET_TAGS,
-   ADD_TICKET_EVENT,
+  GET_TICKETS,
+  RAISE_NEW_TICKET,
+  GET_TICKET_EVENTS,
+  GET_TICKET_TAGS,
+  ADD_TICKET_EVENT,
+  GET_EMPLOYEE,
+  ADD_EMPLOYEE,
 
   /**
    * setting
    */
-   POST_ADD_DEPARTMENT,
-   POST_ADD_DESIGNATION,
-   FETCH_DESIGNATION,
-   FETCH_DEPARTMENT,
+  POST_ADD_DEPARTMENT,
+  POST_ADD_DESIGNATION,
+  FETCH_DESIGNATION,
+  FETCH_DEPARTMENT,
 
 } from '../UrlHelper';
 
@@ -58,10 +60,16 @@ export const registerCompanyApi = payload =>
   post(REGISTER_COMPANY, payload, {});
 export const SectorServiceTypesApi = payload =>
   post(SECTOR_SERVICE_TYPES, payload, {});
-  /**
-   * setting
-   */
-   export const postAddDepartmentApi = (payload) => post(POST_ADD_DEPARTMENT, payload, {})
-   export const postAddDesignationApi = (payload) => post(POST_ADD_DESIGNATION, payload, {})
-   export const fetchDesignationDataApi = (payload) => post(FETCH_DESIGNATION, payload, {})
+export const getEmployeeApi = payload =>
+  post(GET_EMPLOYEE, payload, {})
+
+export const addEmployeeApi = payload =>
+  post(ADD_EMPLOYEE, payload, {})
+
+/**
+ * setting
+ */
+export const postAddDepartmentApi = (payload) => post(POST_ADD_DEPARTMENT, payload, {})
+export const postAddDesignationApi = (payload) => post(POST_ADD_DESIGNATION, payload, {})
+export const fetchDesignationDataApi = (payload) => post(FETCH_DESIGNATION, payload, {})
 export const fetchDepartmentDataApi = (payload) => post(FETCH_DEPARTMENT, payload, {})

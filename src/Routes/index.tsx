@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket } from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,CompanyInfo} from '@Modules'
 import { Login, Otp, Splash, RegisterUser,IssueDetails } from '@Modules'
 
 export const ROUTES = {
@@ -8,7 +8,7 @@ export const ROUTES = {
     OTP: "/otp",
     REGISTER: '/register',
     VIEW_GOOGLE_BUSINESS: '/view-google-business',
-    SEND: '/issueDetails'
+    ISSUE_DETAILS: '/issueDetails'
   },
   HOME: {
     Admin: "/admin/issues",
@@ -29,7 +29,21 @@ export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
-};
+ }
+ 
+ export const INFO ={
+  DASHBOARD: "/admin",
+  COMPANY: "/company",
+  COMPANY_INFO:"/CompanyInfo"
+ }
+
+ export const ADD_USER_INFO={
+  DASHBOARD: "/admin",
+  COMPANY: "/company",
+  ADD_USER:"/AddUser"
+ }
+
+
 
 export const AUTH_ROUTES = [
   {
@@ -49,10 +63,13 @@ export const AUTH_ROUTES = [
   },
   {
     key: 4,
-    path: ROUTES.AUTH.SEND,
+    path: ROUTES.AUTH.ISSUE_DETAILS,
     component: <IssueDetails />
   },
 ];
+
+
+
 export const ADMIN_ROUTES = [
 
   {
@@ -115,6 +132,9 @@ export const COMPANY_ROUTES = [
     layout: "/company",
     component: <Settings />
   },
+
+  
+
 ];
 
 export * from "./RequireAuth";

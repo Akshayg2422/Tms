@@ -3,5 +3,5 @@ export interface DropZoneProps {
     variant?: "ICON" | 'BUTTON'
     text?: string
     icon?: string
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
 }

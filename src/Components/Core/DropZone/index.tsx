@@ -37,7 +37,7 @@ const Dropzone = ({ onSelect, variant = 'BUTTON', text, icon, size = "lg" }: Dro
                     style={{ display: 'none' }} onChange={handleChange} accept="image/*" />
                     {/* <i className="ni ni-spaceship me-2 text-dark opacity-6" onClick={handleRefClick} >{text}</i> */}
                     <Image
-                        src={image || icons.addFillSquare}
+                        src={image || icons.addFillGray}
                         variant='rounded'
                         onClick={handleRefClick}
                         size={size}

@@ -2,19 +2,20 @@ import React, { useState } from "react";
 
 const useModal = (initialValue: boolean) => {
   const [visible, setVisible] = useState(initialValue);
-
+ 
   const show = () => {
-    setVisible(true)
-  }
+    setVisible(true);
+  };
+
 
   const hide = () => {
-    setVisible(false)
-  }
+    setVisible(false);
+  };
 
   return {
     visible,
-   show,
-   hide
+    show,
+    hide
   };
 };
 

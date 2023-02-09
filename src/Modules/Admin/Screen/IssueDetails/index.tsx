@@ -100,7 +100,7 @@ function IssueDetails() {
                         onChange={textMessage.onChange}
                     />
                 </div>
-                <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
+                <Image variant='rounded' size='sm' src={icons.addFillGray} onClick={() => { setSelectAttachments(!selectAttachments) }} />
             </Card>
 
             <div>
