@@ -1,12 +1,11 @@
 import axios from 'axios';
-import {USER_TOKEN} from '@Utils'
+import { USER_TOKEN } from '@Utils'
 const BUILD_TYPE_LIVE = 1;
 const BUILD_TYPE_LIVE_DEMO = 2;
 const BUILD_TYPE_STAGING = 3;
 const BUILD_TYPE_LOCAL = 4;
 
 const BUILD_TYPE = BUILD_TYPE_LIVE;
-
 const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
     ? 'https://api.quantatms.in/'
@@ -35,9 +34,9 @@ const getHeaders = async () => {
  const value = '0d1adf71aa0c0c290cd4c4d28bcc00f68a9eb5b3'
     console.log(JSON.stringify(value)+"+===Token");
 
-    
+
     if (value) {
-      return {Authorization: 'Token ' + value};
+      return { Authorization: 'Token ' + value };
     } else {
       return {};
     }
@@ -61,7 +60,7 @@ export async function get(url, config) {
 }
 
 export async function post(url, data, config) {
-  let headers = {...(await getHeaders())};
+  let headers = { ...(await getHeaders()) };
 
   return await axiosApi
     .post(url, data, {
@@ -77,7 +76,7 @@ export async function post(url, data, config) {
 }
 
 export async function postHeader(url, data, config) {
-  let headers = {...(await getHeaders())};
+  let headers = { ...(await getHeaders()) };
   return await axiosApi
     .post(url, data, {
       ...config,
