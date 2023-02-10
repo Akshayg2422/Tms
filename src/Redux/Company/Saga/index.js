@@ -1,4 +1,4 @@
-import {takeLatest, put, call} from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import {
   raiseNewTicketApi,
   getTicketsApi,
@@ -63,11 +63,11 @@ function* getTicketsSaga(action) {
     const response = yield call(getTicketsApi, action.payload.params);
     if (response.success) {
       yield put(hideLoader());
-      yield put(getTicketsSuccess({...response}));
+      yield put(getTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());
-      yield put(getTicketsFailure({...response}));
+      yield put(getTicketsFailure({ ...response }));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
@@ -76,19 +76,18 @@ function* getTicketsSaga(action) {
 }
 
 function* getTicketEventsSaga(action) {
-
+  console.log('saga---->',action)
   try {
     // yield put(showLoader());
     const response = yield call(getTicketEventsApi, action.payload.params);
-
-    console.log(JSON.stringify());
+    console.log('getTicketEventsApi------------->'+ JSON.stringify(response));
     if (response.success) {
       // yield put(hideLoader());
-      yield put(getTicketsEventsSuccess({...response}));
+      yield put(getTicketsEventsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
       // yield put(hideLoader());
-      yield put(getTicketsEventsFailure({...response}));
+      yield put(getTicketsEventsFailure({ ...response }));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
@@ -100,6 +99,7 @@ function* addTicketEventSaga(action) {
   try {
     // yield put(showLoader());
     const response = yield call(addTicketEventApi, action.payload.params);
+    console.log(JSON.stringify(response) + 'lllllllllllllllll8888888888888');
     if (response.success) {
       // yield put(hideLoader());
       yield put(addTicketEventSuccess(response));

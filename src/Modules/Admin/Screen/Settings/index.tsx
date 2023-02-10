@@ -19,7 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase } from "@Utils";
 import { useModal } from "@Hooks";
 
-function Settings() {
+function Settings () {
+
   const dispatch = useDispatch();
   const { departmentData, designationData } = useSelector(
     (state: any) => state.AdminReducer
@@ -53,7 +54,7 @@ function Settings() {
   };
 
     const getDesignationList = () => {
-      console.log(getDesignationData,"data")
+    
       const params = {};
 
       dispatch(
@@ -61,7 +62,7 @@ function Settings() {
           params,
           
           onSuccess: (success: any) => {
-            console.log(success)
+  
           
             setShowDesignations(!showDesignations)
           },
@@ -134,9 +135,7 @@ function Settings() {
     });
   };
 
-  {console.log('designationData-------------->>>>>>>>>', designationData.data);
-  {console.log("department-----===== ",departmentData)}
-}
+ 
 
   return (
     <>
@@ -235,7 +234,7 @@ function Settings() {
                  
                 }}
               >
-                {designationData.data && designationData.data?.length > 0 ? (
+                {designationData && designationData.data.length > 0 ? (
                   <CommonTable
                     displayDataSet={normalizedDesignationData(designationData.data)}
                  
@@ -320,7 +319,7 @@ function Settings() {
         </Modal>
       </div>
     </>
-  );
+  )
 }
 
 export { Settings };
