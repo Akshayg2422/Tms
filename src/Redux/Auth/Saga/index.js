@@ -106,6 +106,7 @@ function* registerAdminSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(registerAdminApi, action.payload.params);
+    console.log('resttttttttt-----------', response);
     if (response.success) {
       yield put(hideLoader());
       yield put(registerAdminSuccess({ ...response }));
@@ -245,13 +246,10 @@ function* businessPlaceDetailsSaga(action) {
 }
 
 function* registerCompanySaga(action) {
- 
-
   try {
     yield put(showLoader());
-    console.log(JSON.stringify(action.payload.params)+"======params");
     const response = yield call(registerCompanyApi, action.payload.params);
-    console.log(JSON.stringify(response)+"======");
+    console.log(JSON.stringify(response)+"=============================");
     if (response.success) {
       yield put(hideLoader());
       yield put(registerCompanySuccess({ ...response }));

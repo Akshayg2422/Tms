@@ -26,6 +26,7 @@
     "appSubtext": "One step Booking &amp; Contactless Check-In",
     "verify": "Verify",
     "businessName": "Business Name",
+    "name": "Name",
     "businessAddress": "Business Address",
     "businessPinCode": "Business PinCode",
     "contactNumber": "Contact Number",
@@ -33,15 +34,15 @@
     "business": "Business",
     "businessAppName": "Quanta Business",
     "businessAppSubtext": "For Business Owner and Store Agent",
-    "courses":"courses",
-    "department":"Department",
-    "PinCode":"PinCode",
-    "alternativeMobileNumber":"AlternativeMobileNumber",
-    "businessSector":"BusinessSector",
-    "companyDetails":"COMPANY DETAILS",
-    "createCompany":"CREATE COMPANY",
-    "adminDetails":"ADMIN DETAILS",
-    "addUser":"ADD USER"
+    "courses": "courses",
+    "department": "Department",
+    "PinCode": "PinCode",
+    "alternativeMobileNumber": "AlternativeMobileNumber",
+    "businessSector": "BusinessSector",
+    "companyDetails": "COMPANY DETAILS",
+    "addCompany": "ADD COMPANY",
+    "primaryContactPerson": "PRIMARY CONTACT PERSON",
+    "addUser": "ADD USER"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -78,13 +79,14 @@
     "mobileNumber": "Mobile Number",
     "firstName": "FirstName",
     "lastName": "LastName",
-    "contactNumber": "ContactNumber",
+    "contactNumber": "Contact Number",
     "prefilled With Login Mobile Number": "Prefilled With Login Mobile Number",
     "designation": "Designation",
     "selectLanguage": "Select language",
     "notYourBusiness": "Not Your Business ?",
-    "attach Photo Or Logo":"Attach Photo Or Logo",
-    "email":"Email"
+    "logo": "Logo",
+    "email": "Email",
+    "emailOptional": "Email (Optional)"
   },
   "product": {
     "Store": "Store",
@@ -147,10 +149,10 @@
     "showTheQRCodeForEasyCheckin": "Show the QR Code for easy check in",
     "paulRaymond": "paul_raymond"
   },
-  "course":{
-    "course":"Course",
-    "view":"View",
-    "hide":"Hide",
-    "start":"Start"
+  "course": {
+    "course": "Course",
+    "view": "View",
+    "hide": "Hide",
+    "start": "Start"
   }
 }
