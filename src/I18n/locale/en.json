@@ -41,7 +41,10 @@
     "companyDetails":"COMPANY DETAILS",
     "createCompany":"CREATE COMPANY",
     "adminDetails":"ADMIN DETAILS",
-    "addUser":"ADD USER"
+    "addUser":"ADD USER",
+    "createTicket":"CREATE TICKET",
+    "company":"Company",
+    "user":"User"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -85,7 +88,10 @@
     "notYourBusiness": "Not Your Business ?",
     "attach Photo Or Logo":"Attach Photo Or Logo",
     "email":"Email",
-    "name":"Name"
+    "name":"Name",
+    "title":"Title",
+    "description":"Description",
+    "referenceNo":"Reference No"
   },
   "product": {
     "Store": "Store",

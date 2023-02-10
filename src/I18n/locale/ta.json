@@ -41,7 +41,10 @@
         "companyDetails":"நிறுவன விவரங்கள்",
         "createCompany":"நிறுவனத்தை உருவாக்கு",
         "adminDetails":  "நிர்வாகம் விவரங்கள்",
-        "addUser":"சேர்ப்பவர்"
+        "addUser":"சேர்ப்பவர்",
+        "createTicket":"டிக்கெட்டை உருவாக்கு",
+        "company": "நிறுவனம்",
+        "user":"பயனர்"
     },
     "errors": {
         "invalidEmail": "Invalid email address."
@@ -85,7 +88,10 @@
 
         "attach Photo Or Logo":"புகைப்படம் அல்லது லோகோவை இணைக்கவும்",
         "email":"மின்னஞ்சல்",
-        "name":"பெயர்"
+        "name":"பெயர்",
+        "title":"தலைப்பு",
+        "description":"விளக்கம்",
+        "referenceNo":"குறிப்பு எண்"
     },
     "product": {
         "Store": "ஸ்டோர்",

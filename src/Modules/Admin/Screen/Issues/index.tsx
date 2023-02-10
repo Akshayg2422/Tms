@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
-import { HomeContainer, Divider, Modal, Input, H } from '@Components';
+import { HomeContainer, Divider, Modal, Input, H ,Button } from '@Components';
 import { TicketItem } from '@Modules';
 import { Form, FormGroup, InputGroupText, InputGroup } from "reactstrap";
 import {getStatusFromCode} from '@Utils'
+import {useNavigation} from '@Hooks'
+import { ISSUE_CREATE,HOME_PATH } from '@Routes'
+
 
 function Issues() {
+    const {goTo, goBack} = useNavigation()
     const [modal, setModal] = useState(false);
     const [data, setData] = useState('All');
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
@@ -68,6 +72,7 @@ function Issues() {
                                     <i className="fas fa-search" />
                                 </InputGroupText>
                                 <Input placeholder="Search..." type="search" />
+                              
 
                                 <InputGroupText onClick={() => setModal(!modal)} className='border-left'>
                                     {data}
@@ -79,7 +84,7 @@ function Issues() {
                         </FormGroup>
                     </Form>
                 </div>
-
+                <Button text={'IssueCreate'} onClick={()=>{goTo(HOME_PATH.DASHBOARD+ISSUE_CREATE.ISSUE_TICKET)}}/>
                 <Modal size={'md'} isOpen={modal} onClose={() => setModal(!modal)}  >
                     {
                         value && value.length > 0 && value.map((item, index) => {

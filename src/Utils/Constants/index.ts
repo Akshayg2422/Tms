@@ -1,3 +1,5 @@
+
+
 const ERRORS = {
   SOMETHING_WENT_WRONG: 'Something went wrong, please try again later',
   INVALID_REQUEST: 'Invalid Request',
@@ -18,6 +20,11 @@ export const LANGUAGES = [
   { id: '1', text: 'English', value: 'en' },
   { id: '2', text: 'Tamil', value: 'ta' },
 ];
+
+export const type =[
+  {id:'1', text:'External',value:'Ext'},
+  {id:'2', text:'Internal',value:'Int'},
+]
 
 export const DEFAULT_LANGUAGE = LANGUAGES[0]
 
