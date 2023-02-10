@@ -9,11 +9,18 @@ function CompanyUsers() {
 
     const {goTo, goBack} = useNavigation()
     const dispatch = useDispatch()
-    const { getEmployeeDetails } = useSelector((state: any) => state.CompanyReducer);
+    const { getEmployeeDetails} = useSelector((state: any) => state.CompanyReducer);
+    const { companyDetailsSelected  } = useSelector(
+        (state: any) => state.AdminReducer
+      );
+  
 
     useEffect(() => {
-        const params = { q: '' };
-        dispatch(getEmployee({ params, onSuccess:()=>{
+        const params = { branch_id:companyDetailsSelected.branch_id};
+       
+        
+        dispatch(getEmployee({ params, 
+            onSuccess:()=>{
 
 
         }, onError:()=>{} }));

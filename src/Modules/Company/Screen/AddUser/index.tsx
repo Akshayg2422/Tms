@@ -18,31 +18,45 @@ import {
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { addEmployee } from "@Redux";
+import { Container } from "reactstrap";
 
 
 function AddUser() {
+
+  const { companyDetailsSelected  } = useSelector(
+    (state: any) => state.AdminReducer
+  );
+
+
   const dispatch = useDispatch();
   const firstName = useInput("");
-  const lastName = useInput("");
+
   const contactNumber = useInput("");
   const email = useInput("");
-  const gender = useDropDown({});
+  const gender = useDropDown(GENDER_LIST[0]);
   const designation = useInput("");
   
   const {goBack} = useNavigation()
 
   const submitAddUserHandler = () => {
+  
     const params = {
-      branch_id: '60ec3438-d820-4ce7-8e1e-ea1804e1de18',
+      branch_id: companyDetailsSelected .branch_id,
       first_name: firstName.value,
-      last_name: lastName.value,
       mobile_number: contactNumber.value,
       email: email.value,
       gender: gender.value?.id,
       designation_name: designation.value,
     };
 
-    const validation = validate(ADD_USER_RULES, params);
+    const validation = validate(ADD_USER_RULES, {
+      branch_id:companyDetailsSelected.branch_id,
+      first_name: firstName.value,
+      mobile_number: contactNumber.value,
+      ...(email.value && {email: email.value}),
+      gender: gender.value?.id,
+      designation_name: designation.value,
+    });
 
     if (ifObjectExist(validation)) {
       dispatch(
@@ -55,6 +69,7 @@ function AddUser() {
         })
       );
     } else {
+    
       showToast(getValidateError(validation));
     }
   };
@@ -65,14 +80,9 @@ function AddUser() {
         <div className="row mt--3">
           <div className="col-md-9 col-lg-7">
             <Input
-              heading={translate("auth.firstName")}
+              heading={translate("auth.name")}
               value={firstName.value}
               onChange={firstName.onChange}
-            />
-            <Input
-              heading={translate("auth.lastName")}
-              value={lastName.value}
-              onChange={lastName.onChange}
             />
             <Input
               type={"number"}
@@ -90,13 +100,20 @@ function AddUser() {
               heading={translate("auth.gender")}
               data={GENDER_LIST}
               value={gender.value}
-              onChange={gender.onChange}
+               onChange={gender.onChange}
+            
             />
             <Input
               heading={translate("auth.designation")}
               value={designation.value}
               onChange={designation.onChange}
             />
+           
+           <Container>
+           </Container>
+            
+         
+            
           </div>
         </div>
         <div className="row justify-content-end">
