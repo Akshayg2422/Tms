@@ -5,7 +5,6 @@ import { HomeContainer, Divider } from '@Components';
 import { TicketItem } from '@Modules';
 
 
-
 function Issues() {
     
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
@@ -19,6 +18,7 @@ function Issues() {
     }, []);
 
     return (
+        <>
         <HomeContainer isCard title={'Issues'}>
             {
                 tickets && tickets.data.length > 0 && tickets.data.map((eachTickets: any, index: number) => {
@@ -31,6 +31,11 @@ function Issues() {
                 })
             }
         </HomeContainer>
+        
+     
+       
+      </>
+        
     )
 }
 export { Issues }

@@ -18,6 +18,7 @@ import {
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { addEmployee } from "@Redux";
+import { Container } from "reactstrap";
 
 
 function AddUser() {
@@ -107,6 +108,12 @@ function AddUser() {
               value={designation.value}
               onChange={designation.onChange}
             />
+           
+           <Container>
+           </Container>
+            
+         
+            
           </div>
         </div>
         <div className="row justify-content-end">
