@@ -1,5 +1,4 @@
 import React, {
-  useEffect,
   useState
 } from 'react'
 import { translate } from "@I18n";
@@ -35,11 +34,14 @@ import {
   useDropDown,
   useNavigation
 } from '@Hooks'
-import { Dropzone } from '@Components';
-import { log } from 'console';
+import {
+  Dropzone
+} from '@Components';
+import { Navigate } from 'react-router-dom';
 
 function CreateCompany({ }: CreateCompanyProps) {
 
+  // const designation = useDropDown({})
   const [photo, setPhoto] = useState('')
   const { goBack } = useNavigation()
   const dispatch = useDispatch()
@@ -47,7 +49,6 @@ function CreateCompany({ }: CreateCompanyProps) {
   const contactNumber = useInput('')
   const email = useInput('')
   const gender = useDropDown(GENDER_LIST[0])
-  // const designation = useDropDown({})
   const name = useInput('')
   const address = useInput('')
   const pinCode = useInput('')
@@ -55,7 +56,6 @@ function CreateCompany({ }: CreateCompanyProps) {
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
 
   // console.log(JSON.stringify(dashboardDetails) + "==== pammmmm");
-
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -74,17 +74,17 @@ function CreateCompany({ }: CreateCompanyProps) {
       designation: 'Management',
     });
 
+    console.log('params111111111111111111111111111111111', params)
+
     if (ifObjectExist(validation)) {
+      console.log('registerAdmin registerAdmin registerAdmin registerAdmin')
       dispatch(
         registerAdmin({
           params,
           onSuccess: (response: any) => {
-            if (response.success) {
-              console.log('ttttttttttttttttttttttttttttttttttttttttt')
-              onRegisterCompany();
-            }
+            onRegisterCompany();
           },
-          onError: () => {},
+          onError: () => { },
         }),
       );
     } else {
@@ -93,31 +93,31 @@ function CreateCompany({ }: CreateCompanyProps) {
   };
 
   const onRegisterCompany = () => {
-    console.log('responseresponseresponseresponseresponseresponse')
+
     const params = {
       registered_name: name.value,
       communication_address: address.value,
       pincode: pinCode.value,
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
-      // attachment_logo: photo
+      attachment_logo: photo
       // provider_company_branch_id: dashboardDetails?.permission_details?.branch_id,
     };
-    console.log('paramsparamsparamsparamsparamsparamsparamsparamsparamsparamsparamsparamsparamsparams', params)
+    console.log('params2222222222222222222222222222222222222222', params)
 
     const validation = validate(BUSINESS_FORM_RULES, params);
     if (ifObjectExist(validation)) {
-      console.log('ifffffffffffffffffffffffffffffffffffffffffffffffff')
+      console.log('registerCompany registerCompany registerCompany registerCompany')
       dispatch(
         registerCompany({
           params,
-          onSuccess: (response: any) =>() => {
+          onSuccess: (response: any) => () => {
             if (response.success) {
-              showToast(response.message)
+              showToast(response.message, 'success')
               goBack()
             }
           },
-          onError: (error: any)=>() => {
+          onError: (error: any) => () => {
             showToast('')
           },
         }),
@@ -137,7 +137,7 @@ function CreateCompany({ }: CreateCompanyProps) {
       <div className='col-md-9 col-lg-7 pb-4 pt-3'>
         <Dropzone variant='ICON'
           icon={photo}
-          size='xxl'
+          size='xl'
           onSelect={(image) => {
             let encoded = image.toString().replace(/^data:(.*,)?/, '');
             setPhoto(encoded)

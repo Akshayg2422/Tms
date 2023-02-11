@@ -1,6 +1,6 @@
 import React from 'react'
 import { TicketItemProps } from './interfaces'
-import { H, Image,Badge } from '@Components'
+import { H, Image, Badge } from '@Components'
 import { icons } from '@Assets'
 import { useDispatch } from 'react-redux'
 import { setSelectedIssues } from '@Redux'
@@ -17,9 +17,6 @@ function TicketItem({ item }: TicketItemProps) {
     const { goTo } = useNavigation()
     const dispatch = useDispatch()
 
-
-
-   
     return (
 
         <div className='row d-flex justify-content-center' onClick={() => {
@@ -49,10 +46,10 @@ function TicketItem({ item }: TicketItemProps) {
                         </div>
 
                         <div className='col'>
-                            <div className='row justify-content-start align-items-center'> 
+                            <div className='row justify-content-start align-items-center'>
                                 <h5 className="text-uppercase text-muted mb-0 ">{raised_by_company.sector}</h5>
-                             </div> 
-                        </div> 
+                            </div>
+                        </div>
 
                         <div className='row col-sm-8'>
                             <h5 className='h5 font-weight-normal'>{raised_by_company.address}</h5>

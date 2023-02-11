@@ -253,10 +253,12 @@ function* registerCompanySaga(action) {
     if (response.success) {
       yield put(hideLoader());
       yield put(registerCompanySuccess({ ...response }));
+      yield call(action.payload.onSuccess(response));
  
     } else {
       yield put(hideLoader());
       yield put(registerCompanyFailure(response.error_message));
+      yield call(action.payload.onError(response));
     }
   } catch (error) {
     yield put(hideLoader());

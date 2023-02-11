@@ -38,6 +38,7 @@ function* getAssociatedCompaniesSaga(action) {
       getAssociatedCompaniesApi,
       action.payload.params,
     );
+    console.log(response,'getAssociatedCompaniesSaga');
     if (response.success) {
       yield put(hideLoader());
       yield put(getAssociatedBranchSuccess({...response}));

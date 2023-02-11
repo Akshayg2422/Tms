@@ -11,11 +11,7 @@ function Issues() {
     const [data, setData] = useState('All');
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
 
-     const value=[['',"All"],...dashboardDetails?.ticket_status]
-  
-
-    console.log("de",data)
-
+    //  const value=[['',"All"],...dashboardDetails?.ticket_status]
 
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
@@ -80,7 +76,7 @@ function Issues() {
                     </Form>
                 </div>
 
-                <Modal size={'md'} isOpen={modal} onClose={() => setModal(!modal)}  >
+                {/* <Modal size={'md'} isOpen={modal} onClose={() => setModal(!modal)}  >
                     {
                         value && value.length > 0 && value.map((item, index) => {
                             return (
@@ -94,15 +90,15 @@ function Issues() {
                             )
                         })
                     }
-                </Modal>
+                </Modal> */}
 
                 <HomeContainer isCard title={'Issues'}>
                     {
-                        tickets && tickets.data.length > 0 && tickets.data.map((eachTickets: any, index: number) => {
+                        tickets && tickets.length > 0 && tickets.map((eachTickets: any, index: number) => {
                             return (
                                 <>
                                     <TicketItem item={eachTickets} />
-                                    {index !== tickets.data.length - 1 && <div className='mx-7'><Divider /></div>}
+                                    {index !== tickets.length - 1 && <div className='mx-7'><Divider /></div>}
                                 </>
                             )
                         })
