@@ -1,3 +1,4 @@
 export interface TicketItemProps {
-item: any
-}
+    item: any
+    onClick?:()=>void
+    }

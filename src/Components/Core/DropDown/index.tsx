@@ -9,7 +9,9 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, dat
     const [selected, setSelected] = useState<Option | undefined>(value);
 
     function proceedOnChange(e: any) {
-        const selectedId = e.target.value
+        console.log('eeeeeeeeee', e);
+        
+        const selectedId = e.target.value 
 
         if (onChange) {
             const selectedItemById = data?.find((option: Option) => {
@@ -35,6 +37,7 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, dat
                 value={selected && selected.id}
                 options={
                     {
+                        
                         placeholder: placeHolder,
                         disabled: disabled
                     }

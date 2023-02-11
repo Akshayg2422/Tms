@@ -1,6 +1,10 @@
 import React from 'react'
 import { TicketItemProps } from './interfaces'
 import { H, Image, Badge } from '@Components'
+import { useDispatch } from 'react-redux'
+import { setSelectedIssues } from '@Redux'
+import { useNavigation } from '@Hooks'
+import { ROUTES } from '@Routes';
 import { getPhoto } from '@Utils'
 import { getStatusFromCode } from '@Utils'
 import { useSelector } from 'react-redux'
@@ -10,9 +14,15 @@ import moment from 'moment'
 function TicketItem({ item }: TicketItemProps) {
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
     const { title, by_user, raised_by_company, ticket_status,created_at } = item
+    const { goTo } = useNavigation()
+    const dispatch = useDispatch()
     return (
 
-        <div className='row d-flex justify-content-center'>
+        <div className='row d-flex justify-content-center' onClick={() => {
+            dispatch(setSelectedIssues(item))
+            goTo(ROUTES.AUTH.ISSUE_DETAILS)
+        }}>
+            
             <div className='col-lg-8 col-md-12 col-sm-12'>
                 <div className='my-2'>
                     <H tag={'h3'} className='text-capitalize' text={title} />

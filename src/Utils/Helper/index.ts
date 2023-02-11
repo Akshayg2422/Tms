@@ -1,5 +1,4 @@
-
-import { SERVER } from '@Services'
+import {SERVER} from '@Services'
 
 export const getPhoto = (photo: any) => {
 

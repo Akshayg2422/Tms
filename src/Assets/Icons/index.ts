@@ -7,7 +7,9 @@ export const icons = {
   downArrowOutline: require('./DownarrowOutline/icon.png'),
   search: require('./Search/icon.png'),
   addFill: require('./AddFill/icon.png'),
-  addOutline: require('./AddOutline/icon.png'),
+  addFillRounded: require('./AddFillRounded/icon.png'),
+  addFillSquare: require('./AddFillSquare/iconWhitePlus.png'),
+  addOutline: require('./AddOutline/icon@3x.png'),
   navigationArrow: require('./NavigationArrow/icon.png'),
   arrowRight: require('./ArrowRight/icon.png'),
   calenderList: require('./CalenderList/icon.png'),
@@ -100,6 +102,6 @@ export const icons = {
   equalizer: require('./Equalizer/icon.png'),
   clinic: require('./Clinic/icon.png'),
   back: require('./Back/icon.png'),
-  addFillGray:require('./AddFillGray/icons8-plus-math-64.png')
+  addFillGray:require('./AddFillGray/plus new.png')
 
 };

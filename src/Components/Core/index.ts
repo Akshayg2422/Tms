@@ -17,6 +17,7 @@ export * from './Spinner'
 export * from './CommonTable'
 export * from './Table'
 export * from './NoRecordsFound'
+export * from './DropZone'
 
 
 

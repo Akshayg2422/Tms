@@ -40,9 +40,8 @@ function Companies() {
         />
       </div>
       <Card title={"Companies"} className="mt-4">
-        {associatedCompanies &&
-          associatedCompanies.length > 0 &&
-          associatedCompanies.map((company: any, index: number) => {
+        {associatedCompanies && associatedCompanies.length > 0 &&
+          associatedCompanies?.map((company: any, index: number) => {
             return (
               <div
                 onClick={() => {
