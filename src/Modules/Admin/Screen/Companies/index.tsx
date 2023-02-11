@@ -13,9 +13,11 @@ function Companies() {
   const { associatedCompanies } = useSelector(
     (state: any) => state.AdminReducer
   );
+  
 
   useEffect(() => {
     const params = { q: "" };
+    console.log(associatedCompanies,"associatedCompaniesmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
 
     dispatch(
       getAssociatedBranch({
@@ -40,9 +42,9 @@ function Companies() {
         />
       </div>
       <Card title={"Companies"} className="mt-4">
-        {associatedCompanies &&
-          associatedCompanies.data.length > 0 &&
-          associatedCompanies.data.map((company: any, index: number) => {
+        {associatedCompanies && 
+          associatedCompanies.length > 0 &&
+          associatedCompanies.map((company: any, index: number) => {
             return (
               <div
                 onClick={() => {
@@ -50,7 +52,7 @@ function Companies() {
                 }}
               >
                 <CompanyItem key={company.id} item={company} />
-                {index !== associatedCompanies.data.length - 1 && (
+                {index !== associatedCompanies.length - 1 && (
                   <div className="mx-7">
                     <Divider />
                   </div>

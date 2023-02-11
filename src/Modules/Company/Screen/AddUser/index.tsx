@@ -26,6 +26,7 @@ function AddUser() {
   const { companyDetailsSelected  } = useSelector(
     (state: any) => state.AdminReducer
   );
+  console.log(companyDetailsSelected ,"companyDetailsSelected---------adduserscreen ")
 
 
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ function AddUser() {
   const submitAddUserHandler = () => {
   
     const params = {
-      branch_id: companyDetailsSelected .branch_id,
+      branch_id: companyDetailsSelected.branch_id,
       first_name: firstName.value,
       mobile_number: contactNumber.value,
       email: email.value,
@@ -57,6 +58,7 @@ function AddUser() {
       gender: gender.value?.id,
       designation_name: designation.value,
     });
+    console.log(validation,"vvvvvvvvvvvvv")
 
     if (ifObjectExist(validation)) {
       dispatch(

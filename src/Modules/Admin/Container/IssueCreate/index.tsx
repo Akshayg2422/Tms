@@ -1,96 +1,103 @@
-
-import React, { useEffect, useState } from 'react'
+import { Button, DropDown, HomeContainer, Input, Radio } from "@Components";
 import { translate } from "@I18n";
-import { companySelectedDetails, getAssociatedBranch } from "@Redux";
-import { HomeContainer, Input, DropDown, H, Divider, Button, Radio} from '@Components'
-import {
-  GENDER_LIST,
-  DESIGNATION_LIST,
- type
-} from '@Utils';
-import { useDispatch, useSelector } from 'react-redux'
-
-
-import { useInput, useDropDown,useNavigation } from '@Hooks'
-
-
+import { getEmployees } from "@Redux";
+import { type } from "@Utils";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function IssueCreate() {
-  
   const dispatch = useDispatch();
-  const [typeSelect,setTypeSelect]=useState(type[0])
-  const { associatedCompanies } = useSelector(
+  const [typeSelect, setTypeSelect] = useState(type[0]);
+  const { associatedCompanies ,dashboardDetails} = useSelector(
     (state: any) => state.AdminReducer
   );
-  const { getEmployeeDetails} = useSelector((state: any) => state.CompanyReducer);
-  const[companyDisplayName,setCompanyDisplayname]=useState()
-  const[companyUser,setCompanyUser]=useState()
+  const { getEmployeesDetails } = useSelector(
+    (state: any) => state.CompanyReducer
+  );
+  const [companyDisplayName, setCompanyDisplayname] = useState();
+  const [companyUser, setCompanyUser] = useState();
+  const [companyUserDashboard, setCompanyUserDashboard] = useState();
+  console.log("dashboardDetails", dashboardDetails);
 
+  useEffect(() => {
+    let companies: any = [];
 
-useEffect(()=>{
+    associatedCompanies?.forEach(({ branch_id, display_name }) => {
+      companies = [...companies, { id: branch_id, text: display_name }];
+    });
+    setCompanyDisplayname(companies);
+  }, []);
 
-let companies: any = [];
-let companyUser:any=[];
+   useEffect(() => {
+    let companiesDashboard: any = [];
 
-  associatedCompanies.data.forEach(({id, display_name}) => {
+    companiesDashboard = [...companiesDashboard, { id: dashboardDetails.permission_details.branch_id,}];
+    setCompanyUserDashboard( companiesDashboard)
 
-    companies = [...companies, {id, text:display_name, name: display_name}]
+    if( typeSelect.id==="2")
+    {
+      
+
+    }
   
-    
-  });
-  getEmployeeDetails.data.forEach(({id, name}) => {
-
-    companyUser= [...companyUser, {id, text:name, name:name}]
-  
-    
-  });
-
-  setCompanyDisplayname(companies)
-  setCompanyUser( companyUser)
-
-},[])
-
-
+  }, []);
 
   return (
     <div>
-        <HomeContainer isCard title={translate('common.createTicket')!} >
-            <div className='col-md-9 col-lg-7'>
-                <Input heading={translate('auth.title')}  />
-                <Input heading={translate('auth.description')}/>
-                <Input type={'number'} heading={translate('auth.referenceNo')}   />
-                <Radio
-          selected={typeSelect}
+      <HomeContainer isCard title={translate("common.createTicket")!}>
+        <div className="col-md-9 col-lg-7">
+          <Input heading={translate("auth.title")} />
+          <Input heading={translate("auth.description")} />
+          <Input type={"number"} heading={translate("auth.referenceNo")} />
+          <Radio
+            selected={typeSelect}
             data={type}
-            
             onRadioChange={(selected) => {
               if (selected) {
-            
-          setTypeSelect(selected)
-              
+                setTypeSelect(selected);
               }
             }}
           />
-          
-              {typeSelect&&typeSelect?.id==='1'&&<DropDown heading={translate('common.company')} data={companyDisplayName} 
-              onChange={()=>{ dispatch(companySelectedDetails(companyDisplayName));}}/>}
 
-                <DropDown heading={translate('common.user')} data={companyUser} />
+          {typeSelect && typeSelect?.id === "1" && (
+            <DropDown
+              heading={translate("common.company")}
+              data={companyDisplayName}
+              onChange={(item) => {
 
-            </div>
+                const params = { branch_id: item.id };
+                dispatch(
+                  getEmployees({
+                    params,
+                    onSuccess: (response: any) => {
+                      let companyUsers: any = [];
+                      response?.details?.forEach(({ id, name }) => {
+                        companyUsers = [...companyUsers, { id, text: name }];
+                      });
+                      setCompanyUser(companyUsers);
+                    },
+                    onError: () => {},
+                  })
+                );
+              }}
+            />
+          )}
 
-            <div className='row justify-content-end'>
-                <div className='col-md-6 col-lg-4  my-4'>
-                    <Button
-                        block text={translate('common.submit')}
-                    />
-                </div>
-            </div>
+          <DropDown heading={translate("common.user")} data={
+            companyUser}
+           />
+           
 
-        </HomeContainer>
+        </div>
 
+        <div className="row justify-content-end">
+          <div className="col-md-6 col-lg-4  my-4">
+            <Button block text={translate("common.submit")} />
+          </div>
+        </div>
+      </HomeContainer>
     </div>
-  )
+  );
 }
 
-export {IssueCreate}
+export { IssueCreate };

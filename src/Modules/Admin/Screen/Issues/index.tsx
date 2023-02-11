@@ -22,12 +22,13 @@ function Issues() {
 
 
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
+    console.log('tickets---------->',tickets)
     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
     const dispatch = useDispatch();
 
     const getTicketHandler = () => {
         if (data === 'All') {
-            const params = { q: '' };
+            const params = {};
             dispatch(getTickets({ params }));
         }
         else if (data === 'Raised') {
@@ -103,11 +104,11 @@ function Issues() {
 
                 <HomeContainer isCard title={'Issues'}>
                     {
-                        tickets && tickets.data.length > 0 && tickets.data.map((eachTickets: any, index: number) => {
+                        tickets && tickets?.length > 0 && tickets?.map((eachTickets: any, index: number) => {
                             return (
                                 <>
                                     <TicketItem item={eachTickets} />
-                                    {index !== tickets.data.length - 1 && <div className='mx-7'><Divider /></div>}
+                                    {index !== tickets.length - 1 && <div className='mx-7'><Divider /></div>}
                                 </>
                             )
                         })
