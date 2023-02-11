@@ -8,16 +8,17 @@ const BUILD_TYPE_LOCAL = 4;
 const BUILD_TYPE = BUILD_TYPE_LIVE;
 export const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
-    ? 'https://api.quantatms.in/'
+    ? 'http://api.quantatms.in/'
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
-    ? 'live_local'
-    :BUILD_TYPE===BUILD_TYPE_LOCAL
-   ?'http://192.168.8.5:8001'
-    : BUILD_TYPE === BUILD_TYPE_STAGING
-    ? 'http://43.204.204.165/'
-    :BUILD_TYPE ===BUILD_TYPE_LOCAL
-    ?'http://192.168.8.5:8000/'
-    :'http://localhost:8000/'
+      ? 'live_local'
+      : BUILD_TYPE === BUILD_TYPE_LOCAL
+        ? 'http://192.168.8.5:8001'
+        : BUILD_TYPE === BUILD_TYPE_STAGING
+          ? 'http://43.204.204.165'
+          : BUILD_TYPE === BUILD_TYPE_LOCAL
+            ? 'http://192.168.8.5:8000'
+            : 'http://localhost:8000'
+
 
 const axiosApi = axios.create({
   baseURL: SERVER,
@@ -86,3 +87,4 @@ export async function postHeader(url, data, config) {
       return response;
     });
 }
+
