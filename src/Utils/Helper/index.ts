@@ -6,3 +6,4 @@ export const getPhoto = (photo: any) => {
   return ip + photo;
 
 }
+

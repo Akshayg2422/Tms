@@ -1,15 +1,33 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { CompanyUsers } from "@Modules";
 import { CompanyInfoProps } from "./interfaces";
 import { H, Image, Badge, Card, HomeContainer } from "@Components";
 import { getPhoto } from '@Utils'
+import { Link } from "react-router-dom";
+
 function CompanyInfo({ item }: CompanyInfoProps) {
   const { companyDetailsSelected } = useSelector(
     (state: any) => state.AdminReducer
   );
 
   const { display_name, attachment_logo, address, phone, email } = companyDetailsSelected;
+
+
+  const ButtonMailto = ({ mailto, Badge }) => {
+    return (
+      <Link
+        to='#'
+        onClick={(e) => {
+          window.location.href = mailto;
+          e.preventDefault();
+        }}
+      >
+        {Badge}
+      </Link>
+    );
+  };
 
   return (
     <div>
@@ -49,8 +67,9 @@ function CompanyInfo({ item }: CompanyInfoProps) {
                     </div>
                     <div className="col-1 pl-sm-0">
                       <Badge pill color={"success"} text={"Email"} />
+                      <ButtonMailto Badge="Write me an E-Mail" mailto="mailto:" />
                     </div>
-                    
+
                   </div>
                 </div>
               </div>
