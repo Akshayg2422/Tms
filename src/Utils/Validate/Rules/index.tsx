@@ -1,5 +1,5 @@
 export const MOBILE_NUMBER_RULES = {
-  'mobile_number': {
+  mobile_number: {
     presence: { message: 'Mobile number cannot be empty' },
     length: { is: 10, message: 'Mobile number should be 10 number' },
   },
@@ -7,7 +7,7 @@ export const MOBILE_NUMBER_RULES = {
 
 
 export const FIRST_NAME_RULES = {
-  'first_name': {
+  first_name: {
     presence: { message: 'Full Name cannot be empty' },
     length: { minimum: 3, message: 'Mobile number should be 10 number' },
   },
@@ -18,14 +18,14 @@ export const FIRST_NAME_RULES = {
 
 
 export const ADD_USER_RULES = {
-  'first_name': {
+  first_name: {
     presence: { message: 'First name cannot be empty' },
     length: { minimum: 3, message: 'First name minimum 3 chars' },
   },
-  'last_name': {
+  last_name: {
     presence: false,
   },
-  'mobile_number': {
+  mobile_number: {
     presence: { message: 'Mobile number cannot be empty' },
     length: { is: 10, message: 'Mobile number should be 10 number' },
   },
@@ -38,7 +38,7 @@ export const ADD_USER_RULES = {
   gender: {
     presence: { message: 'Please Select Gender' },
   },
-  'designation_name': {
+  designation_name: {
     presence: {  allowEmpty: false, message: 'Designation cannot be empty' }
   }
 };
@@ -46,11 +46,11 @@ export const ADD_USER_RULES = {
 
 
 export const OTP_RULES = {
-  'mobile_number': {
+  mobile_number: {
     presence: { message: 'Mobile number cannot be empty' },
     length: { is: 10, message: 'Mobile number should be 10 number' },
   },
-  'otp': {
+  otp: {
     presence: { message: 'Otp cannot be empty' },
     length: { is: 4, message: 'Otp should be 4 number' },
   },
@@ -59,11 +59,11 @@ export const OTP_RULES = {
 
 
 export const USER_FORM_RULES = {
-  'first_name': {
+  first_name: {
     presence: { message: 'First name cannot be empty' },
     length: { minimum: 3, message: 'First name minimum 3 chars' },
   },
-  'last_name': {
+  last_name: {
     presence: false,
   },
   email: {
