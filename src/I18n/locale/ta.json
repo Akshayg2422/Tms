@@ -24,7 +24,9 @@
         "register": "பதிவு செய்க?",
         "appName": "Quanta",
         "appSubtext": "ஒரு முறை முன்பதிவு மற்றும் தொடர்பற்ற செக்-இன்",
+        "verify": "சரிபார்க்க",
         "businessName": "வணிகத்தின் பெயர்",
+        "name": "பெயர்",
         "businessAddress": "வணிக முகவரி",
         "businessPinCode": "வணிக அஞ்சல் குறியீடு",
         "contactNumber": "தொடர்பு எண்",
@@ -33,15 +35,14 @@
         "businessAppName": "குவாண்டா வணிகம்",
         "businessAppSubtext": "வணிக உரிமையாளர் மற்றும் ஸ்டோர் ஏஜெண்டிற்கு",
         "courses": "படிப்புகள்",
-
-        "department":"துறை",
-        "PinCode":"அஞ்சல் குறியீடு",
-        "alternativeMobileNumber":"மாற்றுமொபைல் எண்",
-        "businessSector":"வணிக துறை",
-        "companyDetails":"நிறுவன விவரங்கள்",
-        "createCompany":"நிறுவனத்தை உருவாக்கு",
-        "adminDetails":  "நிர்வாகம் விவரங்கள்",
-        "addUser":"சேர்ப்பவர்"
+        "department": "துறை",
+        "PinCode": "அஞ்சல் குறியீடு",
+        "alternativeMobileNumber": "மாற்றுமொபைல் எண்",
+        "businessSector": "வணிக துறை",
+        "companyDetails": "நிறுவன விவரங்கள்",
+        "addCompany": "நிறுவனத்தைச் சேர்க்கவும்",
+        "primaryContactPerson": "முதன்மை தொடர்பு நபர்",
+        "addUser": "சேர்ப்பவர்"
     },
     "errors": {
         "invalidEmail": "Invalid email address."
@@ -81,11 +82,11 @@
         "contactNumber": "தொடர்பு எண்",
         "prefilled With Login Mobile Number": "உள்நுழைவு மொபைல் எண்ணுடன் முன்பே நிரப்பப்பட்டது",
         "designation": "பதவி",
+        "selectLanguage": "மொழியை தேர்ந்தெடுங்கள்",
         "notYourBusiness": "உங்கள் பணி அல்ல ?",
-
-        "attach Photo Or Logo":"புகைப்படம் அல்லது லோகோவை இணைக்கவும்",
-        "email":"மின்னஞ்சல்",
-        "name":"பெயர்"
+        "logo": "சின்னம்",
+        "email": "மின்னஞ்சல்",
+        "emailOptional": "மின்னஞ்சல் (விருப்பமானது)"
     },
     "product": {
         "Store": "ஸ்டோர்",
@@ -148,11 +149,10 @@
         "showTheQRCodeForEasyCheckin": "எளிதாக செக் -இன் செய்ய  QR  கோட் காட்டுங்கள்",
         "paulRaymond": "paul_raymond"
     },
-    
     "course": {
-        "course":"நிச்சயமாக",
-        "view":"காண்க",
-        "hide":"மறை",
-        "start":"தொடங்கு"
+        "course": "நிச்சயமாக",
+        "view": "காண்க",
+        "hide": "மறை",
+        "start": "தொடங்கு"
     }
 }

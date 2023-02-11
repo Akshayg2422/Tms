@@ -80,7 +80,7 @@ function AddUser() {
         <div className="row mt--3">
           <div className="col-md-9 col-lg-7">
             <Input
-              heading={translate("auth.name")}
+              heading={translate("common.name")}
               value={firstName.value}
               onChange={firstName.onChange}
             />
