@@ -34,11 +34,11 @@ function CompanyUsers() {
                 </div>
                 <Card className='mt-3'>
                     {
-                        getEmployeeDetails && getEmployeeDetails.data.length > 0 && getEmployeeDetails.data.map((user: any, index: number) => {
+                        getEmployeeDetails && getEmployeeDetails.length > 0 && getEmployeeDetails.map((user: any, index: number) => {
                             return (
                                 <>
                                     <UserItem item={user} />
-                                    {index !== getEmployeeDetails.data.length - 1 && <Divider />}
+                                    {index !== getEmployeeDetails.length - 1 && <Divider />}
                                 </>
                             )
                         })

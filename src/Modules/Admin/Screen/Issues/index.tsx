@@ -48,7 +48,9 @@ function Issues() {
 
     const getSearchHandler = () => {
         const params = { q: Search.value }
-        dispatch(getTickets({params,
+        console.log(params,"search")
+        dispatch(getTickets({
+            params,
             onSuccess: () => { },
             onError: () => { }
         }))
@@ -61,34 +63,21 @@ function Issues() {
                     <div className="row justify-content-center">
                         <div className="col-sm-8">
                             <div className='row'>
-                                <div className='col'>
-                                    <Form className={"navbar-search form-inline pl-2"} >
-                                        <FormGroup className="mb-0">
-                                            <InputGroup className="input-group-alternative bg-white input-group-merge">
-
-                                                <Input
-                                                    placeholder="Search..."
-                                                    value={Search.value}
-                                                    className='rounded-pill'
-                                                    onChange={Search.onChange}
-                                                    type="text" />
-
-                                                <InputGroupText className='' onClick={getSearchHandler} style={{ cursor: "pointer" }}>
-                                                    <i className="fas fa-search" />
-                                                </InputGroupText>
-
-                                                <InputGroupText onClick={() => setModal(!modal)} className='' style={{ cursor: "pointer" }}>
-                                                    {showIssue}
-                                                </InputGroupText>
-                                                <InputGroupText onClick={() => setModal(!modal)} style={{ cursor: "pointer" }} >
-                                                    <i className="bi bi-chevron-down "></i>
-                                                </InputGroupText>
-                                            </InputGroup>
-                                        </FormGroup>
-                                    </Form>
-
+                                <div className='col-lg-8 col-md-12 col-sm-12'>   
+                                    <div className="input-group bg-white border rounded-pill">
+                                        <input 
+                                        type="text"
+                                        className="form-control bg-transparent border border-0"
+                                        placeholder="Search..."
+                                        value={Search.value}
+                                        onChange={Search.onChange}
+                                        />
+                                            <span className="input-group-text  border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
+                                            <span className="input-group-text  border border-0" onClick={() =>setModal(!modal)}  style={{ cursor: "pointer" }}>    {showIssue} </span>
+                                            <span className="input-group-text  bg-transparent border border-0" onClick={() =>setModal(!modal)}  style={{ cursor: "pointer" }}>   <i className="bi bi-chevron-down "/></span>
+                                    </div>
                                 </div>
-                                <div className='col text-right mr-3'>
+                                <div className='col-lg-4 col-md-12 mt-lg-1 mt-sm-0 mt-md-3 mt-3 col-sm-12 text-right'>
                                     <Button text={'Create Ticket'} />
                                 </div>
                             </div>
@@ -115,7 +104,7 @@ function Issues() {
                     }
                 </Modal>
 
-                <HomeContainer isCard title={'Issues'}>
+                 <HomeContainer isCard title={'Issues'}>
                     {
                         tickets && tickets.length > 0 && tickets.map((eachTickets: any, index: number) => {
                             return (
@@ -127,7 +116,7 @@ function Issues() {
                         })
 
                     }
-                </HomeContainer>
+                </HomeContainer> 
             </div>
         </>
     )
