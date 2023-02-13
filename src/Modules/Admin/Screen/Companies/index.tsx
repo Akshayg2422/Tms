@@ -17,8 +17,7 @@ function Companies() {
 
   useEffect(() => {
     const params = { q: "" };
-    console.log(associatedCompanies,"associatedCompaniesmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
-
+    
     dispatch(
       getAssociatedBranch({
         params,

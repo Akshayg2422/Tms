@@ -19,7 +19,7 @@ function IssueDetails() {
     const [image, setImage] = useState('')
     const [selectAttachments, setSelectAttachments] = useState(false)
     const [selectDropzone, setSelectDropzone] = useState([{}])
-    console.log('selectDropzone------------>', selectDropzone)
+    // console.log('selectDropzone------------>', selectDropzone)
     useEffect(() => {
         beginGetTicketEvents()
     }, []);
@@ -77,7 +77,7 @@ function IssueDetails() {
     };
 
     const handleImagePicker = (index: number, file: any) => {
-        console.log('index', index, 'file', file, 'selectDropzone', selectDropzone)
+        // console.log('index', index, 'file', file, 'selectDropzone', selectDropzone)
         let updatedPhoto = [...selectDropzone]
         const isExist = selectDropzone.some((selectDropzoneCategory: any) => selectDropzoneCategory.id === index)
         if (isExist) {

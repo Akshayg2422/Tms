@@ -58,7 +58,7 @@ function AddUser() {
       gender: gender.value?.id,
       designation_name: designation.value,
     });
-    console.log(validation,"vvvvvvvvvvvvv")
+    // console.log(validation,"vvvvvvvvvvvvv")
 
     if (ifObjectExist(validation)) {
       dispatch(
@@ -113,8 +113,6 @@ function AddUser() {
            
            <Container>
            </Container>
-            
-         
             
           </div>
         </div>

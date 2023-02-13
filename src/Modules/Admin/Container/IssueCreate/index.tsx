@@ -8,16 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 function IssueCreate() {
   const dispatch = useDispatch();
   const [typeSelect, setTypeSelect] = useState(type[0]);
-  const { associatedCompanies ,dashboardDetails} = useSelector(
+  const { associatedCompanies, dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
-  );
-  const { getEmployeesDetails } = useSelector(
-    (state: any) => state.CompanyReducer
   );
   const [companyDisplayName, setCompanyDisplayname] = useState();
   const [companyUser, setCompanyUser] = useState();
   const [companyUserDashboard, setCompanyUserDashboard] = useState();
-  console.log("dashboardDetails", dashboardDetails);
 
   useEffect(() => {
     let companies: any = [];
@@ -28,19 +24,28 @@ function IssueCreate() {
     setCompanyDisplayname(companies);
   }, []);
 
-   useEffect(() => {
-    let companiesDashboard: any = [];
+  useEffect(() => {
+    if (typeSelect.id === "2") {
+      const params = {
+        branch_id: dashboardDetails?.permission_details?.branch_id,
+      };
 
-    companiesDashboard = [...companiesDashboard, { id: dashboardDetails.permission_details.branch_id,}];
-    setCompanyUserDashboard( companiesDashboard)
-
-    if( typeSelect.id==="2")
-    {
-      
-
+      dispatch(
+        getEmployees({
+          params,
+          onSuccess: (response: any) => {
+           
+            let companiesDashboard: any = [];
+            response?.details?.forEach(({ id, name }) => {
+              companiesDashboard = [...companiesDashboard, { id, text: name }];
+            });
+            setCompanyUserDashboard(companiesDashboard);
+          },
+          onError: () => {},
+        })
+      );
     }
-  
-  }, []);
+  }, [typeSelect]);
 
   return (
     <div>
@@ -64,7 +69,6 @@ function IssueCreate() {
               heading={translate("common.company")}
               data={companyDisplayName}
               onChange={(item) => {
-
                 const params = { branch_id: item.id };
                 dispatch(
                   getEmployees({
@@ -83,11 +87,14 @@ function IssueCreate() {
             />
           )}
 
-          <DropDown heading={translate("common.user")} data={
-            companyUser}
-           />
-           
-
+          {typeSelect && typeSelect.id === "1" ? (
+            <DropDown heading={translate("common.user")} data={companyUser} />
+          ) : (
+            <DropDown
+              heading={translate("common.user")}
+              data={companyUserDashboard}
+            />
+          )}
         </div>
 
         <div className="row justify-content-end">

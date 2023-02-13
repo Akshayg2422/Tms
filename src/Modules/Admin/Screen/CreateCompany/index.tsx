@@ -50,7 +50,7 @@ function CreateCompany({ }: CreateCompanyProps) {
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
 
 
-    console.log(JSON.stringify(dashboardDetails) + "==== pammmmm");
+    // console.log(JSON.stringify(dashboardDetails) + "==== pammmmm");
 
 
 
