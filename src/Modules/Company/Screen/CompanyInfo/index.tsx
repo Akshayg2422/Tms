@@ -1,33 +1,42 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { CompanyUsers } from "@Modules";
 import { CompanyInfoProps } from "./interfaces";
-import { H, Image, Badge, Card, HomeContainer } from "@Components";
+import { H, Image, Card, HomeContainer, Color, RsBadgeProps } from "@Components";
 import { getPhoto } from '@Utils'
-import { Link } from "react-router-dom";
+import { Badge as RSBadge } from "reactstrap";
+
+export interface BadgeProps extends RsBadgeProps {
+  text?: string | null | undefined
+  color?: Color
+  size?: 'sm' | 'md' | 'lg'
+  onClick?: () => void
+  email?: any
+  button?: any
+  className?: string
+}
 
 function CompanyInfo({ item }: CompanyInfoProps) {
-  const { companyDetailsSelected } = useSelector(
-    (state: any) => state.AdminReducer
-  );
+  const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
+  const { getEmployeeDetails } = useSelector((state: any) => state.CompanyReducer);
+  console.log('getUserDetailsgetUserDetailsgetUserDetails', getEmployeeDetails);
 
   const { display_name, attachment_logo, address, phone, email } = companyDetailsSelected;
 
+  const Badge = ({ email, button, text, size = 'md', className, onClick, ...rest }: BadgeProps) => {
+    const handleClick = () => {
+      window.location.href = `mailto:${email}`; 
+    };
 
-  const ButtonMailto = ({ mailto, Badge }) => {
     return (
-      <Link
-        to='#'
-        onClick={(e) => {
-          window.location.href = mailto;
-          e.preventDefault();
-        }}
-      >
-        {Badge}
-      </Link>
+      <RSBadge {...rest} className={`${className} ${size && `badge-${size}`}`} onClick={() => (handleClick())}>
+        {text}
+      </RSBadge>
     );
   };
+
 
   return (
     <div>
@@ -61,13 +70,12 @@ function CompanyInfo({ item }: CompanyInfoProps) {
                   </div>
 
                   <div className="row justify-content-between pt-1">
-                    <div className="col-11 pl-sm-0 pl-0 pr-sm-0  ml-lg--4   mr-sm-0 ">
+                    <div className="col-11 pl-sm-0 pl-0 pr-sm-0  ml-lg--4 mr-sm-0 ">
                       <h6 className="text-uppercase text-muted mb-0">E-MAIL</h6>
                       <h5>{email}</h5>
                     </div>
                     <div className="col-1 pl-sm-0">
-                      <Badge pill color={"success"} text={"Email"} />
-                      <ButtonMailto Badge="Write me an E-Mail" mailto="mailto:" />
+                      <Badge pill color="success" text={'e-mail'} />
                     </div>
 
                   </div>
