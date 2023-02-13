@@ -24,6 +24,7 @@ import {
 
 export const raiseNewTicket = (params: any) => {
   return {
+    
     type: RAISE_NEW_TICKET,
     payload: params,
   };

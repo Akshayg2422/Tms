@@ -1,9 +1,14 @@
-import { Button, DropDown, HomeContainer, Input, Radio } from "@Components";
+import { Button, DropDown, HomeContainer, Input, Radio,  Dropzone } from "@Components";
 import { translate } from "@I18n";
 import { getEmployees } from "@Redux";
 import { type } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  useInput,
+  useDropDown,
+  useNavigation
+} from '@Hooks'
 
 function IssueCreate() {
   const dispatch = useDispatch();
@@ -12,6 +17,7 @@ function IssueCreate() {
     (state: any) => state.AdminReducer
   );
   const [companyDisplayName, setCompanyDisplayname] = useState();
+  const [photo, setPhoto] = useState('')
   const [companyUser, setCompanyUser] = useState();
   const [companyUserDashboard, setCompanyUserDashboard] = useState();
 
@@ -96,6 +102,20 @@ function IssueCreate() {
             />
           )}
         </div>
+        <div className="pl-3">
+        <label className={`form-control-label`}>{translate('auth.logo')}</label>
+        </div>
+       
+        <div className='col-md-9 col-lg-7 pb-4 pt-3'>
+        <Dropzone variant='ICON'
+          icon={photo}
+          size='xl'
+          onSelect={(image) => {
+            let encoded = image.toString().replace(/^data:(.*,)?/, '');
+            setPhoto(encoded)
+          }}
+        />
+      </div>
 
         <div className="row justify-content-end">
           <div className="col-md-6 col-lg-4  my-4">

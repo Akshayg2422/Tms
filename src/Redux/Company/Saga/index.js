@@ -43,6 +43,7 @@ function* raiseNewTicketSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(raiseNewTicketApi, action.payload.params);
+    console.log(raiseNewTicketApi,"raise-------------------")
     if (response.success) {
       yield put(hideLoader());
       yield put(raiseNewTicketSuccess(response));
@@ -62,7 +63,7 @@ function* getTicketsSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTicketsApi, action.payload.params);
-    // console.log('getTickets----->',JSON.stringify(response))
+    console.log(response,"Get tickets")
     if (response.success) {
       yield put(hideLoader());
       yield put(getTicketsSuccess({ ...response }));

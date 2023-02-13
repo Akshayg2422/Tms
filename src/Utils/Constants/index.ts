@@ -13,7 +13,7 @@ export const GENDER_LIST = [
 ];
 export const DESIGNATION_LIST = [
   { id: 'true', text: 'Business Owner' },
-  { id: 'false',text: 'Management' },
+  { id: 'false', text: 'Management' },
 ];
 
 export const LANGUAGES = [
