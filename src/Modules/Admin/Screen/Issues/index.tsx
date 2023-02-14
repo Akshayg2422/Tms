@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
-import { HomeContainer, Divider, Modal, Input, H, Button } from '@Components';
+import { HomeContainer, Divider, Modal, H, Button } from '@Components';
 import { TicketItem } from '@Modules';
-import { Form, FormGroup, InputGroupText, InputGroup, Fade, } from "reactstrap";
-import { translate } from '@I18n'
-import { getStatusFromCode } from '@Utils'
 import { useInput } from '@Hooks';
 
 
