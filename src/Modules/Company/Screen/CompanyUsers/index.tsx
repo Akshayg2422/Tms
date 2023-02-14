@@ -10,12 +10,12 @@ function CompanyUsers() {
     const {goTo, goBack} = useNavigation()
     const dispatch = useDispatch()
     const { getEmployeesDetails} = useSelector((state: any) => state.CompanyReducer);
-    console.log(getEmployeesDetails,"mbjbjbjbjgggggggggg")
+   
  
     const { companyDetailsSelected  } = useSelector(
         (state: any) => state.AdminReducer
       );
-      console.log(companyDetailsSelected,'companyDetailsSelected')
+    
   
 
     useEffect(() => {

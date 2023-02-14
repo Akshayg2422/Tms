@@ -55,7 +55,7 @@ function CreateCompany({ }: CreateCompanyProps) {
   const companyContactNumber = useInput('')
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
 
-  // console.log(JSON.stringify(dashboardDetails) + "==== pammmmm");
+
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -74,10 +74,10 @@ function CreateCompany({ }: CreateCompanyProps) {
       designation: 'Management',
     });
 
-    console.log('params111111111111111111111111111111111', params)
+ 
 
     if (ifObjectExist(validation)) {
-      console.log('registerAdmin registerAdmin registerAdmin registerAdmin')
+  
       dispatch(
         registerAdmin({
           params,
@@ -101,14 +101,13 @@ function CreateCompany({ }: CreateCompanyProps) {
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
       attachment_logo: photo
-      // provider_company_branch_id:
-// dashboardDetails?.permission_details?.branch_id,
+
     };
    
 
     const validation = validate(BUSINESS_FORM_RULES, params);
     if (ifObjectExist(validation)) {
-      console.log('registerCompany registerCompany registerCompany registerCompany')
+     
       dispatch(
         registerCompany({
           params,
@@ -175,9 +174,7 @@ value={contactNumber.value} onChange={contactNumber.onChange} />
 value={email.value} onChange={email?.onChange} />
         <DropDown heading={translate('auth.gender')}
 data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
-        {/* <DropDown heading={translate('auth.designation')}
-data={DESIGNATION_LIST} value={designation.value}
-onChange={designation.onChange} /> */}
+
       </div>
       <div className='row justify-content-end'>
         <div className='col-md-6 col-lg-4  my-4'>

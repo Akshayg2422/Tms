@@ -58,7 +58,7 @@ export const BUSINESS_FORM_RULES = {
     presence: { allowEmpty: false, message: 'PinCode cannot be empty' },
     length: { is: 6, message: 'PinCode should be 6 number' },
   },
-  // mobile_number1: MOBILE_NUMBER_RULES.mobile_number,
+ 
   mobile_number2: MOBILE_NUMBER_RULES.mobile_number,
 
 };
@@ -82,5 +82,31 @@ export const USER_FORM_RULES = {
     presence: {message: 'please select Designation'}
   }
 };
+
+
+export const CREATE_TICKET = {
+  title: {
+    presence: { message: 'Name cannot be empty' },
+ 
+  },
+  
+  description: {
+    presence: { message: 'description cannot be empty' },
+  },
+  referenceNo :{
+    presence: { message: 'referenceNo cannot be empty' },
+
+  },
+  company:{
+    presence: { message: 'company cannot be empty' },
+
+  },
+  User:{
+    presence: {message: 'please select User'}
+
+  },
+
+};
+
 
 

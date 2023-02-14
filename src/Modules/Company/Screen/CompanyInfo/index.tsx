@@ -8,7 +8,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
   const { companyDetailsSelected } = useSelector(
     (state: any) => state.AdminReducer
   );
-  console.log(companyDetailsSelected,"naveeeeeeeeee");
+  
   
   
 

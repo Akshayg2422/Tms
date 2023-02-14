@@ -112,6 +112,7 @@ function* addDesignation(action) {
       yield put(showLoader());
 
       const response = yield call(postAddDesignationApi, action.payload.params);
+     
 
       if (response.success) {
        
@@ -136,8 +137,10 @@ function* addDesignation(action) {
  function* getDesignation(action) {
   try {
     yield put(showLoader());
+    console.log(action,"------------------------------------->")
 
     const response = yield call(fetchDesignationDataApi, action.payload.params);
+    console.log('getdesignation------------->'+ JSON.stringify(response));  
 
     if (response.success) {
       yield put(hideLoader());

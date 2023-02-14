@@ -1,14 +1,17 @@
-import { Button, DropDown, HomeContainer, Input, Radio,  Dropzone } from "@Components";
+import {
+  Button,
+  DropDown,
+  HomeContainer,
+  Input,
+  Radio,
+  Dropzone,
+} from "@Components";
 import { translate } from "@I18n";
-import { getEmployees } from "@Redux";
+import { getEmployees, raiseNewTicket } from "@Redux";
 import { type } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  useInput,
-  useDropDown,
-  useNavigation
-} from '@Hooks'
+import { useInput, useDropDown, useNavigation } from "@Hooks";
 
 function IssueCreate() {
   const dispatch = useDispatch();
@@ -16,10 +19,40 @@ function IssueCreate() {
   const { associatedCompanies, dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
   );
+  console.log(associatedCompanies, "associatedCompanies,");
+
   const [companyDisplayName, setCompanyDisplayname] = useState();
-  const [photo, setPhoto] = useState('')
+  const [photo, setPhoto] = useState("");
   const [companyUser, setCompanyUser] = useState();
   const [companyUserDashboard, setCompanyUserDashboard] = useState();
+  const [selectedId, setSelectedId] = useState("");
+
+  const referenceNo = useInput("");
+  const title = useInput("");
+  const description = useInput("");
+
+  const [userId, setUserId] = useState("");
+
+  const submitTicketHandler = () => {
+    const params = {
+      title: title.value,
+      description: description.value,
+      reference_number: referenceNo.value,
+      brand_branch_id: selectedId,
+      assigned_to_id: userId,
+      ticket_attachments: [{ attachments: [photo] }],
+    };
+
+    dispatch(
+      raiseNewTicket({
+        params,
+        onSuccess: (response: any) => {
+          goBack();
+        },
+        onError: () => {},
+      })
+    );
+  };
 
   useEffect(() => {
     let companies: any = [];
@@ -40,7 +73,6 @@ function IssueCreate() {
         getEmployees({
           params,
           onSuccess: (response: any) => {
-           
             let companiesDashboard: any = [];
             response?.details?.forEach(({ id, name }) => {
               companiesDashboard = [...companiesDashboard, { id, text: name }];
@@ -57,9 +89,22 @@ function IssueCreate() {
     <div>
       <HomeContainer isCard title={translate("common.createTicket")!}>
         <div className="col-md-9 col-lg-7">
-          <Input heading={translate("auth.title")} />
-          <Input heading={translate("auth.description")} />
-          <Input type={"number"} heading={translate("auth.referenceNo")} />
+          <Input
+            heading={translate("auth.title")}
+            value={title.value}
+            onChange={title.onChange}
+          />
+          <Input
+            heading={translate("auth.description")}
+            value={description.value}
+            onChange={description.onChange}
+          />
+          <Input
+            type={"number"}
+            heading={translate("auth.referenceNo")}
+            value={referenceNo.value}
+            onChange={referenceNo.onChange}
+          />
           <Radio
             selected={typeSelect}
             data={type}
@@ -75,16 +120,18 @@ function IssueCreate() {
               heading={translate("common.company")}
               data={companyDisplayName}
               onChange={(item) => {
+                setSelectedId(item.id);
+
                 const params = { branch_id: item.id };
                 dispatch(
                   getEmployees({
                     params,
                     onSuccess: (response: any) => {
-                      let companyUsers: any = [];
+                      let companyUser: any = [];
                       response?.details?.forEach(({ id, name }) => {
-                        companyUsers = [...companyUsers, { id, text: name }];
+                        companyUser = [...companyUser, { id, text: name }];
                       });
-                      setCompanyUser(companyUsers);
+                      setCompanyUser(companyUser);
                     },
                     onError: () => {},
                   })
@@ -94,7 +141,13 @@ function IssueCreate() {
           )}
 
           {typeSelect && typeSelect.id === "1" ? (
-            <DropDown heading={translate("common.user")} data={companyUser} />
+            <DropDown
+              heading={translate("common.user")}
+              data={companyUser}
+              onChange={(item) => {
+                setUserId(item.id);
+              }}
+            />
           ) : (
             <DropDown
               heading={translate("common.user")}
@@ -103,23 +156,30 @@ function IssueCreate() {
           )}
         </div>
         <div className="pl-3">
-        <label className={`form-control-label`}>{translate('auth.logo')}</label>
+          <label className={`form-control-label`}>
+            {translate("auth.logo")}
+          </label>
         </div>
-       
-        <div className='col-md-9 col-lg-7 pb-4 pt-3'>
-        <Dropzone variant='ICON'
-          icon={photo}
-          size='xl'
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, '');
-            setPhoto(encoded)
-          }}
-        />
-      </div>
+
+        <div className="col-md-9 col-lg-7 pb-4 pt-3">
+          <Dropzone
+            variant="ICON"
+            icon={photo}
+            size="xl"
+            onSelect={(image) => {
+              let encoded = image.toString().replace(/^data:(.*,)?/, "");
+              setPhoto(encoded);
+            }}
+          />
+        </div>
 
         <div className="row justify-content-end">
           <div className="col-md-6 col-lg-4  my-4">
-            <Button block text={translate("common.submit")} />
+            <Button
+              block
+              text={translate("common.submit")}
+              onClick={submitTicketHandler}
+            />
           </div>
         </div>
       </HomeContainer>
@@ -128,3 +188,6 @@ function IssueCreate() {
 }
 
 export { IssueCreate };
+function goBack() {
+  throw new Error("Function not implemented.");
+}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch ,useSelector} from "react-redux";
 import {
   HomeContainer,
@@ -7,26 +7,33 @@ import {
   H,
   Button,
   showToast,
+  InputHeading,
 } from "@Components";
+
 import {
   GENDER_LIST,
   ADD_USER_RULES,
   validate,
   ifObjectExist,
   getValidateError,
+  //
+  matchStateToTerm,
+ 
 } from "@Utils";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
-import { addEmployee } from "@Redux";
-import { Container } from "reactstrap";
+import { addEmployee, getDesignationData } from "@Redux";
+
+import Autocomplete from "react-autocomplete";
+
 
 
 function AddUser() {
 
-  const { companyDetailsSelected  } = useSelector(
+  const { companyDetailsSelected, designationData } = useSelector(
     (state: any) => state.AdminReducer
   );
-  console.log(companyDetailsSelected ,"companyDetailsSelected---------adduserscreen ")
+
 
 
   const dispatch = useDispatch();
@@ -36,8 +43,31 @@ function AddUser() {
   const email = useInput("");
   const gender = useDropDown(GENDER_LIST[0]);
   const designation = useInput("");
-  
+  const [designationValue , setDesignationValue]=useState('')
+  const [designationId , setDesignationId]=useState('')
   const {goBack} = useNavigation()
+  
+  useEffect(() => {
+   const params ={
+    brach_id:companyDetailsSelected.branch_id,
+   
+
+   };
+   console.log(designationData.data,"dddddddddddddddddddddddddddddddddd");
+    
+   dispatch (
+    getDesignationData({
+      params,
+      onSuccess: () => {
+       
+      },
+      onError: () => {},
+
+    })
+
+    )
+    
+  }, []);
 
   const submitAddUserHandler = () => {
   
@@ -50,15 +80,20 @@ function AddUser() {
       designation_name: designation.value,
     };
 
+    if(designationData.data.name !== designationValue){
+
+    
     const validation = validate(ADD_USER_RULES, {
       branch_id:companyDetailsSelected.branch_id,
       first_name: firstName.value,
       mobile_number: contactNumber.value,
       ...(email.value && {email: email.value}),
       gender: gender.value?.id,
-      designation_name: designation.value,
+      designation_name: designationValue,
     });
-    // console.log(validation,"vvvvvvvvvvvvv")
+
+  
+ 
 
     if (ifObjectExist(validation)) {
       dispatch(
@@ -74,7 +109,9 @@ function AddUser() {
     
       showToast(getValidateError(validation));
     }
+  }
   };
+  console.log('designton---->',designationValue)
 
   return (
     <>
@@ -105,15 +142,49 @@ function AddUser() {
                onChange={gender.onChange}
             
             />
-            <Input
+            {/* <Input
               heading={translate("auth.designation")}
               value={designation.value}
               onChange={designation.onChange}
-            />
-           
-           <Container>
-           </Container>
+            /> */}
             
+          
+            
+          <div>  <InputHeading heading={'Designation'} /></div> 
+          <div className= ''>
+              <Autocomplete
+              
+           renderInput={(props)=>(
+            <input  className={'pr-lg-8 pr-sm-0 pr-5 pt-2 pb-2 border border-light'} {...props}/>
+           )}
+          
+          value={designationValue}
+     
+        
+        
+          wrapperStyle={{ position: 'relative', display: 'inline-block' }}
+      
+          items={designationData.data}
+          
+          getItemValue={(item) => (item.name)}
+          shouldItemRender={matchStateToTerm}
+         
+          onChange={(event, value) => setDesignationValue( value )}
+          onSelect={(value,) =>  setDesignationValue( value )}
+        
+          renderItem={(item, isHighlighted) => (
+            <div
+            style={{ background: isHighlighted ? 'lightgray' : 'white' }}
+              key={item.id}
+              
+              
+
+            >{item.name}</div>
+          )}
+          
+        />
+          </div>
+        
           </div>
         </div>
         <div className="row justify-content-end">

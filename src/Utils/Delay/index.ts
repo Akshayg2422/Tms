@@ -5,3 +5,12 @@
  */
 export const delay = (ms: number) =>
   new Promise(resolve => setTimeout(() => resolve, ms));
+
+  
+  export function matchStateToTerm(state, value) {
+    return (
+      state.name.toLowerCase().indexOf(value.toLowerCase()) !== -1 
+      // state.abbr.toLowerCase().indexOf(value.toLowerCase()) !== -1
+    )
+  }
+ 
