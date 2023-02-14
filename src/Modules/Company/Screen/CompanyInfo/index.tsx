@@ -4,9 +4,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { CompanyUsers } from "@Modules";
 import { CompanyInfoProps } from "./interfaces";
-import { H, Image,Badge, Card, HomeContainer, Color, RsBadgeProps } from "@Components";
-import { getPhoto } from '@Utils'
-import { Badge as RSBadge } from "reactstrap";
+import { H, Image, Badge, Card, HomeContainer, Color, RsBadgeProps } from "@Components";
+import { getPhoto, handleEmailClick } from '@Utils'
 
 export interface BadgeProps extends RsBadgeProps {
   text?: string | null | undefined
@@ -19,6 +18,9 @@ export interface BadgeProps extends RsBadgeProps {
 }
 
 function CompanyInfo({ item }: CompanyInfoProps) {
+
+
+
   const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
   const { getEmployeeDetails } = useSelector((state: any) => state.CompanyReducer);
   console.log('getUserDetailsgetUserDetailsgetUserDetails', getEmployeeDetails);
@@ -62,7 +64,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
                       <h5>{email}</h5>
                     </div>
                     <div className="col-2">
-                      <Badge pill color="success" text={'e-mail'} />
+                      <Badge pill color="success" text={'e-mail'} onClick={() => { (handleEmailClick(email)) }} />
                     </div>
 
                   </div>

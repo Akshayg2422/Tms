@@ -1,6 +1,8 @@
 import React from "react";
 import { Badge, Card } from "@Components";
 import { UserItemProps } from "./interface";
+import { handleEmailClick } from "@Utils";
+
 function UserItem({ item }: UserItemProps) {
   const { name, mobile_number, email } = item;
 
@@ -23,7 +25,8 @@ function UserItem({ item }: UserItemProps) {
                   />
                 </div>
                 <div>
-                  <Badge pill color={"success"} text={"Email"} />
+  
+                  <Badge pill color={"success"} text={"Email"} onClick={() => {(handleEmailClick(email))}} />
                 </div>
               </div>
             </div>
