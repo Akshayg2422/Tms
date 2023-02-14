@@ -100,7 +100,9 @@ function IssueDetails() {
                         onChange={textMessage.onChange}
                     />
                 </div>
-                <Image variant='rounded' size='sm' src={icons.addFillGray} onClick={() => { setSelectAttachments(!selectAttachments) }} />
+                <div className='d-flex justify-content-center align-items-end'>
+                    <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
+                </div>
             </Card>
 
             <div>
@@ -108,8 +110,8 @@ function IssueDetails() {
                     onClose={() => {
                         setSelectAttachments(!selectAttachments)
                     }}>
-                    <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={() => setSelectAttachments(true)} />
-                    {/* onChange={modalName.onChange} */}
+                    <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={modalName.onChange} />
+                    {/* onChange={() => setSelectAttachments(true)} */}
                     {selectDropzone && selectDropzone.map((el, index) => {
                         return (
                             <Dropzone variant='ICON'

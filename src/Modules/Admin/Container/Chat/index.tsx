@@ -31,7 +31,7 @@ function Receive({ item }: any) {
             {attachments && attachments.map(() => {
                 return (
                     <div className=''>
-                        {attachments ? <div className=" col-4 alert alert-info fade show bg-gradient-info text-white" role="alert">receive</div> : null}
+                        {attachments ? <div className="col-4 alert alert-info fade show bg-gradient-info text-white" role="alert">receive</div> : null}
                     </div>
                 )
             })}
