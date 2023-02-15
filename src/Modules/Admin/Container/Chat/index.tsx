@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 
 function Sent({ item }: any) {
-    const dispatch = useDispatch()
+    
 
     console.log('ticketEvent------------->', JSON.stringify(item))
     return (
@@ -45,6 +45,7 @@ function Receive({ item }: any) {
 
 
 function Chat({ item }: ChatProps) {
+    const dispatch = useDispatch()
 
     useEffect(() => {
         beginGetTicketEvents()
@@ -86,8 +87,4 @@ function Chat({ item }: ChatProps) {
 export { Chat }
 
 
-
-function dispatch(arg0: { type: string; payload: any; }) {
-    throw new Error('Function not implemented.');
-}
 
