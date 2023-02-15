@@ -7,7 +7,7 @@ import {useNavigation} from '@Hooks'
 import { ADD_USER_INFO,HOME_PATH } from '@Routes'
 function CompanyUsers() {
 
-    const {goTo, goBack} = useNavigation()
+    const { goTo, goBack } = useNavigation()
     const dispatch = useDispatch()
     const { getEmployeesDetails} = useSelector((state: any) => state.CompanyReducer);
    
@@ -33,7 +33,7 @@ function CompanyUsers() {
         <div>
             <HomeContainer>
                 <div className='text-right mt--3'>
-                    <Button text={'Add User'} size={'sm'} onClick={()=>{goTo(HOME_PATH.DASHBOARD+ADD_USER_INFO.ADD_USER)}} />
+                    <Button text={'Add User'} size={'sm'} onClick={() => { goTo(HOME_PATH.DASHBOARD + ADD_USER_INFO.ADD_USER) }} />
                 </div>
                 <Card className='mt-3'>
                     {

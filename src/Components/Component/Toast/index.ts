@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
  const showToast = (
   message: string,
-  type:  ToastVariant = 'default',
+  type:  ToastVariant = 'info',
 ) => {
   const style: object = {
     position: "top-center",

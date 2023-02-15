@@ -63,7 +63,6 @@ function* getTicketsSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTicketsApi, action.payload.params);
-   
     if (response.success) {
       yield put(hideLoader());
       yield put(getTicketsSuccess({ ...response }));
@@ -79,11 +78,9 @@ function* getTicketsSaga(action) {
 }
 
 function* getTicketEventsSaga(action) {
-
   try {
     // yield put(showLoader());
     const response = yield call(getTicketEventsApi, action.payload.params);
-    // console.log('getTicketEventsApi------------->'+ JSON.stringify(response));
     if (response.success) {
       // yield put(hideLoader());
       yield put(getTicketsEventsSuccess({ ...response }));

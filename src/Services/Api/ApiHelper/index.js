@@ -12,7 +12,7 @@ export const SERVER =
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_local'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
-        ? 'http://192.168.153.5:8001'
+        ? 'http://192.168.153.5:8000'
         : BUILD_TYPE === BUILD_TYPE_STAGING
           ? 'http://43.204.204.165'
           : BUILD_TYPE === BUILD_TYPE_LOCAL
@@ -33,7 +33,7 @@ const getHeaders = async () => {
              
     // const value =  localStorage.getItem(USER_TOKEN);
  const value = '0d1adf71aa0c0c290cd4c4d28bcc00f68a9eb5b3'
-    console.log(JSON.stringify(value)+"+===Token");
+    //console.log(JSON.stringify(value)+"+===Token");
 
 
     if (value) {

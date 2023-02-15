@@ -6,3 +6,9 @@ export const getPhoto = (photo: any) => {
   return ip + photo;
 
 }
+
+export const handleEmailClick = (email:any)  => {
+  return (
+    window.open(`mailto:${email}`)
+  )
+}
