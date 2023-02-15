@@ -44,8 +44,7 @@ function Issues() {
     }
 
     const getSearchHandler = () => {
-        const params = { q: Search.value }
-        console.log(params,"search")
+        const params = { q_many: Search.value }
         dispatch(getTickets({
             params,
             onSuccess: () => { },
