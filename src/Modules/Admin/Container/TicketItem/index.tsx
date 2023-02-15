@@ -16,6 +16,7 @@ function TicketItem({ item }: TicketItemProps) {
     const { title, by_user, raised_by_company, ticket_status, created_at } = item
     const { goTo } = useNavigation()
     const dispatch = useDispatch()
+
     return (
 
         <div className='row d-flex justify-content-center' onClick={() => {
@@ -32,8 +33,8 @@ function TicketItem({ item }: TicketItemProps) {
                     </div>
                     <div className='row'>
                         <div className='col-lg-8 col-md-8 col-sm-0  col-6  row '>
-                            <span className='col-lg-4 col-md-4 col-sm-0 col-6'>  <h4 className="text-uppercase text-muted"><Badge pill color={'primary'} text={'Phone'} /></h4> </span>
-                            <span className='col-lg-4 col-md-4 col-sm-0 col-6'> <h4 className="text-uppercase text-muted"><Badge pill color={'success'} text={'Email'} /></h4> </span>
+                            <span className='col-lg-4 col-md-4 col-sm-0 col-6'>  <h4 className="text-uppercase text-muted"><Badge pill color={'primary'} style={{cursor:"pointer"}} text={'Phone'} /></h4> </span>
+                            <span className='col-lg-4 col-md-4 col-sm-0 col-6'> <h4 className="text-uppercase text-muted"><Badge pill color={'success'} style={{cursor:"pointer"}}  text={'Email'} /></h4> </span>
                         </div>
 
                         <div className='col-lg-4 col-md-4 col-sm-0  col-6 '>
@@ -63,9 +64,11 @@ function TicketItem({ item }: TicketItemProps) {
                     </div>
                 </div>
                 <div className='row mt-lg--3'>
-                    <span className='col-lg-2 col-md-2 col-sm-0 col-2'>  <h4 className="text-uppercase text-muted"><Badge pill color={'primary'} text={'Phone'} /></h4> </span>
+                    <div className='col-lg-8 row '>
+                        <span className='col-lg-4 col-md-3 col-sm-0 col-3 '>  <h4 className="text-uppercase text-muted"><Badge pill color={'primary'} style={{cursor:"pointer"}} text={'Phone'} /></h4> </span>
 
-                    <span className='col-lg-3 col-md-4 ml-lg-4 ml-md-3 ml-sm-0 ml-3  col-sm-0 col-4 '> <h4 className="text-uppercase text-muted"><Badge pill color={'success'} text={'Email'} /></h4> </span>
+                        <span className='col-lg-2 col-md-2  col-sm-0 col-3 '> <h4 className="text-uppercase text-muted"><Badge pill color={'success'} style={{cursor:"pointer"}} text={'Email'} /></h4> </span>
+                    </div>
                 </div>
 
             </div>
