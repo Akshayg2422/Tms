@@ -6,25 +6,25 @@ import { setSelectedIssues } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes';
 import { getPhoto } from '@Utils'
-import { getStatusFromCode,handleEmailClick } from '@Utils'
+import { getStatusFromCode, handleEmailClick } from '@Utils'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 
 
 function TicketItem({ item }: TicketItemProps) {
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
-    const { title, by_user, raised_by_company, ticket_status, created_at } = item
+    const { title, by_user, raised_by_company, ticket_status, created_at, assigned_to } = item
     const { goTo } = useNavigation()
     const dispatch = useDispatch()
 
     return (
 
-        <div className='row d-flex justify-content-center' onClick={() => {
+        <div className='row d-flex justify-content-center border border-dark ' onClick={() => {
             dispatch(setSelectedIssues(item))
             goTo(ROUTES.AUTH.ISSUE_DETAILS)
         }}>
 
-            <div className='col-lg-8 col-md-12 col-sm-12'>
+            {/* <div className='col-lg-8 col-md-12 col-sm-12'>
                 <div className='my-2'>
                     <H tag={'h3'} className='text-capitalize pl-1' text={title} />
                     <div className='row'>
@@ -71,6 +71,38 @@ function TicketItem({ item }: TicketItemProps) {
                     </div>
                 </div>
 
+            </div> */}
+            <div className='border border-dark col-lg-8' >
+                <div className='border border-dark'>
+                    <H tag={'h3'} className='text-capitalize pl-1' text={title} />
+                    <span className=''>  <i className="bi bi-person-circle "></i>  {by_user.name} </span>
+                    <span className='mr-5'>  <Badge pill color={'primary'} className=' h4 text-uppercase text-muted ' style={{ cursor: "pointer" }} text={'Phone'} /> </span>
+                    <span className=''> <Badge pill color={'success'} className='h4 text-uppercase text-muted ' style={{ cursor: "pointer" }} onClick={() => {(handleEmailClick(by_user.email))}} text={'Email'} /></span>
+
+
+                </div>
+                <div className='border border-dark'>
+                    <h2 className="h3 text-uppercase">{raised_by_company.display_name}</h2>
+                    <h5 className='h5 font-weight-normal'>{raised_by_company.address}</h5>
+
+                    <div className='m-0'>
+                        <span className='mr-5'>  <Badge pill color={'primary'} className=' h4 text-uppercase text-muted ' style={{ cursor: "pointer" }} text={'Phone'} /> </span>
+                        <span className=''> <Badge pill color={'success'} className='h4 text-uppercase text-muted ' style={{ cursor: "pointer" }} onClick={() => {(handleEmailClick(by_user.email))}} text={'Email'} /></span>
+                    </div>
+                </div>
+
+            </div>
+            <div className='border border-dark col-lg-4' >
+                <div className='border border-dark'>
+                    <span className=''><i className="bi bi-calendar-week"></i> {getStatusFromCode(dashboardDetails, ticket_status)} </span>
+                    <h5 className=' text-muted m-0'>{moment(created_at).format('DD-MM-YYYY HH:mm A')}</h5>
+                    <p className='h4 m-0 '> assigned by </p>
+                    <p className='m-0 h5 pl-4'>{'hari'}</p>
+                </div>
+
+                <div className='mt-2 border border-dark'>
+                    <Image src={getPhoto(raised_by_company.attachment_logo)} variant={'rounded'} size={'xxl'} />
+                </div>
             </div>
         </div>
 
