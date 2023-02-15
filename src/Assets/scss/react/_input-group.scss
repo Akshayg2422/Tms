@@ -1,3 +1,20 @@
 .input-group.is-invalid ~ .invalid-feedback {
   display: block;
 }
+
+
+@media (max-width: 1900px) {
+  .designation-input {
+    width:246px;
+    height:43px
+  }
+}
+
+
+@media (min-width: 441px) {
+  .designation-input {
+    width:323px;
+    height:43px
+  }
+ 
+}

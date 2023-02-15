@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch ,useSelector} from "react-redux";
+
 import {
   HomeContainer,
   Input,
@@ -46,6 +47,7 @@ function AddUser() {
   const [designationValue , setDesignationValue]=useState('')
   const [designationId , setDesignationId]=useState('')
   const {goBack} = useNavigation()
+  console.log(designationValue,"designationValue")
   
   useEffect(() => {
    const params ={
@@ -53,7 +55,7 @@ function AddUser() {
    
 
    };
-   console.log(designationData.data,"dddddddddddddddddddddddddddddddddd");
+  
     
    dispatch (
     getDesignationData({
@@ -71,16 +73,16 @@ function AddUser() {
 
   const submitAddUserHandler = () => {
   
-    const params = {
-      branch_id: companyDetailsSelected.branch_id,
-      first_name: firstName.value,
-      mobile_number: contactNumber.value,
-      email: email.value,
-      gender: gender.value?.id,
-      designation_name: designation.value,
-    };
 
-    if(designationData.data.name !== designationValue){
+    if(designationData.data.name!== designationValue){
+      const params = {
+        branch_id: companyDetailsSelected.branch_id,
+        first_name: firstName.value,
+        mobile_number: contactNumber.value,
+        email: email.value,
+        gender: gender.value?.id,
+        designation_name: designationValue,
+      };
 
     
     const validation = validate(ADD_USER_RULES, {
@@ -91,10 +93,6 @@ function AddUser() {
       gender: gender.value?.id,
       designation_name: designationValue,
     });
-
-  
- 
-
     if (ifObjectExist(validation)) {
       dispatch(
         addEmployee({
@@ -102,7 +100,8 @@ function AddUser() {
           onSuccess: () => {
             goBack()
           },
-          onError: () => {},
+          onError: (error) => {console.log(error,'------------------------->if error');
+        },
         })
       );
     } else {
@@ -110,8 +109,46 @@ function AddUser() {
       showToast(getValidateError(validation));
     }
   }
+ else{
+  const params = {
+    branch_id: companyDetailsSelected.branch_id,
+    first_name: firstName.value,
+    mobile_number: contactNumber.value,
+    email: email.value,
+    gender: gender.value?.id,
+    designation_name: designationData.data.id,
   };
-  console.log('designton---->',designationValue)
+
+  
+    const validation = validate(ADD_USER_RULES, {
+      branch_id:companyDetailsSelected.branch_id,
+      first_name: firstName.value,
+      mobile_number: contactNumber.value,
+      ...(email.value && {email: email.value}),
+      gender: gender.value?.id,
+      designation_name: designationData.data.id,
+    });
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addEmployee({
+          params,
+          onSuccess: () => {
+
+            goBack()
+          },
+          onError: (error) => {console.log(error,'------------------------->else error');
+          },
+        })
+      );
+    } else {
+    
+      showToast(getValidateError(validation));
+    }
+  
+  };
+
+  };
+
 
   return (
     <>
@@ -142,20 +179,13 @@ function AddUser() {
                onChange={gender.onChange}
             
             />
-            {/* <Input
-              heading={translate("auth.designation")}
-              value={designation.value}
-              onChange={designation.onChange}
-            /> */}
-            
-          
-            
+         
           <div>  <InputHeading heading={'Designation'} /></div> 
           <div className= ''>
               <Autocomplete
               
            renderInput={(props)=>(
-            <input  className={'pr-lg-8 pr-sm-0 pr-5 pt-2 pb-2 border border-light'} {...props}/>
+            <input  className={'designation-input form-control '} {...props}/>
            )}
           
           value={designationValue}
@@ -168,18 +198,18 @@ function AddUser() {
           
           getItemValue={(item) => (item.name)}
           shouldItemRender={matchStateToTerm}
+          
          
           onChange={(event, value) => setDesignationValue( value )}
-          onSelect={(value,) =>  setDesignationValue( value )}
+          onSelect={(value) =>{  setDesignationValue( value )} }
         
           renderItem={(item, isHighlighted) => (
             <div
             style={{ background: isHighlighted ? 'lightgray' : 'white' }}
               key={item.id}
-              
-              
-
-            >{item.name}</div>
+            >{item.name}
+          
+            </div>
           )}
           
         />
