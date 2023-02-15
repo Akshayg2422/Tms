@@ -42,6 +42,11 @@ export const HOME_PATH = {
   COMPANY: "/company",
   ADD_USER:"/AddUser"
  }
+ export const ISSUE_CREATE={
+  DASHBOARD: "/admin",
+  COMPANY: "/company",
+  ISSUE_TICKET:"/IssueCreate"
+ }
 
 
 

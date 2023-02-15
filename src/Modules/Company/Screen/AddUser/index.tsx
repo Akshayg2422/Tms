@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch ,useSelector} from "react-redux";
+
 import {
   HomeContainer,
   Input,
@@ -7,25 +8,33 @@ import {
   H,
   Button,
   showToast,
+  InputHeading,
 } from "@Components";
+
 import {
   GENDER_LIST,
   ADD_USER_RULES,
   validate,
   ifObjectExist,
   getValidateError,
+  //
+  matchStateToTerm,
+ 
 } from "@Utils";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
-import { addEmployee } from "@Redux";
-import { Container } from "reactstrap";
+import { addEmployee, getDesignationData } from "@Redux";
+
+import Autocomplete from "react-autocomplete";
+
 
 
 function AddUser() {
 
-  const { companyDetailsSelected  } = useSelector(
+  const { companyDetailsSelected, designationData } = useSelector(
     (state: any) => state.AdminReducer
   );
+
 
 
   const dispatch = useDispatch();
@@ -35,29 +44,55 @@ function AddUser() {
   const email = useInput("");
   const gender = useDropDown(GENDER_LIST[0]);
   const designation = useInput("");
-  
+  const [designationValue , setDesignationValue]=useState('')
+  const [designationId , setDesignationId]=useState('')
   const {goBack} = useNavigation()
+  console.log(designationValue,"designationValue")
+  
+  useEffect(() => {
+   const params ={
+    brach_id:companyDetailsSelected.branch_id,
+   
+
+   };
+  
+    
+   dispatch (
+    getDesignationData({
+      params,
+      onSuccess: () => {
+       
+      },
+      onError: () => {},
+
+    })
+
+    )
+    
+  }, []);
 
   const submitAddUserHandler = () => {
   
-    const params = {
-      branch_id: companyDetailsSelected .branch_id,
-      first_name: firstName.value,
-      mobile_number: contactNumber.value,
-      email: email.value,
-      gender: gender.value?.id,
-      designation_name: designation.value,
-    };
 
+    if(designationData.data.name!== designationValue){
+      const params = {
+        branch_id: companyDetailsSelected.branch_id,
+        first_name: firstName.value,
+        mobile_number: contactNumber.value,
+        email: email.value,
+        gender: gender.value?.id,
+        designation_name: designationValue,
+      };
+
+    
     const validation = validate(ADD_USER_RULES, {
       branch_id:companyDetailsSelected.branch_id,
       first_name: firstName.value,
       mobile_number: contactNumber.value,
       ...(email.value && {email: email.value}),
       gender: gender.value?.id,
-      designation_name: designation.value,
+      designation_name: designationValue,
     });
-
     if (ifObjectExist(validation)) {
       dispatch(
         addEmployee({
@@ -65,14 +100,55 @@ function AddUser() {
           onSuccess: () => {
             goBack()
           },
-          onError: () => {},
+          onError: (error) => {console.log(error,'------------------------->if error');
+        },
         })
       );
     } else {
     
       showToast(getValidateError(validation));
     }
+  }
+ else{
+  const params = {
+    branch_id: companyDetailsSelected.branch_id,
+    first_name: firstName.value,
+    mobile_number: contactNumber.value,
+    email: email.value,
+    gender: gender.value?.id,
+    designation_name: designationData.data.id,
   };
+
+  
+    const validation = validate(ADD_USER_RULES, {
+      branch_id:companyDetailsSelected.branch_id,
+      first_name: firstName.value,
+      mobile_number: contactNumber.value,
+      ...(email.value && {email: email.value}),
+      gender: gender.value?.id,
+      designation_name: designationData.data.id,
+    });
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addEmployee({
+          params,
+          onSuccess: () => {
+
+            goBack()
+          },
+          onError: (error) => {console.log(error,'------------------------->else error');
+          },
+        })
+      );
+    } else {
+    
+      showToast(getValidateError(validation));
+    }
+  
+  };
+
+  };
+
 
   return (
     <>
@@ -103,17 +179,42 @@ function AddUser() {
                onChange={gender.onChange}
             
             />
-            <Input
-              heading={translate("auth.designation")}
-              value={designation.value}
-              onChange={designation.onChange}
-            />
-           
-           <Container>
-           </Container>
-            
          
-            
+          <div>  <InputHeading heading={'Designation'} /></div> 
+          <div className= ''>
+              <Autocomplete
+              
+           renderInput={(props)=>(
+            <input  className={'designation-input form-control '} {...props}/>
+           )}
+          
+          value={designationValue}
+     
+        
+        
+          wrapperStyle={{ position: 'relative', display: 'inline-block' }}
+      
+          items={designationData.data}
+          
+          getItemValue={(item) => (item.name)}
+          shouldItemRender={matchStateToTerm}
+          
+         
+          onChange={(event, value) => setDesignationValue( value )}
+          onSelect={(value) =>{  setDesignationValue( value )} }
+        
+          renderItem={(item, isHighlighted) => (
+            <div
+            style={{ background: isHighlighted ? 'lightgray' : 'white' }}
+              key={item.id}
+            >{item.name}
+          
+            </div>
+          )}
+          
+        />
+          </div>
+        
           </div>
         </div>
         <div className="row justify-content-end">

@@ -2,28 +2,31 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Card, Divider, Button, HomeContainer } from '@Components'
 import { UserItem } from '@Modules'
-import { getEmployee, } from '@Redux'
-import { useNavigation } from '@Hooks'
-import { ADD_USER_INFO, HOME_PATH } from '@Routes'
+import { getEmployees } from '@Redux'
+import {useNavigation} from '@Hooks'
+import { ADD_USER_INFO,HOME_PATH } from '@Routes'
 function CompanyUsers() {
 
     const { goTo, goBack } = useNavigation()
     const dispatch = useDispatch()
-    const { getEmployeeDetails } = useSelector((state: any) => state.CompanyReducer);
-    const { companyDetailsSelected } = useSelector(
+    const { getEmployeesDetails} = useSelector((state: any) => state.CompanyReducer);
+   
+ 
+    const { companyDetailsSelected  } = useSelector(
         (state: any) => state.AdminReducer
-    );
-
+      );
+    
+  
 
     useEffect(() => {
-        const params = { branch_id: companyDetailsSelected.branch_id };
-
-        dispatch(getEmployee({
-            params,
-            onSuccess: () => { },
-            onError: () => { }
-        }));
+        const params = { branch_id:companyDetailsSelected.branch_id};
+       
         
+        dispatch(getEmployees({ params, 
+            onSuccess:()=>{
+
+
+        }, onError:()=>{} }));
     }, []);
 
     return (
@@ -34,11 +37,11 @@ function CompanyUsers() {
                 </div>
                 <Card className='mt-3'>
                     {
-                        getEmployeeDetails && getEmployeeDetails.length > 0 && getEmployeeDetails.map((user: any, index: number) => {
+                        getEmployeesDetails && getEmployeesDetails.length > 0 && getEmployeesDetails.map((user: any, index: number) => {
                             return (
                                 <>
                                     <UserItem item={user} />
-                                    {index !== getEmployeeDetails.length - 1 && <Divider />}
+                                    {index !== getEmployeesDetails.length - 1 && <Divider />}
                                 </>
                             )
                         })

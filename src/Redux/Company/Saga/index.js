@@ -5,7 +5,7 @@ import {
   getTicketEventsApi,
   addTicketEventApi,
   getTicketTagsApi,
-  getEmployeeApi,
+  getEmployeesApi,
   addEmployeeApi
 
 } from '@Services';
@@ -31,9 +31,9 @@ import {
   getTicketsEvents,
   getTicketsEventsFailure,
   getTicketsEventsSuccess,
-  GET_EMPLOYEE,
-  getEmployeeSuccess,
-  getEmployeeFailure,
+  GET_EMPLOYEES,
+  getEmployeesSuccess,
+  getEmployeesFailure,
   ADD_EMPLOYEE,
   addEmployeeSuccess,
   addEmployeeFailure
@@ -43,6 +43,7 @@ function* raiseNewTicketSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(raiseNewTicketApi, action.payload.params);
+ 
     if (response.success) {
       yield put(hideLoader());
       yield put(raiseNewTicketSuccess(response));
@@ -58,6 +59,7 @@ function* raiseNewTicketSaga(action) {
 }
 
 function* getTicketsSaga(action) {
+
   try {
     yield put(showLoader());
     const response = yield call(getTicketsApi, action.payload.params);
@@ -97,7 +99,7 @@ function* addTicketEventSaga(action) {
   try {
     // yield put(showLoader());
     const response = yield call(addTicketEventApi, action.payload.params);
-    console.log(JSON.stringify(response) + 'lllllllllllllllll8888888888888');
+    // console.log(JSON.stringify(response) + 'lllllllllllllllll8888888888888');
     if (response.success) {
       // yield put(hideLoader());
       yield put(addTicketEventSuccess(response));
@@ -131,17 +133,20 @@ function* getTicketTagsSaga(action) {
 }
 
 
-function* getEmployeeSaga(action) {
+function* getEmployeesSaga(action) {
+  console.log('otSideData--------------->',action)
   try {
     yield put(showLoader());
-    const response = yield call(getEmployeeApi, action.payload.params);
+    const response = yield call(getEmployeesApi, action.payload.params);
+    console.log('getemploye------------>', JSON.stringify(response));
+ 
     if (response.success) {
       yield put(hideLoader());
-      yield put(getEmployeeSuccess(response.details));
+      yield put(getEmployeesSuccess(response.details));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());
-      yield put(getEmployeeFailure(response.error_message));
+      yield put(getEmployeesFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
@@ -153,7 +158,8 @@ function* addEmployeeSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(addEmployeeApi, action.payload.params);
-    console.log('resAddEmployee--------------->',response)
+ 
+    
     if (response.success) {
       yield put(hideLoader());
       yield put(addEmployeeSuccess({...response}));
@@ -174,7 +180,7 @@ function* CompanySaga() {
   yield takeLatest(GET_TICKET_EVENTS, getTicketEventsSaga);
   yield takeLatest(GET_TICKET_TAGS, getTicketTagsSaga);
   yield takeLatest(ADD_TICKET_EVENT, addTicketEventSaga);
-  yield takeLatest(GET_EMPLOYEE,getEmployeeSaga);
+  yield takeLatest(GET_EMPLOYEES,getEmployeesSaga);
   yield takeLatest(ADD_EMPLOYEE,addEmployeeSaga);
 }
 

@@ -4,10 +4,13 @@ import { getTickets } from '@Redux';
 import { HomeContainer, Divider, Modal, H, Button } from '@Components';
 import { TicketItem } from '@Modules';
 import { useInput } from '@Hooks';
-
+import {useNavigation} from '@Hooks'
+import { ISSUE_CREATE,HOME_PATH } from '@Routes'
+import { translate } from "@I18n";
 
 
 function Issues() {
+    const {goTo, goBack} = useNavigation()
     const [modal, setModal] = useState(false);
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
     const [issueStatus, setIssueStatus] = useState([['', 'All']].concat(dashboardDetails?.ticket_status))
@@ -64,7 +67,7 @@ function Issues() {
                                         <input 
                                         type="text"
                                         className="form-control bg-transparent border border-0"
-                                        placeholder="Search..."
+                                        placeholder={translate("auth.search")!}
                                         value={Search.value}
                                         onChange={Search.onChange}
                                         />
@@ -74,7 +77,7 @@ function Issues() {
                                     </div>
                                 </div>
                                 <div className='col-lg-4 col-md-12 mt-lg-1 mt-sm-0 mt-md-3 mt-3 col-sm-12 text-right'>
-                                    <Button text={'Create Ticket'} />
+                                <Button text={translate("common.createTicket")} onClick={()=>{goTo(HOME_PATH.DASHBOARD+ISSUE_CREATE.ISSUE_TICKET)}}/>
                                 </div>
                             </div>
                         </div>

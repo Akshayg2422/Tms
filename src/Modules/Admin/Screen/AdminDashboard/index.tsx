@@ -2,9 +2,9 @@
 import React, { useEffect } from 'react';
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 import { Sidebar } from '@Components'
-import { ADD_USER_INFO, ADMIN_ROUTES, HOME_PATH, INFO } from '@Routes'
+import { ADD_USER_INFO, ADMIN_ROUTES, HOME_PATH, INFO, ISSUE_CREATE } from '@Routes'
 import { icons } from '@Assets'
-import { AddUser, CompanyInfo, CreateCompany} from '@Modules'
+import { AddUser, CompanyInfo, CreateCompany, IssueCreate} from '@Modules'
 import {getDashboard} from '@Redux';
 import {useDispatch} from 'react-redux'
 
@@ -91,6 +91,7 @@ function AdminDashboard() {
           <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany/>} />
           <Route path={INFO.COMPANY_INFO} element={<CompanyInfo/>} />
           <Route path={ADD_USER_INFO.ADD_USER} element={<AddUser/>} />
+          <Route path={ISSUE_CREATE.ISSUE_TICKET} element={<IssueCreate/>} />
           {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
         </Routes>
       </div>

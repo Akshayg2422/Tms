@@ -10,7 +10,7 @@ function Radio({
   ...rest
 }: RadioProps) {
   const [selectItem, setSelectedItem] = useState(selected);
-
+console.log('hhhhhhhhhh---->',selectItem)
   function onChangeHandler(selected: RadioItem) {
     if (onRadioChange) {
       setSelectedItem(selected);

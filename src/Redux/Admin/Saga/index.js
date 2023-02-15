@@ -32,14 +32,20 @@ import {
 } from '@Redux';
 
 function* getAssociatedCompaniesSaga(action) {
+
+
+  
   try {
+
     yield put(showLoader());
     const response = yield call(
       getAssociatedCompaniesApi,
       action.payload.params,
     );
-    console.log(response,'getAssociatedCompaniesSaga');
+    console.log('getTicketEventsApi------------->'+ JSON.stringify(response));
+
     if (response.success) {
+      console.log(response.success,"----------------------------->")
       yield put(hideLoader());
       yield put(getAssociatedBranchSuccess({...response}));
       yield call(action.payload.onSuccess(response));
@@ -49,6 +55,7 @@ function* getAssociatedCompaniesSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
+    console.log(error,"----------------------------->")
     yield put(hideLoader());
   }
 }
@@ -105,6 +112,7 @@ function* addDesignation(action) {
       yield put(showLoader());
 
       const response = yield call(postAddDesignationApi, action.payload.params);
+     
 
       if (response.success) {
        
@@ -129,8 +137,10 @@ function* addDesignation(action) {
  function* getDesignation(action) {
   try {
     yield put(showLoader());
+    console.log(action,"------------------------------------->")
 
     const response = yield call(fetchDesignationDataApi, action.payload.params);
+    console.log('getdesignation------------->'+ JSON.stringify(response));  
 
     if (response.success) {
       yield put(hideLoader());

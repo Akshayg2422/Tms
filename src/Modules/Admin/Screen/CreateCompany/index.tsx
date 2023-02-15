@@ -55,7 +55,7 @@ function CreateCompany({ }: CreateCompanyProps) {
   const companyContactNumber = useInput('')
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
 
-  // console.log(JSON.stringify(dashboardDetails) + "==== pammmmm");
+
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -74,10 +74,10 @@ function CreateCompany({ }: CreateCompanyProps) {
       designation: 'Management',
     });
 
-    console.log('params111111111111111111111111111111111', params)
+ 
 
     if (ifObjectExist(validation)) {
-      console.log('registerAdmin registerAdmin registerAdmin registerAdmin')
+  
       dispatch(
         registerAdmin({
           params,
@@ -101,13 +101,13 @@ function CreateCompany({ }: CreateCompanyProps) {
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
       attachment_logo: photo
-      // provider_company_branch_id: dashboardDetails?.permission_details?.branch_id,
+
     };
-    console.log('params2222222222222222222222222222222222222222', params)
+   
 
     const validation = validate(BUSINESS_FORM_RULES, params);
     if (ifObjectExist(validation)) {
-      console.log('registerCompany registerCompany registerCompany registerCompany')
+     
       dispatch(
         registerCompany({
           params,
@@ -131,7 +131,8 @@ function CreateCompany({ }: CreateCompanyProps) {
 
     <HomeContainer isCard title={translate('common.addCompany')!} >
       <div className='col-md-9 col-lg-7'>
-        <H tag={'h3'} className="heading  mb-3" text={translate('common.companyDetails')} />
+        <H tag={'h3'} className="heading  mb-3"
+text={translate('common.companyDetails')} />
         <label className={`form-control-label`}>{translate('auth.logo')}</label>
       </div>
       <div className='col-md-9 col-lg-7 pb-4 pt-3'>
@@ -145,22 +146,35 @@ function CreateCompany({ }: CreateCompanyProps) {
         />
       </div>
       <div className='col-md-9 col-lg-7'>
-        <Input heading={translate('common.name')} value={name.value} onChange={name.onChange} />
-        <Input heading={translate('auth.address')} value={address.value} onChange={address.onChange} />
-        <Input type={'number'} heading={translate('common.PinCode')} maxLength={6} value={pinCode.value} onChange={pinCode.onChange} />
-        {/* <Input disabled heading={translate('auth.mobileNumber')} value={contactNumber.value} /> */}
-        <Input type={'number'} heading={translate('common.contactNumber')} maxLength={10} value={companyContactNumber.value} onChange={companyContactNumber.onChange} />
+        <Input heading={translate('common.name')} value={name.value}
+onChange={name.onChange} />
+        <Input heading={translate('auth.address')}
+value={address.value} onChange={address.onChange} />
+        <Input type={'number'} heading={translate('common.PinCode')}
+maxLength={6} value={pinCode.value} onChange={pinCode.onChange} />
+        {/* <Input disabled heading={translate('auth.mobileNumber')}
+value={contactNumber.value} /> */}
+        <Input type={'number'}
+heading={translate('common.contactNumber')} maxLength={10}
+value={companyContactNumber.value}
+onChange={companyContactNumber.onChange} />
       </div>
 
       <Divider />
 
       <div className='col-md-9 col-lg-7'>
-        <H tag={'h3'} className="heading mb-3" text={translate('common.primaryContactPerson')} />
-        <Input heading={translate('auth.fullName')} value={fullName.value} onChange={fullName.onChange} />
-        <Input type={'number'} heading={translate('auth.contactNumber')} maxLength={10} value={contactNumber.value} onChange={contactNumber.onChange} />
-        <Input heading={translate('auth.emailOptional')} value={email.value} onChange={email?.onChange} />
-        <DropDown heading={translate('auth.gender')} data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
-        {/* <DropDown heading={translate('auth.designation')} data={DESIGNATION_LIST} value={designation.value} onChange={designation.onChange} /> */}
+        <H tag={'h3'} className="heading mb-3"
+text={translate('common.primaryContactPerson')} />
+        <Input heading={translate('auth.fullName')}
+value={fullName.value} onChange={fullName.onChange} />
+        <Input type={'number'}
+heading={translate('auth.contactNumber')} maxLength={10}
+value={contactNumber.value} onChange={contactNumber.onChange} />
+        <Input heading={translate('auth.emailOptional')}
+value={email.value} onChange={email?.onChange} />
+        <DropDown heading={translate('auth.gender')}
+data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
+
       </div>
       <div className='row justify-content-end'>
         <div className='col-md-6 col-lg-4  my-4'>

@@ -18,7 +18,7 @@ import {
   GET_TICKET_EVENTS,
   GET_TICKET_TAGS,
   ADD_TICKET_EVENT,
-  GET_EMPLOYEE,
+  GET_EMPLOYEES,
   ADD_EMPLOYEE,
 
   /**
@@ -28,6 +28,7 @@ import {
   POST_ADD_DESIGNATION,
   FETCH_DESIGNATION,
   FETCH_DEPARTMENT,
+
 
 } from '../UrlHelper';
 
@@ -60,8 +61,8 @@ export const registerCompanyApi = payload =>
   post(REGISTER_COMPANY, payload, {});
 export const SectorServiceTypesApi = payload =>
   post(SECTOR_SERVICE_TYPES, payload, {});
-export const getEmployeeApi = payload =>
-  post(GET_EMPLOYEE, payload, {})
+export const getEmployeesApi = payload =>
+  post(GET_EMPLOYEES, payload, {})
 
 export const addEmployeeApi = payload =>
   post(ADD_EMPLOYEE, payload, {})

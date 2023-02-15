@@ -14,9 +14,9 @@ import {
   GET_TICKET_EVENTS,
   GET_TICKET_EVENTS_SUCCESS,
   GET_TICKET_EVENTS_FAILURE,
-  GET_EMPLOYEE,
-  GET_EMPLOYEE_SUCCESS,
-  GET_EMPLOYEE_FAILURE,
+  GET_EMPLOYEES,
+  GET_EMPLOYEES_SUCCESS,
+  GET_EMPLOYEES_FAILURE,
   ADD_EMPLOYEE,
   ADD_EMPLOYEE_SUCCESS,
   ADD_EMPLOYEE_FAILURE
@@ -24,6 +24,7 @@ import {
 
 export const raiseNewTicket = (params: any) => {
   return {
+    
     type: RAISE_NEW_TICKET,
     payload: params,
   };
@@ -160,23 +161,23 @@ export const getTicketsEventsFailure = (error: any) => {
  * @returns
  */
 
-export const getEmployee = (params: any) => {
+export const getEmployees = (params: any) => {
   return {
-    type: GET_EMPLOYEE,
+    type: GET_EMPLOYEES,
     payload: params,
   };
 };
 
-export const getEmployeeSuccess = (response: any) => {
+export const getEmployeesSuccess = (response: any) => {
   return {
-    type: GET_EMPLOYEE_SUCCESS,
+    type: GET_EMPLOYEES_SUCCESS,
     payload: response,
   };
 };
 
-export const getEmployeeFailure = (error: any) => {
+export const getEmployeesFailure = (error: any) => {
   return {
-    type: GET_EMPLOYEE_FAILURE,
+    type: GET_EMPLOYEES_FAILURE,
     payload: error,
   };
 };
@@ -195,13 +196,16 @@ export const addEmployee = (params: any) => {
 };
 
 export const addEmployeeSuccess = (response: any) => {
+
   return {
     type: ADD_EMPLOYEE_SUCCESS,
     payload: response,
+
   };
 };
 
 export const addEmployeeFailure = (error: any) => {
+ 
   return {
     type: ADD_EMPLOYEE_FAILURE,
     payload: error,

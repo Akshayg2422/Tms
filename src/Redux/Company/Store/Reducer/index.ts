@@ -1,5 +1,5 @@
 import {
-  RAISE_NEW_TICKET,
+  
   GET_TICKETS,
   GET_TICKETS_SUCCESS,
   GET_TICKETS_FAILURE,
@@ -12,23 +12,25 @@ import {
   GET_TICKET_EVENTS,
   GET_TICKET_EVENTS_SUCCESS,
   GET_TICKET_EVENTS_FAILURE,
+  RAISE_NEW_TICKET,
   RAISE_NEW_TICKET_SUCCESS,
   RAISE_NEW_TICKET_FAILURE,
-  GET_EMPLOYEE,
-  GET_EMPLOYEE_SUCCESS,
-  GET_EMPLOYEE_FAILURE,
+  GET_EMPLOYEES,
+  GET_EMPLOYEES_SUCCESS,
+  GET_EMPLOYEES_FAILURE,
   ADD_EMPLOYEE,
   ADD_EMPLOYEE_SUCCESS,
   ADD_EMPLOYEE_FAILURE
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
 
+
 const initialState: CompanyStateProp = {
   tickets: undefined,
   getTicketTags: undefined,
   ticketEvents: undefined,
   addTicketEvent: undefined,
-  getEmployeeDetails: undefined,
+  getEmployeesDetails: undefined,
   addEmployeeDetails: undefined
 };
 
@@ -113,20 +115,20 @@ const CompanyReducer = (
       state = { ...state, addTicketEvent: undefined };
       break;
       
-      case GET_EMPLOYEE:
+      case GET_EMPLOYEES:
       state = {
-        ...state, getEmployeeDetails:undefined
+        ...state
       };
 
       break;
-    case GET_EMPLOYEE_SUCCESS:
+    case GET_EMPLOYEES_SUCCESS:
       state = {
         ...state,
-        getEmployeeDetails: action.payload,
+        getEmployeesDetails: action.payload,
       };
       break;
-    case GET_EMPLOYEE_FAILURE:
-      state = {...state, getEmployeeDetails: undefined};
+    case GET_EMPLOYEES_FAILURE:
+      state = {...state, getEmployeesDetails: undefined};
       break; 
       case ADD_EMPLOYEE:
       state = {
