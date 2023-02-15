@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import React from 'react'
 import { CompanyItemProps } from './interfaces'
 import { H, Image, Badge } from '@Components'
 import { icons } from '@Assets'
-import { getPhoto } from '@Utils' 
+import { getPhoto } from '@Utils'
+
 
 function CompanyItem({ item }: CompanyItemProps) {
 
-    const { display_name, attachment_logo, address, phone , email} = item
-    console.log(attachment_logo+ '=====');
+    const { display_name, attachment_logo, address, phone, email } = item
+    console.log(attachment_logo + '=====');
 
     return (
 
@@ -40,16 +42,15 @@ function CompanyItem({ item }: CompanyItemProps) {
                                 <h5>{email}</h5>
                             </div>
                             <div className='text-center'>
-                                <Badge pill color={'success'} text={'Email'}  />
+                                <Badge pill color={'success'} text={'Email'} />
                             </div>
                         </div>
 
                     </div>
                 </div>
-
-               
             </div>
         </div>
+
 
     )
 }
