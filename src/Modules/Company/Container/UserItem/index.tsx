@@ -18,6 +18,7 @@ function UserItem({ item }: UserItemProps) {
               <div className="row justify-content-end">
                 <div>
                   <Badge
+                    style={{ cursor: 'pointer' }}
                     pill
                     color={"primary"}
                     text={"Call"}
@@ -25,8 +26,8 @@ function UserItem({ item }: UserItemProps) {
                   />
                 </div>
                 <div>
-  
-                  <Badge pill color={"success"} text={"Email"} onClick={() => {(handleEmailClick(email))}} />
+
+                  <Badge pill color={"success"} text={"Email"} style={{ cursor: 'pointer' }} onClick={() => { (handleEmailClick(email)) }} />
                 </div>
               </div>
             </div>
