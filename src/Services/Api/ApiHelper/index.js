@@ -8,7 +8,7 @@ const BUILD_TYPE_LOCAL = 4;
 const BUILD_TYPE = BUILD_TYPE_LIVE;
 export const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
-    ? 'http://api.quantatms.in/'
+    ? 'http://api.quantatms.in'
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_local'
       : BUILD_TYPE === BUILD_TYPE_LOCAL

@@ -19,39 +19,41 @@ function IssueDetails() {
     const [image, setImage] = useState('')
     const [selectAttachments, setSelectAttachments] = useState(false)
     const [selectDropzone, setSelectDropzone] = useState([{}])
-    console.log('selectDropzone------------>', selectDropzone)
-    useEffect(() => {
-        beginGetTicketEvents()
-    }, []);
+    // console.log('selectDropzone------------>', selectDropzone)
+    // useEffect(() => {
+    //     beginGetTicketEvents()
+    // }, []);
 
-    function beginGetTicketEvents() {
+    // function beginGetTicketEvents() {
 
-        if (selectedIssues) {
-            const params = {
-                ticket_id: selectedIssues.id,
-            };
+    //     if (selectedIssues) {
+    //         const params = {
+    //             ticket_id: selectedIssues.id,
+    //         };
 
-            dispatch(
-                getTicketsEvents({
-                    params,
-                    onSuccess: () => { },
-                    onError: () => { }
-                })
-            )
-        }
-    }
+    //         dispatch(
+    //             getTicketsEvents({
+    //                 params,
+    //                 onSuccess: () => { },
+    //                 onError: () => { }
+    //             })
+    //         )
+    //     }
+    // }
 
     const sendMessageHandler = () => {
+        
         if (textMessage) {
             const params = {
                 id: selectedIssues.id,
                 message: textMessage.value,
+                event_type:'TEM'
             }
-            dispatch(addTicketEvent({
+            dispatch(addTicketEvent({                
                 params,
                 onSuccess: () => {
-                    console.log('addTicketEvent', addTicketEvent)
-                    beginGetTicketEvents()
+                    console.log('addTicketEventaddTicketEventaddTicketEventaddTicketEvent', addTicketEvent)
+                    // beginGetTicketEvents()
                     textMessage.set('')
                 },
                 onFailure: () => { }
@@ -100,7 +102,9 @@ function IssueDetails() {
                         onChange={textMessage.onChange}
                     />
                 </div>
-                <Image variant='rounded' size='sm' src={icons.addFillGray} onClick={() => { setSelectAttachments(!selectAttachments) }} />
+                <div className='d-flex justify-content-center align-items-end'>
+                    <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
+                </div>
             </Card>
 
             <div>
@@ -108,8 +112,8 @@ function IssueDetails() {
                     onClose={() => {
                         setSelectAttachments(!selectAttachments)
                     }}>
-                    <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={() => setSelectAttachments(true)} />
-                    {/* onChange={modalName.onChange} */}
+                    <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={modalName.onChange} />
+                    {/* onChange={() => setSelectAttachments(true)} */}
                     {selectDropzone && selectDropzone.map((el, index) => {
                         return (
                             <Dropzone variant='ICON'
