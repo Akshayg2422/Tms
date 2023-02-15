@@ -19,39 +19,41 @@ function IssueDetails() {
     const [image, setImage] = useState('')
     const [selectAttachments, setSelectAttachments] = useState(false)
     const [selectDropzone, setSelectDropzone] = useState([{}])
-    console.log('selectDropzone------------>', selectDropzone)
-    useEffect(() => {
-        beginGetTicketEvents()
-    }, []);
+    // console.log('selectDropzone------------>', selectDropzone)
+    // useEffect(() => {
+    //     beginGetTicketEvents()
+    // }, []);
 
-    function beginGetTicketEvents() {
+    // function beginGetTicketEvents() {
 
-        if (selectedIssues) {
-            const params = {
-                ticket_id: selectedIssues.id,
-            };
+    //     if (selectedIssues) {
+    //         const params = {
+    //             ticket_id: selectedIssues.id,
+    //         };
 
-            dispatch(
-                getTicketsEvents({
-                    params,
-                    onSuccess: () => { },
-                    onError: () => { }
-                })
-            )
-        }
-    }
+    //         dispatch(
+    //             getTicketsEvents({
+    //                 params,
+    //                 onSuccess: () => { },
+    //                 onError: () => { }
+    //             })
+    //         )
+    //     }
+    // }
 
     const sendMessageHandler = () => {
+        
         if (textMessage) {
             const params = {
                 id: selectedIssues.id,
                 message: textMessage.value,
+                event_type:'TEM'
             }
-            dispatch(addTicketEvent({
+            dispatch(addTicketEvent({                
                 params,
                 onSuccess: () => {
-                    console.log('addTicketEvent', addTicketEvent)
-                    beginGetTicketEvents()
+                    console.log('addTicketEventaddTicketEventaddTicketEventaddTicketEvent', addTicketEvent)
+                    // beginGetTicketEvents()
                     textMessage.set('')
                 },
                 onFailure: () => { }

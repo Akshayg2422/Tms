@@ -3,10 +3,12 @@ import { ChatProps } from './interfaces';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+
+
 function Sent({ item }: any) {
     const dispatch = useDispatch()
 
-    // console.log('ticketEvent------------->', JSON.stringify(item))
+    console.log('ticketEvent------------->', JSON.stringify(item))
     return (
         <>
             {
@@ -41,11 +43,36 @@ function Receive({ item }: any) {
 }
 
 
+
 function Chat({ item }: ChatProps) {
 
+    useEffect(() => {
+        beginGetTicketEvents()
+    }, []);
+
     const { ticketEvents } = useSelector((state: any) => state.CompanyReducer);
+    const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
 
     console.log('ticketEvents======', JSON.stringify(ticketEvents));
+    console.log('beginGetTicketEvents------------------------======', JSON.stringify(beginGetTicketEvents));
+
+    function beginGetTicketEvents() {
+    
+
+        if (selectedIssues) {
+            const params = {
+                ticket_id: selectedIssues.id,
+            };
+    
+            dispatch(
+                getTicketsEvents({
+                    params,
+                    onSuccess: () => { },
+                    onError: () => { }
+                })
+            )
+        }
+    }
 
     function getChatComponents() {
 
@@ -59,4 +86,8 @@ function Chat({ item }: ChatProps) {
 export { Chat }
 
 
+
+function dispatch(arg0: { type: string; payload: any; }) {
+    throw new Error('Function not implemented.');
+}
 

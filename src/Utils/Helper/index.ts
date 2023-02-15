@@ -7,8 +7,8 @@ export const getPhoto = (photo: any) => {
 
 }
 
-export const handleEmailClick = (emails:any)  => {
+export const handleEmailClick = (email:any)  => {
   return (
-    window.open(`mailto:${emails}`)
+    window.open(`mailto:${email}`)
   )
 }
