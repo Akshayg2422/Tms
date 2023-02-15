@@ -6,7 +6,7 @@ import { setSelectedIssues } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes';
 import { getPhoto } from '@Utils'
-import { getStatusFromCode } from '@Utils'
+import { getStatusFromCode,handleEmailClick } from '@Utils'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 
@@ -33,7 +33,7 @@ function TicketItem({ item }: TicketItemProps) {
                     <div className='row'>
                         <div className='col-lg-8 col-md-8 col-sm-0  col-6  row '>
                             <span className='col-lg-4 col-md-4 col-sm-0 col-6'>  <h4 className="text-uppercase text-muted"><Badge pill color={'primary'} text={'Phone'} /></h4> </span>
-                            <span className='col-lg-4 col-md-4 col-sm-0 col-6'> <h4 className="text-uppercase text-muted"><Badge pill color={'success'} text={'Email'} /></h4> </span>
+                            <span className='col-lg-4 col-md-4 col-sm-0 col-6'> <h4 className="text-uppercase text-muted"><Badge pill color={'success'} text={'Email'} onClick={() => {(handleEmailClick(by_user.email))}} /></h4> </span>
                         </div>
 
                         <div className='col-lg-4 col-md-4 col-sm-0  col-6 '>
