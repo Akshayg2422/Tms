@@ -10,7 +10,8 @@ import {
   H,
   Divider,
   Button,
-  showToast
+  showToast,
+  Dropzone
 } from '@Components'
 import {
   GENDER_LIST,
@@ -34,9 +35,7 @@ import {
   useDropDown,
   useNavigation
 } from '@Hooks'
-import {
-  Dropzone
-} from '@Components';
+
 
 function CreateCompany({ }: CreateCompanyProps) {
 
@@ -83,7 +82,7 @@ function CreateCompany({ }: CreateCompanyProps) {
           },
           onError: (error) => {
             showToast(error.error_message)
-           },
+          },
         }),
       );
     } else {
@@ -127,6 +126,8 @@ function CreateCompany({ }: CreateCompanyProps) {
   return (
 
     <HomeContainer isCard title={translate('common.addCompany')!} >
+      <div className='bg-red'>
+      </div>
       <div className='col-md-9 col-lg-7'>
         <H tag={'h3'} className="heading  mb-3"
           text={translate('common.companyDetails')} />

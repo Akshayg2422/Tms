@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
-import { HomeContainer, Divider, Modal, H, Button } from '@Components';
+import { HomeContainer, Divider, Modal, H, Button, Tabs } from '@Components';
 import { TicketItem } from '@Modules';
 import { useInput } from '@Hooks';
-import {useNavigation} from '@Hooks'
-import { ISSUE_CREATE,HOME_PATH } from '@Routes'
+import { useNavigation } from '@Hooks'
+import { ISSUE_CREATE, HOME_PATH } from '@Routes'
 import { translate } from "@I18n";
 
 
+
 function Issues() {
-    const {goTo, goBack} = useNavigation()
+    const { goTo, goBack } = useNavigation()
     const [modal, setModal] = useState(false);
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
     const [issueStatus, setIssueStatus] = useState([['', 'All']].concat(dashboardDetails?.ticket_status))
@@ -19,6 +20,13 @@ function Issues() {
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
     const dispatch = useDispatch();
     const Search = useInput('');
+    const tabs = [
+        { title: 'THREAD', content: <div>THREAD</div> },
+        { title: 'ATTACH', content: <div>ATTACH</div> },
+        { title: 'REFERENCE', content: <div>REFERENCE</div> },
+        { title: 'USER', content: <div>USER</div> }
+    ];
+    const [activeTab, setActiveTab] = useState(3)
 
 
     useEffect(() => {
@@ -58,26 +66,27 @@ function Issues() {
     return (
         <>
             <div>
+                <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
                 <div className="container mt-4">
                     <div className="row justify-content-center">
                         <div className="col-sm-8">
                             <div className='row'>
-                                <div className='col-lg-8 col-md-12 col-sm-12'>   
+                                <div className='col-lg-8 col-md-12 col-sm-12'>
                                     <div className="input-group bg-white border rounded-pill">
-                                        <input 
-                                        type="text"
-                                        className="form-control bg-transparent border border-0"
-                                        placeholder={translate("auth.search")!}
-                                        value={Search.value}
-                                        onChange={Search.onChange}
+                                        <input
+                                            type="text"
+                                            className="form-control bg-transparent border border-0"
+                                            placeholder={translate("auth.search")!}
+                                            value={Search.value}
+                                            onChange={Search.onChange}
                                         />
-                                            <span className="input-group-text  border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
-                                            <span className="input-group-text  border border-0" onClick={() =>setModal(!modal)}  style={{ cursor: "pointer" }}>    {showIssue} </span>
-                                            <span className="input-group-text  bg-transparent border border-0" onClick={() =>setModal(!modal)}  style={{ cursor: "pointer" }}>   <i className="bi bi-chevron-down "/></span>
+                                        <span className="input-group-text  border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
+                                        <span className="input-group-text  border border-0" onClick={() => setModal(!modal)} style={{ cursor: "pointer" }}>    {showIssue} </span>
+                                        <span className="input-group-text  bg-transparent border border-0" onClick={() => setModal(!modal)} style={{ cursor: "pointer" }}>   <i className="bi bi-chevron-down " /></span>
                                     </div>
                                 </div>
                                 <div className='col-lg-4 col-md-12 mt-lg-1 mt-sm-0 mt-md-3 mt-3 col-sm-12 text-right'>
-                                <Button text={translate("common.createTicket")} onClick={()=>{goTo(HOME_PATH.DASHBOARD+ISSUE_CREATE.ISSUE_TICKET)}}/>
+                                    <Button text={translate("common.createTicket")} onClick={() => { goTo(HOME_PATH.DASHBOARD + ISSUE_CREATE.ISSUE_TICKET) }} />
                                 </div>
                             </div>
                         </div>
@@ -103,7 +112,7 @@ function Issues() {
                     }
                 </Modal>
 
-                 <HomeContainer isCard title={'Issues'}>
+                <HomeContainer isCard title={'Issues'}>
                     {
                         tickets && tickets.length > 0 && tickets.map((eachTickets: any, index: number) => {
                             return (
@@ -115,7 +124,7 @@ function Issues() {
                         })
 
                     }
-                </HomeContainer> 
+                </HomeContainer>
             </div>
         </>
     )
