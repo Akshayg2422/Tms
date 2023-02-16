@@ -19,7 +19,11 @@ function AdminDashboard() {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(getDashboard({}));
+    dispatch(getDashboard({
+      params:{},
+      onSuccess: () =>()=> { },
+      onError: () =>()=> { }
+    }));
   }, []);
 
 
