@@ -13,11 +13,11 @@ function Companies() {
   const { associatedCompanies } = useSelector(
     (state: any) => state.AdminReducer
   );
-  
+
 
   useEffect(() => {
     const params = { q: "" };
-    
+
     dispatch(
       getAssociatedBranch({
         params,
@@ -41,7 +41,7 @@ function Companies() {
         />
       </div>
       <Card title={"Companies"} className="mt-4">
-        {associatedCompanies && 
+        {associatedCompanies &&
           associatedCompanies.length > 0 &&
           associatedCompanies.map((company: any, index: number) => {
             return (

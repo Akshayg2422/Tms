@@ -1,3 +1,10 @@
 export interface ChatProps {
-    item: string;
+    item: any;
+    index:number;
+   
+} 
+export type TaggedElementProps = 
+{
+    id?:string;
+    name?:string;
 }

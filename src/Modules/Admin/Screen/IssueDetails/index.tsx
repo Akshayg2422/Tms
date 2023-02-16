@@ -15,45 +15,45 @@ function IssueDetails() {
     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
     const textMessage = useInput('')
     const modalName = useInput('')
-    const photo = useInput([]);
+    const [photo, setPhoto] = useState<any>([])
     const [image, setImage] = useState('')
     const [selectAttachments, setSelectAttachments] = useState(false)
-    const [selectDropzone, setSelectDropzone] = useState([{}])
-    // console.log('selectDropzone------------>', selectDropzone)
-    // useEffect(() => {
-    //     beginGetTicketEvents()
-    // }, []);
+    const [selectDropzone, setSelectDropzone] = useState<any>([{}])
 
-    // function beginGetTicketEvents() {
+    useEffect(() => {
+        beginGetTicketEvents()
+    }, []);
 
-    //     if (selectedIssues) {
-    //         const params = {
-    //             ticket_id: selectedIssues.id,
-    //         };
+    function beginGetTicketEvents() {
 
-    //         dispatch(
-    //             getTicketsEvents({
-    //                 params,
-    //                 onSuccess: () => { },
-    //                 onError: () => { }
-    //             })
-    //         )
-    //     }
-    // }
+        if (selectedIssues) {
+            const params = {
+                ticket_id: selectedIssues.id,
+            };
+
+            dispatch(
+                getTicketsEvents({
+                    params,
+                    onSuccess: () => { },
+                    onError: () => { }
+                })
+            )
+        }
+    }
 
     const sendMessageHandler = () => {
-        
+
         if (textMessage) {
             const params = {
                 id: selectedIssues.id,
                 message: textMessage.value,
-                event_type:'TEM'
+                event_type: 'TEM'
             }
-            dispatch(addTicketEvent({                
+            dispatch(addTicketEvent({
                 params,
                 onSuccess: () => {
                     console.log('addTicketEventaddTicketEventaddTicketEventaddTicketEvent', addTicketEvent)
-                    // beginGetTicketEvents()
+                    beginGetTicketEvents()
                     textMessage.set('')
                 },
                 onFailure: () => { }
@@ -65,43 +65,38 @@ function IssueDetails() {
         const params = {
             event_type: 'MEA',
             id: selectedIssues.id,
-            message: textMessage,
-            attachments: [{}],
-            modalName,
+            attachments: [{ attachment: photo }],
+            name: modalName.value
         };
+        dispatch(
+            addTicketEvent({
+                params,
+                onSuccess: () => () => {
+                    beginGetTicketEvents();
+                },
+                onError: () => () => { },
+            }),
+        );
         setSelectAttachments(!selectAttachments);
         resetValues();
     };
 
     const resetValues = () => {
         modalName.set('');
-        photo.set('');
+        setSelectDropzone([{}]);
     };
 
     const handleImagePicker = (index: number, file: any) => {
-        // console.log('index', index, 'file', file, 'selectDropzone', selectDropzone)
-        let updatedPhoto = [...selectDropzone]
-        console.log(updatedPhoto ,"updatedPhoto ")
-        console.log(selectDropzone,"selectDropzone---------")
-        const isExist = selectDropzone.some((selectDropzoneCategory: any) => selectDropzoneCategory.id === index)
-        if (isExist) {
-           updatedPhoto = [index] = { ...updatedPhoto[index], ...file }
-            console.log(updatedPhoto ,"updatedPhoto -is exit---------");
-            
-        }
-        else {
-            updatedPhoto = [...selectDropzone, { ...file, id: index }]
-            console.log(updatedPhoto ,"updatedPhoto -is exit--else-------");
-        }
+        let updatedPhoto = [...selectDropzone, file]
+        let newUpdatedPhoto = [...photo, file]
         setSelectDropzone(updatedPhoto)
-        console.log(updatedPhoto,"updatedPhoto--------final");
-        
+        setPhoto(newUpdatedPhoto)
     }
 
     return (
         <div className='vh-100 d-flex justify-content-center'>
             <Card className='vh-100 col-lg-6 col-sm-12'>
-                {/* <Chat item={selectedIssues.id} /> */}
+                {/* <Chat item={selectedIssues.id} index={0} /> */}
 
                 <div className='fixed-bottom col-lg-6 col-sm-12 '>
                     <Send value={textMessage.value}
@@ -109,7 +104,7 @@ function IssueDetails() {
                         onChange={textMessage.onChange}
                     />
                 </div>
-                <div className='d-flex justify-content-center align-items-end'>
+                <div className=' col-1 pl-0'>
                     <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
                 </div>
             </Card>

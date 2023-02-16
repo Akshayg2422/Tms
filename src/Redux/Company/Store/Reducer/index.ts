@@ -1,5 +1,5 @@
 import {
-  
+
   GET_TICKETS,
   GET_TICKETS_SUCCESS,
   GET_TICKETS_FAILURE,
@@ -114,8 +114,8 @@ const CompanyReducer = (
     case ADD_TICKET_EVENT_FAILURE:
       state = { ...state, addTicketEvent: undefined };
       break;
-      
-      case GET_EMPLOYEES:
+
+    case GET_EMPLOYEES:
       state = {
         ...state
       };
@@ -128,9 +128,9 @@ const CompanyReducer = (
       };
       break;
     case GET_EMPLOYEES_FAILURE:
-      state = {...state, getEmployeesDetails: undefined};
-      break; 
-      case ADD_EMPLOYEE:
+      state = { ...state, getEmployeesDetails: undefined };
+      break;
+    case ADD_EMPLOYEE:
       state = {
         ...state,
         addEmployeeDetails: undefined,
@@ -143,7 +143,7 @@ const CompanyReducer = (
       };
       break;
     case ADD_EMPLOYEE_FAILURE:
-      state = {...state, addEmployeeDetails: undefined};
+      state = { ...state, addEmployeeDetails: undefined };
       break;
     default:
       state = state;
