@@ -81,14 +81,21 @@ function IssueDetails() {
     const handleImagePicker = (index: number, file: any) => {
         // console.log('index', index, 'file', file, 'selectDropzone', selectDropzone)
         let updatedPhoto = [...selectDropzone]
+        console.log(updatedPhoto ,"updatedPhoto ")
+        console.log(selectDropzone,"selectDropzone---------")
         const isExist = selectDropzone.some((selectDropzoneCategory: any) => selectDropzoneCategory.id === index)
         if (isExist) {
-            updatedPhoto = [index] = { ...updatedPhoto[index], ...file }
+           updatedPhoto = [index] = { ...updatedPhoto[index], ...file }
+            console.log(updatedPhoto ,"updatedPhoto -is exit---------");
+            
         }
         else {
             updatedPhoto = [...selectDropzone, { ...file, id: index }]
+            console.log(updatedPhoto ,"updatedPhoto -is exit--else-------");
         }
         setSelectDropzone(updatedPhoto)
+        console.log(updatedPhoto,"updatedPhoto--------final");
+        
     }
 
     return (

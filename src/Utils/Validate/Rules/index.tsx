@@ -86,24 +86,17 @@ export const USER_FORM_RULES = {
 
 export const CREATE_TICKET = {
   title: {
-    presence: { message: 'Name cannot be empty' },
- 
+    presence: {allowEmpty: false, message: 'title cannot be empty' },
   },
-  
   description: {
-    presence: { message: 'description cannot be empty' },
+    presence: {allowEmpty: false, message: 'description cannot be empty' },
   },
-  referenceNo :{
-    presence: { message: 'referenceNo cannot be empty' },
-
+  reference_number:{
+    presence: {allowEmpty: false, message: 'referenceNo cannot be empty' },
   },
-  company:{
-    presence: { message: 'company cannot be empty' },
 
-  },
-  User:{
-    presence: {message: 'please select User'}
-
+  assigned_to_id:{
+    presence: {allowEmpty: false ,message: 'please select User'}
   },
 
 };

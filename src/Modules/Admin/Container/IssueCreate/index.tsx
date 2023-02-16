@@ -5,16 +5,19 @@ import {
   Input,
   Radio,
   Dropzone,
+  showToast,
 } from "@Components";
 import { translate } from "@I18n";
 import { getEmployees, raiseNewTicket } from "@Redux";
-import { type } from "@Utils";
+import { CREATE_TICKET, getValidateError, ifObjectExist, type, validate } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 
 function IssueCreate() {
   const dispatch = useDispatch();
+  const {goBack} = useNavigation()
+
   const [typeSelect, setTypeSelect] = useState(type[0]);
   const { associatedCompanies, dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
@@ -34,6 +37,8 @@ function IssueCreate() {
   const [userId, setUserId] = useState("");
 
   const submitTicketHandler = () => {
+
+
     const params = {
       title: title.value,
       description: description.value,
@@ -42,16 +47,25 @@ function IssueCreate() {
       assigned_to_id: userId,
       ticket_attachments: [{ attachments: [photo] }],
     };
+    
+    const validation = validate(CREATE_TICKET, params);
+   if(ifObjectExist( validation)){
 
     dispatch(
       raiseNewTicket({
         params,
         onSuccess: (response: any) => {
+          console.log(response,"=====================")
           goBack();
         },
-        onError: () => {},
+        onError: (error) => {console.log(error,"----------------------");
+        },
       })
     );
+  }
+  else {
+    showToast(getValidateError(validation))
+  }
   };
 
   useEffect(() => {
@@ -76,7 +90,9 @@ function IssueCreate() {
             let companiesDashboard: any = [];
             response?.details?.forEach(({ id, name }) => {
               companiesDashboard = [...companiesDashboard, { id, text: name }];
+              
             });
+            // goBack();
             setCompanyUserDashboard(companiesDashboard);
           },
           onError: () => {},
@@ -187,7 +203,5 @@ function IssueCreate() {
   );
 }
 
-export { IssueCreate };
-function goBack() {
-  throw new Error("Function not implemented.");
-}
+export {IssueCreate}
+
