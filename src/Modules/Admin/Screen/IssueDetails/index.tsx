@@ -72,7 +72,7 @@ function IssueDetails() {
             addTicketEvent({
                 params,
                 onSuccess: () => () => {
-                    beginGetTicketEvents();
+                    // beginGetTicketEvents();
                 },
                 onError: () => () => { },
             }),
