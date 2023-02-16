@@ -6,7 +6,7 @@ import { setSelectedIssues } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes';
 import { getPhoto } from '@Utils'
-import { getStatusFromCode, handleEmailClick } from '@Utils'
+import { getStatusFromCode,handleEmailClick } from '@Utils'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 
@@ -19,6 +19,7 @@ function TicketItem({ item }: TicketItemProps) {
 
     return (
 
+       
         <div className='row d-flex justify-content-center' onClick={() => {
             dispatch(setSelectedIssues(item))
             goTo(ROUTES.AUTH.ISSUE_DETAILS)
@@ -58,7 +59,6 @@ function TicketItem({ item }: TicketItemProps) {
                 </div>
             </div>
         </div>
-
     )
 }
 
