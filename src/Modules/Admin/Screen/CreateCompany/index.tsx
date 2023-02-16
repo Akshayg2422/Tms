@@ -81,10 +81,10 @@ function CreateCompany({ }: CreateCompanyProps) {
       dispatch(
         registerAdmin({
           params,
-          onSuccess: (response: any) => {
+          onSuccess: (response: any) =>()=> {
             onRegisterCompany();
           },
-          onError: () => { },
+          onError: () =>()=> { },
         }),
       );
     } else {
@@ -112,13 +112,13 @@ function CreateCompany({ }: CreateCompanyProps) {
       dispatch(
         registerCompany({
           params,
-          onSuccess: (response: any) => () => {
+          onSuccess: (response: any) => () =>()=> {
             if (response.success) {
               showToast(response.message, 'success')
               goBack()
             }
           },
-          onError: (error: any) => () => {
+          onError: (error: any) => () =>()=> {
             showToast('')
           },
         }),

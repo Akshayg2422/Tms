@@ -50,7 +50,7 @@ function Otp() {
         dispatch(
           otpLogin({
             params,
-            onSuccess: response => {
+            onSuccess: response =>()=> {
               dispatch(
                 userLoginDetails({
                   ...loginDetails,
@@ -61,17 +61,17 @@ function Otp() {
               localStorage.setItem(USER_TOKEN, response.details.token);
               goTo(AUTH_PATH.SPLASH)
                },
-            onError: e => { },
+            onError: e =>()=> { },
           }),
         );
       }else{
         dispatch(
           otpRegister({
             params,
-            onSuccess: (response: any) => {
+            onSuccess: (response: any) =>()=> {
               console.log(JSON.stringify(response)+"====");
             },
-            onError: () => {
+            onError: () =>()=> {
             },
           })
         );

@@ -54,11 +54,11 @@ function IssueCreate() {
     dispatch(
       raiseNewTicket({
         params,
-        onSuccess: (response: any) => {
+        onSuccess: (response: any) =>()=> {
           console.log(response,"=====================")
           goBack();
         },
-        onError: (error) => {console.log(error,"----------------------");
+        onError: (error) =>()=> {console.log(error,"----------------------");
         },
       })
     );
@@ -86,7 +86,7 @@ function IssueCreate() {
       dispatch(
         getEmployees({
           params,
-          onSuccess: (response: any) => {
+          onSuccess: (response: any) =>()=> {
             let companiesDashboard: any = [];
             response?.details?.forEach(({ id, name }) => {
               companiesDashboard = [...companiesDashboard, { id, text: name }];
@@ -95,7 +95,7 @@ function IssueCreate() {
             // goBack();
             setCompanyUserDashboard(companiesDashboard);
           },
-          onError: () => {},
+          onError: () =>()=> {},
         })
       );
     }
@@ -142,14 +142,14 @@ function IssueCreate() {
                 dispatch(
                   getEmployees({
                     params,
-                    onSuccess: (response: any) => {
+                    onSuccess: (response: any) =>()=> {
                       let companyUser: any = [];
                       response?.details?.forEach(({ id, name }) => {
                         companyUser = [...companyUser, { id, text: name }];
                       });
                       setCompanyUser(companyUser);
                     },
-                    onError: () => {},
+                    onError: () =>()=> {},
                   })
                 );
               }}

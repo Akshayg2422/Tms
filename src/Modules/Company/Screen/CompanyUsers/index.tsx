@@ -23,10 +23,10 @@ function CompanyUsers() {
        
         
         dispatch(getEmployees({ params, 
-            onSuccess:()=>{
+            onSuccess:()=>()=>{
 
 
-        }, onError:()=>{} }));
+        }, onError:()=>()=>{} }));
     }, []);
 
     return (
