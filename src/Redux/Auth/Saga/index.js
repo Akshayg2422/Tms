@@ -71,6 +71,8 @@ function* validateUserBusinessSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(validateUserBusinessFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -93,6 +95,9 @@ function* validateUserSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(validateUserFailure(error));
+    yield call(action.payload.onError(error));
+    
   }
 }
 
@@ -118,6 +123,8 @@ function* registerAdminSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(registerAdminFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -140,6 +147,8 @@ function* getUserBusinessPlacesSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(getUserBusinessPlacesFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -162,6 +171,8 @@ function* validateRegisterUserSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(validateUserFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -180,6 +191,8 @@ function* otpRegisterSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(otpRegisterFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -206,6 +219,8 @@ function* otpLoginSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(otpLoginFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -222,6 +237,8 @@ function* brandSectorsSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(brandSectorsFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 function* businessPlaceDetailsSaga(action) {
@@ -242,6 +259,8 @@ function* businessPlaceDetailsSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(businessPlaceDetailsFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -262,6 +281,8 @@ function* registerCompanySaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(registerCompanyFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -278,6 +299,8 @@ function* sectorServiceTypesSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(sectorServiceTypesFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 

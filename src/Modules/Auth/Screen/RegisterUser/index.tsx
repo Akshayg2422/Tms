@@ -55,11 +55,11 @@ function RegisterUser() {
       dispatch(
         registerAdmin({
           params,
-          onSuccess: (response: any) => {
+          onSuccess: (response: any) =>()=> {
             console.log(JSON.stringify(response));
             // getUserBusinessPlacesApiHandler(contactNumber.value)
           },
-          onError: (error: any) => {
+          onError: (error: any) =>()=> {
             console.log(JSON.stringify(error));
 
           },
@@ -80,7 +80,7 @@ function RegisterUser() {
     dispatch(
       getUserBusinessPlaces({
         params,
-        onSuccess: (success: UserBusinessPlace) => {
+        onSuccess: (success: UserBusinessPlace) =>()=> {
           console.log(JSON.stringify(success));
           if (success.details.length > 0) {
             goTo(ROUTES.AUTH.VIEW_GOOGLE_BUSINESS)
@@ -88,7 +88,7 @@ function RegisterUser() {
 
           }
         },
-        onError: () => {
+        onError: () =>()=> {
 
         },
       }),
