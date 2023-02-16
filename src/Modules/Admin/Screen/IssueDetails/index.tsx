@@ -96,7 +96,7 @@ function IssueDetails() {
     return (
         <div className='vh-100 d-flex justify-content-center'>
             <Card className='vh-100 col-lg-6 col-sm-12'>
-                <Chat item={selectedIssues.id} index={0} />
+                {/* <Chat item={selectedIssues.id} index={0} /> */}
 
                 <div className='fixed-bottom col-lg-6 col-sm-12 '>
                     <Send value={textMessage.value}
@@ -104,7 +104,7 @@ function IssueDetails() {
                         onChange={textMessage.onChange}
                     />
                 </div>
-                <div className=' col-1 pl-0 d-flex align-items-end border border-dark'>
+                <div className=' col-1 pl-0'>
                     <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
                 </div>
             </Card>
