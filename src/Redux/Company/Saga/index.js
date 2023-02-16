@@ -55,6 +55,8 @@ function* raiseNewTicketSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(raiseNewTicketFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -74,6 +76,8 @@ function* getTicketsSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(getTicketsFailure( error ));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -91,7 +95,9 @@ function* getTicketEventsSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    // yield put(hideLoader());
+     yield put(hideLoader());
+     yield put(getTicketsEventsFailure(error));
+      yield call(action.payload.onError(error));
   }
 }
 
@@ -110,7 +116,9 @@ function* addTicketEventSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    // yield put(hideLoader());
+     yield put(hideLoader());
+     yield put(addTicketEventFailure(error));
+     yield call(action.payload.onError(error));
   }
 }
 
@@ -129,6 +137,9 @@ function* getTicketTagsSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(getTicketTagsFailure(error));
+    yield call(action.payload.onError(error));
+
   }
 }
 
@@ -151,6 +162,8 @@ function* getEmployeesSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(getEmployeesFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -171,6 +184,8 @@ function* addEmployeeSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(addEmployeeFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 

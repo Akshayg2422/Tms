@@ -31,8 +31,8 @@ function Issues() {
             const params = { q: '' }
             dispatch(getTickets({
                 params,
-                onSuccess: () => { },
-                onError: () => { }
+                onSuccess: () =>()=> { },
+                onError: () =>()=> { }
 
             }))
         }
@@ -40,8 +40,8 @@ function Issues() {
             const params = { ticket_status: statusCode }
             dispatch(getTickets({
                 params,
-                onSuccess: () => { },
-                onError: () => { }
+                onSuccess: () =>()=> { },
+                onError: () =>()=> { }
             }))
         }
     }
@@ -50,8 +50,8 @@ function Issues() {
         const params = { q_many: Search.value }
         dispatch(getTickets({
             params,
-            onSuccess: () => { },
-            onError: () => { }
+            onSuccess: () =>()=> { },
+            onError: () =>()=> { }
         }))
     }
 

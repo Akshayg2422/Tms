@@ -34,8 +34,8 @@ function IssueDetails() {
             dispatch(
                 getTicketsEvents({
                     params,
-                    onSuccess: () => { },
-                    onError: () => { }
+                    onSuccess: () =>()=> { },
+                    onError: () =>()=> { }
                 })
             )
         }
@@ -51,12 +51,12 @@ function IssueDetails() {
             }
             dispatch(addTicketEvent({
                 params,
-                onSuccess: () => {
+                onSuccess: () => ()=>{
                     console.log('addTicketEventaddTicketEventaddTicketEventaddTicketEvent', addTicketEvent)
                     beginGetTicketEvents()
                     textMessage.set('')
                 },
-                onFailure: () => { }
+                onFailure: () =>()=> { }
             }))
         }
     }

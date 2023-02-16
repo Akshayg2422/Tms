@@ -37,11 +37,11 @@ function Login() {
       dispatch(
         validateUserBusiness({
           params,
-          onSuccess: () => {
+          onSuccess: () =>()=> {
             dispatch(setRegisteredMobileNumber(mobileNumber.value));
             goTo(AUTH_PATH.OTP)
           },
-          onError: () => {
+          onError: () =>()=> {
             dispatch(setRegisteredMobileNumber(mobileNumber.value));
             goTo(AUTH_PATH.OTP)
           },

@@ -70,8 +70,8 @@ function Chat({ item }: ChatProps) {
     //         dispatch(
     //             getTicketsEvents({
     //                 params,
-    //                 onSuccess: () => { },
-    //                 onError: () => { }
+    //                 onSuccess: () =>()=> { },
+    //                 onError: () =>()=> { }
     //             })
     //         )
     //     }
