@@ -4,7 +4,7 @@ import { companySelectedDetails, getAssociatedBranch } from "@Redux";
 import { Card, Divider, Button, HomeContainer } from "@Components";
 import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
-import { HOME_PATH, INFO } from "@Routes";
+import { COMPANY_ISSUES, HOME_PATH, INFO } from "@Routes";
 
 function Companies() {
   const dispatch = useDispatch();

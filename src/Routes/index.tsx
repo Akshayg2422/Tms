@@ -1,5 +1,5 @@
 import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,CompanyInfo} from '@Modules'
-import { Login, Otp, Splash, RegisterUser,IssueDetails } from '@Modules'
+import { Login, Otp, Splash, RegisterUser,IssueDetails,CompanyIssues } from '@Modules'
 
 export const ROUTES = {
   AUTH: {
@@ -46,6 +46,12 @@ export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   ISSUE_TICKET:"/IssueCreate"
+ }
+
+ export const COMPANY_ISSUES={
+  DASHBOARD: "/admin",
+  COMPANY: "/company",
+  COMPANY_ISSUES:"/CompanyIssues"
  }
 
 
