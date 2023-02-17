@@ -77,7 +77,7 @@ function CreateCompany({ }: CreateCompanyProps) {
       dispatch(
         registerAdmin({
           params,
-          onSuccess: (response: any) => {
+          onSuccess: (response: any) =>()=> {
             onRegisterCompany();
           },
           onError: (error) => {
@@ -102,18 +102,19 @@ function CreateCompany({ }: CreateCompanyProps) {
     };
 
     const validation = validate(BUSINESS_FORM_RULES, params);
+    console.log("validation",validation)
     if (ifObjectExist(validation)) {
 
       dispatch(
         registerCompany({
           params,
-          onSuccess: (response: any) => () => {
+          onSuccess: (response: any) => () =>()=> {
             if (response.success) {
               showToast(response.message, 'success')
               goBack()
             }
           },
-          onError: (error: any) => () => {
+          onError: (error: any) => () =>()=> {
             showToast('')
           },
         }),

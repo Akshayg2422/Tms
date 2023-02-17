@@ -42,11 +42,11 @@ function Settings () {
     dispatch(
       getDepartmentData({
         params,
-        onSuccess: (success: any) => {
+        onSuccess: (success: any) =>()=>{
         setShowDepartments(!showDepartments)
          
         },
-        onError: (error: string) => {
+        onError: (error: string) =>()=> {
       
         },
       })
@@ -61,12 +61,12 @@ function Settings () {
         getDesignationData({
           params,
           
-          onSuccess: (success: any) => {
+          onSuccess: (success: any) =>()=> {
   
           
             setShowDesignations(!showDesignations)
           },
-          onError: (error: string) => {
+          onError: (error: string) => ()=>{
          
           },
         })
@@ -81,14 +81,14 @@ function Settings () {
       dispatch(
         addDepartment({
           params,
-          onSuccess: (success: any) => {
+          onSuccess: (success: any) =>()=> {
             addDepartMentModal.hide()
           
             dispatch(getDepartmentData({}));
             setDepartment("");
             showToast("success", success.message);
           },
-          onError: (error: string) => {
+          onError: (error: string) =>()=> {
        
           },
         })
@@ -105,14 +105,14 @@ function Settings () {
         addDesignation({
 
           params,
-          onSuccess: (success: any) => {
+          onSuccess: (success: any) =>()=> {
             addDesignationModal.hide()
            
             dispatch(getDesignationData({}));
             setDesignation("");
             showToast("success", success.message);
           },
-          onError: (error: string) => {
+          onError: (error: string) =>()=> {
            
           },
         })

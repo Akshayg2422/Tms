@@ -57,6 +57,8 @@ function* getAssociatedCompaniesSaga(action) {
   } catch (error) {
     console.log(error,"----------------------------->")
     yield put(hideLoader());
+    yield put(getAssociatedBranchFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -75,6 +77,8 @@ function* getDashboardSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
+    yield put(getDashboardFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 /**
@@ -154,6 +158,7 @@ function* addDesignation(action) {
   } catch (error) {
     yield put(hideLoader());
     yield put(getDesignationDataFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -180,6 +185,7 @@ function* getDepartments(action) {
   } catch (error) {
     yield put(hideLoader());
     yield put(getDepartmentDataFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
   }
 }
 

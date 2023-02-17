@@ -47,8 +47,8 @@ function AddUser() {
     dispatch(
       getDesignationData({
         params,
-        onSuccess: () => {},
-        onError: () => {},
+        onSuccess: () =>()=> {},
+        onError: () =>()=> {},
       })
     );
   }, []);
@@ -76,10 +76,10 @@ function AddUser() {
         dispatch(
           addEmployee({
             params,
-            onSuccess: () => {
+            onSuccess: () =>()=> {
               goBack();
             },
-            onError: (error) => {
+            onError: (error) =>()=> {
               console.log(error, "------------------------->if error");
             },
           })
@@ -109,10 +109,10 @@ function AddUser() {
         dispatch(
           addEmployee({
             params,
-            onSuccess: () => {
+            onSuccess: () => ()=>{
               goBack();
             },
-            onError: (error) => {
+            onError: (error) =>()=> {
               console.log(error, "------------------------->else error");
             },
           })
