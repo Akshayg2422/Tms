@@ -34,7 +34,7 @@ function IssueCreate() {
   const [photo, setPhoto] = useState<any>([]);
   const [companyUserDashboard, setCompanyUserDashboard] = useState<any>();
   const [selectedCompany, setSelectedCompany] = useState<any>({});
-  const [selectDropzone, setSelectDropzone] = useState<any>([{}]);
+  const [selectDropzone, setSelectDropzone] = useState<any>([{id:'1'}]);
   const [image, setImage] = useState("");
 
   const referenceNo = useInput("");
@@ -44,9 +44,9 @@ function IssueCreate() {
   const [selectedUser, setSelectedUser] = useState<any>();
 
   const handleImagePicker = (index: number, file: any) => {
-    let updatedPhoto = [...selectDropzone, file];
+    // let updatedPhoto = [...selectDropzone, file];
     let newUpdatedPhoto = [...photo, file];
-    setSelectDropzone(updatedPhoto);
+    // setSelectDropzone(updatedPhoto);
     setPhoto(newUpdatedPhoto);
   };
 
@@ -172,17 +172,20 @@ function IssueCreate() {
         </div>
 
         <div className="col-md-9 col-lg-7 pb-4 pt-3">
-          {selectDropzone &&
+          {selectDropzone&&
             selectDropzone.map((el, index) => {
               return (
                 <Dropzone
                   variant="ICON"
                   icon={image}
                   size="xl"
-                  onSelect={(image) => {
+                  onSelect={(image) => 
+                    {
                     let file = image.toString().replace(/^data:(.*,)?/, "");
                     handleImagePicker(index, file);
-                  }}
+                    setSelectDropzone([{id:'1'},{id:'2'}])
+                  }
+                }
                 />
               );
             })}
