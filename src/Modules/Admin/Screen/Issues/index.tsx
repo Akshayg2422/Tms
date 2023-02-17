@@ -26,8 +26,7 @@ function Issues() {
         { title: 'REFERENCE', content: <div>REFERENCE</div> },
         { title: 'USER', content: <div>USER</div> }
     ];
-    const [activeTab, setActiveTab] = useState(3)
-
+    const [activeTab, setActiveTab] = useState(0)
 
     useEffect(() => {
         getTicketHandler()
