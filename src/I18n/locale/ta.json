@@ -32,7 +32,7 @@
         "contactNumber": "தொடர்பு எண்",
         "alternativeContactNumber": "மாற்று தொடர்பு எண்",
         "business": "வணிகஅலுவல்",
-        "businessAppName": "குவாண்டா வணிகம்",
+        "businessAppName": "Quanta TMS",
         "businessAppSubtext": "வணிக உரிமையாளர் மற்றும் ஸ்டோர் ஏஜெண்டிற்கு",
         "courses": "படிப்புகள்",
         "department": "துறை",
@@ -42,10 +42,12 @@
         "companyDetails": "நிறுவன விவரங்கள்",
         "addCompany": "நிறுவனத்தைச் சேர்க்கவும்",
         "primaryContactPerson": "முதன்மை தொடர்பு நபர்",
-        "addUser": "சேர்ப்பவர்",
+        "addUser": "பயனரைச் சேர்க்கவும்",
         "createTicket":"டிக்கெட்டை உருவாக்கு",
+        "createCompany":"நிறுவனம் உருவாக்கு",
         "company": "நிறுவனம்",
         "user":"பயனர்"
+        
     },
     "errors": {
         "invalidEmail": "Invalid email address."

@@ -5,6 +5,7 @@ import { Card, Divider, Button, HomeContainer } from "@Components";
 import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
 import { COMPANY_ISSUES, HOME_PATH, INFO } from "@Routes";
+import { translate } from "@I18n";
 
 function Companies() {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ function Companies() {
     <HomeContainer>
       <div className="col text-right">
         <Button
-          text={"Create Company"}
+          text={translate("common.createCompany")}
           onClick={() => {
             goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_COMPANY);
           }}

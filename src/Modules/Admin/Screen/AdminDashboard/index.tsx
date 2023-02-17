@@ -70,7 +70,7 @@ function AdminDashboard() {
 
   return (
     <>
-      <Sidebar
+      <Sidebar 
         routes={ADMIN_ROUTES}
         toggleSideNav={toggleSideNav}
         sideNavOpen={sideNavOpen}

@@ -126,9 +126,7 @@ function CreateCompany({ }: CreateCompanyProps) {
 
   return (
 
-    <HomeContainer isCard title={translate('common.addCompany')!} >
-      <div className='bg-red'>
-      </div>
+    <HomeContainer isCard title={translate('common.createCompany')!} >
       <div className='col-md-9 col-lg-7'>
         <H tag={'h3'} className="heading  mb-3"
           text={translate('common.companyDetails')} />

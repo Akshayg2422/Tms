@@ -24,7 +24,7 @@ function Splash() {
   }, []);
 
   return (
-    <div className={"d-flex h-100 justify-content-center align-items-center"}>
+    <div className={"d-flex h-100 custom-gradient justify-content-center align-items-center"}>
       <Logo />
     </div>
   );

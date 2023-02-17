@@ -102,6 +102,7 @@ export const icons = {
   equalizer: require('./Equalizer/icon.png'),
   clinic: require('./Clinic/icon.png'),
   back: require('./Back/icon.png'),
-  addFillGray:require('./AddFillGray/plus new.png')
+  addFillGray:require('./AddFillGray/plus new.png'),
+  QuantaTMS:require('./Quanta TMS/QuantaTMS Logo.png')
 
 };
