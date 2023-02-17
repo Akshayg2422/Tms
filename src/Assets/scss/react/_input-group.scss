@@ -13,13 +13,14 @@
     overflow-y: scroll;
   }
 }
+
 @media only screen and (max-width:380px ) and (min-width: 350px) {
   .designation-input {
-    width:300px;
+    width:285px;
     height:43px
   }
   .designation-scroll-bar {
-    width:300px;
+    width:285px;
     height:120px;
     overflow-y: scroll;
   }
@@ -48,11 +49,11 @@
 }
 @media only screen and (max-width:550px ) and (min-width: 450px) {
   .designation-input {
-    width:459px;
+    width:460px;
     height:43px
   }
   .designation-scroll-bar {
-    width:459px;
+    width:460px;
     height:120px;
     overflow-y: scroll;
   }

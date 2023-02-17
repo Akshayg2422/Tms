@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,CompanyInfo} from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,CompanyInfo, AddReferenceTicket} from '@Modules'
 import { Login, Otp, Splash, RegisterUser,IssueDetails,CompanyIssues } from '@Modules'
 
 export const ROUTES = {
@@ -75,7 +75,7 @@ export const AUTH_ROUTES = [
   {
     key: 4,
     path: ROUTES.AUTH.ISSUE_DETAILS,
-    component: <IssueDetails />
+    component: <AddReferenceTicket/>
   },
 ];
 

@@ -63,7 +63,8 @@ function Issues() {
 
                 <div className="container mt-4">
                     <div className="row justify-content-center">
-                        <div className="col-sm-8">
+                        <div className="col-sm-8 ">
+                            
                             <div className='row'>
                                 <div className='col-lg-8 col-md-12 col-sm-12'>
                                     <div className="input-group bg-white border rounded-pill">

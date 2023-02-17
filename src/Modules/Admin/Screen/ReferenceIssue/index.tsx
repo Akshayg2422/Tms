@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
 import { Divider, HomeContainer ,Card} from '@Components';
-import { CompanyIssueItem } from '@Modules';
-function CompanyIssues() {
+import { ReferenceIssueItem } from '@Modules';
+function ReferenceIssue() {
 
 const dispatch = useDispatch();
  const { tickets } = useSelector((state: any) => state.CompanyReducer);
@@ -23,15 +23,16 @@ const { companyDetailsSelected } = useSelector((state: any) => state.AdminReduce
 
 
     return (
-        <div className='m-0'>
-         
-           
-            
+        <div className='m-4'>
+            <div className='row justify-content-center'>
+                <div className='col-lg-7'>
+
+           <Card>
                 {
                         tickets && tickets.length > 0 ? tickets.map((eachTickets: any, index: number) => {
                             return (
                                 <>
-                                    <CompanyIssueItem item={eachTickets} key={index} />
+                                    <ReferenceIssueItem item={eachTickets} key={index} />
                                     {index !== tickets.length - 1 && <div className='mx-7'><Divider /></div>}
                                 </>
                             )
@@ -42,10 +43,12 @@ const { companyDetailsSelected } = useSelector((state: any) => state.AdminReduce
                         </div>
 
                     }
-                    
+                    </Card>
+                   
+                    </div>
                 
         </div>
-      
+        </div>
     )
 }
-export { CompanyIssues }
+export { ReferenceIssue}
