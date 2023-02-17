@@ -9,97 +9,112 @@ import {
 } from "@Components";
 import { translate } from "@I18n";
 import { getEmployees, raiseNewTicket } from "@Redux";
-import { CREATE_TICKET, getValidateError, ifObjectExist, type, validate } from "@Utils";
+import {
+  CREATE_TICKET,
+  getValidateError,
+  ifObjectExist,
+  type,
+  validate,
+} from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput, useDropDown, useNavigation } from "@Hooks";
+import { useInput, useNavigation } from "@Hooks";
 
 function IssueCreate() {
   const dispatch = useDispatch();
-  const {goBack} = useNavigation()
+  const { goBack } = useNavigation();
 
   const [typeSelect, setTypeSelect] = useState(type[0]);
   const { associatedCompanies, dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
   );
-  console.log(associatedCompanies, "associatedCompanies,");
 
-  const [companyDisplayName, setCompanyDisplayname] = useState();
-  const [photo, setPhoto] = useState("");
-  const [companyUser, setCompanyUser] = useState();
-  const [companyUserDashboard, setCompanyUserDashboard] = useState();
-  const [selectedId, setSelectedId] = useState("");
+  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
+    useState();
+  const [photo, setPhoto] = useState<any>([]);
+  const [companyUserDashboard, setCompanyUserDashboard] = useState<any>();
+  const [selectedCompany, setSelectedCompany] = useState<any>({});
+  const [selectDropzone, setSelectDropzone] = useState<any>([{id:'1'}]);
+  const [image, setImage] = useState("");
 
   const referenceNo = useInput("");
   const title = useInput("");
   const description = useInput("");
 
-  const [userId, setUserId] = useState("");
+  const [selectedUser, setSelectedUser] = useState<any>();
+
+  const handleImagePicker = (index: number, file: any) => {
+    // let updatedPhoto = [...selectDropzone, file];
+    let newUpdatedPhoto = [...photo, file];
+    // setSelectDropzone(updatedPhoto);
+    setPhoto(newUpdatedPhoto);
+  };
 
   const submitTicketHandler = () => {
-
-
     const params = {
-      title: title.value,
-      description: description.value,
-      reference_number: referenceNo.value,
-      brand_branch_id: selectedId,
-      assigned_to_id: userId,
-      ticket_attachments: [{ attachments: [photo] }],
+      title: title?.value,
+      description: description?.value,
+      reference_number: referenceNo?.value,
+      brand_branch_id: selectedCompany?.id || "",
+      assigned_to_id: selectedUser?.id,
+      ticket_attachments: [{ attachments: photo }],
     };
-    
-    const validation = validate(CREATE_TICKET, params);
-   if(ifObjectExist( validation)){
 
-    dispatch(
-      raiseNewTicket({
-        params,
-        onSuccess: (response: any) =>()=> {
-          console.log(response,"=====================")
-          goBack();
-        },
-        onError: (error) =>()=> {console.log(error,"----------------------");
-        },
-      })
-    );
-  }
-  else {
-    showToast(getValidateError(validation))
-  }
+    const validation = validate(CREATE_TICKET, params);
+    if (ifObjectExist(validation)) {
+      dispatch(
+        raiseNewTicket({
+          params,
+          onSuccess: (response: any) => () => {
+            goBack();
+          },
+          onError: (error) => () => {},
+        })
+      );
+    } else {
+      showToast(getValidateError(validation));
+    }
   };
 
   useEffect(() => {
     let companies: any = [];
 
-    associatedCompanies?.forEach(({ branch_id, display_name }) => {
-      companies = [...companies, { id: branch_id, text: display_name }];
-    });
-    setCompanyDisplayname(companies);
+    if (associatedCompanies && associatedCompanies.length > 0) {
+      associatedCompanies.forEach(({ branch_id, display_name }) => {
+        companies = [
+          ...companies,
+          { id: branch_id, text: display_name, name: display_name },
+        ];
+      });
+
+      setModifiedCompanyDropDownData(companies);
+    }
   }, []);
 
   useEffect(() => {
-    if (typeSelect.id === "2") {
-      const params = {
-        branch_id: dashboardDetails?.permission_details?.branch_id,
-      };
+    const params = {
+      branch_id:
+        typeSelect?.id === "2"
+          ? dashboardDetails?.permission_details?.branch_id
+          : selectedCompany?.id || "",
+    };
 
-      dispatch(
-        getEmployees({
-          params,
-          onSuccess: (response: any) =>()=> {
-            let companiesDashboard: any = [];
-            response?.details?.forEach(({ id, name }) => {
-              companiesDashboard = [...companiesDashboard, { id, text: name }];
-              
-            });
-            // goBack();
-            setCompanyUserDashboard(companiesDashboard);
-          },
-          onError: () =>()=> {},
-        })
-      );
-    }
-  }, [typeSelect]);
+    dispatch(
+      getEmployees({
+        params,
+        onSuccess: (response: any) => () => {
+          let companiesDashboard: any = [];
+          response?.details?.forEach(({ id, name }) => {
+            companiesDashboard = [...companiesDashboard, { id, text: name }];
+          });
+          setCompanyUserDashboard(companiesDashboard);
+        },
+        onError: (error) => () => {
+          setCompanyUserDashboard([]);
+        },
+      })
+    );
+  }, [typeSelect, selectedCompany]);
 
   return (
     <div>
@@ -116,7 +131,7 @@ function IssueCreate() {
             onChange={description.onChange}
           />
           <Input
-            type={"number"}
+            type={"text"}
             heading={translate("auth.referenceNo")}
             value={referenceNo.value}
             onChange={referenceNo.onChange}
@@ -125,6 +140,8 @@ function IssueCreate() {
             selected={typeSelect}
             data={type}
             onRadioChange={(selected) => {
+              setSelectedCompany({});
+              setSelectedUser(undefined);
               if (selected) {
                 setTypeSelect(selected);
               }
@@ -134,43 +151,20 @@ function IssueCreate() {
           {typeSelect && typeSelect?.id === "1" && (
             <DropDown
               heading={translate("common.company")}
-              data={companyDisplayName}
-              onChange={(item) => {
-                setSelectedId(item.id);
-
-                const params = { branch_id: item.id };
-                dispatch(
-                  getEmployees({
-                    params,
-                    onSuccess: (response: any) =>()=> {
-                      let companyUser: any = [];
-                      response?.details?.forEach(({ id, name }) => {
-                        companyUser = [...companyUser, { id, text: name }];
-                      });
-                      setCompanyUser(companyUser);
-                    },
-                    onError: () =>()=> {},
-                  })
-                );
-              }}
+              data={modifiedCompanyDropDownData}
+              onChange={setSelectedCompany}
+              selected={selectedCompany}
             />
           )}
 
-          {typeSelect && typeSelect.id === "1" ? (
-            <DropDown
-              heading={translate("common.user")}
-              data={companyUser}
-              onChange={(item) => {
-                setUserId(item.id);
-              }}
-            />
-          ) : (
-            <DropDown
-              heading={translate("common.user")}
-              data={companyUserDashboard}
-            />
-          )}
+          <DropDown
+            selected={selectedUser}
+            heading={translate("common.user")}
+            data={companyUserDashboard}
+            onChange={setSelectedUser}
+          />
         </div>
+
         <div className="pl-3">
           <label className={`form-control-label`}>
             {translate("auth.logo")}
@@ -178,15 +172,23 @@ function IssueCreate() {
         </div>
 
         <div className="col-md-9 col-lg-7 pb-4 pt-3">
-          <Dropzone
-            variant="ICON"
-            icon={photo}
-            size="xl"
-            onSelect={(image) => {
-              let encoded = image.toString().replace(/^data:(.*,)?/, "");
-              setPhoto(encoded);
-            }}
-          />
+          {selectDropzone&&
+            selectDropzone.map((el, index) => {
+              return (
+                <Dropzone
+                  variant="ICON"
+                  icon={image}
+                  size="xl"
+                  onSelect={(image) => 
+                    {
+                    let file = image.toString().replace(/^data:(.*,)?/, "");
+                    handleImagePicker(index, file);
+                    setSelectDropzone([{id:'1'},{id:'2'}])
+                  }
+                }
+                />
+              );
+            })}
         </div>
 
         <div className="row justify-content-end">
@@ -203,5 +205,4 @@ function IssueCreate() {
   );
 }
 
-export {IssueCreate}
-
+export { IssueCreate };

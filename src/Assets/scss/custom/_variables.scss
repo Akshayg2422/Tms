@@ -79,9 +79,9 @@ $colors: map-merge(("blue": $blue,
       "gray-dark": $gray-800), $colors
 );
 
-$default: #172b4d !default;
-$primary: #5e72e4 !default;
-$secondary: #f7fafc !default;
+$default: #FEF1E4 !default;
+$primary: #FCC9E0 !default;
+$secondary: #BFEDF0 !default;
 $success: $green !default;
 $info: $teal !default;
 $warning: $orange !default;
@@ -90,6 +90,14 @@ $light: $gray-500 !default;
 $dark: $gray-900 !default;
 $darker: darken($gray-900, 15%) !default;
 $black: #000000 !default;
+
+$color-1: #F3E1D9;
+$color-2: #EFD8D6;
+$color-3: #99C8E6;
+
+.custom-gradient {
+  background: linear-gradient(to bottom, $color-1, $color-2,$color-3);
+}
 
 
 $facebook: #3b5999 !default;

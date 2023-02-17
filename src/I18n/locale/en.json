@@ -32,7 +32,7 @@
     "contactNumber": "Contact Number",
     "alternativeContactNumber": "Alternative Contact Number",
     "business": "Business",
-    "businessAppName": "Quanta Business",
+    "businessAppName": "Quanta TMS",
     "businessAppSubtext": "For Business Owner and Store Agent",
     "courses": "courses",
     "department": "Department",
@@ -44,8 +44,10 @@
     "primaryContactPerson": "PRIMARY CONTACT PERSON",
     "addUser": "ADD USER",
     "createTicket":"CREATE TICKET",
+    "createCompany":"CREATE COMPANY",
     "company":"Company",
     "user":"User"
+    
   },
   "errors": {
     "invalidEmail": "Invalid email address."

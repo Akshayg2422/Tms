@@ -5,6 +5,7 @@ import { UserItem } from '@Modules'
 import { getEmployees } from '@Redux'
 import {useNavigation} from '@Hooks'
 import { ADD_USER_INFO,HOME_PATH } from '@Routes'
+import { translate } from "@I18n";
 function CompanyUsers() {
 
     const { goTo, goBack } = useNavigation()
@@ -33,7 +34,7 @@ function CompanyUsers() {
         <div>
             <HomeContainer>
                 <div className='text-right mt--3'>
-                    <Button text={'Add User'} size={'sm'} onClick={() => { goTo(HOME_PATH.DASHBOARD + ADD_USER_INFO.ADD_USER) }} />
+                    <Button text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.DASHBOARD + ADD_USER_INFO.ADD_USER) }} />
                 </div>
                 <Card className='mt-3'>
                     {

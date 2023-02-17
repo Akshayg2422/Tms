@@ -4,9 +4,9 @@ import Select2 from 'react-select2-wrapper';
 import { Option, InputHeading } from '@Components'
 import { FormGroup } from 'reactstrap'
 
-function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, data, onChange }: DropDownProps) {
+function DropDown({ id, heading, defaultValue, disabled, value, placeHolder,selected,  data, onChange }: DropDownProps) {
 
-    const [selected, setSelected] = useState<Option | undefined>(value);
+    // const [selected, setSelected] = useState<Option | undefined>(value);
 
     function proceedOnChange(e: any) {
         console.log('eeeeeeeeee', e);
@@ -20,7 +20,7 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, dat
 
             if (selectedItemById) {
                 onChange(selectedItemById)
-                setSelected(selectedItemById)
+                // setSelected(selectedItemById)
             }
 
         }
