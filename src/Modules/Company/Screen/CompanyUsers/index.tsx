@@ -22,11 +22,11 @@ function CompanyUsers() {
         const params = { branch_id:companyDetailsSelected.branch_id};
        
         
-        dispatch(getEmployees({ params, 
-            onSuccess:()=>()=>{
-
-
-        }, onError:()=>()=>{} }));
+        dispatch(getEmployees({
+            params,
+            onSuccess: () => () => {},
+            onError: () => () => { }
+        }));
     }, []);
 
     return (

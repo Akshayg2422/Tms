@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
-import { HomeContainer, Divider, Modal, H, Button, Tabs } from '@Components';
+import { HomeContainer, Divider, Modal, H, Button } from '@Components';
 import { TicketItem } from '@Modules';
 import { useInput } from '@Hooks';
 import { useNavigation } from '@Hooks'
@@ -20,13 +20,6 @@ function Issues() {
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
     const dispatch = useDispatch();
     const Search = useInput('');
-    const tabs = [
-        { title: 'THREAD', content: <div>THREAD</div> },
-        { title: 'ATTACH', content: <div>ATTACH</div> },
-        { title: 'REFERENCE', content: <div>REFERENCE</div> },
-        { title: 'USER', content: <div>USER</div> }
-    ];
-    const [activeTab, setActiveTab] = useState(0)
 
     useEffect(() => {
         getTicketHandler()
@@ -38,8 +31,8 @@ function Issues() {
             const params = { q: '' }
             dispatch(getTickets({
                 params,
-                onSuccess: () =>()=> { },
-                onError: () =>()=> { }
+                onSuccess: () => () => { },
+                onError: () => () => { }
 
             }))
         }
@@ -47,8 +40,8 @@ function Issues() {
             const params = { ticket_status: statusCode }
             dispatch(getTickets({
                 params,
-                onSuccess: () =>()=> { },
-                onError: () =>()=> { }
+                onSuccess: () => () => { },
+                onError: () => () => { }
             }))
         }
     }
@@ -57,15 +50,15 @@ function Issues() {
         const params = { q_many: Search.value }
         dispatch(getTickets({
             params,
-            onSuccess: () =>()=> { },
-            onError: () =>()=> { }
+            onSuccess: () => () => { },
+            onError: () => () => { }
         }))
     }
 
     return (
         <>
             <div>
-                <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+
                 <div className="container mt-4">
                     <div className="row justify-content-center">
                         <div className="col-sm-8">
