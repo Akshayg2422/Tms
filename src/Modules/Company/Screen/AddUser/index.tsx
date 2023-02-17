@@ -42,7 +42,7 @@ function AddUser() {
 
   useEffect(() => {
     const params = {
-      brach_id: companyDetailsSelected.branch_id,
+      branch_id: companyDetailsSelected.branch_id,
     };
     dispatch(
       getDesignationData({

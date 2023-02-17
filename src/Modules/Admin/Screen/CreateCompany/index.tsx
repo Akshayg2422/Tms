@@ -74,17 +74,17 @@ function CreateCompany({ }: CreateCompanyProps) {
       designation: 'Management',
     });
 
- 
+
 
     if (ifObjectExist(validation)) {
-  
+
       dispatch(
         registerAdmin({
           params,
-          onSuccess: (response: any) =>()=> {
+          onSuccess: (response: any) => () => {
             onRegisterCompany();
           },
-          onError: () =>()=> { },
+          onError: () => () => { },
         }),
       );
     } else {
@@ -103,22 +103,22 @@ function CreateCompany({ }: CreateCompanyProps) {
       attachment_logo: photo
 
     };
-   
+
 
     const validation = validate(BUSINESS_FORM_RULES, params);
-    console.log("validation",validation)
+    console.log("validation", validation)
     if (ifObjectExist(validation)) {
-     
+
       dispatch(
         registerCompany({
           params,
-          onSuccess: (response: any) => () =>()=> {
+          onSuccess: (response: any) => () => () => {
             if (response.success) {
               showToast(response.message, 'success')
               goBack()
             }
           },
-          onError: (error: any) => () =>()=> {
+          onError: (error: any) => () => () => {
             showToast('')
           },
         }),
@@ -133,7 +133,7 @@ function CreateCompany({ }: CreateCompanyProps) {
     <HomeContainer isCard title={translate('common.addCompany')!} >
       <div className='col-md-9 col-lg-7'>
         <H tag={'h3'} className="heading  mb-3"
-text={translate('common.companyDetails')} />
+          text={translate('common.companyDetails')} />
         <label className={`form-control-label`}>{translate('auth.logo')}</label>
       </div>
       <div className='col-md-9 col-lg-7 pb-4 pt-3'>
@@ -148,33 +148,33 @@ text={translate('common.companyDetails')} />
       </div>
       <div className='col-md-9 col-lg-7'>
         <Input heading={translate('common.name')} value={name.value}
-onChange={name.onChange} />
+          onChange={name.onChange} />
         <Input heading={translate('auth.address')}
-value={address.value} onChange={address.onChange} />
+          value={address.value} onChange={address.onChange} />
         <Input type={'number'} heading={translate('common.PinCode')}
-maxLength={6} value={pinCode.value} onChange={pinCode.onChange} />
+          maxLength={6} value={pinCode.value} onChange={pinCode.onChange} />
         {/* <Input disabled heading={translate('auth.mobileNumber')}
 value={contactNumber.value} /> */}
         <Input type={'number'}
-heading={translate('common.contactNumber')} maxLength={10}
-value={companyContactNumber.value}
-onChange={companyContactNumber.onChange} />
+          heading={translate('common.contactNumber')} maxLength={10}
+          value={companyContactNumber.value}
+          onChange={companyContactNumber.onChange} />
       </div>
 
       <Divider />
 
       <div className='col-md-9 col-lg-7'>
         <H tag={'h3'} className="heading mb-3"
-text={translate('common.primaryContactPerson')} />
+          text={translate('common.primaryContactPerson')} />
         <Input heading={translate('auth.fullName')}
-value={fullName.value} onChange={fullName.onChange} />
+          value={fullName.value} onChange={fullName.onChange} />
         <Input type={'number'}
-heading={translate('auth.contactNumber')} maxLength={10}
-value={contactNumber.value} onChange={contactNumber.onChange} />
+          heading={translate('auth.contactNumber')} maxLength={10}
+          value={contactNumber.value} onChange={contactNumber.onChange} />
         <Input heading={translate('auth.emailOptional')}
-value={email.value} onChange={email?.onChange} />
+          value={email.value} onChange={email?.onChange} />
         <DropDown heading={translate('auth.gender')}
-data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
+          data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
 
       </div>
       <div className='row justify-content-end'>
