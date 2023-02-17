@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { companySelectedDetails, getAssociatedBranch } from "@Redux";
 import { Card, Divider, Button, HomeContainer } from "@Components";
-import { CompanyDashBoard, CompanyItem } from "@Modules";
+import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
 import { COMPANY_ISSUES, HOME_PATH, INFO } from "@Routes";
 
@@ -14,15 +14,14 @@ function Companies() {
     (state: any) => state.AdminReducer
   );
 
-
   useEffect(() => {
     const params = { q: "" };
 
     dispatch(
       getAssociatedBranch({
         params,
-        onSuccess: () =>()=> { },
-        onError: () =>()=> { }
+        onSuccess: () => () => {},
+        onError: () => () => {},
       })
     );
   }, []);

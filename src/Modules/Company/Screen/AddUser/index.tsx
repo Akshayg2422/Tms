@@ -38,7 +38,7 @@ function AddUser() {
   const gender = useDropDown(GENDER_LIST[0]);
   const [designationValue, setDesignationValue] = useState("");
   const { goBack } = useNavigation();
-  console.log(designationValue, "designationValue");
+ 
 
   useEffect(() => {
     const params = {
@@ -94,7 +94,7 @@ function AddUser() {
         mobile_number: contactNumber.value,
         email: email.value,
         gender: gender.value?.id,
-        designation_name: designationData.data.id,
+        designation_name: designationData?.data?.id,
       };
 
       const validation = validate(ADD_USER_RULES, {
@@ -103,7 +103,7 @@ function AddUser() {
         mobile_number: contactNumber.value,
         ...(email.value && { email: email.value }),
         gender: gender.value?.id,
-        designation_name: designationData.data.id,
+        designation_name: designationData?.data?.id,
       });
       if (ifObjectExist(validation)) {
         dispatch(
@@ -131,7 +131,7 @@ function AddUser() {
             <Input
               heading={translate("common.name")}
               value={firstName.value}
-              onChange={firstName.onChange}
+              onChange={firstName?.onChange}
             />
             <Input
               type={"number"}
@@ -143,7 +143,7 @@ function AddUser() {
             <Input
               heading={translate("auth.email")}
               value={email.value}
-              onChange={email.onChange}
+              onChange={email?.onChange}
             />
             <DropDown
               heading={translate("auth.gender")}
@@ -167,8 +167,8 @@ function AddUser() {
                 )}
                 value={designationValue}
                 wrapperStyle={{ position: "relative", display: "inline-block"}}
-                items={designationData.data}
-                getItemValue={(item) => item.name}
+                items={designationData?.data}
+                getItemValue={(item) => item?.name}
                 shouldItemRender={matchStateToTerm}
                 onChange={(event, value) => setDesignationValue(value)}
                 onSelect={(value) => {
@@ -182,9 +182,9 @@ function AddUser() {
                     style={{
                       background: isHighlighted ? "lightgray" : "white",
                     }}
-                    key={item.id}
+                    key={item?.id}
                   >
-                    {item.name}
+                    {item?.name}
                   </div>
                 )}
               />
