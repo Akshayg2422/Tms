@@ -10,7 +10,8 @@ import {
   H,
   Divider,
   Button,
-  showToast
+  showToast,
+  Dropzone
 } from '@Components'
 import {
   GENDER_LIST,
@@ -34,10 +35,7 @@ import {
   useDropDown,
   useNavigation
 } from '@Hooks'
-import {
-  Dropzone
-} from '@Components';
-import { Navigate } from 'react-router-dom';
+
 
 function CreateCompany({ }: CreateCompanyProps) {
 
@@ -74,8 +72,6 @@ function CreateCompany({ }: CreateCompanyProps) {
       designation: 'Management',
     });
 
-
-
     if (ifObjectExist(validation)) {
 
       dispatch(
@@ -84,7 +80,9 @@ function CreateCompany({ }: CreateCompanyProps) {
           onSuccess: (response: any) => () => {
             onRegisterCompany();
           },
-          onError: () => () => { },
+          onError: (error) => {
+            showToast(error.error_message)
+          },
         }),
       );
     } else {
@@ -101,9 +99,7 @@ function CreateCompany({ }: CreateCompanyProps) {
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
       attachment_logo: photo
-
     };
-
 
     const validation = validate(BUSINESS_FORM_RULES, params);
     console.log("validation", validation)
@@ -131,6 +127,8 @@ function CreateCompany({ }: CreateCompanyProps) {
   return (
 
     <HomeContainer isCard title={translate('common.addCompany')!} >
+      <div className='bg-red'>
+      </div>
       <div className='col-md-9 col-lg-7'>
         <H tag={'h3'} className="heading  mb-3"
           text={translate('common.companyDetails')} />
