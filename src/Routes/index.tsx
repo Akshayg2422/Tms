@@ -101,7 +101,7 @@ export const ADMIN_ROUTES = [
     name: "Settings",
     icon: "ni ni-settings-gear-65 text-gray",
     layout: "/admin",
-    component: <Settings />
+    component: <Login />
   },
 ];
 
