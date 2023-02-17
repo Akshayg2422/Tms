@@ -51,7 +51,7 @@ function TicketItem({ item }: TicketItemProps) {
                     <span className='py-2'><i className="bi bi-calendar-week"></i> {getStatusFromCode(dashboardDetails, ticket_status)} </span>
                     <h5 className=' text-muted py-1  m-0'>{moment(created_at).format('DD-MM-YYYY HH:mm A')}</h5>
                     <p className='h4 m-0 '> assigned by </p>
-                    <p className=' h5 m-0 pl-4'> { assigned_to.name }</p>
+                    <p className=' h5 m-0 pl-4'> { assigned_to?.name }</p>
                 </div>
 
                 <div className='mt-2'>
