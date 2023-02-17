@@ -5,4 +5,5 @@ export interface CompanyStateProp {
   addTicketEvent: any;
   getEmployeesDetails: any;
   addEmployeeDetails: any;
+  addReferenceDetails: any;
 }

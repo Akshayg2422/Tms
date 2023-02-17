@@ -19,7 +19,10 @@ import {
   GET_EMPLOYEES_FAILURE,
   ADD_EMPLOYEE,
   ADD_EMPLOYEE_SUCCESS,
-  ADD_EMPLOYEE_FAILURE
+  ADD_EMPLOYEE_FAILURE,
+  GET_REFERENCE_TICKETS,
+  GET_REFERENCE_TICKETS_SUCCESS,
+  GET_REFERENCE_TICKETS_FAILURE
 } from '../ActionTypes';
 
 export const raiseNewTicket = (params: any) => {
@@ -155,6 +158,39 @@ export const getTicketsEventsFailure = (error: any) => {
     payload: error,
   };
 };
+
+
+/**
+ *GET REFERNCE TICKETS
+ * @param params
+ * @returns
+ */
+
+ export const getReferenceTickets = ( params: any) => {
+
+  return {
+    type:GET_REFERENCE_TICKETS,
+    payload:params,
+  }
+ }
+
+ export const getReferenceTicketsSuccess = (response: any) => {
+ 
+  return {
+    type: GET_REFERENCE_TICKETS_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getReferenceTicketsFailure = (error: any) => {
+
+  return {
+    type: GET_REFERENCE_TICKETS_FAILURE,
+    payload: error,
+  };
+};
+
+
 
 /**
  *get Employee tags

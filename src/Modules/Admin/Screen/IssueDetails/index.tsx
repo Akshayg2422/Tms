@@ -1,143 +1,198 @@
-import { Card, Modal, Image, Input, Button } from '@Components'
-import { Chat, Send } from '@Modules'
+// import { Card, Modal, Image, Input, Button } from '@Components'
+// import { Chat, Send } from '@Modules'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { useEffect, useState } from 'react';
+// import { addTicketEvent, getTicketsEvents } from '@Redux';
+// import { useInput, useModal } from '@Hooks';
+// import { Dropzone } from '@Components';
+// import { icons } from '@Assets';
+
+
+
+// function IssueDetails() {
+
+//     const dispatch = useDispatch();
+//     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
+//     const textMessage = useInput('')
+//     const modalName = useInput('')
+//     const [photo, setPhoto] = useState<any>([])
+//     const [image, setImage] = useState('')
+//     const [selectAttachments, setSelectAttachments] = useState(false)
+//     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
+
+//     useEffect(() => {
+//         beginGetTicketEvents()
+//     }, []);
+
+//     function beginGetTicketEvents() {
+
+//         if (selectedIssues) {
+//             const params = {
+//                 ticket_id: selectedIssues.id,
+//             };
+
+//             dispatch(
+//                 getTicketsEvents({
+//                     params,
+//                     onSuccess: () =>()=> { },
+//                     onError: () =>()=> { }
+//                 })
+//             )
+//         }
+//     }
+
+//     const sendMessageHandler = () => {
+
+//         if (textMessage) {
+//             const params = {
+//                 id: selectedIssues.id,
+//                 message: textMessage.value,
+//                 event_type: 'TEM'
+//             }
+//             dispatch(addTicketEvent({
+//                 params,
+//                 onSuccess: () => ()=>{
+//                     console.log('addTicketEventaddTicketEventaddTicketEventaddTicketEvent', addTicketEvent)
+//                     beginGetTicketEvents()
+//                     textMessage.set('')
+//                 },
+//                 onFailure: () =>()=> { }
+//             }))
+//         }
+//     }
+
+//     const onModalSubmitHandler = () => {
+//         const params = {
+//             event_type: 'MEA',
+//             id: selectedIssues.id,
+//             attachments: [{ attachment: photo }],
+//             name: modalName.value
+//         };
+//         dispatch(
+//             addTicketEvent({
+//                 params,
+//                 onSuccess: () => () => {
+//                     beginGetTicketEvents();
+//                 },
+//                 onError: () => () => { },
+//             }),
+//         );
+//         setSelectAttachments(!selectAttachments);
+//         resetValues();
+//     };
+
+//     const resetValues = () => {
+//         modalName.set('');
+//         setSelectDropzone([{}]);
+//     };
+
+//     const handleImagePicker = (index: number, file: any) => {
+//         let updatedPhoto = [...selectDropzone, file]
+//         let newUpdatedPhoto = [...photo, file]
+//         setSelectDropzone(updatedPhoto)
+//         setPhoto(newUpdatedPhoto)
+//     }
+
+//     return (
+//         <div className='vh-100 d-flex justify-content-center'>
+//             <Card className='vh-100 col-lg-6 col-sm-12'>
+//                 {/* <Chat item={selectedIssues.id} index={0} /> */}
+
+//                 <div className='fixed-bottom col-lg-6 col-sm-12 '>
+//                     <Send value={textMessage.value}
+//                         onClick={sendMessageHandler}
+//                         onChange={textMessage.onChange}
+//                     />
+//                 </div>
+//                 <div className=' col-1 pl-0'>
+//                     <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
+//                 </div>
+//             </Card>
+
+//             <div>
+//                 <Modal isOpen={selectAttachments}
+//                     onClose={() => {
+//                         setSelectAttachments(!selectAttachments)
+//                     }}>
+//                     <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={modalName.onChange} />
+//                     {/* onChange={() => setSelectAttachments(true)} */}
+//                     {selectDropzone && selectDropzone.map((el, index) => {
+//                         return (
+//                             <Dropzone variant='ICON'
+//                                 icon={image}
+//                                 size='xl'
+//                                 onSelect={(image) => {
+//                                     let file = image.toString().replace(/^data:(.*,)?/, '');
+//                                     // setImage(file)
+//                                     handleImagePicker(index, file)
+//                                 }}
+//                             />
+//                         )
+//                     })}
+//                     <div className='d-flex flex-row pt-4'>
+//                         <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => onModalSubmitHandler()} />
+//                     </div>
+
+//                 </Modal>
+
+//             </div>
+
+//         </div>
+//     )
+// }
+
+// export { IssueDetails } 
+
+import { Card, Divider, HomeContainer } from '@Components'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react';
-import { addTicketEvent, getTicketsEvents } from '@Redux';
-import { useInput, useModal } from '@Hooks';
-import { Dropzone } from '@Components';
-import { icons } from '@Assets';
-
-
+import { ReferenceIssue } from '@Modules'
+import { getReferenceTickets } from '@Redux'
 
 function IssueDetails() {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
+    const { addReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
-    const textMessage = useInput('')
-    const modalName = useInput('')
-    const [photo, setPhoto] = useState<any>([])
-    const [image, setImage] = useState('')
-    const [selectAttachments, setSelectAttachments] = useState(false)
-    const [selectDropzone, setSelectDropzone] = useState<any>([{}])
+    console.log('getReferenceTickets', JSON.stringify(addReferenceDetails));
 
     useEffect(() => {
-        beginGetTicketEvents()
-    }, []);
+        proceedgetReferenceTickets()
+    }, [])
 
-    function beginGetTicketEvents() {
-
-        if (selectedIssues) {
-            const params = {
-                ticket_id: selectedIssues.id,
-            };
-
-            dispatch(
-                getTicketsEvents({
-                    params,
-                    onSuccess: () =>()=> { },
-                    onError: () =>()=> { }
-                })
-            )
-        }
-    }
-
-    const sendMessageHandler = () => {
-
-        if (textMessage) {
-            const params = {
-                id: selectedIssues.id,
-                message: textMessage.value,
-                event_type: 'TEM'
-            }
-            dispatch(addTicketEvent({
-                params,
-                onSuccess: () => ()=>{
-                    console.log('addTicketEventaddTicketEventaddTicketEventaddTicketEvent', addTicketEvent)
-                    beginGetTicketEvents()
-                    textMessage.set('')
-                },
-                onFailure: () =>()=> { }
-            }))
-        }
-    }
-
-    const onModalSubmitHandler = () => {
+    function proceedgetReferenceTickets() {
         const params = {
-            event_type: 'MEA',
-            id: selectedIssues.id,
-            attachments: [{ attachment: photo }],
-            name: modalName.value
-        };
+            id: selectedIssues?.id, q: ''
+        }
         dispatch(
-            addTicketEvent({
+            getReferenceTickets({
                 params,
-                onSuccess: () => () => {
-                    beginGetTicketEvents();
-                },
-                onError: () => () => { },
-            }),
-        );
-        setSelectAttachments(!selectAttachments);
-        resetValues();
-    };
-
-    const resetValues = () => {
-        modalName.set('');
-        setSelectDropzone([{}]);
-    };
-
-    const handleImagePicker = (index: number, file: any) => {
-        let updatedPhoto = [...selectDropzone, file]
-        let newUpdatedPhoto = [...photo, file]
-        setSelectDropzone(updatedPhoto)
-        setPhoto(newUpdatedPhoto)
+                onSuccess: () => () => { },
+                onFailure: () => () => { }
+            })
+        )
     }
-
     return (
-        <div className='vh-100 d-flex justify-content-center'>
-            <Card className='vh-100 col-lg-6 col-sm-12'>
-                {/* <Chat item={selectedIssues.id} index={0} /> */}
-
-                <div className='fixed-bottom col-lg-6 col-sm-12 '>
-                    <Send value={textMessage.value}
-                        onClick={sendMessageHandler}
-                        onChange={textMessage.onChange}
-                    />
-                </div>
-                <div className=' col-1 pl-0'>
-                    <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
-                </div>
+        <HomeContainer>
+            <Card title={"Reference Tickets"} className="mt-4">
+                {
+                    addReferenceDetails &&
+                    addReferenceDetails.data.length > 0 ?
+                    addReferenceDetails.data.map((eachReferenceTickets: any, index: number) => {
+                            return (
+                                <div>
+                                    <ReferenceIssue key={eachReferenceTickets.id} item={eachReferenceTickets} />
+                                    {index !== addReferenceDetails.data.length - 1 && <div className='mx-7'><Divider /></div>}
+                                </div>
+                            );
+                        })
+                        :
+                        <div className='text-center'>
+                            No Date Found
+                        </div>
+                }
             </Card>
-
-            <div>
-                <Modal isOpen={selectAttachments}
-                    onClose={() => {
-                        setSelectAttachments(!selectAttachments)
-                    }}>
-                    <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={modalName.onChange} />
-                    {/* onChange={() => setSelectAttachments(true)} */}
-                    {selectDropzone && selectDropzone.map((el, index) => {
-                        return (
-                            <Dropzone variant='ICON'
-                                icon={image}
-                                size='xl'
-                                onSelect={(image) => {
-                                    let file = image.toString().replace(/^data:(.*,)?/, '');
-                                    // setImage(file)
-                                    handleImagePicker(index, file)
-                                }}
-                            />
-                        )
-                    })}
-                    <div className='d-flex flex-row pt-4'>
-                        <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => onModalSubmitHandler()} />
-                    </div>
-
-                </Modal>
-
-            </div>
-
-        </div>
+        </HomeContainer>
     )
 }
 

@@ -16,6 +16,7 @@ export const GET_TICKETS = TICKET + 'getTickets';
 export const GET_TICKET_TAGS = TICKET + 'getTicketTags';
 export const ADD_TICKET_EVENT = TICKET + 'addTicketEvent';
 export const GET_TICKET_EVENTS = TICKET + 'getTicketEvents';
+export const GET_REFERENCE_TICKETS = TICKET + 'getReferenceTickets';
 
 export const VALIDATE_USER = AUTH + 'validateUser';
 export const VALIDATE_REGISTER_USER = AUTH + 'validateRegistrationUser';
