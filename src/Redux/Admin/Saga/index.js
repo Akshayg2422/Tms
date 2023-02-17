@@ -32,9 +32,6 @@ import {
 } from '@Redux';
 
 function* getAssociatedCompaniesSaga(action) {
-
-
-  
   try {
 
     yield put(showLoader());
@@ -42,10 +39,8 @@ function* getAssociatedCompaniesSaga(action) {
       getAssociatedCompaniesApi,
       action.payload.params,
     );
-    console.log('getTicketEventsApi------------->'+ JSON.stringify(response));
 
     if (response.success) {
-      console.log(response.success,"----------------------------->")
       yield put(hideLoader());
       yield put(getAssociatedBranchSuccess({...response}));
       yield call(action.payload.onSuccess(response));
@@ -55,7 +50,6 @@ function* getAssociatedCompaniesSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    console.log(error,"----------------------------->")
     yield put(hideLoader());
     yield put(getAssociatedBranchFailure(error));
     yield call(action.payload.onError(error));

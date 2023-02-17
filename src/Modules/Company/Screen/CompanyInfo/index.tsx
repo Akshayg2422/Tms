@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React from "react";
 import { useSelector } from "react-redux";
-import { CompanyUsers } from "@Modules";
+import { CompanyUsers,CompanyIssues } from "@Modules";
 import { CompanyInfoProps } from "./interfaces";
 import { H, Image, Badge, Card, HomeContainer, Color, RsBadgeProps } from "@Components";
 import { getPhoto, handleEmailClick } from '@Utils'
@@ -23,7 +23,6 @@ function CompanyInfo({ item }: CompanyInfoProps) {
 
   const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
   const { getEmployeeDetails } = useSelector((state: any) => state.CompanyReducer);
-  console.log('getUserDetailsgetUserDetailsgetUserDetails', getEmployeeDetails);
 
   const { display_name, attachment_logo, address, phone, email } = companyDetailsSelected;
 
@@ -76,6 +75,10 @@ function CompanyInfo({ item }: CompanyInfoProps) {
       </div>
       <div className="mt--4 ">
         <CompanyUsers />
+      </div>
+
+      <div>
+        <CompanyIssues/>
       </div>
     </div>
   );

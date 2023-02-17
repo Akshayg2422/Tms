@@ -61,7 +61,6 @@ function* raiseNewTicketSaga(action) {
 }
 
 function* getTicketsSaga(action) {
-
   try {
     yield put(showLoader());
     const response = yield call(getTicketsApi, action.payload.params);
@@ -145,12 +144,9 @@ function* getTicketTagsSaga(action) {
 
 
 function* getEmployeesSaga(action) {
-  console.log('otSideData--------------->',action)
   try {
     yield put(showLoader());
     const response = yield call(getEmployeesApi, action.payload.params);
-    console.log('getemploye------------>', JSON.stringify(response));
- 
     if (response.success) {
       yield put(hideLoader());
       yield put(getEmployeesSuccess(response.details));

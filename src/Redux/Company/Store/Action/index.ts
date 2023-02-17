@@ -51,6 +51,7 @@ export const raiseNewTicketFailure = (error: any) => {
  */
 
 export const getTickets = (params: any) => {
+  console.log("called action",params)
   return {
     type: GET_TICKETS,
     payload: params,
