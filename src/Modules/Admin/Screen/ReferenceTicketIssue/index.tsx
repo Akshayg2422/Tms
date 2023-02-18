@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
 import { Divider, HomeContainer ,Card} from '@Components';
 import { ReferenceIssueItem } from '@Modules';
-function ReferenceIssue() {
+function ReferenceTicketIssue() {
 
 const dispatch = useDispatch();
  const { tickets } = useSelector((state: any) => state.CompanyReducer);
@@ -51,4 +51,4 @@ const { companyDetailsSelected } = useSelector((state: any) => state.AdminReduce
         </div>
     )
 }
-export { ReferenceIssue}
+export { ReferenceTicketIssue}

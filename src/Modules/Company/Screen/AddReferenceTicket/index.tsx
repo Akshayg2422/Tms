@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
 import { HomeContainer, Divider, Modal, H, Button } from '@Components';
-import { CompanyIssues, ReferenceIssue, TicketItem } from '@Modules';
+import { CompanyIssues,  ReferenceTicketIssue, TicketItem } from '@Modules';
 import { useInput } from '@Hooks';
 
 
@@ -31,7 +31,7 @@ function AddReferenceTicket() {
     </div>
 </div>
 <div>
-  <ReferenceIssue/>
+  <ReferenceTicketIssue/>
 </div>
 </div>
   )

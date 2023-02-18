@@ -6,7 +6,8 @@ import {
   addTicketEventApi,
   getTicketTagsApi,
   getEmployeesApi,
-  addEmployeeApi
+  addEmployeeApi,
+  getReferenceTicketsApi,
 
 } from '@Services';
 import {
@@ -36,7 +37,10 @@ import {
   getEmployeesFailure,
   ADD_EMPLOYEE,
   addEmployeeSuccess,
-  addEmployeeFailure
+  addEmployeeFailure,
+  GET_REFERENCE_TICKETS,
+  getReferenceTicketsSuccess,
+  getReferenceTicketsFailure,
 } from '@Redux';
 
 function* raiseNewTicketSaga(action) {
@@ -166,9 +170,7 @@ function* getEmployeesSaga(action) {
 function* addEmployeeSaga(action) {
   try {
     yield put(showLoader());
-    const response = yield call(addEmployeeApi, action.payload.params);
- 
-    
+    const response = yield call(addEmployeeApi, action.payload.params);   
     if (response.success) {
       yield put(hideLoader());
       yield put(addEmployeeSuccess({...response}));
@@ -185,6 +187,30 @@ function* addEmployeeSaga(action) {
   }
 }
 
+function* getReferenceTicketsSaga(action) {
+  console.log('actionactionaction',action);
+  try {
+    yield put(showLoader());
+    const response = yield call(getReferenceTicketsApi, action.payload.params);
+    console.log('getReferenceTicketsSagagetReferenceTicketsSagagetReferenceTicketsSaga',(JSON.stringify(response)))
+    if (response.success) {
+      console.log('res-----------------11');
+      yield put(hideLoader());
+      yield put(getReferenceTicketsSuccess({...response}));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      console.log('res---------------------2222222');
+      yield put(hideLoader());
+      yield put(getReferenceTicketsFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getReferenceTicketsFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
 function* CompanySaga() {
   yield takeLatest(RAISE_NEW_TICKET, raiseNewTicketSaga);
   yield takeLatest(GET_TICKETS, getTicketsSaga);
@@ -193,6 +219,7 @@ function* CompanySaga() {
   yield takeLatest(ADD_TICKET_EVENT, addTicketEventSaga);
   yield takeLatest(GET_EMPLOYEES,getEmployeesSaga);
   yield takeLatest(ADD_EMPLOYEE,addEmployeeSaga);
+  yield takeLatest(GET_REFERENCE_TICKETS,getReferenceTicketsSaga)
 }
 
 export default CompanySaga;

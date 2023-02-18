@@ -20,7 +20,10 @@ import {
   GET_EMPLOYEES_FAILURE,
   ADD_EMPLOYEE,
   ADD_EMPLOYEE_SUCCESS,
-  ADD_EMPLOYEE_FAILURE
+  ADD_EMPLOYEE_FAILURE,
+  GET_REFERENCE_TICKETS,
+  GET_REFERENCE_TICKETS_SUCCESS,
+  GET_REFERENCE_TICKETS_FAILURE,
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
 
@@ -31,7 +34,8 @@ const initialState: CompanyStateProp = {
   ticketEvents: undefined,
   addTicketEvent: undefined,
   getEmployeesDetails: undefined,
-  addEmployeeDetails: undefined
+  addEmployeeDetails: undefined,
+  addReferenceDetails: undefined,
 };
 
 const CompanyReducer = (
@@ -144,6 +148,24 @@ const CompanyReducer = (
       break;
     case ADD_EMPLOYEE_FAILURE:
       state = { ...state, addEmployeeDetails: undefined };
+      break;
+    case GET_REFERENCE_TICKETS:
+      state = {
+        ...state,
+        addReferenceDetails: undefined,
+      };
+      break;
+    case GET_REFERENCE_TICKETS_SUCCESS:
+      state = {
+        ...state,
+        addReferenceDetails: action.payload.details,
+      };
+      break;
+    case GET_REFERENCE_TICKETS_FAILURE:
+      state = {
+        ...state,
+        addReferenceDetails: undefined,
+      };
       break;
     default:
       state = state;

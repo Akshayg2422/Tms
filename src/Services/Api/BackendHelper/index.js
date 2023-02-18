@@ -20,6 +20,7 @@ import {
   ADD_TICKET_EVENT,
   GET_EMPLOYEES,
   ADD_EMPLOYEE,
+  GET_REFERENCE_TICKETS,
 
   /**
    * setting
@@ -28,8 +29,6 @@ import {
   POST_ADD_DESIGNATION,
   FETCH_DESIGNATION,
   FETCH_DEPARTMENT,
-
-
 } from '../UrlHelper';
 
 export const getAssociatedCompaniesApi = payload =>
@@ -66,6 +65,8 @@ export const getEmployeesApi = payload =>
 
 export const addEmployeeApi = payload =>
   post(ADD_EMPLOYEE, payload, {})
+  export const getReferenceTicketsApi = payload =>
+  post(GET_REFERENCE_TICKETS, payload, {})
 
 /**
  * setting
