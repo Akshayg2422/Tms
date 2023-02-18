@@ -1,4 +1,8 @@
 export interface ReferenceIssueItemProps {
     item: any
-    onClick?:()=>void
+    id?:any
+    // onClick?:()=>void
+    value?:string
+    handleIssueOnClick?:()=>void
+    
     }

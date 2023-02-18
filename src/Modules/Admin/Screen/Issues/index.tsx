@@ -13,6 +13,7 @@ import { translate } from "@I18n";
 
 
 function Issues() {
+    
     const { goTo, goBack } = useNavigation()
     const [modal, setModal] = useState(false);
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
