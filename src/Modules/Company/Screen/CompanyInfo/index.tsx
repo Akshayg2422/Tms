@@ -77,9 +77,6 @@ function CompanyInfo({ item }: CompanyInfoProps) {
         <CompanyUsers />
       </div>
 
-      <div>
-        <CompanyIssues/>
-      </div>
     </div>
   );
 }

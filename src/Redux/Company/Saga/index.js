@@ -111,6 +111,7 @@ function* addTicketEventSaga(action) {
     // console.log(JSON.stringify(response) + 'lllllllllllllllll8888888888888');
     if (response.success) {
       // yield put(hideLoader());
+      console.log(response,"response------------")
       yield put(addTicketEventSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {

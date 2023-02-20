@@ -24,7 +24,9 @@ const { companyDetailsSelected } = useSelector((state: any) => state.AdminReduce
 
     return (
         <div className='m-0'>
-            <HomeContainer isCard title='Issues'>   
+         
+           
+            
                 {
                         tickets && tickets.length > 0 ? tickets.map((eachTickets: any, index: number) => {
                             return (
@@ -40,9 +42,10 @@ const { companyDetailsSelected } = useSelector((state: any) => state.AdminReduce
                         </div>
 
                     }
-                    </HomeContainer>
+                    
                 
         </div>
+      
     )
 }
 export { CompanyIssues }
