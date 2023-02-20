@@ -158,7 +158,7 @@ function AddUser() {
               {" "}
               <InputHeading heading={"Designation"} />
             </div>
-            <div className="">
+            <div >
               <Autocomplete
               
                 renderInput={(props) => (

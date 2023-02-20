@@ -6,4 +6,4 @@ export * from './IssueCreate'
 export * from './CompanyIssueItem'
 export * from './TabBar'
 export * from './TabSelector'
-
+export * from './ReferenceIssueItem'

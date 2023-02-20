@@ -117,7 +117,9 @@ export const addTicketEvent = (params: any) => {
 };
 
 export const addTicketEventSuccess = (response: any) => {
+  console.log(response,"response==================")
   return {
+
     type: ADD_TICKET_EVENT_SUCCESS,
     payload: response,
   };

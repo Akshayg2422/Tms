@@ -9,4 +9,5 @@ export interface AdminStateProp {
   departmentData?:any;
   designationData?:any;
   companyDetailsSelected?:any;
+  referenceIssueSelectedDetails:any;
 }

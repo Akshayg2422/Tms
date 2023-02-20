@@ -23,6 +23,7 @@ import {
   FETCH_DESIGNATION_SUCCESS,
   FETCH_DESIGNATION_FAILURE,
   COMPANY_SELECTED_DETAILS,
+  REFERENCE_ISSUE_DETAILS,
 
 } from '../ActionTypes';
 
@@ -176,6 +177,10 @@ export const getDepartmentDataFailure = (error) => {
     type:COMPANY_SELECTED_DETAILS,
     payload: params ,
   }
-
-
+ }
+ export const referenceIssueDetails =(params)=>{
+  return{
+    type:REFERENCE_ISSUE_DETAILS,
+    payload: params ,
+  }
  }
