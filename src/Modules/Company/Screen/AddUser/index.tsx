@@ -38,7 +38,6 @@ function AddUser() {
   const gender = useDropDown(GENDER_LIST[0]);
   const [designationValue, setDesignationValue] = useState("");
   const { goBack } = useNavigation();
- 
 
   useEffect(() => {
     const params = {
@@ -47,20 +46,20 @@ function AddUser() {
     dispatch(
       getDesignationData({
         params,
-        onSuccess: () =>()=> {},
-        onError: () =>()=> {},
+        onSuccess: () => () => {},
+        onError: () => () => {},
       })
     );
   }, []);
 
   const submitAddUserHandler = () => {
-    if (designationData.data.name !== designationValue) {
+    if (designationData.data[0].name !== designationValue) {
       const params = {
         branch_id: companyDetailsSelected.branch_id,
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         email: email.value,
-        gender: gender.value?.id, 
+        gender: gender.value?.id,
         designation_name: designationValue,
       };
 
@@ -76,10 +75,10 @@ function AddUser() {
         dispatch(
           addEmployee({
             params,
-            onSuccess: () =>()=> {
+            onSuccess: () => () => {
               goBack();
             },
-            onError: (error) =>()=> {
+            onError: (error) => () => {
               console.log(error, "------------------------->if error");
             },
           })
@@ -94,7 +93,7 @@ function AddUser() {
         mobile_number: contactNumber.value,
         email: email.value,
         gender: gender.value?.id,
-        designation_name: designationData?.data?.id,
+        designation_name: designationData?.data[0].id,
       };
 
       const validation = validate(ADD_USER_RULES, {
@@ -103,17 +102,17 @@ function AddUser() {
         mobile_number: contactNumber.value,
         ...(email.value && { email: email.value }),
         gender: gender.value?.id,
-        designation_name: designationData?.data?.id,
+        designation_name: designationData?.data[0]?.id,
       });
       if (ifObjectExist(validation)) {
         dispatch(
           addEmployee({
             params,
-            onSuccess: () => ()=>{
+            onSuccess: () => () => {
               goBack();
             },
-            onError: (error) =>()=> {
-              console.log(error, "------------------------->else error");
+            onError: (error) => () => {
+              console.log(error, "-------yyyyyyyyyyyyyy-->else error");
             },
           })
         );
@@ -156,9 +155,8 @@ function AddUser() {
               {" "}
               <InputHeading heading={"Designation"} />
             </div>
-            <div >
+            <div>
               <Autocomplete
-              
                 renderInput={(props) => (
                   <input
                     className={"designation-input form-control "}
@@ -166,7 +164,7 @@ function AddUser() {
                   />
                 )}
                 value={designationValue}
-                wrapperStyle={{ position: "relative", display: "inline-block"}}
+                wrapperStyle={{ position: "relative", display: "inline-block" }}
                 items={designationData?.data}
                 getItemValue={(item) => item?.name}
                 shouldItemRender={matchStateToTerm}
@@ -175,7 +173,7 @@ function AddUser() {
                   setDesignationValue(value);
                 }}
                 renderMenu={(children) => (
-                  <div className="menu designation-scroll-bar" >{children}</div>
+                  <div className="menu designation-scroll-bar">{children}</div>
                 )}
                 renderItem={(item, isHighlighted) => (
                   <div
