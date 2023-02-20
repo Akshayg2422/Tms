@@ -96,6 +96,8 @@ function AddUser() {
         gender: gender.value?.id,
         designation_name: designationData?.data?.id,
       };
+      
+      
 
       const validation = validate(ADD_USER_RULES, {
         branch_id: companyDetailsSelected.branch_id,

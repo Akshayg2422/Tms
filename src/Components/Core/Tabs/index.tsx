@@ -6,7 +6,7 @@ function Tabs({ tabs, activeTab, onTabChange }: TabProps) {
 
     return (
         <div className={'col-4'}>
-            <div className={'d-flex justify-content-center align-items-center fixed-top text-muted'} style={{ height: '50px' }}>
+            <div className={'d-flex justify-content-center align-items-center fixed-top text-muted '} style={{ height: '50px' }}>
                 <div
                     className={'nav nav-pills'}>
                     {
