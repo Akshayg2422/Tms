@@ -21,8 +21,8 @@ function Companies() {
     dispatch(
       getAssociatedBranch({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   }, []);
