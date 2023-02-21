@@ -5,7 +5,7 @@ const BUILD_TYPE_LIVE_DEMO = 2;
 const BUILD_TYPE_STAGING = 3;
 const BUILD_TYPE_LOCAL = 4;
 
-const BUILD_TYPE = BUILD_TYPE_LOCAL;
+const BUILD_TYPE = BUILD_TYPE_LIVE;
 export const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
     ? 'http://api.quantatms.in'
@@ -31,9 +31,9 @@ axios.interceptors.request.use(function (config) {
 const getHeaders = async () => {
   try {
              
-    // const value =  localStorage.getItem(USER_TOKEN);
- const value = '0d1adf71aa0c0c290cd4c4d28bcc00f68a9eb5b3'
-    //console.log(JSON.stringify(value)+"+===Token");
+    const value = await localStorage.getItem(USER_TOKEN);
+//  const value = '0d1adf71aa0c0c290cd4c4d28bcc00f68a9eb5b3'
+    console.log(JSON.stringify(value)+"+===Token");
 
 
     if (value) {

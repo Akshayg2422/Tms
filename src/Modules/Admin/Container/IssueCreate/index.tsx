@@ -6,6 +6,7 @@ import {
   Radio,
   Dropzone,
   showToast,
+  MultiSelectDropDown,
 } from "@Components";
 import { translate } from "@I18n";
 import { getEmployees, raiseNewTicket } from "@Redux";
@@ -34,7 +35,7 @@ function IssueCreate() {
   const [photo, setPhoto] = useState<any>([]);
   const [companyUserDashboard, setCompanyUserDashboard] = useState<any>();
   const [selectedCompany, setSelectedCompany] = useState<any>({});
-  const [selectDropzone, setSelectDropzone] = useState<any>([{id:'1'}]);
+  const [selectDropzone, setSelectDropzone] = useState<any>([{ id: '1' }]);
   const [image, setImage] = useState("");
 
   const referenceNo = useInput("");
@@ -48,6 +49,23 @@ function IssueCreate() {
     let newUpdatedPhoto = [...photo, file];
     // setSelectDropzone(updatedPhoto);
     setPhoto(newUpdatedPhoto);
+  };
+
+  const options = [
+    { key: "1", value: "Option 1" },
+    { key: "2", value: "Option 2" },
+    { key: "3", value: "Option 3" },
+    { key: "4", value: "Option 4" },
+    { key: "5", value: "Option 5" },
+  ];
+  const [selectedOptions, setSelectedOptions] = useState([])
+
+  const handleSelect = (selectedList: any) => {
+    console.log('handleSelecthandleSelecthandleSelect', selectedList);
+  };
+
+  const handleRemove = (selectedList: any) => {
+    console.log('handleRemovehandleRemovehandleRemove', selectedList);
   };
 
   const submitTicketHandler = () => {
@@ -68,7 +86,7 @@ function IssueCreate() {
           onSuccess: (response: any) => () => {
             goBack();
           },
-          onError: (error) => () => {},
+          onError: (error) => () => { },
         })
       );
     } else {
@@ -149,12 +167,20 @@ function IssueCreate() {
           />
 
           {typeSelect && typeSelect?.id === "1" && (
-            <DropDown
-              heading={translate("common.company")}
-              data={modifiedCompanyDropDownData}
-              onChange={setSelectedCompany}
-              selected={selectedCompany}
+            // <DropDown
+            //   heading={translate("common.company")}
+            //   data={modifiedCompanyDropDownData}
+            //   onChange={setSelectedCompany}
+            //   selected={selectedCompany}
+            // />
+            <MultiSelectDropDown
+              options={options}
+              onSelect={handleSelect}
+              onRemove={handleRemove}
+              selectedValues={selectedOptions}
+              displayValue='value'
             />
+
           )}
 
           <DropDown
@@ -172,20 +198,19 @@ function IssueCreate() {
         </div>
 
         <div className="col-md-9 col-lg-7 pb-4 pt-3">
-          {selectDropzone&&
+          {selectDropzone &&
             selectDropzone.map((el, index) => {
               return (
                 <Dropzone
                   variant="ICON"
                   icon={image}
                   size="xl"
-                  onSelect={(image) => 
-                    {
+                  onSelect={(image) => {
                     let file = image.toString().replace(/^data:(.*,)?/, "");
                     handleImagePicker(index, file);
-                    setSelectDropzone([{id:'1'},{id:'2'}])
+                    setSelectDropzone([{ id: '1' }, { id: '2' }])
                   }
-                }
+                  }
                 />
               );
             })}
