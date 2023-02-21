@@ -3,21 +3,25 @@
 function TabSelector ({
   isActive,
   children,
+  className,
   onClick,
 }: {
   isActive: boolean;
   children: React.ReactNode;
   onClick: () => void;
+  className?:string;
 }) {
 return (
     <>
   <button
   style={{
-    borderColor:"white"
+    borderColor:"white",
+    backgroundColor:"#f7f8fa"
+    
   }}
-    className={` bg-white border-top-0   border-left-0 border-right-0 font-medium    pl-4 pr-4 pt-2 pb-2  ${
+    className={`  border-top-0   border-left-0 border-right-0 font-medium    pt-2 pb-2 ${className}  ${
       isActive
-        ? " border-primary bg-white"
+        ? " border-primary "
         : ""
     }`}
     onClick={onClick}

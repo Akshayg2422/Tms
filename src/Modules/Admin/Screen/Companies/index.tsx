@@ -4,7 +4,7 @@ import { companySelectedDetails, getAssociatedBranch } from "@Redux";
 import { Card, Divider, Button, HomeContainer } from "@Components";
 import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
-import { COMPANY_ISSUES, HOME_PATH, INFO } from "@Routes";
+import {  HOME_PATH, INFO } from "@Routes";
 import { translate } from "@I18n";
 
 function Companies() {
@@ -45,7 +45,7 @@ function Companies() {
       <Card title={"Companies"} className="mt-4">
         {associatedCompanies &&
           associatedCompanies.length > 0 &&
-          associatedCompanies.map((company: any, index: number) => {
+          associatedCompanies?.map((company: any, index: number) => {
             return (
               <div
                 onClick={() => {
@@ -53,7 +53,7 @@ function Companies() {
                 }}
               >
                 <CompanyItem key={company.id} item={company} />
-                {index !== associatedCompanies.length - 1 && (
+                {index !== associatedCompanies?.length - 1 && (
                   <div className="mx-7">
                     <Divider />
                   </div>

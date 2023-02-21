@@ -51,3 +51,7 @@ export const OTP_LOGIN = 'OTP_LOGIN';
 export const OTP_LOGIN_SUCCESS = 'OTP_LOGIN_SUCCESS';
 export const OTP_LOGIN_FAILURE = 'OTP_LOGIN_FAILURE';
 
+export const RESTORE_AUTH= 'RESTORE_AUTH';
+
+
+

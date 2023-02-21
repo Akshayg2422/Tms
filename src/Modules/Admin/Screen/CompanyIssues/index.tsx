@@ -10,7 +10,7 @@ function CompanyIssues() {
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
     const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
 
-    useEffect(() => {
+        useEffect(() => {
         const params = { branch_id: companyDetailsSelected.branch_id }
         dispatch(getTickets({
             params,
@@ -21,23 +21,29 @@ function CompanyIssues() {
 
 
     return (
-        <div className='m-0'>
+        <div className='d-flex justify-content-center pt-4'>
+            <Card className='col-lg-8 col-sm-0 col-11 '>
+         
+           
+            
+                {
+                        tickets && tickets.length > 0 ? tickets.map((eachTickets: any, index: number) => {
+                            return (
+                                <>
+                                    <CompanyIssueItem item={eachTickets} key={index} />
+                                    {index !== tickets.length - 1 && <div className='mx-7'><Divider /></div>}
+                                </>
+                            )
+                        }) 
+                        :
+                        <div className='text-center'>
+                            No Date Found
+                        </div>
 
-            {
-                tickets && tickets.length > 0 ? tickets.map((eachTickets: any, index: number) => {
-                    return (
-                        <>
-                            <CompanyIssueItem item={eachTickets} key={index} />
-                            {index !== tickets.length - 1 && <div className='mx-7'><Divider /></div>}
-                        </>
-                    )
-                })
-                    :
-                    <div className='text-center'>
-                        No Date Found
-                    </div>
-            }
-
+                    }
+                    
+                    </Card>
+                
         </div>
 
     )

@@ -24,6 +24,7 @@ import {
   GET_REFERENCE_TICKETS,
   GET_REFERENCE_TICKETS_SUCCESS,
   GET_REFERENCE_TICKETS_FAILURE,
+  RESTORE_COMPANY,
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
 
@@ -43,6 +44,14 @@ const CompanyReducer = (
   action: any,
 ) => {
   switch (action.type) {
+
+
+    case RESTORE_COMPANY:
+
+      state = initialState;
+      
+      break;
+   
     case RAISE_NEW_TICKET:
       state = {
         ...state,
