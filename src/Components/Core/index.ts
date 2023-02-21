@@ -19,6 +19,7 @@ export * from './Table'
 export * from './NoRecordsFound'
 export * from './DropZone'
 export * from './Tabs'
+export * from './MultiSelectDropDown'
 
 
 
