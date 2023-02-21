@@ -6,7 +6,6 @@ import {
   Radio,
   Dropzone,
   showToast,
-  MultiSelectDropDown,
 } from "@Components";
 import { translate } from "@I18n";
 import { getEmployees, raiseNewTicket } from "@Redux";
@@ -49,23 +48,6 @@ function IssueCreate() {
     let newUpdatedPhoto = [...photo, file];
     // setSelectDropzone(updatedPhoto);
     setPhoto(newUpdatedPhoto);
-  };
-
-  const options = [
-    { key: "1", value: "Option 1" },
-    { key: "2", value: "Option 2" },
-    { key: "3", value: "Option 3" },
-    { key: "4", value: "Option 4" },
-    { key: "5", value: "Option 5" },
-  ];
-  const [selectedOptions, setSelectedOptions] = useState([])
-
-  const handleSelect = (selectedList: any) => {
-    console.log('handleSelecthandleSelecthandleSelect', selectedList);
-  };
-
-  const handleRemove = (selectedList: any) => {
-    console.log('handleRemovehandleRemovehandleRemove', selectedList);
   };
 
   const submitTicketHandler = () => {
@@ -167,20 +149,12 @@ function IssueCreate() {
           />
 
           {typeSelect && typeSelect?.id === "1" && (
-            // <DropDown
-            //   heading={translate("common.company")}
-            //   data={modifiedCompanyDropDownData}
-            //   onChange={setSelectedCompany}
-            //   selected={selectedCompany}
-            // />
-            <MultiSelectDropDown
-              options={options}
-              onSelect={handleSelect}
-              onRemove={handleRemove}
-              selectedValues={selectedOptions}
-              displayValue='value'
+            <DropDown
+              heading={translate("common.company")}
+              data={modifiedCompanyDropDownData}
+              onChange={setSelectedCompany}
+              selected={selectedCompany}
             />
-
           )}
 
           <DropDown
