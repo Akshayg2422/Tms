@@ -1,5 +1,5 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,CompanyInfo, AddReferenceTicket} from '@Modules'
-import { Login, Otp, Splash, RegisterUser,IssueDetails,CompanyIssues ,TabBar} from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, CompanyInfo, AddReferenceTicket } from '@Modules'
+import { Login, Otp, Splash, RegisterUser, IssueDetails, CompanyIssues, TabBar } from '@Modules'
 
 export const ROUTES = {
   AUTH: {
@@ -29,30 +29,30 @@ export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
- }
- 
- export const INFO ={
-  DASHBOARD: "/admin",
-  COMPANY: "/company",
-  COMPANY_INFO:"/CompanyInfo"
- }
+}
 
- export const ADD_USER_INFO={
+export const INFO = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
-  ADD_USER:"/AddUser"
- }
- export const ISSUE_CREATE={
-  DASHBOARD: "/admin",
-  COMPANY: "/company",
-  ISSUE_TICKET:"/IssueCreate"
- }
+  COMPANY_INFO: "/CompanyInfo"
+}
 
- export const COMPANY_ISSUES={
+export const ADD_USER_INFO = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
-  COMPANY_ISSUES:"/CompanyIssues"
- }
+  ADD_USER: "/AddUser"
+}
+export const ISSUE_CREATE = {
+  DASHBOARD: "/admin",
+  COMPANY: "/company",
+  ISSUE_TICKET: "/IssueCreate"
+}
+
+export const COMPANY_ISSUES = {
+  DASHBOARD: "/admin",  
+  COMPANY: "/company",
+  COMPANY_ISSUES: "/CompanyIssues"
+}
 
 
 
@@ -75,7 +75,7 @@ export const AUTH_ROUTES = [
   {
     key: 4,
     path: ROUTES.AUTH.ISSUE_DETAILS,
-    component: <AddReferenceTicket/>
+    component: <AddReferenceTicket />
   },
 ];
 
@@ -96,7 +96,15 @@ export const ADMIN_ROUTES = [
     icon: "ni ni-square-pin text-primary",
     layout: "/admin",
     component: <Companies />
-  }, {
+  }, 
+  {
+    path: "/broadCast",
+    name: "Broadcast",
+    icon: "ni ni-world-2 text-primary",
+    layout: "/admin",
+    component: <Issues />
+  },
+  {
     path: "/settings",
     name: "Settings",
     icon: "ni ni-settings-gear-65 text-gray",
@@ -143,8 +151,6 @@ export const COMPANY_ROUTES = [
     layout: "/company",
     component: <Settings />
   },
-
-  
 
 ];
 

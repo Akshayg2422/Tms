@@ -16,9 +16,9 @@ const MultiSelectDropDown = ({ options, onSelect, onRemove, selectedValues, disp
         setSelectedOptions(selectedOptions)
         onRemove(selectedOptions)
     }
+
     return (
         <Multiselect
-            className=''
             options={options}
             selectedValues={selectedOptions}
             onSelect={handleSelect}
