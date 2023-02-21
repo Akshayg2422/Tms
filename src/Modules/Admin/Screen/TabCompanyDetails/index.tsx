@@ -8,8 +8,7 @@ function TabCompanyDetails() {
   const [selectedTab, setSelectedTab] = useTabs([
     "info",
     "issue",
-   
-    
+  
   ]);
   
   return (

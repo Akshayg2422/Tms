@@ -7,6 +7,6 @@ export * from './IssueDetails'
 export * from './CompanyIssues'
 export * from './TabIssueDetails'
 export * from './TabCompanyDetails'
-
+export * from './Logout'
 
 

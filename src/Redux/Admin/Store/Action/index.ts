@@ -24,8 +24,17 @@ import {
   FETCH_DESIGNATION_FAILURE,
   COMPANY_SELECTED_DETAILS,
   REFERENCE_ISSUE_DETAILS,
+  RESTORE_ADMIN,
 
 } from '../ActionTypes';
+
+export const RestoreAdmin = () => {
+  return {
+    type: RESTORE_ADMIN,
+    
+   
+  };
+};
 
 export const getAssociatedBranch = (params: any) => {
   return {

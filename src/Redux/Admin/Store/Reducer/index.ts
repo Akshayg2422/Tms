@@ -26,6 +26,7 @@ import {
 
   COMPANY_SELECTED_DETAILS,
   REFERENCE_ISSUE_DETAILS,
+  RESTORE_ADMIN,
 } from '../ActionTypes';
 
 import {AdminStateProp} from '../../Interfaces';
@@ -45,6 +46,11 @@ const initialState: AdminStateProp = {
 
 const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
   switch (action.type) {
+
+    case RESTORE_ADMIN:
+      state = initialState;
+      break;
+      
     case GET_ASSOCIATED_BRANCH:
       state = {...state};
       break;

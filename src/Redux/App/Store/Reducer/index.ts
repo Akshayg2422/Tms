@@ -1,4 +1,4 @@
-import { SHOW_LOADER, HIDE_LOADER, USER_LOGIN_DETAILS } from '../ActionTypes';
+import { SHOW_LOADER, HIDE_LOADER, USER_LOGIN_DETAILS, RESTORE_APP } from '../ActionTypes';
 import { AppStateProp } from '../../Interfaces';
 
 const initialState: AppStateProp = {
@@ -9,6 +9,12 @@ const initialState: AppStateProp = {
 
 const AppReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case RESTORE_APP:
+      state = initialState;
+    
+      break;
+
+
     case SHOW_LOADER:
       state = {
         ...state,

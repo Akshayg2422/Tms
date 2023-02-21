@@ -38,6 +38,8 @@ function AddUser() {
   const gender = useDropDown(GENDER_LIST[0]);
   const [designationValue, setDesignationValue] = useState("");
   const { goBack } = useNavigation();
+  console.log(gender,"vvvvvvvvvvvvvvvv");
+  
 
   useEffect(() => {
     const params = {
@@ -92,7 +94,7 @@ function AddUser() {
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         email: email.value,
-        gender: gender.value?.id,
+        gender: gender.value.id,
         designation_name: designationData?.data[0].id,
       };
 
@@ -101,7 +103,7 @@ function AddUser() {
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         ...(email.value && { email: email.value }),
-        gender: gender.value?.id,
+        gender: gender.value.id,
         designation_name: designationData?.data[0]?.id,
       });
       if (ifObjectExist(validation)) {
@@ -147,12 +149,13 @@ function AddUser() {
             <DropDown
               heading={translate("auth.gender")}
               data={GENDER_LIST}
+              selected={gender.value}
               value={gender.value}
               onChange={gender.onChange}
             />
 
             <div>
-              {" "}
+             
               <InputHeading heading={"Designation"} />
             </div>
             <div>
