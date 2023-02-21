@@ -1,7 +1,7 @@
 
 import { TabPanel, useTabs } from "react-headless-tabs";
-import { TabSelector } from "@Modules";
-import {Card } from '@Components'
+import { IssueDetails, IssueUsers, ReferenceIssue, TabSelector } from "@Modules";
+
 
 
 function TabIssueDetails() {
@@ -16,8 +16,8 @@ function TabIssueDetails() {
   return (
     <div className="">
  
-    <nav className="d-flex justify-content-center">
-    <Card className="col-lg-7 col-sm-0 col-12">
+    <nav className="d-flex justify-content-center mt-3">
+    <div className="col-lg-7 col-sm-0 col-12">
         <div className="d-flex justify-content-center">
             
             
@@ -53,19 +53,19 @@ function TabIssueDetails() {
           USER
         </TabSelector>
         </div>
-        </Card>
+        </div>
      
       
       </nav>
 
-      <div className=" d-flex justify-content-center">
+      <div className="">
         <TabPanel hidden={selectedTab !== "THREAD"}>My Account</TabPanel>
         <TabPanel hidden={selectedTab !== "ATTACH"}>Company</TabPanel>
-        <TabPanel hidden={selectedTab !== "REFERENCE"}>Team Members</TabPanel>
-        <TabPanel hidden={selectedTab !== "USER"}>Billing</TabPanel>
+        <TabPanel hidden={selectedTab !== "REFERENCE"}><IssueDetails/></TabPanel>
+        <TabPanel hidden={selectedTab !== "USER"}><IssueUsers/></TabPanel>
      
       </div>
-     
+   
 
   </div>
  

@@ -4,7 +4,7 @@ import { H, Image, Badge } from '@Components'
 import { useDispatch } from 'react-redux'
 import { setSelectedIssues } from '@Redux'
 import { useNavigation } from '@Hooks'
-import { ROUTES } from '@Routes';
+import {TAB_ISSUE_ATTACH_DETAILS, HOME_PATH, ROUTES } from '@Routes';
 import { getPhoto } from '@Utils'
 import { getStatusFromCode,handleEmailClick } from '@Utils'
 import { useSelector } from 'react-redux'
@@ -22,7 +22,7 @@ function TicketItem({ item }: TicketItemProps) {
        
         <div className='row d-flex justify-content-center' onClick={() => {
             dispatch(setSelectedIssues(item))
-            goTo(ROUTES.AUTH.ISSUE_DETAILS)
+            goTo(HOME_PATH.DASHBOARD + TAB_ISSUE_ATTACH_DETAILS.TAB_ISSUE_USER_DETAILS)
         }}>
 
             <div className='col-lg-5 col-md-7 col-sm-0 col-7' >
