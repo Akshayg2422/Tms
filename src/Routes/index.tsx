@@ -1,5 +1,6 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,CompanyInfo, AddReferenceTicket} from '@Modules'
-import { Login, Otp, Splash, RegisterUser,IssueDetails,CompanyIssues ,TabBar} from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,Logout} from '@Modules'
+import { Login, Otp, Splash,} from '@Modules'
+import {icons } from '@Assets'
 
 export const ROUTES = {
   AUTH: {
@@ -8,7 +9,7 @@ export const ROUTES = {
     OTP: "/otp",
     REGISTER: '/register',
     VIEW_GOOGLE_BUSINESS: '/view-google-business',
-    ISSUE_DETAILS: '/issueDetails'
+    // ISSUE_DETAILS: '/issueDetails'
   },
   HOME: {
     Admin: "/admin/issues",
@@ -48,10 +49,10 @@ export const HOME_PATH = {
   ISSUE_TICKET:"/IssueCreate"
  }
 
- export const COMPANY_ISSUES={
+ export const TAB_ISSUE_ATTACH_DETAILS={
   DASHBOARD: "/admin",
   COMPANY: "/company",
-  COMPANY_ISSUES:"/CompanyIssues"
+  TAB_ISSUE_USER_DETAILS:"/TabIssueReferenceDetails"
  }
 
 
@@ -72,11 +73,7 @@ export const AUTH_ROUTES = [
     path: AUTH_PATH.OTP,
     component: <Otp />
   },
-  {
-    key: 4,
-    path: ROUTES.AUTH.ISSUE_DETAILS,
-    component: <AddReferenceTicket/>
-  },
+ 
 ];
 
 
@@ -102,6 +99,13 @@ export const ADMIN_ROUTES = [
     icon: "ni ni-settings-gear-65 text-gray",
     layout: "/admin",
     component: <Settings />
+  },
+  {
+    path: "/Logout",
+    name: "Logout",
+    icon: "ni ni-settings-gear-65 text-gray",
+    layout: "/admin",
+    component: <Logout/>
   },
 ];
 

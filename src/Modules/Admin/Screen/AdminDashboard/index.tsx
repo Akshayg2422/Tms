@@ -4,12 +4,13 @@ import { Sidebar } from "@Components";
 import {
   ADD_USER_INFO,
   ADMIN_ROUTES,
+  TAB_ISSUE_ATTACH_DETAILS,
   HOME_PATH,
   INFO,
   ISSUE_CREATE,
 } from "@Routes";
 import { icons } from "@Assets";
-import { AddUser, CompanyInfo, CreateCompany, IssueCreate } from "@Modules";
+import { AddUser, CompanyInfo, CreateCompany, IssueCreate, TabCompanyDetails, TabIssueDetails } from "@Modules";
 import { getDashboard } from "@Redux";
 import { useDispatch } from "react-redux";
 
@@ -85,9 +86,10 @@ function AdminDashboard() {
         <Routes>
           {getRoutes(ADMIN_ROUTES)}
           <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany />} />
-          <Route path={INFO.COMPANY_INFO} element={<CompanyInfo />} />
+          <Route path={INFO.COMPANY_INFO} element={<TabCompanyDetails />} />
           <Route path={ADD_USER_INFO.ADD_USER} element={<AddUser />} />
           <Route path={ISSUE_CREATE.ISSUE_TICKET} element={<IssueCreate />} />
+          <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} />
           {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
         </Routes>
       </div>

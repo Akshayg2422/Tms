@@ -8,7 +8,7 @@ import { ADD_USER_INFO,HOME_PATH } from '@Routes'
 import { translate } from "@I18n";
 function CompanyUsers() {
 
-    const { goTo, goBack } = useNavigation()
+    const { goTo} = useNavigation()
     const dispatch = useDispatch()
     const { getEmployeesDetails} = useSelector((state: any) => state.CompanyReducer);
    

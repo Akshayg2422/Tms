@@ -92,7 +92,7 @@ function Issues() {
 
                 <Modal size={'md'} isOpen={modal} fade={false} onClose={() => setModal(!modal)}  >
                     {
-                        issueStatus && issueStatus.length > 0 && issueStatus.map((item, index) => {
+                        issueStatus && issueStatus?.length > 0 && issueStatus?.map((item, index) => {
                             return (
                                 <>
                                     <H tag='h4' onClick={() => {
@@ -101,7 +101,7 @@ function Issues() {
                                         setModal(!modal)
 
                                     }} text={item[1]} key={index} />
-                                    {index !== issueStatus.length - 1 && <Divider space={'3'} />}
+                                    {index !== issueStatus?.length - 1 && <Divider space={'3'} />}
                                 </>
                             )
                         })
@@ -110,11 +110,11 @@ function Issues() {
 
                 <HomeContainer isCard title={'Issues'}>
                     {
-                        tickets && tickets.length > 0 && tickets.map((eachTickets: any, index: number) => {
+                        tickets && tickets.length > 0 && tickets?.map((eachTickets: any, index: number) => {
                             return (
                                 <>
                                     <TicketItem item={eachTickets} key={index} />
-                                    {index !== tickets.length - 1 && <div className='mx-7'><Divider /></div>}
+                                    {index !== tickets?.length - 1 && <div className='mx-7'><Divider /></div>}
                                 </>
                             )
                         })

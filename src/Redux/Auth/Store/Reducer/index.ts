@@ -35,7 +35,8 @@ import {
   SELECT_BUSINESS_PLACE_ID,
   OTP_LOGIN,
   OTP_LOGIN_FAILURE,
-  OTP_LOGIN_SUCCESS
+  OTP_LOGIN_SUCCESS,
+  RESTORE_AUTH
 } from '../ActionTypes';
 import {AuthSliceStateProp} from '../../Interfaces';
 import {DEFAULT_LANGUAGE} from '@Utils';
@@ -63,6 +64,11 @@ const initialState: AuthSliceStateProp = {
 
 const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
   switch (action.type) {
+    case RESTORE_AUTH:
+      state =initialState ;
+      break;
+
+
     case VALIDATE_USER:
       state = {...state, loading: true};
       break;

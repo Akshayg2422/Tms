@@ -22,7 +22,8 @@ import {
   ADD_EMPLOYEE_FAILURE,
   GET_REFERENCE_TICKETS,
   GET_REFERENCE_TICKETS_SUCCESS,
-  GET_REFERENCE_TICKETS_FAILURE
+  GET_REFERENCE_TICKETS_FAILURE,
+  RESTORE_COMPANY
 } from '../ActionTypes';
 
 export const raiseNewTicket = (params: any) => {
@@ -248,5 +249,12 @@ export const addEmployeeFailure = (error: any) => {
   return {
     type: ADD_EMPLOYEE_FAILURE,
     payload: error,
+  };
+};
+export const restoreCompany = () => {
+ 
+  return {
+    type:RESTORE_COMPANY,
+   
   };
 };

@@ -174,7 +174,7 @@ function IssueDetails() {
     }
     return (
         <HomeContainer>
-            <Card title={"Reference Tickets"} className="mt-4">
+            <Card title={"Reference Tickets"} className="mt-2">
                 {
                     addReferenceDetails &&
                     addReferenceDetails.data.length > 0 ?

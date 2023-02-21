@@ -5,7 +5,8 @@ export * from './AdminDashboard'
 export * from './CreateCompany'
 export * from './IssueDetails'
 export * from './CompanyIssues'
-
-
+export * from './TabIssueDetails'
+export * from './TabCompanyDetails'
+export * from './Logout'
 
 

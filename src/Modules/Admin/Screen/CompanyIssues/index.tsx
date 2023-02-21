@@ -23,7 +23,8 @@ const { companyDetailsSelected } = useSelector((state: any) => state.AdminReduce
 
 
     return (
-        <div className='m-0'>
+        <div className='d-flex justify-content-center pt-4'>
+            <Card className='col-lg-8 col-sm-0 col-11 '>
          
            
             
@@ -43,6 +44,7 @@ const { companyDetailsSelected } = useSelector((state: any) => state.AdminReduce
 
                     }
                     
+                    </Card>
                 
         </div>
       

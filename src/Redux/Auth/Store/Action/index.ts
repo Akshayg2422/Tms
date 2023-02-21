@@ -40,6 +40,7 @@ import {
   OTP_LOGIN,
 OTP_LOGIN_SUCCESS,
 OTP_LOGIN_FAILURE,
+RESTORE_AUTH,
 } from '../ActionTypes';
 
 
@@ -377,5 +378,12 @@ export const setRegisteredMobileNumber = (params: any) => {
   return {
     type: SET_REGISTER_MOBILE_NUMBER,
     payload: params,
+  };
+};
+
+export const restoreAuth = () => {
+  return {
+    type: RESTORE_AUTH,
+   
   };
 };
