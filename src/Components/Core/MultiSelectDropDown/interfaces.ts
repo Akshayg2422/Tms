@@ -1,15 +1,14 @@
 export interface MultiSelectProps {
-    options?: { key: string, value: string }[];
+    options: { key: string, value: string }[];
     onSelect: (selectedList: any) => void;
     onRemove: (selectedList: any) => void;
+    displayValue:string;
     selectedValues?: any;
     singleSelect?: boolean;
     showCheckbox?: boolean;
     placeholder?: string;
     style?: object;
     disable?:boolean;
-    displayValue?:string;
     showArrow?:boolean;
     avoidHighlightFirstOption?:boolean;
-    className ?:string;
 }
