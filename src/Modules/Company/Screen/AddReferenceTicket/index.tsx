@@ -32,6 +32,7 @@ function AddReferenceTicket() {
     );
   };
   const onSelectedTickets = (item: any) => {
+    
     let updatedSelectedId: any = [...selectedIssueDetails];
     if (selectedIssueDetails?.length > 0) {
       const selectedItem = updatedSelectedId;

@@ -12,4 +12,6 @@ export interface MultiSelectProps {
     showArrow?:boolean;
     avoidHighlightFirstOption?:boolean;
     className ?:string;
+    heading?:string;
+    id?:string;
 }

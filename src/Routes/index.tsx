@@ -1,6 +1,6 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,Logout} from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,Logout, Broadcast} from '@Modules'
 import { Login, Otp, Splash,} from '@Modules'
-import {icons } from '@Assets'
+
 
 export const ROUTES = {
   AUTH: {
@@ -31,6 +31,11 @@ export const HOME_PATH = {
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
 }
+export const CREATE_BROAD_CAST = {
+  DASHBOARD: "/admin",
+  COMPANY: "/company",
+  BROAD_CAST:"/CreateBroadCast",
+ }
 
 export const INFO = {
   DASHBOARD: "/admin",
@@ -54,6 +59,7 @@ export const ADD_USER_INFO={
   COMPANY: "/company",
   TAB_ISSUE_USER_DETAILS:"/TabIssueReferenceDetails"
  }
+
 
 
 
@@ -99,7 +105,7 @@ export const ADMIN_ROUTES = [
     name: "Broadcast",
     icon: "ni ni-world-2 text-primary",
     layout: "/admin",
-    component: <Issues />
+    component: <Broadcast/>
   },
   {
     path: "/settings",

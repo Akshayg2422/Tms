@@ -94,3 +94,12 @@ export const CREATE_TICKET = {
     presence: { allowEmpty: false, message: "please select User" },
   },
 };
+
+export const CREATE_BROAD_CAST = {
+  title: {
+    presence: { allowEmpty: false, message: "title cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+};

@@ -23,6 +23,9 @@ import {
   GET_REFERENCE_TICKETS,
   GET_REFERENCE_TICKETS_SUCCESS,
   GET_REFERENCE_TICKETS_FAILURE,
+  ADD_BROADCAST_MESSAGES,
+  ADD_BROADCAST_MESSAGES_SUCCESS,
+  ADD_BROADCAST_MESSAGES_FAILURE,
   RESTORE_COMPANY
 } from '../ActionTypes';
 
@@ -256,5 +259,26 @@ export const restoreCompany = () => {
   return {
     type:RESTORE_COMPANY,
    
+  };
+};
+
+export const addBroadCastMessages= (params: any) => {
+  return {
+    type:  ADD_BROADCAST_MESSAGES,
+    payload: params,
+  };
+};
+
+export const addBroadCastMessagesSuccess = (response: any) => {
+  return {
+    type:  ADD_BROADCAST_MESSAGES_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addBroadCastMessagesFailure = (error: any) => {
+  return {
+    type:  ADD_BROADCAST_MESSAGES_FAILURE,
+    payload: error,
   };
 };

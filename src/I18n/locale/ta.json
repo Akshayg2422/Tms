@@ -94,7 +94,9 @@
         "emailOptional": "மின்னஞ்சல் (விருப்பமானது)",
         "title":"தலைப்பு",
         "description":"விளக்கம்",
-        "referenceNo":"குறிப்பு எண்"
+        "referenceNo":"குறிப்பு எண்",
+
+        "createBroadCast":"உருவாக்க பிராட்காஸ்ட்"
     },
     "product": {
         "Store": "ஸ்டோர்",
