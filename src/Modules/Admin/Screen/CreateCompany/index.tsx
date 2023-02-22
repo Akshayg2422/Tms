@@ -108,14 +108,15 @@ function CreateCompany({ }: CreateCompanyProps) {
       dispatch(
         registerCompany({
           params,
-          onSuccess: (response: any) => () => () => {
-           
+          onSuccess: (response: any) => () => {
             if (response.success) {
+              console.log('successssss------------------->',response);
+              
               showToast(response.message, 'success')
               goBack()
             }
           },
-          onError: (error: any) => () => () => {
+          onError: (error: any) => () => {
             showToast('')
           },
         }),
@@ -151,7 +152,7 @@ function CreateCompany({ }: CreateCompanyProps) {
         <Input type={'number'} heading={translate('common.PinCode')}
           maxLength={6} value={pinCode.value} onChange={pinCode.onChange} />
         {/* <Input disabled heading={translate('auth.mobileNumber')}
-value={contactNumber.value} /> */}
+         value={contactNumber.value} /> */}
         <Input type={'number'}
           heading={translate('common.contactNumber')} maxLength={10}
           value={companyContactNumber.value}
@@ -171,7 +172,7 @@ value={contactNumber.value} /> */}
         <Input heading={translate('auth.emailOptional')}
           value={email.value} onChange={email?.onChange} />
         <DropDown heading={translate('auth.gender')}
-          data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
+          selected={gender.value} data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
 
       </div>
       <div className='row justify-content-end'>

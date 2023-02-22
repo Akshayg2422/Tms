@@ -2,18 +2,16 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
-import { Divider, HomeContainer ,Card} from '@Components';
+import { Divider, HomeContainer, Card } from '@Components';
 import { CompanyIssueItem } from '@Modules';
 function CompanyIssues() {
 
-const dispatch = useDispatch();
- const { tickets } = useSelector((state: any) => state.CompanyReducer);
-const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
+    const dispatch = useDispatch();
+    const { tickets } = useSelector((state: any) => state.CompanyReducer);
+    const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
 
-
-
-    useEffect(() => {
-        const params = { branch_id: companyDetailsSelected.branch_id }    
+        useEffect(() => {
+        const params = { branch_id: companyDetailsSelected.branch_id }
         dispatch(getTickets({
             params,
             onSuccess: (success) => () => { },
@@ -47,7 +45,7 @@ const { companyDetailsSelected } = useSelector((state: any) => state.AdminReduce
                     </Card>
                 
         </div>
-      
+
     )
 }
 export { CompanyIssues }

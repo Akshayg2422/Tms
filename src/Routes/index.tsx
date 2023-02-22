@@ -30,15 +30,15 @@ export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
- }
- 
- export const INFO ={
+}
+
+export const INFO = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
-  COMPANY_INFO:"/CompanyInfo"
- }
+  COMPANY_INFO: "/CompanyInfo"
+}
 
- export const ADD_USER_INFO={
+export const ADD_USER_INFO={
   DASHBOARD: "/admin",
   COMPANY: "/company",
   ADD_USER:"/AddUser"
@@ -93,7 +93,15 @@ export const ADMIN_ROUTES = [
     icon: "ni ni-square-pin text-primary",
     layout: "/admin",
     component: <Companies />
-  }, {
+  }, 
+  {
+    path: "/broadCast",
+    name: "Broadcast",
+    icon: "ni ni-world-2 text-primary",
+    layout: "/admin",
+    component: <Issues />
+  },
+  {
     path: "/settings",
     name: "Settings",
     icon: "ni ni-settings-gear-65 text-gray",
@@ -147,8 +155,6 @@ export const COMPANY_ROUTES = [
     layout: "/company",
     component: <Settings />
   },
-
-  
 
 ];
 

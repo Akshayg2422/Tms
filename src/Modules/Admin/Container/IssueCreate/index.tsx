@@ -50,6 +50,7 @@ function IssueCreate() {
     setPhoto(newUpdatedPhoto);
   };
 
+
   const submitTicketHandler = () => {
     const params = {
       title: title?.value,
