@@ -465,6 +465,260 @@ $mark-bg: #fcf8e3 !default;
 $hr-margin-y: $spacer * 2 !default;
 
 
+// landing page media Queries
+
+@media screen and (max-width: 600px)  {
+  .hvh{
+    height: 100vh;
+  }
+  .mainHeading {
+    font-size: 10vw;
+    font-weight: 700;
+    text-align: center;  
+  }
+  .sub-heading {
+    font-size: 4vh;
+  } 
+  .btn-pos{
+    display: flex;
+    justify-content: center;
+  }
+  .mainSubtext {
+    font-size: 4.3vw;
+    text-align: center;
+    font-weight:light;
+  }
+
+  .mainImg {
+    width: 100%;
+    display: flex;
+    
+  }
+  .scroll
+  {
+    display: flex;
+    justify-content: center;
+  }
+
+  .secondHeading {
+    font-size: 5.8vw;
+    font-weight: 600;
+    line-height: 130%;
+  }
+  .seventh-screen-heading{
+    font-size: 1.5rem;
+    line-height: 140%;
+  }
+  .subText{
+    font-size: 3.3vw;
+    line-height: 130%;
+    font-weight:light;
+  }
+  .tabText {
+    font-size: 4vw;
+    font-weight: 500;
+    text-align: justify;
+  }
+  .rrr {
+    font-size: 13vw;
+    color: black;
+    font-weight: bold;
+    line-height: 140%;
+  }
+
+  .mutedtitle {
+    font-weight: 600;
+  }
+
+  .disc {
+    font-size: 7vw;
+    font-weight: 600;
+  }
+
+  .seventh-screen-subtext {
+    font-size: 16px;
+    font-weight: light;
+    line-height: 130%;
+    
+
+  }
+
+  .people{
+    font-size: 7vw;
+  }
+  .people-subtext{
+    font-size: 4vw;
+  }
+  .tag34{
+    font-size: 5vw;
+  }
+  
+  .card-size{ 
+    height: 430px;
+    text-align:justify;
+  }
+  .card-text{
+    font-size: 1rem;
+    }
+}  
+
+@media screen and (min-width: 600) and (max-width: 1020px) {
+  .hvh{
+    height: 100%;
+  }
+  
+  .mainHeading {
+    font-size: 4.5vw;
+    font-weight:900;
+    
+  }
+  .sub-heading {
+    font-size: 6vh;
+    line-height: 135%;
+  }
+
+  .mainSubtext {
+    font-size: 1.4vw;
+    line-height: 145%;
+    font-weight:light;
+  }
+  .secondHeading {
+    font-size: 2.5vw;
+    word-spacing:2px;
+    font-weight: 700;
+    line-height: 130%;
+  }
+  .seventh-screen-heading{
+    font-size: 2rem;
+  }
+  .subText{
+    font-size: 1.3vw;
+    line-height: 145%;
+    font-weight:light;
+  }
+  .tabText {
+    font-size: 1.2vw;
+    font-weight: 500;
+  }
+
+  .rrr {
+    font-size: 4.7vw;
+    color: black;
+    font-weight: 600;
+  }
+
+  .mutedtitle {
+    font-size: 27px;
+    font-weight: 600;
+  }
+
+  .disc {
+    font-size: 48px;
+    font-weight: 600;
+  }
+
+  .seventh-screen-subtext {
+    font-size: 18px;
+    font-weight: light;
+    line-height: 120%;
+  }
+  .tag34{
+    font-size: 1.4vw;
+  }
+  .people{
+    font-size: 3vw;
+  }
+  .people-subtext{
+    font-size: 1.5vw;
+  }
+.card-size{
+  height: 380px;
+}
+
+}
+
+
+
+ @media screen and (min-width:1020px) and (max-width:2000px) 
+{
+  .hvh{
+    height: 76vh;
+  }
+  .mainHeading {
+    font-size: 4.5vw;
+    font-weight:900;
+    
+  }
+  .sub-heading {
+    font-size: 6vh;
+    line-height: 135%;
+  }
+
+  .mainSubtext {
+    font-size: 1.4vw;
+    line-height: 145%;
+    font-weight:light;
+  }
+  .secondHeading {
+    font-size: 2.5vw;
+    word-spacing:2px;
+    font-weight: 700;
+    line-height: 130%;
+  }
+  .seventh-screen-heading{
+    font-size: 2rem;
+  }
+  .subText{
+    font-size: 1.3vw;
+    line-height: 145%;
+    font-weight:light;
+  }
+  .tabText {
+    font-size: 1.2vw;
+    font-weight: 500;
+  }
+
+  .rrr {
+    font-size: 4.7vw;
+    color: black;
+    font-weight: 600;
+  }
+
+  .mutedtitle {
+    font-size: 27px;
+    font-weight: 600;
+  }
+
+  .disc {
+    font-size: 48px;
+    font-weight: 600;
+  }
+
+  .seventh-screen-subtext {
+    font-size: 18px;
+    font-weight: light;
+    line-height: 120%;
+  }
+  .tag34{
+    font-size: 1.4vw;
+  }
+  .people{
+    font-size: 3vw;
+  }
+  .people-subtext{
+    font-size: 1.5vw;
+  }
+.card-size{
+  height: 380px;
+ 
+}
+.card-text{
+font-size: 1rem;
+text-align: justify;
+}
+
+} 
+
 
 // Icons
 
