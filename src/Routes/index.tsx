@@ -104,14 +104,14 @@ export const ADMIN_ROUTES = [
   {
     path: "/settings",
     name: "Settings",
-    icon: "ni ni-settings-gear-65 text-gray",
+    icon: "ni ni-settings-gear-65 text-primary",
     layout: "/admin",
     component: <Settings />
   },
   {
     path: "/Logout",
     name: "Logout",
-    icon: "ni ni-settings-gear-65 text-gray",
+    icon: "ni ni-button-power text-primary",
     layout: "/admin",
     component: <Logout/>
   },
