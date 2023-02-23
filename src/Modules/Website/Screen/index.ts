@@ -1,0 +1,12 @@
+export * from './Home'
+export * from './Form'
+export * from './Data'
+export * from './Features'
+export * from './EaseOfUse'
+export * from './HowItWork'
+export * from './Rev'
+export * from './People'
+export * from './Footer'
+export * from './Header'
+export * from './Privacy'
+
