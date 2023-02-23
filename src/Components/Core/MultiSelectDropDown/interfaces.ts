@@ -11,4 +11,6 @@ export interface MultiSelectProps {
     disable?:boolean;
     showArrow?:boolean;
     avoidHighlightFirstOption?:boolean;
+    heading?:string;
+    id?:string;
 }

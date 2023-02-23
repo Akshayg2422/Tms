@@ -15,6 +15,8 @@ const MultiSelectDropDown = ({
     showCheckbox,
     placeholder,
     style,
+    heading,
+    id,
 }: MultiSelectProps) => {
 
     const [selectedOptions, setSelectedOptions] = useState([])
