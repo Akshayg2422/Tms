@@ -156,6 +156,7 @@ function IssueCreate() {
               onChange={setSelectedCompany}
               selected={selectedCompany}
             />
+
           )}
 
           <DropDown
