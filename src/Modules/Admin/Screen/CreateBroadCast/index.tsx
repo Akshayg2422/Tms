@@ -107,7 +107,13 @@ function CreateBroadCast() {
   //   setSelectedCompany(updatedSelectedId);
   // };
   const onSelectedTickets =(item: any)=>{
-    console.log(item.key,"vvvvvvvvvvvvvvvvvvvvv");
+   item.forEach(({key,value,name})=>
+   {
+    setSelectedCompany(key)
+
+
+   })
+   
     
 
   }
