@@ -74,26 +74,43 @@ function CreateBroadCast() {
     }
   };
   console.log(selectedCompany,"selectedCompany---------------------");
-  const onSelectedTickets = (item: any) => {
+  // const onSelectedTickets = (item: any) => {
+  //   console.log(item.key,"item----------");
     
-    let updatedSelectedId: any = [...selectedCompany];
-    if (selectedCompany?.length > 0) {
-      const selectedItem = updatedSelectedId;
-      const ifExist = selectedItem.some(
-        (existEl: any) => existEl.id === item?.id
-      );
-      if (ifExist) {
-        updatedSelectedId = selectedItem.filter(
-          (filterItem: any) => filterItem.id !== item?.id
-        );
-      } else {
-        updatedSelectedId = [...updatedSelectedId, item];
-      }
-    } else {
-      updatedSelectedId = [item];
-    }
-    setSelectedCompany(updatedSelectedId);
-  };
+  //   let updatedSelectedId: any = [...selectedCompany];
+  //   console.log(updatedSelectedId,"updatedSelectedId--------->")
+  //   if (selectedCompany.length > 0) {
+  //     const selectedItem = updatedSelectedId;
+  //     console.log(selectedItem,"selectedItem=================================>")
+  //     const ifExist = selectedItem.some(
+  //       (existEl: any) => existEl.key === item?.key
+  //     );
+  //     console.log(ifExist,"ifExist============== real");
+      
+  //     if (ifExist) {
+  //       updatedSelectedId = selectedItem.filter(
+  //         (filterItem: any) => filterItem.key !== item?.key
+  //       );
+  //       console.log(updatedSelectedId,"updatedSelectedId ifExite--------------");
+        
+  //     } else {
+  //       updatedSelectedId = [...updatedSelectedId, item];
+  //       console.log( updatedSelectedId ," updatedSelectedId ======+++++++++++ first else");
+        
+
+  //     }
+  //   } else {
+  //     updatedSelectedId = [item];
+  //     console.log( updatedSelectedId ," updatedSelectedId --------------->else");
+      
+  //   }
+  //   setSelectedCompany(updatedSelectedId);
+  // };
+  const onSelectedTickets =(item: any)=>{
+    console.log(item.key,"vvvvvvvvvvvvvvvvvvvvv");
+    
+
+  }
 
   useEffect(() => {
     let companies: any = [];
