@@ -10,7 +10,7 @@ import { getPhoto } from '@Utils';
 function Sent({ item }: any) {
 
 
-    console.log('ticketEvent------------->', JSON.stringify(item))
+    // console.log('ticketEvent------------->', JSON.stringify(item))
     return (
         <>
             {

@@ -11,7 +11,7 @@ import {
 import { translate } from "@I18n";
 import { getEmployees, addBroadCastMessages } from "@Redux";
 import {
- CREATE_BROAD_CAST ,
+  CREATE_BROAD_CAST,
   getValidateError,
   ifObjectExist,
   type,
@@ -27,22 +27,24 @@ function CreateBroadCast() {
 
   const [typeSelect, setTypeSelect] = useState(type[0]);
 
-  const { associatedCompanies} = useSelector(
+  const { associatedCompanies } = useSelector(
     (state: any) => state.AdminReducer
   );
 
-  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =useState();
+  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
+    useState();
   const [photo, setPhoto] = useState<any>([]);
-//   const [companyUserDashboard, setCompanyUserDashboard] = useState<any>();
-  const [selectedCompany, setSelectedCompany] = useState<any>('');
+  const [selectedCompanyId, setSelectedCompanyId] = useState<any>([]);
+  const [selectedCompany, setSelectedCompany] = useState<any>("");
   const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
   const [image, setImage] = useState("");
 
- 
   const title = useInput("");
   const description = useInput("");
 
   const [selectedUser, setSelectedUser] = useState<any>();
+  console.log('selectedCompanyId------------->>', selectedCompanyId);
+  
 
   const handleImagePicker = (index: number, file: any) => {
     let newUpdatedPhoto = [...photo, file];
@@ -53,12 +55,13 @@ function CreateBroadCast() {
     const params = {
       title: title?.value,
       description: description?.value,
-      company_ids: {add:['',' ', ]},
-      assigned_to_id: selectedUser?.id,
-      broadcast_attachments:[{attachments:photo}],
+      ...(selectedCompanyId.length>0  &&  {company_ids: { add: selectedCompanyId }}),
+      broadcast_attachments: [{ attachments: photo }],
     };
+    console.log('params------------>>', params);
+    
 
-    const validation = validate(CREATE_BROAD_CAST , params);
+    const validation = validate(CREATE_BROAD_CAST, params);
     if (ifObjectExist(validation)) {
       dispatch(
         addBroadCastMessages({
@@ -66,57 +69,23 @@ function CreateBroadCast() {
           onSuccess: (response: any) => () => {
             goBack();
           },
-          onError: (error) => () => { },
+          onError: (error) => () => {},
         })
       );
     } else {
       showToast(getValidateError(validation));
     }
   };
-  console.log(selectedCompany,"selectedCompany---------------------");
-  // const onSelectedTickets = (item: any) => {
-  //   console.log(item.key,"item----------");
-    
-  //   let updatedSelectedId: any = [...selectedCompany];
-  //   console.log(updatedSelectedId,"updatedSelectedId--------->")
-  //   if (selectedCompany.length > 0) {
-  //     const selectedItem = updatedSelectedId;
-  //     console.log(selectedItem,"selectedItem=================================>")
-  //     const ifExist = selectedItem.some(
-  //       (existEl: any) => existEl.key === item?.key
-  //     );
-  //     console.log(ifExist,"ifExist============== real");
-      
-  //     if (ifExist) {
-  //       updatedSelectedId = selectedItem.filter(
-  //         (filterItem: any) => filterItem.key !== item?.key
-  //       );
-  //       console.log(updatedSelectedId,"updatedSelectedId ifExite--------------");
-        
-  //     } else {
-  //       updatedSelectedId = [...updatedSelectedId, item];
-  //       console.log( updatedSelectedId ," updatedSelectedId ======+++++++++++ first else");
-        
 
-  //     }
-  //   } else {
-  //     updatedSelectedId = [item];
-  //     console.log( updatedSelectedId ," updatedSelectedId --------------->else");
-      
-  //   }
-  //   setSelectedCompany(updatedSelectedId);
-  // };
-  const onSelectedTickets =(item: any)=>{
-   item.forEach(({key,value,name})=>
-   {
-    setSelectedCompany(key)
-
-
-   })
-   
-    
-
-  }
+  useEffect(() => {
+    let companies: any = [];
+    if (selectedCompany && selectedCompany?.length > 0) {
+      selectedCompany?.forEach(({ key, name }) => {
+        companies = [...companies, key];
+      });
+      setSelectedCompanyId(companies);
+    }
+  }, [selectedCompany]);
 
   useEffect(() => {
     let companies: any = [];
@@ -125,16 +94,13 @@ function CreateBroadCast() {
       associatedCompanies.forEach(({ branch_id, display_name }) => {
         companies = [
           ...companies,
-          { key:branch_id, value: display_name, name: display_name },
+          { key: branch_id, value: display_name, name: display_name },
         ];
       });
 
       setModifiedCompanyDropDownData(companies);
     }
   }, []);
-  console.log(modifiedCompanyDropDownData,"modifiedCompanyDropDownData==============yyyyyyyyyyyyy");
-  
-
 
   return (
     <div>
@@ -155,22 +121,25 @@ function CreateBroadCast() {
             selected={typeSelect}
             data={type}
             onRadioChange={(selected) => {
-            //   setSelectedCompany({});
-            //   setSelectedUser(undefined);
-              if (selected) {
+            
                 setTypeSelect(selected);
-              }
+                setSelectedCompanyId([])
+              
             }}
           />
-   {typeSelect && typeSelect?.id === "1" && (
-          <MultiSelectDropDown
-            heading={translate("common.company")!}
-            options={modifiedCompanyDropDownData}
-            displayValue={'value'}
-            onSelect={(item) => {onSelectedTickets(item)}}
-            onRemove={(item) => {onSelectedTickets(item) }}
-          />
-   )}
+          {typeSelect && typeSelect?.id === "1" && (
+            <MultiSelectDropDown
+              heading={translate("common.company")!}
+              options={modifiedCompanyDropDownData!}
+              displayValue={"value"}
+              onSelect={(item) => {
+                setSelectedCompany(item);
+              }}
+              onRemove={(item) => {
+                setSelectedCompany(item);
+              }}
+            />
+          )}
         </div>
 
         <div className="pl-3">
@@ -202,7 +171,7 @@ function CreateBroadCast() {
             <Button
               block
               text={translate("common.submit")}
-              // onClick={submitTicketHandler}
+              onClick={submitTicketHandler}
             />
           </div>
         </div>

@@ -9,6 +9,7 @@ import { getPhoto } from '@Utils'
 function CompanyItem({ item }: CompanyItemProps) {
 
     const { display_name, attachment_logo, address, phone, email } = item
+    console.log(item,'iiiiiiiiiiiiiittttttttttttcccccccccccc')
 
     return (
 

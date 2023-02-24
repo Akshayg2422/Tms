@@ -9,6 +9,7 @@ import {
   addEmployeeApi,
   getReferenceTicketsApi,
   addBroadCastMessagesApi,
+  getBroadCastMessagesApi,
  
 } from '@Services';
 import {
@@ -20,6 +21,7 @@ import {
   GET_TICKET_TAGS,
   ADD_TICKET_EVENT,
   ADD_BROADCAST_MESSAGES,
+  GET_BROADCAST_MESSAGES,
   getTickets,
   getTicketsSuccess,
   getTicketsFailure,
@@ -44,7 +46,10 @@ import {
   getReferenceTicketsSuccess,
   getReferenceTicketsFailure,
   addBroadCastMessagesSuccess,
-  addBroadCastMessagesFailure
+  addBroadCastMessagesFailure,
+  getBroadCastMessagesSuccess,
+  getBroadCastMessagesFailure
+
 } from '@Redux';
 
 function* raiseNewTicketSaga(action) {
@@ -239,6 +244,30 @@ function* addBroadCastMessagesSaga(action) {
   }
 }
 
+function* getBroadCastMessagesSaga(action) {
+ 
+  try {
+    yield put(showLoader());
+    const response = yield call(getBroadCastMessagesApi, action.payload.params);
+     console.log('getReferencesSagagetReferenceTicketsSagagetReferenceTicketsSaga',(JSON.stringify(response)))
+    if (response.success) {
+     console.log(response,"ssssssssssssssssssss")
+      yield put(hideLoader());
+      yield put( getBroadCastMessagesSuccess({...response}));
+      yield call(action.payload.onSuccess(response));
+    } else {
+    
+      yield put(hideLoader());
+      yield put( getBroadCastMessagesFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put( getBroadCastMessagesFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
 function* CompanySaga() {
   yield takeLatest(RAISE_NEW_TICKET, raiseNewTicketSaga);
   yield takeLatest(GET_TICKETS, getTicketsSaga);
@@ -249,6 +278,7 @@ function* CompanySaga() {
   yield takeLatest(ADD_EMPLOYEE,addEmployeeSaga);
   yield takeLatest(GET_REFERENCE_TICKETS,getReferenceTicketsSaga)
   yield takeLatest(ADD_BROADCAST_MESSAGES, addBroadCastMessagesSaga)
+  yield takeLatest(GET_BROADCAST_MESSAGES, getBroadCastMessagesSaga)
 }
 
 export default CompanySaga;

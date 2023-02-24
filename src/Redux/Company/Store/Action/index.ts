@@ -26,6 +26,9 @@ import {
   ADD_BROADCAST_MESSAGES,
   ADD_BROADCAST_MESSAGES_SUCCESS,
   ADD_BROADCAST_MESSAGES_FAILURE,
+  GET_BROADCAST_MESSAGES,
+  GET_BROADCAST_MESSAGES_SUCCESS,
+  GET_BROADCAST_MESSAGES_FAILURE,
   RESTORE_COMPANY
 } from '../ActionTypes';
 
@@ -279,6 +282,31 @@ export const addBroadCastMessagesSuccess = (response: any) => {
 export const addBroadCastMessagesFailure = (error: any) => {
   return {
     type:  ADD_BROADCAST_MESSAGES_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ * GET
+ */
+ export const getBroadCastMessages= (params: any) => {
+  return {
+    type:  GET_BROADCAST_MESSAGES,
+    payload: params,
+  };
+};
+
+export const getBroadCastMessagesSuccess = (response: any) => {
+  console.log(response,"rrrrrrrrrrrrrrrrrrrrrrrr")
+  return {
+    type:  GET_BROADCAST_MESSAGES_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getBroadCastMessagesFailure = (error: any) => {
+  return {
+    type:  GET_BROADCAST_MESSAGES_FAILURE,
     payload: error,
   };
 };

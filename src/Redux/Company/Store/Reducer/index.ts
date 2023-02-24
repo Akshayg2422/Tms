@@ -28,6 +28,9 @@ import {
   ADD_BROADCAST_MESSAGES ,
   ADD_BROADCAST_MESSAGES_SUCCESS,
   ADD_BROADCAST_MESSAGES_FAILURE,
+  GET_BROADCAST_MESSAGES ,
+  GET_BROADCAST_MESSAGES_SUCCESS,
+  GET_BROADCAST_MESSAGES_FAILURE,
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
 
@@ -39,6 +42,7 @@ const initialState: CompanyStateProp = {
   getEmployeesDetails: undefined,
   addEmployeeDetails: undefined,
   addReferenceDetails: undefined,
+  broadCastDetails:undefined,
 };
 
 const CompanyReducer = (
@@ -84,6 +88,18 @@ const CompanyReducer = (
       state = { ...state };
       break;
 
+      case GET_BROADCAST_MESSAGES:
+        state = {
+          ...state,
+        };
+  
+        break;
+      case GET_BROADCAST_MESSAGES_SUCCESS:
+        state = {...state,  broadCastDetails: action.payload.details};
+        break;
+      case GET_BROADCAST_MESSAGES_FAILURE:
+        state = { ...state };
+        break;
 
 
 
