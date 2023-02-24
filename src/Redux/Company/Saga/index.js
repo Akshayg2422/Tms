@@ -249,9 +249,9 @@ function* getBroadCastMessagesSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getBroadCastMessagesApi, action.payload.params);
-     console.log('getReferencesSagagetReferenceTicketsSagagetReferenceTicketsSaga',(JSON.stringify(response)))
+    //  console.log('getReferencesSagagetReferenceTicketsSagagetReferenceTicketsSaga',(JSON.stringify(response)))
     if (response.success) {
-     console.log(response,"ssssssssssssssssssss")
+ 
       yield put(hideLoader());
       yield put( getBroadCastMessagesSuccess({...response}));
       yield call(action.payload.onSuccess(response));

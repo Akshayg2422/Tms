@@ -297,7 +297,7 @@ export const addBroadCastMessagesFailure = (error: any) => {
 };
 
 export const getBroadCastMessagesSuccess = (response: any) => {
-  console.log(response,"rrrrrrrrrrrrrrrrrrrrrrrr")
+  
   return {
     type:  GET_BROADCAST_MESSAGES_SUCCESS,
     payload: response,
