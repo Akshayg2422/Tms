@@ -4,9 +4,9 @@ import { SendProps } from './interfaces'
 
 function Send({ onClick, value, onChange }: SendProps) {
     return (
-        <div className='row fixed-bottom '>
+        <div className='row fixed-bottom'>
             <div className='col-lg-3'></div>
-            <div className='col-lg-5 col-sm-0 col-auto'>
+            <div className='col-lg-7 col-sm-0 col-auto'>
                 <Input className={'rounded-pill bg-gradient-white'} type='text' value={value} placeholder={'Type Here'} onChange={onChange} />
             </div>
             <div className={'col mb-4'}>

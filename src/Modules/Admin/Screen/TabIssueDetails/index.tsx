@@ -1,6 +1,6 @@
 
 import { TabPanel, useTabs } from "react-headless-tabs";
-import { IssueDetails, IssueUsers, ReferenceIssue, TabSelector } from "@Modules";
+import { IssueDetails, IssueUsers,Thread, ReferenceIssue, TabSelector } from "@Modules";
 
 
 
@@ -59,7 +59,7 @@ function TabIssueDetails() {
       </nav>
 
       <div className="">
-        <TabPanel hidden={selectedTab !== "THREAD"}>My Account</TabPanel>
+        <TabPanel hidden={selectedTab !== "THREAD"}><Thread/></TabPanel>
         <TabPanel hidden={selectedTab !== "ATTACH"}>Company</TabPanel>
         <TabPanel hidden={selectedTab !== "REFERENCE"}><IssueDetails/></TabPanel>
         <TabPanel hidden={selectedTab !== "USER"}><IssueUsers/></TabPanel>
