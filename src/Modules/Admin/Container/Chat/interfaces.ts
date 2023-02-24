@@ -1,6 +1,6 @@
 export interface ChatProps {
     item: any;
-    index:number;
+    // index:number;
    
 } 
 export type TaggedElementProps = 

@@ -202,7 +202,7 @@ function* getReferenceTicketsSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getReferenceTicketsApi, action.payload.params);
-    console.log('getReferenceTicketsSagagetReferenceTicketsSagagetReferenceTicketsSaga',(JSON.stringify(response)))
+    // console.log('getReferenceTicketsSagagetReferenceTicketsSagagetReferenceTicketsSaga',(JSON.stringify(response)))
     if (response.success) {
       console.log('res-----------------11');
       yield put(hideLoader());
