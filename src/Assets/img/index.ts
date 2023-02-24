@@ -13,5 +13,14 @@ export const image = {
     Security:require('./brand/security.png'),
     Benefits:require('./brand/benefits.png'),
     EaseOfUse:require('./brand/Ease of use.png'),
-    Rev:require('./brand/revolution image.png')
+    Rev:require('./brand/revolution image.png'),
+    TMS_1:require('./brand/TMS_1.png'),
+    TMS_2:require('./brand/TMS_2.png'),
+    TMS_3:require('./brand/TMS_3.png'),
+    TMS_4:require('./brand/TMS_4.png'),
+    TMS_5:require('./brand/TMS_5.png'),
+    TMS_6:require('./brand/TMS_6.png'),
+    TMS_7:require('./brand/TMS_7.png'),
+    TMS_8:require('./brand/TMS_8.png'),
+    TMS_Logo:require('./brand/TMS_Logo.png')
 }

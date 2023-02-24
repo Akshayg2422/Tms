@@ -5,12 +5,12 @@ import { translate } from "@I18n";
 function Header() {
   return (
  
-          <div className='fixed-top border-0 bg-secondary pt-3 pb-3'>
+          <div className='fixed-top border-0 bg-secondary pt-3 pb-3 transparent'>
               <div className='row m-0'>
                 <div className={'col-6'}>
                   <div className='ml-md-5 ml-lg--5  ml-sm-0 ml--3'>
                     <Image
-                      src={image.QuantaGataLogo}
+                      src={image.TMS_Logo}
                       alt='nav-icon'
                       width={'50px'}
                       height={'50px'}

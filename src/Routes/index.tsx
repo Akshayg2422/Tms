@@ -1,5 +1,5 @@
 import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,Logout} from '@Modules'
-import { Login, Otp, Splash,} from '@Modules'
+import { Login, Otp, Splash,Landing} from '@Modules'
 import {icons } from '@Assets'
 
 export const ROUTES = {
@@ -61,7 +61,7 @@ export const AUTH_ROUTES = [
   {
     key: 1,
     path: AUTH_PATH.SPLASH,
-    component: <Splash />
+    component: <Landing/>
   },
   {
     key: 2,
@@ -115,6 +115,7 @@ export const ADMIN_ROUTES = [
     layout: "/admin",
     component: <Logout/>
   },
+  
 ];
 
 export const COMPANY_ROUTES = [
