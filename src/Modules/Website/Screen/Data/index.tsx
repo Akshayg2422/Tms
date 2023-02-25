@@ -40,11 +40,14 @@ function Data() {
                 {translate('TMS.thirdScreen.Reference TicketSubtext')}
               </h2>
             </Card>
+            
           </div>
+          
         </div>
+        <Divider space='6'/>
       </div>
 
-      <Divider space='5'/>
+      
 
     </>
   )

@@ -26,7 +26,7 @@ function Features() {
   return (
     <>
           {/* <Divider border='1px' space1='5' space3='7' opacity='0.2px'></Divider> */}
-      <div className={'container pt-3  pb-7 mt--4 '}>
+      <div className={'container pt-3  pb-7 mt--4 33ar4sz'}>
 
         <div className={'col-sm-12 text-center mt-7 '}>
           <Nav

@@ -14,7 +14,7 @@ function RealTime() {
           </div>
           <div className='pt-5 '> <a href="#">
             <i className={'bi bi-play-circle-fill text-primary pl-4 pl-sm-4  fa-4x'}></i> </a>
-            <span className={'watchIcon mb-3 text-default sptag '}><b>{translate('TMS.WatchTutorial')}</b></span>
+            <span className={'watchIcon mb-3 text-default sptag pl-2'}><b>{translate('TMS.WatchTutorial')}</b></span>
           </div>
         </div>
 

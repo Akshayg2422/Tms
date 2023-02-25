@@ -25,8 +25,8 @@ function Home() {
                    size={'lg'}
                     />
                     <Button
-                     className="text-white shadow-none border-0 d-lg-block d-md-block d-none px-4 "
-                     style={{ background: "#b56feb" }}
+                     className="text-white shadow-none border-0 d-lg-block d-md-block d-none px-4  "
+                     style={{ background: "#BFEDF0" }}
                      text={translate('TMS.learnMore')}
                      size={'lg'}
                       />

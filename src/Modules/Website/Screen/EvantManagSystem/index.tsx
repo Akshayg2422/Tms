@@ -18,11 +18,11 @@ function EvantManagSystem() {
                 width={'80%'}
               />
             </div>
-            <div className='mt-lg-6 mt-sm-0 mt-4 mb-sm-0 mb-4 pl-sm-0 pl-2'>
+            <div className='mt-lg-6 mt-sm-0 mt-4 mb-sm-0 mb-4 pl-sm-0 '>
               <a href="#">
               <i className='bi bi-play-circle-fill text-primary fa-4x pl-4 pl-sm-4' ></i>
               </a>
-              <span className='ml-sm-0 ml-4 text-default sptag '> <b>{translate('TMS.WatchTutorial')}</b></span>
+              <span className='ml-sm-0 ml-4 text-default sptag pl-2'> <b>{translate('TMS.WatchTutorial')}</b></span>
             </div>
           </div>
           <div className='col-lg-6 col-md-12 col-sm-12'>
@@ -35,7 +35,7 @@ function EvantManagSystem() {
               <li>{translate('TMS.sixthScreen.Coordinating logisticsSubtext')}</li><br/>
               <li>{translate('TMS.sixthScreen.Promoting the eventSubtext')}</li><br/>
               <li>{translate('TMS.sixthScreen.Managing the eventSubtext')}</li><br/>
-              <li>{translate('TMS.sixthScreen.Evaluating the eventSubtext')}</li><br/>
+              <li>{translate('TMS.sixthScreen.Evaluating the eventSubtext')}</li>
               {translate('TMS.sixthScreen.contentSubtext')}
               
               </ul>
