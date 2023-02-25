@@ -23,6 +23,12 @@ import {
   GET_REFERENCE_TICKETS,
   GET_REFERENCE_TICKETS_SUCCESS,
   GET_REFERENCE_TICKETS_FAILURE,
+  ADD_BROADCAST_MESSAGES,
+  ADD_BROADCAST_MESSAGES_SUCCESS,
+  ADD_BROADCAST_MESSAGES_FAILURE,
+  GET_BROADCAST_MESSAGES,
+  GET_BROADCAST_MESSAGES_SUCCESS,
+  GET_BROADCAST_MESSAGES_FAILURE,
   RESTORE_COMPANY
 } from '../ActionTypes';
 
@@ -256,5 +262,51 @@ export const restoreCompany = () => {
   return {
     type:RESTORE_COMPANY,
    
+  };
+};
+
+export const addBroadCastMessages= (params: any) => {
+  return {
+    type:  ADD_BROADCAST_MESSAGES,
+    payload: params,
+  };
+};
+
+export const addBroadCastMessagesSuccess = (response: any) => {
+  return {
+    type:  ADD_BROADCAST_MESSAGES_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addBroadCastMessagesFailure = (error: any) => {
+  return {
+    type:  ADD_BROADCAST_MESSAGES_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ * GET
+ */
+ export const getBroadCastMessages= (params: any) => {
+  return {
+    type:  GET_BROADCAST_MESSAGES,
+    payload: params,
+  };
+};
+
+export const getBroadCastMessagesSuccess = (response: any) => {
+  
+  return {
+    type:  GET_BROADCAST_MESSAGES_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getBroadCastMessagesFailure = (error: any) => {
+  return {
+    type:  GET_BROADCAST_MESSAGES_FAILURE,
+    payload: error,
   };
 };

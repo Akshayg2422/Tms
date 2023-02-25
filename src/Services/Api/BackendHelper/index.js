@@ -21,6 +21,8 @@ import {
   GET_EMPLOYEES,
   ADD_EMPLOYEE,
   GET_REFERENCE_TICKETS,
+  ADD_BROADCAST_MESSAGES,
+  GET_BROADCAST_MESSAGES,
 
   /**
    * setting
@@ -67,6 +69,11 @@ export const addEmployeeApi = payload =>
   post(ADD_EMPLOYEE, payload, {})
   export const getReferenceTicketsApi = payload =>
   post(GET_REFERENCE_TICKETS, payload, {})
+
+  export const addBroadCastMessagesApi = payload =>
+  post(ADD_BROADCAST_MESSAGES, payload, {})
+  export const getBroadCastMessagesApi = payload =>
+  post(GET_BROADCAST_MESSAGES, payload, {})
 
 /**
  * setting

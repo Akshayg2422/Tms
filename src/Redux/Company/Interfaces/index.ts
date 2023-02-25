@@ -6,4 +6,5 @@ export interface CompanyStateProp {
   getEmployeesDetails: any;
   addEmployeeDetails: any;
   addReferenceDetails: any;
+  broadCastDetails:any;
 }
