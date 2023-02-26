@@ -38,8 +38,8 @@ function AddUser() {
   const gender = useDropDown(GENDER_LIST[0]);
   const [designationValue, setDesignationValue] = useState("");
   const { goBack } = useNavigation();
-  console.log(gender,"vvvvvvvvvvvvvvvv");
-  
+  console.log(gender, "vvvvvvvvvvvvvvvv");
+
 
   useEffect(() => {
     const params = {
@@ -48,8 +48,8 @@ function AddUser() {
     dispatch(
       getDesignationData({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   }, []);
@@ -106,6 +106,8 @@ function AddUser() {
         gender: gender.value.id,
         designation_name: designationData?.data[0]?.id,
       });
+
+
       if (ifObjectExist(validation)) {
         dispatch(
           addEmployee({
@@ -127,80 +129,77 @@ function AddUser() {
   return (
     <>
       <HomeContainer isCard title={translate("common.addUser")!}>
-        <div className="row mt--3">
-          <div className="col-md-9 col-lg-7">
-            <Input
-              heading={translate("common.name")}
-              value={firstName.value}
-              onChange={firstName?.onChange}
-            />
-            <Input
-              type={"number"}
-              heading={translate("auth.contactNumber")}
-              maxLength={10}
-              value={contactNumber.value}
-              onChange={contactNumber.onChange}
-            />
-            <Input
-              heading={translate("auth.email")}
-              value={email.value}
-              onChange={email?.onChange}
-            />
-            <DropDown
-              heading={translate("auth.gender")}
-              data={GENDER_LIST}
-              selected={gender.value}
-              value={gender.value}
-              onChange={gender.onChange}
-            />
 
-            <div>
-             
-              <InputHeading heading={"Designation"} />
-            </div>
-            <div>
-              <Autocomplete
-                renderInput={(props) => (
-                  <input
-                    className={"designation-input form-control "}
-                    {...props}
-                  />
-                )}
-                value={designationValue}
-                wrapperStyle={{ position: "relative", display: "inline-block" }}
-                items={designationData?.data}
-                getItemValue={(item) => item?.name}
-                shouldItemRender={matchStateToTerm}
-                onChange={(event, value) => setDesignationValue(value)}
-                onSelect={(value) => {
-                  setDesignationValue(value);
-                }}
-                renderMenu={(children) => (
-                  <div className="menu designation-scroll-bar">{children}</div>
-                )}
-                renderItem={(item, isHighlighted) => (
-                  <div
-                    style={{
-                      background: isHighlighted ? "lightgray" : "white",
-                    }}
-                    key={item?.id}
-                  >
-                    {item?.name}
-                  </div>
-                )}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row justify-content-end">
-          <div className="col-md-6 col-lg-4  my-4">
-            <Button
-              block
-              text={translate("common.submit")}
-              onClick={submitAddUserHandler}
+        <div className="col-md-6">
+          <Input
+            heading={translate("common.name")}
+            value={firstName.value}
+            onChange={firstName?.onChange}
+          />
+          <Input
+            type={"number"}
+            heading={translate("auth.contactNumber")}
+            maxLength={10}
+            value={contactNumber.value}
+            onChange={contactNumber.onChange}
+          />
+          <Input
+            heading={translate("auth.email")}
+            value={email.value}
+            onChange={email?.onChange}
+          />
+          <DropDown
+            heading={translate("auth.gender")}
+            data={GENDER_LIST}
+            selected={gender.value}
+            value={gender.value}
+            onChange={gender.onChange}
+          />
+
+
+          <InputHeading heading={"Designation"} />
+          <div>
+            <Autocomplete
+              renderInput={(props) => (
+                <input
+                  className={"designation-input form-control col"}
+                  {...props}
+                />
+              )}
+              value={designationValue}
+              wrapperStyle={{ position: "relative", display: "inline-block" }}
+              items={designationData?.data}
+              getItemValue={(item) => item?.name}
+              shouldItemRender={matchStateToTerm}
+              onChange={(event, value) => setDesignationValue(value)}
+              onSelect={(value) => {
+                setDesignationValue(value);
+              }}
+              renderMenu={(children) => (
+                <div className="menu designation-scroll-bar">{children}</div>
+              )}
+              renderItem={(item, isHighlighted) => (
+                <div
+                  style={{
+                    background: isHighlighted ? "lightgray" : "white",
+                  }}
+                  key={item?.id}
+                >
+                  {item?.name}
+                </div>
+              )}
             />
           </div>
         </div>
+
+
+        <div className="col mt-4">
+          <Button
+            text={translate("common.submit")}
+            onClick={submitAddUserHandler}
+          />
+        </div>
+
       </HomeContainer>
     </>
   );

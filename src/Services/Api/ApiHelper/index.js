@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { USER_TOKEN } from '@Utils'
-const BUILD_TYPE_LIVE = 1;
-const BUILD_TYPE_LIVE_DEMO = 2;
-const BUILD_TYPE_STAGING = 3;
-const BUILD_TYPE_LOCAL = 4;
+export const BUILD_TYPE_LIVE = 1;
+export const BUILD_TYPE_LIVE_DEMO = 2;
+export const BUILD_TYPE_STAGING = 3;
+export const BUILD_TYPE_LOCAL = 4;
 
-const BUILD_TYPE = BUILD_TYPE_LOCAL;
+export const BUILD_TYPE = BUILD_TYPE_LIVE;
 export const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
     ? 'http://api.quantatms.in'

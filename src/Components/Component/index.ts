@@ -8,6 +8,9 @@ export * from './OtpInput'
 export * from './Sidebar'
 export * from './AuthContainer'
 export * from './HomeContainer'
+export * from './FilePicker'
+export * from './Tabs'
+
 
 
 
