@@ -41,6 +41,7 @@ const Dropzone = ({ onSelect, variant = 'BUTTON', text, icon, size = "lg" }: Dro
                         variant='avatar'
                         onClick={handleRefClick}
                         size={size}
+                        
                     />
                 </>
             }

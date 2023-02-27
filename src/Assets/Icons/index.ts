@@ -103,6 +103,4 @@ export const icons = {
   clinic: require('./Clinic/icon.png'),
   back: require('./Back/icon.png'),
   addFillGray:require('./AddFillGray/plus new.png'),
-  QuantaTMS:require('./Quanta TMS/QuantaTMS Logo.png')
-
 };

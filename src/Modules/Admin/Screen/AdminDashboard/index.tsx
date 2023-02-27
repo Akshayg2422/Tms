@@ -11,7 +11,7 @@ import {
   CREATE_BROAD_CAST,
 } from "@Routes";
 import { icons } from "@Assets";
-import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, IssueCreate, TabCompanyDetails, TabIssueDetails } from "@Modules";
+import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, IssueCreate, CompanyDetails, IssueDetails } from "@Modules";
 import { getDashboard } from "@Redux";
 import { useDispatch } from "react-redux";
 
@@ -87,11 +87,11 @@ function AdminDashboard() {
         <Routes>
           {getRoutes(ADMIN_ROUTES)}
           <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany />} />
-          <Route path={INFO.COMPANY_INFO} element={<TabCompanyDetails />} />
-          <Route path={ADD_USER_INFO.ADD_USER} element={<AddUser />} />
-          <Route path={ISSUE_CREATE.ISSUE_TICKET} element={<IssueCreate />} />
-          <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} />
-          <Route path={CREATE_BROAD_CAST.BROAD_CAST} element={<CreateBroadCast/>} />
+          <Route path={HOME_PATH.COMPANY_INFO} element={<CompanyDetails />} />
+          <Route path={HOME_PATH.ADD_USER} element={<AddUser />} />
+          <Route path={HOME_PATH.ISSUE_DETAILS} element={<IssueDetails />} />
+          {/* <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} /> */}
+          {/* <Route path={CREATE_BROAD_CAST.BROAD_CAST} element={<CreateBroadCast/>} /> */}
           {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
         </Routes>
       </div>

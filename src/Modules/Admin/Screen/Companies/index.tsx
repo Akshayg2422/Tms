@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { companySelectedDetails, getAssociatedBranch } from "@Redux";
-import { Card, Divider, Button, HomeContainer } from "@Components";
+import { Card, Divider, Button, HomeContainer, FilePicker } from "@Components";
 import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
-import {  HOME_PATH, INFO } from "@Routes";
+import { HOME_PATH, INFO } from "@Routes";
 import { translate } from "@I18n";
 
 function Companies() {
@@ -28,36 +28,34 @@ function Companies() {
   }, []);
 
   const handleOnClick = (item: any) => {
-    goTo(HOME_PATH.DASHBOARD + INFO.COMPANY_INFO);
+    goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
     dispatch(companySelectedDetails(item));
   };
 
   return (
     <HomeContainer>
-      <div className="col text-right">
+      <div className="text-right">
         <Button
+          size={'sm'}
           text={translate("common.createCompany")}
           onClick={() => {
             goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_COMPANY);
           }}
         />
       </div>
-      <Card title={"Companies"} className="mt-4">
+      <Card title={"Companies"} className="mt-3">
         {associatedCompanies &&
           associatedCompanies.length > 0 &&
           associatedCompanies?.map((company: any, index: number) => {
+            const divider = associatedCompanies.length - 1 !== index
             return (
               <div
+                key={company.id}
                 onClick={() => {
                   handleOnClick(company);
                 }}
               >
-                <CompanyItem key={company.id} item={company} />
-                {index !== associatedCompanies?.length - 1 && (
-                  <div className="mx-7">
-                    <Divider />
-                  </div>
-                )}
+                <CompanyItem item={company} showDivider={divider} />
               </div>
             );
           })}

@@ -30,12 +30,17 @@ export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
+  COMPANY_INFO: "/company-info",
+  ADD_USER:"/add-user",
+  ISSUE_DETAILS:"/issue-details",
+  
 }
 export const CREATE_BROAD_CAST = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   BROAD_CAST:"/CreateBroadCast",
  }
+ 
 
 export const INFO = {
   DASHBOARD: "/admin",
@@ -84,8 +89,8 @@ export const AUTH_ROUTES = [
 
 
 
-export const ADMIN_ROUTES = [
 
+export const ADMIN_ROUTES = [
   {
     path: "/issues",
     name: "Issues",
@@ -113,14 +118,7 @@ export const ADMIN_ROUTES = [
     icon: "ni ni-settings-gear-65 text-primary",
     layout: "/admin",
     component: <Settings />
-  },
-  {
-    path: "/Logout",
-    name: "Logout",
-    icon: "ni ni-button-power text-primary",
-    layout: "/admin",
-    component: <Logout/>
-  },
+  }
 ];
 
 export const COMPANY_ROUTES = [
@@ -163,6 +161,8 @@ export const COMPANY_ROUTES = [
   },
 
 ];
+
+
 
 export * from "./RequireAuth";
 export * from "./RequireHome";

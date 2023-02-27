@@ -1,10 +1,7 @@
-import {SERVER} from '@Services'
+import {SERVER, BUILD_TYPE, BUILD_TYPE_LIVE} from '@Services'
 
 export const getPhoto = (photo: any) => {
-
-  const ip = SERVER;
-  return ip + photo;
-
+  return BUILD_TYPE === BUILD_TYPE_LIVE ? photo:  SERVER + photo;
 }
 
 export const handleEmailClick = (email:any)  => {

@@ -8,28 +8,24 @@ function UserItem({ item }: UserItemProps) {
 
   return (
     <>
-      <div className="row justify-content-center m-0">
-        <div className="col-lg-12 col-md-12 col-sm-7 ">
-          <div className="row ">
-            <div className="col-sm-0 col-6  col-lg-6">
-              <h4 className="text-uppercase"> {name} </h4>
+      <div className="container-fluid row d-flex justify-content-between align-items-center">
+        <div className="col-sm-6">
+          <h4 className="text-uppercase mb-0"> {name} </h4>
+        </div>
+        <div className="col-sm-6">
+          <div className="row justify-content-end">
+            <div>
+              <Badge
+                style={{ cursor: 'pointer' }}
+                pill
+                color={"info"}
+                text={"Call"}
+                className="mr-2"
+              />
             </div>
-            <div className="col-sm-0 col-6  col-lg-6">
-              <div className="row justify-content-end">
-                <div>
-                  <Badge
-                    style={{ cursor: 'pointer' }}
-                    pill
-                    color={"primary"}
-                    text={"Call"}
-                    className="mr-2"
-                  />
-                </div>
-                <div>
+            <div>
 
-                  <Badge pill color={"success"} text={"Email"} style={{ cursor: 'pointer' }} onClick={() => { (handleEmailClick(email)) }} />
-                </div>
-              </div>
+              <Badge pill color={"success"} text={"Email"} style={{ cursor: 'pointer' }} onClick={() => { (handleEmailClick(email)) }} />
             </div>
           </div>
         </div>

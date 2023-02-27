@@ -1,54 +1,18 @@
-import { Card, Divider, HomeContainer } from '@Components'
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { ReferenceIssue } from '@Modules'
-import { getReferenceTickets } from '@Redux'
+
+import { TabPanel, useTabs } from "react-headless-tabs";
+import { IssueUsers, Thread, ReferenceIssue } from "@Modules";
+import { Tabs } from "@Components";
+
+
+
 
 function IssueDetails() {
 
-    const dispatch = useDispatch()
-    const { addReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
-    const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
-    // console.log('getReferenceTickets', JSON.stringify(addReferenceDetails));
+  return (
 
-    useEffect(() => {
-        proceedgetReferenceTickets()
-    }, [])
+    <Tabs tabs={[{ id: '1', title: "THREAD", component: <>chat</> }, { id: '2', title: "ATTACH", component: <>Attachments</> }, { id: '3', title: "reference", component: <>chat</> }, { id: '4', title: "user", component: <>Reference</>}]} />
 
-    function proceedgetReferenceTickets() {
-        const params = {
-            id: selectedIssues?.id, q: ''
-        }
-        dispatch(
-            getReferenceTickets({
-                params,
-                onSuccess: () => () => { },
-                onFailure: () => () => { }
-            })
-        )
-    }
-    return (
-        <HomeContainer>
-            <Card title={"Reference Tickets"} className="mt-2">
-                {
-                    addReferenceDetails &&
-                    addReferenceDetails.data.length > 0 ?
-                    addReferenceDetails.data.map((eachReferenceTickets: any, index: number) => {
-                            return (
-                                <div>
-                                    <ReferenceIssue key={eachReferenceTickets.id} item={eachReferenceTickets} />
-                                    {index !== addReferenceDetails.data.length - 1 && <div className='mx-7'><Divider /></div>}
-                                </div>
-                            );
-                        })
-                        :
-                        <div className='text-center'>
-                            No Date Found
-                        </div>
-                }
-            </Card>
-        </HomeContainer>
-    )
+  )
 }
 
-export { IssueDetails } 
+export { IssueDetails }

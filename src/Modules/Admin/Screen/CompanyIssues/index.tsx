@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
-import { Divider, HomeContainer, Card } from '@Components';
+import { HomeContainer } from '@Components';
 import { CompanyIssueItem } from '@Modules';
 function CompanyIssues() {
 
@@ -10,41 +10,34 @@ function CompanyIssues() {
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
     const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
 
-        useEffect(() => {
+    useEffect(() => {
         const params = { branch_id: companyDetailsSelected.branch_id }
         dispatch(getTickets({
             params,
-            onSuccess: (success) => () => { },
-            onError: (error) => () => { }
+            onSuccess: () => () => { },
+            onError: () => () => { }
         }))
     }, []);
 
 
     return (
-        <div className='d-flex justify-content-center pt-4'>
-            <Card className='col-lg-8 col-sm-0 col-11 '>
-         
-           
-            
+        <HomeContainer isCard>
+            <div className='pt-3'>
                 {
-                        tickets && tickets.length > 0 ? tickets.map((eachTickets: any, index: number) => {
-                            return (
-                                <>
-                                    <CompanyIssueItem item={eachTickets} key={index} />
-                                    {index !== tickets.length - 1 && <div className='mx-7'><Divider /></div>}
-                                </>
-                            )
-                        }) 
+                    tickets && tickets.length > 0 ? tickets.map((eachTickets: any, index: number) => {
+
+                        const divider = tickets.length - 1 !== index
+                        return (
+                            <CompanyIssueItem item={eachTickets} key={index} divider={divider} />
+                        )
+                    })
                         :
                         <div className='text-center'>
                             No Date Found
                         </div>
-
-                    }
-                    
-                    </Card>
-                
-        </div>
+                }
+            </div>
+        </HomeContainer>
 
     )
 }
