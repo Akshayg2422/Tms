@@ -10,7 +10,7 @@ function Experiences() {
       <div className={'container'}>
         <div className={'row pt-5'}>
           <div className={' col-lg-4 col-md-6 '}>
-            <Card className=' card-size' style={{height:'90%'}}>
+            <Card className=' card-size' style={{height:'415px'}}>
               <div className='mx-sm-3'>
                 <Image size={'xl'} variant={'rounded'} className={'mt-4 mb-3'} src={'https://framerusercontent.com/images/ra7FjyyA6dq6lUSJdUPaGegjtg.png'} />
                 <p className={'text-default card-text'} ><b>{translate('TMS.eighthScreen.cardText1')}</b></p>
@@ -18,7 +18,7 @@ function Experiences() {
             </Card>
           </div>
           <div className={'col-lg-4 col-md-6'}>
-            <Card className=' card-size' style={{height:'90%'}}>
+            <Card className=' card-size' style={{height:'415px'}}>
               <div className='mx-sm-3'>
                 <Image size={'xl'} variant={'rounded'} className={'mt-4 mb-3'} src={'https://framerusercontent.com/images/PuwCiG06NCpMWqOdJdutXpqSck.png'} />
                 <p className={'text-default  card-text'}><b>
@@ -28,7 +28,7 @@ function Experiences() {
             </Card>
           </div>
           <div className={'col-lg-4 col-md-6'}>
-            <Card className=' pb-4 card-size'style={{height:'90%'}}>
+            <Card className=' pb-4 card-size'style={{height:'415px'}}>
               <div className='mx-sm-3'>
                 <Image size={'xl'} variant={'rounded'} className={'mt-4 mb-3'} src={'https://framerusercontent.com/images/vrVhX85jGmxNrhqkDXgF4LmhZ38.png'} />
                 <p className={'text-default card-text'}><b>  {translate('TMS.eighthScreen.cardText3')}</b> </p>
@@ -36,7 +36,7 @@ function Experiences() {
             </Card>
           </div>
           <div className={'col-lg-4 col-md-6'}>
-            <Card className=' pb-4 card-size'style={{height:'90%'}}>
+            <Card className=' pb-4 card-size'style={{height:'415px'}}>
               <div className='mx-sm-3'>
                 <Image size={'xl'} variant={'rounded'} className={'mt-4 mb-3'} src={'https://framerusercontent.com/images/IdfQJdzpL9gdVhtuRYdzi3uMJA.png'} />
                 <p className={'text-default  card-text'}><b> {translate('TMS.eighthScreen.cardText4')} </b> </p>
@@ -44,7 +44,7 @@ function Experiences() {
             </Card>
           </div>
           <div className={'col-lg-4 col-md-6'}>
-            <Card className=' pb-4 card-size'style={{height:'90%'}}>
+            <Card className=' pb-4 card-size'style={{height:'415px'}}>
               <div className='mx-sm-3'>
                 <Image size={'xl'} variant={'rounded'} className={'mt-4 mb-3'} src={'https://framerusercontent.com/images/oLQaVmCYYqGTs9N7AhxJzQpUuBI.png'} />
                 <p className={'text-default card-text'}><b>  {translate('TMS.eighthScreen.cardText5')}</b></p>
@@ -52,7 +52,7 @@ function Experiences() {
             </Card>
           </div>
           <div className={'col-lg-4 col-md-6'}>
-            <Card className='pb-4 card-size'style={{height:'90%'}}>
+            <Card className='pb-4 card-size'style={{height:'415px'}}>
               <div className='mx-sm-3'>
                 <Image size={'xl'} variant={'rounded'} className={'mt-4 mb-3'} src={'https://framerusercontent.com/images/JiwtK6Ew8Z9m6HTHUySJiUKv80.png'} />
                 <p className={'text-default card-text '}><b> {translate('TMS.eighthScreen.cardText6')} </b></p>

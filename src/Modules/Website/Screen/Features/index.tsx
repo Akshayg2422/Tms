@@ -12,7 +12,8 @@ import {
   TabContent,
   TabPane,
 } from 'reactstrap'
-import { Button, Card, Container, Row, Col } from "reactstrap";
+// import { Button, Card, Container, Row, Col } from "reactstrap";
+
 function Features() {
   const [tab1,setTab1] = useState('primary')
   const [tab2,setTab2] = useState('danger')
@@ -124,7 +125,7 @@ function Features() {
                   </div>
                 </div>
 
-                <div className={'col-sm-6 ml-lg-5 mt-lg-7 mt-md-6'}>
+                <div className={'col-sm-6 ml-lg-5 mt-lg-8 mt-md-8'}>
                   <div className='row justify-content-center'>
                   <Image
                     src={
@@ -168,7 +169,7 @@ function Features() {
                   </div>
                 </div>
 
-                <div className={' col-sm-6  ml-lg-5 mt-lg-7 mt-md-6'}>
+                <div className={' col-sm-6  ml-lg-5 mt-lg-8 mt-sm-8'}>
                   <div className='row justify-content-center'>
                   <Image
                     src={image.TMS_7}
@@ -211,7 +212,7 @@ function Features() {
                   </div>
                 </div>
 
-                <div className={'col-sm-6 ml-lg-5 mt-lg-6 mt-md-6'}>
+                <div className={'col-sm-6 ml-lg-5 mt-lg-8 mt-md-8'}>
                 <div className='row justify-content-center'>
                   <Image
                     src={image.TMS_6}

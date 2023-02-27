@@ -31,10 +31,10 @@ function EvantManagSystem() {
             <p className='text-default h2 font-weight-normal col-lg-11 col-sm-12 mt-4 '>
               <b>
               <ul>
-              <li>{translate('TMS.sixthScreen.Event planningSubtext')}</li><br/>
-              <li>{translate('TMS.sixthScreen.Coordinating logisticsSubtext')}</li><br/>
-              <li>{translate('TMS.sixthScreen.Promoting the eventSubtext')}</li><br/>
-              <li>{translate('TMS.sixthScreen.Managing the eventSubtext')}</li><br/>
+              <li>{translate('TMS.sixthScreen.Event planningSubtext')}</li>
+              <li>{translate('TMS.sixthScreen.Coordinating logisticsSubtext')}</li>
+              <li>{translate('TMS.sixthScreen.Promoting the eventSubtext')}</li>
+              <li>{translate('TMS.sixthScreen.Managing the eventSubtext')}</li>
               <li>{translate('TMS.sixthScreen.Evaluating the eventSubtext')}</li>
               {translate('TMS.sixthScreen.contentSubtext')}
               

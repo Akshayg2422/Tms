@@ -32,3 +32,14 @@ font-weight: 500;
     font-size: large;
 }
 
+.header {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+    background-color: white;
+    padding: 40px 0;
+    transition: 0.3s;
+  }
+
