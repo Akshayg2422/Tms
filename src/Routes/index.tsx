@@ -32,13 +32,15 @@ export const HOME_PATH = {
   CREATE_COMPANY: "/create-company",
   COMPANY_INFO: "/company-info",
   ADD_USER:"/add-user",
-  ISSUE_DETAILS:"/issue-details"
+  ISSUE_DETAILS:"/issue-details",
+  
 }
 export const CREATE_BROAD_CAST = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   BROAD_CAST:"/CreateBroadCast",
  }
+ 
 
 export const INFO = {
   DASHBOARD: "/admin",
