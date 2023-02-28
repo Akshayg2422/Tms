@@ -21,29 +21,30 @@ function IssueUsers() {
     dispatch(
       getEmployees({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   }, []);
 
   return (
-    <div>
-      <HomeContainer>
-        <Card className="mt-3">
+    <HomeContainer>
+      <div>
+
+        <Card className="mt-2 py-2">
           {getEmployeesDetails &&
             getEmployeesDetails.length > 0 &&
             getEmployeesDetails.map((user: any, index: number) => {
               return (
                 <>
                   <UserItem item={user} />
-                  {index !== getEmployeesDetails.length - 1 && <Divider />}
+                  {index !== getEmployeesDetails.length - 1 && <Divider space={'4'} />}
                 </>
               );
             })}
         </Card>
-      </HomeContainer>
-    </div>
+      </div>
+    </HomeContainer>
   );
 }
 export { IssueUsers };
