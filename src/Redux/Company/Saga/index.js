@@ -120,7 +120,7 @@ function* addTicketEventSaga(action) {
     // console.log(JSON.stringify(response) + 'lllllllllllllllll8888888888888');
     if (response.success) {
       // yield put(hideLoader());
-      console.log(response,"response------------")
+      // console.log(response,"response------------")
       yield put(addTicketEventSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
@@ -158,9 +158,11 @@ function* getTicketTagsSaga(action) {
 
 
 function* getEmployeesSaga(action) {
+  // console.log('pppppppp===>',action);
   try {
     yield put(showLoader());
     const response = yield call(getEmployeesApi, action.payload.params);
+    // console.log('66666666666666',JSON.stringify(response));
     if (response.success) {
       yield put(hideLoader());
       yield put(getEmployeesSuccess(response.details));

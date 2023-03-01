@@ -26,13 +26,13 @@ function AddReferenceTicket() {
     dispatch(
       addTicketEvent({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   };
   const onSelectedTickets = (item: any) => {
-    
+
     let updatedSelectedId: any = [...selectedIssueDetails];
     if (selectedIssueDetails?.length > 0) {
       const selectedItem = updatedSelectedId;
@@ -57,8 +57,8 @@ function AddReferenceTicket() {
     dispatch(
       getTickets({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   };
@@ -107,7 +107,7 @@ function AddReferenceTicket() {
       <div>
         <div className="m-4">
           <div className="row justify-content-center">
-            <div className="col-lg-7">
+            <div className="col">
               <Card>
                 {tickets && tickets.length > 0 ? (
                   tickets.map((eachTickets: any, index: number) => {
@@ -121,7 +121,7 @@ function AddReferenceTicket() {
                           }}
                         />
                         {index !== tickets.length - 1 && (
-                          <div className="mx-lg-7 mx-sm-0 mx-2">
+                          <div className="mx-lg-7 mx-sm-0 mx-2 ">
                             <Divider />
                           </div>
                         )}

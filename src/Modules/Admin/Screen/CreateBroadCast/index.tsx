@@ -24,28 +24,18 @@ import { useInput, useNavigation } from "@Hooks";
 function CreateBroadCast() {
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
-
   const [typeSelect, setTypeSelect] = useState(type[0]);
-
-  const { associatedCompanies } = useSelector(
-    (state: any) => state.AdminReducer
-  );
-
-  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
-    useState();
+  const { associatedCompanies } = useSelector((state: any) => state.AdminReducer);
+  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState<any>([]);
   const [selectedCompany, setSelectedCompany] = useState<any>("");
   const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
   const [image, setImage] = useState("");
-
   const title = useInput("");
   const description = useInput("");
-
   const [selectedUser, setSelectedUser] = useState<any>();
-  console.log('selectedCompanyId------------->>', selectedCompanyId);
-  
-
+  // console.log('selectedCompanyId------------->>', selectedCompanyId);
   const handleImagePicker = (index: number, file: any) => {
     let newUpdatedPhoto = [...photo, file];
     setPhoto(newUpdatedPhoto);
@@ -55,11 +45,10 @@ function CreateBroadCast() {
     const params = {
       title: title?.value,
       description: description?.value,
-      ...(selectedCompanyId.length>0  &&  {company_ids: { add: selectedCompanyId }}),
+      ...(selectedCompanyId.length > 0 && { company_ids: { add: selectedCompanyId } }),
       broadcast_attachments: [{ attachments: photo }],
     };
-    console.log('params------------>>', params);
-    
+    // console.log('params------------>>', params);
 
     const validation = validate(CREATE_BROAD_CAST, params);
     if (ifObjectExist(validation)) {
@@ -69,7 +58,7 @@ function CreateBroadCast() {
           onSuccess: (response: any) => () => {
             goBack();
           },
-          onError: (error) => () => {},
+          onError: (error) => () => { },
         })
       );
     } else {
@@ -121,10 +110,10 @@ function CreateBroadCast() {
             selected={typeSelect}
             data={type}
             onRadioChange={(selected) => {
-            
-                setTypeSelect(selected);
-                setSelectedCompanyId([])
-              
+
+              setTypeSelect(selected);
+              setSelectedCompanyId([])
+
             }}
           />
           {typeSelect && typeSelect?.id === "1" && (

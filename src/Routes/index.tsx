@@ -33,6 +33,7 @@ export const HOME_PATH = {
   COMPANY_INFO: "/company-info",
   ADD_USER:"/add-user",
   ISSUE_DETAILS:"/issue-details",
+  ADD_REFERENCE_TICKET:'/add-reference-ticket'
   
 }
 export const CREATE_BROAD_CAST = {
