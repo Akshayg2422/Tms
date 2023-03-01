@@ -5,15 +5,15 @@ import { getPhoto } from "@Utils";
 import moment from "moment";
 
 function BroadCastListedItems({ item }: BroadCastItemsProps) {
-  const { title, attachments, description, created_by, created_at, company } =
+  const { title, attachments, description, created_by, created_at, applicable_branches } =
     item;
+console.log(item,"items")
 
-  console.log(company[0].register_name);
   return (
-    <div className="row d-flex justify-content-center pt-2 ">
+    <div className="row d-flex justify-content-center ">
       <div className="col-lg-12">
-        <div className="row mx-sm-0 mx--5">
-          <div className="col pl-sm-0 pl-4 pl-lg-3">
+        <div className="row ">
+          <div className="col ">
             <H
               tag={"h4"}
               className="text-capitalize font-weight-900 "
@@ -21,30 +21,46 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
             />
           </div>
           <div className="col-auto text-xs text-capitalize">
-            {moment(created_at).format("DD-MM-YYYY")}
+            {moment(created_at).format('MMMM Do YYYY, h:mm a')}
+           
           </div>
         </div>
 
-        <div className=" pl-lg-3   text-xs pb-2 font-weight-600 mx-sm-0 mx--4">
-          {description}
-        </div>
+        <div className="   text-xs pb-2 font-weight-600 ">{description}</div>
 
-        <div className="row mx-sm-0 mx--5">
-          <div className="col-lg-10 col-sm-0 col-8 ">
-            {company &&
-              company.length > 0 &&
-              company?.map((company: any, index: number) => {
+        <div className="row ">
+          <div className="col ">
+            {applicable_branches &&
+              applicable_branches.length > 0 &&
+              applicable_branches?.map((applicable_branches: any, index: number) => {
                 return (
                   <H
-                    tag={"h3"}
-                    className="text-capitalize font-weight-900 ls-15 mb--1 pl-sm-0 pl-2 "
-                    text={company.register_name}
+                    tag={"h5"}
+                    className="text-capitalize font-weight-900  mb--1 "
+                    text={applicable_branches.register_name}
                   />
                 );
               })}
+               <div className="row col-auto pt-2 mt-1">
+          {attachments &&
+            attachments.length > 0 &&
+            attachments?.map((attachment_logo: any, index: number) => {
+              console.log("getPhoto(attachment_logo.attachment_file)",getPhoto(attachment_logo.attachment_file));
+              
+              return (
+                <Image
+                className="mr-2"
+                  variant={"default"}
+                  src={getPhoto(attachment_logo.attachment_file)}
+                  width={"90px"}
+                  height={"90px"}
+                />
+              );
+            })}
+        </div>
           </div>
 
-          <div className="col-auto pt-2 pl-sm-0 pl-4 pl-lg-1">
+          <div className="col-auto pt-2 ">
             <div className="text-xs font-weight-600">created by</div>
             <H
               tag={"h5"}
@@ -53,20 +69,23 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
             />
           </div>
         </div>
-        <div className="row  pl-lg-3 ml-sm-0 ml--4 ">
+        {/* <div className="row col-auto pt-2">
           {attachments &&
             attachments.length > 0 &&
             attachments?.map((attachment_logo: any, index: number) => {
+              console.log("getPhoto(attachment_logo.attachment_file)",getPhoto(attachment_logo.attachment_file));
+              
               return (
                 <Image
+                className="mr-2"
                   variant={"default"}
                   src={getPhoto(attachment_logo.attachment_file)}
-                  width={"100px"}
-                  height={"100px"}
+                  width={"90px"}
+                  height={"90px"}
                 />
               );
             })}
-        </div>
+        </div> */}
       </div>
     </div>
   );
