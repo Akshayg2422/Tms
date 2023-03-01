@@ -42,9 +42,7 @@ function CreateBroadCast() {
   const title = useInput("");
   const description = useInput("");
 
-  const [selectedUser, setSelectedUser] = useState<any>();
-  console.log('selectedCompanyId------------->>', selectedCompanyId);
-  
+  // const [selectedUser, setSelectedUser] = useState<any>();
 
   const handleImagePicker = (index: number, file: any) => {
     let newUpdatedPhoto = [...photo, file];
@@ -55,11 +53,11 @@ function CreateBroadCast() {
     const params = {
       title: title?.value,
       description: description?.value,
-      ...(selectedCompanyId.length>0  &&  {applicable_branches_ids:{ add: selectedCompanyId }}),
+      ...(selectedCompanyId.length > 0 && {
+        applicable_branches_ids: { add: selectedCompanyId },
+      }),
       broadcast_attachments: [{ attachments: photo }],
     };
-    console.log('params------------>>', params);
-    
 
     const validation = validate(CREATE_BROAD_CAST, params);
     if (ifObjectExist(validation)) {
@@ -68,20 +66,14 @@ function CreateBroadCast() {
           params,
           onSuccess: (response: any) => () => {
             goBack();
-           console.log(response,"response=========");
-           
-            
           },
           onError: (error) => () => {
-            console.log(error,"error-------------->");
-            
+            console.log(error, "error-------------->");
           },
         })
       );
     } else {
       showToast(getValidateError(validation));
-      console.log('spppppppppppppppppp');
-      
     }
   };
 
@@ -109,8 +101,6 @@ function CreateBroadCast() {
       setModifiedCompanyDropDownData(companies);
     }
   }, []);
-  console.log(modifiedCompanyDropDownData,"modifiedCompanyDropDownData------------>");
-  
 
   return (
     <div>
@@ -131,10 +121,8 @@ function CreateBroadCast() {
             selected={typeSelect}
             data={type}
             onRadioChange={(selected) => {
-            
-                setTypeSelect(selected);
-                setSelectedCompanyId([])
-              
+              setTypeSelect(selected);
+              setSelectedCompanyId([]);
             }}
           />
           {typeSelect && typeSelect?.id === "1" && (

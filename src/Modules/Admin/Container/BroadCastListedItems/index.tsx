@@ -7,7 +7,7 @@ import moment from "moment";
 function BroadCastListedItems({ item }: BroadCastItemsProps) {
   const { title, attachments, description, created_by, created_at, applicable_branches } =
     item;
-console.log(item,"items")
+
 
   return (
     <div className="row d-flex justify-content-center ">
@@ -69,23 +69,7 @@ console.log(item,"items")
             />
           </div>
         </div>
-        {/* <div className="row col-auto pt-2">
-          {attachments &&
-            attachments.length > 0 &&
-            attachments?.map((attachment_logo: any, index: number) => {
-              console.log("getPhoto(attachment_logo.attachment_file)",getPhoto(attachment_logo.attachment_file));
-              
-              return (
-                <Image
-                className="mr-2"
-                  variant={"default"}
-                  src={getPhoto(attachment_logo.attachment_file)}
-                  width={"90px"}
-                  height={"90px"}
-                />
-              );
-            })}
-        </div> */}
+      
       </div>
     </div>
   );

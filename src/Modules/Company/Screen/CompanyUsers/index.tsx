@@ -10,7 +10,7 @@ function CompanyUsers() {
 
     const { goTo } = useNavigation()
     const dispatch = useDispatch()
-    const { getEmployeesDetails } = useSelector((state: any) => state.CompanyReducer);
+    const { employees } = useSelector((state: any) => state.CompanyReducer);
 
 
     const { companyDetailsSelected } = useSelector(
@@ -35,11 +35,11 @@ function CompanyUsers() {
             </div>
             <Card className='mt-3 py-2'>
                 {
-                    getEmployeesDetails && getEmployeesDetails.length > 0 && getEmployeesDetails.map((user: any, index: number) => {
+                    employees && employees.length > 0 && employees.map((user: any, index: number) => {
                         return (
                             <>
                                 <UserItem item={user} />
-                                {index !== getEmployeesDetails.length - 1 && <Divider space={'4'} />}
+                                {index !== employees.length - 1 && <Divider space={'4'} />}
                             </>
                         )
                     })

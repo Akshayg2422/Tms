@@ -49,11 +49,7 @@ export const ADD_USER_INFO={
   COMPANY: "/company",
   ADD_USER:"/AddUser"
  }
-//  export const ISSUE_CREATE={
-//   DASHBOARD: "/admin",
-//   COMPANY: "/company",
 
-//  }
 
  export const TAB_ISSUE_ATTACH_DETAILS={
   DASHBOARD: "/admin",
