@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
@@ -63,10 +61,10 @@ function Issues() {
 
 
 
-            {/* <div className='row'>
+            <div className='row m-0 mt-3'>
                 <div className='col-6'></div>
-                <div className='col-6'>
-                    <div className='row'>
+                <div className='col-4  ml-4'>
+                    <div className='row m-0 '>
                         <div className="col input-group bg-white ">
                             <input
                                 type="text"
@@ -75,19 +73,21 @@ function Issues() {
                                 value={Search.value}
                                 onChange={Search.onChange}
                             />
-                            <span className="input-group-text border-0 pointer" onClick={getSearchHandler} >  <i className="fas fa-search" /></span>
+                            <span className="input-group-text border-0 pointer px-3" onClick={getSearchHandler} >  <i className="fas fa-search" /></span>
                             <div className='row pointer' onClick={() => setModal(!modal)}>
-                        <span className="input-group-text border-0">    {showIssue} </span>
-                        <span className="input-group-text border-0">   <i className="bi bi-chevron-down " /></span>
-                    </div>
+                                <span className="input-group-text border-0 ">    {showIssue} </span>
+                                <span className="input-group-text border-0">   <i className="bi bi-chevron-down " /></span>
+                            </div>
                         </div>
                     </div>
 
                 </div>
-            </div> */}
-            <div className='col text-right mt-3'>
-                <Button cla size={'sm'} text={translate("common.createTicket")} onClick={() => { goTo(HOME_PATH.DASHBOARD + ISSUE_CREATE.ISSUE_TICKET) }} />
+                <div className='col text-right mt-3 '>
+                    <Button cla size={'sm'} text={translate("common.createTicket")} onClick={() => { goTo(HOME_PATH.DASHBOARD + ISSUE_CREATE.ISSUE_TICKET) }} />
+                </div>
+
             </div>
+
 
             <HomeContainer isCard title={'Issues'}>
                 {
@@ -110,7 +110,7 @@ function Issues() {
                                     setStatusCode(item[0])
                                     setModal(!modal)
 
-                                }} text={item[1]} key={index} />
+                                }} text={item[1]} key={index} style={{ cursor: "pointer" }} />
                                 {index !== issueStatus?.length - 1 && <Divider space={'3'} />}
                             </>
                         )

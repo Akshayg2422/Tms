@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ReferenceIssue } from '@Modules'
 import { getReferenceTickets } from '@Redux'
 
-function IssueDetailss() {
+function ReferenceTickets() {
 
     const dispatch = useDispatch()
-    const { addReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
+    const { issueReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
-    // console.log('getReferenceTickets', JSON.stringify(addReferenceDetails));
+    
 
     useEffect(() => {
         proceedgetReferenceTickets()
@@ -29,15 +29,15 @@ function IssueDetailss() {
     }
     return (
         <HomeContainer>
-            <Card title={"Reference Tickets"} className="mt-2">
+            <Card className="pt-3">
                 {
-                    addReferenceDetails &&
-                    addReferenceDetails.data.length > 0 ?
-                    addReferenceDetails.data.map((eachReferenceTickets: any, index: number) => {
+                    issueReferenceDetails &&
+                    issueReferenceDetails.data.length > 0 ?
+                    issueReferenceDetails.data.map((eachReferenceTickets: any, index: number) => {
+                        const divider = issueReferenceDetails.data.length - 1 !== index
                             return (
                                 <div>
-                                    <ReferenceIssue key={eachReferenceTickets.id} item={eachReferenceTickets} />
-                                    {index !== addReferenceDetails.data.length - 1 && <div className='mx-7'><Divider /></div>}
+                                    <ReferenceIssue key={eachReferenceTickets.id} item={eachReferenceTickets} divider={divider} />                                
                                 </div>
                             );
                         })
@@ -51,4 +51,4 @@ function IssueDetailss() {
     )
 }
 
-export { IssueDetailss } 
+export { ReferenceTickets } 
