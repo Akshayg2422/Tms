@@ -7,9 +7,9 @@ import { getReferenceTickets } from '@Redux'
 function ReferenceTickets() {
 
     const dispatch = useDispatch()
-    const { addReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
+    const { issueReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
-    // console.log('getReferenceTickets', JSON.stringify(addReferenceDetails));
+    
 
     useEffect(() => {
         proceedgetReferenceTickets()
@@ -31,10 +31,10 @@ function ReferenceTickets() {
         <HomeContainer>
             <Card className="pt-3">
                 {
-                    addReferenceDetails &&
-                    addReferenceDetails.data.length > 0 ?
-                    addReferenceDetails.data.map((eachReferenceTickets: any, index: number) => {
-                        const divider = addReferenceDetails.data.length - 1 !== index
+                    issueReferenceDetails &&
+                    issueReferenceDetails.data.length > 0 ?
+                    issueReferenceDetails.data.map((eachReferenceTickets: any, index: number) => {
+                        const divider = issueReferenceDetails.data.length - 1 !== index
                             return (
                                 <div>
                                     <ReferenceIssue key={eachReferenceTickets.id} item={eachReferenceTickets} divider={divider} />                                

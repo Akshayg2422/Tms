@@ -7,7 +7,7 @@ import moment from 'moment'
 function ReferenceIssue({ item, divider }: ReferenceIssueProps) {
 
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
-    const { addReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
+    const { issueReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
     const { title, by_user, ticket_status, created_at, raised_by_company,assigned_to } = item
 
     return (
