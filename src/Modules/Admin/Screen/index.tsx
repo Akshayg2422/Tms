@@ -11,6 +11,7 @@ export * from './Logout'
 export * from './Thread'
 export * from './BroadCast'
 export * from './CreateBroadCast'
+export * from './Attchments'
 
 
 
