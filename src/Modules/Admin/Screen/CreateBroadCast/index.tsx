@@ -42,9 +42,7 @@ function CreateBroadCast() {
   const title = useInput("");
   const description = useInput("");
 
-  const [selectedUser, setSelectedUser] = useState<any>();
-  console.log('selectedCompanyId------------->>', selectedCompanyId);
-  
+  // const [selectedUser, setSelectedUser] = useState<any>();
 
   const handleImagePicker = (index: number, file: any) => {
     let newUpdatedPhoto = [...photo, file];
@@ -55,11 +53,11 @@ function CreateBroadCast() {
     const params = {
       title: title?.value,
       description: description?.value,
-      ...(selectedCompanyId.length>0  &&  {company_ids: { add: selectedCompanyId }}),
+      ...(selectedCompanyId.length > 0 && {
+        applicable_branches_ids: { add: selectedCompanyId },
+      }),
       broadcast_attachments: [{ attachments: photo }],
     };
-    console.log('params------------>>', params);
-    
 
     const validation = validate(CREATE_BROAD_CAST, params);
     if (ifObjectExist(validation)) {
@@ -69,7 +67,9 @@ function CreateBroadCast() {
           onSuccess: (response: any) => () => {
             goBack();
           },
-          onError: (error) => () => {},
+          onError: (error) => () => {
+            console.log(error, "error-------------->");
+          },
         })
       );
     } else {
@@ -121,10 +121,8 @@ function CreateBroadCast() {
             selected={typeSelect}
             data={type}
             onRadioChange={(selected) => {
-            
-                setTypeSelect(selected);
-                setSelectedCompanyId([])
-              
+              setTypeSelect(selected);
+              setSelectedCompanyId([]);
             }}
           />
           {typeSelect && typeSelect?.id === "1" && (
@@ -142,7 +140,7 @@ function CreateBroadCast() {
           )}
         </div>
 
-        <div className="pl-3">
+        <div className="col">
           <label className={`form-control-label`}>
             {translate("auth.logo")}
           </label>
@@ -167,7 +165,7 @@ function CreateBroadCast() {
         </div>
 
         <div className="row justify-content-end">
-          <div className="col-md-6 col-lg-4  my-4">
+          <div className="col-md-6 col-lg-4 ">
             <Button
               block
               text={translate("common.submit")}
