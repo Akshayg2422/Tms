@@ -33,9 +33,9 @@ export const HOME_PATH = {
   COMPANY_INFO: "/company-info",
   ADD_USER:"/add-user",
   ISSUE_DETAILS:"/issue-details",
-  CREATE_BROAD_CAST:"/CreateBroadCast",
-  ISSUE_TICKET:"/IssueCreate",
-  
+  ADD_REFERENCE_TICKET:'/add-reference-ticket',
+  ISSUE_TICKET:'/issue-ticket',
+  CREATE_BROAD_CAST:'/create-broad-cast'
 }
 
 export const INFO = {

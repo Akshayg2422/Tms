@@ -20,7 +20,7 @@ const reducer = combineReducers({
 });
 
 const rootReducer = (state: any, action: any) => {
-  
+
   if (action.type === 'USER_LOGOUT') {
     try {
       localStorage.clear();
@@ -47,5 +47,4 @@ let persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
 export { store, sagaMiddleware, rootSaga, persistor };

@@ -24,21 +24,14 @@ import { useInput, useNavigation } from "@Hooks";
 function CreateBroadCast() {
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
-
   const [typeSelect, setTypeSelect] = useState(type[0]);
-
-  const { associatedCompanies } = useSelector(
-    (state: any) => state.AdminReducer
-  );
-
-  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
-    useState();
+  const { associatedCompanies } = useSelector((state: any) => state.AdminReducer);
+  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState<any>([]);
   const [selectedCompany, setSelectedCompany] = useState<any>("");
   const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
   const [image, setImage] = useState("");
-
   const title = useInput("");
   const description = useInput("");
 
