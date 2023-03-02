@@ -30,7 +30,7 @@ function ReferenceIssueItem({
           </div>
           <div className="form-check col-auto">
             <input
-              className="form-check-input"
+              className="form-check-input text-muted"
               type="checkbox"
               value={value}
               id={id}
@@ -53,8 +53,7 @@ function ReferenceIssueItem({
       <div className="col-lg-3 col-md-5 col-sm-0 col-5">
         <div className="">
           <span className="py-2">
-            <i className="bi bi-calendar-week mr-1"></i>
-            {getStatusFromCode(dashboardDetails, ticket_status)}{" "}
+          <h5 className="text-uppercase text-muted mb-0 card-title"><i className="ni ni-email-83 mr-1 mb-0"></i> {getStatusFromCode(dashboardDetails, ticket_status)} </h5>
           </span>
         </div>
       </div>
