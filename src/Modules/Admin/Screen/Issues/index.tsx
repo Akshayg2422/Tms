@@ -85,7 +85,7 @@ function Issues() {
            
             
             <div className='col text-right mt-3'>
-                <Button cla size={'sm'} text={translate("common.createTicket")} onClick={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET) }} />
+                <Button size={'sm'} text={translate("common.createTicket")} onClick={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET) }} />
             </div>
             </div> 
            
