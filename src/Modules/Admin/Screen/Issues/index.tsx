@@ -5,7 +5,7 @@ import { HomeContainer, Divider, Modal, H, Button } from '@Components';
 import { TicketItem } from '@Modules';
 import { useInput } from '@Hooks';
 import { useNavigation } from '@Hooks'
-import {  HOME_PATH } from '@Routes'
+import { HOME_PATH } from '@Routes'
 import { translate } from "@I18n";
 
 
@@ -58,9 +58,6 @@ function Issues() {
 
     return (
         <>
-
-
-
             <div className='row m-0 mt-3'>
                 <div className='col-6'></div>
                 <div className='col-4  ml-4'>
@@ -82,14 +79,12 @@ function Issues() {
                     </div>
 
                 </div>
-           
-            
-            <div className='col text-right mt-3'>
-                <Button size={'sm'} text={translate("common.createTicket")} onClick={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET) }} />
-            </div>
-            </div> 
-           
 
+
+                <div className='col text-right mt-3'>
+                    <Button size={'sm'} text={translate("common.createTicket")} onClick={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET) }} />
+                </div>
+            </div>
 
             <HomeContainer isCard title={'Issues'}>
                 {

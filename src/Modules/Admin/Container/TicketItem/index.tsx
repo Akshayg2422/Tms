@@ -30,7 +30,7 @@ function TicketItem({ item, divider }: TicketItemProps) {
                     <div>
                         <H tag={'h3'} className='text-capitalize' text={title} />
                         <div>
-                            <div className='h4 mb-1'><i className="bi bi-person-circle  mr-1"></i>{by_user.name}</div>
+                            <div className='h4 pl-1'><i className="bi bi-person-circle  mr-1"></i>{by_user.name}</div>
                             <div>
                                 <span className='mr-2'><Badge pill color={'info'} className='h4 text-uppercase text-muted pointer' text={'PHONE'} /> </span>
                                 <Badge pill color={'success'} className='h4 text-uppercase text-muted pointer' onClick={() => { (handleEmailClick(by_user.email)) }} text={'Email'} />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets, referenceIssueDetails } from "@Redux";
-import { Divider, Button, Card } from "@Components";
+import { Divider, Button, Card, HomeContainer } from "@Components";
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
@@ -108,7 +108,7 @@ function AddReferenceTicket() {
         <div className="m-4">
           <div className="row justify-content-center">
             <div className="col">
-              <Card>
+              <HomeContainer isCard title={'Reference Tickets'}>
                 {tickets && tickets.length > 0 ? (
                   tickets.map((eachTickets: any, index: number) => {
                     return (
@@ -131,7 +131,7 @@ function AddReferenceTicket() {
                 ) : (
                   <div className="text-center">No Date Found</div>
                 )}
-              </Card>
+              </HomeContainer>
             </div>
           </div>
         </div>
