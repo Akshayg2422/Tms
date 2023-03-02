@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux'
 import { Divider, H,Badge } from '@Components'
 import { ReferenceIssueProps } from './interfaces';
-import { getStatusFromCode,handleEmailClick } from '@Utils'
+import { getStatusFromCode,handleEmailClick,getDataAndTime } from '@Utils'
 import moment from 'moment'
 function ReferenceIssue({ item, divider }: ReferenceIssueProps) {
 
@@ -24,7 +24,7 @@ function ReferenceIssue({ item, divider }: ReferenceIssueProps) {
                     </div>
                     <div>
                         <h5 className='text-uppercase text-muted mb-0 card-title'><i className="bi bi-calendar-week mr-1"></i>{getStatusFromCode(dashboardDetails, ticket_status)}</h5>
-                        <h5 className=' text-muted m-0'> {moment(created_at).format('DD-MM-YYYY HH:mm A')}
+                        <h5 className=' text-muted m-0'> {getDataAndTime(created_at)}
                         </h5>
                         <div className='mt-2' >
                             <small className='text-muted mb-0 text-sm'> Assigned by </small>
