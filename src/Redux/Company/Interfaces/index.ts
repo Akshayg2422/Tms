@@ -3,8 +3,8 @@ export interface CompanyStateProp {
   getTicketTags: any;
   ticketEvents: any;
   addTicketEvent: any;
-  getEmployeesDetails: any;
+  employees: any;
   addEmployeeDetails: any;
-  addReferenceDetails: any;
+  issueReferenceDetails: any;
   broadCastDetails:any;
 }

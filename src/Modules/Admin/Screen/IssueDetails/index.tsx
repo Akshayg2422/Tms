@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   useEffect,
   useState,
@@ -26,6 +27,14 @@ import { translate } from "@I18n";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { icons } from "@Assets";
+=======
+
+import { TabPanel, useTabs } from "react-headless-tabs";
+import { IssueUsers, Thread, ReferenceIssue,ReferenceTickets } from "@Modules";
+import { Tabs } from "@Components";
+
+
+>>>>>>> c594ed20856a6233581fc4ae056cfd03632156f6
 
 
 function IssueDetails() {
@@ -111,6 +120,7 @@ function IssueDetails() {
     <>
       <Tabs tabs={[{ id: '1', title: "THREAD", component: <>chat</> }, { id: '2', title: "ATTACH", component: <>Attachments</> }, { id: '3', title: "reference", component: <>chat</> }, { id: '4', title: "user", component: <>Reference</> }]} />
 
+<<<<<<< HEAD
       <div className="d-flex justify-content-end">
         <DropDownMenuArrow
           onClickTagUser={() => { setOpenModalTagUser(!openModalTagUser) }}
@@ -127,6 +137,9 @@ function IssueDetails() {
             const selected = selectTagUser.some(
               (selectUserEl: any) => selectUserEl === tagUser?.id
             );
+=======
+    <Tabs tabs={[{ id: '1', title: "THREAD", component: <>chat</> }, { id: '2', title: "ATTACH", component: <>Attachments</> }, { id: '3', title: "reference", component: <ReferenceTickets/> }, { id: '4', title: "user", component: <IssueUsers/>}]} />
+>>>>>>> c594ed20856a6233581fc4ae056cfd03632156f6
 
             return (
               <>

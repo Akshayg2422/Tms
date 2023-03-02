@@ -7,8 +7,7 @@ import {
   TAB_ISSUE_ATTACH_DETAILS,
   HOME_PATH,
   INFO,
-  ISSUE_CREATE,
-  CREATE_BROAD_CAST,
+  
 } from "@Routes";
 import { icons } from "@Assets";
 import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, IssueCreate, CompanyDetails, IssueDetails, AddReferenceTicket } from "@Modules";

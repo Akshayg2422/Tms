@@ -39,9 +39,9 @@ const initialState: CompanyStateProp = {
   getTicketTags: undefined,
   ticketEvents: undefined,
   addTicketEvent: undefined,
-  getEmployeesDetails: undefined,
+  employees: undefined,
   addEmployeeDetails: undefined,
-  addReferenceDetails: undefined,
+  issueReferenceDetails: undefined,
   broadCastDetails:undefined,
 };
 
@@ -174,11 +174,11 @@ const CompanyReducer = (
     case GET_EMPLOYEES_SUCCESS:
       state = {
         ...state,
-        getEmployeesDetails: action.payload,
+        employees: action.payload,
       };
       break;
     case GET_EMPLOYEES_FAILURE:
-      state = { ...state, getEmployeesDetails: undefined };
+      state = { ...state, employees: undefined };
       break;
     case ADD_EMPLOYEE:
       state = {
@@ -198,19 +198,19 @@ const CompanyReducer = (
     case GET_REFERENCE_TICKETS:
       state = {
         ...state,
-        addReferenceDetails: undefined,
+        issueReferenceDetails: undefined,
       };
       break;
     case GET_REFERENCE_TICKETS_SUCCESS:
       state = {
         ...state,
-        addReferenceDetails: action.payload.details,
+        issueReferenceDetails: action.payload.details,
       };
       break;
     case GET_REFERENCE_TICKETS_FAILURE:
       state = {
         ...state,
-        addReferenceDetails: undefined,
+        issueReferenceDetails: undefined,
       };
       break;
     default:

@@ -102,7 +102,7 @@ export const CREATE_BROAD_CAST = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  broadcast_attachments:{
-    presence: { allowEmpty: false, message: "attach Logo cannot be empty" },
-  }
+  // broadcast_attachments:{
+  //   presence: { allowEmpty: false, message: "attach Logo cannot be empty" },
+  // }
 };
