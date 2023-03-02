@@ -37,7 +37,7 @@ function IssueDetails() {
   const { getEmployeesDetails } = useSelector((state: any) => state.CompanyReducer);
   const { goTo } = useNavigation()
   const [selectTagUser, setSelectTagUser] = useState([])
-  const [selectReassignUser, setSelectReassignUser] = useState('')
+  const [selectReassignUser, setSelectReassignUser] = useState<any>('')
 
   useEffect(() => {
     getApiHandler()
@@ -67,11 +67,11 @@ function IssueDetails() {
     if (selectTagUser?.length > 0) {
       const selectedItem = updatedSelectedId;
       const ifExist = selectedItem.some(
-        (el: any) => el.id === item?.id
+        (el: any) => el === item?.id
       );
       if (ifExist) {
         updatedSelectedId = selectedItem.filter(
-          (filterItem: any) => filterItem.id !== item?.id
+          (filterItem: any) => filterItem !== item?.id
         );
       } else {
         updatedSelectedId = [...updatedSelectedId, item.id];
@@ -98,11 +98,11 @@ function IssueDetails() {
 
   function ProceedReassignUser() {
 
-    const params = { event_type: 'RGU', assigned_to: selectReassignUser, id: selectedIssues?.id }
+    const params = { event_type: 'RGU', assigned_to: selectReassignUser.id, id: selectedIssues?.id }
 
     dispatch(addTicketEvent({
       params,
-      onSuccess: () => () => { },
+      onSuccess: () => () => { setOpenModalReassignUser(!openModalReassignUser) },
       onFailure: () => () => { }
     }))
   }
@@ -127,11 +127,22 @@ function IssueDetails() {
             const selected = selectTagUser.some(
               (selectUserEl: any) => selectUserEl === tagUser?.id
             );
+
             return (
               <>
                 <div className="row">
-                  <H className="py-2 col-11" tag={'h4'} text={tagUser.name} onClick={() => { (onSelectedTagUser(tagUser)) }} />
-                  {selected && <span className="pt-2"><Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} /></span>}
+                  <H
+                    className="py-2 m-0 col-11 pointer"
+                    tag={'h4'}
+                    text={tagUser.name}
+                    onClick={() => { (onSelectedTagUser(tagUser)) }}
+                  />
+                  {
+                    selected &&
+                    <span className="pt-2">
+                      <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
+                    </span>
+                  }
                 </div>
                 <div className='mx--4'>{index !== getEmployeesDetails.length && <Divider space={'1'} />}</div>
               </>
@@ -152,17 +163,28 @@ function IssueDetails() {
         }}>
         {
           getEmployeesDetails && getEmployeesDetails.length > 0 && getEmployeesDetails.map((ReassignUser: any, index: number) => {
-            const selected = selectReassignUser === ReassignUser.id
+            const selected = selectReassignUser.id === ReassignUser.id
             return (
               <>
-                <H tag="h4" text={ReassignUser.name} onClick={() => { setSelectReassignUser(ReassignUser) }} />
-                {selected && <span className="pt-2"><Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} /></span>}
-                <div className='mx--4'>{index !== getEmployeesDetails.length && <Divider space={'3'} />}</div>
+                <div className="row">
+                  <H
+                    className="col-11 py-2 m-0 pointer"
+                    tag="h4"
+                    text={ReassignUser.name}
+                    onClick={() => { setSelectReassignUser(ReassignUser) }} />
+                  {
+                    selected &&
+                    <span className="pt-2">
+                      <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
+                    </span>
+                  }
+                </div>
+                <div className='mx--4'>{index !== getEmployeesDetails.length && <Divider space={'1'} />}</div>
               </>
             )
           })
         }
-        <div className="text-center">
+        <div className="pt-3 text-center">
           <Button
             text={translate("common.submit")}
             block
@@ -170,7 +192,6 @@ function IssueDetails() {
         </div>
       </Modal>
     </>
-
   )
 }
 
