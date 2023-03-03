@@ -4,6 +4,9 @@ import {
 } from "react";
 import {
   DropDownMenuArrow,
+  IssueUsers,
+  Attachments,
+  ReferenceTickets
 } from "@Modules";
 import {
   Divider,
@@ -26,6 +29,8 @@ import { translate } from "@I18n";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { icons } from "@Assets";
+import { TGU,RGU } from '@Utils';
+
 
 
 function IssueDetails() {
@@ -88,7 +93,7 @@ function IssueDetails() {
 
   function ProceedTagUser() {
 
-    const params = { event_type: 'TGU', tagged_users: selectTagUser, id: selectedIssues?.id }
+    const params = { event_type: TGU, tagged_users: selectTagUser, id: selectedIssues?.id }
 
     console.log('2222222222222', params);
 
@@ -107,7 +112,7 @@ function IssueDetails() {
 
   function ProceedReassignUser() {
 
-    const params = { event_type: 'RGU', assigned_to: selectReassignUser.id, id: selectedIssues?.id }
+    const params = { event_type: RGU, assigned_to: selectReassignUser.id, id: selectedIssues?.id }
 
     dispatch(addTicketEvent({
       params,
@@ -122,7 +127,7 @@ function IssueDetails() {
 
   return (
     <>
-      <Tabs tabs={[{ id: '1', title: "THREAD", component: <>chat</> }, { id: '2', title: "ATTACH", component: <>Attachments</> }, { id: '3', title: "reference", component: <>chat</> }, { id: '4', title: "user", component: <>Reference</> }]} />
+      <Tabs tabs={[{ id: '1', title: "THREAD", component: <>chat</> }, { id: '2', title: "ATTACH", component: <Attachments/> }, { id: '3', title: "reference", component: <ReferenceTickets/> }, { id: '4', title: "user", component: <IssueUsers/> }]} />
 
       <div className="d-flex justify-content-end">
         <DropDownMenuArrow

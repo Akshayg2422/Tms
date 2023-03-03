@@ -1,8 +1,8 @@
-import { H, Card, Image } from "@Components";
+import { H, Image } from "@Components";
 import React from "react";
 import { BroadCastItemsProps } from "./interfaces";
-import { getPhoto } from "@Utils";
-import moment from "moment";
+import { getPhoto,getDataAndTime } from "@Utils";
+import { translate } from "@I18n";
 
 function BroadCastListedItems({ item }: BroadCastItemsProps) {
   const { title, attachments, description, created_by, created_at, applicable_branches } =
@@ -21,7 +21,7 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
             />
           </div>
           <div className="col-auto text-xs text-capitalize">
-            {moment(created_at).format('MMMM Do YYYY, h:mm a')}
+            {getDataAndTime(created_at)}
            
           </div>
         </div>
@@ -45,8 +45,6 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
           {attachments &&
             attachments.length > 0 &&
             attachments?.map((attachment_logo: any, index: number) => {
-              console.log("getPhoto(attachment_logo.attachment_file)",getPhoto(attachment_logo.attachment_file));
-              
               return (
                 <Image
                 className="mr-2"
@@ -61,7 +59,7 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
           </div>
 
           <div className="col-auto pt-2 ">
-            <div className="text-xs font-weight-600">created by</div>
+            <div className="text-xs font-weight-600"> {translate('common.createdBy')} </div>
             <H
               tag={"h5"}
               className="text-capitalize font-weight-900 mt--1 "

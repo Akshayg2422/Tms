@@ -68,8 +68,8 @@ function Issues() {
     return (
         <>
             <div className='row m-0 mt-3'>
-                <div className='col-6'></div>
-                <div className='col-4  ml-4'>
+                <div className='col-6 '></div>
+                <div className='col-lg-4 col-md-4 col-sm-12  ml-4'>
                     <div className='row m-0 '>
                         <div className="col input-group bg-white ">
                             <input
@@ -80,7 +80,7 @@ function Issues() {
                                 onChange={Search.onChange}
                             />
                             <span className="input-group-text border-0 pointer px-3" onClick={getSearchHandler} >  <i className="fas fa-search" /></span>
-                            <div className='row pointer' onClick={() => setModal(!modal)}>
+                            <div className='row pointer m-0' onClick={() => setModal(!modal)}>
                                 <span className="input-group-text border-0 ">    {showIssue} </span>
                                 <span className="input-group-text border-0">   <i className="bi bi-chevron-down " /></span>
                             </div>
@@ -91,7 +91,9 @@ function Issues() {
 
 
                 <div className='col text-right mt-3'>
-                    <Button size={'sm'} text={translate("common.createTicket")} onClick={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET) }} />
+                    <Button size={'sm'}
+                        text={translate("common.createTicket")}
+                        onClick={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET) }} />
                 </div>
             </div>
 

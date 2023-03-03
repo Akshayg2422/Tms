@@ -4,11 +4,11 @@ import { H, Image, Badge, Divider } from '@Components'
 import { useDispatch } from 'react-redux'
 import { setSelectedIssues } from '@Redux'
 import { useNavigation } from '@Hooks'
-import { TAB_ISSUE_ATTACH_DETAILS, HOME_PATH, ROUTES } from '@Routes';
+import { HOME_PATH } from '@Routes';
 import { getPhoto } from '@Utils'
-import { getStatusFromCode, handleEmailClick } from '@Utils'
+import { getStatusFromCode, handleEmailClick, getDataAndTime } from '@Utils'
 import { useSelector } from 'react-redux'
-import moment from 'moment'
+import { translate } from '@I18n'
 
 
 function TicketItem({ item, divider }: TicketItemProps) {
@@ -41,10 +41,10 @@ function TicketItem({ item, divider }: TicketItemProps) {
                     <div>
                         <div>
                             <h5 className="text-uppercase text-muted mb-0 card-title">    <i className="ni ni-email-83 mr-1 mb-0"></i> {getStatusFromCode(dashboardDetails, ticket_status)} </h5>
-                            <h5 className='text-muted mb-0'>{moment(created_at).format('MMMM Do YYYY, h:mm a')}</h5>
+                            <h5 className='text-muted mb-0'>{getDataAndTime(created_at)}</h5> 
                         </div>
                         <div className='mt-2' >
-                            <small className='text-muted mb-0 text-sm'> Assigned by </small>
+                            <small className='text-muted mb-0 text-sm'> {translate('common.assignedBy')} </small>
                             <p className='h4'> {assigned_to?.name} </p>
                         </div>
                     </div>

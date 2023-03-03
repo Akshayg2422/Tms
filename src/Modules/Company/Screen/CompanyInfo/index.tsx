@@ -1,16 +1,15 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { CompanyUsers, CompanyItem } from "@Modules";
+import { CompanyUsers } from "@Modules";
 import { CompanyInfoProps } from "./interfaces";
-import { H, Image, Badge, Card, HomeContainer, Color, RsBadgeProps } from "@Components";
+import { H, Image, Badge, Card, HomeContainer } from "@Components";
 import { getPhoto, handleEmailClick } from '@Utils'
+import { translate } from "@I18n";
 
 function CompanyInfo({ item }: CompanyInfoProps) {
 
   const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
-  const { getEmployeeDetails } = useSelector((state: any) => state.CompanyReducer);
-
   const { display_name, attachment_logo, address, phone, email } = companyDetailsSelected;
 
   return (
@@ -33,7 +32,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
               <div className="col justify-content-between pt-3 text-sm-0">
                 <div className="row">
                   <div className="col-9">
-                    <h6 className="text-uppercase text-muted mb-0">PHONE</h6>
+                    <h6 className="text-uppercase text-muted mb-0"> {translate('common.phone')} </h6>
                     <h5>{phone}</h5>
                   </div>
                   <div className="col-sm  text-sm-right">
@@ -43,7 +42,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
 
                 <div className="row justify-content-between pt-1">
                   <div className="col-9">
-                    <h6 className="text-uppercase text-muted mb-0">E-MAIL</h6>
+                    <h6 className="text-uppercase text-muted mb-0"> {translate('common.email')} </h6>
                     <h5>{email}</h5>
                   </div>
                   <div className="col-sm text-sm-right">

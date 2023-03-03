@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
-import { HomeContainer } from '@Components';
+import { HomeContainer,NoDataFound } from '@Components';
 import { CompanyIssueItem } from '@Modules';
 function CompanyIssues() {
 
@@ -31,10 +31,7 @@ function CompanyIssues() {
                             <CompanyIssueItem item={eachTickets} key={index} divider={divider} />
                         )
                     })
-                        :
-                        <div className='text-center'>
-                            No Date Found
-                        </div>
+                        : <NoDataFound/>
                 }
             </div>
         </HomeContainer>

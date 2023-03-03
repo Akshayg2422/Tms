@@ -111,7 +111,6 @@ function* registerAdminSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(registerAdminApi, action.payload.params);
-    console.log('resttttttttt-----------', response);
     if (response.success) {
       yield put(hideLoader());
       yield put(registerAdminSuccess({ ...response }));
