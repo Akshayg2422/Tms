@@ -1,199 +1,201 @@
-// import { Card, Modal, Image, Input, Button } from '@Components'
-// import { Chat, Send } from '@Modules'
-// import { useDispatch, useSelector } from 'react-redux'
-// import { useEffect, useState } from 'react';
-// import { addTicketEvent, getTicketsEvents } from '@Redux';
-// import { useInput, useModal } from '@Hooks';
-// import { Dropzone } from '@Components';
-// import { icons } from '@Assets';
+import {
+  useEffect,
+  useState,
+} from "react";
+import {
+  DropDownMenuArrow,
+  IssueUsers,
+  Attachments,
+  ReferenceTickets
+} from "@Modules";
+import {
+  Divider,
+  Modal,
+  Tabs,
+  H,
+  Button,
+  Image,
+} from "@Components";
+import {
+  useDispatch,
+  useSelector
+} from "react-redux";
+import {
+  addTicketEvent,
+  getEmployees,
+  getTicketsEvents
+} from "@Redux";
+import { translate } from "@I18n";
+import { useNavigation } from "@Hooks";
+import { HOME_PATH } from "@Routes";
+import { icons } from "@Assets";
 
-
-
-// function IssueDetails() {
-
-//     const dispatch = useDispatch();
-//     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
-//     const textMessage = useInput('')
-//     const modalName = useInput('')
-//     const [photo, setPhoto] = useState<any>([])
-//     const [image, setImage] = useState('')
-//     const [selectAttachments, setSelectAttachments] = useState(false)
-//     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
-
-//     useEffect(() => {
-//         beginGetTicketEvents()
-//     }, []);
-
-//     function beginGetTicketEvents() {
-
-//         if (selectedIssues) {
-//             const params = {
-//                 ticket_id: selectedIssues.id,
-//             };
-
-//             dispatch(
-//                 getTicketsEvents({
-//                     params,
-//                     onSuccess: () =>()=> { },
-//                     onError: () =>()=> { }
-//                 })
-//             )
-//         }
-//     }
-
-//     const sendMessageHandler = () => {
-
-//         if (textMessage) {
-//             const params = {
-//                 id: selectedIssues.id,
-//                 message: textMessage.value,
-//                 event_type: 'TEM'
-//             }
-//             dispatch(addTicketEvent({
-//                 params,
-//                 onSuccess: () => ()=>{
-//                     console.log('addTicketEventaddTicketEventaddTicketEventaddTicketEvent', addTicketEvent)
-//                     beginGetTicketEvents()
-//                     textMessage.set('')
-//                 },
-//                 onFailure: () =>()=> { }
-//             }))
-//         }
-//     }
-
-//     const onModalSubmitHandler = () => {
-//         const params = {
-//             event_type: 'MEA',
-//             id: selectedIssues.id,
-//             attachments: [{ attachment: photo }],
-//             name: modalName.value
-//         };
-//         dispatch(
-//             addTicketEvent({
-//                 params,
-//                 onSuccess: () => () => {
-//                     beginGetTicketEvents();
-//                 },
-//                 onError: () => () => { },
-//             }),
-//         );
-//         setSelectAttachments(!selectAttachments);
-//         resetValues();
-//     };
-
-//     const resetValues = () => {
-//         modalName.set('');
-//         setSelectDropzone([{}]);
-//     };
-
-//     const handleImagePicker = (index: number, file: any) => {
-//         let updatedPhoto = [...selectDropzone, file]
-//         let newUpdatedPhoto = [...photo, file]
-//         setSelectDropzone(updatedPhoto)
-//         setPhoto(newUpdatedPhoto)
-//     }
-
-//     return (
-//         <div className='vh-100 d-flex justify-content-center'>
-//             <Card className='vh-100 col-lg-6 col-sm-12'>
-//                 {/* <Chat item={selectedIssues.id} index={0} /> */}
-
-//                 <div className='fixed-bottom col-lg-6 col-sm-12 '>
-//                     <Send value={textMessage.value}
-//                         onClick={sendMessageHandler}
-//                         onChange={textMessage.onChange}
-//                     />
-//                 </div>
-//                 <div className=' col-1 pl-0'>
-//                     <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
-//                 </div>
-//             </Card>
-
-//             <div>
-//                 <Modal isOpen={selectAttachments}
-//                     onClose={() => {
-//                         setSelectAttachments(!selectAttachments)
-//                     }}>
-//                     <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={modalName.onChange} />
-//                     {/* onChange={() => setSelectAttachments(true)} */}
-//                     {selectDropzone && selectDropzone.map((el, index) => {
-//                         return (
-//                             <Dropzone variant='ICON'
-//                                 icon={image}
-//                                 size='xl'
-//                                 onSelect={(image) => {
-//                                     let file = image.toString().replace(/^data:(.*,)?/, '');
-//                                     // setImage(file)
-//                                     handleImagePicker(index, file)
-//                                 }}
-//                             />
-//                         )
-//                     })}
-//                     <div className='d-flex flex-row pt-4'>
-//                         <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => onModalSubmitHandler()} />
-//                     </div>
-
-//                 </Modal>
-
-//             </div>
-
-//         </div>
-//     )
-// }
-
-// export { IssueDetails } 
-
-import { Card, Divider, HomeContainer } from '@Components'
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { ReferenceIssue } from '@Modules'
-import { getReferenceTickets } from '@Redux'
 
 function IssueDetails() {
 
-    const dispatch = useDispatch()
-    const { addReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
-    const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
-    console.log('getReferenceTickets', JSON.stringify(addReferenceDetails));
+  const [openModalTagUser, setOpenModalTagUser] = useState(false)
+  const [openModalReassignUser, setOpenModalReassignUser] = useState(false)
+  const dispatch = useDispatch()
+  const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
+  const { employees } = useSelector((state: any) => state.CompanyReducer);
+  const { goTo } = useNavigation()
+  const [selectTagUser, setSelectTagUser] = useState([])
+  const [selectReassignUser, setSelectReassignUser] = useState<any>('')
 
-    useEffect(() => {
-        proceedgetReferenceTickets()
-    }, [])
-
-    function proceedgetReferenceTickets() {
-        const params = {
-            id: selectedIssues?.id, q: ''
-        }
-        dispatch(
-            getReferenceTickets({
-                params,
-                onSuccess: () => () => { },
-                onFailure: () => () => { }
-            })
-        )
-    }
-    return (
-        <HomeContainer>
-            <Card title={"Reference Tickets"} className="mt-2">
-                {
-                    addReferenceDetails &&
-                    addReferenceDetails.data.length > 0 ?
-                    addReferenceDetails.data.map((eachReferenceTickets: any, index: number) => {
-                            return (
-                                <div>
-                                    <ReferenceIssue key={eachReferenceTickets.id} item={eachReferenceTickets} />
-                                    {index !== addReferenceDetails.data.length - 1 && <div className='mx-7'><Divider /></div>}
-                                </div>
-                            );
-                        })
-                        :
-                        <div className='text-center'>
-                            No Date Found
-                        </div>
-                }
-            </Card>
-        </HomeContainer>
+  useEffect(() => {
+    getApiHandler()
+    const params = { branch_id: selectedIssues.raised_by_company?.branch_id }
+    dispatch(
+      getEmployees({
+        params,
+        onSuccess: (response) => () => { },
+        onFailure: () => () => { }
+      })
     )
+  }, [])
+
+  const getApiHandler = () => {
+    const params = { ticket_id: selectedIssues?.id }
+    dispatch(
+      getTicketsEvents({
+        params,
+        onSuccess: (response) => () => { },
+        onFailure: () => () => { }
+      })
+    )
+  }
+
+  const onSelectedTagUser = (item: any) => {
+    let updatedSelectedId: any = [...selectTagUser];
+    if (selectTagUser?.length > 0) {
+      const selectedItem = updatedSelectedId;
+      const ifExist = selectedItem.some(
+        (el: any) => el === item?.id
+      );
+      if (ifExist) {
+        updatedSelectedId = selectedItem.filter(
+          (filterItem: any) => filterItem !== item?.id
+        );
+      } else {
+        updatedSelectedId = [...updatedSelectedId, item.id];
+      }
+    } else {
+      updatedSelectedId = [item.id];
+    }
+    setSelectTagUser(updatedSelectedId);
+  };
+
+  function ProceedTagUser() {
+
+    const params = { event_type: 'TGU', tagged_users: selectTagUser, id: selectedIssues?.id }
+
+    dispatch(addTicketEvent({
+      params,
+      onSuccess: (response) => () => {
+        getApiHandler()
+        setOpenModalTagUser(!openModalTagUser)
+      },
+      onFailure: (failure) => () => { }
+    }))
+  }
+
+  function ProceedReassignUser() {
+
+    const params = { event_type: 'RGU', assigned_to: selectReassignUser.id, id: selectedIssues?.id }
+
+    dispatch(addTicketEvent({
+      params,
+      onSuccess: () => () => { setOpenModalReassignUser(!openModalReassignUser) },
+      onFailure: () => () => { }
+    }))
+  }
+
+  return (
+    <>
+      <Tabs tabs={[{ id: '1', title: "THREAD", component: <>chat</> }, { id: '2', title: "ATTACH", component: <Attachments/> }, { id: '3', title: "reference", component: <ReferenceTickets/> }, { id: '4', title: "user", component: <IssueUsers/> }]} />
+
+      <div className="d-flex justify-content-end">
+        <DropDownMenuArrow
+          onClickTagUser={() => { setOpenModalTagUser(!openModalTagUser) }}
+          onClickReassignUser={() => { setOpenModalReassignUser(!openModalReassignUser) }}
+          onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TICKET) }}
+        />
+      </div>
+      <Modal size={'md'} fade={false} isOpen={openModalTagUser}
+        onClose={() => {
+          setOpenModalTagUser(!openModalTagUser)
+        }}>
+        {
+          employees && employees.length > 0 && employees.map((tagUser: any, index: number) => {
+            const selected = selectTagUser.some(
+              (selectUserEl: any) => selectUserEl === tagUser?.id
+            );
+
+            return (
+              <>
+                <div className="row">
+                  <H
+                    className="py-2 m-0 col-11 pointer"
+                    tag={'h4'}
+                    text={tagUser.name}
+                    onClick={() => { (onSelectedTagUser(tagUser)) }}
+                  />
+                  {
+                    selected &&
+                    <span className="pt-2">
+                      <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
+                    </span>
+                  }
+                </div>
+                <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
+              </>
+            )
+          })
+        }
+        <div className="pt-3 text-center">
+          <Button
+            text={translate("common.submit")}
+            block
+            onClick={() => { ProceedTagUser() }} />
+        </div>
+      </Modal>
+
+      <Modal size={'md'} fade={false} isOpen={openModalReassignUser}
+        onClose={() => {
+          setOpenModalReassignUser(!openModalReassignUser)
+        }}>
+        {
+          employees && employees.length > 0 && employees.map((ReassignUser: any, index: number) => {
+            const selected = selectReassignUser.id === ReassignUser.id
+            return (
+              <>
+                <div className="row">
+                  <H
+                    className="col-11 py-2 m-0 pointer"
+                    tag="h4"
+                    text={ReassignUser.name}
+                    onClick={() => { setSelectReassignUser(ReassignUser) }} />
+                  {
+                    selected &&
+                    <span className="pt-2">
+                      <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
+                    </span>
+                  }
+                </div>
+                <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
+              </>
+            )
+          })
+        }
+        <div className="pt-3 text-center">
+          <Button
+            text={translate("common.submit")}
+            block
+            onClick={() => { ProceedReassignUser() }} />
+        </div>
+      </Modal>
+    </>
+  )
 }
 
-export { IssueDetails } 
+export { IssueDetails }

@@ -10,7 +10,7 @@ html.rtl {
 }
 
 .rtl {
-  /*# sourceMappingURL=bootstrap-rtl.css.map */
+
 }
 .rtl body {
   direction: rtl;
@@ -861,20 +861,20 @@ html.rtl {
     border: 0;
   }
   .rtl .table-responsive > .table-bordered > thead > tr > th:first-child,
-.rtl .table-responsive > .table-bordered > tbody > tr > th:first-child,
-.rtl .table-responsive > .table-bordered > tfoot > tr > th:first-child,
-.rtl .table-responsive > .table-bordered > thead > tr > td:first-child,
-.rtl .table-responsive > .table-bordered > tbody > tr > td:first-child,
-.rtl .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+  .rtl .table-responsive > .table-bordered > tbody > tr > th:first-child,
+  .rtl .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+  .rtl .table-responsive > .table-bordered > thead > tr > td:first-child,
+  .rtl .table-responsive > .table-bordered > tbody > tr > td:first-child,
+  .rtl .table-responsive > .table-bordered > tfoot > tr > td:first-child {
     border-right: 0;
     border-left: initial;
   }
   .rtl .table-responsive > .table-bordered > thead > tr > th:last-child,
-.rtl .table-responsive > .table-bordered > tbody > tr > th:last-child,
-.rtl .table-responsive > .table-bordered > tfoot > tr > th:last-child,
-.rtl .table-responsive > .table-bordered > thead > tr > td:last-child,
-.rtl .table-responsive > .table-bordered > tbody > tr > td:last-child,
-.rtl .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+  .rtl .table-responsive > .table-bordered > tbody > tr > th:last-child,
+  .rtl .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+  .rtl .table-responsive > .table-bordered > thead > tr > td:last-child,
+  .rtl .table-responsive > .table-bordered > tbody > tr > td:last-child,
+  .rtl .table-responsive > .table-bordered > tfoot > tr > td:last-child {
     border-left: 0;
     border-right: initial;
   }
@@ -915,7 +915,7 @@ html.rtl {
     padding-left: initial;
   }
   .rtl .form-inline .radio input[type=radio],
-.rtl .form-inline .checkbox input[type=checkbox] {
+  .rtl .form-inline .checkbox input[type=checkbox] {
     margin-right: 0;
     margin-left: auto;
   }
@@ -1141,7 +1141,7 @@ html.rtl {
 }
 @media (min-width: 768px) {
   .rtl .navbar > .container .navbar-brand,
-.rtl .navbar > .container-fluid .navbar-brand {
+  .rtl .navbar > .container-fluid .navbar-brand {
     margin-right: -15px;
     margin-left: auto;
   }
@@ -1153,7 +1153,7 @@ html.rtl {
 }
 @media (max-width: 767px) {
   .rtl .navbar-nav .open .dropdown-menu > li > a,
-.rtl .navbar-nav .open .dropdown-menu .dropdown-header {
+  .rtl .navbar-nav .open .dropdown-menu .dropdown-header {
     padding: 5px 25px 5px 15px;
   }
 }
@@ -1457,12 +1457,12 @@ html.rtl {
 }
 @media screen and (min-width: 768px) {
   .rtl .carousel-control .glyphicon-chevron-left,
-.rtl .carousel-control .icon-prev {
+  .rtl .carousel-control .icon-prev {
     margin-left: 0;
     margin-right: -15px;
   }
   .rtl .carousel-control .glyphicon-chevron-right,
-.rtl .carousel-control .icon-next {
+  .rtl .carousel-control .icon-next {
     margin-left: 0;
     margin-right: -15px;
   }

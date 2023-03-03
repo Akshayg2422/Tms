@@ -3,8 +3,6 @@ import { Image ,Button} from '@Components';
 import { image } from '@Assets';
 import { translate } from "@I18n";
 import {  useNavigation } from "@Hooks";
-import { useDispatch } from "react-redux";
-import { Login } from '@Modules//Auth';
 import { AUTH_PATH } from '@Routes';
 
 function Header() {
@@ -34,7 +32,7 @@ function Header() {
                         outline
                         color={'default'}
                         onClick={() => {
-                          goTo(AUTH_PATH.LOGIN);
+                          goTo(AUTH_PATH.SPLASH);
                         }}
                         className={' bg-primary border-0 px-4 py-3  text-white shadow-none  '}
                       />

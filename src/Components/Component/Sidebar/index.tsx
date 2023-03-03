@@ -2,6 +2,12 @@ import React from "react";
 import { useLocation, NavLink as NavLinkRRD, Link } from "react-router-dom";
 import classnames from "classnames";
 import PerfectScrollbar from "react-perfect-scrollbar";
+import { Modal, Button } from '@Components'
+import { useNavigation, useModal } from '@Hooks'
+import { AUTH_PATH } from '@Routes'
+import { userLogout } from '@Redux'
+import { useDispatch } from 'react-redux'
+
 
 import {
   Collapse,
@@ -19,6 +25,10 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
 
   const [state, setState] = React.useState<any>({});
   const location = useLocation();
+
+  const { goBack, goTo } = useNavigation()
+  const logoutModal = useModal(false)
+  const dispatch = useDispatch()
 
   React.useEffect(() => {
     setState(getCollapseStates(routes));
@@ -197,8 +207,48 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
       <div className="navbar-inner">
         <Collapse navbar isOpen={true}>
           <Nav navbar>{createLinks(routes)}</Nav>
+
+          {/* <hr className="my-3" />
+          <h6 className="navbar-heading p-0 text-muted">
+            <span className="docs-normal">Documentation</span>
+            <span className="docs-mini">D</span>
+          </h6> */}
+          <Nav className="mb-md-3" navbar>
+            <NavItem>
+              <NavLink
+                onClick={logoutModal.show}
+                className="pointer"
+                target="_blank"
+              >
+                <i className="ni ni-button-power text-red" />
+                <span className="nav-link-text">Logout</span>
+              </NavLink>
+            </NavItem>
+          </Nav>
         </Collapse>
       </div>
+
+      <Modal title={'Are you sure want to Logout?'} size={'md'} isOpen={logoutModal.visible} fade={false} onClose={logoutModal.hide}  >
+        <div className='row'>
+          <div className="col">
+            <Button block text={'NO'} onClick={logoutModal.hide} />
+          </div>
+          <div className="col">
+            <Button block text={'YES'} onClick={() => {
+              dispatch(
+                userLogout({
+                  onSuccess: () => {
+                    goTo(AUTH_PATH.SPLASH, true)
+                  },
+                  onError: () => {
+                    console.log('error');
+                  },
+                }),
+              );
+            }} />
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 
@@ -219,4 +269,5 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
     </Navbar>
   );
 }
+
 export { Sidebar };

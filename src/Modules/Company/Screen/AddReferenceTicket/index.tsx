@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets, referenceIssueDetails } from "@Redux";
-import { Divider, Button, Card } from "@Components";
+import { Divider, Button, Card, HomeContainer } from "@Components";
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
@@ -26,12 +26,13 @@ function AddReferenceTicket() {
     dispatch(
       addTicketEvent({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   };
   const onSelectedTickets = (item: any) => {
+
     let updatedSelectedId: any = [...selectedIssueDetails];
     if (selectedIssueDetails?.length > 0) {
       const selectedItem = updatedSelectedId;
@@ -56,8 +57,8 @@ function AddReferenceTicket() {
     dispatch(
       getTickets({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   };
@@ -106,8 +107,8 @@ function AddReferenceTicket() {
       <div>
         <div className="m-4">
           <div className="row justify-content-center">
-            <div className="col-lg-7">
-              <Card>
+            <div className="col">
+              <HomeContainer isCard title={'Reference Tickets'}>
                 {tickets && tickets.length > 0 ? (
                   tickets.map((eachTickets: any, index: number) => {
                     return (
@@ -120,7 +121,7 @@ function AddReferenceTicket() {
                           }}
                         />
                         {index !== tickets.length - 1 && (
-                          <div className="mx-lg-7 mx-sm-0 mx-2">
+                          <div className="mx-lg-7 mx-sm-0 mx-2 ">
                             <Divider />
                           </div>
                         )}
@@ -130,7 +131,7 @@ function AddReferenceTicket() {
                 ) : (
                   <div className="text-center">No Date Found</div>
                 )}
-              </Card>
+              </HomeContainer>
             </div>
           </div>
         </div>

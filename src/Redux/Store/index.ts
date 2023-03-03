@@ -12,12 +12,26 @@ const persistConfig = {
   storage,
 }
 
-const rootReducer = combineReducers({
+const reducer = combineReducers({
   AppReducer,
   AuthReducer,
   CompanyReducer,
   AdminReducer
 });
+
+const rootReducer = (state: any, action: any) => {
+
+  if (action.type === 'USER_LOGOUT') {
+    try {
+      localStorage.clear();
+      action.payload.onSuccess();
+      return reducer(undefined, action);
+    } catch {
+      action.payload.onError();
+    }
+  }
+  return reducer(state, action);
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
@@ -33,5 +47,4 @@ let persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
 export { store, sagaMiddleware, rootSaga, persistor };

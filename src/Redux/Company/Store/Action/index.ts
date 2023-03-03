@@ -23,6 +23,12 @@ import {
   GET_REFERENCE_TICKETS,
   GET_REFERENCE_TICKETS_SUCCESS,
   GET_REFERENCE_TICKETS_FAILURE,
+  ADD_BROADCAST_MESSAGES,
+  ADD_BROADCAST_MESSAGES_SUCCESS,
+  ADD_BROADCAST_MESSAGES_FAILURE,
+  GET_BROADCAST_MESSAGES,
+  GET_BROADCAST_MESSAGES_SUCCESS,
+  GET_BROADCAST_MESSAGES_FAILURE,
   RESTORE_COMPANY
 } from '../ActionTypes';
 
@@ -55,7 +61,7 @@ export const raiseNewTicketFailure = (error: any) => {
  */
 
 export const getTickets = (params: any) => {
-  console.log("called action",params)
+  // console.log("called action",params)
   return {
     type: GET_TICKETS,
     payload: params,
@@ -108,9 +114,7 @@ export const getTicketTagsFailure = (error: any) => {
  * @param params
  * @returns
  */
-export const addTicketEvent = (params: any) => {
-  console.log('params-------->>', params);
-  
+export const addTicketEvent = (params: any) => {  
   return {
     type: ADD_TICKET_EVENT,
     payload: params,
@@ -118,7 +122,6 @@ export const addTicketEvent = (params: any) => {
 };
 
 export const addTicketEventSuccess = (response: any) => {
-  console.log(response,"response==================")
   return {
 
     type: ADD_TICKET_EVENT_SUCCESS,
@@ -202,6 +205,7 @@ export const getReferenceTicketsFailure = (error: any) => {
  */
 
 export const getEmployees = (params: any) => {
+  // console.log("called action-------->",params)
   return {
     type: GET_EMPLOYEES,
     payload: params,
@@ -256,5 +260,51 @@ export const restoreCompany = () => {
   return {
     type:RESTORE_COMPANY,
    
+  };
+};
+
+export const addBroadCastMessages= (params: any) => {
+  return {
+    type:  ADD_BROADCAST_MESSAGES,
+    payload: params,
+  };
+};
+
+export const addBroadCastMessagesSuccess = (response: any) => {
+  return {
+    type:  ADD_BROADCAST_MESSAGES_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addBroadCastMessagesFailure = (error: any) => {
+  return {
+    type:  ADD_BROADCAST_MESSAGES_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ * GET
+ */
+ export const getBroadCastMessages= (params: any) => {
+  return {
+    type:  GET_BROADCAST_MESSAGES,
+    payload: params,
+  };
+};
+
+export const getBroadCastMessagesSuccess = (response: any) => {
+  
+  return {
+    type:  GET_BROADCAST_MESSAGES_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getBroadCastMessagesFailure = (error: any) => {
+  return {
+    type:  GET_BROADCAST_MESSAGES_FAILURE,
+    payload: error,
   };
 };

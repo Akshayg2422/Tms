@@ -39,7 +39,6 @@ import {
 
 function CreateCompany({ }: CreateCompanyProps) {
 
-  // const designation = useDropDown({})
   const [photo, setPhoto] = useState('')
   const { goBack } = useNavigation()
   const dispatch = useDispatch()
@@ -51,7 +50,6 @@ function CreateCompany({ }: CreateCompanyProps) {
   const address = useInput('')
   const pinCode = useInput('')
   const companyContactNumber = useInput('')
-  const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
 
 
 
@@ -110,8 +108,7 @@ function CreateCompany({ }: CreateCompanyProps) {
           params,
           onSuccess: (response: any) => () => {
             if (response.success) {
-              console.log('successssss------------------->',response);
-              
+
               showToast(response.message, 'success')
               goBack()
             }
@@ -129,8 +126,8 @@ function CreateCompany({ }: CreateCompanyProps) {
   return (
 
     <HomeContainer isCard title={translate('common.createCompany')!} >
-      <div className='col-md-9 col-lg-7'>
-        <H tag={'h3'} className="heading  mb-3"
+      <div className='col-md-9 col-lg-5'>
+        <H tag={'h3'} className="heading mb-3"
           text={translate('common.companyDetails')} />
         <label className={`form-control-label`}>{translate('auth.logo')}</label>
       </div>
@@ -144,24 +141,31 @@ function CreateCompany({ }: CreateCompanyProps) {
           }}
         />
       </div>
-      <div className='col-md-9 col-lg-7'>
-        <Input heading={translate('common.name')} value={name.value}
+      <div className='col-md-9 col-lg-5'>
+        <Input
+          heading={translate('common.name')}
+          value={name.value}
           onChange={name.onChange} />
         <Input heading={translate('auth.address')}
           value={address.value} onChange={address.onChange} />
-        <Input type={'number'} heading={translate('common.PinCode')}
-          maxLength={6} value={pinCode.value} onChange={pinCode.onChange} />
+        <Input
+          type={'number'}
+          heading={translate('common.PinCode')}
+          maxLength={6}
+          value={pinCode.value}
+          onChange={pinCode.onChange} />
         {/* <Input disabled heading={translate('auth.mobileNumber')}
          value={contactNumber.value} /> */}
         <Input type={'number'}
-          heading={translate('common.contactNumber')} maxLength={10}
+          heading={translate('common.contactNumber')}
+          maxLength={10}
           value={companyContactNumber.value}
           onChange={companyContactNumber.onChange} />
       </div>
 
       <Divider />
 
-      <div className='col-md-9 col-lg-7'>
+      <div className='col-md-9 col-lg-5'>
         <H tag={'h3'} className="heading mb-3"
           text={translate('common.primaryContactPerson')} />
         <Input heading={translate('auth.fullName')}
@@ -175,17 +179,15 @@ function CreateCompany({ }: CreateCompanyProps) {
           selected={gender.value} data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
 
       </div>
-      <div className='row justify-content-end'>
-        <div className='col-md-6 col-lg-4  my-4'>
-          <Button
-            block text={translate('common.submit')}
-            onClick={() =>
-              submitRegisteredAdminHandler()
-            }
-          />
-        </div>
-      </div>
 
+      <div className='col'>
+        <Button
+          text={translate('common.submit')}
+          onClick={() =>
+            submitRegisteredAdminHandler()
+          }
+        />
+      </div>
     </HomeContainer>
   )
 }

@@ -190,10 +190,7 @@ export const resetSearchedBusinessPlaces = () => {
  * @param action
  */
 
-export const validateUserBusiness = (params: any) => {
-
-  console.log(JSON.stringify(params)+"=====validateUserBusiness");
-  
+export const validateUserBusiness = (params: any) => {  
   return {
     type: VALIDATE_USER_BUSINESS,
     payload: params,

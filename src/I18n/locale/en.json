@@ -94,9 +94,10 @@
     "logo": "Logo",
     "email": "Email",
     "emailOptional": "Email (Optional)",
-    "title": "Title",
-    "description": "Description",
-    "referenceNo": "Reference No"
+    "title":"Title",
+    "description":"Description",
+    "referenceNo":"Reference No",
+    "createBroadCast":"CREATE BROADCAST"
   },
   "product": {
     "Store": "Store",

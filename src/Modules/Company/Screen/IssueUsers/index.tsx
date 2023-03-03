@@ -4,12 +4,11 @@ import { Card, Divider, Button, HomeContainer } from "@Components";
 import { UserItem } from "@Modules";
 import { getEmployees } from "@Redux";
 import { useNavigation } from "@Hooks";
-import { ADD_USER_INFO, HOME_PATH } from "@Routes";
-import { translate } from "@I18n";
+
 function IssueUsers() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
-  const { getEmployeesDetails } = useSelector(
+  const { employees } = useSelector(
     (state: any) => state.CompanyReducer
   );
 
@@ -21,29 +20,30 @@ function IssueUsers() {
     dispatch(
       getEmployees({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   }, []);
 
   return (
-    <div>
-      <HomeContainer>
-        <Card className="mt-3">
-          {getEmployeesDetails &&
-            getEmployeesDetails.length > 0 &&
-            getEmployeesDetails.map((user: any, index: number) => {
+    <HomeContainer>
+      <div>
+
+        <Card className="mt-2 py-2">
+          {employees &&
+            employees.length > 0 &&
+            employees.map((user: any, index: number) => {
               return (
                 <>
                   <UserItem item={user} />
-                  {index !== getEmployeesDetails.length - 1 && <Divider />}
+                  {index !== employees.length - 1 && <Divider space={'4'} />}
                 </>
               );
             })}
         </Card>
-      </HomeContainer>
-    </div>
+      </div>
+    </HomeContainer>
   );
 }
 export { IssueUsers };

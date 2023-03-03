@@ -25,18 +25,24 @@ import {
   GET_REFERENCE_TICKETS_SUCCESS,
   GET_REFERENCE_TICKETS_FAILURE,
   RESTORE_COMPANY,
+  ADD_BROADCAST_MESSAGES ,
+  ADD_BROADCAST_MESSAGES_SUCCESS,
+  ADD_BROADCAST_MESSAGES_FAILURE,
+  GET_BROADCAST_MESSAGES ,
+  GET_BROADCAST_MESSAGES_SUCCESS,
+  GET_BROADCAST_MESSAGES_FAILURE,
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
-
 
 const initialState: CompanyStateProp = {
   tickets: undefined,
   getTicketTags: undefined,
   ticketEvents: undefined,
   addTicketEvent: undefined,
-  getEmployeesDetails: undefined,
+  employees: undefined,
   addEmployeeDetails: undefined,
-  addReferenceDetails: undefined,
+  issueReferenceDetails: undefined,
+  broadCastDetails:undefined,
 };
 
 const CompanyReducer = (
@@ -66,6 +72,37 @@ const CompanyReducer = (
     case RAISE_NEW_TICKET_FAILURE:
       state = { ...state };
       break;
+
+      case ADD_BROADCAST_MESSAGES:
+      state = {
+        ...state,
+      };
+
+      break;
+    case ADD_BROADCAST_MESSAGES_SUCCESS:
+      state = {
+        ...state,
+      };
+      break;
+    case ADD_BROADCAST_MESSAGES_FAILURE:
+      state = { ...state };
+      break;
+
+      case GET_BROADCAST_MESSAGES:
+        state = {
+          ...state,
+        };
+  
+        break;
+      case GET_BROADCAST_MESSAGES_SUCCESS:
+        state = {...state,  broadCastDetails: action.payload.details};
+        break;
+      case GET_BROADCAST_MESSAGES_FAILURE:
+        state = { ...state };
+        break;
+
+
+
     case GET_TICKETS:
       state = {
         ...state,
@@ -137,11 +174,11 @@ const CompanyReducer = (
     case GET_EMPLOYEES_SUCCESS:
       state = {
         ...state,
-        getEmployeesDetails: action.payload,
+        employees: action.payload,
       };
       break;
     case GET_EMPLOYEES_FAILURE:
-      state = { ...state, getEmployeesDetails: undefined };
+      state = { ...state, employees: undefined };
       break;
     case ADD_EMPLOYEE:
       state = {
@@ -161,19 +198,19 @@ const CompanyReducer = (
     case GET_REFERENCE_TICKETS:
       state = {
         ...state,
-        addReferenceDetails: undefined,
+        issueReferenceDetails: undefined,
       };
       break;
     case GET_REFERENCE_TICKETS_SUCCESS:
       state = {
         ...state,
-        addReferenceDetails: action.payload.details,
+        issueReferenceDetails: action.payload.details,
       };
       break;
     case GET_REFERENCE_TICKETS_FAILURE:
       state = {
         ...state,
-        addReferenceDetails: undefined,
+        issueReferenceDetails: undefined,
       };
       break;
     default:

@@ -139,10 +139,10 @@ function Settings () {
 
   return (
     <>
-      <div className="container-fluid ">
-        <div className="row pt-4">
-          <div className="col-sm-6 mt-2">
-            <Card>
+      <div className=" container">
+        <div className=" row mt-2 ">
+          <div className="col-sm-6 mt-2 mx-0 pr-2">
+            <Card >
               <div className="row">
                 <div className="col">
                   <h3>{translate("common.department")}</h3>
@@ -175,7 +175,7 @@ function Settings () {
               <div
                 className="overflow-auto mt-0"
                 style={{
-                  height: showDepartments ? "" : "0vh",
+                  height: showDepartments ? "30.5rem" : "0vh",
                 }}
               >
                 {departmentData && departmentData?.length > 0 ? (
@@ -187,7 +187,7 @@ function Settings () {
                   <div
                     className=" d-flex justify-content-center align-items-center"
                     style={{
-                      height: "80.5vh",
+                      height: "30.5rem",
                     }}
                   >
                     <NoRecordsFound />
@@ -196,7 +196,7 @@ function Settings () {
               </div>
             </Card>
           </div>
-          <div className="col-sm-6 mt-2">
+          <div className="col-sm-6 mt-2 pl-2 mx-0">
             <Card>
               <div className="row">
                 <div className="col">
@@ -230,7 +230,7 @@ function Settings () {
               <div
                 className="overflow-auto mt-0"
                 style={{
-                  height: showDesignations ? "" : "0vh",
+                  height: showDesignations ? "30.5rem" : "0vh",
                  
                 }}
               >
@@ -243,7 +243,7 @@ function Settings () {
                   <div
                     className=" d-flex justify-content-center align-items-center"
                     style={{
-                      height: "70.5vh",
+                      height: "30.5rem",
                     }}
                   >
                     <NoRecordsFound />

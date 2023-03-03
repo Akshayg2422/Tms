@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { MultiSelectProps } from './interfaces'
 import { Multiselect } from 'multiselect-react-dropdown';
+import { FormGroup } from 'reactstrap';
+import { InputHeading } from '@Components';
 
 const MultiSelectDropDown = ({
     options,
@@ -55,6 +57,8 @@ const MultiSelectDropDown = ({
     };
 
     return (
+        <FormGroup>
+            <InputHeading heading={heading} id={id} />
         <Multiselect
             style={styles}
             options={options}
@@ -64,6 +68,7 @@ const MultiSelectDropDown = ({
             displayValue={displayValue}
             avoidHighlightFirstOption={true}
         />
+        </FormGroup>
     )
 }
 

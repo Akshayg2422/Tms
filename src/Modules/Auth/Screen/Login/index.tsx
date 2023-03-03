@@ -53,8 +53,8 @@ function Login() {
   };
 
   return (
-    <div className="container custom-gradient vh-100 d-flex justify-content-center align-items-center">
-      <div className="col-sm-9 col-md-7">
+    <div className="custom-gradient vh-100 d-flex justify-content-center align-items-center">
+      <div className="col-sm-9 col-md-6 col-lg-4">
         <Logo />
         <div className="my-5">
           <Input
@@ -84,9 +84,9 @@ function Login() {
             validateUserBusinessApiHandler();
           }}
         />
-        <div className="text-center">
+        {/* <div className="text-center">
           <small className="pointer p-1">{translate("common.register")}</small>
-        </div>
+        </div> */}
       </div>
     </div>
   );
