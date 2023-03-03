@@ -135,10 +135,7 @@ function* addDesignation(action) {
  function* getDesignation(action) {
   try {
     yield put(showLoader());
-    console.log(action,"------------------------------------->")
-
-    const response = yield call(fetchDesignationDataApi, action.payload.params);
-    console.log('getdesignation------------->'+ JSON.stringify(response));  
+    const response = yield call(fetchDesignationDataApi, action.payload.params); 
 
     if (response.success) {
       yield put(hideLoader());

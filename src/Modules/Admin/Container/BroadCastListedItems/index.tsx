@@ -45,8 +45,6 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
           {attachments &&
             attachments.length > 0 &&
             attachments?.map((attachment_logo: any, index: number) => {
-              console.log("getPhoto(attachment_logo.attachment_file)",getPhoto(attachment_logo.attachment_file));
-              
               return (
                 <Image
                 className="mr-2"

@@ -114,9 +114,7 @@ export const getTicketTagsFailure = (error: any) => {
  * @param params
  * @returns
  */
-export const addTicketEvent = (params: any) => {
-  console.log('params-------->>', params);
-  
+export const addTicketEvent = (params: any) => {  
   return {
     type: ADD_TICKET_EVENT,
     payload: params,
@@ -124,7 +122,6 @@ export const addTicketEvent = (params: any) => {
 };
 
 export const addTicketEventSuccess = (response: any) => {
-  console.log(response,"response==================")
   return {
 
     type: ADD_TICKET_EVENT_SUCCESS,

@@ -200,18 +200,15 @@ function* addEmployeeSaga(action) {
 }
 
 function* getReferenceTicketsSaga(action) {
-  console.log('actionactionaction',action);
   try {
     yield put(showLoader());
     const response = yield call(getReferenceTicketsApi, action.payload.params);
     // console.log('getReferenceTicketsSagagetReferenceTicketsSagagetReferenceTicketsSaga',(JSON.stringify(response)))
     if (response.success) {
-      console.log('res-----------------11');
       yield put(hideLoader());
       yield put(getReferenceTicketsSuccess({...response}));
       yield call(action.payload.onSuccess(response));
     } else {
-      console.log('res---------------------2222222');
       yield put(hideLoader());
       yield put(getReferenceTicketsFailure(response));
       yield call(action.payload.onError(response));

@@ -98,7 +98,7 @@ export function getValidateError(errorObject: any) {
     const key: string = Object.keys(errorObject)[0];
     if (key) {
       error = errorObject[key] + '';
-      console.log('keyyy---->', error);
+     // console.log('keyyy---->', error);
     }
   }
   return error;

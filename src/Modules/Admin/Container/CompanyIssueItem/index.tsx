@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import {  H, Badge, Divider} from '@Components'
 import { CompanyIssueItemProps } from './interface';
-import { getStatusFromCode, handleEmailClick } from '@Utils'
+import { getStatusFromCode, handleEmailClick,getDataAndTime } from '@Utils'
 import moment from 'moment'
 function CompanyIssueItem({ item ,divider}: CompanyIssueItemProps) {
 
@@ -29,7 +29,7 @@ function CompanyIssueItem({ item ,divider}: CompanyIssueItemProps) {
                     <div>
                         <div>
                             <h5 className="text-uppercase text-muted mb-0 card-title">    <i className="ni ni-email-83 mr-1 mb-0"></i> {getStatusFromCode(dashboardDetails, ticket_status)} </h5>
-                            <h5 className='text-muted mb-0'>{moment(created_at).format('MMMM Do YYYY, h:mm a')}</h5>
+                            <h5 className='text-muted mb-0'>{getDataAndTime(created_at)}</h5>
                         </div>
                         <div className='mt-2' >
                             <small className='text-muted mb-0 text-sm'> Assigned by </small>

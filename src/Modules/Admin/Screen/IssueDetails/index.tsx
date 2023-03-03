@@ -4,6 +4,9 @@ import {
 } from "react";
 import {
   DropDownMenuArrow,
+  IssueUsers,
+  Attachments,
+  ReferenceTickets
 } from "@Modules";
 import {
   Divider,
@@ -34,7 +37,7 @@ function IssueDetails() {
   const [openModalReassignUser, setOpenModalReassignUser] = useState(false)
   const dispatch = useDispatch()
   const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
-  const { getEmployeesDetails } = useSelector((state: any) => state.CompanyReducer);
+  const { employees } = useSelector((state: any) => state.CompanyReducer);
   const { goTo } = useNavigation()
   const [selectTagUser, setSelectTagUser] = useState([])
   const [selectReassignUser, setSelectReassignUser] = useState<any>('')
@@ -109,7 +112,7 @@ function IssueDetails() {
 
   return (
     <>
-      <Tabs tabs={[{ id: '1', title: "THREAD", component: <>chat</> }, { id: '2', title: "ATTACH", component: <>Attachments</> }, { id: '3', title: "reference", component: <>chat</> }, { id: '4', title: "user", component: <>Reference</> }]} />
+      <Tabs tabs={[{ id: '1', title: "THREAD", component: <>chat</> }, { id: '2', title: "ATTACH", component: <Attachments/> }, { id: '3', title: "reference", component: <ReferenceTickets/> }, { id: '4', title: "user", component: <IssueUsers/> }]} />
 
       <div className="d-flex justify-content-end">
         <DropDownMenuArrow
@@ -123,7 +126,7 @@ function IssueDetails() {
           setOpenModalTagUser(!openModalTagUser)
         }}>
         {
-          getEmployeesDetails && getEmployeesDetails.length > 0 && getEmployeesDetails.map((tagUser: any, index: number) => {
+          employees && employees.length > 0 && employees.map((tagUser: any, index: number) => {
             const selected = selectTagUser.some(
               (selectUserEl: any) => selectUserEl === tagUser?.id
             );
@@ -144,7 +147,7 @@ function IssueDetails() {
                     </span>
                   }
                 </div>
-                <div className='mx--4'>{index !== getEmployeesDetails.length && <Divider space={'1'} />}</div>
+                <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
               </>
             )
           })
@@ -162,7 +165,7 @@ function IssueDetails() {
           setOpenModalReassignUser(!openModalReassignUser)
         }}>
         {
-          getEmployeesDetails && getEmployeesDetails.length > 0 && getEmployeesDetails.map((ReassignUser: any, index: number) => {
+          employees && employees.length > 0 && employees.map((ReassignUser: any, index: number) => {
             const selected = selectReassignUser.id === ReassignUser.id
             return (
               <>
@@ -179,7 +182,7 @@ function IssueDetails() {
                     </span>
                   }
                 </div>
-                <div className='mx--4'>{index !== getEmployeesDetails.length && <Divider space={'1'} />}</div>
+                <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
               </>
             )
           })
