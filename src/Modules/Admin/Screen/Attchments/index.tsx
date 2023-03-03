@@ -9,7 +9,7 @@ import { getPhoto } from '@Utils';
 function Attachments() {
 
     const dispatch = useDispatch();
-    const Search = useInput('');
+    const search = useInput('');
     const { ticketEvents } = useSelector((state: any) => state.CompanyReducer);
     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
 
@@ -19,6 +19,7 @@ function Attachments() {
             ticket_id: selectedIssues?.id,
             event_type: "MEA"
         }
+
         dispatch(
             getTicketsEvents({
                 params,
@@ -33,7 +34,7 @@ function Attachments() {
     const getSearchHandler = () => {
         const params = {
             ticket_id: selectedIssues?.id,
-            q_many: Search.value,
+            q_many: search.value,
             event_type: "MEA"
         }
         dispatch(getTicketsEvents({
@@ -51,8 +52,8 @@ function Attachments() {
                         type="text"
                         className="form-control bg-transparent border border-0"
                         placeholder={translate("auth.search")!}
-                        value={Search.value}
-                        onChange={Search.onChange}
+                        value={search.value}
+                        onChange={search.onChange}
                     />
                     <span className="input-group-text border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
 
@@ -64,7 +65,7 @@ function Attachments() {
                             return (
                                 <>
                                     <div>
-                                        <h4 className='my-2'> {item.attachments?.name !== null && item.attachments?.name} </h4>
+                                        <h4 className='my-2'> {item.attachments?.name} </h4>
                                         {
                                             item?.attachments?.attachments.map((image: any) => {
                                                 return (
