@@ -49,5 +49,14 @@ export const ERROR_MESSAGE_MEDIUM_TOAST = 'M';
 
 export const OTP_RESEND_DEFAULT_TIME = 9;
 
+/* Event types Status Code */
+
+export const MEA = 'MEA'
+export const TGU = 'TGU'
+export const RGU = 'RGU'
+export const TEM = 'TEM'
+export const EVS = 'EVS'
+export const RTS = 'RTS'
+
 
 export { ERRORS, TABLE_ELEMENT_TEXT_BUTTON, TABLE_ELEMENT_TEXT_STATUS, TABLE_ELEMENT_TEXT_IMAGE, TABLE_CONTENT_TYPE_REPORT, isExist };

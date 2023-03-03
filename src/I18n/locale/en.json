@@ -49,7 +49,14 @@
     "user":"User",
     "email":"Email",
     "signIn":"signin",
-    "signUp":"signUp"
+    "signUp":"signUp",
+    "assignedBy" : "Assigned by",
+    "phone" : "PHONE",
+    "email" : "E-MAIL",
+    "tagUser": "TagUser",
+    "reassignUser" : "ReassignUser",
+    "attachReference" : "AttachReference",
+    "createdBy" : "created by"
     
   },
   "errors": {

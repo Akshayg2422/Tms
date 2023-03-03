@@ -3,6 +3,7 @@ import React from 'react'
 import { CompanyItemProps } from './interfaces'
 import { H, Image, Badge, Divider } from '@Components'
 import { getPhoto } from '@Utils'
+import { translate } from '@I18n'
 
 
 function CompanyItem({ item , showDivider}: CompanyItemProps) {
@@ -23,7 +24,7 @@ function CompanyItem({ item , showDivider}: CompanyItemProps) {
 
                         <div className='row d-flex justify-content-between'>
                             <div className='col-9'>
-                                <h6 className="text-uppercase text-muted mb-0">PHONE</h6>
+                                <h6 className="text-uppercase text-muted mb-0"> {translate('common.phone')} </h6>
                                 <h5>{phone}</h5>
                             </div>
                             <div className='col text-right'>
@@ -33,7 +34,7 @@ function CompanyItem({ item , showDivider}: CompanyItemProps) {
 
                         <div className='row d-flex justify-content-between'>
                             <div className='col-9'>
-                                <h6 className="text-uppercase text-muted mb-0">E-MAIL</h6>
+                                <h6 className="text-uppercase text-muted mb-0"> {translate('common.email')} </h6>
                                 <h5>{email}</h5>
                             </div>
                             <div className='col text-right'>

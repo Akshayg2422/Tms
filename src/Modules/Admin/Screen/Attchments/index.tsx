@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useInput } from '@Hooks';
-import { Card, HomeContainer, Image } from '@Components'
+import { Card, HomeContainer, Image, NoDataFound} from '@Components'
 import { translate } from "@I18n";
 import { getTicketsEvents } from '@Redux';
-import { getPhoto } from '@Utils';
+import { getPhoto,MEA } from '@Utils';
 
 function Attachments() {
 
@@ -17,7 +17,7 @@ function Attachments() {
 
         const params = {
             ticket_id: selectedIssues?.id,
-            event_type: "MEA"
+            event_type: MEA
         }
 
         dispatch(
@@ -35,7 +35,7 @@ function Attachments() {
         const params = {
             ticket_id: selectedIssues?.id,
             q_many: search.value,
-            event_type: "MEA"
+            event_type: MEA
         }
         dispatch(getTicketsEvents({
             params,
@@ -79,10 +79,8 @@ function Attachments() {
                                     </div>
                                 </>
                             )
-                        }) :
-                            <div className='text-center'>
-                                No Date Found
-                            </div>
+                        }) : <NoDataFound/>
+                           
                     }
                 </div>
             </Card>

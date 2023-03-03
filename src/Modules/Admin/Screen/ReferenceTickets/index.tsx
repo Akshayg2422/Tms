@@ -1,4 +1,4 @@
-import { Card, HomeContainer } from '@Components'
+import { Card, HomeContainer ,NoDataFound} from '@Components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ReferenceIssue } from '@Modules'
@@ -41,10 +41,7 @@ function ReferenceTickets() {
                                 </div>
                             );
                         })
-                        :
-                        <div className='text-center'>
-                            No Date Found
-                        </div>
+                        : <NoDataFound/>
                 }
             </Card>
         </HomeContainer>
