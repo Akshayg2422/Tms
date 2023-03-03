@@ -60,17 +60,17 @@ function Attachments() {
                 <div className='mt-4'>
                     {
 
-                        ticketEvents && ticketEvents.data.length > 0 ? ticketEvents.data.map((item: any, index: number) => {
+                        ticketEvents && ticketEvents?.data.length > 0 ? ticketEvents?.data.map((item: any, index: number) => {
                             return (
                                 <>
                                     <div>
-                                        <h4 className='my-2'> {item.attachments?.name} </h4>
+                                        <h4 className='my-2'> {item.attachments?.name !== null && item.attachments?.name} </h4>
                                         {
-                                            item.attachments.attachments.map((image: any) => {
+                                            item?.attachments?.attachments.map((image: any) => {
                                                 return (
 
                                                     <span className='mr-3'>
-                                                        <Image src={getPhoto(image.attachment_file)} style={{height:"120px",width:"120px"}} />
+                                                        <Image src={getPhoto(image?.attachment_file)} style={{height:"120px",width:"120px"}} />
                                                     </span>
                                                 )
                                             })    

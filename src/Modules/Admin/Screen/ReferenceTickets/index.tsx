@@ -1,4 +1,4 @@
-import { Card, Divider, HomeContainer } from '@Components'
+import { Card, HomeContainer } from '@Components'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ReferenceIssue } from '@Modules'

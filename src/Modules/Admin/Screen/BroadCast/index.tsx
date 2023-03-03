@@ -13,7 +13,6 @@ function Broadcast() {
   const { broadCastDetails } = useSelector(
     (state: any) => state.CompanyReducer
   );
-  console.log(broadCastDetails, "broadCastDetails");
   useEffect(() => {
     const params = { q: "" };
 

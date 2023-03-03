@@ -1,5 +1,5 @@
 import { Card, Modal, Image, Input, Button } from '@Components'
-import { Chat, Send } from '@Modules'
+import { Send } from '@Modules'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react';
 import { addTicketEvent, getTicketsEvents } from '@Redux';
@@ -30,17 +30,14 @@ function Thread() {
             const params = {
                 ticket_id: selectedIssues.id,
             };
-            console.log('1111111111111', params);
 
 
             dispatch(
                 getTicketsEvents({
                     params,
                     onSuccess: (response) => () => {
-                        console.log('222222222222222', response)
                     },
                     onError: (error) => () => {
-                        console.log('3333333333333333333333', error);
                     }
                 })
             )
@@ -60,7 +57,6 @@ function Thread() {
             dispatch(addTicketEvent({
                 params,
                 onSuccess: () => () => {
-                    console.log('addTicketEvent--------------------------->', JSON.stringify(addTicketEvent))
                     textMessage.set('')
                     ProceedGetTicketEvents()
                 },
@@ -68,7 +64,6 @@ function Thread() {
             }))
         }
     }
-    console.log('getTicketsEvents--------------------->', JSON.stringify(getTicketsEvents));
 
     const onModalSubmitHandler = () => {
         const params = {

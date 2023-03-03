@@ -38,7 +38,7 @@ function AddUser() {
   const gender = useDropDown(GENDER_LIST[0]);
   const [designationValue, setDesignationValue] = useState("");
   const { goBack } = useNavigation();
-  console.log(gender, "vvvvvvvvvvvvvvvv");
+
 
 
   useEffect(() => {
@@ -81,7 +81,6 @@ function AddUser() {
               goBack();
             },
             onError: (error) => () => {
-              console.log(error, "------------------------->if error");
             },
           })
         );

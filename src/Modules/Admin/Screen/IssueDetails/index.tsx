@@ -37,7 +37,7 @@ function IssueDetails() {
   const [openModalReassignUser, setOpenModalReassignUser] = useState(false)
   const dispatch = useDispatch()
   const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
-  const { getEmployeesDetails } = useSelector((state: any) => state.CompanyReducer);
+  const { employees } = useSelector((state: any) => state.CompanyReducer);
   const { goTo } = useNavigation()
   const [selectTagUser, setSelectTagUser] = useState([])
   const [selectReassignUser, setSelectReassignUser] = useState<any>('')
@@ -126,7 +126,7 @@ function IssueDetails() {
           setOpenModalTagUser(!openModalTagUser)
         }}>
         {
-          getEmployeesDetails && getEmployeesDetails.length > 0 && getEmployeesDetails.map((tagUser: any, index: number) => {
+          employees && employees.length > 0 && employees.map((tagUser: any, index: number) => {
             const selected = selectTagUser.some(
               (selectUserEl: any) => selectUserEl === tagUser?.id
             );
@@ -147,7 +147,7 @@ function IssueDetails() {
                     </span>
                   }
                 </div>
-                <div className='mx--4'>{index !== getEmployeesDetails.length && <Divider space={'1'} />}</div>
+                <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
               </>
             )
           })
@@ -165,7 +165,7 @@ function IssueDetails() {
           setOpenModalReassignUser(!openModalReassignUser)
         }}>
         {
-          getEmployeesDetails && getEmployeesDetails.length > 0 && getEmployeesDetails.map((ReassignUser: any, index: number) => {
+          employees && employees.length > 0 && employees.map((ReassignUser: any, index: number) => {
             const selected = selectReassignUser.id === ReassignUser.id
             return (
               <>
@@ -182,7 +182,7 @@ function IssueDetails() {
                     </span>
                   }
                 </div>
-                <div className='mx--4'>{index !== getEmployeesDetails.length && <Divider space={'1'} />}</div>
+                <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
               </>
             )
           })
