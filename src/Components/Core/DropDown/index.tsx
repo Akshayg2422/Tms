@@ -9,7 +9,6 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder,sele
     // const [selected, setSelected] = useState<Option | undefined>(value);
 
     function proceedOnChange(e: any) {
-        console.log('eeeeeeeeee', e);
         
         const selectedId = e.target.value 
 

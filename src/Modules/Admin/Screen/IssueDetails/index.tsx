@@ -51,7 +51,6 @@ function IssueDetails() {
       getEmployees({
         params,
         onSuccess: (response) => () => {
-          console.log('4444444444444444444444', JSON.stringify(response));
         },
         onFailure: () => () => { }
       })
@@ -64,7 +63,6 @@ function IssueDetails() {
       getTicketsEvents({
         params,
         onSuccess: (response) => () => {
-          console.log('333333333333333333', response);
         },
         onFailure: () => () => { }
       })
@@ -95,16 +93,11 @@ function IssueDetails() {
 
     const params = { event_type: TGU, tagged_users: selectTagUser, id: selectedIssues?.id }
 
-    console.log('2222222222222', params);
-
-
     dispatch(addTicketEvent({
       params,
       onSuccess: (response) => () => {
         getApiHandler()
         setOpenModalTagUser(!openModalTagUser)
-        console.log('111111111111111111111', response);
-
       },
       onFailure: (failure) => () => { }
     }))
@@ -118,12 +111,10 @@ function IssueDetails() {
       params,
       onSuccess: (response) => () => {
         setOpenModalReassignUser(!openModalReassignUser)
-        console.log('222222222222222222222', response)
       },
       onFailure: () => () => { }
     }))
   }
-  console.log('employees====>', JSON.stringify(employees));
 
   return (
     <>

@@ -53,7 +53,6 @@ function AdminDashboard() {
    **/
 
   const getRoutes = (routes: any) => {
-    // console.log(JSON.stringify(routes));
 
     return routes.map((prop: any, key: any) => {
       if (prop.collapse) {
