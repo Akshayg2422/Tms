@@ -2,7 +2,14 @@ import React from 'react'
 import { Image ,Button} from '@Components';
 import { image } from '@Assets';
 import { translate } from "@I18n";
+import {  useNavigation } from "@Hooks";
+import { useDispatch } from "react-redux";
+import { Login } from '@Modules//Auth';
+import { AUTH_PATH } from '@Routes';
+
 function Header() {
+  const { goTo } = useNavigation()
+
   return (
  
           <div className='fixed-top border-0 bg-secondary pt-3 pb-3 transparent'>
@@ -26,6 +33,9 @@ function Header() {
                         size={'md'}
                         outline
                         color={'default'}
+                        onClick={() => {
+                          goTo(AUTH_PATH.LOGIN);
+                        }}
                         className={' bg-primary border-0 px-4 py-3  text-white shadow-none  '}
                       />
 

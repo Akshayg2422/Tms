@@ -8,6 +8,7 @@ import {
   HOME_PATH,
   INFO,
   ISSUE_CREATE,
+  AUTH_PATH,
 } from "@Routes";
 import { icons } from "@Assets";
 import { AddUser, CompanyInfo, CreateCompany, IssueCreate, TabCompanyDetails, TabIssueDetails } from "@Modules";
@@ -90,6 +91,7 @@ function AdminDashboard() {
           <Route path={ADD_USER_INFO.ADD_USER} element={<AddUser />} />
           <Route path={ISSUE_CREATE.ISSUE_TICKET} element={<IssueCreate />} />
           <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} />
+          <Route path={AUTH_PATH.LOGIN} element={<TabIssueDetails />} />
           {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
         </Routes>
       </div>

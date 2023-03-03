@@ -4,12 +4,13 @@ import {icons } from '@Assets'
 
 export const ROUTES = {
   AUTH: {
+    LANDING: "/Landing",
     LOGIN: "/login",
     SPLASH: "/",
     OTP: "/otp",
     REGISTER: '/register',
     VIEW_GOOGLE_BUSINESS: '/view-google-business',
-    // ISSUE_DETAILS: '/issueDetails'
+    ISSUE_DETAILS: '/issueDetails'
   },
   HOME: {
     Admin: "/admin/issues",
@@ -20,11 +21,11 @@ export const ROUTES = {
 
 export const AUTH_PATH = {
   SPLASH: "/",
+  LANDING: "/Landing",
   LOGIN: "/login",
   OTP: "/otp",
   REGISTER: '/register',
 };
-
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
