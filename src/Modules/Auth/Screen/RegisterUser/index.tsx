@@ -56,7 +56,7 @@ function RegisterUser() {
         registerAdmin({
           params,
           onSuccess: (response: any) =>()=> {
-            console.log(JSON.stringify(response));
+            // console.log(JSON.stringify(response));
             // getUserBusinessPlacesApiHandler(contactNumber.value)
           },
           onError: (error: any) =>()=> {

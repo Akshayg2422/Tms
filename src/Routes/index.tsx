@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,Logout, Broadcast} from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast} from '@Modules'
 import { Login, Otp, Splash,} from '@Modules'
 
 
@@ -9,7 +9,7 @@ export const ROUTES = {
     OTP: "/otp",
     REGISTER: '/register',
     VIEW_GOOGLE_BUSINESS: '/view-google-business',
-    // ISSUE_DETAILS: '/issueDetails'
+   
   },
   HOME: {
     Admin: "/admin/issues",
@@ -33,14 +33,10 @@ export const HOME_PATH = {
   COMPANY_INFO: "/company-info",
   ADD_USER:"/add-user",
   ISSUE_DETAILS:"/issue-details",
-  
+  ADD_REFERENCE_TICKET:'/add-reference-ticket',
+  ISSUE_TICKET:'/issue-ticket',
+  CREATE_BROAD_CAST:'/create-broad-cast'
 }
-export const CREATE_BROAD_CAST = {
-  DASHBOARD: "/admin",
-  COMPANY: "/company",
-  BROAD_CAST:"/CreateBroadCast",
- }
- 
 
 export const INFO = {
   DASHBOARD: "/admin",
@@ -53,11 +49,7 @@ export const ADD_USER_INFO={
   COMPANY: "/company",
   ADD_USER:"/AddUser"
  }
- export const ISSUE_CREATE={
-  DASHBOARD: "/admin",
-  COMPANY: "/company",
-  ISSUE_TICKET:"/IssueCreate"
- }
+
 
  export const TAB_ISSUE_ATTACH_DETAILS={
   DASHBOARD: "/admin",
@@ -86,7 +78,6 @@ export const AUTH_ROUTES = [
   },
  
 ];
-
 
 
 

@@ -61,7 +61,7 @@ export const raiseNewTicketFailure = (error: any) => {
  */
 
 export const getTickets = (params: any) => {
-  console.log("called action",params)
+  // console.log("called action",params)
   return {
     type: GET_TICKETS,
     payload: params,
@@ -208,6 +208,7 @@ export const getReferenceTicketsFailure = (error: any) => {
  */
 
 export const getEmployees = (params: any) => {
+  // console.log("called action-------->",params)
   return {
     type: GET_EMPLOYEES,
     payload: params,
