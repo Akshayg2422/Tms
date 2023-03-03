@@ -11,7 +11,7 @@ function UserFriend() {
             <div className='row justify-content-center '>
               <Image
                 src={
-                  image.TMS_3
+                  image.TMS_Img7
                 }
                 width={'70%'}
               />
@@ -23,7 +23,7 @@ function UserFriend() {
               <b>{translate('TMS.fifthScreen.User-Friendly Interface')}</b>
             </h1>
             <h2 className='text-default tag34 mt-4 col-lg-11'>
-              <b>{translate('TMS.fifthScreen.User-Friendly InterfaceSubtext')}</b>
+              <h3>{translate('TMS.fifthScreen.User-Friendly InterfaceSubtext')}</h3>
             </h2>
 
           </div>

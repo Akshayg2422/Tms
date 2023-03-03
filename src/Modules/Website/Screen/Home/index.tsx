@@ -35,7 +35,7 @@ function Home() {
               </div>
               <div className='col-lg-6'>
                 <div className='row justify-content-center mt-lg-7 ml-lg-5 '>
-                  <Image src={image.TMS_8} 
+                  <Image src={image.TMS_Img1} 
                   width={'90%'}
                    />
                 </div>

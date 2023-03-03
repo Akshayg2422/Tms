@@ -105,7 +105,7 @@ function Features() {
                     <b>{translate('TMS.fourthScreen.features')}</b>
                   </h1>
                   <p className={'text-default tabText'}>
-                    <b>
+                    <h3>
                     <ul>
                     <li>{translate('TMS.fourthScreen.Ticket assignmentSubtext')}</li>
                     <li>{translate('TMS.fourthScreen.Ticket trackingSubtext')}</li>
@@ -116,7 +116,7 @@ function Features() {
                     <li>{translate('TMS.fourthScreen.IntegrationSubtext')}</li>
                     <li>{translate('TMS.fourthScreen.SecuritySubtext')}</li>
                     </ul>
-                    </b>
+                    </h3>
                   </p>
                   <div className={'text-primary row mt-4 m-0 pt-2'}>
                     <button
@@ -129,7 +129,7 @@ function Features() {
                   <div className='row justify-content-center'>
                   <Image
                     src={
-                      image.TMS_1
+                      image.TMS_Img4
                     }
                     width={'70%'}
                     height={'auto'}
@@ -149,7 +149,7 @@ function Features() {
                     <b>{translate('TMS.fourthScreen.benefits')}</b>
                   </h1>
                   <p className={'text-default tabText'}>
-                    <b>
+                    <h3>
                     <ul>
                   <li>{translate('TMS.fourthScreen.Improved efficiencySubtext')}</li>
                   <li>{translate('TMS.fourthScreen.Increased transparencySubtext')}</li>
@@ -160,7 +160,7 @@ function Features() {
                   <li>{translate('TMS.fourthScreen.Better customer engagementSubtext')}</li>
                   <li>{translate('TMS.fourthScreen.Increased productivitySubtext')}</li>
                     </ul>
-                    </b>
+                    </h3>
                   </p>
                   <div className={'text-primary row mt-4 m-0 pt-2'}>
                     <button
@@ -172,7 +172,7 @@ function Features() {
                 <div className={' col-sm-6  ml-lg-5 mt-lg-8 mt-sm-8'}>
                   <div className='row justify-content-center'>
                   <Image
-                    src={image.TMS_7}
+                    src={image.TMS_Img5}
                     width={'70%'}
                     height={'auto'}
                     className={'ml-lg-9 mt-sm-0 mt-5'}
@@ -191,7 +191,7 @@ function Features() {
                    <b> {translate('TMS.fourthScreen.security')}</b>
                   </h1>
                   <p className={'text-default tabText'}>
-                    <b>
+                    <h3>
                     <ul>
                     <li>  {translate('TMS.fourthScreen.data encryptionSubtext')}</li>
                     <li>  {translate('TMS.fourthScreen.access controlSubtext')}</li>
@@ -203,7 +203,7 @@ function Features() {
                     <li>  {translate('TMS.fourthScreen.incident responseSubtext')}</li>
 
                      </ul>
-                     </b>
+                     </h3>
                   </p>
                   <div className={'text-primary row mt-4 m-0 pt-2'}>
                     <button
@@ -215,7 +215,7 @@ function Features() {
                 <div className={'col-sm-6 ml-lg-5 mt-lg-8 mt-md-8'}>
                 <div className='row justify-content-center'>
                   <Image
-                    src={image.TMS_6}
+                    src={image.TMS_Img6}
                     width={'60%'}
                     height={'auto'}
                     className={'ml-lg-9 mt-sm-0 mt-5'}

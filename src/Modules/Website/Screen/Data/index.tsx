@@ -6,13 +6,13 @@ function Data() {
     <>
  {/* <Divider border='1px' space1='6' space3='7' ></Divider> */}
       <div className='container pb-4'>
-        <h1 className='mt-lg-6 mt-sm-0 mt-4 display-2 text-default sub-heading'><b> {translate('TMS.thirdScreen.Efficieny and Collaboration')} </b></h1>
+        <h1 className='mt-lg-6 mt-sm-0 mt-4 display-2 text-default'><b> {translate('TMS.thirdScreen.Efficieny and Collaboration')} </b></h1>
         <div className='row justify-content-around pt-2'>
           <div className='col-lg-4 col-md-12 mt-md-4 mt-sm-0 mt-4'>
 
             <Card
               className=''
-              style={{ backgroundColor: '#e1d3fa',height:"100%" }}
+              style={{ backgroundColor: '#F6E7E0',height:"100%" }}
             >
               <h2 className={'text-default '}>
                 <b>{translate('TMS.thirdScreen.Tag a person')}</b></h2>
@@ -23,7 +23,7 @@ function Data() {
           <div className='col-lg-4 col-md-12 mt-md-4 mt-sm-0 mt-4'>
             <Card
               className=''
-              style={{ backgroundColor: '#b6dfec',height:"100%" }}
+              style={{ backgroundColor: '#F6E7E0',height:"100%" }}
             >
               <h2 className={'text-default'}><b> {translate('TMS.thirdScreen.Video Call')}</b> </h2>
               <Divider />
@@ -33,7 +33,7 @@ function Data() {
           <div className='col-lg-4 col-md-12  mt-md-4 mt-sm-0 mt-4'>
             <Card
               className=''
-              style={{ backgroundColor: '#cbe7be',height:"100%" }}>
+              style={{ backgroundColor: '#F6E7E0',height:"100%" }}>
               <h2 className={'text-default'}><b>{translate('TMS.thirdScreen.Reference Ticket')}</b></h2>
               <Divider />
               <h2 className='text-justify  card-text'>

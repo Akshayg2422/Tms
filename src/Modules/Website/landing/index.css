@@ -18,7 +18,7 @@ border-radius: 20px;
 
 
 .sptag{
-    vertical-align: 15px;
+    vertical-align: 20px;
 }
 .sptag1{
     vertical-align: 7px;
@@ -32,14 +32,5 @@ font-weight: 500;
     font-size: large;
 }
 
-.header {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100%;
-    z-index: 99;
-    background-color: white;
-    padding: 40px 0;
-    transition: 0.3s;
-  }
+
 
