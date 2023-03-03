@@ -17,7 +17,6 @@ import {
   validate,
   ifObjectExist,
   getValidateError,
-  //
   matchStateToTerm,
 } from "@Utils";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
@@ -115,7 +114,6 @@ function AddUser() {
               goBack();
             },
             onError: (error) => () => {
-              console.log(error, "-------yyyyyyyyyyyyyy-->else error");
             },
           })
         );

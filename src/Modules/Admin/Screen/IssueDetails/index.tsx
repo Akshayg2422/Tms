@@ -29,6 +29,8 @@ import { translate } from "@I18n";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { icons } from "@Assets";
+import { TGU,RGU } from '@Utils';
+
 
 
 function IssueDetails() {
@@ -87,7 +89,7 @@ function IssueDetails() {
 
   function ProceedTagUser() {
 
-    const params = { event_type: 'TGU', tagged_users: selectTagUser, id: selectedIssues?.id }
+    const params = { event_type: TGU, tagged_users: selectTagUser, id: selectedIssues?.id }
 
     dispatch(addTicketEvent({
       params,
@@ -101,7 +103,7 @@ function IssueDetails() {
 
   function ProceedReassignUser() {
 
-    const params = { event_type: 'RGU', assigned_to: selectReassignUser.id, id: selectedIssues?.id }
+    const params = { event_type: RGU, assigned_to: selectReassignUser.id, id: selectedIssues?.id }
 
     dispatch(addTicketEvent({
       params,

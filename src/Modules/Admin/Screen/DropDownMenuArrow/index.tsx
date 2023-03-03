@@ -1,5 +1,6 @@
 import { DropDownMenuArrowProps } from './interfaces'
 import {UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem} from 'reactstrap'
+import { translate } from '@I18n'
 
 function DropDownMenuArrow({onClickTagUser,onClickReassignUser,onClickAttachReference}:DropDownMenuArrowProps ) {
 
@@ -18,21 +19,21 @@ function DropDownMenuArrow({onClickTagUser,onClickReassignUser,onClickAttachRefe
           href="#pablo"
           onClick={onClickTagUser}
         >
-          TagUser
+         {translate('common.tagUser')}
         </DropdownItem>
 
         <DropdownItem
           href="#pablo"
           onClick={onClickReassignUser}
         >
-          ReassignUser
+          {translate('common.reassignUser')}
         </DropdownItem>
 
         <DropdownItem
           href="#pablo"
           onClick={onClickAttachReference}
         >
-          AttachReference
+          {translate('common.attachReference')}
         </DropdownItem>
 
       </DropdownMenu>

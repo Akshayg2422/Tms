@@ -3,9 +3,10 @@ import { Send } from '@Modules'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react';
 import { addTicketEvent, getTicketsEvents } from '@Redux';
-import { useInput, useModal } from '@Hooks';
+import { useInput } from '@Hooks';
 import { Dropzone } from '@Components';
 import { icons } from '@Assets';
+import { TEM,MEA } from '@Utils';
 
 
 
@@ -51,7 +52,7 @@ function Thread() {
             const params = {
                 id: selectedIssues.id,
                 message: textMessage.value,
-                event_type: 'TEM'
+                event_type: TEM
             }
 
             dispatch(addTicketEvent({
@@ -67,7 +68,7 @@ function Thread() {
 
     const onModalSubmitHandler = () => {
         const params = {
-            event_type: 'MEA',
+            event_type: MEA,
             id: selectedIssues.id,
             attachments: [{ attachment: photo }],
             name: modalName.value

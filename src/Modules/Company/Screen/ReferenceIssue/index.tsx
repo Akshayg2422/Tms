@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux'
 import { Divider, H, Badge } from '@Components'
 import { ReferenceIssueProps } from './interfaces';
 import { getStatusFromCode,handleEmailClick,getDataAndTime } from '@Utils'
+import { translate } from "@I18n";
 function ReferenceIssue({ item, divider }: ReferenceIssueProps) {
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
-    const { issueReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
-    const { title, by_user, ticket_status, created_at, raised_by_company, assigned_to } = item
+    const { title, by_user, ticket_status, created_at, assigned_to } = item
 
     return (
         <div className='row d-flex justify-content-center'>
@@ -25,7 +25,7 @@ function ReferenceIssue({ item, divider }: ReferenceIssueProps) {
                         <h5 className=' text-muted m-0'> {getDataAndTime(created_at)}
                         </h5>
                         <div className='mt-2' >
-                            <small className='text-muted mb-0 text-sm'> Assigned by </small>
+                            <small className='text-muted mb-0 text-sm'> {translate('common.assignedBy')} </small>
                             <p className='h4'> {assigned_to?.name} </p>
                         </div>
                     </div>

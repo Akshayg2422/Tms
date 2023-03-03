@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTicketEvent, getTickets, referenceIssueDetails } from "@Redux";
-import { Divider, Button, Card, HomeContainer } from "@Components";
+import { addTicketEvent, getTickets } from "@Redux";
+import { Divider, Button, HomeContainer,NoDataFound } from "@Components";
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
+import { RTS } from "@Utils";
 
 function AddReferenceTicket() {
   const dispatch = useDispatch();
   const { tickets } = useSelector((state: any) => state.CompanyReducer);
-  const { referenceIssueSelectedDetails, selectedIssues } = useSelector(
+  const { selectedIssues } = useSelector(
     (state: any) => state.AdminReducer
   );
   const [selectedIssueDetails, setSelectedIssueDetails] = useState<any>("");
@@ -19,7 +20,7 @@ function AddReferenceTicket() {
     // dispatch(referenceIssueDetails(selectedIssueDetails));
     const params = {
       id: selectedIssues?.id,
-      event_type: "RTS",
+      event_type: RTS,
       reference_ticket: selectedIssueDetails,
     };
 
@@ -129,7 +130,7 @@ function AddReferenceTicket() {
                     );
                   })
                 ) : (
-                  <div className="text-center">No Date Found</div>
+                  <NoDataFound/>
                 )}
               </HomeContainer>
             </div>

@@ -1,6 +1,5 @@
 import {
   Button,
-  DropDown,
   HomeContainer,
   Input,
   Radio,
@@ -9,7 +8,7 @@ import {
   MultiSelectDropDown,
 } from "@Components";
 import { translate } from "@I18n";
-import { getEmployees, addBroadCastMessages } from "@Redux";
+import {addBroadCastMessages } from "@Redux";
 import {
   CREATE_BROAD_CAST,
   getValidateError,
@@ -29,13 +28,11 @@ function CreateBroadCast() {
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState<any>([]);
-  const [selectedCompany, setSelectedCompany] = useState<any>("");
+  const [ selectedCompany, setSelectedCompany] = useState<any>("");
   const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
   const [image, setImage] = useState("");
   const title = useInput("");
   const description = useInput("");
-
-  // const [selectedUser, setSelectedUser] = useState<any>();
 
   const handleImagePicker = (index: number, file: any) => {
     let newUpdatedPhoto = [...photo, file];
@@ -61,7 +58,6 @@ function CreateBroadCast() {
             goBack();
           },
           onError: (error) => () => {
-            console.log(error, "error-------------->");
           },
         })
       );

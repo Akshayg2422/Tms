@@ -43,13 +43,21 @@
     "addCompany": "ADD COMPANY",
     "primaryContactPerson": "PRIMARY CONTACT PERSON",
     "addUser": "ADD USER",
-    "createTicket": "CREATE TICKET",
-    "createCompany": "CREATE COMPANY",
-    "company": "Company",
-    "user": "User",
-    "email": "Email",
-    "signIn": "signin",
-    "signUp": "signUp"
+    "createTicket":"CREATE TICKET",
+    "createCompany":"CREATE COMPANY",
+    "company":"Company",
+    "user":"User",
+    "email":"Email",
+    "signIn":"signin",
+    "signUp":"signUp",
+    "assignedBy" : "Assigned by",
+    "phone" : "PHONE",
+    "email" : "E-MAIL",
+    "tagUser": "TagUser",
+    "reassignUser" : "ReassignUser",
+    "attachReference" : "AttachReference",
+    "createdBy" : "created by"
+    
   },
   "errors": {
     "invalidEmail": "Invalid email address."

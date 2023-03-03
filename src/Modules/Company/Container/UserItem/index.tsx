@@ -1,10 +1,10 @@
 import React from "react";
-import { Badge, Card } from "@Components";
+import { Badge } from "@Components";
 import { UserItemProps } from "./interface";
 import { handleEmailClick } from "@Utils";
 
 function UserItem({ item }: UserItemProps) {
-  const { name, mobile_number, email } = item;
+  const { name, email } = item;
 
   return (
     <>

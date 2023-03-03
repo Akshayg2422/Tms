@@ -1,10 +1,12 @@
 import React from 'react'
-import { NotDataFoundProps } from './interface'
+type NotDataFoundProps = {
+    text?: string
+  }
 
-function PageNotFound({ }: NotDataFoundProps) {
+function NoDataFound({text = 'No Data Found' }: NotDataFoundProps) {
     return (
-        <div> No Data Found </div>
-    )
+        <div className="text-muted text-center " >{text}</div>
+    );
 }
 
-export { PageNotFound }
+export { NoDataFound }

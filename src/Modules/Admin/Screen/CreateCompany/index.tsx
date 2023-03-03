@@ -100,7 +100,6 @@ function CreateCompany({ }: CreateCompanyProps) {
     };
 
     const validation = validate(BUSINESS_FORM_RULES, params);
-    console.log("validation", validation)
     if (ifObjectExist(validation)) {
 
       dispatch(

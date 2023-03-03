@@ -1,12 +1,10 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Card, Divider, Button, HomeContainer } from "@Components";
+import { Card, Divider, HomeContainer } from "@Components";
 import { UserItem } from "@Modules";
 import { getEmployees } from "@Redux";
-import { useNavigation } from "@Hooks";
 
 function IssueUsers() {
-  const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { employees } = useSelector(
     (state: any) => state.CompanyReducer
