@@ -43,14 +43,13 @@
     "addCompany": "ADD COMPANY",
     "primaryContactPerson": "PRIMARY CONTACT PERSON",
     "addUser": "ADD USER",
-    "createTicket":"CREATE TICKET",
-    "createCompany":"CREATE COMPANY",
-    "company":"Company",
-    "user":"User",
-    "email":"Email",
-    "signIn":"signin",
-    "signUp":"signUp"
-    
+    "createTicket": "CREATE TICKET",
+    "createCompany": "CREATE COMPANY",
+    "company": "Company",
+    "user": "User",
+    "email": "Email",
+    "signIn": "signin",
+    "signUp": "signUp"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -167,9 +166,10 @@
     "hide": "Hide",
     "start": "Start"
   },
-  "gate":{
-    "quantaGate": "Quanta Gate",
-    "quantaGateSubtext": "Simplify your parking billing process with Quanta gate POS App-the reliable choice for Parking agencies",
+  "TMS": {
+    "quanta Ticket Management": "Quanta Ticket Management",
+    "quanta TMS": "Quanta TMS",
+    "quanta TMS Subtext": "The ‘’Quanta Ticket Management’’ App is a valuable tool that simplifies the process of raising and resolving issues for customers. ",
     "download": "Download",
     "learnMore": "Learn more",
     "scrollDown": "Scroll Down",
@@ -188,40 +188,67 @@
     "copyrightcontent": "@2023  LeoraInfotech",
     "madeWithLeorainfotech": "Made with Leorainfotech",
     "privacy": "Privacy Policy",
-    "footerContent": "Get paid faster and easier with Quanta gate's parking app",
-    "secondScreen":{
-    "accurateBillingCustomerSatisfaction": "Accurate Billing - Customer Satisfaction",
-    "subText": "A powerful and easy to use android POS billing machine app that helps the agents to generate bills quickly and accurately"
+    "footerContent": "Enhance support experience with Quanta TMS.",
+    "secondScreen": {
+      "Efficient Resolution": "Efficient Resolution",
+      "subText": "Quanta Ticket Management ensures that issues are resolved quickly and effectively. The app assigns the issue to the most suitable department and provides an efficient workflow for tracking the progress of the ticket. This allows users to keep track of their tickets and ensure that any issues are resolved in a timely manner."
     },
-    "thirdScreen":{
-      "dataStorageAndRetrieval": "Data Storage and Retrieval",
-      "cloudStorage": "Cloud storage",
-      "cloudStorageSubtext": "Cloud storage offers data backup, remote access, scalability, disaster recovery and enhanced security measures such as encryption and authentication to protect data from unauthorized access and malicious attacks.",
-      "analysisData": "Analysis data",
-      "analysisDataSubtext": "By analyzing data, businesses and organizations can gain a deeper understanding of their operations, identify areas for improvement, and make more informed decisions.",
-      "shareSheets": "Share Sheets",
-      "shareSheetsSubtext": "It generate reports and share them in various formats, such as PDF, Excel, and Word. This allows users to quickly and easily share important information with others,such as parking Vehicles counts,Vehicle details,Billing details,etc…"
+    "thirdScreen": {
+      "Efficieny and Collaboration": "Efficieny and Collaboration",
+      "Tag a person": "Tag a person",
+      "Tag a personSubtext": "Tagging a person allows for more effective management of tickets, by ensuring that the correctperson or team is responsible for resolving theissues and that tickets are assigned and prioritizedbased on their urgency and type of issue.",
+      "Video Call": "Video Call",
+      "Video CallSubtext": "Our video call feature in a ticket managementsystem can be a powerful tool for improvingcustomer support and customer satisfaction,by allowing for more effective communicationand collaboration between customers andsupport agents.",
+      "Reference Ticket": "Reference Ticket",
+      "Reference TicketSubtext": "A reference ticket can be used to provideadditional information about a specific issue,such as previous solutions that wereattempted or any relevant documentation."
     },
-    "fourthScreen":{
+    
+    "fourthScreen": {
+      "security": "Security",
       "features": "Features",
       "benefits": "Benefits",
-      "security": "Security",
-      "featuresSubtext": "Quanta gate is designed with a range of security features to ensure the safety and privacy of your data.The app uses encryption and other security measures to ensure that your data is safe and secure.",
-      "benefitsSubtext": "Quanta gate provides a range of benefits to the Agents, such as faster and more accurate billing, easy data storage, and a clear status required.The app also offers a simple and intuitive user interface that makes it easy to use.",
-      "securitySubtext": "Quanta gate is designed with a range of security features to ensure the safety and privacy of your data.The app uses encryption and other security measures to ensure that your data is safe and secure.",
+      "data encryptionSubtext": "Data encryption",
+      "access controlSubtext": "Access control",
+      "authenticationSubtext": "Authentication",
+      "authorizationSubtext": "Authorization",
+      "backup and disaster recoverySubtext": "Backup and disaster recovery",
+      "network securitySubtext": "Network security",
+      "regular security auditsSubtext": "Regular security audits",
+      "incident responseSubtext": "Incident response",
+
+      "Ticket assignmentSubtext": "Ticket assignment",
+      "Ticket trackingSubtext": "Ticket tracking",
+      "Communication and collaborationSubtext": "Communication and collaboration",
+      "EscalationSubtext": "Escalation",
+      "Priority and taggingSubtext": "Priority and tagging",
+      "Reporting and analyticsSubtext": "Reporting and analytics",
+      "IntegrationSubtext": "Integration",
+      "SecuritySubtext": "Security",
+
+      "Improved efficiencySubtext": "Improved efficiency",
+      "Increased transparencySubtext": "Increased transparency",
+      "Better communicationSubtext": "Better communication",
+      "Better reporting and analyticsSubtext": "Better reporting and analytics",
+      "Increased customer satisfactionSubtext": "Increased customer satisfaction",
+      "Better internal managementSubtext": "Better internal management",
+      "Better customer engagementSubtext": "Better customer engagement",
+      "Increased productivitySubtext": "Increased productivity",
+
       "launchADemo": "Launch a demo"
     },
-    "fifthScreen":{
-    "easeOfUse": "Ease of Use",
-    "easeOfUseSubtext": "Without any effort, save a ton of time",
-    "accurateBillingWithQRCode": "Accurate billing with QR Code",
-    "easyDataStotrage": "Easy Data storage",
-    "easyInterface": "Easy interface"
+    "fifthScreen": {
+      "User-Friendly Interface": "User-Friendly Interface",
+      "User-Friendly InterfaceSubtext": "Simplify ticket management with Quanta Ticket Management App. User-friendly interface for quick and easy ticket raising and management. Streamlined design for effortless navigation and information access. Try Quanta Ticket Management App today!"
     },
-    "sixthScreen":{
+    "sixthScreen": {
       "discoverHowItWork": "Discover how it work",
-      "howItWork": "How it work",
-      "howItWorkSubtext":"Get your parking billing under control with Quanta gate's innovative app",
+      "Event Management System": "Event Management System",
+      "Event planningSubtext": "Event planning",
+      "Coordinating logisticsSubtext": "Coordinating logistics",
+      "Promoting the eventSubtext": "Promoting the event",
+      "Managing the eventSubtext": "Managing the event",
+      "Evaluating the eventSubtext": "Evaluating the event", 
+      "contentSubtext": "Streamline event management with Quanta Tickets App! Organize events, gather feedback, and save time and costs with our comprehensive platform. Try it now!",   
       "entry": "Entry",
       "processing": "Processing",
       "exit": "Exit",
@@ -229,27 +256,26 @@
       "processingSubtext": "A QR Code copy generated containing informations of Vehicle data,time,place, Agent details etc..",
       "exitSubtext": "Scan QR code using app a perfect Bill amount generated by automatic calculation."
     },
-    "seventhScreen":{
-      "Heading": "Revolutionize your parking management",
-      "subText": "the innovative technologies providing solutions in the parking industry."
-    },
-    "eighthScreen":{
-      "peopleAreTalking": "People are talking...",
-      "subText": "Amet minim mollit non deserunt",
-      "cardText1": "I have been using the Quanta gate app for a few months now and I am extremely pleased with its performance. It has made managing my parking lot so much easier. The billing process is seamless and I can easily track all transactions in real-time.",
-      "cardText2": "I recently started using the Quanta gate app and I am very impressed with its features. The app is very user-friendly and the billing process is very easy to navigate.I would highly recommend Quanta gate to other Users.",
-      "cardText3": "I have been using Quanta gate for my Parking buisness and it has been a great experience so far. The app is very easy to use and has helped me to keep track of my parking in a much more efficient way.",
-      "cardText4": "I've been using the Quanta gate app for a while now and I couldn't be happier. The data storage and retrieval system is top-notch, and the ability to generate reports in different formats is a huge plus.",
-      "cardText5": "Quanta gate has made managing my parking lot a breeze. The data storage and retrieval system is top-notch, and the ability to generate reports in different formats is a huge plus. I highly recommend it.",
-      "cardText6": "Quanta gate is a game-changer for my parking operations.I highly recommend Quanta gate to any Parking agents looking to streamline their parking operations."
 
+    "seventhScreen": {
+      "Heading": "Real-Time Updates",
+      "subText": "Quanta Ticket Management provides real-time updates on all tickets raised. This allows users to keep track of their tickets and ensure that any issues are being addressed in a timely manner. The app also provides detailed reports on all tickets raised, providing a comprehensive overview of the issue and its resolution"
     },
-    "ninethScreen":{
+    "eighthScreen": {
+      "Experiences and Feedback": "Experiences and Feedback...",
+      "subText": "Amet minim mollit non dese runt",
+      "cardText1": "The Quanta Ticket ManagementApp is perfect for manufacturing  companies, it allows us to inform the association of any problem we are facing in the production process and quickly receive a proper solution.",
+      "cardText2": "The Quanta Ticket ManagementApp is a lifesaver for our customer support team, it's easy to use and has all the features we need to manage and resolve customer issues quickly and efficiently.",
+      "cardText3": "The app's reporting and analytics features are a huge plus, it helpe dus identify patterns and trends in customer support issues and take proactive measures to address them.",
+      "cardText4": "The Quanta Ticket Management App is incredibly user-friendly and easy to navigate. It made it simple for me to submit and track my support requests. The direct visit,video call, instant call features are very useful, it allows for more flexibility and faster resolution of issues.",
+      "cardText5": "The app's communication and collaboration feature is very helpful, it allowed me to communicate and collaborate with support agents, and the option to schedule direct visits, video calls, and instant calls for faster resolution of issues.",
+      "cardText6": "I found the Quanta Ticket Management App to be incredibly user-friendly and easy to navigate.The interface is clean and intuitive, making it simple to submit and track my support requests."
+    },
+    "ninethScreen": {
       "delightfullySimpleAndPowerfulPosApplication": "Delightfully simple and powerful POS application",
-      "readyToUseQuantaGate?": "Ready to use QuantaGate?",
+      "readyToUseQuantaTMS?": "Ready to use QuantaTMS?",
       "subText": "Join thousand users and teams in the community",
       "getStarted": "Get Started"
-
     }
-  } 
+  }
 }
