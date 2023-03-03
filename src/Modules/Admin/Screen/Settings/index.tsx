@@ -19,13 +19,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase } from "@Utils";
 import { useModal } from "@Hooks";
 
-function Settings () {
+function Settings() {
 
   const dispatch = useDispatch();
   const { departmentData, designationData } = useSelector(
     (state: any) => state.AdminReducer
   );
- 
+
   const [showDepartments, setShowDepartments] = useState(false);
   const [showDesignations, setShowDesignations] = useState(false);
 
@@ -38,86 +38,86 @@ function Settings () {
 
   const getDepartmentList = () => {
     const params = {};
-   
+
     dispatch(
       getDepartmentData({
         params,
-        onSuccess: (success: any) =>()=>{
-        setShowDepartments(!showDepartments)
-         
+        onSuccess: (success: any) => () => {
+          setShowDepartments(!showDepartments)
+
         },
-        onError: (error: string) =>()=> {
-      
+        onError: (error: string) => () => {
+
         },
       })
     );
   };
 
-    const getDesignationList = () => {
-    
-      const params = {};
+  const getDesignationList = () => {
 
-      dispatch(
-        getDesignationData({
-          params,
-          
-          onSuccess: (success: any) =>()=> {
-  
-          
-            setShowDesignations(!showDesignations)
-          },
-          onError: (error: string) => ()=>{
-         
-          },
-        })
-      );
+    const params = {};
+
+    dispatch(
+      getDesignationData({
+        params,
+
+        onSuccess: (success: any) => () => {
+
+
+          setShowDesignations(!showDesignations)
+        },
+        onError: (error: string) => () => {
+
+        },
+      })
+    );
+  };
+
+  const postAddingDepartment = () => {
+    const params = {
+      name: convertToUpperCase(department),
     };
 
-    const postAddingDepartment = () => {
-      const params = {
-        name: convertToUpperCase(department),
-      };
-    
-      dispatch(
-        addDepartment({
-          params,
-          onSuccess: (success: any) =>()=> {
-            addDepartMentModal.hide()
-          
-            dispatch(getDepartmentData({}));
-            setDepartment("");
-            showToast("success", success.message);
-          },
-          onError: (error: string) =>()=> {
-       
-          },
-        })
-      );
+    dispatch(
+      addDepartment({
+        params,
+        onSuccess: (success: any) => () => {
+          addDepartMentModal.hide()
+
+          dispatch(getDepartmentData({}));
+          setDepartment("");
+          showToast("success", success.message);
+        },
+        onError: (error: string) => () => {
+
+        },
+      })
+    );
+  };
+
+  const postAddingDesignation = () => {
+    const params = {
+      name: convertToUpperCase(designation),
+      is_admin: true,
     };
 
-    const postAddingDesignation = () => {
-      const params = {
-        name: convertToUpperCase(designation),
-        is_admin: true,
-      };
-     
-      dispatch(
-        addDesignation({
+    dispatch(
+      addDesignation({
 
-          params,
-          onSuccess: (success: any) =>()=> {
-            addDesignationModal.hide()
-           
-            dispatch(getDesignationData({}));
-            setDesignation("");
-            showToast("success", success.message);
-          },
-          onError: (error: string) =>()=> {
-           
-          },
-        })
-      );
-    };
+        params,
+        onSuccess: (success: any) => () => {
+          addDesignationModal.hide()
+
+          dispatch(getDesignationData({}));
+          setDesignation("");
+          showToast("success", success.message);
+        },
+        onError: (error: string) => () => {
+
+        },
+      })
+    );
+  };
 
   const normalizedDepartmentData = (data: any) => {
     return data.map((el: any) => {
@@ -135,7 +135,7 @@ function Settings () {
     });
   };
 
- 
+
 
   return (
     <>
@@ -158,7 +158,7 @@ function Settings () {
                     onClick={() => {
                       if (!showDepartments) {
                         getDepartmentList();
-                      }else{
+                      } else {
                         setShowDepartments(!showDepartments)
                       }
                     }}
@@ -180,10 +180,7 @@ function Settings () {
               >
                 {departmentData && departmentData?.length > 0 ? (
                   <CommonTable
-                    displayDataSet={normalizedDepartmentData(departmentData)}
-                   
-                  />
-                ) : (
+                    displayDataSet={normalizedDepartmentData(departmentData)} />) : (
                   <div
                     className=" d-flex justify-content-center align-items-center"
                     style={{
@@ -211,18 +208,18 @@ function Settings () {
                     }
                     size={"sm"}
                     onClick={() => {
-                        if (!showDesignations) {
-                            getDesignationList();
-                          }else{
-                            setShowDesignations(!showDesignations)
-                          }
-                      
+                      if (!showDesignations) {
+                        getDesignationList();
+                      } else {
+                        setShowDesignations(!showDesignations)
+                      }
+
                     }}
                   />
                   <Button
                     text={translate("product.addItem")}
                     size={"sm"}
-                    onClick={() =>{ addDesignationModal.show()} }
+                    onClick={() => { addDesignationModal.show() }}
                   />
                 </div>
               </div>
@@ -231,13 +228,13 @@ function Settings () {
                 className="overflow-auto mt-0"
                 style={{
                   height: showDesignations ? "30.5rem" : "0vh",
-                 
+
                 }}
               >
                 {designationData && designationData.data.length > 0 ? (
                   <CommonTable
                     displayDataSet={normalizedDesignationData(designationData.data)}
-                 
+
                   />
                 ) : (
                   <div
@@ -259,7 +256,7 @@ function Settings () {
          */}
 
         <Modal
-         
+
           isOpen={addDepartMentModal.visible}
           onClose={() => addDepartMentModal.hide()}
           title={translate("common.department")!}
@@ -284,14 +281,14 @@ function Settings () {
               }}
             />
           </div>
-        </Modal> 
+        </Modal>
 
         {/**
          * Designation
          */}
-        
+
         <Modal
-         
+           
           isOpen={addDesignationModal.visible}
           onClose={() => addDesignationModal.hide()}
           title={translate("auth.designation")!}

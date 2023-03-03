@@ -1,15 +1,16 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast} from '@Modules'
-import { Login, Otp, Splash,} from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast } from '@Modules'
+import { Login, Otp, Landing,Splash } from '@Modules'
 
 
 export const ROUTES = {
   AUTH: {
+    SPLASH: "/splash",
+    LANDING: "/",
     LOGIN: "/login",
-    SPLASH: "/",
     OTP: "/otp",
     REGISTER: '/register',
     VIEW_GOOGLE_BUSINESS: '/view-google-business',
-   
+
   },
   HOME: {
     Admin: "/admin/issues",
@@ -19,23 +20,23 @@ export const ROUTES = {
 };
 
 export const AUTH_PATH = {
-  SPLASH: "/",
+  SPLASH: "/splash",
+  LANDING: "/",
   LOGIN: "/login",
   OTP: "/otp",
   REGISTER: '/register',
 };
-
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
   COMPANY_INFO: "/company-info",
-  ADD_USER:"/add-user",
-  ISSUE_DETAILS:"/issue-details",
-  ADD_REFERENCE_TICKET:'/add-reference-ticket',
-  ISSUE_TICKET:'/issue-ticket',
-  CREATE_BROAD_CAST:'/create-broad-cast'
+  ADD_USER: "/add-user",
+  ISSUE_DETAILS: "/issue-details",
+  ADD_REFERENCE_TICKET: '/add-reference-ticket',
+  ISSUE_TICKET: '/issue-ticket',
+  CREATE_BROAD_CAST: '/create-broad-cast'
 }
 
 export const INFO = {
@@ -44,27 +45,28 @@ export const INFO = {
   COMPANY_INFO: "/CompanyInfo"
 }
 
-export const ADD_USER_INFO={
+export const ADD_USER_INFO = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
-  ADD_USER:"/AddUser"
- }
+  ADD_USER: "/AddUser"
+}
 
 
- export const TAB_ISSUE_ATTACH_DETAILS={
+export const TAB_ISSUE_ATTACH_DETAILS = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
-  TAB_ISSUE_USER_DETAILS:"/TabIssueReferenceDetails"
- }
+  TAB_ISSUE_USER_DETAILS: "/TabIssueReferenceDetails"
+}
 
 
 
 
 export const AUTH_ROUTES = [
+  
   {
     key: 1,
-    path: AUTH_PATH.SPLASH,
-    component: <Splash />
+    path: AUTH_PATH.LANDING,
+    component: <Landing />
   },
   {
     key: 2,
@@ -76,7 +78,12 @@ export const AUTH_ROUTES = [
     path: AUTH_PATH.OTP,
     component: <Otp />
   },
- 
+  {
+    key: 4,
+    path: AUTH_PATH.SPLASH,
+    component: <Splash />
+  },
+
 ];
 
 
@@ -95,13 +102,13 @@ export const ADMIN_ROUTES = [
     icon: "ni ni-square-pin text-primary",
     layout: "/admin",
     component: <Companies />
-  }, 
+  },
   {
     path: "/broadCast",
     name: "Broadcast",
     icon: "ni ni-world-2 text-primary",
     layout: "/admin",
-    component: <Broadcast/>
+    component: <Broadcast />
   },
   {
     path: "/settings",

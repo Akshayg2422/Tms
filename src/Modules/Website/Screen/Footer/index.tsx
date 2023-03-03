@@ -44,9 +44,9 @@ function Footer() {
         </div>
       </div> 
       <div className={'text-center pt-5 mt--5'}>
-        <div className={'pt-sm-2  text-default display-1'}> {translate('gate.ninethScreen.readyToUseQuantaGate?')} </div>
-        <p className={'  mt-lg-0 mt-sm-0 mt-3 h1 text-default'}>
-          {translate('gate.ninethScreen.subText')}
+        <div className={'pt-sm-2  h3 display-1'}><b> {translate('TMS.ninethScreen.readyToUseQuantaTMS?')} </b></div>
+        <p className={'  mt-lg-0 mt-sm-0 mt-3 h1'}>
+         <b> {translate('TMS.ninethScreen.subText')}</b>
         </p>
       </div>
 
@@ -63,7 +63,7 @@ function Footer() {
       </div>
       <div className={'text-center'}>
         <Button
-          text={translate('gate.ninethScreen.getStarted')}
+          text={translate('TMS.ninethScreen.getStarted')}
           size={'lg'}
           className={'bg-primary text-white border-0 px-3 py-3 mt-4'}
         />
@@ -113,10 +113,10 @@ function Footer() {
 
         <div className='row m-0'>
           <div className='col-lg-3 col-md-3 col-sm-12 pt-5  '>
-            <th className={'pb-4 text-default'}>{translate('gate.product')}</th>
-            <p className={'text text-default pb-2'}>{translate('gate.fourthScreen.features')}</p>
-            <p className={'text text-default pb-2'}>{translate('gate.pricing')}</p>
-            <p className={'text text-default pb-2'}>{translate('gate.download')}</p>
+            <th className={'pb-4 h3'}><b>{translate('TMS.product')}</b></th>
+            <p className={'text h4 pb-2'}>{translate('TMS.fourthScreen.features')}</p>
+            <p className={'text h4 pb-2'}>{translate('TMS.pricing')}</p>
+            <p className={'text h4 pb-2'}>{translate('TMS.download')}</p>
             <div className='d-block d-lg-none'>
               {/* <Divider space={'0'} /> */}
             </div>
@@ -126,10 +126,10 @@ function Footer() {
           
 
           <div className='col-lg-3 col-md-3 col-sm-12 pt-sm-5 '>
-            <th className={' text-default pb-4'}>{translate('gate.company')}</th>
-            <p className={'text text-default pb-2  d-lg-block d-print-block'}>{translate('gate.about')}</p>
-            <p className={'text text-default pb-2  d-lg-block d-print-block'}>{translate('gate.blog')}</p>
-            <p className={'text text-default pb-2  d-lg-block d-print-block'}>{translate('gate.contact')}</p>
+            <th className={' h3 pb-4'}><b>{translate('TMS.company')}</b></th>
+            <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.about')}</p>
+            <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.blog')}</p>
+            <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.contact')}</p>
             <div className='d-block d-lg-none'>
               {/* <Divider space={'0'} /> */}
             </div>
@@ -138,12 +138,14 @@ function Footer() {
 
           
 
-          <div className='col-lg-3 col-md-3 col-sm-12 pt-sm-5'>
-            <th className={'pb-4 text-default'}>{translate('gate.community')}</th>
-            <p className={'text text-default pb-2  d-lg-block d-print-block'}>{translate('gate.help')}</p>
-            <p className={'text text-default pb-2  d-lg-block d-print-block'}>{translate('gate.discord')}</p>
-            <p className={'text text-default pb-2  d-lg-block d-print-block'}>{translate('gate.twitter')}</p>
-            <p className={'text text-default pb-2  d-lg-block d-print-block'}>{translate('gate.linkedin')}</p>
+          <div className='col-lg-3 col-md-3 col-sm-12 pt-sm-5 '>
+            
+            <th className={'pb-4  h3'}><b>{translate('TMS.community')}</b></th>
+            <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.help')}</p>
+            <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.discord')}</p>
+            <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.twitter')}</p>
+            <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.linkedin')}</p>
+            
             <div className='d-block d-lg-none'>
               {/* <Divider space={'0'} /> */}
             </div>
@@ -156,14 +158,14 @@ function Footer() {
           <div className='col-sm-3 pt-5 pb-5'>
             <div className='row '>
               <Image
-                src={image.QuantaGataLogo}
+                src={image.TMS_Logo}
                 alt='nav-icon'
                 width={'50px'}
                 height={'50px'}
                 className={'mb-4'}
               />
-              <h1 className={'mt-lg-2 pl-lg-3 pt-lg-1 p-sm-0 p-3 text-default h3 d-lg-block d-print-block'}>{translate('gate.quantaGate')}</h1>
-              <p className='text-default'> {translate('gate.footerContent')} </p>
+              <h1 className={'mt-lg-2 pl-lg-3 pt-lg-1 p-sm-0 p-3 h4 h2 d-lg-block d-print-block'}><b>{translate('TMS.quanta TMS')}</b></h1>
+              <p className='h4 h3'><> {translate('TMS.footerContent')} </> </p>
             </div>
           </div>
         </div>
@@ -172,8 +174,8 @@ function Footer() {
         </div>
       </div>
       <footer className={'row justify-content-between m-0'}>
-        <p className=' col-sm-6 small pl-sm-0 pl-8 text-default'> {translate('gate.copyrightcontent')} </p>
-         <p style={{cursor : 'pointer'}}  className='col-sm-6 small text-default text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='text-default' href="https://www.quantaone.in/PrivacyPolicy"> {translate('gate.privacy')}  </a></p> 
+        <p className=' col-sm-6 small pl-sm-0 pl-8 h4'><b> {translate('TMS.copyrightcontent')} </b></p>
+         <p style={{cursor : 'pointer'}}  className='col-sm-6 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' href="https://www.quantaone.in/PrivacyPolicy"><b> {translate('TMS.privacy')} </b> </a></p> 
       </footer>
     </div>
   )
