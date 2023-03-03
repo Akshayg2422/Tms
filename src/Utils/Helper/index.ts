@@ -2,7 +2,7 @@ import {SERVER, BUILD_TYPE, BUILD_TYPE_LIVE,BUILD_TYPE_LOCAL} from '@Services'
 import moment from 'moment'
 
 export const getPhoto = (photo: any) => {
-  return BUILD_TYPE === BUILD_TYPE_LIVE ? photo:  SERVER + photo;
+  return BUILD_TYPE === BUILD_TYPE_LOCAL ? photo:  SERVER + photo;
 }
 
 export const handleEmailClick = (email:any)  => {

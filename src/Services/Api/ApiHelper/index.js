@@ -12,7 +12,7 @@ export const SERVER =
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_local'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
-        ? 'http://192.168.176.5:8000'
+        ? 'http://192.168.176.5:8001'
         : BUILD_TYPE === BUILD_TYPE_STAGING
           ? 'http://43.204.204.165'
           : BUILD_TYPE === BUILD_TYPE_LOCAL
