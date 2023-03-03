@@ -3,7 +3,7 @@ import { Chat, Send } from '@Modules'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react';
 import { addTicketEvent, getTicketsEvents } from '@Redux';
-import { useInput, useModal } from '@Hooks';
+import { useInput} from '@Hooks';
 import { Dropzone } from '@Components';
 import { icons } from '@Assets';
 

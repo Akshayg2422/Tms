@@ -1,4 +1,4 @@
-import {SHOW_LOADER, HIDE_LOADER, USER_LOGIN_DETAILS, RESTORE_APP, USER_LOGOUT} from '../ActionTypes';
+import { SHOW_LOADER, HIDE_LOADER, USER_LOGIN_DETAILS, RESTORE_APP, USER_LOGOUT, HANDLING_API } from '../ActionTypes';
 
 export const showLoader = () => {
   return {
@@ -20,13 +20,20 @@ export const userLoginDetails = (params: any) => {
 };
 export const restoreApp = () => {
   return {
-    type:RESTORE_APP,
+    type: RESTORE_APP,
   };
 };
 
 export const userLogout = (params: any) => {
   return {
     type: USER_LOGOUT,
+    payload: params,
+  };
+};
+
+export const setIsSync = (params: any) => {
+  return {
+    type: HANDLING_API,
     payload: params,
   };
 };

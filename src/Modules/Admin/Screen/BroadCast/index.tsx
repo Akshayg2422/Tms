@@ -5,7 +5,7 @@ import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
 import { BroadCastListedItems } from "@Modules";
-import { getBroadCastMessages } from "@Redux";
+import { getBroadCastMessages, setIsSync } from "@Redux";
 
 function Broadcast() {
   const { goTo, goBack } = useNavigation();
@@ -13,17 +13,26 @@ function Broadcast() {
   const { broadCastDetails } = useSelector(
     (state: any) => state.CompanyReducer
   );
+  const { isSync } = useSelector(
+    (state: any) => state.AppReducer
+  );
   console.log(broadCastDetails, "broadCastDetails");
   useEffect(() => {
     const params = { q: "" };
+    if (!isSync.broadcast) {
+      dispatch(
+        getBroadCastMessages({
+          params,
+          onSuccess: () => () => {
+            dispatch(setIsSync({
+              ...isSync,broadcast:true
+            }))
+           },
+          onError: () => () => { },
+        })
+      );
+    }
 
-    dispatch(
-      getBroadCastMessages({
-        params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
-      })
-    );
   }, []);
   return (
     <HomeContainer>

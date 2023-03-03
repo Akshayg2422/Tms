@@ -11,24 +11,33 @@ import {
 } from "@Routes";
 import { icons } from "@Assets";
 import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, IssueCreate, CompanyDetails, IssueDetails, AddReferenceTicket } from "@Modules";
-import { getDashboard } from "@Redux";
-import { useDispatch } from "react-redux";
+import { getDashboard,setIsSync } from "@Redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function AdminDashboard() {
   const [sideNavOpen, setSideNavOpen] = React.useState(true);
   const location = useLocation();
   const mainContentRef = React.useRef<HTMLDivElement | null>(null);
+  const { isSync } = useSelector(
+    (state: any) => state.AppReducer
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+   if(!isSync.dashboardDetails){
     dispatch(
       getDashboard({
         params: {},
-        onSuccess: () => () => {},
+        onSuccess: () => () => {
+          dispatch(setIsSync({
+            ...isSync,dashboardDetails:true
+          }))
+        },
         onError: () => () => {},
       })
     );
+   }
   }, []);
 
   useEffect(() => {

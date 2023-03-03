@@ -34,7 +34,7 @@ function IssueDetails() {
   const [openModalReassignUser, setOpenModalReassignUser] = useState(false)
   const dispatch = useDispatch()
   const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
-  const { getEmployeesDetails } = useSelector((state: any) => state.CompanyReducer);
+  const { employees } = useSelector((state: any) => state.CompanyReducer);
   const { goTo } = useNavigation()
   const [selectTagUser, setSelectTagUser] = useState([])
   const [selectReassignUser, setSelectReassignUser] = useState<any>('')
@@ -45,7 +45,9 @@ function IssueDetails() {
     dispatch(
       getEmployees({
         params,
-        onSuccess: (response) => () => { },
+        onSuccess: (response) => () => {
+          console.log('4444444444444444444444', JSON.stringify(response));
+        },
         onFailure: () => () => { }
       })
     )
@@ -56,7 +58,9 @@ function IssueDetails() {
     dispatch(
       getTicketsEvents({
         params,
-        onSuccess: (response) => () => { },
+        onSuccess: (response) => () => {
+          console.log('333333333333333333', response);
+        },
         onFailure: () => () => { }
       })
     )
@@ -86,11 +90,16 @@ function IssueDetails() {
 
     const params = { event_type: 'TGU', tagged_users: selectTagUser, id: selectedIssues?.id }
 
+    console.log('2222222222222', params);
+
+
     dispatch(addTicketEvent({
       params,
       onSuccess: (response) => () => {
         getApiHandler()
         setOpenModalTagUser(!openModalTagUser)
+        console.log('111111111111111111111', response);
+
       },
       onFailure: (failure) => () => { }
     }))
@@ -102,10 +111,14 @@ function IssueDetails() {
 
     dispatch(addTicketEvent({
       params,
-      onSuccess: () => () => { setOpenModalReassignUser(!openModalReassignUser) },
+      onSuccess: (response) => () => {
+        setOpenModalReassignUser(!openModalReassignUser)
+        console.log('222222222222222222222', response)
+      },
       onFailure: () => () => { }
     }))
   }
+  console.log('employees====>', JSON.stringify(employees));
 
   return (
     <>
@@ -123,7 +136,7 @@ function IssueDetails() {
           setOpenModalTagUser(!openModalTagUser)
         }}>
         {
-          getEmployeesDetails && getEmployeesDetails.length > 0 && getEmployeesDetails.map((tagUser: any, index: number) => {
+          employees && employees.length > 0 && employees.map((tagUser: any, index: number) => {
             const selected = selectTagUser.some(
               (selectUserEl: any) => selectUserEl === tagUser?.id
             );
@@ -144,7 +157,7 @@ function IssueDetails() {
                     </span>
                   }
                 </div>
-                <div className='mx--4'>{index !== getEmployeesDetails.length && <Divider space={'1'} />}</div>
+                <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
               </>
             )
           })
@@ -162,7 +175,7 @@ function IssueDetails() {
           setOpenModalReassignUser(!openModalReassignUser)
         }}>
         {
-          getEmployeesDetails && getEmployeesDetails.length > 0 && getEmployeesDetails.map((ReassignUser: any, index: number) => {
+          employees && employees.length > 0 && employees.map((ReassignUser: any, index: number) => {
             const selected = selectReassignUser.id === ReassignUser.id
             return (
               <>
@@ -179,7 +192,7 @@ function IssueDetails() {
                     </span>
                   }
                 </div>
-                <div className='mx--4'>{index !== getEmployeesDetails.length && <Divider space={'1'} />}</div>
+                <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
               </>
             )
           })
