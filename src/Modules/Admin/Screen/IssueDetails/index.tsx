@@ -6,7 +6,8 @@ import {
   DropDownMenuArrow,
   IssueUsers,
   Attachments,
-  ReferenceTickets
+  ReferenceTickets,
+  Thread
 } from "@Modules";
 import {
   Divider,
@@ -118,9 +119,9 @@ function IssueDetails() {
 
   return (
     <>
-      <Tabs tabs={[{ id: '1', title: "THREAD", component: <>chat</> }, { id: '2', title: "ATTACH", component: <Attachments/> }, { id: '3', title: "reference", component: <ReferenceTickets/> }, { id: '4', title: "user", component: <IssueUsers/> }]} />
+      <Tabs tabs={[{ id: '1', title: "THREAD", component: <Thread/> }, { id: '2', title: "ATTACH", component: <Attachments/> }, { id: '3', title: "reference", component: <ReferenceTickets/> }, { id: '4', title: "user", component: <IssueUsers/> }]} />
 
-      <div className="d-flex justify-content-end">
+      <div className="d-flex bg-red">
         <DropDownMenuArrow
           onClickTagUser={() => { setOpenModalTagUser(!openModalTagUser) }}
           onClickReassignUser={() => { setOpenModalReassignUser(!openModalReassignUser) }}
