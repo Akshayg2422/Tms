@@ -25,23 +25,29 @@ function TicketItem({ item, divider }: TicketItemProps) {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const [showPriorityColor, setShowPriorityColor] = useState("");
+  const [showPriority, setShowPriority] = useState("");
 
   useEffect(() => {
     switch (priority) {
       case 1:
         setShowPriorityColor("gray");
+        setShowPriority('Low')
         break;
       case 2:
         setShowPriorityColor("black");
+        setShowPriority('Lowest')
         break;
       case 3:
         setShowPriorityColor("yellow");
+        setShowPriority('Medium')
         break;
       case 4:
         setShowPriorityColor("orange");
+        setShowPriority('Hight')
         break;
       case 5:
         setShowPriorityColor("red");
+        setShowPriority('Urgent')
         break;
       default:
         setShowPriorityColor("");
@@ -88,11 +94,14 @@ function TicketItem({ item, divider }: TicketItemProps) {
           </div>
           <div>
             <div>
-              <h5 className="text-uppercase text-muted mb-0 card-title">
+            <h5 className="text-uppercase text-muted mb-0 card-title">
                 {" "}
                 <i
-                  className={`bi bi-flag-fill text-${showPriorityColor} mr-1 mb-0`}
-                ></i>{" "}
+                  className={`bi bi-flag-fill text-${showPriorityColor} mr-2 mb-0`}
+                ></i>{showPriority}
+              </h5>
+              <h5 className="text-uppercase text-muted mb-0 card-title">
+                {" "}
                 {getStatusFromCode(dashboardDetails, ticket_status)}{" "}
               </h5>
               <h5 className="text-muted mb-0">{getDataAndTime(created_at)}</h5>
