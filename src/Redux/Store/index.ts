@@ -8,7 +8,7 @@ import storage from 'redux-persist/lib/storage'
 import rootSaga from '../Sagas';
 
 const persistConfig = {
-  key: 'quanta-business',
+  key: 'quanta-tms',
   storage,
 }
 

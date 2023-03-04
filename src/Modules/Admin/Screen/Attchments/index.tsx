@@ -70,7 +70,7 @@ function Attachments() {
                                             item?.attachments?.attachments.map((image: any) => {
                                                 return (
 
-                                                    <span className='mr-3'>
+                                                    <span className='mr-3 my-3'>
                                                         <Image src={getPhoto(image?.attachment_file)} style={{height:"120px",width:"120px"}} />
                                                     </span>
                                                 )
