@@ -117,6 +117,9 @@ function Issues() {
                                     setShowIssue(item[1])
                                     setStatusCode(item[0])
                                     setModal(!modal)
+                                    dispatch(setIsSync({
+                                        ...isSync, issues: false
+                                    }))
 
                                 }} text={item[1]} key={index} style={{ cursor: "pointer" }} />
                                 {index !== issueStatus?.length - 1 && <Divider space={'3'} />}
