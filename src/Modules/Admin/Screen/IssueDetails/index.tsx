@@ -50,7 +50,8 @@ function IssueDetails() {
     dispatch(
       getEmployees({
         params,
-        onSuccess: (response) => () => { },
+        onSuccess: (response) => () => {
+        },
         onFailure: () => () => { }
       })
     )
@@ -61,7 +62,8 @@ function IssueDetails() {
     dispatch(
       getTicketsEvents({
         params,
-        onSuccess: (response) => () => { },
+        onSuccess: (response) => () => {
+        },
         onFailure: () => () => { }
       })
     )
@@ -107,7 +109,9 @@ function IssueDetails() {
 
     dispatch(addTicketEvent({
       params,
-      onSuccess: () => () => { setOpenModalReassignUser(!openModalReassignUser) },
+      onSuccess: (response) => () => {
+        setOpenModalReassignUser(!openModalReassignUser)
+      },
       onFailure: () => () => { }
     }))
   }

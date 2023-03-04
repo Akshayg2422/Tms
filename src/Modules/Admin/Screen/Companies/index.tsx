@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { companySelectedDetails, getAssociatedBranch } from "@Redux";
+import { companySelectedDetails, getAssociatedBranch, setIsSync } from "@Redux";
 import { Card, Divider, Button, HomeContainer, FilePicker } from "@Components";
 import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
@@ -15,16 +15,25 @@ function Companies() {
     (state: any) => state.AdminReducer
   );
 
+  const { isSync } = useSelector(
+    (state: any) => state.AppReducer
+  );
   useEffect(() => {
     const params = { q: "" };
 
-    dispatch(
-      getAssociatedBranch({
-        params,
-        onSuccess: () => () => { },
-        onError: () => () => { },
-      })
-    );
+    if(!isSync.companies){
+      dispatch(
+        getAssociatedBranch({
+          params,
+          onSuccess: () => () => {
+            dispatch(setIsSync({
+              ...isSync,companies:true
+            }))
+           },
+          onError: () => () => { },
+        })
+      );
+    }
   }, []);
 
   const handleOnClick = (item: any) => {

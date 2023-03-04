@@ -1,5 +1,6 @@
 export interface AppStateProp {
   loading?: boolean;
   userLoggedIn?: boolean;
-  loginDetails: any
+  loginDetails: any;
+  isSync:any;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { getTickets } from '@Redux';
+import { getTickets, setIsSync } from '@Redux';
 import { HomeContainer, Divider, Modal, H, Button } from '@Components';
 import { TicketItem } from '@Modules';
 import { useInput } from '@Hooks';
@@ -21,6 +21,9 @@ function Issues() {
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
     const dispatch = useDispatch();
     const Search = useInput('');
+    const { isSync } = useSelector(
+        (state: any) => state.AppReducer
+    );
 
     useEffect(() => {
         getTicketHandler()
@@ -28,22 +31,28 @@ function Issues() {
 
 
     const getTicketHandler = () => {
-        if (statusCode === '') {
-            const params = { q_many: '' }
-            dispatch(getTickets({
-                params,
-                onSuccess: () => () => { },
-                onError: () => () => { }
+        if (!isSync.issues) {
+            if (statusCode === '') {
+                const params = { q: '' }
+                dispatch(getTickets({
+                    params,
+                    onSuccess: () => () => {
+                        dispatch(setIsSync({
+                            ...isSync, issues: true
+                        }))
+                    },
+                    onError: () => () => { }
 
-            }))
-        }
-        else {
-            const params = { ticket_status: statusCode }
-            dispatch(getTickets({
-                params,
-                onSuccess: () => () => { },
-                onError: () => () => { }
-            }))
+                }))
+            }
+            else {
+                const params = { ticket_status: statusCode }
+                dispatch(getTickets({
+                    params,
+                    onSuccess: () => () => { },
+                    onError: () => () => { }
+                }))
+            }
         }
     }
 
