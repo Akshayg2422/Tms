@@ -114,6 +114,9 @@ function Issues() {
                         return (
                             <>
                                 <H tag='h4' onClick={() => {
+                                    dispatch(setIsSync({
+                                        ...isSync, issues: false
+                                    }))
                                     setShowIssue(item[1])
                                     setStatusCode(item[0])
                                     setModal(!modal)
