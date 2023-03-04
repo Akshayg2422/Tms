@@ -18,7 +18,7 @@ import {
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput, useNavigation } from "@Hooks";
+import { useInput, useNavigation, useDropDown } from "@Hooks";
 
 function IssueCreate() {
   const dispatch = useDispatch();
@@ -34,14 +34,21 @@ function IssueCreate() {
   const [photo, setPhoto] = useState<any>([]);
   const [companyUserDashboard, setCompanyUserDashboard] = useState<any>();
   const [selectedCompany, setSelectedCompany] = useState<any>({});
-  const [selectDropzone, setSelectDropzone] = useState<any>([{ id: '1' }]);
+  const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
   const [image, setImage] = useState("");
 
   const referenceNo = useInput("");
   const title = useInput("");
   const description = useInput("");
-
-  const [selectedUser, setSelectedUser] = useState<any>();
+  const selectedUser = useDropDown("");
+  const selectedTicketPriority = useDropDown("");
+  const ticketPriorityData = [
+    { id: "1", text: "Low", color: "black" },
+    { id: "2", text: "Lowest", color: "yellow" },
+    { id: "3", text: "Medium", color: "orange" },
+    { id: "4", text: "High", color: "red" },
+    { id: "5", text: "Urgent", color: "gray" },
+  ];
 
   const handleImagePicker = (index: number, file: any) => {
     // let updatedPhoto = [...selectDropzone, file];
@@ -50,14 +57,14 @@ function IssueCreate() {
     setPhoto(newUpdatedPhoto);
   };
 
-
   const submitTicketHandler = () => {
     const params = {
       title: title?.value,
       description: description?.value,
       reference_number: referenceNo?.value,
       brand_branch_id: selectedCompany?.id || "",
-      assigned_to_id: selectedUser?.id,
+      assigned_to_id: selectedUser?.value?.id,
+      priority: selectedTicketPriority?.value?.id,
       ticket_attachments: [{ attachments: photo }],
     };
 
@@ -69,7 +76,7 @@ function IssueCreate() {
           onSuccess: (response: any) => () => {
             goBack();
           },
-          onError: (error) => () => { },
+          onError: (error) => () => {},
         })
       );
     } else {
@@ -142,7 +149,7 @@ function IssueCreate() {
             data={type}
             onRadioChange={(selected) => {
               setSelectedCompany({});
-              setSelectedUser(undefined);
+              selectedUser.value(undefined);
               if (selected) {
                 setTypeSelect(selected);
               }
@@ -156,14 +163,19 @@ function IssueCreate() {
               onChange={setSelectedCompany}
               selected={selectedCompany}
             />
-
           )}
 
           <DropDown
-            selected={selectedUser}
+            selected={selectedUser.value}
             heading={translate("common.user")}
             data={companyUserDashboard}
-            onChange={setSelectedUser}
+            onChange={selectedUser.onChange}
+          />
+          <DropDown
+            selected={selectedTicketPriority.value}
+            heading={translate("common.ticketPriority")}
+            data={ticketPriorityData}
+            onChange={selectedTicketPriority.onChange}
           />
         </div>
 
@@ -184,9 +196,8 @@ function IssueCreate() {
                   onSelect={(image) => {
                     let file = image.toString().replace(/^data:(.*,)?/, "");
                     handleImagePicker(index, file);
-                    setSelectDropzone([{ id: '1' }, { id: '2' }])
-                  }
-                  }
+                    setSelectDropzone([{ id: "1" }, { id: "2" }]);
+                  }}
                 />
               );
             })}
