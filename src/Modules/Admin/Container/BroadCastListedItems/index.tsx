@@ -1,7 +1,7 @@
 import { H, Image } from "@Components";
 import React from "react";
 import { BroadCastItemsProps } from "./interfaces";
-import { getPhoto,getDataAndTime } from "@Utils";
+import { getPhoto, getDataAndTime } from "@Utils";
 import { translate } from "@I18n";
 
 function BroadCastListedItems({ item }: BroadCastItemsProps) {
@@ -22,7 +22,6 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
           </div>
           <div className="col-auto text-xs text-capitalize">
             {getDataAndTime(created_at)}
-           
           </div>
         </div>
 
@@ -41,21 +40,21 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
                   />
                 );
               })}
-               <div className="row col-auto pt-2 mt-1">
-          {attachments &&
-            attachments.length > 0 &&
-            attachments?.map((attachment_logo: any, index: number) => {
-              return (
-                <Image
-                className="mr-2"
-                  variant={"default"}
-                  src={getPhoto(attachment_logo.attachment_file)}
-                  width={"90px"}
-                  height={"90px"}
-                />
-              );
-            })}
-        </div>
+            <div className="row col-auto pt-2 mt-1">
+              {attachments &&
+                attachments.length > 0 &&
+                attachments?.map((attachment_logo: any, index: number) => {
+                  return (
+                    <Image
+                      className="mr-2"
+                      variant={"default"}
+                      src={getPhoto(attachment_logo.attachment_file)}
+                      width={"90px"}
+                      height={"90px"}
+                    />
+                  );
+                })}
+            </div>
           </div>
 
           <div className="col-auto pt-2 ">
@@ -67,7 +66,7 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
             />
           </div>
         </div>
-      
+
       </div>
     </div>
   );

@@ -27,8 +27,6 @@ import { HOME_PATH } from "@Routes";
 import { icons } from "@Assets";
 import { TGU, RGU } from '@Utils';
 
-
-
 function TagAssignUser() {
 
     const [openModalTagUser, setOpenModalTagUser] = useState(false)
@@ -107,6 +105,7 @@ function TagAssignUser() {
             params,
             onSuccess: (response) => () => {
                 setOpenModalReassignUser(!openModalReassignUser)
+                getApiHandler()
             },
             onFailure: () => () => { }
         }))
@@ -114,7 +113,6 @@ function TagAssignUser() {
 
     return (
         <>
-
             <div className="d-flex justify-content-end">
                 <DropDownMenuArrow
                     onClickTagUser={() => { setOpenModalTagUser(!openModalTagUser) }}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useInput } from '@Hooks';
-import { Card, HomeContainer, Image, NoDataFound} from '@Components'
+import { Card, HomeContainer, Image, NoDataFound } from '@Components'
 import { translate } from "@I18n";
 import { getTicketsEvents } from '@Redux';
-import { getPhoto,MEA } from '@Utils';
+import { getPhoto, MEA } from '@Utils';
 
 function Attachments() {
 
@@ -27,7 +27,6 @@ function Attachments() {
                 onFailure: () => () => { }
             })
         )
-
 
     }, [])
 
@@ -56,11 +55,9 @@ function Attachments() {
                         onChange={search.onChange}
                     />
                     <span className="input-group-text border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
-
                 </div>
                 <div className='mt-4'>
                     {
-
                         ticketEvents && ticketEvents?.data.length > 0 ? ticketEvents?.data.map((item: any, index: number) => {
                             return (
                                 <>
@@ -69,18 +66,17 @@ function Attachments() {
                                         {
                                             item?.attachments?.attachments.map((image: any) => {
                                                 return (
-
                                                     <span className='mr-3'>
-                                                        <Image src={getPhoto(image?.attachment_file)} style={{height:"120px",width:"120px"}} />
+                                                        <Image src={getPhoto(image?.attachment_file)} style={{ height: "120px", width: "120px" }} />
                                                     </span>
                                                 )
-                                            })    
+                                            })
                                         }
                                     </div>
                                 </>
                             )
-                        }) : <NoDataFound/>
-                           
+                        }) : <NoDataFound />
+
                     }
                 </div>
             </Card>
