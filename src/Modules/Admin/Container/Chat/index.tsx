@@ -10,7 +10,7 @@ function Receive({ item }: any) {
     return (
         <>
             {
-                (item && item?.message) || (item?.attachments?.attachments) && (
+                ((item && item?.message) || (item?.attachments?.attachments)) && (
                     <div className={'d-flex justify-content-end'}>
                         <div
                             className={'col-4 alert fade show text-white'}
@@ -57,7 +57,7 @@ function Receive({ item }: any) {
                 item?.assigned_to?.name === undefined ? null :
                     <div className='d-flex justify-content-center text-muted'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
             }
-            
+
         </>
     )
 }
@@ -67,8 +67,8 @@ function Sent({ item }: any) {
     return (
         <>
             {
-                (item && item?.message) || (item?.attachments?.attachments) && (
-                    <div className={'d-flex justify-content-start'}>
+                ((item && item?.message) || (item?.attachments?.attachments)) && (
+                    <div className={'d-flex justify-content-end'}>
                         <div
                             className={'col-4 alert fade show text-white'}
                             role={'alert'}
@@ -87,6 +87,7 @@ function Sent({ item }: any) {
                                         <div
                                             className={'alert fade show text-white d-flex justify-content-center bg-white'}
                                             role={'alert'}
+
                                         >
                                             <Image src={getPhoto(attach.attachment_file)} style={{ backgroundColor: '#fcc9e0', height: "200px", width: "200px" }} />
                                         </div>
@@ -100,7 +101,6 @@ function Sent({ item }: any) {
 
             {
                 item.tagged_users?.length > 0 && item.tagged_users.map((taggedElements) => {
-                    console.log('taggedElements', taggedElements);
 
                     return (
                         <div className={'d-flex justify-content-center text-muted'}>
@@ -114,6 +114,7 @@ function Sent({ item }: any) {
                 item?.assigned_to?.name === undefined ? null :
                     <div className='d-flex justify-content-center text-muted'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
             }
+
         </>
     )
 }
