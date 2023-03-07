@@ -32,7 +32,7 @@ function Receive({ item }: any) {
                                             className={'alert fade show text-white d-flex justify-content-center'}
                                             role={'alert'}
                                         >
-                                            <Image src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
+                                            <Image src={getPhoto(attach.attachment_file)} style={{ height: "400px", width: "400px" }} />
                                         </div>
                                     )
                                 })}
@@ -90,7 +90,7 @@ function Sent({ item }: any) {
                                             className={'alert fade show text-white d-flex justify-content-center'}
                                             role={'alert'}
                                         >
-                                            <Image src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
+                                            <Image src={getPhoto(attach.attachment_file)} style={{ height: "400px", width: "400px" }} />
                                         </div>
                                     )
                                 })}

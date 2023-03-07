@@ -56,7 +56,8 @@
     "tagUser": "TagUser",
     "reassignUser" : "ReassignUser",
     "attachReference" : "AttachReference",
-    "createdBy" : "created by"
+    "createdBy" : "created by",
+    "ticketPriority":"Ticket Priority"
     
   },
   "errors": {

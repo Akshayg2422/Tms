@@ -4,6 +4,10 @@ import {
 } from "react";
 import {
     DropDownMenuArrow,
+    Thread,
+    IssueUsers,
+    Attachments,
+    ReferenceTickets,
 } from "@Modules";
 import {
     Divider,
@@ -11,6 +15,7 @@ import {
     H,
     Button,
     Image,
+    Tabs
 } from "@Components";
 import {
     useDispatch,
@@ -27,20 +32,26 @@ import { HOME_PATH } from "@Routes";
 import { icons } from "@Assets";
 import { TGU, RGU } from '@Utils';
 
+
 function TagAssignUser() {
 
     const [openModalTagUser, setOpenModalTagUser] = useState(false)
     const [openModalReassignUser, setOpenModalReassignUser] = useState(false)
     const dispatch = useDispatch()
-    const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
+    const { selectedIssues, selectedReferenceIssues } = useSelector((state: any) => state.AdminReducer);
     const { employees } = useSelector((state: any) => state.CompanyReducer);
     const { goTo } = useNavigation()
     const [selectTagUser, setSelectTagUser] = useState([])
     const [selectReassignUser, setSelectReassignUser] = useState<any>('')
 
     useEffect(() => {
+
         getApiHandler()
-        const params = { branch_id: selectedIssues.raised_by_company?.branch_id }
+        const params = {
+            branch_id: selectedReferenceIssues
+                ? selectedReferenceIssues?.raised_by_company?.branch_id
+                : selectedIssues?.raised_by_company?.branch_id,
+        };
         dispatch(
             getEmployees({
                 params,
@@ -49,10 +60,14 @@ function TagAssignUser() {
                 onFailure: () => () => { }
             })
         )
-    }, [])
+    }, [selectedIssues, selectedReferenceIssues])
 
     const getApiHandler = () => {
-        const params = { ticket_id: selectedIssues?.id }
+        const params = {
+            ticket_id: selectedReferenceIssues
+                ? selectedReferenceIssues?.id
+                : selectedIssues?.id,
+        };
         dispatch(
             getTicketsEvents({
                 params,
@@ -85,7 +100,13 @@ function TagAssignUser() {
 
     function ProceedTagUser() {
 
-        const params = { event_type: TGU, tagged_users: selectTagUser, id: selectedIssues?.id }
+        const params = {
+            event_type: TGU,
+            tagged_users: selectTagUser,
+            id: selectedReferenceIssues
+                ? selectedReferenceIssues?.id
+                : selectedIssues?.id,
+        };
 
         dispatch(addTicketEvent({
             params,
@@ -98,8 +119,13 @@ function TagAssignUser() {
     }
 
     function ProceedReassignUser() {
-
-        const params = { event_type: RGU, assigned_to: selectReassignUser.id, id: selectedIssues?.id }
+        const params = {
+            event_type: RGU,
+            assigned_to: selectReassignUser.id,
+            id: selectedReferenceIssues
+                ? selectedReferenceIssues?.id
+                : selectedIssues?.id,
+        };
 
         dispatch(addTicketEvent({
             params,

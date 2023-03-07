@@ -1,47 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { useInput } from '@Hooks';
-import { Card, HomeContainer, Image, NoDataFound } from '@Components'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useInput } from "@Hooks";
+import { Card, HomeContainer, Image, NoDataFound } from "@Components";
 import { translate } from "@I18n";
-import { getTicketsEvents } from '@Redux';
-import { getPhoto, MEA } from '@Utils';
+import { getTicketsEvents } from "@Redux";
+import { getPhoto, MEA } from "@Utils";
 
 function Attachments() {
+  const dispatch = useDispatch();
+  const search = useInput("");
+  const { ticketEvents } = useSelector((state: any) => state.CompanyReducer);
+  const { selectedIssues, selectedReferenceIssues } = useSelector(
+    (state: any) => state.AdminReducer
+  );
 
-    const dispatch = useDispatch();
-    const search = useInput('');
-    const { ticketEvents } = useSelector((state: any) => state.CompanyReducer);
-    const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
+  useEffect(() => {
+    const params = {
+      ticket_id: selectedReferenceIssues
+        ? selectedReferenceIssues?.id
+        : selectedIssues?.id,
+      event_type: MEA,
+    };
 
-    useEffect(() => {
+    dispatch(
+      getTicketsEvents({
+        params,
+        onSuccess: () => () => {},
+        onFailure: () => () => {},
+      })
+    );
+  }, [selectedIssues, selectedReferenceIssues]);
 
-        const params = {
-            ticket_id: selectedIssues?.id,
-            event_type: MEA
-        }
-
-        dispatch(
-            getTicketsEvents({
-                params,
-                onSuccess: () => () => { },
-                onFailure: () => () => { }
-            })
-        )
-
-    }, [])
-
-    const getSearchHandler = () => {
-        const params = {
-            ticket_id: selectedIssues?.id,
-            q_many: search.value,
-            event_type: MEA
-        }
-        dispatch(getTicketsEvents({
-            params,
-            onSuccess: () => () => { },
-            onError: () => () => { }
-        }))
-    }
+  const getSearchHandler = () => {
+    const params = {
+      ticket_id: selectedReferenceIssues
+        ? selectedReferenceIssues?.id
+        : selectedIssues?.id,
+      q_many: search.value,
+      event_type: MEA,
+    };
+    dispatch(
+      getTicketsEvents({
+        params,
+        onSuccess: () => () => {},
+        onError: () => () => {},
+      })
+    );
+  };
 
     return (
         <HomeContainer >
@@ -66,8 +71,9 @@ function Attachments() {
                                         {
                                             item?.attachments?.attachments.map((image: any) => {
                                                 return (
-                                                    <span className='mr-3'>
-                                                        <Image src={getPhoto(image?.attachment_file)} style={{ height: "120px", width: "120px" }} />
+
+                                                    <span className='mr-3 my-3'>
+                                                        <Image src={getPhoto(image?.attachment_file)} style={{height:"120px",width:"120px"}} />
                                                     </span>
                                                 )
                                             })
@@ -85,4 +91,4 @@ function Attachments() {
 
     )
 }
-export { Attachments }
+export { Attachments };

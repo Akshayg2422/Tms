@@ -46,7 +46,8 @@
         "createTicket":"டிக்கெட்டை உருவாக்கு",
         "createCompany":"நிறுவனம் உருவாக்கு",
         "company": "நிறுவனம்",
-        "user":"பயனர்"
+        "user":"பயனர்",
+        "ticketPriority":"டிக்கெட்முன்னுரிமை"
         
     },
     "errors": {
