@@ -6,6 +6,7 @@ import {
   GET_DASHBOARD_FAILURE,
   GET_DASHBOARD_SUCCESS,
   SET_SELECTED_ISSUES,
+  SET_REFERENCE_SELECTED_ISSUES,
 
   ADD_DEPARTMENT,
   ADD_DEPARTMENT_SUCCESS,
@@ -41,6 +42,7 @@ const initialState: AdminStateProp = {
   departmentData: undefined,
   companyDetailsSelected:undefined,
   referenceIssueSelectedDetails:undefined,
+  selectedReferenceIssues:undefined,
 
 };
 
@@ -180,6 +182,11 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       
       state = {...state, selectedIssues: action.payload};
       break;
+
+      case SET_REFERENCE_SELECTED_ISSUES:
+      
+        state = {...state, selectedReferenceIssues: action.payload};
+        break;
 
     default:
       state = state;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TicketItemProps } from "./interfaces";
 import { H, Image, Badge, Divider } from "@Components";
 import { useDispatch } from "react-redux";
-import { setSelectedIssues } from "@Redux";
+import { setSelectedIssues, setSelectedReferenceIssues } from "@Redux";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { getPhoto } from "@Utils";
@@ -27,32 +27,48 @@ function TicketItem({ item, divider }: TicketItemProps) {
   const [showPriorityColor, setShowPriorityColor] = useState("");
   const [showPriority, setShowPriority] = useState("");
 
+  const { selectedReferenceIssues } = useSelector(
+    (state: any) => state.AdminReducer
+  );
+
   useEffect(() => {
     switch (priority) {
       case 1:
         setShowPriorityColor("gray");
-        setShowPriority('Low')
+        setShowPriority("Low");
         break;
       case 2:
         setShowPriorityColor("black");
-        setShowPriority('Lowest')
+        setShowPriority("Lowest");
         break;
       case 3:
         setShowPriorityColor("yellow");
-        setShowPriority('Medium')
+        setShowPriority("Medium");
         break;
       case 4:
         setShowPriorityColor("orange");
-        setShowPriority('Hight')
+        setShowPriority("Hight");
         break;
       case 5:
         setShowPriorityColor("red");
-        setShowPriority('Urgent')
+        setShowPriority("Urgent");
         break;
       default:
         setShowPriorityColor("");
     }
   }, []);
+
+  useEffect(() => {
+    window.addEventListener(
+      "popstate",
+      (event) => {
+        if (event.state) {
+          //do your code here
+        }
+      },
+      false
+    );
+  });
 
   return (
     <div
@@ -94,11 +110,12 @@ function TicketItem({ item, divider }: TicketItemProps) {
           </div>
           <div>
             <div>
-            <h5 className="text-uppercase text-muted mb-0 card-title">
+              <h5 className="text-uppercase text-muted mb-0 card-title">
                 {" "}
                 <i
                   className={`bi bi-flag-fill text-${showPriorityColor} mr-2 mb-0`}
-                ></i>{showPriority}
+                ></i>
+                {showPriority}
               </h5>
               <h5 className="text-uppercase text-muted mb-0 card-title">
                 {" "}

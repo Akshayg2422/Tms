@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation, Route, Routes, Navigate } from "react-router-dom";
+import { useLocation, Route, Routes, Navigate,redirect } from "react-router-dom";
 import { Sidebar } from "@Components";
 import {
   ADD_USER_INFO,
@@ -30,8 +30,9 @@ function AdminDashboard() {
       getDashboard({
         params: {},
         onSuccess: () => () => {
+          
           dispatch(setIsSync({
-            ...isSync,dashboardDetails:true
+            ...isSync,dashboardDetails:true,
           }))
         },
         onError: () => () => {},

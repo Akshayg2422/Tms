@@ -4,5 +4,7 @@ export type TabItem = {
   id: string
 }
 export interface TabsProps {
-    tabs: Array<TabItem>
+    tabs: Array<TabItem>,
+    onChange?: (item: any)=> void,
+    selected?: TabItem
 }
