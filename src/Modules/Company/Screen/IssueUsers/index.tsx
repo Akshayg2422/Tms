@@ -6,28 +6,31 @@ import { getEmployees } from "@Redux";
 
 function IssueUsers() {
   const dispatch = useDispatch();
-  const { employees } = useSelector(
-    (state: any) => state.CompanyReducer
+  const { employees } = useSelector((state: any) => state.CompanyReducer);
+
+  const { selectedIssues, selectedReferenceIssues } = useSelector(
+    (state: any) => state.AdminReducer
   );
 
-  const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
-
   useEffect(() => {
-    const params = { branch_id: selectedIssues.raised_by_company.branch_id };
+    const params = {
+      branch_id: selectedReferenceIssues
+        ? selectedReferenceIssues.raised_by_company?.branch_id
+        : selectedIssues.raised_by_company?.branch_id,
+    };
 
     dispatch(
       getEmployees({
         params,
-        onSuccess: () => () => { },
-        onError: () => () => { },
+        onSuccess: () => () => {},
+        onError: () => () => {},
       })
     );
-  }, []);
+  }, [selectedIssues, selectedReferenceIssues]);
 
   return (
     <HomeContainer>
       <div>
-
         <Card className="mt-2 py-2">
           {employees &&
             employees.length > 0 &&
@@ -35,7 +38,7 @@ function IssueUsers() {
               return (
                 <>
                   <UserItem item={user} />
-                  {index !== employees.length - 1 && <Divider space={'4'} />}
+                  {index !== employees.length - 1 && <Divider space={"4"} />}
                 </>
               );
             })}

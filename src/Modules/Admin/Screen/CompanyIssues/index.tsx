@@ -4,17 +4,25 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
 import { HomeContainer,NoDataFound } from '@Components';
 import { CompanyIssueItem } from '@Modules';
+import {setIsSync} from '@Redux'
 function CompanyIssues() {
 
     const dispatch = useDispatch();
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
     const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
+    const { isSync } = useSelector((state: any) => state.AppReducer);
+
 
     useEffect(() => {
         const params = { branch_id: companyDetailsSelected.branch_id }
         dispatch(getTickets({
             params,
-            onSuccess: () => () => { },
+            onSuccess: () => () => { 
+                dispatch(setIsSync({
+                    ...isSync, issues: false
+                }))
+
+            },
             onError: () => () => { }
         }))
     }, []);

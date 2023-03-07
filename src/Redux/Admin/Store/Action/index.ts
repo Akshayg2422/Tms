@@ -6,6 +6,7 @@ import {
   GET_DASHBOARD_FAILURE,
   GET_DASHBOARD_SUCCESS,
   SET_SELECTED_ISSUES,
+  SET_REFERENCE_SELECTED_ISSUES,
 
   ADD_DEPARTMENT,
   ADD_DEPARTMENT_SUCCESS,
@@ -79,8 +80,18 @@ export const getDashboardFailure = (error: any) => {
  */
 
 export const setSelectedIssues = (response: any) => {
+  
+  
   return {
     type: SET_SELECTED_ISSUES,
+    payload: response,
+  };
+};
+export const setSelectedReferenceIssues = (response: any) => {
+  
+  
+  return {
+    type: SET_REFERENCE_SELECTED_ISSUES,
     payload: response,
   };
 };
