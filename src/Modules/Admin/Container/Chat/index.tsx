@@ -1,11 +1,10 @@
 import { ChatProps } from './interfaces';
 import { useSelector } from 'react-redux'
 import { getDataAndTime, getPhoto } from '@Utils';
-import { Image } from '@Components'
+import { H, Image } from '@Components'
 
 
 function Receive({ item }: any) {
-
 
     return (
         <>
@@ -13,26 +12,27 @@ function Receive({ item }: any) {
                 ((item && item?.message) || (item?.attachments?.attachments)) && (
                     <div className={'d-flex justify-content-end'}>
                         <div
-                            className={'col-4 alert fade show text-white'}
+                            className={'col-6 alert fade show text-white'}
                             role={'alert'}
-                            style={{ backgroundColor: '#fcc9e0' }}
+                            style={{ backgroundColor: '#6E81A8' }}
                         >
                             <div className={'row'}>
-                                <div className={'col-6 pb-3'}>{item.by_user.name}</div>
-                                <div className={'col-6 text-xs text-capitalize'}>
-                                    {getDataAndTime(item.created_at)}
-                                </div>
+                                <H className={'col-6 pb-3 text-black'}
+                                    text={item.by_user.name} tag={'h4'}
+                                />
+                                <H className={'col-6 text-xs text-capitalize text-black'}
+                                    text={getDataAndTime(item.created_at)} tag={'h4'}
+                                />
                             </div>
                             {item.message}
                             <div>
                                 {item?.attachments?.attachments.map((attach) => {
                                     return (
                                         <div
-                                            className={'alert fade show text-white d-flex justify-content-center bg-white'}
+                                            className={'alert fade show text-white d-flex justify-content-center'}
                                             role={'alert'}
-
                                         >
-                                            <Image src={getPhoto(attach.attachment_file)} style={{ backgroundColor: '#fcc9e0', height: "200px", width: "200px" }} />
+                                            <Image src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
                                         </div>
                                     )
                                 })}
@@ -46,7 +46,7 @@ function Receive({ item }: any) {
                 item.tagged_users?.length > 0 && item.tagged_users.map((taggedElements) => {
 
                     return (
-                        <div className={'d-flex justify-content-center text-muted'}>
+                        <div className={'d-flex justify-content-center text-lightGray mb-1'}>
                             <div>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
                         </div>
                     )
@@ -55,7 +55,7 @@ function Receive({ item }: any) {
 
             {
                 item?.assigned_to?.name === undefined ? null :
-                    <div className='d-flex justify-content-center text-muted'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
+                    <div className='d-flex justify-content-center text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
             }
 
         </>
@@ -68,28 +68,29 @@ function Sent({ item }: any) {
         <>
             {
                 ((item && item?.message) || (item?.attachments?.attachments)) && (
-                    <div className={'d-flex justify-content-end'}>
+                    <div className={'d-flex justify-content-start'}>
                         <div
-                            className={'col-4 alert fade show text-white'}
+                            className={'col-6 alert fade show text-white'}
                             role={'alert'}
-                            style={{ backgroundColor: '#fcc9e0' }}
+                            style={{ backgroundColor: '#AACACA' }}
                         >
                             <div className={'row'}>
-                                <div className={'col-6 pb-3'}>{item.by_user.name}</div>
-                                <div className={'col-6 text-xs text-capitalize'}>
-                                    {getDataAndTime(item.created_at)}
-                                </div>
+                                <H className={'col-6 pb-3 text-black'}
+                                    text={item.by_user.name} tag={'h4'}
+                                />
+                                <H className={'col-6 text-xs text-capitalize text-black'}
+                                    text={getDataAndTime(item.created_at)} tag={'h4'}
+                                />
                             </div>
                             {item.message}
                             <div>
                                 {item?.attachments?.attachments.map((attach) => {
                                     return (
                                         <div
-                                            className={'alert fade show text-white d-flex justify-content-center bg-white'}
+                                            className={'alert fade show text-white d-flex justify-content-center'}
                                             role={'alert'}
-
                                         >
-                                            <Image src={getPhoto(attach.attachment_file)} style={{ backgroundColor: '#fcc9e0', height: "200px", width: "200px" }} />
+                                            <Image src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
                                         </div>
                                     )
                                 })}
@@ -103,7 +104,7 @@ function Sent({ item }: any) {
                 item.tagged_users?.length > 0 && item.tagged_users.map((taggedElements) => {
 
                     return (
-                        <div className={'d-flex justify-content-center text-muted'}>
+                        <div className={'d-flex justify-content-center text-lightGray mb-1'}>
                             <div>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
                         </div>
                     )
@@ -112,7 +113,7 @@ function Sent({ item }: any) {
 
             {
                 item?.assigned_to?.name === undefined ? null :
-                    <div className='d-flex justify-content-center text-muted'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
+                    <div className='d-flex justify-content-center text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
             }
 
         </>

@@ -99,10 +99,10 @@ function Send({ onClick, value, onChange }: SendProps) {
                 </Modal>
             </div>
             <div className='col-lg-7 col-sm-0 col-auto'>
-                <Input className={'rounded-pill bg-gradient-white'} type='text' value={value} placeholder={'Type Here'} onChange={onChange} />
+                <Input className={'rounded-pill'} style={{ backgroundColor: '#f8e6e4' }} type='text' value={value} placeholder={'Type Here'} onChange={onChange} />
             </div>
             <div className={'col mb-4'}>
-                <div className={'icon icon-shape text-white rounded-circle shadow'} style={{ backgroundColor: '#fcc9e0' }} onClick={onClick}><i className="ni ni-send"></i></div>
+                <div className={'icon icon-shape text-white rounded-circle shadow'} style={{ backgroundColor: '#fec8e0' }} onClick={onClick}><i className="ni ni-send"></i></div>
             </div>
         </div>
     )
