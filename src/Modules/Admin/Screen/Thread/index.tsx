@@ -1,4 +1,4 @@
-import { Card } from '@Components'
+import { Card, RemoveEmptySpace } from '@Components'
 import {
     Chat,
     Send,
@@ -72,12 +72,12 @@ function Thread() {
 
     return (
 
-        <>
+        <div>
             <div>
                 <TagAssignUser />
             </div>
             <div className='vh-100 d-flex justify-content-center'>
-                <Card className='vh-100 col-lg-10 col-sm-12 overflow-auto overflow-hide mt--3 mb--5'style={{height:'50vh'}}>
+                <Card className='vh-100 col-lg-10 col-sm-12 overflow-auto overflow-hide mt--3 mb--5' style={{ height: '50vh' }}>
 
                     <div className='fixed-bottom col-lg-6 col-sm-12' style={{ cursor: "pointer" }}>
                         <Send value={textMessage.value}
@@ -94,7 +94,7 @@ function Thread() {
                     </div>
                 </Card>
             </div>
-        </>
+        </div>
     )
 }
 
