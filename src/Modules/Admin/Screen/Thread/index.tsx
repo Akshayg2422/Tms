@@ -15,7 +15,6 @@ import {
 } from '@Redux';
 import { TEM } from '@Utils';
 import { useInput } from '@Hooks';
-import './index.css'
 
 
 function Thread() {
