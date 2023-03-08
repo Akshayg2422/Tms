@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Divider, Modal, H, Button } from "@Components";
+import { HomeContainer, Divider, Modal, H, Button,NoDataFound } from "@Components";
 import { TicketItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { useNavigation } from "@Hooks";
@@ -117,13 +117,13 @@ function Issues() {
 
       <HomeContainer isCard title={"Issues"}>
         {tickets &&
-          tickets.length > 0 &&
+          tickets.length > 0 ?
           tickets?.map((eachTickets: any, index: number) => {
             const divider = tickets.length - 1 !== index;
             return (
               <TicketItem item={eachTickets} key={index} divider={divider} />
             );
-          })}
+          }): <NoDataFound/>}
       </HomeContainer>
 
       <Modal

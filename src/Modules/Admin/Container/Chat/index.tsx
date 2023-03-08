@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux'
 import { getDataAndTime, getPhoto } from '@Utils';
 import { H, Image } from '@Components'
 
-
 function Receive({ item }: any) {
 
     return (
+
         <>
             {
+
                 ((item && item?.message) || (item?.attachments?.attachments)) && (
                     <div className={'d-flex justify-content-end'}>
                         <div
