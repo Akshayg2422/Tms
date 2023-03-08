@@ -4,10 +4,6 @@ import {
 } from "react";
 import {
     DropDownMenuArrow,
-    Thread,
-    IssueUsers,
-    Attachments,
-    ReferenceTickets,
 } from "@Modules";
 import {
     Divider,

@@ -10,7 +10,7 @@ import {
   getReferenceTicketsApi,
   addBroadCastMessagesApi,
   getBroadCastMessagesApi,
- 
+
 } from '@Services';
 import {
   showLoader,
@@ -56,7 +56,7 @@ function* raiseNewTicketSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(raiseNewTicketApi, action.payload.params);
- 
+
     if (response.success) {
       yield put(hideLoader());
       yield put(raiseNewTicketSuccess(response));
@@ -88,7 +88,7 @@ function* getTicketsSaga(action) {
     }
   } catch (error) {
     yield put(hideLoader());
-    yield put(getTicketsFailure( error ));
+    yield put(getTicketsFailure(error));
     yield call(action.payload.onError(error));
   }
 }
@@ -107,9 +107,9 @@ function* getTicketEventsSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-     yield put(hideLoader());
-     yield put(getTicketsEventsFailure(error));
-      yield call(action.payload.onError(error));
+    yield put(hideLoader());
+    yield put(getTicketsEventsFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -117,10 +117,8 @@ function* addTicketEventSaga(action) {
   try {
     // yield put(showLoader());
     const response = yield call(addTicketEventApi, action.payload.params);
-    // console.log(JSON.stringify(response) + 'lllllllllllllllll8888888888888');
     if (response.success) {
       // yield put(hideLoader());
-      // console.log(response,"response------------")
       yield put(addTicketEventSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
@@ -129,9 +127,9 @@ function* addTicketEventSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-     yield put(hideLoader());
-     yield put(addTicketEventFailure(error));
-     yield call(action.payload.onError(error));
+    yield put(hideLoader());
+    yield put(addTicketEventFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -158,11 +156,9 @@ function* getTicketTagsSaga(action) {
 
 
 function* getEmployeesSaga(action) {
-  // console.log('pppppppp===>',action);
   try {
     yield put(showLoader());
     const response = yield call(getEmployeesApi, action.payload.params);
-    // console.log('66666666666666',JSON.stringify(response));
     if (response.success) {
       yield put(hideLoader());
       yield put(getEmployeesSuccess(response.details));
@@ -182,10 +178,10 @@ function* getEmployeesSaga(action) {
 function* addEmployeeSaga(action) {
   try {
     yield put(showLoader());
-    const response = yield call(addEmployeeApi, action.payload.params);   
+    const response = yield call(addEmployeeApi, action.payload.params);
     if (response.success) {
       yield put(hideLoader());
-      yield put(addEmployeeSuccess({...response}));
+      yield put(addEmployeeSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());
@@ -203,10 +199,9 @@ function* getReferenceTicketsSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getReferenceTicketsApi, action.payload.params);
-    // console.log('getReferenceTicketsSagagetReferenceTicketsSagagetReferenceTicketsSaga',(JSON.stringify(response)))
     if (response.success) {
       yield put(hideLoader());
-      yield put(getReferenceTicketsSuccess({...response}));
+      yield put(getReferenceTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());
@@ -220,49 +215,46 @@ function* getReferenceTicketsSaga(action) {
   }
 }
 function* addBroadCastMessagesSaga(action) {
-  // console.log('actionactionaction',action);
   try {
     yield put(showLoader());
     const response = yield call(addBroadCastMessagesApi, action.payload.params);
-    // console.log('getReferenceTicketsSagagetReferenceTicketsSagagetReferenceTicketsSaga',(JSON.stringify(response)))
     if (response.success) {
-     
+
       yield put(hideLoader());
-      yield put(  addBroadCastMessagesSuccess({...response}));
+      yield put(addBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-    
+
       yield put(hideLoader());
-      yield put( addBroadCastMessagesFailure(response));
+      yield put(addBroadCastMessagesFailure(response));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
     yield put(hideLoader());
-    yield put( addBroadCastMessagesFailure(error));
+    yield put(addBroadCastMessagesFailure(error));
     yield call(action.payload.onError(error));
   }
 }
 
 function* getBroadCastMessagesSaga(action) {
- 
+
   try {
     yield put(showLoader());
     const response = yield call(getBroadCastMessagesApi, action.payload.params);
-    //  console.log('getReferencesSagagetReferenceTicketsSagagetReferenceTicketsSaga',(JSON.stringify(response)))
     if (response.success) {
- 
+
       yield put(hideLoader());
-      yield put( getBroadCastMessagesSuccess({...response}));
+      yield put(getBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-    
+
       yield put(hideLoader());
-      yield put( getBroadCastMessagesFailure(response));
+      yield put(getBroadCastMessagesFailure(response));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
     yield put(hideLoader());
-    yield put( getBroadCastMessagesFailure(error));
+    yield put(getBroadCastMessagesFailure(error));
     yield call(action.payload.onError(error));
   }
 }
@@ -273,9 +265,9 @@ function* CompanySaga() {
   yield takeLatest(GET_TICKET_EVENTS, getTicketEventsSaga);
   yield takeLatest(GET_TICKET_TAGS, getTicketTagsSaga);
   yield takeLatest(ADD_TICKET_EVENT, addTicketEventSaga);
-  yield takeLatest(GET_EMPLOYEES,getEmployeesSaga);
-  yield takeLatest(ADD_EMPLOYEE,addEmployeeSaga);
-  yield takeLatest(GET_REFERENCE_TICKETS,getReferenceTicketsSaga)
+  yield takeLatest(GET_EMPLOYEES, getEmployeesSaga);
+  yield takeLatest(ADD_EMPLOYEE, addEmployeeSaga);
+  yield takeLatest(GET_REFERENCE_TICKETS, getReferenceTicketsSaga)
   yield takeLatest(ADD_BROADCAST_MESSAGES, addBroadCastMessagesSaga)
   yield takeLatest(GET_BROADCAST_MESSAGES, getBroadCastMessagesSaga)
 }
