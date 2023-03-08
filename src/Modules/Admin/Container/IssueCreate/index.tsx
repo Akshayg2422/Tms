@@ -181,7 +181,7 @@ function IssueCreate() {
 
         <div className="pl-3">
           <label className={`form-control-label`}>
-            {translate("auth.logo")}
+            {translate("auth.attach")}
           </label>
         </div>
 

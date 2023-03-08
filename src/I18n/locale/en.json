@@ -106,7 +106,8 @@
     "title":"Title",
     "description":"Description",
     "referenceNo":"Reference No",
-    "createBroadCast":"CREATE BROADCAST"
+    "createBroadCast":"CREATE BROADCAST",
+    "attach":"Attach"
   },
   "product": {
     "Store": "Store",
