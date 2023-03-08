@@ -173,7 +173,7 @@ function Settings() {
                 </div>
               </div>
               <div
-                className="overflow-auto mt-0"
+                className="overflow-auto overflow-hide mt-0"
                 style={{
                   height: showDepartments ? "30.5rem" : "0vh",
                 }}
@@ -225,7 +225,7 @@ function Settings() {
               </div>
 
               <div
-                className="overflow-auto mt-0"
+                className="overflow-auto overflow-hide mt-0"
                 style={{
                   height: showDesignations ? "30.5rem" : "0vh",
 

@@ -60,11 +60,9 @@ function Attachments() {
                         onChange={search.onChange}
                     />
                     <span className="input-group-text border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
-
                 </div>
                 <div className='mt-4'>
                     {
-
                         ticketEvents && ticketEvents?.data.length > 0 ? ticketEvents?.data.map((item: any, index: number) => {
                             return (
                                 <>
@@ -78,13 +76,13 @@ function Attachments() {
                                                         <Image src={getPhoto(image?.attachment_file)} style={{height:"120px",width:"120px"}} />
                                                     </span>
                                                 )
-                                            })    
+                                            })
                                         }
                                     </div>
                                 </>
                             )
-                        }) : <NoDataFound/>
-                           
+                        }) : <NoDataFound />
+
                     }
                 </div>
             </Card>

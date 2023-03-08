@@ -1,4 +1,4 @@
-import {keys} from 'lodash';
+import { keys } from 'lodash';
 
 const ValidateJS = require('validate.js');
 
@@ -26,9 +26,9 @@ Validate.validators.excludes = function custom(
  */
 Validate.validators.tripped = function custom(
   value: any,
-  options: {attribute: string | number; message: any},
+  options: { attribute: string | number; message: any },
   key: any,
-  attributes: {[x: string]: boolean},
+  attributes: { [x: string]: boolean },
 ) {
   if (value && attributes[options.attribute] === true) {
     return options.message || `${options.attribute} is true`;
@@ -89,7 +89,7 @@ export function validate(
   if (typeof data !== 'object') {
     return {} as ValidationErrors;
   }
-  return Validate(data, rules, {fullMessages: false}) || {};
+  return Validate(data, rules, { fullMessages: false }) || {};
 }
 
 export function getValidateError(errorObject: any) {
@@ -98,7 +98,6 @@ export function getValidateError(errorObject: any) {
     const key: string = Object.keys(errorObject)[0];
     if (key) {
       error = errorObject[key] + '';
-     // console.log('keyyy---->', error);
     }
   }
   return error;

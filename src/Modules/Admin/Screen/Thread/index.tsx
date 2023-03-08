@@ -1,25 +1,28 @@
-import { Card, Modal, Image, Input, Button } from '@Components'
-import { Send } from '@Modules'
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react';
-import { addTicketEvent, getTicketsEvents } from '@Redux';
+import { Card } from '@Components'
+import {
+    Chat,
+    Send,
+    TagAssignUser
+} from '@Modules'
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux'
+import { useEffect } from 'react';
+import {
+    addTicketEvent,
+    getTicketsEvents
+} from '@Redux';
+import { TEM } from '@Utils';
 import { useInput } from '@Hooks';
-import { Dropzone } from '@Components';
-import { icons } from '@Assets';
-import { TEM,MEA } from '@Utils';
-
 
 
 function Thread() {
 
     const dispatch = useDispatch();
     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
+    const { ticketEvents } = useSelector((state: any) => state.CompanyReducer);
     const textMessage = useInput('')
-    const modalName = useInput('')
-    const [photo, setPhoto] = useState<any>([])
-    const [image, setImage] = useState('')
-    const [selectAttachments, setSelectAttachments] = useState(false)
-    const [selectDropzone, setSelectDropzone] = useState<any>([{}])
 
     useEffect(() => {
         ProceedGetTicketEvents()
@@ -32,7 +35,6 @@ function Thread() {
                 ticket_id: selectedIssues.id,
             };
 
-
             dispatch(
                 getTicketsEvents({
                     params,
@@ -44,7 +46,6 @@ function Thread() {
             )
         }
     }
-
 
     const sendMessageHandler = () => {
 
@@ -66,79 +67,32 @@ function Thread() {
         }
     }
 
-    const onModalSubmitHandler = () => {
-        const params = {
-            event_type: MEA,
-            id: selectedIssues.id,
-            attachments: [{ attachment: photo }],
-            name: modalName.value
-        };
-        dispatch(
-            addTicketEvent({
-                params,
-                onSuccess: () => () => {
-                    ProceedGetTicketEvents();
-                },
-                onError: () => () => { },
-            }),
-        );
-        setSelectAttachments(!selectAttachments);
-        resetValues();
-    };
-
-    const resetValues = () => {
-        modalName.set('');
-        setSelectDropzone([{}]);
-    };
-
-    const handleImagePicker = (index: number, file: any) => {
-        let updatedPhoto = [...selectDropzone, file]
-        let newUpdatedPhoto = [...photo, file]
-        setSelectDropzone(updatedPhoto)
-        setPhoto(newUpdatedPhoto)
-    }
+    console.log('ticketEvents---->ticketEvents---->', JSON.stringify(ticketEvents));
 
     return (
-        <div className='vh-100 d-flex justify-content-center'>
-            <Card className='vh-100 col-lg-10 col-sm-12'>
-                {/* <Chat item={selectedIssues.id} index={0} /> */}
-                <div className='fixed-bottom col-lg-6 col-sm-12 '>
-                    <Send value={textMessage.value}
-                        onClick={sendMessageHandler}
-                        onChange={textMessage.onChange}
-                    />
-                </div>
-                <div className=' col-1 pl-0'>
-                    <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
-                </div>
-            </Card>
 
+        <div>
             <div>
-                <Modal isOpen={selectAttachments}
-                    onClose={() => {
-                        setSelectAttachments(!selectAttachments)
-                    }}>
-                    <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={modalName.onChange} />
-                    {selectDropzone && selectDropzone.map((el, index) => {
-                        return (
-                            <Dropzone variant='ICON'
-                                icon={image}
-                                size='xl'
-                                onSelect={(image) => {
-                                    let file = image.toString().replace(/^data:(.*,)?/, '');
-                                    handleImagePicker(index, file)
-                                }}
-                            />
-                        )
-                    })}
-                    <div className='d-flex flex-row pt-4'>
-                        <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => onModalSubmitHandler()} />
-                    </div>
-
-                </Modal>
-
+                <TagAssignUser />
             </div>
+            <div className='vh-100 d-flex justify-content-center'>
+                <Card className='vh-100 col-lg-10 col-sm-12 overflow-auto overflow-hide mt--3 mb--5' style={{ height: '50vh' }}>
 
+                    <div className='fixed-bottom col-lg-6 col-sm-12' style={{ cursor: "pointer" }}>
+                        <Send value={textMessage.value}
+                            onClick={sendMessageHandler}
+                            onChange={textMessage.onChange}
+                        />
+                    </div>
+                    <div className={'pt-3'}>
+                        {ticketEvents && ticketEvents.data.length > 0 && ticketEvents.data.map((el) => {
+                            return (
+                                <Chat item={el} />
+                            )
+                        })}
+                    </div>
+                </Card>
+            </div>
         </div>
     )
 }

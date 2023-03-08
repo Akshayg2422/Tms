@@ -1,49 +1,126 @@
-import { getTicketsEvents } from '@Redux';
 import { ChatProps } from './interfaces';
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getPhoto } from '@Utils';
+import { useSelector } from 'react-redux'
+import { getDataAndTime, getPhoto } from '@Utils';
+import { H, Image } from '@Components'
 
 
+function Receive({ item }: any) {
 
+    return (
+        <>
+            {
+                ((item && item?.message) || (item?.attachments?.attachments)) && (
+                    <div className={'d-flex justify-content-end'}>
+                        <div
+                            className={'col-6 alert fade show text-white'}
+                            role={'alert'}
+                            style={{ backgroundColor: '#6E81A8' }}
+                        >
+                            <div className={'row'}>
+                                <H className={'col-6 pb-3 text-black'}
+                                    text={item.by_user.name} tag={'h4'}
+                                />
+                                <H className={'col-6 text-xs text-capitalize text-black'}
+                                    text={getDataAndTime(item.created_at)} tag={'h4'}
+                                />
+                            </div>
+                            {item.message}
+                            <div>
+                                {item?.attachments?.attachments.map((attach) => {
+                                    return (
+                                        <div
+                                            className={'alert fade show text-white d-flex justify-content-center'}
+                                            role={'alert'}
+                                        >
+                                            <Image src={getPhoto(attach.attachment_file)} style={{ height: "400px", width: "400px" }} />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
+            {
+                item.tagged_users?.length > 0 && item.tagged_users.map((taggedElements) => {
+
+                    return (
+                        <div className={'d-flex justify-content-center text-lightGray mb-1'}>
+                            <div>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
+                        </div>
+                    )
+                })
+            }
+
+            {
+                item?.assigned_to?.name === undefined ? null :
+                    <div className='d-flex justify-content-center text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
+            }
+
+        </>
+    )
+}
 
 function Sent({ item }: any) {
 
     return (
         <>
             {
-                item && item.map((eachticketEvents: any, index: number) => {
+                ((item && item?.message) || (item?.attachments?.attachments)) && (
+                    <div className={'d-flex justify-content-start'}>
+                        <div
+                            className={'col-6 alert fade show text-white'}
+                            role={'alert'}
+                            style={{ backgroundColor: '#AACACA' }}
+                        >
+                            <div className={'row'}>
+                                <H className={'col-6 pb-3 text-black'}
+                                    text={item.by_user.name} tag={'h4'}
+                                />
+                                <H className={'col-6 text-xs text-capitalize text-black'}
+                                    text={getDataAndTime(item.created_at)} tag={'h4'}
+                                />
+                            </div>
+                            {item.message}
+                            <div>
+                                {item?.attachments?.attachments.map((attach) => {
+                                    return (
+                                        <div
+                                            className={'alert fade show text-white d-flex justify-content-center'}
+                                            role={'alert'}
+                                        >
+                                            <Image src={getPhoto(attach.attachment_file)} style={{ height: "400px", width: "400px" }} />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
+            {
+                item.tagged_users?.length > 0 && item.tagged_users.map((taggedElements) => {
+
                     return (
-                        <div className='d-flex justify-content-end'>
-                            {item ? <div className=" col-4 alert alert-info fade show bg-gradient-info text-white">{eachticketEvents.message}</div> : null}
+                        <div className={'d-flex justify-content-center text-lightGray mb-1'}>
+                            <div>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
                         </div>
                     )
                 })
             }
+
+            {
+                item?.assigned_to?.name === undefined ? null :
+                    <div className='d-flex justify-content-center text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
+            }
+
         </>
     )
-}
-
-function Receive({ item }: any) {
-    console.log(item)
-    const attachments = item.attachments
-
-    return (
-        <>
-            {attachments && attachments.length > 0 && attachments.map(() => {
-                return (
-                    <div className=''>
-                        {attachments ? <div className="col-4 alert alert-info fade show bg-gradient-info text-white" role="alert">{getPhoto(item.attachment_file)}</div> : null}
-                    </div>
-                )
-            })}
-        </>
-    )
-
 }
 
 function Chat({ item }: ChatProps) {
-    console.log('0000000000000000000000000',item)
 
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
 
@@ -57,14 +134,4 @@ function Chat({ item }: ChatProps) {
 }
 
 export { Chat }
-
-// This is a functional component named "Chat" which receives a prop named "item" of type ChatProps. 
-// The component is using Redux's useSelector hook to retrieve data from the state, specifically the "dashboardDetails" property 
-// from the "AdminReducer" slice of the state.
-// The component defines a function named "getChatComponents()" which determines whether the chat message was sent by the user or 
-// received from another user. This is done by checking if the "id" property of the user who sent the message matches the "id" 
-// property of the currently logged in user (retrieved from the "dashboardDetails" object in the state).
-// Based on the result of this check, the function returns either the "Receive" or "Sent" component, 
-// passing the "item" prop to the appropriate component.
-// The component returns a div that renders the result of the "getChatComponents()" function.
 

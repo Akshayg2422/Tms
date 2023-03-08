@@ -34,7 +34,7 @@ import {
 
 export const raiseNewTicket = (params: any) => {
   return {
-    
+
     type: RAISE_NEW_TICKET,
     payload: params,
   };
@@ -61,7 +61,6 @@ export const raiseNewTicketFailure = (error: any) => {
  */
 
 export const getTickets = (params: any) => {
-  // console.log("called action",params)
   return {
     type: GET_TICKETS,
     payload: params,
@@ -114,7 +113,7 @@ export const getTicketTagsFailure = (error: any) => {
  * @param params
  * @returns
  */
-export const addTicketEvent = (params: any) => {  
+export const addTicketEvent = (params: any) => {
   return {
     type: ADD_TICKET_EVENT,
     payload: params,
@@ -142,7 +141,7 @@ export const addTicketEventFailure = (error: any) => {
  * @returns
  */
 export const getTicketsEvents = (params: any) => {
- 
+
   return {
     type: GET_TICKET_EVENTS,
     payload: params,
@@ -150,7 +149,7 @@ export const getTicketsEvents = (params: any) => {
 };
 
 export const getTicketsEventsSuccess = (response: any) => {
- 
+
   return {
     type: GET_TICKET_EVENTS_SUCCESS,
     payload: response,
@@ -172,16 +171,16 @@ export const getTicketsEventsFailure = (error: any) => {
  * @returns
  */
 
- export const getReferenceTickets = ( params: any) => {
+export const getReferenceTickets = (params: any) => {
 
   return {
-    type:GET_REFERENCE_TICKETS,
-    payload:params,
+    type: GET_REFERENCE_TICKETS,
+    payload: params,
   }
- }
+}
 
- export const getReferenceTicketsSuccess = (response: any) => {
- 
+export const getReferenceTicketsSuccess = (response: any) => {
+
   return {
     type: GET_REFERENCE_TICKETS_SUCCESS,
     payload: response,
@@ -205,7 +204,6 @@ export const getReferenceTicketsFailure = (error: any) => {
  */
 
 export const getEmployees = (params: any) => {
-  // console.log("called action-------->",params)
   return {
     type: GET_EMPLOYEES,
     payload: params,
@@ -249,37 +247,37 @@ export const addEmployeeSuccess = (response: any) => {
 };
 
 export const addEmployeeFailure = (error: any) => {
- 
+
   return {
     type: ADD_EMPLOYEE_FAILURE,
     payload: error,
   };
 };
 export const restoreCompany = () => {
- 
+
   return {
-    type:RESTORE_COMPANY,
-   
+    type: RESTORE_COMPANY,
+
   };
 };
 
-export const addBroadCastMessages= (params: any) => {
+export const addBroadCastMessages = (params: any) => {
   return {
-    type:  ADD_BROADCAST_MESSAGES,
+    type: ADD_BROADCAST_MESSAGES,
     payload: params,
   };
 };
 
 export const addBroadCastMessagesSuccess = (response: any) => {
   return {
-    type:  ADD_BROADCAST_MESSAGES_SUCCESS,
+    type: ADD_BROADCAST_MESSAGES_SUCCESS,
     payload: response,
   };
 };
 
 export const addBroadCastMessagesFailure = (error: any) => {
   return {
-    type:  ADD_BROADCAST_MESSAGES_FAILURE,
+    type: ADD_BROADCAST_MESSAGES_FAILURE,
     payload: error,
   };
 };
@@ -287,24 +285,24 @@ export const addBroadCastMessagesFailure = (error: any) => {
 /**
  * GET
  */
- export const getBroadCastMessages= (params: any) => {
+export const getBroadCastMessages = (params: any) => {
   return {
-    type:  GET_BROADCAST_MESSAGES,
+    type: GET_BROADCAST_MESSAGES,
     payload: params,
   };
 };
 
 export const getBroadCastMessagesSuccess = (response: any) => {
-  
+
   return {
-    type:  GET_BROADCAST_MESSAGES_SUCCESS,
+    type: GET_BROADCAST_MESSAGES_SUCCESS,
     payload: response,
   };
 };
 
 export const getBroadCastMessagesFailure = (error: any) => {
   return {
-    type:  GET_BROADCAST_MESSAGES_FAILURE,
+    type: GET_BROADCAST_MESSAGES_FAILURE,
     payload: error,
   };
 };

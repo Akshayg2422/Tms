@@ -108,7 +108,7 @@ function TicketItem({ item, divider }: TicketItemProps) {
               </div>
             </div>
           </div>
-          <div>
+          <div className="col-lg-4">
             <div>
               <h5 className="text-uppercase text-muted mb-0 card-title">
                 {" "}

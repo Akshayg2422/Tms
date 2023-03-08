@@ -56,7 +56,7 @@ function ReferenceIssue({ item, divider }: ReferenceIssueProps) {
               />
             </div>
           </div>
-          <div>
+          <div className="col-lg-4">
             <h5 className="text-uppercase text-muted mb-0 card-title">
               <i className="bi bi-calendar-week mr-1"></i>
               {getStatusFromCode(dashboardDetails, ticket_status)}
