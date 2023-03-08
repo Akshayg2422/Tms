@@ -1,4 +1,4 @@
-import { Card, RemoveEmptySpace } from '@Components'
+import { Card } from '@Components'
 import {
     Chat,
     Send,

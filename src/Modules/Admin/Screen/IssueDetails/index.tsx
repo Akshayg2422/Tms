@@ -22,7 +22,7 @@ function IssueDetails() {
 
   useEffect(() => {
     setSelectedTab(TABS[0]);
-  }, [selectedIssues, selectedReferenceIssues])
+  }, [])
 
   return (
     <>
