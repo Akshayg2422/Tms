@@ -9,7 +9,6 @@ function Receive({ item }: any) {
 
         <>
             {
-
                 ((item && item?.message) || (item?.attachments?.attachments)) && (
                     <div className={'d-flex justify-content-end'}>
                         <div
