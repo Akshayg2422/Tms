@@ -4,7 +4,6 @@ import {
   IssueUsers,
   Attachments,
   ReferenceTickets,
-  MyComponent
 } from "@Modules";
 import { Tabs } from "@Components";
 import { useSelector } from "react-redux";
@@ -17,7 +16,6 @@ function IssueDetails() {
     { id: "2", title: "ATTACH", component: <Attachments /> },
     { id: "3", title: "reference", component: <ReferenceTickets /> },
     { id: "4", title: "user", component: <IssueUsers /> },
-    { id: "5", title: "MyComponent", component: <MyComponent /> },
   ];
 
   const [selectedTab, setSelectedTab] = useState(TABS[0]);
