@@ -107,7 +107,6 @@ function CreateCompany({ }: CreateCompanyProps) {
           params,
           onSuccess: (response: any) => () => {
             if (response.success) {
-
               showToast(response.message, 'success')
               goBack()
             }

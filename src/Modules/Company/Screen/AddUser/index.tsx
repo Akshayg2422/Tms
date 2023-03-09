@@ -9,7 +9,7 @@ import {
   H,
   Button,
   showToast,
-  InputHeading,
+  AutoCompleteDropDown,
 } from "@Components";
 
 import {
@@ -18,13 +18,13 @@ import {
   validate,
   ifObjectExist,
   getValidateError,
-  matchStateToTerm,
+ 
 } from "@Utils";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { addEmployee, getDesignationData } from "@Redux";
 
-import Autocomplete from "react-autocomplete";
+// import Autocomplete from "react-autocomplete";
 
 function AddUser() {
   const { companyDetailsSelected, designationData } = useSelector(
@@ -43,7 +43,7 @@ function AddUser() {
 
   useEffect(() => {
     const params = {
-      branch_id: companyDetailsSelected.branch_id,
+      branch_id: companyDetailsSelected?.branch_id,
     };
     dispatch(
       getDesignationData({
@@ -57,7 +57,7 @@ function AddUser() {
   const submitAddUserHandler = () => {
     if (designationData.data[0].name !== designationValue) {
       const params = {
-        branch_id: companyDetailsSelected.branch_id,
+        branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         email: email.value,
@@ -66,7 +66,7 @@ function AddUser() {
       };
 
       const validation = validate(ADD_USER_RULES, {
-        branch_id: companyDetailsSelected.branch_id,
+        branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         ...(email.value && { email: email.value }),
@@ -77,10 +77,14 @@ function AddUser() {
         dispatch(
           addEmployee({
             params,
-            onSuccess: () => () => {
-              goBack();
+            onSuccess: (response:any) => () => {
+              if (response.success) {
+                showToast(response.message, 'success')
+                goBack()
+              }
             },
             onError: (error) => () => {
+              showToast(error.error_message)
             },
           })
         );
@@ -89,7 +93,7 @@ function AddUser() {
       }
     } else {
       const params = {
-        branch_id: companyDetailsSelected.branch_id,
+        branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         email: email.value,
@@ -98,7 +102,7 @@ function AddUser() {
       };
 
       const validation = validate(ADD_USER_RULES, {
-        branch_id: companyDetailsSelected.branch_id,
+        branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         ...(email.value && { email: email.value }),
@@ -155,7 +159,7 @@ function AddUser() {
           />
 
 
-          <InputHeading heading={"Designation"} />
+          {/* <InputHeading heading={"Designation"} />
           <div>
             <Autocomplete
               renderInput={(props) => (
@@ -187,7 +191,21 @@ function AddUser() {
                 </div>
               )}
             />
+          </div> */}
+          <div>
+            {designationData&&
+          <AutoCompleteDropDown
+                heading={"Designation"}
+            value={designationValue}
+             item={designationData?.data}
+            onChange={(event, value) => setDesignationValue(value)}
+            onSelect={(value) => {
+              setDesignationValue(value);
+            }} 
+            />
+          }
           </div>
+
         </div>
 
 

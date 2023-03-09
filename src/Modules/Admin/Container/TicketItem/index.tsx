@@ -75,6 +75,7 @@ function TicketItem({ item, divider }: TicketItemProps) {
       className="row d-flex justify-content-center"
       onClick={() => {
         dispatch(setSelectedIssues(item));
+        dispatch(setSelectedReferenceIssues(undefined))
         goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
       }}
     >

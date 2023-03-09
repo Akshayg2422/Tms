@@ -5,16 +5,16 @@ export const BUILD_TYPE_LIVE_DEMO = 2;
 export const BUILD_TYPE_STAGING = 3;
 export const BUILD_TYPE_LOCAL = 4;
 
-export const BUILD_TYPE = BUILD_TYPE_LOCAL;
+export const BUILD_TYPE = BUILD_TYPE_STAGING;
 export const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
     ? 'http://api.quantatms.in'
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_local'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
-        ? 'http://192.168.124.5:8000'
+        ? 'http://192.168.43.5:8000'
         : BUILD_TYPE === BUILD_TYPE_STAGING
-          ? 'http://43.204.204.165'
+          ? 'http://103.118.188.135:8004'
           : BUILD_TYPE === BUILD_TYPE_LOCAL
             ? 'http://192.168.43.145:8001'
             : 'http://localhost:8000'

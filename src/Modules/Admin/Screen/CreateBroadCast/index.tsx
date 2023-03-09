@@ -48,16 +48,24 @@ function CreateBroadCast() {
       }),
       broadcast_attachments: [{ attachments: photo }],
     };
+console.log('params--------------?>>>>>>>>>>', params);
 
     const validation = validate(CREATE_BROAD_CAST, params);
+    console.log('validation----------->>', validation);
+
+    
     if (ifObjectExist(validation)) {
       dispatch(
         addBroadCastMessages({
           params,
           onSuccess: (response: any) => () => {
-            goBack();
+            if (response.success) {
+              showToast(response.message, 'success')
+              goBack()
+            }
           },
           onError: (error) => () => {
+            showToast(error.error_message)
           },
         })
       );

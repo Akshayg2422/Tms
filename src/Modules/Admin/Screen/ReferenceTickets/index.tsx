@@ -15,7 +15,12 @@ function ReferenceTickets() {
 
   useEffect(() => {
     proceedgetReferenceTickets();
+
+    selectedReferenceIssues? console.log(selectedReferenceIssues?.id,"selectedReferenceIssues?.id") :
+    console.log(selectedIssues?.id,"selectedIssues?.id---->");
+    
   }, [selectedReferenceIssues]);
+
 
   function proceedgetReferenceTickets() {
     const params = {
