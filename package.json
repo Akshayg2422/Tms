@@ -43,6 +43,7 @@
     "react-dom": "^18.2.0",
     "react-dropdown": "^1.11.0",
     "react-dropzone": "^14.2.3",
+    "react-full-screen": "^1.1.1",
     "react-headless-tabs": "^6.0.3",
     "react-jvectormap": "^0.0.16",
     "react-loading-overlay-ts": "^2.0.0",

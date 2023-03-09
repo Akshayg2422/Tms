@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Card, Divider, HomeContainer } from "@Components";
+import { Button, Card, Divider, HomeContainer, NoDataFound } from "@Components";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
@@ -25,9 +25,9 @@ function Broadcast() {
           params,
           onSuccess: () => () => {
             dispatch(setIsSync({
-              ...isSync,broadcast:true
+              ...isSync, broadcast: true
             }))
-           },
+          },
           onError: () => () => { },
         })
       );
@@ -47,7 +47,7 @@ function Broadcast() {
       </div>
       <Card title={"BroadCast"} className="mt-3">
         {broadCastDetails &&
-          broadCastDetails?.data?.length > 0 &&
+          broadCastDetails?.data?.length > 0 ?
           broadCastDetails?.data?.map((company: any, index: number) => {
             return (
               <div>
@@ -59,7 +59,7 @@ function Broadcast() {
                 )}
               </div>
             );
-          })}
+          }) : <NoDataFound />}
       </Card>
     </HomeContainer>
   );
