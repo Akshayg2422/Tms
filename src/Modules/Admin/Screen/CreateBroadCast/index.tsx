@@ -8,9 +8,10 @@ import {
   MultiSelectDropDown,
 } from "@Components";
 import { translate } from "@I18n";
-import {addBroadCastMessages } from "@Redux";
+import {addBroadCastMessages ,setIsSync} from "@Redux";
 import {
-  CREATE_BROAD_CAST,
+  CREATE_BROAD_CAST_EXTERNAL,
+  CREATE_BROAD_CAST_INTERNAL,
   getValidateError,
   ifObjectExist,
   type,
@@ -20,11 +21,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation } from "@Hooks";
 
+
 function CreateBroadCast() {
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
   const [typeSelect, setTypeSelect] = useState(type[0]);
   const { associatedCompanies } = useSelector((state: any) => state.AdminReducer);
+  const { isSync } = useSelector((state: any) => state.AppReducer);
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState<any>([]);
@@ -48,10 +51,10 @@ function CreateBroadCast() {
       }),
       broadcast_attachments: [{ attachments: photo }],
     };
-console.log('params--------------?>>>>>>>>>>', params);
 
-    const validation = validate(CREATE_BROAD_CAST, params);
-    console.log('validation----------->>', validation);
+
+    const validation = validate(typeSelect?.id === "1"?CREATE_BROAD_CAST_EXTERNAL:CREATE_BROAD_CAST_INTERNAL, params);
+
 
     
     if (ifObjectExist(validation)) {
@@ -63,6 +66,9 @@ console.log('params--------------?>>>>>>>>>>', params);
               showToast(response.message, 'success')
               goBack()
             }
+            dispatch(setIsSync({
+              ...isSync, broadcast: false
+          }))
           },
           onError: (error) => () => {
             showToast(error.error_message)

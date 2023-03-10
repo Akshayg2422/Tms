@@ -81,7 +81,6 @@ export const getDashboardFailure = (error: any) => {
 
 export const setSelectedIssues = (response: any) => {
   
-  console.log(response,"response---------------> setSelectedIssues");
   return {
     type: SET_SELECTED_ISSUES,
     payload: response,
@@ -89,7 +88,7 @@ export const setSelectedIssues = (response: any) => {
 };
 export const setSelectedReferenceIssues = (response: any) => {
   
-  console.log(response,"response---------------> setSelectedReferenceIssues");
+  
   
   return {
     type: SET_REFERENCE_SELECTED_ISSUES,

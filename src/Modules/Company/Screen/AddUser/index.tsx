@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-
 import {
   HomeContainer,
   Input,
@@ -18,11 +17,10 @@ import {
   validate,
   ifObjectExist,
   getValidateError,
- 
 } from "@Utils";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
-import { addEmployee, getDesignationData } from "@Redux";
+import { addEmployee, getDesignationData, setIsSync } from "@Redux";
 
 // import Autocomplete from "react-autocomplete";
 
@@ -30,6 +28,7 @@ function AddUser() {
   const { companyDetailsSelected, designationData } = useSelector(
     (state: any) => state.AdminReducer
   );
+  const { isSync } = useSelector((state: any) => state.AppReducer);
 
   const dispatch = useDispatch();
   const firstName = useInput("");
@@ -39,8 +38,6 @@ function AddUser() {
   const [designationValue, setDesignationValue] = useState("");
   const { goBack } = useNavigation();
 
-
-
   useEffect(() => {
     const params = {
       branch_id: companyDetailsSelected?.branch_id,
@@ -48,8 +45,8 @@ function AddUser() {
     dispatch(
       getDesignationData({
         params,
-        onSuccess: () => () => { },
-        onError: () => () => { },
+        onSuccess: () => () => {},
+        onError: () => () => {},
       })
     );
   }, []);
@@ -77,14 +74,20 @@ function AddUser() {
         dispatch(
           addEmployee({
             params,
-            onSuccess: (response:any) => () => {
+            onSuccess: (response: any) => () => {
               if (response.success) {
-                showToast(response.message, 'success')
-                goBack()
+                showToast(response.message, "success");
+                goBack();
               }
+              dispatch(
+                setIsSync({
+                  ...isSync,
+                  issues: false,
+                })
+              );
             },
             onError: (error) => () => {
-              showToast(error.error_message)
+              showToast(error.error_message);
             },
           })
         );
@@ -110,16 +113,23 @@ function AddUser() {
         designation_name: designationData?.data[0]?.id,
       });
 
-
       if (ifObjectExist(validation)) {
         dispatch(
           addEmployee({
             params,
-            onSuccess: () => () => {
-              goBack();
+            onSuccess: (response: any) => () => {
+              if (response.success) {
+                showToast(response.message, "success");
+                goBack();
+              }
+              dispatch(
+                setIsSync({
+                  ...isSync,
+                  issues: false,
+                })
+              );
             },
-            onError: (error) => () => {
-            },
+            onError: (error) => () => {},
           })
         );
       } else {
@@ -131,7 +141,6 @@ function AddUser() {
   return (
     <>
       <HomeContainer isCard title={translate("common.addUser")!}>
-
         <div className="col-md-6">
           <Input
             heading={translate("common.name")}
@@ -158,56 +167,20 @@ function AddUser() {
             onChange={gender.onChange}
           />
 
-
-          {/* <InputHeading heading={"Designation"} />
           <div>
-            <Autocomplete
-              renderInput={(props) => (
-                <input
-                  className={"designation-input form-control col"}
-                  {...props}
-                />
-              )}
-              value={designationValue}
-              wrapperStyle={{ position: "relative", display: "inline-block" }}
-              items={designationData?.data}
-              getItemValue={(item) => item?.name}
-              shouldItemRender={matchStateToTerm}
-              onChange={(event, value) => setDesignationValue(value)}
-              onSelect={(value) => {
-                setDesignationValue(value);
-              }}
-              renderMenu={(children) => (
-                <div className="menu designation-scroll-bar">{children}</div>
-              )}
-              renderItem={(item, isHighlighted) => (
-                <div
-                  style={{
-                    background: isHighlighted ? "lightgray" : "white",
-                  }}
-                  key={item?.id}
-                >
-                  {item?.name}
-                </div>
-              )}
-            />
-          </div> */}
-          <div>
-            {designationData&&
-          <AutoCompleteDropDown
+            {designationData && (
+              <AutoCompleteDropDown
                 heading={"Designation"}
-            value={designationValue}
-             item={designationData?.data}
-            onChange={(event, value) => setDesignationValue(value)}
-            onSelect={(value) => {
-              setDesignationValue(value);
-            }} 
-            />
-          }
+                value={designationValue}
+                item={designationData?.data}
+                onChange={(event, value) => setDesignationValue(value)}
+                onSelect={(value) => {
+                  setDesignationValue(value);
+                }}
+              />
+            )}
           </div>
-
         </div>
-
 
         <div className="col mt-4">
           <Button
@@ -215,7 +188,6 @@ function AddUser() {
             onClick={submitAddUserHandler}
           />
         </div>
-
       </HomeContainer>
     </>
   );

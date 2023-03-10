@@ -44,6 +44,10 @@ export const OTP_RULES = {
 };
 
 export const BUSINESS_FORM_RULES = {
+  
+  attachment_logo:{
+    presence: { allowEmpty: false, message: "Attach cannot be empty" }
+  },
   registered_name: {
     presence: { message: "Name cannot be empty" },
     length: { minimum: 3, message: "Name minimum 3 chars" },
@@ -55,12 +59,9 @@ export const BUSINESS_FORM_RULES = {
     presence: { allowEmpty: false, message: "PinCode cannot be empty" },
     length: { is: 6, message: "PinCode should be 6 number" },
   },
-  attachment_logo:{
-    presence: { allowEmpty: false, message: "Attach cannot be empty" }
-
-  },
-
+  
   mobile_number2: MOBILE_NUMBER_RULES.mobile_number,
+
 };
 
 export const USER_FORM_RULES = {
@@ -102,19 +103,10 @@ export const CREATE_TICKET = {
   
   },
   
-  ticket_attachments:{
-   presence: { allowEmpty: false, message: "attachments cannot be empty" },
-   
-
-    
-  }
-    // length: { minimum: 2, message: "attachments cannot be empty" },
-
-
 
 };
 
-export const CREATE_BROAD_CAST = {
+export const CREATE_BROAD_CAST_EXTERNAL = {
 
   title: {
     presence: { allowEmpty: false, message: "title cannot be empty" },
@@ -141,10 +133,5 @@ export const CREATE_BROAD_CAST = {
     description: {
       presence: { allowEmpty: false, message: "description cannot be empty" },
     },
-    broadcast_attachments:
-    { 
-      presence: { message: "attachments cannot be empty" },
-    
-    }
 
     }

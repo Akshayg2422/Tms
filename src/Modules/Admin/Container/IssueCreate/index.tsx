@@ -8,7 +8,7 @@ import {
   showToast,
 } from "@Components";
 import { translate } from "@I18n";
-import { getEmployees, raiseNewTicket } from "@Redux";
+import { getEmployees, raiseNewTicket,setIsSync } from "@Redux";
 import {
   CREATE_TICKET,
   getValidateError,
@@ -28,6 +28,7 @@ function IssueCreate() {
   const { associatedCompanies, dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
   );
+  const { isSync } = useSelector((state: any) => state.AppReducer);
 
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
     useState();
@@ -81,10 +82,12 @@ console.log('params=====>',params);
           params,
           onSuccess: (response: any) => () => {
             if (response.success) {
-              showToast(response.message, 'success')
               goBack()
+              showToast(response.message, 'success')
             }
-            goBack();
+            dispatch(setIsSync({
+              ...isSync, issues: false
+          }))
           },
           onError: (error) => () => {
             showToast(error.error_message)

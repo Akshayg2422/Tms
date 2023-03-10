@@ -18,7 +18,6 @@ function CompanyUsers() {
     );
 
 
-
     useEffect(() => {
         const params = { branch_id: companyDetailsSelected.branch_id };
         dispatch(getEmployees({

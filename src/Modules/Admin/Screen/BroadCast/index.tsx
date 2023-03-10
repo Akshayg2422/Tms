@@ -16,7 +16,7 @@ function Broadcast() {
   const { isSync } = useSelector(
     (state: any) => state.AppReducer
   );
-  console.log(broadCastDetails, "broadCastDetails");
+ 
   useEffect(() => {
     const params = { q: "" };
     if (!isSync.broadcast) {

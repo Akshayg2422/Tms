@@ -29,12 +29,15 @@ function Issues() {
   const getTicketHandler = () => {
     if (!isSync.issues) {
       if (statusCode === "") {
+        
         const params = { q: "" };
         dispatch(
           getTickets({
             params,
             onSuccess: () => () => {
+              
               dispatch(
+
                 setIsSync({
                   ...isSync,
                   issues: true,
@@ -49,7 +52,10 @@ function Issues() {
         dispatch(
           getTickets({
             params,
-            onSuccess: () => () => {},
+            onSuccess: () => () => {
+              
+            
+            },
             onError: () => () => {},
           })
         );
@@ -77,7 +83,7 @@ function Issues() {
           <div className="row m-0 ">
             <div className="col-lg-12 col-md-4 col-sm-12  input-group bg-white ">
               <div className="row">
-             <div className="col-lg-5 col-sm-0 col-4">
+             <div className="col-lg-6 col-sm-0 col-4">
               <input
                 type="text"
                 className="form-control bg-transparent border border-0 px-0"
@@ -88,7 +94,7 @@ function Issues() {
               </div>
               <div className="col-lg-1 pt-2 col-sm-0 col-1">
               <span
-                className="input-group-text border-0 pointer px-2"
+                className="input-group-text border-0 pointer px-lg-1 px-sm-0 px-2"
                 onClick={getSearchHandler}
               >
                 {" "}
@@ -97,7 +103,7 @@ function Issues() {
               </div>
               
            
-              <div className="pointer m-0  col-lg-6 col-sm-0 col-6 text-end" onClick={() => setModal(!modal)}>
+              <div className="pointer m-0  col-lg-5 col-sm-0 col-6 text-end" onClick={() => setModal(!modal)}>
                 <div className="row">
 
             <div className="col-lg-10- col-sm-0 col-8">
