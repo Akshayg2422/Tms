@@ -145,7 +145,7 @@ function CreateBroadCast() {
 
         <div className="col">
           <label className={`form-control-label`}>
-            {translate("auth.logo")}
+          {translate("auth.attach")}
           </label>
         </div>
 

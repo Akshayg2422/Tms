@@ -122,7 +122,7 @@ function CreateCompany({}: CreateCompanyProps) {
           className="heading mb-3"
           text={translate("common.companyDetails")}
         />
-        <label className={`form-control-label`}>{translate("auth.logo")}</label>
+        <label className={`form-control-label`}>{translate("auth.attach")}</label>
       </div>
       <div className="col-md-9 col-lg-7 pb-4 pt-3">
         <Dropzone
