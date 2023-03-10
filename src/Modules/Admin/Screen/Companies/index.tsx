@@ -54,9 +54,9 @@ function Companies() {
       </div>
       <Card title={"Companies"} className="mt-3">
         {associatedCompanies &&
-          associatedCompanies.length > 0 ?
-          associatedCompanies?.map((company: any, index: number) => {
-            const divider = associatedCompanies.length - 1 !== index
+          associatedCompanies?.data?.length > 0 ?
+          associatedCompanies?.data?.map((company: any, index: number) => {
+            const divider = associatedCompanies?.data?.length - 1 !== index
             return (
               <div
                 key={company.id}

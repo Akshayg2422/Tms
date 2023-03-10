@@ -8,7 +8,7 @@ import {
   H,
   Button,
   showToast,
-  InputHeading,
+  AutoCompleteDropDown,
 } from "@Components";
 
 import {
@@ -17,18 +17,18 @@ import {
   validate,
   ifObjectExist,
   getValidateError,
-  matchStateToTerm,
 } from "@Utils";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
-import { addEmployee, getDesignationData } from "@Redux";
+import { addEmployee, getDesignationData, setIsSync } from "@Redux";
 
-import Autocomplete from "react-autocomplete";
+// import Autocomplete from "react-autocomplete";
 
 function AddUser() {
   const { companyDetailsSelected, designationData } = useSelector(
     (state: any) => state.AdminReducer
   );
+  const { isSync } = useSelector((state: any) => state.AppReducer);
 
   const dispatch = useDispatch();
   const firstName = useInput("");
@@ -38,17 +38,15 @@ function AddUser() {
   const [designationValue, setDesignationValue] = useState("");
   const { goBack } = useNavigation();
 
-
-
   useEffect(() => {
     const params = {
-      branch_id: companyDetailsSelected.branch_id,
+      branch_id: companyDetailsSelected?.branch_id,
     };
     dispatch(
       getDesignationData({
         params,
-        onSuccess: () => () => { },
-        onError: () => () => { },
+        onSuccess: () => () => {},
+        onError: () => () => {},
       })
     );
   }, []);
@@ -56,7 +54,7 @@ function AddUser() {
   const submitAddUserHandler = () => {
     if (designationData.data[0].name !== designationValue) {
       const params = {
-        branch_id: companyDetailsSelected.branch_id,
+        branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         email: email.value,
@@ -65,7 +63,7 @@ function AddUser() {
       };
 
       const validation = validate(ADD_USER_RULES, {
-        branch_id: companyDetailsSelected.branch_id,
+        branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         ...(email.value && { email: email.value }),
@@ -76,10 +74,20 @@ function AddUser() {
         dispatch(
           addEmployee({
             params,
-            onSuccess: () => () => {
-              goBack();
+            onSuccess: (response: any) => () => {
+              if (response.success) {
+                showToast(response.message, "success");
+                goBack();
+              }
+              dispatch(
+                setIsSync({
+                  ...isSync,
+                  issues: false,
+                })
+              );
             },
             onError: (error) => () => {
+              showToast(error.error_message);
             },
           })
         );
@@ -88,7 +96,7 @@ function AddUser() {
       }
     } else {
       const params = {
-        branch_id: companyDetailsSelected.branch_id,
+        branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         email: email.value,
@@ -97,7 +105,7 @@ function AddUser() {
       };
 
       const validation = validate(ADD_USER_RULES, {
-        branch_id: companyDetailsSelected.branch_id,
+        branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
         mobile_number: contactNumber.value,
         ...(email.value && { email: email.value }),
@@ -105,16 +113,23 @@ function AddUser() {
         designation_name: designationData?.data[0]?.id,
       });
 
-
       if (ifObjectExist(validation)) {
         dispatch(
           addEmployee({
             params,
-            onSuccess: () => () => {
-              goBack();
+            onSuccess: (response: any) => () => {
+              if (response.success) {
+                showToast(response.message, "success");
+                goBack();
+              }
+              dispatch(
+                setIsSync({
+                  ...isSync,
+                  issues: false,
+                })
+              );
             },
-            onError: (error) => () => {
-            },
+            onError: (error) => () => {},
           })
         );
       } else {
@@ -126,7 +141,6 @@ function AddUser() {
   return (
     <>
       <HomeContainer isCard title={translate("common.addUser")!}>
-
         <div className="col-md-6">
           <Input
             heading={translate("common.name")}
@@ -153,42 +167,20 @@ function AddUser() {
             onChange={gender.onChange}
           />
 
-
-          <InputHeading heading={"Designation"} />
           <div>
-            <Autocomplete
-              renderInput={(props) => (
-                <input
-                  className={"designation-input form-control col"}
-                  {...props}
-                />
-              )}
-              value={designationValue}
-              wrapperStyle={{ position: "relative", display: "inline-block" }}
-              items={designationData?.data}
-              getItemValue={(item) => item?.name}
-              shouldItemRender={matchStateToTerm}
-              onChange={(event, value) => setDesignationValue(value)}
-              onSelect={(value) => {
-                setDesignationValue(value);
-              }}
-              renderMenu={(children) => (
-                <div className="menu designation-scroll-bar">{children}</div>
-              )}
-              renderItem={(item, isHighlighted) => (
-                <div
-                  style={{
-                    background: isHighlighted ? "lightgray" : "white",
-                  }}
-                  key={item?.id}
-                >
-                  {item?.name}
-                </div>
-              )}
-            />
+            {designationData && (
+              <AutoCompleteDropDown
+                heading={"Designation"}
+                value={designationValue}
+                item={designationData?.data}
+                onChange={(event, value) => setDesignationValue(value)}
+                onSelect={(value) => {
+                  setDesignationValue(value);
+                }}
+              />
+            )}
           </div>
         </div>
-
 
         <div className="col mt-4">
           <Button
@@ -196,7 +188,6 @@ function AddUser() {
             onClick={submitAddUserHandler}
           />
         </div>
-
       </HomeContainer>
     </>
   );

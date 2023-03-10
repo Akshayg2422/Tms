@@ -32,9 +32,9 @@ function CompanyIssues() {
         <HomeContainer isCard>
             <div className='pt-3'>
                 {
-                    tickets && tickets.length > 0 ? tickets.map((eachTickets: any, index: number) => {
+                    tickets && tickets?.data?.length > 0 ? tickets?.data?.map((eachTickets: any, index: number) => {
 
-                        const divider = tickets.length - 1 !== index
+                        const divider = tickets?.data?.length - 1 !== index
                         return (
                             <CompanyIssueItem item={eachTickets} key={index} divider={divider} />
                         )

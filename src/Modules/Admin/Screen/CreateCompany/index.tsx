@@ -1,8 +1,6 @@
-import React, {
-  useState
-} from 'react'
+import React, { useState } from "react";
 import { translate } from "@I18n";
-import { CreateCompanyProps } from './interfaces'
+import { CreateCompanyProps } from "./interfaces";
 import {
   HomeContainer,
   Input,
@@ -11,8 +9,8 @@ import {
   Divider,
   Button,
   showToast,
-  Dropzone
-} from '@Components'
+  Dropzone,
+} from "@Components";
 import {
   GENDER_LIST,
   DESIGNATION_LIST,
@@ -20,38 +18,26 @@ import {
   BUSINESS_FORM_RULES,
   USER_FORM_RULES,
   getValidateError,
-  ifObjectExist
-} from '@Utils';
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux'
-import {
-  registerCompany,
-  registerAdmin,
-} from '@Redux';
-import {
-  useInput,
-  useDropDown,
-  useNavigation
-} from '@Hooks'
+  ifObjectExist,
+} from "@Utils";
+import { useDispatch, useSelector } from "react-redux";
+import { registerCompany, registerAdmin, setIsSync } from "@Redux";
+import { useInput, useDropDown, useNavigation } from "@Hooks";
 
+function CreateCompany({}: CreateCompanyProps) {
+  const { isSync } = useSelector((state: any) => state.AppReducer);
 
-function CreateCompany({ }: CreateCompanyProps) {
-
-  const [photo, setPhoto] = useState('')
-  const { goBack } = useNavigation()
-  const dispatch = useDispatch()
-  const fullName = useInput('')
-  const contactNumber = useInput('')
-  const email = useInput('')
-  const gender = useDropDown(GENDER_LIST[0])
-  const name = useInput('')
-  const address = useInput('')
-  const pinCode = useInput('')
-  const companyContactNumber = useInput('')
-
-
+  const [photo, setPhoto] = useState("");
+  const { goBack } = useNavigation();
+  const dispatch = useDispatch();
+  const fullName = useInput("");
+  const contactNumber = useInput("");
+  const email = useInput("");
+  const gender = useDropDown(GENDER_LIST[0]);
+  const name = useInput("");
+  const address = useInput("");
+  const pinCode = useInput("");
+  const companyContactNumber = useInput("");
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -59,7 +45,7 @@ function CreateCompany({ }: CreateCompanyProps) {
       mobile_number: contactNumber.value,
       email: email.value,
       gender: gender.value?.id,
-      designation: 'Management',
+      designation: "Management",
     };
 
     const validation = validate(USER_FORM_RULES, {
@@ -67,21 +53,23 @@ function CreateCompany({ }: CreateCompanyProps) {
       mobile_number: contactNumber.value,
       ...(email.value && { email: email.value }),
       gender: gender.value?.id,
-      designation: 'Management',
+      designation: "Management",
     });
 
     if (ifObjectExist(validation)) {
-
       dispatch(
         registerAdmin({
           params,
           onSuccess: (response: any) => () => {
             onRegisterCompany();
+            if (response.success) {
+              showToast(response.message, "success");
+            }
           },
           onError: (error) => {
-            showToast(error.error_message)
+            showToast(error.error_message);
           },
-        }),
+        })
       );
     } else {
       showToast(getValidateError(validation));
@@ -89,106 +77,138 @@ function CreateCompany({ }: CreateCompanyProps) {
   };
 
   const onRegisterCompany = () => {
-
     const params = {
       registered_name: name.value,
       communication_address: address.value,
       pincode: pinCode.value,
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
-      attachment_logo: photo
+      attachment_logo: photo,
     };
 
     const validation = validate(BUSINESS_FORM_RULES, params);
-    if (ifObjectExist(validation)) {
 
+    if (ifObjectExist(validation)) {
       dispatch(
         registerCompany({
           params,
           onSuccess: (response: any) => () => {
             if (response.success) {
-
-              showToast(response.message, 'success')
-              goBack()
+              showToast(response.message, "success");
+              goBack();
             }
+            dispatch(
+              setIsSync({
+                ...isSync,
+                companies: false,
+              })
+            );
           },
           onError: (error: any) => () => {
-            showToast('')
+            showToast("");
           },
-        }),
+        })
       );
     } else {
-      showToast(getValidateError(validation))
+      showToast(getValidateError(validation));
     }
   };
 
   return (
-
-    <HomeContainer isCard title={translate('common.createCompany')!} >
-      <div className='col-md-9 col-lg-5'>
-        <H tag={'h3'} className="heading mb-3"
-          text={translate('common.companyDetails')} />
-        <label className={`form-control-label`}>{translate('auth.logo')}</label>
+    <HomeContainer isCard title={translate("common.createCompany")!}>
+      <div className="col-md-9 col-lg-5">
+        <H
+          tag={"h3"}
+          className="heading mb-3"
+          text={translate("common.companyDetails")}
+        />
+        <label className={`form-control-label`}>{translate("auth.logo")}</label>
       </div>
-      <div className='col-md-9 col-lg-7 pb-4 pt-3'>
-        <Dropzone variant='ICON'
+      <div className="col-md-9 col-lg-7 pb-4 pt-3">
+        <Dropzone
+          variant="ICON"
           icon={photo}
-          size='xl'
+          size="xl"
           onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, '');
-            setPhoto(encoded)
+            let encoded = image.toString().replace(/^data:(.*,)?/, "");
+            setPhoto(encoded);
+            console.log(encoded, "encoded");
           }}
         />
       </div>
-      <div className='col-md-9 col-lg-5'>
+      <div className="col-md-9 col-lg-5">
         <Input
-          heading={translate('common.name')}
+          heading={translate("common.name")}
           value={name.value}
-          onChange={name.onChange} />
-        <Input heading={translate('auth.address')}
-          value={address.value} onChange={address.onChange} />
+          onChange={name.onChange}
+        />
+
         <Input
-          type={'number'}
-          heading={translate('common.PinCode')}
+          heading={translate("auth.address")}
+          value={address.value}
+          onChange={address.onChange}
+        />
+        <Input
+          type={"number"}
+          heading={translate("common.PinCode")}
           maxLength={6}
           value={pinCode.value}
-          onChange={pinCode.onChange} />
-        {/* <Input disabled heading={translate('auth.mobileNumber')}
-         value={contactNumber.value} /> */}
-        <Input type={'number'}
-          heading={translate('common.contactNumber')}
+          onChange={pinCode.onChange}
+        />
+       
+        <Input
+          type={"number"}
+          heading={translate("common.contactNumber")}
           maxLength={10}
           value={companyContactNumber.value}
-          onChange={companyContactNumber.onChange} />
+          onChange={companyContactNumber.onChange}
+        />
       </div>
 
       <Divider />
 
-      <div className='col-md-9 col-lg-5'>
-        <H tag={'h3'} className="heading mb-3"
-          text={translate('common.primaryContactPerson')} />
-        <Input heading={translate('auth.fullName')}
-          value={fullName.value} onChange={fullName.onChange} />
-        <Input type={'number'}
-          heading={translate('auth.contactNumber')} maxLength={10}
-          value={contactNumber.value} onChange={contactNumber.onChange} />
-        <Input heading={translate('auth.emailOptional')}
-          value={email.value} onChange={email?.onChange} />
-        <DropDown heading={translate('auth.gender')}
-          selected={gender.value} data={GENDER_LIST} value={gender.value} onChange={gender.onChange} />
-
+      <div className="col-md-9 col-lg-5">
+        <H
+          tag={"h3"}
+          className="heading mb-3"
+          text={translate("common.primaryContactPerson")}
+        />
+        <Input
+          heading={translate("auth.fullName")}
+          value={fullName.value}
+          onChange={fullName.onChange}
+        />
+        <Input
+          type={"number"}
+          heading={translate("auth.contactNumber")}
+          maxLength={10}
+          value={contactNumber.value}
+          onChange={contactNumber.onChange}
+        />
+        <Input
+          heading={translate("auth.emailOptional")}
+          value={email.value}
+          onChange={email?.onChange}
+        />
+        <DropDown
+          heading={translate("auth.gender")}
+          selected={gender.value}
+          data={GENDER_LIST}
+          value={gender.value}
+          onChange={gender.onChange}
+        />
       </div>
 
-      <div className='col'>
+      <div className="col">
         <Button
-          text={translate('common.submit')}
-          onClick={() =>
-            submitRegisteredAdminHandler()
-          }
+          text={translate("common.submit")}
+          onClick={() => {
+            submitRegisteredAdminHandler();
+          }}
         />
       </div>
     </HomeContainer>
-  )
+  );
 }
 
-export { CreateCompany }
+export { CreateCompany };

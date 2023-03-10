@@ -47,7 +47,7 @@ function TicketItem({ item, divider }: TicketItemProps) {
         break;
       case 4:
         setShowPriorityColor("orange");
-        setShowPriority("Hight");
+        setShowPriority("High");
         break;
       case 5:
         setShowPriorityColor("red");
@@ -75,6 +75,7 @@ function TicketItem({ item, divider }: TicketItemProps) {
       className="row d-flex justify-content-center"
       onClick={() => {
         dispatch(setSelectedIssues(item));
+        dispatch(setSelectedReferenceIssues(undefined))
         goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
       }}
     >

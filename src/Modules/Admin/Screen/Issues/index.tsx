@@ -29,12 +29,15 @@ function Issues() {
   const getTicketHandler = () => {
     if (!isSync.issues) {
       if (statusCode === "") {
+        
         const params = { q: "" };
         dispatch(
           getTickets({
             params,
             onSuccess: () => () => {
+              
               dispatch(
+
                 setIsSync({
                   ...isSync,
                   issues: true,
@@ -49,7 +52,10 @@ function Issues() {
         dispatch(
           getTickets({
             params,
-            onSuccess: () => () => {},
+            onSuccess: () => () => {
+              
+            
+            },
             onError: () => () => {},
           })
         );
@@ -72,33 +78,52 @@ function Issues() {
   return (
     <>
       <div className="row m-0 mt-3">
-        <div className="col-6 "></div>
-        <div className="col-lg-4 col-md-4 col-sm-12  ml-4">
+        <div className="col-5 "></div>
+        <div className="col-lg-5 col-md-4 col-sm-12  ml-4">
           <div className="row m-0 ">
-            <div className="col input-group bg-white ">
+            <div className="col-lg-12 col-md-4 col-sm-12  input-group bg-white ">
+              <div className="row">
+             <div className="col-lg-6 col-sm-0 col-4">
               <input
                 type="text"
-                className="form-control bg-transparent border border-0"
+                className="form-control bg-transparent border border-0 px-0"
                 placeholder={translate("auth.search")!}
                 value={Search.value}
                 onChange={Search.onChange}
               />
+              </div>
+              <div className="col-lg-1 pt-2 col-sm-0 col-1">
               <span
-                className="input-group-text border-0 pointer px-3"
+                className="input-group-text border-0 pointer px-lg-1 px-sm-0 px-2"
                 onClick={getSearchHandler}
               >
                 {" "}
                 <i className="fas fa-search" />
               </span>
-              <div className="row pointer m-0" onClick={() => setModal(!modal)}>
+              </div>
+              
+           
+              <div className="pointer m-0  col-lg-5 col-sm-0 col-6 text-end" onClick={() => setModal(!modal)}>
+                <div className="row">
+
+            <div className="col-lg-10- col-sm-0 col-8">
+
+           
                 <span className="input-group-text border-0 ">
                   {" "}
                   {showIssue}{" "}
                 </span>
+
+                </div>
+               <div className="col-lg-2 col-sm-0 col-1 ">
                 <span className="input-group-text border-0">
                   {" "}
                   <i className="bi bi-chevron-down " />
                 </span>
+                </div>
+                </div>
+             
+              </div>
               </div>
             </div>
           </div>
@@ -117,9 +142,9 @@ function Issues() {
 
       <HomeContainer isCard title={"Issues"}>
         {tickets &&
-          tickets.length > 0 ?
-          tickets?.map((eachTickets: any, index: number) => {
-            const divider = tickets.length - 1 !== index;
+          tickets?.data?.length > 0 ?
+          tickets?.data?.map((eachTickets: any, index: number) => {
+            const divider = tickets?.data?.length - 1 !== index;
             return (
               <TicketItem item={eachTickets} key={index} divider={divider} />
             );

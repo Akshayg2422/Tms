@@ -11,8 +11,8 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
 
   return (
     <div className="row d-flex justify-content-center ">
-      <div className="col-lg-12">
-        <div className="row ">
+      <div className="col-lg-12 my--3">
+        <div className="row mt--2 mb--1">
           <div className="col ">
             <H
               tag={"h4"}
@@ -20,7 +20,7 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
               text={title}
             />
           </div>
-          <div className="col-auto text-xs text-capitalize">
+          <div className="col-auto text-xs text-capitalize ">
             {getDataAndTime(created_at)}
           </div>
         </div>
