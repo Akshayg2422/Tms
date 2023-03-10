@@ -102,8 +102,8 @@ console.log('params=====>',params);
   useEffect(() => {
     let companies: any = [];
 
-    if (associatedCompanies && associatedCompanies.length > 0) {
-      associatedCompanies.forEach(({ branch_id, display_name }) => {
+    if (associatedCompanies && associatedCompanies?.data?.length > 0) {
+      associatedCompanies?.data?.forEach(({ branch_id, display_name }) => {
         companies = [
           ...companies,
           { id: branch_id, text: display_name, name: display_name },

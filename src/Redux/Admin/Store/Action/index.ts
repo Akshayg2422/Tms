@@ -38,12 +38,15 @@ export const RestoreAdmin = () => {
 };
 
 export const getAssociatedBranch = (params: any) => {
+
   return {
     type: GET_ASSOCIATED_BRANCH,
     payload: params,
   };
 };
 export const getAssociatedBranchSuccess = (response: any) => {
+  
+  
   return {
     type: GET_ASSOCIATED_BRANCH_SUCCESS,
     payload: response,

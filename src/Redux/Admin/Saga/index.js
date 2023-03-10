@@ -41,6 +41,7 @@ function* getAssociatedCompaniesSaga(action) {
     );
 
     if (response.success) {
+      
       yield put(hideLoader());
       yield put(getAssociatedBranchSuccess({...response}));
       yield call(action.payload.onSuccess(response));

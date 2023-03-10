@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { companySelectedDetails, getAssociatedBranch, setIsSync } from "@Redux";
-import { Card, Divider, Button, HomeContainer, FilePicker } from "@Components";
+import { Card, Divider, Button, HomeContainer, FilePicker, NoDataFound } from "@Components";
 import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH, INFO } from "@Routes";
@@ -21,15 +21,15 @@ function Companies() {
   useEffect(() => {
     const params = { q: "" };
 
-    if(!isSync.companies){
+    if (!isSync.companies) {
       dispatch(
         getAssociatedBranch({
           params,
           onSuccess: () => () => {
             dispatch(setIsSync({
-              ...isSync,companies:true
+              ...isSync, companies: true
             }))
-           },
+          },
           onError: () => () => { },
         })
       );
@@ -54,9 +54,9 @@ function Companies() {
       </div>
       <Card title={"Companies"} className="mt-3">
         {associatedCompanies &&
-          associatedCompanies.length > 0 &&
-          associatedCompanies?.map((company: any, index: number) => {
-            const divider = associatedCompanies.length - 1 !== index
+          associatedCompanies?.data?.length > 0 ?
+          associatedCompanies?.data?.map((company: any, index: number) => {
+            const divider = associatedCompanies?.data?.length - 1 !== index
             return (
               <div
                 key={company.id}
@@ -67,7 +67,7 @@ function Companies() {
                 <CompanyItem item={company} showDivider={divider} />
               </div>
             );
-          })}
+          }) : <NoDataFound />}
       </Card>
     </HomeContainer>
   );

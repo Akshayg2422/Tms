@@ -20,7 +20,7 @@ export * from './NoRecordsFound'
 export * from './DropZone'
 export * from './MultiSelectDropDown'
 export * from './AutoCompleteDropDown'
-
+export * from './ImageFullScreen'
 
 
 
