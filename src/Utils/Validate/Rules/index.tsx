@@ -44,6 +44,10 @@ export const OTP_RULES = {
 };
 
 export const BUSINESS_FORM_RULES = {
+  
+  attachment_logo:{
+    presence: { allowEmpty: false, message: "Attach cannot be empty" }
+  },
   registered_name: {
     presence: { message: "Name cannot be empty" },
     length: { minimum: 3, message: "Name minimum 3 chars" },
@@ -55,8 +59,9 @@ export const BUSINESS_FORM_RULES = {
     presence: { allowEmpty: false, message: "PinCode cannot be empty" },
     length: { is: 6, message: "PinCode should be 6 number" },
   },
-
+  
   mobile_number2: MOBILE_NUMBER_RULES.mobile_number,
+
 };
 
 export const USER_FORM_RULES = {
@@ -93,16 +98,40 @@ export const CREATE_TICKET = {
   assigned_to_id: {
     presence: { allowEmpty: false, message: "please select User" },
   },
+  priority:{
+    presence: { allowEmpty: false, message: "please select priority" },
+  
+  },
+  
+
 };
 
-export const CREATE_BROAD_CAST = {
+export const CREATE_BROAD_CAST_EXTERNAL = {
+
   title: {
     presence: { allowEmpty: false, message: "title cannot be empty" },
   },
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  // broadcast_attachments:{
-  //   presence: { allowEmpty: false, message: "attach Logo cannot be empty" },
-  // }
-};
+  applicable_branches_ids:{
+    presence: { allowEmpty: false, message: "Company cannot be empty" },
+
+  },
+  broadcast_attachments:
+  { 
+    presence: { message: "attachments cannot be empty" },
+  
+  }
+  }
+ 
+  export const CREATE_BROAD_CAST_INTERNAL= {
+
+    title: {
+      presence: { allowEmpty: false, message: "title cannot be empty" },
+    },
+    description: {
+      presence: { allowEmpty: false, message: "description cannot be empty" },
+    },
+
+    }

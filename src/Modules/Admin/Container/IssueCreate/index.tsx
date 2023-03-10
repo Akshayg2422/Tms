@@ -8,7 +8,7 @@ import {
   showToast,
 } from "@Components";
 import { translate } from "@I18n";
-import { getEmployees, raiseNewTicket } from "@Redux";
+import { getEmployees, raiseNewTicket,setIsSync } from "@Redux";
 import {
   CREATE_TICKET,
   getValidateError,
@@ -28,6 +28,7 @@ function IssueCreate() {
   const { associatedCompanies, dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
   );
+  const { isSync } = useSelector((state: any) => state.AppReducer);
 
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
     useState();
@@ -58,6 +59,8 @@ function IssueCreate() {
   };
 
   const submitTicketHandler = () => {
+    console.log('nnnnnn');
+    
     const params = {
       title: title?.value,
       description: description?.value,
@@ -67,16 +70,28 @@ function IssueCreate() {
       priority: selectedTicketPriority?.value?.id,
       ticket_attachments: [{ attachments: photo }],
     };
+console.log('params=====>',params);
 
     const validation = validate(CREATE_TICKET, params);
+    console.log(validation,"validation------------------->");
+    
+    
     if (ifObjectExist(validation)) {
       dispatch(
         raiseNewTicket({
           params,
           onSuccess: (response: any) => () => {
-            goBack();
+            if (response.success) {
+              goBack()
+              showToast(response.message, 'success')
+            }
+            dispatch(setIsSync({
+              ...isSync, issues: false
+          }))
           },
-          onError: (error) => () => {},
+          onError: (error) => () => {
+            showToast(error.error_message)
+          },
         })
       );
     } else {
@@ -87,8 +102,8 @@ function IssueCreate() {
   useEffect(() => {
     let companies: any = [];
 
-    if (associatedCompanies && associatedCompanies.length > 0) {
-      associatedCompanies.forEach(({ branch_id, display_name }) => {
+    if (associatedCompanies && associatedCompanies?.data?.length > 0) {
+      associatedCompanies?.data?.forEach(({ branch_id, display_name }) => {
         companies = [
           ...companies,
           { id: branch_id, text: display_name, name: display_name },
@@ -181,7 +196,7 @@ function IssueCreate() {
 
         <div className="pl-3">
           <label className={`form-control-label`}>
-            {translate("auth.logo")}
+            {translate("auth.attach")}
           </label>
         </div>
 

@@ -15,7 +15,10 @@ function ReferenceTickets() {
 
   useEffect(() => {
     proceedgetReferenceTickets();
+
+    
   }, [selectedReferenceIssues]);
+
 
   function proceedgetReferenceTickets() {
     const params = {
@@ -35,8 +38,8 @@ function ReferenceTickets() {
   return (
     <HomeContainer>
       <Card className="pt-3">
-        {issueReferenceDetails && issueReferenceDetails.data.length > 0 ? (
-          issueReferenceDetails.data.map(
+        {issueReferenceDetails && issueReferenceDetails?.data.length > 0 ? (
+          issueReferenceDetails?.data.map(
             (eachReferenceTickets: any, index: number) => {
               const divider = issueReferenceDetails.data.length - 1 !== index;
               return (

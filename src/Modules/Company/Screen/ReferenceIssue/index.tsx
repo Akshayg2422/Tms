@@ -23,7 +23,6 @@ function ReferenceIssue({ item, divider }: ReferenceIssueProps) {
       className="row d-flex justify-content-center"
       onClick={() => {
         dispatch(setSelectedReferenceIssues(item));
-
         goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
         dispatch(setIsSync({ ...isSync, issues: false }));
       }}

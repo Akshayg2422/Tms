@@ -8,9 +8,10 @@ import {
   MultiSelectDropDown,
 } from "@Components";
 import { translate } from "@I18n";
-import {addBroadCastMessages } from "@Redux";
+import {addBroadCastMessages ,setIsSync} from "@Redux";
 import {
-  CREATE_BROAD_CAST,
+  CREATE_BROAD_CAST_EXTERNAL,
+  CREATE_BROAD_CAST_INTERNAL,
   getValidateError,
   ifObjectExist,
   type,
@@ -20,11 +21,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation } from "@Hooks";
 
+
 function CreateBroadCast() {
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
   const [typeSelect, setTypeSelect] = useState(type[0]);
   const { associatedCompanies } = useSelector((state: any) => state.AdminReducer);
+  const { isSync } = useSelector((state: any) => state.AppReducer);
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState<any>([]);
@@ -49,15 +52,26 @@ function CreateBroadCast() {
       broadcast_attachments: [{ attachments: photo }],
     };
 
-    const validation = validate(CREATE_BROAD_CAST, params);
+
+    const validation = validate(typeSelect?.id === "1"?CREATE_BROAD_CAST_EXTERNAL:CREATE_BROAD_CAST_INTERNAL, params);
+
+
+    
     if (ifObjectExist(validation)) {
       dispatch(
         addBroadCastMessages({
           params,
           onSuccess: (response: any) => () => {
-            goBack();
+            if (response.success) {
+              showToast(response.message, 'success')
+              goBack()
+            }
+            dispatch(setIsSync({
+              ...isSync, broadcast: false
+          }))
           },
           onError: (error) => () => {
+            showToast(error.error_message)
           },
         })
       );
@@ -79,8 +93,8 @@ function CreateBroadCast() {
   useEffect(() => {
     let companies: any = [];
 
-    if (associatedCompanies && associatedCompanies.length > 0) {
-      associatedCompanies.forEach(({ branch_id, display_name }) => {
+    if (associatedCompanies && associatedCompanies?.data?.length > 0) {
+      associatedCompanies?.data?.forEach(({ branch_id, display_name }) => {
         companies = [
           ...companies,
           { key: branch_id, value: display_name, name: display_name },
@@ -131,7 +145,7 @@ function CreateBroadCast() {
 
         <div className="col">
           <label className={`form-control-label`}>
-            {translate("auth.logo")}
+          {translate("auth.attach")}
           </label>
         </div>
 
