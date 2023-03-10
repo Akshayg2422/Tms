@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Divider, Modal, H, Button } from "@Components";
+import { HomeContainer, Divider, Modal, H, Button,RadioGroup } from "@Components";
 import { TicketItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { useNavigation } from "@Hooks";
@@ -12,17 +12,17 @@ function Issues() {
   const { goTo } = useNavigation();
   const [modal, setModal] = useState(false);
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
-  const [issueStatus, setIssueStatus] = useState(
-    [["", "All"]].concat(dashboardDetails?.ticket_status)
-  );
+  const [issueStatus, setIssueStatus] = useState([["", "All"]].concat(dashboardDetails?.ticket_status));
   const [showIssue, setShowIssue] = useState("All");
   const [statusCode, setStatusCode] = useState("");
+  const [isActive,setIsActive] =useState('all');
   const { tickets } = useSelector((state: any) => state.CompanyReducer);
   const dispatch = useDispatch();
-  const Search = useInput("");
-  const { isSync } = useSelector((state: any) => state.AppReducer);
+  const search = useInput("");
 
-  useEffect(() => {
+  const { isSync } = useSelector((state: any) => state.AppReducer);
+ const filteredTickets=[{value:'all'},{value:'created_by'},{value:'assigned_to'},{value:'tagged_to'}]
+ useEffect(() => {
     getTicketHandler();
   }, [showIssue]);
 
@@ -41,7 +41,7 @@ function Issues() {
                 })
               );
             },
-            onError: () => () => {},
+            onError: () => () => { },
           })
         );
       } else {
@@ -49,8 +49,8 @@ function Issues() {
         dispatch(
           getTickets({
             params,
-            onSuccess: () => () => {},
-            onError: () => () => {},
+            onSuccess: () => () => { },
+            onError: () => () => { },
           })
         );
       }
@@ -58,21 +58,43 @@ function Issues() {
   };
 
   const getSearchHandler = () => {
-    const params = { q_many: Search.value };
+    const params = { q_many: search.value };
     dispatch(
       getTickets({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
-    setShowIssue('All ')
   };
+
+  const filteredTicketHandler = (filtercode) => {
+    const params = { tickets_by: filtercode };
+    dispatch(
+      getTickets({
+        params,
+        onSuccess: () => () => { },
+        onError: () => () => { },
+      })
+    );
+
+  }
 
   return (
     <>
       <div className="row m-0 mt-3">
-        <div className="col-6 "></div>
+        <div className="col-6">
+           <RadioGroup data={filteredTickets}
+            isActive={isActive}
+            onButtonClick={
+              (value)=>{
+                console.log(value)
+                filteredTicketHandler(value)
+                 setIsActive(value)
+               
+                 }}
+                 /> 
+          </div>
         <div className="col-lg-4 col-md-4 col-sm-12  ml-4">
           <div className="row m-0 ">
             <div className="col input-group bg-white ">
@@ -80,8 +102,8 @@ function Issues() {
                 type="text"
                 className="form-control bg-transparent border border-0"
                 placeholder={translate("auth.search")!}
-                value={Search.value}
-                onChange={Search.onChange}
+                value={search.value}
+                onChange={search.onChange}
               />
               <span
                 className="input-group-text border-0 pointer px-3"
@@ -115,52 +137,55 @@ function Issues() {
         </div>
       </div>
 
-      <HomeContainer isCard title={"Issues"}>
-        {tickets &&
-          tickets.length > 0 &&
-          tickets?.map((eachTickets: any, index: number) => {
-            const divider = tickets.length - 1 !== index;
-            return (
-              <TicketItem item={eachTickets} key={index} divider={divider} />
-            );
-          })}
-      </HomeContainer>
+        <HomeContainer isCard title={"Issues"}>
+          {tickets &&
+            tickets?.data.length > 0 &&
+            tickets?.data?.map((eachTickets: any, index: number) => {
+              const divider = tickets.length - 1 !== index;
+              return (
+                <TicketItem item={eachTickets} key={index} divider={divider} />
+              );
+            })}
+        </HomeContainer>
 
-      <Modal
-        size={"md"}
-        isOpen={modal}
-        fade={false}
-        onClose={() => setModal(!modal)}
-      >
-        {issueStatus &&
-          issueStatus?.length > 0 &&
-          issueStatus?.map((item, index) => {
-            return (
-              <>
-                <H
-                  tag="h4"
-                  onClick={() => {
-                    setShowIssue(item[1]);
-                    setStatusCode(item[0]);
-                    setModal(!modal);
-                    dispatch(
-                      setIsSync({
-                        ...isSync,
-                        issues: false,
-                      })
-                    );
-                  }}
-                  text={item[1]}
-                  key={index}
-                  style={{ cursor: "pointer" }}
-                />
-                {index !== issueStatus?.length - 1 && <Divider space={"3"} />}
-              </>
-            );
-          })}
-      </Modal>
-    </>
-  );
+        <Modal
+          size={"md"}
+          isOpen={modal}
+          fade={false}
+          onClose={() => setModal(!modal)}
+        >
+          {issueStatus &&
+            issueStatus?.length > 0 &&
+            issueStatus?.map((item, index) => {
+              return (
+                <>
+                  <H
+                    tag="h4"
+                    onClick={() => {
+                      setShowIssue(item[1]);
+                      setStatusCode(item[0]);
+                      setModal(!modal);
+                      dispatch(
+                        setIsSync({
+                          ...isSync,
+                          issues: false,
+                        })
+                      );
+                    }}
+                    text={item[1]}
+                    key={index}
+                    style={{ cursor: "pointer" }}
+                  />
+                  {index !== issueStatus?.length - 1 && <Divider space={"3"} />}
+                </>
+              );
+            })}
+        </Modal>
+      </>
+      );
 }
 
-export { Issues };
+export {Issues};
+
+
+     

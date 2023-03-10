@@ -47,7 +47,7 @@ function TicketItem({ item, divider }: TicketItemProps) {
         break;
       case 4:
         setShowPriorityColor("orange");
-        setShowPriority("Hight");
+        setShowPriority("High");
         break;
       case 5:
         setShowPriorityColor("red");
