@@ -8,7 +8,12 @@ import {
   showToast,
 } from "@Components";
 import { translate } from "@I18n";
-import { getEmployees, raiseNewTicket, setIsSync,getAssociatedCompanyBranch } from "@Redux";
+import {
+  getEmployees,
+  raiseNewTicket,
+  setIsSync,
+  getAssociatedCompanyBranch,
+} from "@Redux";
 import {
   CREATE_TICKET,
   getValidateError,
@@ -27,7 +32,7 @@ function IssueCreate() {
   const [typeSelect, setTypeSelect] = useState(type[0]);
   const [isSelect, setIsSelect] = useState(false);
 
-  const { companyBranchNames, dashboardDetails } = useSelector(
+  const {  dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
   );
   const { isSync } = useSelector((state: any) => state.AppReducer);
@@ -60,7 +65,6 @@ function IssueCreate() {
     setPhoto(newUpdatedPhoto);
   };
 
-
   const submitTicketHandler = () => {
     const params = {
       title: title?.value,
@@ -71,10 +75,8 @@ function IssueCreate() {
       priority: selectedTicketPriority?.value?.id,
       ticket_attachments: [{ attachments: photo }],
     };
-  
 
     const validation = validate(CREATE_TICKET, params);
-  
 
     if (ifObjectExist(validation)) {
       dispatch(
@@ -102,41 +104,49 @@ function IssueCreate() {
     }
   };
 
-  useEffect(() => {
+ 
+
+  const getCompanyBranchDropdown = (details: any) => {
+  
+
     let companies: any = [];
 
-    if (companyBranchNames && companyBranchNames?.length > 0) {
-      
-      companyBranchNames?.forEach(({ branch_id, display_name }) => {
+    if (details && details.length > 0) {
+      details.forEach(({ branch_id, display_name }) => {
         companies = [
           ...companies,
           { id: branch_id, text: display_name, name: display_name },
         ];
       });
-
+     
       setModifiedCompanyDropDownData(companies);
-    } 
-    else {
+    } else {
       setTypeSelect(type[1]);
       setIsSelect(true);
     }
-  }, []);
+  };
+
   useEffect(() => {
     const params = { q: "" };
     dispatch(
       getAssociatedCompanyBranch({
         params,
-        onSuccess: () => () => {
-          dispatch(setIsSync({
-            ...isSync, companies: false
-          }))
+        onSuccess: (response: any) => () => {
+          dispatch(
+            setIsSync({
+              ...isSync,
+              companies: false,
+            })
+          );
+          getCompanyBranchDropdown(response.details);
+       
         },
-        onError: () => () => { },
+        onError: () => () => {
+         
+        },
       })
     );
-  
   }, []);
-
 
   useEffect(() => {
     const params = {
@@ -163,8 +173,6 @@ function IssueCreate() {
     );
   }, [typeSelect, selectedCompany]);
 
-
-
   return (
     <div>
       <HomeContainer isCard title={translate("common.createTicket")!}>
@@ -185,7 +193,7 @@ function IssueCreate() {
             value={referenceNo.value}
             onChange={referenceNo.onChange}
           />
-          <div  
+          <div
             onClick={() => {
               isSelect &&
                 showToast("there is no associatedBranches in this company");
@@ -202,7 +210,6 @@ function IssueCreate() {
                 if (selected) {
                   setTypeSelect(selected);
                 }
-
               }}
             />
           </div>

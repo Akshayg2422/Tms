@@ -86,16 +86,23 @@ function CreateBroadCast() {
     dispatch(
       getAssociatedCompanyBranch({
         params,
-        onSuccess: () => () => {
-          dispatch(setIsSync({
-            ...isSync, companies: true
-          }))
+        onSuccess: (response: any) => () => {
+          dispatch(
+            setIsSync({
+              ...isSync,
+              companies: false,
+            })
+          );
+          getCompanyBranchDropdown(response.details);
+         
         },
-        onError: () => () => { },
+        onError: () => () => {
+         
+        },
       })
     );
-  
   }, []);
+
 
   useEffect(() => {
     let companies: any = [];
@@ -106,27 +113,15 @@ function CreateBroadCast() {
       setSelectedCompanyId(companies);
     }
   }, [selectedCompany]);
-  useEffect(() => {
-    const params = { q: "" };
-    dispatch(
-      getAssociatedCompanyBranch({
-        params,
-        onSuccess: () => () => {
-          dispatch(setIsSync({
-            ...isSync, companies: false
-          }))
-        },
-        onError: () => () => { },
-      })
-    );
-  
-  }, []);
 
-  useEffect(() => {
+ 
+  const getCompanyBranchDropdown = (details: any) => {
     let companies: any = [];
 
-    if (companyBranchNames && companyBranchNames?.length > 0) {
-      companyBranchNames?.forEach(({ branch_id, display_name }) => {
+    if (details && details.length > 0) {
+      
+      
+      details.forEach(({ branch_id, display_name }) => {
         companies = [
           ...companies,
           { key: branch_id, value: display_name, name: display_name },
@@ -135,11 +130,16 @@ function CreateBroadCast() {
 
       setModifiedCompanyDropDownData(companies);
     }
+    
     else{
       setTypeSelect(type[1])
       setIsSelect(true)
+     
+      
     }
-  }, []);
+  }
+  
+ 
 
   return (
     <div>

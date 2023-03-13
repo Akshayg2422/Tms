@@ -1,12 +1,16 @@
-import {takeLatest, put, call} from 'redux-saga/effects';
-import {getAssociatedCompaniesApi, getDashboardApi,  postAddDepartmentApi,
+import { takeLatest, put, call } from "redux-saga/effects";
+import {
+  getAssociatedCompaniesApi,
+  getDashboardApi,
+  postAddDepartmentApi,
   postAddDesignationApi,
   fetchDepartmentDataApi,
   getAssociatedCompanieslApi,
-  fetchDesignationDataApi} from '@Services';
+  fetchDesignationDataApi,
+} from "@Services";
 import {
   GET_ASSOCIATED_BRANCH,
-  GET_ASSOCIATED_COMPANY_BRANCH ,
+  GET_ASSOCIATED_COMPANY_BRANCH,
   GET_DASHBOARD,
   showLoader,
   hideLoader,
@@ -16,38 +20,31 @@ import {
   getAssociatedCompanyBranchFailure,
   getDashboardSuccess,
   getDashboardFailure,
-
   ADD_DEPARTMENT,
-    addDepartmentSuccess,
-    addDepartmentFailure,
-
-    ADD_DESIGNATION,
-    addDesignationSuccess,
-    addDesignationFailure,
-
-    FETCH_DEPARTMENT,
-    getDepartmentDataSuccess,
-    getDepartmentDataFailure,
-
-    FETCH_DESIGNATION,
-    getDesignationDataSuccess,
-    getDesignationDataFailure,
-
-} from '@Redux';
+  addDepartmentSuccess,
+  addDepartmentFailure,
+  ADD_DESIGNATION,
+  addDesignationSuccess,
+  addDesignationFailure,
+  FETCH_DEPARTMENT,
+  getDepartmentDataSuccess,
+  getDepartmentDataFailure,
+  FETCH_DESIGNATION,
+  getDesignationDataSuccess,
+  getDesignationDataFailure,
+} from "@Redux";
 
 function* getAssociatedCompaniesSaga(action) {
   try {
-
     yield put(showLoader());
     const response = yield call(
       getAssociatedCompaniesApi,
-      action.payload.params,
+      action.payload.params
     );
 
     if (response.success) {
-      
       yield put(hideLoader());
-      yield put(getAssociatedBranchSuccess({...response}));
+      yield put(getAssociatedBranchSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());
@@ -64,18 +61,16 @@ function* getAssociatedCompaniesSaga(action) {
 //
 function* getAssociatedCompanieslSaga(action) {
   try {
-
     yield put(showLoader());
-    const response = yield call(  
+    const response = yield call(
       getAssociatedCompanieslApi,
-      action.payload.params,
+      action.payload.params
     );
     // console.log(JSON.stringify(response)+"=============================")
 
     if (response.success) {
-      
       yield put(hideLoader());
-      yield put(getAssociatedCompanyBranchSuccess({...response}));
+      yield put(getAssociatedCompanyBranchSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());
@@ -95,7 +90,7 @@ function* getDashboardSaga(action) {
     const response = yield call(getDashboardApi, action.payload.params);
     if (response.success) {
       yield put(hideLoader());
-      yield put(getDashboardSuccess({...response}));
+      yield put(getDashboardSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());
@@ -112,63 +107,61 @@ function* getDashboardSaga(action) {
  * add Department
  */
 
- function* addDepartment(action) {
+function* addDepartment(action) {
   try {
-      yield put(showLoader());
+    yield put(showLoader());
 
-      const response = yield call(postAddDepartmentApi, action.payload.params);
+    const response = yield call(postAddDepartmentApi, action.payload.params);
 
-      if (response.success) {
-          yield put(hideLoader());
-          yield put(addDepartmentSuccess(response.details));
-          yield call(action.payload.onSuccess(response));
-      } else {
-          yield put(hideLoader());
-          yield put(addDepartmentFailure(response.error_message));
-          yield call(action.payload.onError(response));
-      }
-  } catch (error) {
+    if (response.success) {
       yield put(hideLoader());
-      yield put(addDepartmentFailure("Invalid Request"));
-      yield call(action.payload.onError);
+      yield put(addDepartmentSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(addDepartmentFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(addDepartmentFailure("Invalid Request"));
+    yield call(action.payload.onError);
   }
 }
 
 /**
-* add Designation
-*/
+ * add Designation
+ */
 
 function* addDesignation(action) {
   try {
-      yield put(showLoader());
+    yield put(showLoader());
 
-      const response = yield call(postAddDesignationApi, action.payload.params);
-     
+    const response = yield call(postAddDesignationApi, action.payload.params);
 
-      if (response.success) {
-       
-          yield put(hideLoader());
-          yield put(addDesignationSuccess(response.details));
-          yield call(action.payload.onSuccess(response));
-      } else {
-          yield put(hideLoader());
-          yield put(addDesignationFailure(response.error_message));
-          yield call(action.payload.onError(response));
-      }
-  } catch (error) {
+    if (response.success) {
       yield put(hideLoader());
-      yield put(addDesignationFailure("Invalid Request"));
-      yield call(action.payload.onError);
+      yield put(addDesignationSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(addDesignationFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(addDesignationFailure("Invalid Request"));
+    yield call(action.payload.onError);
   }
 }
 /**
  * get designation
  */
 
- function* getDesignation(action) {
+function* getDesignation(action) {
   try {
     yield put(showLoader());
-    const response = yield call(fetchDesignationDataApi, action.payload.params); 
+    const response = yield call(fetchDesignationDataApi, action.payload.params);
 
     if (response.success) {
       yield put(hideLoader());
@@ -187,8 +180,8 @@ function* addDesignation(action) {
 }
 
 /**
-* get Departments
-*/
+ * get Departments
+ */
 
 function* getDepartments(action) {
   try {
@@ -197,7 +190,6 @@ function* getDepartments(action) {
     const response = yield call(fetchDepartmentDataApi, action.payload.params);
 
     if (response.success) {
-
       yield put(hideLoader());
       yield put(getDepartmentDataSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -212,7 +204,6 @@ function* getDepartments(action) {
     yield call(action.payload.onError(error));
   }
 }
-
 
 ///watcher///
 
