@@ -27,7 +27,6 @@ function CreateBroadCast() {
   const { goBack } = useNavigation();
   const [typeSelect, setTypeSelect] = useState(type[0]);
   const [isSelect, setIsSelect] = useState(false);
-  const { companyBranchNames } = useSelector((state: any) => state.AdminReducer);
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
