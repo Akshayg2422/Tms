@@ -12,6 +12,7 @@ import {
   REGISTER_COMPANY,
   SECTOR_SERVICE_TYPES,
   GET_ASSOCIATED_COMPANIES,
+  GET_ASSOCIATED_COMPANIESL,
   URL_GET_DASHBOARD,
   GET_TICKETS,
   RAISE_NEW_TICKET,
@@ -35,6 +36,8 @@ import {
 
 export const getAssociatedCompaniesApi = payload =>
   post(GET_ASSOCIATED_COMPANIES, payload, {});
+  export const getAssociatedCompanieslApi = payload =>
+  post(GET_ASSOCIATED_COMPANIESL, payload, {});
 
 export const getDashboardApi = payload => post(URL_GET_DASHBOARD, payload, {});
 export const raiseNewTicketApi = payload => post(RAISE_NEW_TICKET, payload, {});

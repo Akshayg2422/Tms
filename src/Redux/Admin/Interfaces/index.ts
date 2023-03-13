@@ -11,4 +11,5 @@ export interface AdminStateProp {
   companyDetailsSelected?:any;
   referenceIssueSelectedDetails:any;
   selectedReferenceIssues:any;
+  companyBranchNames:any;
 }

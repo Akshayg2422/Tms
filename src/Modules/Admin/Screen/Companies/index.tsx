@@ -20,7 +20,6 @@ function Companies() {
   );
   useEffect(() => {
     const params = { q: "" };
-
     if (!isSync.companies) {
       dispatch(
         getAssociatedBranch({

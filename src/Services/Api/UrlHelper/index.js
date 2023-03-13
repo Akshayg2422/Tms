@@ -9,6 +9,7 @@ const AUTH = '/authentication/';
 const EMPLOYEE='/employee/'
 
 export const GET_ASSOCIATED_COMPANIES = COMPANY + 'getAssociatedCompanies';
+export const GET_ASSOCIATED_COMPANIESL = COMPANY + 'getAssociatedCompaniesl';
 export const URL_GET_DASHBOARD = AUTH + 'dashboard';
 
 export const RAISE_NEW_TICKET = TICKET + 'raiseNewTicket';

@@ -2,14 +2,18 @@ import {takeLatest, put, call} from 'redux-saga/effects';
 import {getAssociatedCompaniesApi, getDashboardApi,  postAddDepartmentApi,
   postAddDesignationApi,
   fetchDepartmentDataApi,
+  getAssociatedCompanieslApi,
   fetchDesignationDataApi} from '@Services';
 import {
   GET_ASSOCIATED_BRANCH,
+  GET_ASSOCIATED_COMPANY_BRANCH ,
   GET_DASHBOARD,
   showLoader,
   hideLoader,
   getAssociatedBranchSuccess,
   getAssociatedBranchFailure,
+  getAssociatedCompanyBranchSuccess,
+  getAssociatedCompanyBranchFailure,
   getDashboardSuccess,
   getDashboardFailure,
 
@@ -53,6 +57,34 @@ function* getAssociatedCompaniesSaga(action) {
   } catch (error) {
     yield put(hideLoader());
     yield put(getAssociatedBranchFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+//
+function* getAssociatedCompanieslSaga(action) {
+  try {
+
+    yield put(showLoader());
+    const response = yield call(  
+      getAssociatedCompanieslApi,
+      action.payload.params,
+    );
+    // console.log(JSON.stringify(response)+"=============================")
+
+    if (response.success) {
+      
+      yield put(hideLoader());
+      yield put(getAssociatedCompanyBranchSuccess({...response}));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getAssociatedCompanyBranchFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getAssociatedCompanyBranchFailure(error));
     yield call(action.payload.onError(error));
   }
 }
@@ -186,6 +218,7 @@ function* getDepartments(action) {
 
 function* AdminSaga() {
   yield takeLatest(GET_ASSOCIATED_BRANCH, getAssociatedCompaniesSaga);
+  yield takeLatest(GET_ASSOCIATED_COMPANY_BRANCH, getAssociatedCompanieslSaga);
   yield takeLatest(GET_DASHBOARD, getDashboardSaga);
   yield takeLatest(ADD_DEPARTMENT, addDepartment);
   yield takeLatest(ADD_DESIGNATION, addDesignation);

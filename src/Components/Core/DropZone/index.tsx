@@ -50,15 +50,17 @@ const Dropzone = ({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
+      // console.log(file,"nnnnnnnnnnnnnnnnnnnnnnnn");
+      
 
       new Compressor(file, {
-        quality:0.5,
+        quality:0.7,
         success: (file) => {
-          console.log(file, "-------------------->file");
+          // console.log(file, "-------------------->file");
 
           const reader = new FileReader();
           reader.onload = (e) => {
-            console.log(e, "eeeee");
+            // console.log(e, "eeeee");
 
             if (onSelect && e.target) {
               onSelect(e.target?.result);

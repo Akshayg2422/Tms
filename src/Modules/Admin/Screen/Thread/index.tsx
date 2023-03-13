@@ -67,7 +67,7 @@ function Thread() {
         }
     }
 
-    console.log('ticketEvents---->ticketEvents---->', JSON.stringify(ticketEvents));
+    // console.log('ticketEvents---->ticketEvents---->', JSON.stringify(ticketEvents));
 
     return (
 
