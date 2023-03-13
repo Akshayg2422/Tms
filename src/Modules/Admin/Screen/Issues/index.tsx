@@ -21,7 +21,7 @@ function Issues() {
   const search = useInput("");
 
   const { isSync } = useSelector((state: any) => state.AppReducer);
- const filteredTickets=[{value:'all'},{value:'created_by'},{value:'assigned_to'},{value:'tagged_to'}]
+ const filteredTickets=[{value:'all',description:translate('common.all')},{value:'created_by',description:translate('common.created')},{value:'assigned_to',description:translate('common.assigned')},{value:'tagged_to',description:translate('common.tagged')}]
  useEffect(() => {
     getTicketHandler();
   }, [showIssue]);
@@ -86,20 +86,19 @@ function Issues() {
   return (
     <>
       <div className="row m-0 mt-3">
-        <div className="col-6">
+        <div className="col-lg-5 col-sm-0  col-5 ">
            <RadioGroup data={filteredTickets}
             isActive={isActive}
             onButtonClick={
               (value)=>{
-                console.log(value)
+                console.log("-->",value)
                 filteredTicketHandler(value)
                  setIsActive(value)
                
                  }}
                  /> 
           </div>
-          
-        <div className="col-lg-5 col-md-4 col-sm-12  ml-4">
+        <div className="col-lg-5 col-md-4 col-sm-12  ml-lg-4">
           <div className="row m-0 ">
             <div className="col-lg-12 col-md-4 col-sm-12  input-group bg-white ">
               <div className="row">
