@@ -1,7 +1,10 @@
 import {
   GET_ASSOCIATED_BRANCH,
-  GET_ASSOCIATED_BRANCH_FAILURE,
   GET_ASSOCIATED_BRANCH_SUCCESS,
+  GET_ASSOCIATED_BRANCH_FAILURE,
+  GET_ASSOCIATED_COMPANY_BRANCH,
+  GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
+  GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
   GET_DASHBOARD,
   GET_DASHBOARD_FAILURE,
   GET_DASHBOARD_SUCCESS,
@@ -55,6 +58,28 @@ export const getAssociatedBranchSuccess = (response: any) => {
 export const getAssociatedBranchFailure = (error: any) => {
   return {
     type: GET_ASSOCIATED_BRANCH_FAILURE,
+    payload: error,
+  };
+};
+
+export const getAssociatedCompanyBranch = (params: any) => {
+
+  return {
+    type: GET_ASSOCIATED_COMPANY_BRANCH,
+    payload: params,
+  };
+};
+export const getAssociatedCompanyBranchSuccess = (response: any) => {
+  
+  
+  return {
+    type: GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
+    payload: response,
+  };
+};
+export const getAssociatedCompanyBranchFailure = (error: any) => {
+  return {
+    type: GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
     payload: error,
   };
 };

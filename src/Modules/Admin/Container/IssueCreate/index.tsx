@@ -8,7 +8,12 @@ import {
   showToast,
 } from "@Components";
 import { translate } from "@I18n";
-import { getEmployees, raiseNewTicket,setIsSync } from "@Redux";
+import {
+  getEmployees,
+  raiseNewTicket,
+  setIsSync,
+  getAssociatedCompanyBranch,
+} from "@Redux";
 import {
   CREATE_TICKET,
   getValidateError,
@@ -25,7 +30,9 @@ function IssueCreate() {
   const { goBack } = useNavigation();
 
   const [typeSelect, setTypeSelect] = useState(type[0]);
-  const { associatedCompanies, dashboardDetails } = useSelector(
+  const [isSelect, setIsSelect] = useState(false);
+
+  const {  dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
   );
   const { isSync } = useSelector((state: any) => state.AppReducer);
@@ -59,8 +66,6 @@ function IssueCreate() {
   };
 
   const submitTicketHandler = () => {
-    console.log('nnnnnn');
-    
     const params = {
       title: title?.value,
       description: description?.value,
@@ -70,27 +75,27 @@ function IssueCreate() {
       priority: selectedTicketPriority?.value?.id,
       ticket_attachments: [{ attachments: photo }],
     };
-console.log('params=====>',params);
 
     const validation = validate(CREATE_TICKET, params);
-    console.log(validation,"validation------------------->");
-    
-    
+
     if (ifObjectExist(validation)) {
       dispatch(
         raiseNewTicket({
           params,
           onSuccess: (response: any) => () => {
             if (response.success) {
-              goBack()
-              showToast(response.message, 'success')
+              goBack();
+              showToast(response.message, "success");
             }
-            dispatch(setIsSync({
-              ...isSync, issues: false
-          }))
+            dispatch(
+              setIsSync({
+                ...isSync,
+                issues: false,
+              })
+            );
           },
           onError: (error) => () => {
-            showToast(error.error_message)
+            showToast(error.error_message);
           },
         })
       );
@@ -99,19 +104,48 @@ console.log('params=====>',params);
     }
   };
 
-  useEffect(() => {
+ 
+
+  const getCompanyBranchDropdown = (details: any) => {
+  
+
     let companies: any = [];
 
-    if (associatedCompanies && associatedCompanies?.data?.length > 0) {
-      associatedCompanies?.data?.forEach(({ branch_id, display_name }) => {
+    if (details && details.length > 0) {
+      details.forEach(({ branch_id, display_name }) => {
         companies = [
           ...companies,
           { id: branch_id, text: display_name, name: display_name },
         ];
       });
-
+     
       setModifiedCompanyDropDownData(companies);
+    } else {
+      setTypeSelect(type[1]);
+      setIsSelect(true);
     }
+  };
+
+  useEffect(() => {
+    const params = { q: "" };
+    dispatch(
+      getAssociatedCompanyBranch({
+        params,
+        onSuccess: (response: any) => () => {
+          dispatch(
+            setIsSync({
+              ...isSync,
+              companies: false,
+            })
+          );
+          getCompanyBranchDropdown(response.details);
+       
+        },
+        onError: () => () => {
+         
+        },
+      })
+    );
   }, []);
 
   useEffect(() => {
@@ -159,17 +193,26 @@ console.log('params=====>',params);
             value={referenceNo.value}
             onChange={referenceNo.onChange}
           />
-          <Radio
-            selected={typeSelect}
-            data={type}
-            onRadioChange={(selected) => {
-              setSelectedCompany({});
-              selectedUser.value(undefined);
-              if (selected) {
-                setTypeSelect(selected);
-              }
+          <div
+            onClick={() => {
+              isSelect &&
+                showToast("there is no associatedBranches in this company");
             }}
-          />
+          >
+            <Radio
+              // selected={typeSelect}
+              data={type}
+              selectItem={typeSelect}
+              disableId={isSelect ? type[1] : ""}
+              onRadioChange={(selected) => {
+                setSelectedCompany({});
+                // selectedUser.value(undefined);
+                if (selected) {
+                  setTypeSelect(selected);
+                }
+              }}
+            />
+          </div>
 
           {typeSelect && typeSelect?.id === "1" && (
             <DropDown
@@ -200,7 +243,7 @@ console.log('params=====>',params);
           </label>
         </div>
 
-        <div className="col-md-9 col-lg-7 pb-4 pt-3">
+        <div className="col-md-9 col-lg-7 pb-4 ">
           {selectDropzone &&
             selectDropzone.map((el, index) => {
               return (
