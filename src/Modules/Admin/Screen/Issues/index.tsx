@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Divider, Modal, H, Button, RadioGroup, DropDown, NoDataFound } from "@Components";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading } from "@Components";
 import { TicketItem } from "@Modules";
 import { useDropDown, useInput } from "@Hooks";
 import { useNavigation } from "@Hooks";
@@ -15,7 +15,7 @@ function Issues() {
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTickets = useDropDown(FILTERED_TICKET_LIST[0])
-  const showIssue = useDropDown(ISSUES_LIST[0])
+  const ticketStatus = useDropDown(ISSUES_LIST[0])
 
 
   const { isSync } = useSelector((state: any) => state.AppReducer);
@@ -23,42 +23,11 @@ function Issues() {
   useEffect(() => {
     getTicketHandler()
 
-  }, [showIssue.value]);
+  }, [ticketStatus.value]);
 
   useEffect(() => {
-    const params = { tickets_by: filteredTickets.value.id };
-    dispatch(
-      getTickets({
-        params,
-        onSuccess: () => () => { },
-        onError: () => () => { },
-      })
-    );
-  }, [filteredTickets.value])
-
-  const getTicketHandler = () => {
-
     if (!isSync.issues) {
-    if (showIssue.value.id === "") {
-
-      const params = { q: "" };
-      dispatch(
-        getTickets({
-          params,
-          onSuccess: () => () => {
-
-            dispatch(
-              setIsSync({
-                ...isSync,
-                issues: true,
-              })
-            );
-          },
-          onError: () => () => { },
-        })
-      );
-    } else {
-      const params = { ticket_status: showIssue.value.id };
+      const params = { tickets_by: filteredTickets?.value?.id };
       dispatch(
         getTickets({
           params,
@@ -67,7 +36,40 @@ function Issues() {
         })
       );
     }
+  }, [filteredTickets.value])
+
+  const getTicketHandler = () => {
+
+    if (!isSync.issues) {
+      if (ticketStatus.value.id === "") {
+
+        const params = { q: "" };
+        dispatch(
+          getTickets({
+            params,
+            onSuccess: () => () => {
+
+              dispatch(
+                setIsSync({
+                  ...isSync,
+                  issues: true,
+                })
+              );
+            },
+            onError: () => () => { },
+          })
+        );
+      } else {
+        const params = { ticket_status: ticketStatus?.value?.id };
+        dispatch(
+          getTickets({
+            params,
+            onSuccess: () => () => { },
+            onError: () => () => { },
+          })
+        );
       }
+    }
 
 
   };
@@ -88,16 +90,10 @@ function Issues() {
     <>
 
       <div className="row m-0 mt-3">
-        <div className="col-lg-2 col-md-3 col-sm-12 ">
-          <DropDown
-            selected={filteredTickets.value}
-            data={FILTERED_TICKET_LIST}
-            value={filteredTickets.value}
-            onChange={filteredTickets.onChange}
-          />
-        </div>
-        <div className="col-lg-3  col-md-3 col-sm-12">
+        <div className="col-lg-4  col-md-3 col-sm-12">
+          <InputHeading heading={translate("common.issueName")} />
           <div className="input-group bg-white border">
+
             <input
               type="text"
               className="form-control bg-transparent border border-0"
@@ -117,14 +113,45 @@ function Issues() {
         </div>
 
 
-        <div className="col-lg-2 col-md-3 col-sm-12">
-          <DropDown data={ISSUES_LIST}
-            selected={showIssue.value}
-            value={showIssue.value}
-            onChange={showIssue.onChange}
+        <div className="col-lg-3 col-md-3 col-sm-12 ">
+          <DropDown
+            heading={translate("common.filterTickets")}
+            selected={filteredTickets.value}
+            data={FILTERED_TICKET_LIST}
+            value={filteredTickets.value}
+            onChange={(item) => {
+              filteredTickets.onChange(item)
+              dispatch(
+                setIsSync({
+                  ...isSync,
+                  issues: false,
+                })
+              );
+            }}
           />
         </div>
-        <div className="col text-right mt-3">
+
+
+        <div className="col-lg-3 col-md-3 col-sm-12">
+          <DropDown
+            heading={translate("common.ticketStatus")}
+            data={ISSUES_LIST}
+            selected={ticketStatus.value}
+            value={ticketStatus.value}
+            onChange={(item) => {
+              ticketStatus.onChange(item)
+
+              dispatch(
+                setIsSync({
+                  ...isSync,
+                  issues: false,
+                }));
+
+            }}
+          />
+        </div>
+
+        <div className="col text-right mt-5">
           <Button
             size={"sm"}
             text={translate("common.createTicket")}

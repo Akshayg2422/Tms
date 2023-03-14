@@ -31,7 +31,7 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder,sele
             <InputHeading heading={heading} id={id} />
             <Select2
                 className={'form-control'}
-                data-minimum-results-for-search={'Infinity'}
+               data-minimum-results-for-search={'Infinity'}
                 data={data}
                 value={selected && selected.id}
                 options={

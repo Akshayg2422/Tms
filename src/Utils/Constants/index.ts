@@ -59,20 +59,20 @@ export const EVS = 'EVS'
 export const RTS = 'RTS'
 
 export const FILTERED_TICKET_LIST=[
-  {id:'all',text:'ALL'},
-  {id:'created_by',text:'CREATED'},
-  {id:'assigned_to',text:'ASSIGNED'},
-  {id:'tagged_to',text:'TAGGED'}
+  {id:'all',text:'All'},
+  {id:'created_by',text:'Created'},
+  {id:'assigned_to',text:'Assigned'},
+  {id:'tagged_to',text:'Tagged'}
 ];
 
 export const ISSUES_LIST = [
-  {id:'',text:'ALL'},
-  {id:'RAI',text:'RAISED'},
-  {id:'INP',text:'IN-PROGRASS'},
-  {id:'CAN',text:'CANCEL'},
-  {id:"CLS",text:'CLOSE'},
-  {id:'ONH',text:'ON-HOLD'},
-  {id:'REJ',text:'REJECT'}
+  {id:'',text:'All'},
+  {id:'RAI',text:'Raised'},
+  {id:'INP',text:'In-Prograss'},
+  {id:'CAN',text:'Cancel'},
+  {id:"CLS",text:'Close'},
+  {id:'ONH',text:'On-Hold'},
+  {id:'REJ',text:'Reject'}
 
 ]
  

@@ -60,7 +60,10 @@
     "ticketPriority":"Ticket Priority",
     "created" : "Created",
     "assigned" : "Assigned",
-    "tagged" : "Tagged"
+    "tagged" : "Tagged",
+    "issueName":"Issue name",
+    "filterTickets":"Filter tickets",
+    "ticketStatus":"Ticket status"
 
     
   },
