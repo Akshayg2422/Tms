@@ -8,7 +8,7 @@ import {
   MultiSelectDropDown,
 } from "@Components";
 import { translate } from "@I18n";
-import {addBroadCastMessages ,setIsSync} from "@Redux";
+import {addBroadCastMessages ,setIsSync,getAssociatedCompanyBranch} from "@Redux";
 import {
   CREATE_BROAD_CAST_EXTERNAL,
   CREATE_BROAD_CAST_INTERNAL,
@@ -26,7 +26,7 @@ function CreateBroadCast() {
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
   const [typeSelect, setTypeSelect] = useState(type[0]);
-  const { associatedCompanies } = useSelector((state: any) => state.AdminReducer);
+  const [isSelect, setIsSelect] = useState(false);
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
@@ -81,6 +81,29 @@ function CreateBroadCast() {
   };
 
   useEffect(() => {
+    const params = { q: "" };
+    dispatch(
+      getAssociatedCompanyBranch({
+        params,
+        onSuccess: (response: any) => () => {
+          dispatch(
+            setIsSync({
+              ...isSync,
+              companies: false,
+            })
+          );
+          getCompanyBranchDropdown(response.details);
+         
+        },
+        onError: () => () => {
+         
+        },
+      })
+    );
+  }, []);
+
+
+  useEffect(() => {
     let companies: any = [];
     if (selectedCompany && selectedCompany?.length > 0) {
       selectedCompany?.forEach(({ key, name }) => {
@@ -90,11 +113,14 @@ function CreateBroadCast() {
     }
   }, [selectedCompany]);
 
-  useEffect(() => {
+ 
+  const getCompanyBranchDropdown = (details: any) => {
     let companies: any = [];
 
-    if (associatedCompanies && associatedCompanies?.data?.length > 0) {
-      associatedCompanies?.data?.forEach(({ branch_id, display_name }) => {
+    if (details && details.length > 0) {
+      
+      
+      details.forEach(({ branch_id, display_name }) => {
         companies = [
           ...companies,
           { key: branch_id, value: display_name, name: display_name },
@@ -103,7 +129,16 @@ function CreateBroadCast() {
 
       setModifiedCompanyDropDownData(companies);
     }
-  }, []);
+    
+    else{
+      setTypeSelect(type[1])
+      setIsSelect(true)
+     
+      
+    }
+  }
+  
+ 
 
   return (
     <div>
@@ -119,15 +154,22 @@ function CreateBroadCast() {
             value={description.value}
             onChange={description.onChange}
           />
-
+<div   onClick={() => {
+              isSelect &&
+                showToast("there is no associatedBranches in this company");
+            }}>
           <Radio
             selected={typeSelect}
             data={type}
+            disableId={isSelect ? type[1] : ""}
+            selectItem={typeSelect}
             onRadioChange={(selected) => {
               setTypeSelect(selected);
               setSelectedCompanyId([]);
             }}
+
           />
+          </div>
           {typeSelect && typeSelect?.id === "1" && (
             <MultiSelectDropDown
               heading={translate("common.company")!}
@@ -149,7 +191,7 @@ function CreateBroadCast() {
           </label>
         </div>
 
-        <div className="col-md-9 col-lg-7 pb-4 pt-3">
+        <div className="col-md-9 col-lg-7 pb-4 ">
           {selectDropzone &&
             selectDropzone.map((el, index) => {
               return (

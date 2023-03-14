@@ -2,6 +2,9 @@ import {
   GET_ASSOCIATED_BRANCH,
   GET_ASSOCIATED_BRANCH_FAILURE,
   GET_ASSOCIATED_BRANCH_SUCCESS,
+  GET_ASSOCIATED_COMPANY_BRANCH,
+  GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
+  GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
   GET_DASHBOARD,
   GET_DASHBOARD_FAILURE,
   GET_DASHBOARD_SUCCESS,
@@ -43,6 +46,7 @@ const initialState: AdminStateProp = {
   companyDetailsSelected:undefined,
   referenceIssueSelectedDetails:undefined,
   selectedReferenceIssues:undefined,
+  companyBranchNames:undefined,
 
 };
 
@@ -62,6 +66,19 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     case GET_ASSOCIATED_BRANCH_FAILURE:
       state = {...state};
       break;
+
+      case  GET_ASSOCIATED_COMPANY_BRANCH:
+      state = {...state};
+      break;
+    case GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS:
+      state = {...state, companyBranchNames: action.payload.details};
+      break;
+    case GET_ASSOCIATED_COMPANY_BRANCH_FAILURE:
+      state = {...state};
+      break;
+
+
+
     /**
      * Dashboard
      */

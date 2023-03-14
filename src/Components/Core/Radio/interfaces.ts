@@ -8,5 +8,8 @@ export interface RadioProps extends RsInputProps {
     data: Array<RadioItem>;
     selected?: RadioItem;
     onRadioChange?: (item: RadioItem) => void;
-    variant?: 'row' | 'column'
+    variant?: 'row' | 'column',
+    disableId?:any,
+    selectItem?:any;
+
 }

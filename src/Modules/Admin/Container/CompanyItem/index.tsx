@@ -20,24 +20,27 @@ function CompanyItem({ item , showDivider}: CompanyItemProps) {
                     </div>
                     <div className='col-sm'>
                         <H tag={'h3'} className='mb-0' text={display_name} />
+                        <div className='col-lg-10 col-sm-0 col-12 text-left ml--3'>
                         <p className='text-sm'>{address}</p>
+                        </div>
+                        {/* <p className='text-sm'>{address}</p>, */}
 
                         <div className='row d-flex justify-content-between'>
-                            <div className='col-9'>
+                            <div className='col-lg-9 col-sm-0 col-9'>
                                 <h6 className="text-uppercase text-muted mb-0"> {translate('common.phone')} </h6>
                                 <h5>{phone}</h5>
                             </div>
-                            <div className='col text-right'>
+                            <div className='col-lg-3 col-sm-0 col-3 text-right'>
                                 <Badge pill color={'info'} text={'Call'} />
                             </div>
                         </div>
 
                         <div className='row d-flex justify-content-between'>
-                            <div className='col-9'>
+                            <div className='col-lg-9 col-sm-0 col-9 '>
                                 <h6 className="text-uppercase text-muted mb-0"> {translate('common.email')} </h6>
                                 <h5>{email}</h5>
                             </div>
-                            <div className='col text-right'>
+                            <div className='col-lg-3 col-sm-0 col-3 text-right'>
                                 <Badge pill color={'success'} text={'Email'} />
                             </div>
                         </div>

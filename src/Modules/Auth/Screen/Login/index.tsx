@@ -68,6 +68,7 @@ function Login() {
           <H tag={"h5"} text={translate("auth.chooseLanguge")} />
           <Radio
             selected={language}
+             selectItem={language}
             data={LANGUAGES}
             onRadioChange={(selected) => {
               if (selected) {
