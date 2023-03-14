@@ -4,7 +4,7 @@ import { companySelectedDetails, getAssociatedBranch, setIsSync } from "@Redux";
 import { Card, Divider, Button, HomeContainer, FilePicker, NoDataFound } from "@Components";
 import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
-import { HOME_PATH, INFO } from "@Routes";
+import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 
 function Companies() {

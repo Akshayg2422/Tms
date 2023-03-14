@@ -59,8 +59,6 @@ function IssueCreate() {
   };
 
   const submitTicketHandler = () => {
-    console.log('nnnnnn');
-    
     const params = {
       title: title?.value,
       description: description?.value,
@@ -70,10 +68,7 @@ function IssueCreate() {
       priority: selectedTicketPriority?.value?.id,
       ticket_attachments: [{ attachments: photo }],
     };
-console.log('params=====>',params);
-
     const validation = validate(CREATE_TICKET, params);
-    console.log(validation,"validation------------------->");
     
     
     if (ifObjectExist(validation)) {
