@@ -13,22 +13,26 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
     <div className="row d-flex justify-content-center ">
       <div className="col-lg-12 my--3">
         <div className="row mt--2 mb--1">
-          <div className="col ">
+          <div className="col-lg-6 col-sm-0 col-5 ">
             <H
               tag={"h4"}
               className="text-capitalize font-weight-900 "
               text={title}
             />
           </div>
-          <div className="col-auto text-xs text-capitalize ">
+          <div className="col-lg-6 col-sm-0 col-7 text-right text-xs text-capitalize">
             {getDataAndTime(created_at)}
           </div>
+          
         </div>
+<div className="row">
+<div className=" text-xs pb-2 font-weight-600 col-lg-6 col-sm-0 col-7 ">{description}</div>
 
-        <div className="   text-xs pb-2 font-weight-600 ">{description}</div>
+</div>
+      
 
         <div className="row ">
-          <div className="col ">
+          <div className="col-lg-6  col-sm-0 col-7">
             {applicable_branches &&
               applicable_branches.length > 0 &&
               applicable_branches?.map((applicable_branches: any, index: number) => {
@@ -57,7 +61,7 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
             </div>
           </div>
 
-          <div className="col-auto pt-2 ">
+          <div className="col-lg-6 col-sm-0 col-5 text-right pt-2 ">
             <div className="text-xs font-weight-600"> {translate('common.createdBy')} </div>
             <H
               tag={"h5"}
