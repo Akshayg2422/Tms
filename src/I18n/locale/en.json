@@ -60,7 +60,10 @@
     "ticketPriority":"Ticket Priority",
     "created" : "Created",
     "assigned" : "Assigned",
-    "tagged" : "Tagged"
+    "tagged" : "Tagged",
+    "issueName":"Issue name",
+    "filterTickets":"Filter tickets",
+    "ticketStatus":"Ticket status"
 
     
   },
@@ -87,7 +90,7 @@
     "address": "Address",
     "registration": "Registration",
     "logout": "Logout",
-    "search": "Search...",
+    "search": "search...",
     "login": "Proceed",
     "chooseLanguge": "Choose Language",
     "typeYourMobileNumber": "Mobile Number",

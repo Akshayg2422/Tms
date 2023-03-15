@@ -58,5 +58,23 @@ export const TEM = 'TEM'
 export const EVS = 'EVS'
 export const RTS = 'RTS'
 
+export const FILTERED_TICKET_LIST=[
+  {id:'all',text:'All'},
+  {id:'created_by',text:'Created'},
+  {id:'assigned_to',text:'Assigned'},
+  {id:'tagged_to',text:'Tagged'}
+];
+
+export const ISSUES_LIST = [
+  {id:'',text:'All'},
+  {id:'RAI',text:'Raised'},
+  {id:'INP',text:'In-Prograss'},
+  {id:'CAN',text:'Cancel'},
+  {id:"CLS",text:'Close'},
+  {id:'ONH',text:'On-Hold'},
+  {id:'REJ',text:'Reject'}
+
+]
+ 
 
 export { ERRORS, TABLE_ELEMENT_TEXT_BUTTON, TABLE_ELEMENT_TEXT_STATUS, TABLE_ELEMENT_TEXT_IMAGE, TABLE_CONTENT_TYPE_REPORT, isExist };
