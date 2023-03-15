@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TicketItemProps } from "./interfaces";
-import { H, Image, Badge, Divider } from "@Components";
+import { H, Image, Divider } from "@Components";
 import { useDispatch } from "react-redux";
 import { setSelectedIssues, setSelectedReferenceIssues } from "@Redux";
 import { useNavigation } from "@Hooks";
@@ -9,7 +9,15 @@ import { getPhoto } from "@Utils";
 import { getStatusFromCode, handleEmailClick, getDataAndTime } from "@Utils";
 import { useSelector } from "react-redux";
 import { translate } from "@I18n";
-import Table from "@Components//Core/Table";
+
+
+import {
+    Badge,
+    Card,
+    Media,
+    Table,
+    
+} from "reactstrap";
 
 function TicketItem({ item, divider }: TicketItemProps) {
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
@@ -72,6 +80,7 @@ function TicketItem({ item, divider }: TicketItemProps) {
   });
 
   return (
+    
     <div
       className="row d-flex justify-content-center"
       onClick={() => {
@@ -181,6 +190,8 @@ function TicketItem({ item, divider }: TicketItemProps) {
         {divider && <Divider />}
       </div>
     </div>
+    
+
   );
 }
 
