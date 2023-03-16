@@ -2,19 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTickets, setIsSync } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, Card, InputHeading } from "@Components";
-import { TicketItem,TableItem } from "@Modules";
+import { TicketItem } from "@Modules";
 import { useDropDown, useInput } from "@Hooks";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { FILTERED_TICKET_LIST, ISSUES_LIST } from "@Utils";
 
-import {
-  Badge,
-  Media,
-  Table,
-  
-} from "reactstrap";
+import { Table } from "reactstrap";
 
 
 
@@ -174,16 +169,9 @@ function Issues() {
 
 
       <HomeContainer isCard >
-        {/* {tickets && tickets?.data?.length > 0 ? tickets?.data?.map((eachTickets: any, index: number) => {
-          const divider = tickets?.data?.length - 1 !== index;
-          return (
-            <TicketItem item={eachTickets} key={index} divider={divider} />
-          );
-        }) : <NoDataFound />} */}
-
-
+        
           <Table className="align-items-center table-flush " responsive>
-           <thead className="thead-light">
+           <thead className="thead-light ">
             <tr>
               <th className="sort" scope="col">
                 Issue
@@ -203,29 +191,24 @@ function Issues() {
               <th className="sort"  scope="col">
                 Assign to
               </th>
-              <th scope="col" >Company</th>
-              <th scope="col">Company Address</th>
+              <th scope="col" >
+                Company
+                </th>
+              <th scope="col">
+                Address
+                </th>
             </tr>
           </thead> 
           {
             tickets && tickets?.data?.length > 0 ? tickets?.data?.map((eachTickets: any, index: number) => {
               return (
                 <>
-                <TableItem item={eachTickets}/>
+                <TicketItem item={eachTickets} value={index}/>
                 </>
               );
             }) : <NoDataFound />
           }
-
-          
-
-
-
         </Table> 
-        
-
-
-
       </HomeContainer>
     </>
   );
