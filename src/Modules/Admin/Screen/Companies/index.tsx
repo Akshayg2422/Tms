@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAssociatedBranch, setIsSync } from "@Redux";
-import { Button, HomeContainer, NoDataFound } from "@Components";
+import { companySelectedDetails, getAssociatedBranch, setIsSync } from "@Redux";
+import { Card, Divider, Button, HomeContainer, FilePicker, NoDataFound } from "@Components";
 import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
-import { HOME_PATH } from "@Routes";
+import { HOME_PATH, INFO } from "@Routes";
 import { translate } from "@I18n";
-
-import { Table } from "reactstrap";
 
 function Companies() {
   const dispatch = useDispatch();
@@ -37,57 +35,40 @@ function Companies() {
     }
   }, []);
 
-
+  const handleOnClick = (item: any) => {
+    goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
+    dispatch(companySelectedDetails(item));
+  };
 
   return (
-    <>
-      <HomeContainer >
-        <div className="text-right m-0">
-          <Button
-            size={'sm'}
-            text={translate("common.createCompany")}
-            onClick={() => {
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_COMPANY);
-            }}
-          />
-        </div>
-      </HomeContainer>
-
-      <HomeContainer isCard>
-        <Table className="align-items-center table-flush " responsive>
-          <thead className="thead-light ">
-            <tr>
-              <th className="sort" scope="col">
-                Comapny
-              </th>
-              <th className="sort" scope="col">
-                Attchments
-              </th>
-              <th className="sort" scope="col">
-                Phone
-              </th>
-              <th className="sort" scope="col">
-                Email
-              </th>
-              <th className="sort" scope="col">
-                Address
-              </th>
-            </tr>
-          </thead>
-          {
-            associatedCompanies &&
-              associatedCompanies?.data?.length > 0 ?
-              associatedCompanies?.data?.map((company: any, index: number) => {
-                return (
-                  <>
-                    <CompanyItem item={company} />
-                  </>
-                );
-              }) : <NoDataFound />
-          }
-        </Table>
-      </HomeContainer>
-    </>
+    <HomeContainer>
+      <div className="text-right">
+        <Button
+          size={'sm'}
+          text={translate("common.createCompany")}
+          onClick={() => {
+            goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_COMPANY);
+          }}
+        />
+      </div>
+      <Card title={"Companies"} className="mt-3">
+        {associatedCompanies &&
+          associatedCompanies?.data?.length > 0 ?
+          associatedCompanies?.data?.map((company: any, index: number) => {
+            const divider = associatedCompanies?.data?.length - 1 !== index
+            return (
+              <div
+                key={company.id}
+                onClick={() => {
+                  handleOnClick(company);
+                }}
+              >
+                <CompanyItem item={company} showDivider={divider} />
+              </div>
+            );
+          }) : <NoDataFound />}
+      </Card>
+    </HomeContainer>
   );
 }
 export { Companies };

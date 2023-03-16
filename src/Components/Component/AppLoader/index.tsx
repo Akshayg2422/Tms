@@ -22,7 +22,7 @@ const DarkBackground = styled.div<{ disappear: boolean }>`
 `;
 
 function AppLoader() {
-  const { loading } = useSelector((state: any) => state.AppReducer);
+  const { loading } = useSelector((state: any) => state.LoaderReducer);
   return (
     <div>
       <DarkBackground disappear={loading}>

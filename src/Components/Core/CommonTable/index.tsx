@@ -1,6 +1,5 @@
 import React from 'react'
-import Table from '../Table';
-import { Spinner } from "@Components";
+import { Spinner, Table } from "@Components";
 
 
 interface CommonTableProps {
@@ -159,8 +158,8 @@ function CommonTable({ tableTitle, displayDataSet, tableDataSet, additionalDataS
 
     return (
       <CommonHeader>
-        {tableChildren ? <>{tableChildren}</> : <Table displayDataSet={displayDataSet} tableDataSet={tableDataSet} additionalDataSet={additionalDataSet} tableOnClick={tableOnClick} tableValueOnClick={tableValueOnClick} custombutton={custombutton} comparisonDataSet={comparisonDataSet} />}
-        {isPagination && <GetPaginatorSet currentPage={currentPage} totalPages={noOfPage} />}
+        {/* {tableChildren ? <>{tableChildren}</> : <Table displayDataSet={displayDataSet} tableDataSet={tableDataSet} additionalDataSet={additionalDataSet} tableOnClick={tableOnClick} tableValueOnClick={tableValueOnClick} custombutton={custombutton} comparisonDataSet={comparisonDataSet} />}
+        {isPagination && <GetPaginatorSet currentPage={currentPage} totalPages={noOfPage} />} */}
       </CommonHeader>
     );
 

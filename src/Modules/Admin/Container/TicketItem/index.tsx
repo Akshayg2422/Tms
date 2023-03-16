@@ -1,29 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from "react";
+import { TicketItemProps } from "./interfaces";
+import { H, Image, Badge, Divider } from "@Components";
 import { useDispatch } from "react-redux";
-import { useNavigation } from "@Hooks";
-import { getStatusFromCode } from "@Utils";
-import { useSelector } from "react-redux";
-import { TicketItemProps } from './interfaces'; 
-import { getPhoto } from "@Utils";
-import { Image } from "@Components";
 import { setSelectedIssues, setSelectedReferenceIssues } from "@Redux";
+import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
+import { getPhoto } from "@Utils";
+import { getStatusFromCode, handleEmailClick, getDataAndTime } from "@Utils";
+import { useSelector } from "react-redux";
+import { translate } from "@I18n";
 
-
-
-import {
-  Badge,
-  Media,
-  Table
-} from "reactstrap";
-
-
-
-function TicketItem({ item ,value}: TicketItemProps) {
+function TicketItem({ item, divider }: TicketItemProps) {
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
-  const { selectedReferenceIssues } = useSelector(
-    (state: any) => state.AdminReducer
-  );
   const {
     title,
     by_user,
@@ -32,7 +20,6 @@ function TicketItem({ item ,value}: TicketItemProps) {
     created_at,
     assigned_to,
     priority,
-
   } = item;
 
   const { goTo } = useNavigation();
@@ -40,6 +27,9 @@ function TicketItem({ item ,value}: TicketItemProps) {
   const [showPriorityColor, setShowPriorityColor] = useState("");
   const [showPriority, setShowPriority] = useState("");
 
+  const { selectedReferenceIssues } = useSelector(
+    (state: any) => state.AdminReducer
+  );
 
   useEffect(() => {
     switch (priority) {
@@ -80,76 +70,117 @@ function TicketItem({ item ,value}: TicketItemProps) {
     );
   });
 
-  console.log("index",value)
-
   return (
-    <>
-      <tbody className="list"
-         onClick={() => {
-          dispatch(setSelectedIssues(item));
-          dispatch(setSelectedReferenceIssues(undefined))
-          goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
-      } }>
-        <tr>
-          <th scope="row">
-            <Media className="align-items-center">
-              
-              <Media>
-                <span className="name  mb-0 text-sm">
-                  {title}
+    <div
+      className="row d-flex justify-content-center"
+      onClick={() => {
+        dispatch(setSelectedIssues(item));
+        dispatch(setSelectedReferenceIssues(undefined))
+        goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+      }}
+    >
+      <div className="col col-sm-9">
+        <div className="d-flex justify-content-between">
+          <div>
+            <H tag={"h3"} className="text-capitalize" text={title} />
+            <div>
+              <div className="h4 pl-1">
+                <i className="bi bi-person-circle  mr-1"></i>
+                {by_user.name}
+              </div>
+              <div>
+                <span className="mr-2">
+                  <Badge
+                    pill
+                    color={"info"}
+                    className="h4 text-uppercase text-muted pointer"
+                    text={"PHONE"}
+                  />{" "}
                 </span>
-              </Media>
-
-            </Media>
-          </th>
-          <td>
-          <Media className="justify-content-center align-items-center">
-          <a
-                className=" mr-3"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-
-                <Image
-                  src={getPhoto(raised_by_company?.attachment_logo)}
-                  variant={'rounded'}
-                  size={"lg"}
+                <Badge
+                  pill
+                  color={"success"}
+                  className="h4 text-uppercase text-muted pointer"
+                  onClick={() => {
+                    handleEmailClick(by_user.email);
+                  }}
+                  text={"Email"}
                 />
-              </a>
-              </Media>
-             </td>
-          <td className="budget"> <span>  {by_user?.name} </span></td>
-          <td>
-            <Badge color="" className="badge-dot mr-4">
-              <i className={`bg-${showPriorityColor}`} />
-              <span className="status">
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-4">
+            <div>
+              <h5 className="text-uppercase text-muted mb-0 card-title">
+                {" "}
+                <i
+                  className={`bi bi-flag-fill text-${showPriorityColor} mr-2 mb-0`}
+                ></i>
                 {showPriority}
+              </h5>
+              <h5 className="text-uppercase text-muted mb-0 card-title">
+                {" "}
+                {getStatusFromCode(dashboardDetails, ticket_status)}{" "}
+              </h5>
+              <h5 className="text-muted mb-0">{getDataAndTime(created_at)}</h5>
+            </div>
+            <div className="mt-2">
+              <small className="text-muted mb-0 text-sm">
+                {" "}
+                {translate("common.assignedBy")}{" "}
+              </small>
+              <p className="h4"> {assigned_to?.name} </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="d-flex justify-content-between mt-4">
+          <div>
+            <div>
+              <h2 className="h3 text-uppercase mb-0">
+                {raised_by_company.display_name}
+              </h2>
+              <h5 className="h5 font-weight-normal">
+                {raised_by_company.address}
+              </h5>
+            </div>
+            <div className="m-0 mt-2">
+              <span className="mr-2">
+                {" "}
+                <Badge
+                  pill
+                  color={"info"}
+                  className=" h4 text-uppercase text-muted pointer"
+                  text={"Phone"}
+                />{" "}
               </span>
-            </Badge>
-          </td>
-          <td>
-            <span className="status"> {getStatusFromCode(dashboardDetails, ticket_status)}</span>
-          </td>
-          <td>
-            <div className="d-flex align-items-center">
-              <span>{assigned_to?.name}</span>
+              <span className="">
+                {" "}
+                <Badge
+                  pill
+                  color={"success"}
+                  className="h4 text-uppercase text-muted pointer"
+                  onClick={() => {
+                    handleEmailClick(by_user.email);
+                  }}
+                  text={"Email"}
+                />
+              </span>
             </div>
-          </td>
-          <td>
-            <div className="d-flex align-items-center">
-              <span> {raised_by_company?.display_name}</span>
-            </div>
-          </td>
-          <td>
-            <div className="d-flex align-items-center">
-              <span> {raised_by_company?.address} </span>
-            </div>
-          </td>
-        </tr>
+          </div>
+          <div>
+            <Image
+              src={getPhoto(raised_by_company.attachment_logo)}
+              variant={"rounded"}
+              size={"xxl"}
+            />
+          </div>
+        </div>
 
-
-      </tbody>
-    </>
-  )
+        {divider && <Divider />}
+      </div>
+    </div>
+  );
 }
-export { TicketItem }
+
+export { TicketItem };

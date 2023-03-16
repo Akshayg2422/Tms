@@ -1,5 +1,5 @@
 import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast } from '@Modules'
-import { Login, Otp, Landing,Splash } from '@Modules'
+import { Login, Otp, Landing, Splash } from '@Modules'
 
 
 export const ROUTES = {
@@ -62,7 +62,7 @@ export const TAB_ISSUE_ATTACH_DETAILS = {
 
 
 export const AUTH_ROUTES = [
-  
+
   {
     key: 1,
     path: AUTH_PATH.LANDING,

@@ -1,92 +1,83 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, Card, InputHeading } from "@Components";
-import { TicketItem } from "@Modules";
-import { useDropDown, useInput } from "@Hooks";
-import { useNavigation } from "@Hooks";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image } from "@Components";
+import { useInput } from "@Hooks";
+import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
+import { getPhoto, getStatusFromCode } from "@Utils";
 import { FILTERED_TICKET_LIST, ISSUES_LIST } from "@Utils";
-
-import { Table } from "reactstrap";
-
-
 
 function Issues() {
   const { goTo } = useNavigation();
+  const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
   const { tickets } = useSelector((state: any) => state.CompanyReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTickets = useDropDown(FILTERED_TICKET_LIST[0])
   const ticketStatus = useDropDown(ISSUES_LIST[0])
-
-
   const { isSync } = useSelector((state: any) => state.AppReducer);
+
+
 
   useEffect(() => {
     getTicketHandler()
+  }, [isSync])
 
-  }, [ticketStatus.value]);
 
-  useEffect(() => {
+
+
+  const getTicketHandler = () => {
+
+    const params = { q: "", q_many: search.value, tickets_by: filteredTickets?.value.id, ticket_status: ticketStatus?.value.id };
+
     if (!isSync.issues) {
-      const params = { tickets_by: filteredTickets?.value?.id };
+
       dispatch(
         getTickets({
           params,
-          onSuccess: () => () => { },
+          onSuccess: () => () => {
+            setSyncTickets(true)
+          },
           onError: () => () => { },
         })
       );
     }
-  }, [filteredTickets.value])
-
-  const getTicketHandler = () => {
-
-    if (!isSync.issues) {
-      if (ticketStatus.value.id === "") {
-
-        const params = { q: "" };
-        dispatch(
-          getTickets({
-            params,
-            onSuccess: () => () => {
-
-              dispatch(
-                setIsSync({
-                  ...isSync,
-                  issues: true,
-                })
-              );
-            },
-            onError: () => () => { },
-          })
-        );
-      } else {
-        const params = { ticket_status: ticketStatus?.value?.id };
-        dispatch(
-          getTickets({
-            params,
-            onSuccess: () => () => { },
-            onError: () => () => { },
-          })
-        );
-      }
-    }
-
-
   };
 
-  const getSearchHandler = () => {
-    const params = { q_many: search.value };
+
+  function setSyncTickets(sync = false) {
     dispatch(
-      getTickets({
-        params,
-        onSuccess: () => () => { },
-        onError: () => () => { },
+      setIsSync({
+        ...isSync,
+        issues: sync,
       })
     );
+  }
+
+
+
+  function proceedTickerSearch() {
+    setSyncTickets()
+    getTicketHandler()
+  }
+
+
+
+  const normalizedTableData = (data: any) => {
+    return data.map((el: any) => {
+      return {
+        issue: el.title,
+        attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company.attachment_logo)} />,
+        "raised by": el?.by_user.name,
+        "priority": el?.priority,
+        status: getStatusFromCode(dashboardDetails, el.ticket_status),
+        "assigned to": el?.assigned_to.name,
+        company: el?.raised_by_company.display_name,
+        address: el?.raised_by_company.address,
+      };
+    });
   };
 
   return (
@@ -96,7 +87,6 @@ function Issues() {
           <div className="col-lg-4  col-md-3 col-sm-12">
             <InputHeading heading={translate("common.issueName")} />
             <div className="input-group bg-white border">
-
               <input
                 type="text"
                 className="form-control bg-transparent border border-0"
@@ -106,10 +96,9 @@ function Issues() {
               />
               <span
                 className="input-group-text  border border-0"
-                onClick={getSearchHandler}
+                onClick={proceedTickerSearch}
                 style={{ cursor: "pointer" }}
               >
-                {" "}
                 <i className="fas fa-search" />
               </span>
             </div>
@@ -124,16 +113,10 @@ function Issues() {
               value={filteredTickets.value}
               onChange={(item) => {
                 filteredTickets.onChange(item)
-                dispatch(
-                  setIsSync({
-                    ...isSync,
-                    issues: false,
-                  })
-                );
+                setSyncTickets()
               }}
             />
           </div>
-
 
           <div className="col-lg-3 col-md-3 col-sm-12">
             <DropDown
@@ -143,13 +126,7 @@ function Issues() {
               value={ticketStatus.value}
               onChange={(item) => {
                 ticketStatus.onChange(item)
-
-                dispatch(
-                  setIsSync({
-                    ...isSync,
-                    issues: false,
-                  }));
-
+                setSyncTickets()
               }}
             />
           </div>
@@ -166,50 +143,11 @@ function Issues() {
         </div>
       </HomeContainer>
 
-
-
-      <HomeContainer isCard >
-        
-          <Table className="align-items-center table-flush " responsive>
-           <thead className="thead-light ">
-            <tr>
-              <th className="sort" scope="col">
-                Issue
-              </th>
-              <th className="sort"  scope="col">
-                Attachments
-              </th>
-              <th className="sort" scope="col">
-                Raised by 
-              </th>
-              <th className="sort"  scope="col">
-                Priorty
-              </th>
-              <th className="sort"  scope="col">
-                Status
-              </th>
-              <th className="sort"  scope="col">
-                Assign to
-              </th>
-              <th scope="col" >
-                Company
-                </th>
-              <th scope="col">
-                Address
-                </th>
-            </tr>
-          </thead> 
-          {
-            tickets && tickets?.data?.length > 0 ? tickets?.data?.map((eachTickets: any, index: number) => {
-              return (
-                <>
-                <TicketItem item={eachTickets} value={index}/>
-                </>
-              );
-            }) : <NoDataFound />
-          }
-        </Table> 
+      <HomeContainer isCard title={"Issues"}>
+        {tickets && tickets?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(tickets?.data)} /> : <NoDataFound />}
       </HomeContainer>
+
+
     </>
   );
 }

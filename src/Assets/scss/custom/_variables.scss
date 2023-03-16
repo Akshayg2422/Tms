@@ -469,15 +469,6 @@ $hr-margin-y: $spacer * 2 !default;
   display: none;
 }
 
-.scroll-hidden {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scroll-hidden::-webkit-scrollbar {
-  display: none;
-}
-
 // landing page media Queries
 
 @media screen and (max-width: 600px) {
