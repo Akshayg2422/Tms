@@ -1,7 +1,7 @@
 import { AppLoader, PageNotFound, ScreenWrapper } from "@Components";
 import {Route, Routes } from "react-router-dom";
 import { AUTH_ROUTES, HOME_PATH } from "@Routes";
-import {AdminDashboard, CompanyDashBoard } from "@Modules";
+import {AdminDashboard, CompanyDashBoard, Firebase } from "@Modules";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -38,6 +38,7 @@ function App() {
 
   return (
     <ScreenWrapper>
+      <Firebase/>
       <AppLoader />
       <Routes>
         {getRoutes(AUTH_ROUTES)}
