@@ -4,13 +4,13 @@ import Select2 from 'react-select2-wrapper';
 import { Option, InputHeading } from '@Components'
 import { FormGroup } from 'reactstrap'
 
-function DropDown({ id, heading, defaultValue, disabled, value, placeHolder,selected,  data, onChange }: DropDownProps) {
+function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, selected, data, onChange }: DropDownProps) {
 
     // const [selected, setSelected] = useState<Option | undefined>(value);
 
     function proceedOnChange(e: any) {
-        
-        const selectedId = e.target.value 
+
+        const selectedId = e.target.value
 
         if (onChange) {
             const selectedItemById = data?.find((option: Option) => {
@@ -36,7 +36,7 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder,sele
                 value={selected && selected.id}
                 options={
                     {
-                        
+
                         placeholder: placeHolder,
                         disabled: disabled
                     }
