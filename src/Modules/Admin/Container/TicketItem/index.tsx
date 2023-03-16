@@ -9,7 +9,6 @@ import { getPhoto } from "@Utils";
 import { getStatusFromCode, handleEmailClick, getDataAndTime } from "@Utils";
 import { useSelector } from "react-redux";
 import { translate } from "@I18n";
-import Table from "@Components//Core/Table";
 
 function TicketItem({ item, divider }: TicketItemProps) {
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);

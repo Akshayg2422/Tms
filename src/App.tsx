@@ -1,5 +1,5 @@
 import { AppLoader, PageNotFound, ScreenWrapper } from "@Components";
-import {Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { AUTH_ROUTES, HOME_PATH } from "@Routes";
 import {AdminDashboard, CompanyDashBoard, Firebase } from "@Modules";
 import { ToastContainer } from "react-toastify";
@@ -26,14 +26,14 @@ function App() {
 
   const getRoutes = (routes: any) => {
     return routes.map((prop: any, key: any) => {
-        return (
-          <Route
-            path={prop.path}
-            element={prop.component}
-            key={key}
-          />
-        );
-      });
+      return (
+        <Route
+          path={prop.path}
+          element={prop.component}
+          key={key}
+        />
+      );
+    });
   };
 
   return (
@@ -42,13 +42,13 @@ function App() {
       <AppLoader />
       <Routes>
         {getRoutes(AUTH_ROUTES)}
-        <Route path={HOME_PATH.DASHBOARD+"/*"} element={<AdminDashboard />}/>
-        <Route path={HOME_PATH.COMPANY+"/*"} element={<CompanyDashBoard />}/>
+        <Route path={HOME_PATH.DASHBOARD + "/*"} element={<AdminDashboard />} />
+        <Route path={HOME_PATH.COMPANY + "/*"} element={<CompanyDashBoard />} />
         <Route path={"*"} element={<PageNotFound />} />
       </Routes>
       <ToastContainer />
     </ScreenWrapper>
   );
-} 
+}
 
 export default App;

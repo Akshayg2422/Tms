@@ -14,7 +14,6 @@ import {
 
 } from '@Services';
 
-import { ERRORS } from '@Utils';
 import {
   VALIDATE_REGISTER_USER,
   OTP_REGISTER,
@@ -23,7 +22,6 @@ import {
   hideLoader,
   showLoader,
   validateRegisterUserSuccess,
-  validateRegisterUserFailure,
   otpRegisterSuccess,
   otpRegisterFailure,
   getUserBusinessPlacesSuccess,
@@ -97,7 +95,7 @@ function* validateUserSaga(action) {
     yield put(hideLoader());
     yield put(validateUserFailure(error));
     yield call(action.payload.onError(error));
-    
+
   }
 }
 
@@ -209,7 +207,7 @@ function* otpLoginSaga(action) {
     const response = yield call(otpLoginApi, action.payload.params);
     if (response.success) {
       yield put(hideLoader());
-      yield put(otpLoginSuccess({...response}));
+      yield put(otpLoginSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());
@@ -267,12 +265,12 @@ function* registerCompanySaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(registerCompanyApi, action.payload.params);
-    console.log(JSON.stringify(response)+"=============================");
+    console.log(JSON.stringify(response) + "=============================");
     if (response.success) {
       yield put(hideLoader());
       yield put(registerCompanySuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
- 
+
     } else {
       yield put(hideLoader());
       yield put(registerCompanyFailure(response.error_message));
