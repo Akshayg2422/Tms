@@ -25,10 +25,10 @@ import {
   GET_REFERENCE_TICKETS_SUCCESS,
   GET_REFERENCE_TICKETS_FAILURE,
   RESTORE_COMPANY,
-  ADD_BROADCAST_MESSAGES ,
+  ADD_BROADCAST_MESSAGES,
   ADD_BROADCAST_MESSAGES_SUCCESS,
   ADD_BROADCAST_MESSAGES_FAILURE,
-  GET_BROADCAST_MESSAGES ,
+  GET_BROADCAST_MESSAGES,
   GET_BROADCAST_MESSAGES_SUCCESS,
   GET_BROADCAST_MESSAGES_FAILURE,
 } from '../ActionTypes';
@@ -42,7 +42,7 @@ const initialState: CompanyStateProp = {
   employees: undefined,
   addEmployeeDetails: undefined,
   issueReferenceDetails: undefined,
-  broadCastDetails:undefined,
+  broadCastDetails: undefined,
 };
 
 const CompanyReducer = (
@@ -55,9 +55,9 @@ const CompanyReducer = (
     case RESTORE_COMPANY:
 
       state = initialState;
-      
+
       break;
-   
+
     case RAISE_NEW_TICKET:
       state = {
         ...state,
@@ -73,11 +73,10 @@ const CompanyReducer = (
       state = { ...state };
       break;
 
-      case ADD_BROADCAST_MESSAGES:
+    case ADD_BROADCAST_MESSAGES:
       state = {
         ...state,
       };
-
       break;
     case ADD_BROADCAST_MESSAGES_SUCCESS:
       state = {
@@ -88,18 +87,20 @@ const CompanyReducer = (
       state = { ...state };
       break;
 
-      case GET_BROADCAST_MESSAGES:
-        state = {
-          ...state,
-        };
-  
-        break;
-      case GET_BROADCAST_MESSAGES_SUCCESS:
-        state = {...state,  broadCastDetails: action.payload.details};
-        break;
-      case GET_BROADCAST_MESSAGES_FAILURE:
-        state = { ...state };
-        break;
+    case GET_BROADCAST_MESSAGES:
+      state = {
+        ...state,
+        broadCastDetails: undefined
+      };
+      break;
+
+    case GET_BROADCAST_MESSAGES_SUCCESS:
+      state = { ...state, broadCastDetails: action.payload.details };
+      break;
+
+    case GET_BROADCAST_MESSAGES_FAILURE:
+      state = { ...state };
+      break;
 
 
 

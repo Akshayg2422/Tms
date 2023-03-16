@@ -1,16 +1,6 @@
-import { SHOW_LOADER, HIDE_LOADER, USER_LOGIN_DETAILS, RESTORE_APP, USER_LOGOUT, HANDLING_API } from '../ActionTypes';
+import { USER_LOGIN_DETAILS, RESTORE_APP, USER_LOGOUT, HANDLING_API } from '../ActionTypes';
 
-export const showLoader = () => {
-  return {
-    type: SHOW_LOADER,
-  };
-};
 
-export const hideLoader = () => {
-  return {
-    type: HIDE_LOADER,
-  };
-};
 
 export const userLoginDetails = (params: any) => {
   return {

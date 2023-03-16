@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { AppReducer, AuthReducer, CompanyReducer, AdminReducer } from '@Redux';
+import { AppReducer, AuthReducer, CompanyReducer, AdminReducer, LoaderReducer } from '@Redux';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -10,13 +10,15 @@ import rootSaga from '../Sagas';
 const persistConfig = {
   key: 'quanta-tms',
   storage,
+  blacklist: ['LoaderReducer']
 }
 
 const reducer = combineReducers({
   AppReducer,
   AuthReducer,
   CompanyReducer,
-  AdminReducer
+  AdminReducer,
+  LoaderReducer
 });
 
 const rootReducer = (state: any, action: any) => {

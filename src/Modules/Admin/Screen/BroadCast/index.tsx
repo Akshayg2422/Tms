@@ -8,32 +8,37 @@ import { BroadCastListedItems } from "@Modules";
 import { getBroadCastMessages, setIsSync } from "@Redux";
 
 function Broadcast() {
-  const { goTo, goBack } = useNavigation();
+  const { goTo } = useNavigation();
   const dispatch = useDispatch();
+
   const { broadCastDetails } = useSelector(
     (state: any) => state.CompanyReducer
   );
+
   const { isSync } = useSelector(
     (state: any) => state.AppReducer
   );
- 
+
+  console.log(JSON.stringify(broadCastDetails) + "======");
+
   useEffect(() => {
-    const params = { q: "" };
-    if (!isSync.broadcast) {
-      dispatch(
-        getBroadCastMessages({
-          params,
-          onSuccess: () => () => {
-            dispatch(setIsSync({
-              ...isSync, broadcast: true
-            }))
-          },
-          onError: () => () => { },
-        })
-      );
-    }
+    const params = { q: "", page_number: "3" };
+    // if (!isSync.broadcast) {
+    dispatch(
+      getBroadCastMessages({
+        params,
+        onSuccess: () => () => {
+          dispatch(setIsSync({
+            ...isSync, broadcast: true
+          }))
+        },
+        onError: () => () => { },
+      })
+    );
+    // }
 
   }, []);
+
   return (
     <HomeContainer>
       <div className="col text-right ">

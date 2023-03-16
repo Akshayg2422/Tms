@@ -15,16 +15,15 @@ import {
 function Login() {
 
   const { goTo } = useNavigation()
+
   const mobileNumber = useInput("");
   const dispatch = useDispatch();
 
-  const {language } = useSelector(
+  const { language } = useSelector(
     (state: any) => state.AuthReducer
   );
 
   const validateUserBusinessApiHandler = () => {
-
-
     const params = {
       mobile_number: mobileNumber.value,
       ln: language.value,
@@ -37,13 +36,11 @@ function Login() {
       dispatch(
         validateUserBusiness({
           params,
-          onSuccess: () =>()=> {
+          onSuccess: () => () => {
             dispatch(setRegisteredMobileNumber(mobileNumber.value));
             goTo(AUTH_PATH.OTP)
           },
-          onError: () =>()=> {
-            dispatch(setRegisteredMobileNumber(mobileNumber.value));
-            goTo(AUTH_PATH.OTP)
+          onError: () => () => {
           },
         })
       );
@@ -68,7 +65,7 @@ function Login() {
           <H tag={"h5"} text={translate("auth.chooseLanguge")} />
           <Radio
             selected={language}
-             selectItem={language}
+            selectItem={language}
             data={LANGUAGES}
             onRadioChange={(selected) => {
               if (selected) {
