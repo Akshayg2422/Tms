@@ -22,7 +22,7 @@ function Broadcast() {
   console.log(JSON.stringify(broadCastDetails) + "======");
 
   useEffect(() => {
-    const params = { q: "", page_number: "3" };
+    const params = { q: "", page_number: 1 };
     // if (!isSync.broadcast) {
     dispatch(
       getBroadCastMessages({
