@@ -1,15 +1,15 @@
-import { Card, HomeContainer, NoDataFound } from "@Components";
+import { HomeContainer, NoDataFound, Table } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ReferenceIssue } from "@Modules";
-import { getReferenceTickets } from "@Redux";
+import { getReferenceTickets, setIsSync } from "@Redux";
+import { getStatusFromCode } from "@Utils";
 
 function ReferenceTickets() {
   const dispatch = useDispatch();
   const { issueReferenceDetails } = useSelector(
     (state: any) => state.CompanyReducer
   );
-  const { selectedIssues, selectedReferenceIssues } = useSelector(
+  const { selectedIssues, selectedReferenceIssues, dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
   );
 
@@ -18,13 +18,14 @@ function ReferenceTickets() {
   }, [selectedReferenceIssues]);
 
 
-  function proceedgetReferenceTickets() {
+  const proceedgetReferenceTickets = () => {
     const params = {
       id: selectedReferenceIssues
         ? selectedReferenceIssues?.id
         : selectedIssues?.id,
       q: "",
     };
+
     dispatch(
       getReferenceTickets({
         params,
@@ -33,30 +34,32 @@ function ReferenceTickets() {
       })
     );
   }
-  
+
+
+  const normalizedTableData = (data: any) => {
+    return data.map((el: any) => {
+      return {
+        issue: el.title,
+        "raised by": el?.by_user.name,
+        status: getStatusFromCode(dashboardDetails, el.ticket_status),
+        "assigned to": el?.assigned_to.name,
+        phone: el?.by_user.phone,
+        email: el?.by_user.email
+      };
+    });
+  };
+
   return (
-    <HomeContainer>
-      <Card className="pt-3">
-        {issueReferenceDetails && issueReferenceDetails?.data.length > 0 ? (
-          issueReferenceDetails?.data.map(
-            (eachReferenceTickets: any, index: number) => {
-              const divider = issueReferenceDetails.data.length - 1 !== index;
-              return (
-                <div>
-                  <ReferenceIssue
-                    key={eachReferenceTickets.id}
-                    item={eachReferenceTickets}
-                    divider={divider}
-                  />
-                </div>
-              );
-            }
-          )
-        ) : (
-          <NoDataFound />
-        )}
-      </Card>
+
+
+    <HomeContainer isCard title={"Reference Details"}>
+      {issueReferenceDetails && issueReferenceDetails?.data?.length > 0 ?
+        <Table displayDataSet={normalizedTableData(issueReferenceDetails?.data)} tableOnClick={(e, index, item) => {
+          const selectedItem = issueReferenceDetails.data?.[index]
+        }} /> : <NoDataFound />}
     </HomeContainer>
+
+
   );
 }
 

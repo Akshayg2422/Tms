@@ -8,6 +8,7 @@ import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, getStatusFromCode } from "@Utils";
 import { FILTERED_TICKET_LIST, ISSUES_LIST } from "@Utils";
+import { setSelectedIssues, setSelectedReferenceIssues } from "@Redux";
 
 function Issues() {
   const { goTo } = useNavigation();
@@ -19,9 +20,13 @@ function Issues() {
   const ticketStatus = useDropDown(ISSUES_LIST[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
+
+
   useEffect(() => {
     getTicketHandler()
   }, [isSync])
+
+
 
 
   const getTicketHandler = () => {
@@ -64,14 +69,14 @@ function Issues() {
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
-        issue: el.title,
+       issue: el.title,
         attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company.attachment_logo)} />,
         "raised by": el?.by_user.name,
         "priority": el?.priority,
         status: getStatusFromCode(dashboardDetails, el.ticket_status),
         "assigned to": el?.assigned_to.name,
         company: el?.raised_by_company.display_name,
-        address: el?.raised_by_company.address,
+        address: el?.raised_by_company.address
       };
     });
   };
@@ -140,7 +145,16 @@ function Issues() {
       </HomeContainer>
 
       <HomeContainer isCard title={"Issues"}>
-        {tickets && tickets?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(tickets?.data)} /> : <NoDataFound />}
+        {tickets && tickets?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(tickets?.data)} tableOnClick={(e, index, item) => {
+          console.log(index);
+          const selectedItem = tickets.data?.[index]
+
+          console.log(JSON.stringify(selectedItem));
+
+          dispatch(setSelectedIssues(selectedItem));
+          dispatch(setSelectedReferenceIssues(undefined))
+          goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+        }} /> : <NoDataFound />}
       </HomeContainer>
 
 
@@ -149,6 +163,3 @@ function Issues() {
 }
 
 export { Issues };
-
-
-

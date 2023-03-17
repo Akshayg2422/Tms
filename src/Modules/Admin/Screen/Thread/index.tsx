@@ -75,7 +75,7 @@ function Thread() {
             <div>
                 <TagAssignUser />
             </div>
-            <div className='vh-100 d-flex justify-content-center'>
+            <div className='d-flex justify-content-center'>
                 <Card className='vh-100 col-lg-10 col-sm-12 overflow-auto overflow-hide mt--3 mb--5' style={{ height: '50vh' }}>
 
                     <div className='fixed-bottom col-lg-6 col-sm-12' style={{ cursor: "pointer" }}>
