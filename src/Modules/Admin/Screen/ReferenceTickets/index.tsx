@@ -15,8 +15,6 @@ function ReferenceTickets() {
 
   useEffect(() => {
     proceedgetReferenceTickets();
-
-    
   }, [selectedReferenceIssues]);
 
 
@@ -30,11 +28,12 @@ function ReferenceTickets() {
     dispatch(
       getReferenceTickets({
         params,
-        onSuccess: () => () => {},
-        onFailure: () => () => {},
+        onSuccess: () => () => { },
+        onFailure: () => () => { },
       })
     );
   }
+  
   return (
     <HomeContainer>
       <Card className="pt-3">

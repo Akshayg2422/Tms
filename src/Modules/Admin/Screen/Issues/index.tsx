@@ -8,7 +8,6 @@ import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, getStatusFromCode } from "@Utils";
 import { FILTERED_TICKET_LIST, ISSUES_LIST } from "@Utils";
-import { setSelectedIssues, setSelectedReferenceIssues } from "@Redux";
 
 function Issues() {
   const { goTo } = useNavigation();
@@ -20,13 +19,9 @@ function Issues() {
   const ticketStatus = useDropDown(ISSUES_LIST[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
-
-
   useEffect(() => {
     getTicketHandler()
   }, [isSync])
-
-
 
 
   const getTicketHandler = () => {
@@ -145,16 +140,7 @@ function Issues() {
       </HomeContainer>
 
       <HomeContainer isCard title={"Issues"}>
-        {tickets && tickets?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(tickets?.data)} tableOnClick={(e, index, item) => {
-          console.log(index);
-          const selectedItem = tickets.data?.[index]
-
-          console.log(JSON.stringify(selectedItem));
-
-          dispatch(setSelectedIssues(selectedItem));
-          dispatch(setSelectedReferenceIssues(undefined))
-          goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
-        }} /> : <NoDataFound />}
+        {tickets && tickets?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(tickets?.data)} /> : <NoDataFound />}
       </HomeContainer>
 
 
