@@ -74,7 +74,7 @@ function Issues() {
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
-        issue: el.title,
+       issue: el.title,
         attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company.attachment_logo)} />,
         "raised by": el?.by_user.name,
         "priority": el?.priority,
@@ -164,6 +164,3 @@ function Issues() {
 }
 
 export { Issues };
-
-
-

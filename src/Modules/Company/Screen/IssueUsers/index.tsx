@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Card, Divider, HomeContainer } from "@Components";
+import { Card, Divider, HomeContainer, NoDataFound, Table } from "@Components";
 import { UserItem } from "@Modules";
 import { getEmployees } from "@Redux";
 
@@ -22,29 +22,32 @@ function IssueUsers() {
     dispatch(
       getEmployees({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   }, [selectedIssues, selectedReferenceIssues]);
 
+  const normalizedTableData = (employees: any) => {
+    return employees.map((el: any) => {
+      console.log('1111111111', el);
+
+      return {
+        name: el?.name,
+        phone: el?.mobile_number,
+        email: el?.email
+      };
+    });
+  };
+
   return (
-    <HomeContainer>
-      <div>
-        <Card className="mt-2 py-2">
-          {employees &&
-            employees.length > 0 &&
-            employees.map((user: any, index: number) => {
-              return (
-                <>
-                  <UserItem item={user} />
-                  {index !== employees.length - 1 && <Divider space={"4"} />}
-                </>
-              );
-            })}
-        </Card>
-      </div>
+
+    <HomeContainer isCard title={"Employee Details"}>
+      {
+        employees && employees?.length > 0 && <Table displayDataSet={normalizedTableData(employees)} />
+      }
     </HomeContainer>
+
   );
 }
 export { IssueUsers };
