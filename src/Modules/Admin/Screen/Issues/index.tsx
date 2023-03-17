@@ -31,7 +31,12 @@ function Issues() {
 
   const getTicketHandler = () => {
 
-    const params = { q: "", q_many: search.value, tickets_by: filteredTickets?.value.id, ticket_status: ticketStatus?.value.id };
+    const params = {
+      q: "",
+      q_many: search.value,
+      tickets_by: filteredTickets?.value.id,
+      ticket_status: ticketStatus?.value.id
+    };
 
     if (!isSync.issues) {
 
@@ -76,7 +81,7 @@ function Issues() {
         status: getStatusFromCode(dashboardDetails, el.ticket_status),
         "assigned to": el?.assigned_to.name,
         company: el?.raised_by_company.display_name,
-        address: el?.raised_by_company.address,
+        address: el?.raised_by_company.address
       };
     });
   };
@@ -146,11 +151,7 @@ function Issues() {
 
       <HomeContainer isCard title={"Issues"}>
         {tickets && tickets?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(tickets?.data)} tableOnClick={(e, index, item) => {
-          console.log(index);
           const selectedItem = tickets.data?.[index]
-
-          console.log(JSON.stringify(selectedItem));
-
           dispatch(setSelectedIssues(selectedItem));
           dispatch(setSelectedReferenceIssues(undefined))
           goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
