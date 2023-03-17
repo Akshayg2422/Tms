@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Divider, Button } from '@Components'
-import { UserItem } from '@Modules'
+import { Card,Table, Button } from '@Components'
 import { getEmployees } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { HOME_PATH } from '@Routes'
@@ -11,7 +10,6 @@ function CompanyUsers() {
     const { goTo } = useNavigation()
     const dispatch = useDispatch()
     const { employees } = useSelector((state: any) => state.CompanyReducer);
-
 
     const { companyDetailsSelected } = useSelector(
         (state: any) => state.AdminReducer
@@ -27,6 +25,16 @@ function CompanyUsers() {
         }));
     }, []);
 
+    const normalizedTableData = (data: any) => {
+        return data.map((el: any) => {
+          return {
+            name: el.name,
+            phone: el?.mobile_number,
+            email: el?.email
+          };
+        });
+      };
+
     return (
         <div>
             <div className='text-right mt--3'>
@@ -34,15 +42,7 @@ function CompanyUsers() {
             </div>
             <Card className='mt-3 py-2'>
                 {
-                    employees && employees.length > 0 && employees.map((user: any, index: number) => {
-                        return (
-                            <>
-                                <UserItem item={user} />
-                                {index !== employees.length - 1 && <Divider space={'4'} />}
-                            </>
-                        )
-                    })
-
+                    employees && employees.length > 0 && <Table displayDataSet={normalizedTableData(employees)}/>       
                 }
             </Card>
         </div>
