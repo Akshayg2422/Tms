@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { companySelectedDetails, getAssociatedBranch, setIsSync } from "@Redux";
-import { Card, Divider, Button, HomeContainer, FilePicker, NoDataFound } from "@Components";
+import { Button, HomeContainer, Image, Table, NoDataFound } from "@Components";
 import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH, INFO } from "@Routes";
 import { translate } from "@I18n";
+import { getPhoto } from "@Utils";
 
 function Companies() {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ function Companies() {
   const { associatedCompanies } = useSelector(
     (state: any) => state.AdminReducer
   );
+  console.log();
+  
 
   const { isSync } = useSelector(
     (state: any) => state.AppReducer
@@ -25,9 +28,7 @@ function Companies() {
         getAssociatedBranch({
           params,
           onSuccess: () => () => {
-            dispatch(setIsSync({
-              ...isSync, companies: true
-            }))
+            setSyncCompany(true)
           },
           onError: () => () => { },
         })
@@ -35,40 +36,60 @@ function Companies() {
     }
   }, []);
 
-  const handleOnClick = (item: any) => {
-    goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
-    dispatch(companySelectedDetails(item));
+
+  const normalizedTableData = (data: any) => {
+    return data.map((el: any) => {
+      return {
+        Company: el.display_name,
+        attachments: <Image variant={'rounded'} src={getPhoto(el?.attachment_logo)} />,
+        phone: el?.phone,
+        email: el?.email,
+        address: el?.address,
+      };
+    });
   };
 
+  function setSyncCompany(sync = false) {
+    dispatch(
+      setIsSync({
+        ...isSync,
+        companies: sync,
+      })
+    );
+  }
+
+  // const handleOnClick = (item: any) => {
+  //   console.log("item---->",item)
+
+  //   goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
+  //   dispatch(companySelectedDetails(item));
+  // };
+
   return (
-    <HomeContainer>
-      <div className="text-right">
-        <Button
-          size={'sm'}
-          text={translate("common.createCompany")}
-          onClick={() => {
-            goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_COMPANY);
-          }}
-        />
-      </div>
-      <Card title={"Companies"} className="mt-3">
-        {associatedCompanies &&
-          associatedCompanies?.data?.length > 0 ?
-          associatedCompanies?.data?.map((company: any, index: number) => {
-            const divider = associatedCompanies?.data?.length - 1 !== index
-            return (
-              <div
-                key={company.id}
-                onClick={() => {
-                  handleOnClick(company);
-                }}
-              >
-                <CompanyItem item={company} showDivider={divider} />
-              </div>
-            );
-          }) : <NoDataFound />}
-      </Card>
-    </HomeContainer>
+    <>
+      <HomeContainer>
+        <div className="text-right">
+          <Button
+            size={'sm'}
+            text={translate("common.createCompany")}
+            onClick={() => {
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_COMPANY);
+            }}
+          />
+        </div>
+      </HomeContainer>
+
+      {/* <HomeContainer isCard>
+        {associatedCompanies && associatedCompanies?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(associatedCompanies?.data)} tableOnClick={
+          
+//   (associatedCompanies.data,index)=>{ 
+//  const selectedItem = associatedCompanies?.data[index]
+//  goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
+//  dispatch(companySelectedDetails(selectedItem));
+
+         }} /> : <NoDataFound />}
+      </HomeContainer> */}
+ </>
   );
 }
 export { Companies };

@@ -2,15 +2,17 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
-import { HomeContainer,NoDataFound } from '@Components';
-import { CompanyIssueItem } from '@Modules';
+import { HomeContainer,NoDataFound ,Table} from '@Components';
+//import { CompanyIssueItem } from '@Modules';
 import {setIsSync} from '@Redux'
+import { getStatusFromCode,handleEmailClick } from '@Utils';
 function CompanyIssues() {
 
     const dispatch = useDispatch();
     const { tickets } = useSelector((state: any) => state.CompanyReducer);
     const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
     const { isSync } = useSelector((state: any) => state.AppReducer);
+    const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
 
 
     useEffect(() => {
@@ -27,21 +29,25 @@ function CompanyIssues() {
         }))
     }, []);
 
+    
+  const normalizedTableData = (data: any) => {
+    return data.map((el: any) => {
+      return {
+        issue: el.title,
+        "raised by": el?.by_user.name,
+        status: getStatusFromCode(dashboardDetails, el.ticket_status),
+        "assigned to": el?.assigned_to.name,
+        phone: el.by_user?.phone,
+        email: el.by_user?.email
+      };
+    });
+  };
 
     return (
         <HomeContainer isCard>
-            <div className='pt-3'>
-                {
-                    tickets && tickets?.data?.length > 0 ? tickets?.data?.map((eachTickets: any, index: number) => {
-
-                        const divider = tickets?.data?.length - 1 !== index
-                        return (
-                            <CompanyIssueItem item={eachTickets} key={index} divider={divider} />
-                        )
-                    })
-                        : <NoDataFound/>
+               {
+                    tickets && tickets?.data?.length > 0 ? < Table displayDataSet={normalizedTableData(tickets?.data)} /> : <NoDataFound/>
                 }
-            </div>
         </HomeContainer>
 
     )
