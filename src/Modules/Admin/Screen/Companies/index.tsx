@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { companySelectedDetails, getAssociatedBranch, setIsSync } from "@Redux";
 import { Button, HomeContainer, Image, Table, NoDataFound } from "@Components";
-import { CompanyItem } from "@Modules";
 import { useNavigation } from "@Hooks";
-import { HOME_PATH, INFO } from "@Routes";
+import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto } from "@Utils";
 
@@ -16,7 +15,7 @@ function Companies() {
     (state: any) => state.AdminReducer
   );
   console.log();
-  
+
 
   const { isSync } = useSelector(
     (state: any) => state.AppReducer
@@ -58,13 +57,6 @@ function Companies() {
     );
   }
 
-  // const handleOnClick = (item: any) => {
-  //   console.log("item---->",item)
-
-  //   goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
-  //   dispatch(companySelectedDetails(item));
-  // };
-
   return (
     <>
       <HomeContainer>
@@ -79,17 +71,14 @@ function Companies() {
         </div>
       </HomeContainer>
 
-      {/* <HomeContainer isCard>
-        {associatedCompanies && associatedCompanies?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(associatedCompanies?.data)} tableOnClick={
-          
-//   (associatedCompanies.data,index)=>{ 
-//  const selectedItem = associatedCompanies?.data[index]
-//  goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
-//  dispatch(companySelectedDetails(selectedItem));
-
-         }} /> : <NoDataFound />}
-      </HomeContainer> */}
- </>
+      <HomeContainer isCard>
+        {associatedCompanies && associatedCompanies?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(associatedCompanies?.data)} tableOnClick={(e, index) => {
+          const selectedItem = associatedCompanies?.data[index]
+          goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
+          dispatch(companySelectedDetails(selectedItem));
+        }} /> : <NoDataFound />}
+      </HomeContainer>
+    </>
   );
 }
 export { Companies };

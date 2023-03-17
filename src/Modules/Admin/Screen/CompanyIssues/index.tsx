@@ -3,9 +3,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
 import { HomeContainer,NoDataFound ,Table} from '@Components';
-//import { CompanyIssueItem } from '@Modules';
 import {setIsSync} from '@Redux'
-import { getStatusFromCode,handleEmailClick } from '@Utils';
+import { getStatusFromCode } from '@Utils';
 function CompanyIssues() {
 
     const dispatch = useDispatch();

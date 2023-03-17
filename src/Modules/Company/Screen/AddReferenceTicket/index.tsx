@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets } from "@Redux";
-import { Divider, Button, HomeContainer,NoDataFound } from "@Components";
+import { Divider, Button, HomeContainer,Table, NoDataFound,} from "@Components";
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
-import { RTS } from "@Utils";
+import { RTS,getStatusFromCode } from "@Utils";
 
 function AddReferenceTicket() {
   const dispatch = useDispatch();
   const { tickets } = useSelector((state: any) => state.CompanyReducer);
+  const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
   const { selectedIssues } = useSelector(
     (state: any) => state.AdminReducer
   );
@@ -64,6 +65,19 @@ function AddReferenceTicket() {
     );
   };
 
+  const normalizedTableData = (data: any) => {
+    return data.map((el: any) => {
+      return {
+        issue: el.title,
+        "raised by": el?.by_user.name,
+        status: getStatusFromCode(dashboardDetails, el.ticket_status),
+        "assigned to": el?.assigned_to.name,
+        phone: el.by_user?.phone,
+        email: el.by_user?.email
+      };
+    });
+  };
+
   return (
     <div>
       <div className="container mt-4">
@@ -110,28 +124,7 @@ function AddReferenceTicket() {
           <div className="row justify-content-center">
             <div className="col">
               <HomeContainer isCard title={'Reference Tickets'}>
-                {tickets && tickets.length > 0 ? (
-                  tickets.map((eachTickets: any, index: number) => {
-                    return (
-                      <>
-                        <ReferenceIssueItem
-                          item={eachTickets}
-                          key={index}
-                          handleIssueOnClick={() => {
-                            onSelectedTickets(eachTickets);
-                          }}
-                        />
-                        {index !== tickets.length - 1 && (
-                          <div className="mx-lg-7 mx-sm-0 mx-2 ">
-                            <Divider />
-                          </div>
-                        )}
-                      </>
-                    );
-                  })
-                ) : (
-                  <NoDataFound/>
-                )}
+                {tickets && tickets?.data.length > 0 ? <Table displayDataSet={normalizedTableData(tickets?.data)}/> : <NoDataFound/> }
               </HomeContainer>
             </div>
           </div>

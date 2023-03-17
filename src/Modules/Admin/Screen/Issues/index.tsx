@@ -31,7 +31,12 @@ function Issues() {
 
   const getTicketHandler = () => {
 
-    const params = { q: "", q_many: search.value, tickets_by: filteredTickets?.value.id, ticket_status: ticketStatus?.value.id };
+    const params = {
+      q: "",
+      q_many: search.value,
+      tickets_by: filteredTickets?.value.id,
+      ticket_status: ticketStatus?.value.id
+    };
 
     if (!isSync.issues) {
 
@@ -69,7 +74,7 @@ function Issues() {
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
-       issue: el.title,
+        issue: el.title,
         attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company.attachment_logo)} />,
         "raised by": el?.by_user.name,
         "priority": el?.priority,
@@ -146,11 +151,7 @@ function Issues() {
 
       <HomeContainer isCard title={"Issues"}>
         {tickets && tickets?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(tickets?.data)} tableOnClick={(e, index, item) => {
-          console.log(index);
           const selectedItem = tickets.data?.[index]
-
-          console.log(JSON.stringify(selectedItem));
-
           dispatch(setSelectedIssues(selectedItem));
           dispatch(setSelectedReferenceIssues(undefined))
           goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
