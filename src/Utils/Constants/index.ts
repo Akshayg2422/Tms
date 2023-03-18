@@ -1,6 +1,6 @@
 
 
-const ERRORS = {
+export const ERRORS = {
   SOMETHING_WENT_WRONG: 'Something went wrong, please try again later',
   INVALID_REQUEST: 'Invalid Request',
 };
@@ -28,12 +28,8 @@ export const type = [
 
 export const DEFAULT_LANGUAGE = LANGUAGES[0]
 
-const TABLE_ELEMENT_TEXT_BUTTON = 1
-const TABLE_ELEMENT_TEXT_STATUS = 2
-const TABLE_ELEMENT_TEXT_IMAGE = 3
-const TABLE_CONTENT_TYPE_REPORT = 1
 
-function isExist(val: any) {
+export function isExist(val: any) {
   return val ? val : ''
 }
 
@@ -66,7 +62,7 @@ export const FILTERED_TICKET_LIST = [
 ];
 
 export const ISSUES_LIST = [
-  { id: '', text: 'All' },
+  { id: 'ALL', text: 'All' },
   { id: 'RAI', text: 'Raised' },
   { id: 'INP', text: 'In-Prograss' },
   { id: 'CAN', text: 'Cancel' },
@@ -77,4 +73,13 @@ export const ISSUES_LIST = [
 ]
 
 
-export { ERRORS, TABLE_ELEMENT_TEXT_BUTTON, TABLE_ELEMENT_TEXT_STATUS, TABLE_ELEMENT_TEXT_IMAGE, TABLE_CONTENT_TYPE_REPORT, isExist };
+export const TICKET_PRIORITY = [
+  { id: 1, text: "Lowest", color: "black" },
+  { id: 2, text: "Low", color: "black" },
+  { id: 3, text: "Medium", color: "orange" },
+  { id: 4, text: "High", color: "red" },
+  { id: 5, text: "Urgent", color: "gray" },
+];
+
+
+export const SEARCH_PAGE = 1

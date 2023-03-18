@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets } from "@Redux";
-import { Divider, Button, HomeContainer,Table, NoDataFound,} from "@Components";
+import { Divider, Button, HomeContainer, Table, NoDataFound, } from "@Components";
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
-import { RTS,getStatusFromCode } from "@Utils";
+import { RTS, getStatusFromCode } from "@Utils";
 
 function AddReferenceTicket() {
   const dispatch = useDispatch();
@@ -124,7 +124,7 @@ function AddReferenceTicket() {
           <div className="row justify-content-center">
             <div className="col">
               <HomeContainer isCard title={'Reference Tickets'}>
-                {tickets && tickets?.data.length > 0 ? <Table displayDataSet={normalizedTableData(tickets?.data)}/> : <NoDataFound/> }
+                {tickets && tickets?.data.length > 0 ? <Table tableDataSet={tickets?.data} displayDataSet={normalizedTableData(tickets?.data)} /> : <NoDataFound />}
               </HomeContainer>
             </div>
           </div>

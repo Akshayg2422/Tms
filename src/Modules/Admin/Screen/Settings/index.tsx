@@ -234,7 +234,6 @@ function Settings() {
                 {designationData && designationData.data.length > 0 ? (
                   <CommonTable
                     displayDataSet={normalizedDesignationData(designationData.data)}
-
                   />
                 ) : (
                   <div
@@ -288,7 +287,6 @@ function Settings() {
          */}
 
         <Modal
-           
           isOpen={addDesignationModal.visible}
           onClose={() => addDesignationModal.hide()}
           title={translate("auth.designation")!}

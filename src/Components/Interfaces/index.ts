@@ -6,7 +6,7 @@ export type ButtonVariants = 'default' | 'icon' | 'icon-with-text' | 'icon-round
 export type InputVariants = 'default' | 'alternative' | 'flush' | 'muted'
 
 export type Option = {
-    id: string;
+    id: string | number;
     text: string;
     other?: string
 }

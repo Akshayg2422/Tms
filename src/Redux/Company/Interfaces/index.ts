@@ -7,4 +7,6 @@ export interface CompanyStateProp {
   addEmployeeDetails: any;
   issueReferenceDetails: any;
   broadCastDetails: any;
+  ticketNumOfPages: any
+  ticketCurrentPages: any
 }
