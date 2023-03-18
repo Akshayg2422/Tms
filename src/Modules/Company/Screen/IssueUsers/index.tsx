@@ -30,8 +30,6 @@ function IssueUsers() {
 
   const normalizedTableData = (employees: any) => {
     return employees.map((el: any) => {
-      console.log('1111111111', el);
-
       return {
         name: el?.name,
         phone: el?.mobile_number,
@@ -44,7 +42,7 @@ function IssueUsers() {
 
     <HomeContainer isCard title={"Employee Details"}>
       {
-        employees && employees?.length > 0 && <Table displayDataSet={normalizedTableData(employees)} />
+        employees && employees?.length > 0 && <Table tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
       }
     </HomeContainer>
 

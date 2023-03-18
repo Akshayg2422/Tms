@@ -1,57 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image } from "@Components";
+import { getTickets, otpLoginFailure, setIsSync } from "@Redux";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, getStatusFromCode } from "@Utils";
-import { FILTERED_TICKET_LIST, ISSUES_LIST } from "@Utils";
-import { setSelectedIssues, setSelectedReferenceIssues } from "@Redux";
+import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_TICKET_LIST, ISSUES_LIST, TICKET_PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE } from "@Utils";
+import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
+
 
 function Issues() {
   const { goTo } = useNavigation();
-  const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
-  const { tickets } = useSelector((state: any) => state.CompanyReducer);
+  const { dashboardDetails, } = useSelector((state: any) => state.AdminReducer);
+  const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.CompanyReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTickets = useDropDown(FILTERED_TICKET_LIST[0])
   const ticketStatus = useDropDown(ISSUES_LIST[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
-
-
   useEffect(() => {
-    getTicketHandler()
+    if (!isSync.issues) {
+      getTicketHandler(ticketCurrentPages)
+    }
   }, [isSync])
 
 
 
 
-  const getTicketHandler = () => {
+  const getTicketHandler = (pageNumber: number) => {
 
     const params = {
       q: "",
       q_many: search.value,
       tickets_by: filteredTickets?.value.id,
-      ticket_status: ticketStatus?.value.id
+      ticket_status: ticketStatus?.value.id,
+      page_number: pageNumber
     };
-
-    if (!isSync.issues) {
-
-      dispatch(
-        getTickets({
-          params,
-          onSuccess: () => () => {
-            setSyncTickets(true)
-          },
-          onError: () => () => { },
-        })
-      );
-    }
+    dispatch(
+      getTickets({
+        params,
+        onSuccess: () => () => {
+          setSyncTickets(true)
+        },
+        onError: () => () => { },
+      })
+    );
   };
-
 
   function setSyncTickets(sync = false) {
     dispatch(
@@ -62,29 +58,40 @@ function Issues() {
     );
   }
 
-
-
   function proceedTickerSearch() {
     setSyncTickets()
-    getTicketHandler()
+    getTicketHandler(SEARCH_PAGE)
   }
 
-
+  function Priority({ priority }) {
+    const color = getObjectFromArrayByKey(TICKET_PRIORITY, 'id', priority).color
+    return <div className="row mb-0 align-items-center">
+      <div style={{
+        height: 10, width: 10, borderRadius: 5, background: color
+      }}>
+      </div>
+      <span className="ml-2">{getObjectFromArrayByKey(TICKET_PRIORITY, 'id', priority).text}</span>
+    </div>
+  }
 
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
-       issue: el.title,
+        issue: el.title,
         attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company.attachment_logo)} />,
         "raised by": el?.by_user.name,
-        "priority": el?.priority,
+        "priority": <Priority priority={el?.priority} />,
         status: getStatusFromCode(dashboardDetails, el.ticket_status),
-        "assigned to": el?.assigned_to.name,
-        company: el?.raised_by_company.display_name,
-        address: el?.raised_by_company.address
+        "assigned to": el?.assigned_to?.name,
+        'phone': el?.raised_by_company?.phone,
+        'email': el?.raised_by_company?.email,
+        company: el?.raised_by_company?.display_name,
+        address: el?.raised_by_company?.address
       };
     });
   };
+
+
 
   return (
     <>
@@ -149,15 +156,36 @@ function Issues() {
         </div>
       </HomeContainer>
 
-      <HomeContainer isCard title={"Issues"}>
-        {tickets && tickets?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(tickets?.data)} tableOnClick={(e, index, item) => {
-          const selectedItem = tickets.data?.[index]
-          dispatch(setSelectedIssues(selectedItem));
-          dispatch(setSelectedReferenceIssues(undefined))
-          goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
-        }} /> : <NoDataFound />}
-      </HomeContainer>
+      {tickets && tickets.length > 0 &&
+        <>
 
+          <CommonTable
+            isPagination
+            title="Issue"
+            tableDataSet={tickets}
+            displayDataSet={normalizedTableData(tickets)}
+            noOfPage={ticketNumOfPages}
+            currentPage={ticketCurrentPages}
+            paginationNumberClick={(currentPage) => {
+              getTicketHandler(paginationHandler("current", currentPage));
+            }}
+            previousClick={() => {
+              getTicketHandler(paginationHandler("prev", ticketCurrentPages))
+            }
+            }
+            nextClick={() => {
+              getTicketHandler(paginationHandler("next", ticketCurrentPages));
+            }
+            }
+            tableOnClick={(idx, index, item) => {
+              dispatch(setSelectedIssues(item));
+              dispatch(setSelectedReferenceIssues(undefined))
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+            }
+            }
+          />
+        </>
+      }
 
     </>
   );

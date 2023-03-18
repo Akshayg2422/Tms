@@ -1,5 +1,4 @@
 import {
-
   GET_TICKETS,
   GET_TICKETS_SUCCESS,
   GET_TICKETS_FAILURE,
@@ -36,13 +35,15 @@ import { CompanyStateProp } from '../../Interfaces';
 
 const initialState: CompanyStateProp = {
   tickets: undefined,
+  ticketNumOfPages: undefined,
+  ticketCurrentPages: 1,
   getTicketTags: undefined,
   ticketEvents: undefined,
   addTicketEvent: undefined,
   employees: undefined,
   addEmployeeDetails: undefined,
   issueReferenceDetails: undefined,
-  broadCastDetails: undefined,
+  broadCastDetails: [],
 };
 
 const CompanyReducer = (
@@ -90,12 +91,22 @@ const CompanyReducer = (
     case GET_BROADCAST_MESSAGES:
       state = {
         ...state,
-        broadCastDetails: undefined
       };
       break;
 
     case GET_BROADCAST_MESSAGES_SUCCESS:
-      state = { ...state, broadCastDetails: action.payload.details };
+
+
+
+      state = {
+        ...state,
+        broadCastDetails: '',
+        // numOfPages: num_pages,
+        // currentPage:
+        //   next_page === -1
+        //     ? num_pages
+        //     : next_page - 1,
+      };
       break;
 
     case GET_BROADCAST_MESSAGES_FAILURE:
@@ -108,12 +119,20 @@ const CompanyReducer = (
       state = {
         ...state,
         tickets: undefined,
+        ticketNumOfPages: 0,
+        ticketCurrentPages: 1,
       };
       break;
     case GET_TICKETS_SUCCESS:
+      const { data, next_page, num_pages } = action.payload?.details;
       state = {
         ...state,
-        tickets: action.payload.details,
+        tickets: data,
+        ticketNumOfPages: num_pages,
+        ticketCurrentPages:
+          next_page === -1
+            ? num_pages
+            : next_page - 1,
       };
       break;
     case GET_TICKETS_FAILURE:

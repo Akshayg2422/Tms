@@ -20,6 +20,7 @@ import {
   ifObjectExist,
   type,
   validate,
+  TICKET_PRIORITY
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +33,7 @@ function IssueCreate() {
   const [typeSelect, setTypeSelect] = useState(type[0]);
   const [isSelect, setIsSelect] = useState(false);
 
-  const {  dashboardDetails } = useSelector(
+  const { dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
   );
   const { isSync } = useSelector((state: any) => state.AppReducer);
@@ -50,13 +51,7 @@ function IssueCreate() {
   const description = useInput("");
   const selectedUser = useDropDown("");
   const selectedTicketPriority = useDropDown("");
-  const ticketPriorityData = [
-    { id: "1", text: "Low", color: "black" },
-    { id: "2", text: "Lowest", color: "yellow" },
-    { id: "3", text: "Medium", color: "orange" },
-    { id: "4", text: "High", color: "red" },
-    { id: "5", text: "Urgent", color: "gray" },
-  ];
+
 
   const handleImagePicker = (index: number, file: any) => {
     // let updatedPhoto = [...selectDropzone, file];
@@ -104,10 +99,10 @@ function IssueCreate() {
     }
   };
 
- 
+
 
   const getCompanyBranchDropdown = (details: any) => {
-  
+
 
     let companies: any = [];
 
@@ -118,7 +113,7 @@ function IssueCreate() {
           { id: branch_id, text: display_name, name: display_name },
         ];
       });
-     
+
       setModifiedCompanyDropDownData(companies);
     } else {
       setTypeSelect(type[1]);
@@ -139,10 +134,10 @@ function IssueCreate() {
             })
           );
           getCompanyBranchDropdown(response.details);
-       
+
         },
         onError: () => () => {
-         
+
         },
       })
     );
@@ -232,7 +227,7 @@ function IssueCreate() {
           <DropDown
             selected={selectedTicketPriority.value}
             heading={translate("common.ticketPriority")}
-            data={ticketPriorityData}
+            data={TICKET_PRIORITY}
             onChange={selectedTicketPriority.onChange}
           />
         </div>

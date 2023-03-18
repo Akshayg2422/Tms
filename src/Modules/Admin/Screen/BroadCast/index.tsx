@@ -23,19 +23,19 @@ function Broadcast() {
 
   useEffect(() => {
     const params = { q: "", page_number: 1 };
-    // if (!isSync.broadcast) {
-    dispatch(
-      getBroadCastMessages({
-        params,
-        onSuccess: () => () => {
-          dispatch(setIsSync({
-            ...isSync, broadcast: true
-          }))
-        },
-        onError: () => () => { },
-      })
-    );
-    // }
+    if (!isSync.broadcast) {
+      dispatch(
+        getBroadCastMessages({
+          params,
+          onSuccess: () => () => {
+            dispatch(setIsSync({
+              ...isSync, broadcast: true
+            }))
+          },
+          onError: () => () => { },
+        })
+      );
+    }
 
   }, []);
 

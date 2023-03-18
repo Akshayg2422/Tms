@@ -2,12 +2,11 @@ import React from 'react'
 
 interface TableProps {
   tableDataSet?: Array<{}>;
-  displayDataSet?: Array<{}>;
+  displayDataSet: Array<{}>;
   tableOnClick?: (event: any, index: number, item: object) => void;
-  tableValueOnClick?: (event: any, index: number, item: object, elv: string) => void;
 }
 
-function Table({ tableDataSet, displayDataSet, tableOnClick, tableValueOnClick }: TableProps) {
+function Table({ tableDataSet, displayDataSet, tableOnClick }: TableProps) {
 
   const renderTableHeader = () => {
     if (displayDataSet) {
@@ -44,11 +43,19 @@ function Table({ tableDataSet, displayDataSet, tableOnClick, tableValueOnClick }
             displayDataSet.map((each_table_obj: object, idx: number) => {
               return (
                 <tr key={idx} onClick={(e) => {
+                  let selected = {};
+                  if (tableDataSet) {
+                    selected = tableDataSet[idx]
+                  } else {
+                    selected = each_table_obj
+                  }
+
                   if (tableOnClick) {
                     e.preventDefault();
                     e.stopPropagation();
-                    tableOnClick(e, idx, each_table_obj)
+                    tableOnClick(e, idx, selected)
                   }
+
                 }}>
                   {renderTableValue(each_table_obj)}
                 </tr>)

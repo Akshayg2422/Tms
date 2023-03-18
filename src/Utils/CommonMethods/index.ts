@@ -33,3 +33,13 @@ export function getStatusFromCode(dashboardDetails: any, status: string) {
 }
 
 
+export const getObjectFromArrayByKey = (array: any, key: string, value: any) => {
+  return array.find(item => {
+    return item[key] === value;
+  });
+};
+
+export function paginationHandler(type: 'next' | 'prev' | 'current', position: number) {
+  let page = type === 'next' ? position + 1 : type === 'prev' ? position - 1 : position;
+  return page;
+}
