@@ -72,7 +72,7 @@ function Send({ onClick, value, onChange }: SendProps) {
     return (
         <div className='row fixed-bottom'>
             <div className='col-lg-3'></div>
-            <div className='pt-1 pl-3' style={{ zIndex: 6 }}>
+            <div className='pt-1 pl-4' style={{ zIndex: 6 }}>
                 <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
             </div>
             <div>
