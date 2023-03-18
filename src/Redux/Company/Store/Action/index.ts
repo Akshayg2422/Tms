@@ -141,9 +141,6 @@ export const addTicketEventFailure = (error: any) => {
  * @returns
  */
 export const getTicketsEvents = (params: any) => {
-
-  // console.log(params,"params=====");
-  
   return {
     type: GET_TICKET_EVENTS,
     payload: params,
@@ -151,7 +148,6 @@ export const getTicketsEvents = (params: any) => {
 };
 
 export const getTicketsEventsSuccess = (response: any) => {
-  // console.log(response,"params=====");
   return {
     type: GET_TICKET_EVENTS_SUCCESS,
     payload: response,

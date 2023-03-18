@@ -35,12 +35,13 @@ import {
 export const RestoreAdmin = () => {
   return {
     type: RESTORE_ADMIN,
-    
-   
+
+
   };
 };
 
 export const getAssociatedBranch = (params: any) => {
+  console.log(params, "jjjjjjjjjjjjjj");
 
   return {
     type: GET_ASSOCIATED_BRANCH,
@@ -48,8 +49,6 @@ export const getAssociatedBranch = (params: any) => {
   };
 };
 export const getAssociatedBranchSuccess = (response: any) => {
-  
-  
   return {
     type: GET_ASSOCIATED_BRANCH_SUCCESS,
     payload: response,
@@ -70,8 +69,8 @@ export const getAssociatedCompanyBranch = (params: any) => {
   };
 };
 export const getAssociatedCompanyBranchSuccess = (response: any) => {
-  
-  
+
+
   return {
     type: GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
     payload: response,
@@ -108,16 +107,16 @@ export const getDashboardFailure = (error: any) => {
  */
 
 export const setSelectedIssues = (response: any) => {
-  
+
   return {
     type: SET_SELECTED_ISSUES,
     payload: response,
   };
 };
 export const setSelectedReferenceIssues = (response: any) => {
-  
-  
-  
+
+
+
   return {
     type: SET_REFERENCE_SELECTED_ISSUES,
     payload: response,
@@ -126,7 +125,7 @@ export const setSelectedReferenceIssues = (response: any) => {
 /**
  * add department
  */
- export const addDepartment = (params) => {
+export const addDepartment = (params) => {
   return {
     type: ADD_DEPARTMENT,
     payload: params,
@@ -149,7 +148,7 @@ export const addDepartmentFailure = (error) => {
 /**
  * add designation
  */
- export const addDesignation = (params) => {
+export const addDesignation = (params) => {
   return {
     type: ADD_DESIGNATION,
     payload: params,
@@ -218,15 +217,15 @@ export const getDepartmentDataFailure = (error) => {
 /**
  * COMPANY SELECTED DETAILS
  */
- export const companySelectedDetails =(params)=>{
-  return{
-    type:COMPANY_SELECTED_DETAILS,
-    payload: params ,
+export const companySelectedDetails = (response) => {
+  return {
+    type: COMPANY_SELECTED_DETAILS,
+    payload: response,
   }
- }
- export const referenceIssueDetails =(params)=>{
-  return{
-    type:REFERENCE_ISSUE_DETAILS,
-    payload: params ,
+}
+export const referenceIssueDetails = (params) => {
+  return {
+    type: REFERENCE_ISSUE_DETAILS,
+    payload: params,
   }
- }
+}

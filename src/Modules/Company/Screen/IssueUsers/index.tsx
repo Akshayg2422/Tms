@@ -7,13 +7,14 @@ import { getEmployees } from "@Redux";
 function IssueUsers() {
   const dispatch = useDispatch();
   const { employees } = useSelector((state: any) => state.CompanyReducer);
-
   const { selectedIssues, selectedReferenceIssues } = useSelector(
     (state: any) => state.AdminReducer
   );
 
   useEffect(() => {
+
     const params = {
+
       branch_id: selectedReferenceIssues
         ? selectedReferenceIssues.raised_by_company?.branch_id
         : selectedIssues.raised_by_company?.branch_id,
@@ -27,6 +28,7 @@ function IssueUsers() {
       })
     );
   }, [selectedIssues, selectedReferenceIssues]);
+
 
   const normalizedTableData = (employees: any) => {
     return employees.map((el: any) => {
