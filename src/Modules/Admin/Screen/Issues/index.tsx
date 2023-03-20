@@ -27,8 +27,6 @@ function Issues() {
   }, [isSync])
 
 
-
-
   const getTicketHandler = (pageNumber: number) => {
 
     const params = {

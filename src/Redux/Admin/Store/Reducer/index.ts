@@ -19,7 +19,7 @@ import {
   ADD_DESIGNATION_SUCCESS,
   ADD_DESIGNATION_FAILURE,
 
-  
+
   FETCH_DEPARTMENT,
   FETCH_DEPARTMENT_SUCCESS,
   FETCH_DEPARTMENT_FAILURE,
@@ -33,20 +33,22 @@ import {
   RESTORE_ADMIN,
 } from '../ActionTypes';
 
-import {AdminStateProp} from '../../Interfaces';
+import { AdminStateProp } from '../../Interfaces';
 
 const initialState: AdminStateProp = {
   associatedCompanies: undefined,
+  associatedCompaniesNumOfPages: undefined,
+  associatedCompaniesCurrentPages: 1,
   dashboardDetails: undefined,
   selectedIssues: undefined,
   loading: false,
   error: '',
   designationData: undefined,
   departmentData: undefined,
-  companyDetailsSelected:undefined,
-  referenceIssueSelectedDetails:undefined,
-  selectedReferenceIssues:undefined,
-  companyBranchNames:undefined,
+  companyDetailsSelected: undefined,
+  referenceIssueSelectedDetails: undefined,
+  selectedReferenceIssues: undefined,
+  companyBranchNames: undefined,
 
 };
 
@@ -56,25 +58,39 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     case RESTORE_ADMIN:
       state = initialState;
       break;
-      
+
     case GET_ASSOCIATED_BRANCH:
-      state = {...state};
+      state = {
+        ...state,
+        associatedCompanies: undefined,
+        associatedCompaniesNumOfPages: 0,
+        associatedCompaniesCurrentPages: 1
+      };
       break;
     case GET_ASSOCIATED_BRANCH_SUCCESS:
-      state = {...state, associatedCompanies: action.payload.details};
+      const { data, next_page, num_pages } = action.payload?.details;
+      state = {
+        ...state,
+        associatedCompanies: data,
+        associatedCompaniesNumOfPages: num_pages,
+        associatedCompaniesCurrentPages:
+          next_page === -1
+            ? num_pages
+            : next_page - 1,
+      };
       break;
     case GET_ASSOCIATED_BRANCH_FAILURE:
-      state = {...state};
+      state = { ...state };
       break;
 
-      case  GET_ASSOCIATED_COMPANY_BRANCH:
-      state = {...state};
+    case GET_ASSOCIATED_COMPANY_BRANCH:
+      state = { ...state };
       break;
     case GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS:
-      state = {...state, companyBranchNames: action.payload.details};
+      state = { ...state, companyBranchNames: action.payload.details };
       break;
     case GET_ASSOCIATED_COMPANY_BRANCH_FAILURE:
-      state = {...state};
+      state = { ...state };
       break;
 
 
@@ -83,39 +99,39 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
      * Dashboard
      */
     case GET_DASHBOARD:
-      state = {...state, dashboardDetails: undefined};
+      state = { ...state, dashboardDetails: undefined };
       break;
     case GET_DASHBOARD_SUCCESS:
-      state = {...state, dashboardDetails: action.payload.details};
+      state = { ...state, dashboardDetails: action.payload.details };
       break;
     case GET_DASHBOARD_FAILURE:
-      state = {...state, dashboardDetails: action.payload};
+      state = { ...state, dashboardDetails: action.payload };
       break;
 
-/**
- * add department
- */
-      case ADD_DEPARTMENT:
-        state = { ...state, loading: true };
-        break;
-      case ADD_DEPARTMENT_SUCCESS:
-        state = {
-          ...state,
-          loading: false,
-        };
-        break;
-      case ADD_DEPARTMENT_FAILURE:
-        state = {
-          ...state,
-          error: action.payload,
-          loading: false,
-        };
-        break;
+    /**
+     * add department
+     */
+    case ADD_DEPARTMENT:
+      state = { ...state, loading: true };
+      break;
+    case ADD_DEPARTMENT_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
+    case ADD_DEPARTMENT_FAILURE:
+      state = {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+      break;
 
-        /**
-         * add designation
-         */
-         case ADD_DESIGNATION:
+    /**
+     * add designation
+     */
+    case ADD_DESIGNATION:
       state = { ...state, loading: true };
       break;
     case ADD_DESIGNATION_SUCCESS:
@@ -132,7 +148,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       };
       break;
 
-       //get departments
+    //get departments
 
     case FETCH_DEPARTMENT:
       state = { ...state, loading: true };
@@ -171,39 +187,39 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
         loading: false,
       };
       break;
-      /**
-       * COMPANY SELECTED DETAILS
-       */
-       case COMPANY_SELECTED_DETAILS :
-        state ={
-          ...state,
-          companyDetailsSelected:action.payload
-        };
-        break;
+    /**
+     * COMPANY SELECTED DETAILS
+     */
+    case COMPANY_SELECTED_DETAILS:
+      state = {
+        ...state,
+        companyDetailsSelected: action.payload
+      };
+      break;
 
-        /**
-         * REFERENCE ISSUE DETAILS
-         */
-         case REFERENCE_ISSUE_DETAILS :
-          state ={
-            ...state,
-            referenceIssueSelectedDetails:action.payload,
-          };
-          break;
+    /**
+     * REFERENCE ISSUE DETAILS
+     */
+    case REFERENCE_ISSUE_DETAILS:
+      state = {
+        ...state,
+        referenceIssueSelectedDetails: action.payload,
+      };
+      break;
 
     /**
      * Issue Item
      */
 
     case SET_SELECTED_ISSUES:
-      
-      state = {...state, selectedIssues: action.payload};
+
+      state = { ...state, selectedIssues: action.payload };
       break;
 
-      case SET_REFERENCE_SELECTED_ISSUES:
-      
-        state = {...state, selectedReferenceIssues: action.payload};
-        break;
+    case SET_REFERENCE_SELECTED_ISSUES:
+
+      state = { ...state, selectedReferenceIssues: action.payload };
+      break;
 
     default:
       state = state;
@@ -211,8 +227,8 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
   }
   return state;
 
-  
 
-  
+
+
 };
-export {AdminReducer};
+export { AdminReducer };

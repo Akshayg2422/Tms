@@ -9,4 +9,6 @@ export interface CompanyStateProp {
   broadCastDetails: any;
   ticketNumOfPages: any
   ticketCurrentPages: any
+  getIssueReferenceDetailsCurrentPages:any;
+  getIssueReferenceDetailsNoOfPages:any;
 }
