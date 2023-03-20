@@ -1,7 +1,7 @@
 import { AppLoader, PageNotFound, ScreenWrapper } from "@Components";
 import { Route, Routes } from "react-router-dom";
 import { AUTH_ROUTES, HOME_PATH } from "@Routes";
-import {AdminDashboard, CompanyDashBoard, Firebase } from "@Modules";
+import { AdminDashboard, CompanyDashBoard, Firebase } from "@Modules";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -19,6 +19,8 @@ import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import { changeLanguage } from "@I18n";
+
+
 
 function App() {
   const { language } = useSelector((state: any) => state.AuthReducer);
@@ -38,7 +40,7 @@ function App() {
 
   return (
     <ScreenWrapper>
-      <Firebase/>
+      <Firebase />
       <AppLoader />
       <Routes>
         {getRoutes(AUTH_ROUTES)}

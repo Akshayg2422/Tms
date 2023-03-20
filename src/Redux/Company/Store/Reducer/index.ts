@@ -44,6 +44,9 @@ const initialState: CompanyStateProp = {
   addEmployeeDetails: undefined,
   issueReferenceDetails: undefined,
   broadCastDetails: [],
+  broadCastCurrentPage: 1,
+  broadCastNumOfPages: undefined
+
 };
 
 const CompanyReducer = (
@@ -89,23 +92,20 @@ const CompanyReducer = (
       break;
 
     case GET_BROADCAST_MESSAGES:
+      console.log(JSON.stringify(action.payload) + "=====GET_BROADCAST_MESSAGES");
+      const { page_number } = action.payload.params
       state = {
         ...state,
+        broadCastDetails: page_number === 1 ? [] : state.broadCastDetails
       };
       break;
 
     case GET_BROADCAST_MESSAGES_SUCCESS:
-
-
-
       state = {
         ...state,
-        broadCastDetails: '',
-        // numOfPages: num_pages,
-        // currentPage:
-        //   next_page === -1
-        //     ? num_pages
-        //     : next_page - 1,
+        broadCastDetails: [...state.broadCastDetails, ...action.payload?.details?.data],
+        broadCastCurrentPage:
+          action.payload?.details?.next_page
       };
       break;
 
@@ -124,6 +124,7 @@ const CompanyReducer = (
       };
       break;
     case GET_TICKETS_SUCCESS:
+
       const { data, next_page, num_pages } = action.payload?.details;
       state = {
         ...state,

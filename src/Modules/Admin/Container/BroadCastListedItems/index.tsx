@@ -23,13 +23,13 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
           <div className="col-lg-6 col-sm-0 col-7 text-right text-xs text-capitalize">
             {getDataAndTime(created_at)}
           </div>
-          
-        </div>
-<div className="row">
-<div className=" text-xs pb-2 font-weight-600 col-lg-6 col-sm-0 col-7 ">{description}</div>
 
-</div>
-      
+        </div>
+        <div className="row">
+          <div className=" text-xs pb-2 font-weight-600 col-lg-6 col-sm-0 col-7 ">{description}</div>
+
+        </div>
+
 
         <div className="row ">
           <div className="col-lg-6  col-sm-0 col-7">
@@ -66,7 +66,7 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
             <H
               tag={"h5"}
               className="text-capitalize font-weight-900 mt--1 "
-              text={created_by.name}
+              text={created_by?.name}
             />
           </div>
         </div>

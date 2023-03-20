@@ -6,6 +6,7 @@ export const ERRORS = {
 };
 
 export const USER_TOKEN = 'USER_TOKEN'
+
 export const GENDER_LIST = [
   { id: 'M', text: 'Male' },
   { id: 'F', text: 'Female' },
@@ -83,3 +84,5 @@ export const TICKET_PRIORITY = [
 
 
 export const SEARCH_PAGE = 1
+export const INITIAL_PAGE = 1
+

@@ -1,4 +1,4 @@
-import React, {useState, createContext, useContext} from 'react';
+import React, { useState, createContext, useContext } from 'react';
 
 export const AppContext = createContext({});
 
@@ -12,7 +12,7 @@ export const useApp = () =>
     setShowLoader?: (loader: boolean) => void;
   }>(AppContext);
 
-export const AppProvider: React.FC<AppProviderProps> = ({children}) => {
+export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [showLoader, setShowLoader] = useState(false);
 
   return (
