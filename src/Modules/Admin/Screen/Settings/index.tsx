@@ -226,30 +226,31 @@ function Settings() {
                     />
                   </div>
                 </div>
+                <div
+                  className="overflow-auto overflow-hide mt--4"
+                  style={{
+                    height: showDesignations ? "30.5rem" : "0vh",
+
+                  }}
+                >
+                  {designationData && designationData.data.length > 0 ? (
+                    <CommonTable
+                      displayDataSet={normalizedDesignationData(designationData.data)}
+                    />
+                  ) : (
+                    <div
+                      className=" d-flex justify-content-center align-items-center"
+                      style={{
+                        height: "30.5rem",
+                      }}
+                    >
+                      <NoRecordsFound />
+                    </div>
+                  )}
+                </div>
               </Card>
 
-              <div
-                className="overflow-auto overflow-hide mt--4"
-                style={{
-                  height: showDesignations ? "30.5rem" : "0vh",
 
-                }}
-              >
-                {designationData && designationData.data.length > 0 ? (
-                  <CommonTable
-                    displayDataSet={normalizedDesignationData(designationData.data)}
-                  />
-                ) : (
-                  <div
-                    className=" d-flex justify-content-center align-items-center"
-                    style={{
-                      height: "30.5rem",
-                    }}
-                  >
-                    <NoRecordsFound />
-                  </div>
-                )}
-              </div>
             </>
           </div>
         </div>
