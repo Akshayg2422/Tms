@@ -1,17 +1,20 @@
 import React, { useEffect } from "react";
-import { Button, Card, Divider, HomeContainer, NoDataFound } from "@Components";
+import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner } from "@Components";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
 import { BroadCastListedItems } from "@Modules";
 import { getBroadCastMessages, setIsSync } from "@Redux";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { INITIAL_PAGE } from '@Utils'
+import { Spinner as RsSpinner } from 'reactstrap'
 
 function Broadcast() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
 
-  const { broadCastDetails } = useSelector(
+  const { broadCastDetails, broadCastCurrentPage } = useSelector(
     (state: any) => state.CompanyReducer
   );
 
@@ -19,25 +22,34 @@ function Broadcast() {
     (state: any) => state.AppReducer
   );
 
-  console.log(JSON.stringify(broadCastDetails) + "======");
+
 
   useEffect(() => {
-    const params = { q: "", page_number: 1 };
-    if (!isSync.broadcast) {
-      dispatch(
-        getBroadCastMessages({
-          params,
-          onSuccess: () => () => {
-            dispatch(setIsSync({
-              ...isSync, broadcast: true
-            }))
-          },
-          onError: () => () => { },
-        })
-      );
-    }
+
+    // if (!isSync.broadcast) {
+    getBroadCastMessage(INITIAL_PAGE)
+    // }
 
   }, []);
+
+
+  function getBroadCastMessage(page_number: number) {
+
+    const params = { q: "", page_number };
+
+    dispatch(
+      getBroadCastMessages({
+        params,
+        onSuccess: () => () => {
+          // dispatch(setIsSync({
+          //   ...isSync, broadcast: true
+          // }))
+        },
+        onError: () => () => { },
+      })
+    );
+  }
+
 
   return (
     <HomeContainer>
@@ -50,22 +62,39 @@ function Broadcast() {
           }
         />
       </div>
-      <Card title={"BroadCast"} className="mt-3">
-        {broadCastDetails &&
-          broadCastDetails?.data?.length > 0 ?
-          broadCastDetails?.data?.map((company: any, index: number) => {
-            return (
-              <div>
-                <BroadCastListedItems key={company.id} item={company} />
-                {index !== broadCastDetails?.data?.length - 1 && (
-                  <div className="mx-1">
-                    <Divider />
-                  </div>
-                )}
-              </div>
-            );
-          }) : <NoDataFound />}
-      </Card>
+
+      {broadCastDetails && broadCastDetails.length > 0 && <InfiniteScroll
+        dataLength={broadCastDetails.length}
+        hasMore={broadCastCurrentPage !== -1}
+        loader={<h4>Loading...</h4>}
+        next={() => {
+          console.log('came' + broadCastCurrentPage);
+          if (broadCastCurrentPage !== -1) {
+            console.log('camesasasasasa');
+
+            getBroadCastMessage(broadCastCurrentPage)
+          }
+        }
+        }>
+        <Card title={"BroadCast"} className="mt-3">
+          {
+            broadCastDetails?.map((company: any, index: number) => {
+              console.log(index + "===" + company.title);
+
+              return (
+                <div>
+                  <BroadCastListedItems key={company.id} item={company} />
+                  {index !== broadCastDetails?.length - 1 && (
+                    <div className="mx-1">
+                      <Divider />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+        </Card>
+      </InfiniteScroll>
+      }
     </HomeContainer>
   );
 }

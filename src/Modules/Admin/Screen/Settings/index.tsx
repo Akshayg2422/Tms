@@ -82,12 +82,8 @@ function Settings() {
           dispatch(
             getDepartmentData({
               params,
-              onSuccess: (success: any) => () => {
-
-              },
-              onError: (error: string) => () => {
-
-              },
+              onSuccess: (success: any) => () => { },
+              onError: (error: string) => () => { },
             })
           );
           setDepartment("");
@@ -116,16 +112,12 @@ function Settings() {
           dispatch(
             getDesignationData({
               params,
-              onSuccess: (success: any) => () => {
-
-              },
-              onError: (error: string) => () => {
-
-              },
+              onSuccess: (success: any) => () => { },
+              onError: (error: string) => () => { },
             })
           );
           setDesignation("");
-          showToast(success.message,"success");
+          showToast(success.message, "success");
         },
         onError: (error: string) => () => {
 
