@@ -43,9 +43,12 @@ const initialState: CompanyStateProp = {
   employees: undefined,
   addEmployeeDetails: undefined,
   issueReferenceDetails: undefined,
-  getIssueReferenceDetailsNoOfPages: undefined,
-  getIssueReferenceDetailsCurrentPages: 1,
+  referenceTicketNoOfPages: undefined,
+  referenceTicketCurrentPages: 1,
   broadCastDetails: [],
+  broadCastCurrentPage: 1,
+  broadCastNumOfPages: undefined
+
 };
 
 const CompanyReducer = (
@@ -91,23 +94,20 @@ const CompanyReducer = (
       break;
 
     case GET_BROADCAST_MESSAGES:
+      console.log(JSON.stringify(action.payload) + "=====GET_BROADCAST_MESSAGES");
+      const { page_number } = action.payload.params
       state = {
         ...state,
+        broadCastDetails: page_number === 1 ? [] : state.broadCastDetails
       };
       break;
 
     case GET_BROADCAST_MESSAGES_SUCCESS:
-
-
-
       state = {
         ...state,
-        broadCastDetails: '',
-        // numOfPages: num_pages,
-        // currentPage:
-        //   next_page === -1
-        //     ? num_pages
-        //     : next_page - 1,
+        broadCastDetails: [...state.broadCastDetails, ...action.payload?.details?.data],
+        broadCastCurrentPage:
+          action.payload?.details?.next_page
       };
       break;
 
@@ -123,6 +123,7 @@ const CompanyReducer = (
       };
       break;
     case GET_TICKETS_SUCCESS:
+
       const { data, next_page, num_pages } = action.payload?.details;
       state = {
         ...state,
@@ -218,8 +219,8 @@ const CompanyReducer = (
       state = {
         ...state,
         issueReferenceDetails: undefined,
-        getIssueReferenceDetailsNoOfPages: 0,
-        getIssueReferenceDetailsCurrentPages: 1,
+        referenceTicketNoOfPages: 0,
+        referenceTicketCurrentPages: 1,
       };
       break;
     case GET_REFERENCE_TICKETS_SUCCESS:
@@ -228,8 +229,8 @@ const CompanyReducer = (
       state = {
         ...state,
         issueReferenceDetails: action.payload?.details?.data,
-        getIssueReferenceDetailsNoOfPages: action.payload?.details?.num_pages,
-        getIssueReferenceDetailsCurrentPages:
+        referenceTicketNoOfPages: action.payload?.details?.num_pages,
+        referenceTicketCurrentPages:
           action.payload?.details?.next_page === -1
             ? action.payload?.details?.num_pages
             : action.payload?.details?.next_page - 1,

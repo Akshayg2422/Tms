@@ -45,8 +45,8 @@ function AddUser() {
     dispatch(
       getDesignationData({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   }, []);
@@ -129,7 +129,7 @@ function AddUser() {
                 })
               );
             },
-            onError: (error) => () => {},
+            onError: (error) => () => { },
           })
         );
       } else {

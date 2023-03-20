@@ -239,21 +239,21 @@ function* addBroadCastMessagesSaga(action) {
 function* getBroadCastMessagesSaga(action) {
 
   try {
-    yield put(showLoader());
+    // yield put(showLoader());
     const response = yield call(getBroadCastMessagesApi, action.payload.params);
     if (response.success) {
 
-      yield put(hideLoader());
+      // yield put(hideLoader());
       yield put(getBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
 
-      yield put(hideLoader());
+      // yield put(hideLoader());
       yield put(getBroadCastMessagesFailure(response));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
+    // yield put(hideLoader());
     yield put(getBroadCastMessagesFailure(error));
     yield call(action.payload.onError(error));
   }

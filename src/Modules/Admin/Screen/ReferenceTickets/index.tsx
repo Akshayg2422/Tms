@@ -6,7 +6,7 @@ import { getStatusFromCode, paginationHandler } from "@Utils";
 
 function ReferenceTickets() {
   const dispatch = useDispatch();
-  const { issueReferenceDetails, getIssueReferenceDetailsNoOfPages, getIssueReferenceDetailsCurrentPages } = useSelector(
+  const { issueReferenceDetails, referenceTicketNoOfPages, referenceTicketCurrentPages } = useSelector(
     (state: any) => state.CompanyReducer
   );
   const { selectedIssues, selectedReferenceIssues, dashboardDetails } = useSelector(
@@ -17,7 +17,7 @@ function ReferenceTickets() {
 
   useEffect(() => {
     if (!isSync.referenceTickets) {
-      proceedgetReferenceTickets(getIssueReferenceDetailsCurrentPages);
+      proceedgetReferenceTickets(referenceTicketCurrentPages);
     }
   }, [isSync]);
 
@@ -73,19 +73,19 @@ function ReferenceTickets() {
         <CommonTable
           isPagination
           tableDataSet={issueReferenceDetails}
-          currentPage={getIssueReferenceDetailsCurrentPages}
-          noOfPage={getIssueReferenceDetailsNoOfPages}
+          currentPage={referenceTicketCurrentPages}
+          noOfPage={referenceTicketNoOfPages}
           title={"Reference Details"}
           displayDataSet={normalizedTableData(issueReferenceDetails)}
           paginationNumberClick={(currentPage) => {
             proceedgetReferenceTickets(paginationHandler("current", currentPage));
           }}
           previousClick={() => {
-            proceedgetReferenceTickets(paginationHandler("prev", getIssueReferenceDetailsCurrentPages))
+            proceedgetReferenceTickets(paginationHandler("prev", referenceTicketCurrentPages))
           }
           }
           nextClick={() => {
-            proceedgetReferenceTickets(paginationHandler("next", getIssueReferenceDetailsCurrentPages));
+            proceedgetReferenceTickets(paginationHandler("next", referenceTicketCurrentPages));
           }
           }
           tableOnClick={(e, index, item) => {
