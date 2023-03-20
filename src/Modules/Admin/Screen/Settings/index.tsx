@@ -17,10 +17,9 @@ import {
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase } from "@Utils";
-import { useModal } from "@Hooks";
+import { useModal, useDynamicHeight } from "@Hooks";
 
 function Settings() {
-
   const dispatch = useDispatch();
   const { departmentData, designationData } = useSelector(
     (state: any) => state.AdminReducer
@@ -34,6 +33,7 @@ function Settings() {
 
   const [department, setDepartment] = useState("");
   const [designation, setDesignation] = useState("");
+  const dynamicHeight: any = useDynamicHeight()
 
 
   const getDepartmentList = () => {
@@ -44,7 +44,6 @@ function Settings() {
         params,
         onSuccess: (success: any) => () => {
           setShowDepartments(!showDepartments)
-
         },
         onError: (error: string) => () => {
 
@@ -60,10 +59,7 @@ function Settings() {
     dispatch(
       getDesignationData({
         params,
-
         onSuccess: (success: any) => () => {
-
-
           setShowDesignations(!showDesignations)
         },
         onError: (error: string) => () => {
@@ -83,10 +79,19 @@ function Settings() {
         params,
         onSuccess: (success: any) => () => {
           addDepartMentModal.hide()
+          dispatch(
+            getDepartmentData({
+              params,
+              onSuccess: (success: any) => () => {
 
-          dispatch(getDepartmentData({}));
+              },
+              onError: (error: string) => () => {
+
+              },
+            })
+          );
           setDepartment("");
-          showToast("success", success.message);
+          showToast(success.message, "success");
         },
         onError: (error: string) => () => {
 
@@ -108,9 +113,19 @@ function Settings() {
         onSuccess: (success: any) => () => {
           addDesignationModal.hide()
 
-          dispatch(getDesignationData({}));
+          dispatch(
+            getDesignationData({
+              params,
+              onSuccess: (success: any) => () => {
+
+              },
+              onError: (error: string) => () => {
+
+              },
+            })
+          );
           setDesignation("");
-          showToast("success", success.message);
+          showToast(success.message,"success");
         },
         onError: (error: string) => () => {
 
@@ -141,9 +156,10 @@ function Settings() {
     <>
       <div className=" container">
         <div className=" row mt-2 ">
-          <div className="col-sm-6 mb-0 pr-2">
+          <div className="col-sm-6 mb-0 pr-2 mt-2">
             <>
-              <Card>
+
+              <Card style={{ height: showDepartments ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
                 <div className="row">
                   <div className="col">
                     <h3>{translate("common.department")}</h3>
@@ -173,31 +189,33 @@ function Settings() {
                     />
                   </div>
                 </div>
+
+                <div
+                  className="overflow-auto overflow-hide"
+                  style={{
+                    height: showDepartments ? dynamicHeight.dynamicHeight - 100 : '0px',
+                    margin: '0px -39px 0px -39px'
+                  }}
+                >
+                  {departmentData && departmentData?.length > 0 ? (
+                    <CommonTable
+                      displayDataSet={normalizedDepartmentData(departmentData)} />) : (
+                    <div
+                      className=" d-flex justify-content-center align-items-center"
+                      style={{
+                        height: "30.5rem",
+                      }}
+                    >
+                      <NoRecordsFound />
+                    </div>
+                  )}
+                </div>
               </Card>
-              <div
-                className="overflow-auto overflow-hide mt--4"
-                style={{
-                  height: showDepartments ? "30.5rem" : "0vh",
-                }}
-              >
-                {departmentData && departmentData?.length > 0 ? (
-                  <CommonTable
-                    displayDataSet={normalizedDepartmentData(departmentData)} />) : (
-                  <div
-                    className=" d-flex justify-content-center align-items-center"
-                    style={{
-                      height: "30.5rem",
-                    }}
-                  >
-                    <NoRecordsFound />
-                  </div>
-                )}
-              </div>
             </>
           </div>
-          <div className="col-sm-6 pl-2">
+          <div className="col-sm-6 pl-2 pt-2">
             <>
-              <Card>
+              <Card style={{ height: showDesignations ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
                 <div className="row">
                   <div className="col">
                     <h3>{translate("auth.designation")}</h3>
@@ -226,30 +244,31 @@ function Settings() {
                     />
                   </div>
                 </div>
+
+
+                <div
+                  className="overflow-auto overflow-hide"
+                  style={{
+                    height: showDesignations ? dynamicHeight.dynamicHeight - 100 : '0px',
+                    margin: '0px -39px 0px -39px'
+                  }}
+                >
+                  {designationData && designationData.data.length > 0 ? (
+                    <CommonTable
+                      displayDataSet={normalizedDesignationData(designationData.data)}
+                    />
+                  ) : (
+                    <div
+                      className=" d-flex justify-content-center align-items-center"
+                      style={{
+                        height: "30.5rem",
+                      }}
+                    >
+                      <NoRecordsFound />
+                    </div>
+                  )}
+                </div>
               </Card>
-
-              <div
-                className="overflow-auto overflow-hide mt--4"
-                style={{
-                  height: showDesignations ? "30.5rem" : "0vh",
-
-                }}
-              >
-                {designationData && designationData.data.length > 0 ? (
-                  <CommonTable
-                    displayDataSet={normalizedDesignationData(designationData.data)}
-                  />
-                ) : (
-                  <div
-                    className=" d-flex justify-content-center align-items-center"
-                    style={{
-                      height: "30.5rem",
-                    }}
-                  >
-                    <NoRecordsFound />
-                  </div>
-                )}
-              </div>
             </>
           </div>
         </div>
