@@ -33,7 +33,7 @@ function CommonTable({ title, displayDataSet, tableDataSet, isPagination, curren
   const CommonHeader = ({ children }) => {
     return (
       <div className='col'>
-        <div className='card'>
+        <div className='card shadow-none'>
           {title && <div className="card-header border-0">
             <div className="row align-items-center">
               <div className="col" >
