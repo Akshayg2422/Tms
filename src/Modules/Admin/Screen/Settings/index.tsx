@@ -146,11 +146,10 @@ function Settings() {
 
   return (
     <>
-      <div className=" container">
+      <div className="mx-3">
         <div className=" row mt-2 ">
           <div className="col-sm-6 mb-0 pr-2 mt-2">
             <>
-
               <Card style={{ height: showDepartments ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
                 <div className="row">
                   <div className="col">

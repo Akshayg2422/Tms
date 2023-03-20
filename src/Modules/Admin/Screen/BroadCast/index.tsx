@@ -8,7 +8,8 @@ import { BroadCastListedItems } from "@Modules";
 import { getBroadCastMessages, setIsSync } from "@Redux";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { INITIAL_PAGE } from '@Utils'
-import { Spinner as RsSpinner } from 'reactstrap'
+
+
 
 function Broadcast() {
   const { goTo } = useNavigation();
@@ -26,9 +27,9 @@ function Broadcast() {
 
   useEffect(() => {
 
-    // if (!isSync.broadcast) {
-    getBroadCastMessage(INITIAL_PAGE)
-    // }
+    if (!isSync.broadcast) {
+      getBroadCastMessage(INITIAL_PAGE)
+    }
 
   }, []);
 
@@ -41,14 +42,17 @@ function Broadcast() {
       getBroadCastMessages({
         params,
         onSuccess: () => () => {
-          // dispatch(setIsSync({
-          //   ...isSync, broadcast: true
-          // }))
+          dispatch(setIsSync({
+            ...isSync, broadcast: true
+          }))
         },
-        onError: () => () => { },
+        onError: () => () => {
+        },
       })
     );
   }
+
+  console.log(broadCastDetails.length + '===');
 
 
   return (
@@ -63,37 +67,37 @@ function Broadcast() {
         />
       </div>
 
-      {broadCastDetails && broadCastDetails.length > 0 && <InfiniteScroll
-        dataLength={broadCastDetails.length}
-        hasMore={broadCastCurrentPage !== -1}
-        loader={<h4>Loading...</h4>}
-        next={() => {
-          console.log('came' + broadCastCurrentPage);
-          if (broadCastCurrentPage !== -1) {
-            console.log('camesasasasasa');
-
-            getBroadCastMessage(broadCastCurrentPage)
+      {broadCastDetails && broadCastDetails.length > 0 &&
+        <InfiniteScroll
+          dataLength={broadCastDetails.length}
+          hasMore={broadCastCurrentPage !== -1}
+          loader={<h4>
+            <Spinner />
+          </h4>}
+          next={() => {
+            if (broadCastCurrentPage !== -1) {
+              getBroadCastMessage(broadCastCurrentPage)
+            }
           }
-        }
-        }>
-        <Card title={"BroadCast"} className="mt-3">
-          {
-            broadCastDetails?.map((company: any, index: number) => {
-              console.log(index + "===" + company.title);
+          }>
 
-              return (
-                <div>
-                  <BroadCastListedItems key={company.id} item={company} />
-                  {index !== broadCastDetails?.length - 1 && (
-                    <div className="mx-1">
-                      <Divider />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-        </Card>
-      </InfiniteScroll>
+          <Card title={"BroadCast"} className="mt-3">
+            {
+              broadCastDetails?.map((company: any, index: number) => {
+                return (
+                  <div>
+                    <BroadCastListedItems key={company.id} item={company} />
+                    {index !== broadCastDetails?.length - 1 && (
+                      <div className="mx-1">
+                        <Divider />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+          </Card>
+
+        </InfiniteScroll>
       }
     </HomeContainer>
   );
