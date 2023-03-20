@@ -1,40 +1,44 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { companySelectedDetails, getAssociatedBranch, setIsSync } from "@Redux";
-import { Button, HomeContainer, Image, Table, NoDataFound } from "@Components";
+import { Button, HomeContainer, Image, CommonTable, NoDataFound } from "@Components";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto } from "@Utils";
+import { getPhoto, paginationHandler } from "@Utils";
 
 function Companies() {
   const dispatch = useDispatch();
   const { goTo } = useNavigation();
 
-  const { associatedCompanies } = useSelector(
+  const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages } = useSelector(
     (state: any) => state.AdminReducer
   );
-  console.log();
+  const { isSync } = useSelector((state: any) => state.AppReducer);
 
-
-  const { isSync } = useSelector(
-    (state: any) => state.AppReducer
-  );
   useEffect(() => {
-    const params = { q: "" };
     if (!isSync.companies) {
-      dispatch(
-        getAssociatedBranch({
-          params,
-          onSuccess: () => () => {
-            setSyncCompany(true)
-          },
-          onError: () => () => { },
-        })
-      );
+      getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
     }
-  }, []);
+  }, [isSync])
 
+console.log('associatedCompanies',associatedCompanies);
+
+  const getAssociatedCompaniesHandler = (pageNumber: number) => {
+
+    const params = {
+      page_number: pageNumber
+    };
+    dispatch(
+      getAssociatedBranch({
+        params,
+        onSuccess: () => () => {
+          setSyncCompany(true)
+        },
+        onError: () => () => { },
+      })
+    );
+  };
 
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
@@ -71,13 +75,33 @@ function Companies() {
         </div>
       </HomeContainer>
 
-      <HomeContainer isCard>
-        {associatedCompanies && associatedCompanies?.data?.length > 0 ? <Table displayDataSet={normalizedTableData(associatedCompanies?.data)} tableOnClick={(e, index) => {
-          const selectedItem = associatedCompanies?.data[index]
-          goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
-          dispatch(companySelectedDetails(selectedItem));
-        }} /> : <NoDataFound />}
-      </HomeContainer>
+      <>
+        {associatedCompanies && associatedCompanies?.length > 0 ?
+          <CommonTable
+            isPagination
+            title={'Companies'}
+            tableDataSet={associatedCompanies}
+            currentPage={associatedCompaniesCurrentPages}
+            noOfPage={associatedCompaniesNumOfPages}
+            displayDataSet={normalizedTableData(associatedCompanies)}
+            paginationNumberClick={(currentPage) => {
+              getAssociatedCompaniesHandler(paginationHandler("current", currentPage));
+            }}
+            previousClick={() => {
+              getAssociatedCompaniesHandler(paginationHandler("prev", associatedCompaniesCurrentPages))
+            }
+            }
+            nextClick={() => {
+              getAssociatedCompaniesHandler(paginationHandler("next", associatedCompaniesCurrentPages));
+            }
+            }
+            tableOnClick={(idx, index, item) => {
+              console.log(item,'uuuuuuuuuuuuuuuuu');
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
+              dispatch(companySelectedDetails(item));
+
+            }} /> : <NoDataFound />}
+      </>
     </>
   );
 }

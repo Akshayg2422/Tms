@@ -141,39 +141,41 @@ function Settings() {
     <>
       <div className=" container">
         <div className=" row mt-2 ">
-          <div className="col-sm-6 mt-2 mx-0 pr-2">
-            <Card >
-              <div className="row">
-                <div className="col">
-                  <h3>{translate("common.department")}</h3>
-                </div>
-                <div className="text-right mr-3 ">
-                  <Button
-                    text={
-                      showDepartments
-                        ? translate("course.hide")
-                        : translate("course.view")
-                    }
-                    size={"sm"}
-                    onClick={() => {
-                      if (!showDepartments) {
-                        getDepartmentList();
-                      } else {
-                        setShowDepartments(!showDepartments)
+          <div className="col-sm-6 mb-0 pr-2">
+            <>
+              <Card>
+                <div className="row">
+                  <div className="col">
+                    <h3>{translate("common.department")}</h3>
+                  </div>
+                  <div className="text-right mr-3 ">
+                    <Button
+                      text={
+                        showDepartments
+                          ? translate("course.hide")
+                          : translate("course.view")
                       }
-                    }}
-                  />
-                  <Button
-                    text={translate("product.addItem")}
-                    size={"sm"}
-                    onClick={() => {
-                      addDepartMentModal.show();
-                    }}
-                  />
+                      size={"sm"}
+                      onClick={() => {
+                        if (!showDepartments) {
+                          getDepartmentList();
+                        } else {
+                          setShowDepartments(!showDepartments)
+                        }
+                      }}
+                    />
+                    <Button
+                      text={translate("product.addItem")}
+                      size={"sm"}
+                      onClick={() => {
+                        addDepartMentModal.show();
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+              </Card>
               <div
-                className="overflow-auto overflow-hide mt-0"
+                className="overflow-auto overflow-hide mt--4"
                 style={{
                   height: showDepartments ? "30.5rem" : "0vh",
                 }}
@@ -191,41 +193,43 @@ function Settings() {
                   </div>
                 )}
               </div>
-            </Card>
+            </>
           </div>
-          <div className="col-sm-6 mt-2 pl-2 mx-0">
-            <Card>
-              <div className="row">
-                <div className="col">
-                  <h3>{translate("auth.designation")}</h3>
-                </div>
-                <div className="text-right mr-3 ">
-                  <Button
-                    text={
-                      showDesignations
-                        ? translate("course.hide")
-                        : translate("course.view")
-                    }
-                    size={"sm"}
-                    onClick={() => {
-                      if (!showDesignations) {
-                        getDesignationList();
-                      } else {
-                        setShowDesignations(!showDesignations)
+          <div className="col-sm-6 pl-2">
+            <>
+              <Card>
+                <div className="row">
+                  <div className="col">
+                    <h3>{translate("auth.designation")}</h3>
+                  </div>
+                  <div className="text-right mr-3 ">
+                    <Button
+                      text={
+                        showDesignations
+                          ? translate("course.hide")
+                          : translate("course.view")
                       }
+                      size={"sm"}
+                      onClick={() => {
+                        if (!showDesignations) {
+                          getDesignationList();
+                        } else {
+                          setShowDesignations(!showDesignations)
+                        }
 
-                    }}
-                  />
-                  <Button
-                    text={translate("product.addItem")}
-                    size={"sm"}
-                    onClick={() => { addDesignationModal.show() }}
-                  />
+                      }}
+                    />
+                    <Button
+                      text={translate("product.addItem")}
+                      size={"sm"}
+                      onClick={() => { addDesignationModal.show() }}
+                    />
+                  </div>
                 </div>
-              </div>
+              </Card>
 
               <div
-                className="overflow-auto overflow-hide mt-0"
+                className="overflow-auto overflow-hide mt--4"
                 style={{
                   height: showDesignations ? "30.5rem" : "0vh",
 
@@ -246,7 +250,7 @@ function Settings() {
                   </div>
                 )}
               </div>
-            </Card>
+            </>
           </div>
         </div>
 

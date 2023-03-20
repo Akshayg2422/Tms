@@ -13,7 +13,7 @@ import {
     addTicketEvent,
     getTicketsEvents
 } from '@Redux';
-import { TEM } from '@Utils';
+import { TEM, arrayOrderbyCreatedAt } from '@Utils';
 import { useInput } from '@Hooks';
 
 
@@ -47,6 +47,8 @@ function Thread() {
         }
     }
 
+    let data = arrayOrderbyCreatedAt(ticketEvents?.data)
+
     const sendMessageHandler = () => {
 
         if (textMessage) {
@@ -67,8 +69,6 @@ function Thread() {
         }
     }
 
-    // console.log('ticketEvents---->ticketEvents---->', JSON.stringify(ticketEvents));
-
     return (
 
         <div>
@@ -76,7 +76,7 @@ function Thread() {
                 <TagAssignUser />
             </div>
             <div className='d-flex justify-content-center'>
-                <Card className='vh-100 col-lg-10 col-sm-12 overflow-auto overflow-hide mt--3 mb--5' style={{ height: '50vh' }}>
+                <Card className='col-lg-10 col-sm-12 overflow-auto overflow-hide mt--3 mb--5' style={{ height: '84.5vh' }}>
 
                     <div className='fixed-bottom col-lg-6 col-sm-12' style={{ cursor: "pointer" }}>
                         <Send value={textMessage.value}
@@ -84,8 +84,8 @@ function Thread() {
                             onChange={textMessage.onChange}
                         />
                     </div>
-                    <div className={'pt-3'}>
-                        {ticketEvents && ticketEvents.data.length > 0 && ticketEvents.data.map((el) => {
+                    <div className={'py-5'}>
+                        {data && data.length > 0 && data.map((el) => {
                             return (
                                 <Chat item={el} />
                             )

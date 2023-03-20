@@ -151,11 +151,9 @@ function* getUserBusinessPlacesSaga(action) {
 
 
 function* validateRegisterUserSaga(action) {
-  console.log(JSON.stringify(action));
   try {
     yield put(showLoader());
     const response = yield call(validateRegisterUserApi, action.payload.params);
-    console.log(JSON.stringify(response));
 
     if (response.success) {
       yield put(hideLoader());
@@ -201,7 +199,6 @@ function* otpRegisterSaga(action) {
 
 
 function* otpLoginSaga(action) {
-  console.log(JSON.stringify(action.payload));
   try {
     yield put(showLoader());
     const response = yield call(otpLoginApi, action.payload.params);
@@ -265,7 +262,6 @@ function* registerCompanySaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(registerCompanyApi, action.payload.params);
-    console.log(JSON.stringify(response) + "=============================");
     if (response.success) {
       yield put(hideLoader());
       yield put(registerCompanySuccess({ ...response }));

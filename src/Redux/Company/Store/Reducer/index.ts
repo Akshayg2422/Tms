@@ -43,6 +43,8 @@ const initialState: CompanyStateProp = {
   employees: undefined,
   addEmployeeDetails: undefined,
   issueReferenceDetails: undefined,
+  referenceTicketNoOfPages: undefined,
+  referenceTicketCurrentPages: 1,
   broadCastDetails: [],
   broadCastCurrentPage: 1,
   broadCastNumOfPages: undefined
@@ -112,9 +114,6 @@ const CompanyReducer = (
     case GET_BROADCAST_MESSAGES_FAILURE:
       state = { ...state };
       break;
-
-
-
     case GET_TICKETS:
       state = {
         ...state,
@@ -220,12 +219,22 @@ const CompanyReducer = (
       state = {
         ...state,
         issueReferenceDetails: undefined,
+        referenceTicketNoOfPages: 0,
+        referenceTicketCurrentPages: 1,
       };
       break;
     case GET_REFERENCE_TICKETS_SUCCESS:
+      // const { data, next_page, num_pages } = action.payload?.details;
+
       state = {
         ...state,
-        issueReferenceDetails: action.payload.details,
+        issueReferenceDetails: action.payload?.details?.data,
+        referenceTicketNoOfPages: action.payload?.details?.num_pages,
+        referenceTicketCurrentPages:
+          action.payload?.details?.next_page === -1
+            ? action.payload?.details?.num_pages
+            : action.payload?.details?.next_page - 1,
+
       };
       break;
     case GET_REFERENCE_TICKETS_FAILURE:

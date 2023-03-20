@@ -12,3 +12,17 @@ export const handleEmailClick = (email: any) => {
 export const getDataAndTime = (time: any) => {
   return moment(time).format('MMMM Do YYYY, h:mm a')
 }
+
+export function arrayOrderbyCreatedAt(array: any) {
+  let modifiedArray = [];
+  if (array && array.length > 0) {
+    modifiedArray = array.sort((a: any, b: any) => {
+      return a.created_at < b.created_at
+        ? -1
+        : a.created_at > b.created_at
+        ? 1
+        : 0;
+    });
+    return modifiedArray;
+  }
+}

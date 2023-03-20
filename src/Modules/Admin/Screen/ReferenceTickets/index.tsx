@@ -1,25 +1,30 @@
-import { HomeContainer, NoDataFound, Table } from "@Components";
+import { HomeContainer, NoDataFound, CommonTable } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getReferenceTickets, setIsSync } from "@Redux";
-import { getStatusFromCode } from "@Utils";
+import { getStatusFromCode, paginationHandler } from "@Utils";
 
 function ReferenceTickets() {
   const dispatch = useDispatch();
-  const { issueReferenceDetails } = useSelector(
+  const { issueReferenceDetails, referenceTicketNoOfPages, referenceTicketCurrentPages } = useSelector(
     (state: any) => state.CompanyReducer
   );
   const { selectedIssues, selectedReferenceIssues, dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
   );
 
+  const { isSync } = useSelector((state: any) => state.AppReducer);
+
   useEffect(() => {
-    proceedgetReferenceTickets();
-  }, [selectedReferenceIssues]);
+    if (!isSync.referenceTickets) {
+      proceedgetReferenceTickets(referenceTicketCurrentPages);
+    }
+  }, [isSync]);
 
 
-  const proceedgetReferenceTickets = () => {
+  const proceedgetReferenceTickets = (pageNumber: number) => {
     const params = {
+      pageNumber: pageNumber,
       id: selectedReferenceIssues
         ? selectedReferenceIssues?.id
         : selectedIssues?.id,
@@ -38,6 +43,8 @@ function ReferenceTickets() {
 
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
+
+
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
@@ -49,15 +56,44 @@ function ReferenceTickets() {
     });
   };
 
+  function setSyncCompany(sync = false) {
+    dispatch(
+      setIsSync({
+        ...isSync,
+        referenceTickets: sync,
+      })
+    );
+  }
+
   return (
 
 
-    <HomeContainer isCard title={"Reference Details"}>
-      {issueReferenceDetails && issueReferenceDetails?.data?.length > 0 ?
-        <Table displayDataSet={normalizedTableData(issueReferenceDetails?.data)} tableOnClick={(e, index, item) => {
-          const selectedItem = issueReferenceDetails.data?.[index]
-        }} /> : <NoDataFound />}
-    </HomeContainer>
+    <>
+      {issueReferenceDetails && issueReferenceDetails?.length > 0 ?
+        <CommonTable
+          isPagination
+          tableDataSet={issueReferenceDetails}
+          currentPage={referenceTicketCurrentPages}
+          noOfPage={referenceTicketNoOfPages}
+          title={"Reference Details"}
+          displayDataSet={normalizedTableData(issueReferenceDetails)}
+          paginationNumberClick={(currentPage) => {
+            proceedgetReferenceTickets(paginationHandler("current", currentPage));
+          }}
+          previousClick={() => {
+            proceedgetReferenceTickets(paginationHandler("prev", referenceTicketCurrentPages))
+          }
+          }
+          nextClick={() => {
+            proceedgetReferenceTickets(paginationHandler("next", referenceTicketCurrentPages));
+          }
+          }
+          tableOnClick={(e, index, item) => {
+            const selectedItem = issueReferenceDetails.data?.[index]
+          }}
+
+        /> : <NoDataFound />}
+    </>
 
 
   );
