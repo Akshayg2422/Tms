@@ -24,6 +24,8 @@ function Settings() {
   const { departmentData, designationData } = useSelector(
     (state: any) => state.AdminReducer
   );
+  console.log(departmentData,"departmentData--------->");
+  
 
   const [showDepartments, setShowDepartments] = useState(false);
   const [showDesignations, setShowDesignations] = useState(false);
@@ -130,6 +132,14 @@ function Settings() {
     return data.map((el: any) => {
       return {
         name: el.name,
+        Admin:
+        <div className="d-flex justify-content-center ">
+        <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
+        </div>,
+       superAdmin: <div className="d-flex justify-content-center ">
+       <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
+       </div>,
+       edit:<i className="fas fa-pen"></i>,
       };
     });
   };
@@ -138,6 +148,16 @@ function Settings() {
     return data.map((el: any) => {
       return {
         name: el.name,
+         Admin:
+         <div className="d-flex justify-content-center ">
+         <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
+         </div>,
+        superAdmin: <div className="d-flex justify-content-center ">
+        <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
+        </div>,
+        edit:<i className="fas fa-pen"></i>,
+
+
       };
     });
   };
@@ -188,9 +208,9 @@ function Settings() {
                     margin: '0px -39px 0px -39px'
                   }}
                 >
-                  {departmentData && departmentData?.length > 0 ? (
+                  {departmentData && departmentData?.data.length > 0 ? (
                     <CommonTable
-                      displayDataSet={normalizedDepartmentData(departmentData)} />) : (
+                      displayDataSet={normalizedDepartmentData(departmentData.data)} />) : (
                     <div
                       className=" d-flex justify-content-center align-items-center"
                       style={{
