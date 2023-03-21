@@ -23,8 +23,6 @@ function Broadcast() {
     (state: any) => state.AppReducer
   );
 
-
-
   useEffect(() => {
 
     if (!isSync.broadcast) {
@@ -104,3 +102,17 @@ function Broadcast() {
 }
 
 export { Broadcast };
+
+// Imports necessary React components, hooks, and Redux actions.
+// Defines the Broadcast component which:
+// Uses the useNavigation hook to get access to the goTo function which is used to navigate to another page in the application.
+// Uses the useSelector hook to access the broadCastDetails and broadCastCurrentPage values from the Redux store's CompanyReducer.
+// Uses the useSelector hook to access the isSync value from the Redux store's AppReducer.
+// Defines an useEffect hook that triggers the getBroadCastMessage function if isSync.broadcast is false.
+// Defines the getBroadCastMessage function that dispatches a getBroadCastMessages action to fetch broadcast messages
+//  using the params object and set isSync.broadcast to true upon success.
+// Renders a button that navigates to the "Create Broadcast" page.
+// If broadCastDetails is not null and has at least one element,
+// it renders an InfiniteScroll component with a Card component that displays the list of broadcast messages using the BroadCastListedItems component.
+// The InfiniteScroll component loads more broadcast messages using the getBroadCastMessage function when the user scrolls to the end of the list.
+// Overall, this component fetches and displays broadcast messages, with the ability to load more messages as the user scrolls down the list.

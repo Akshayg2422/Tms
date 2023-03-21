@@ -7,6 +7,7 @@ import {
   fetchDepartmentDataApi,
   getAssociatedCompanieslApi,
   fetchDesignationDataApi,
+  getAddTaskApi,
 } from "@Services";
 import {
   GET_ASSOCIATED_BRANCH,
@@ -32,6 +33,10 @@ import {
   FETCH_DESIGNATION,
   getDesignationDataSuccess,
   getDesignationDataFailure,
+  getAddTask,
+  getAddTaskSuccess,
+  getAddTaskFailure,
+  ADD_TASK,
 } from "@Redux";
 
 function* getAssociatedCompaniesSaga(action) {
@@ -204,6 +209,30 @@ function* getDepartments(action) {
   }
 }
 
+/* ADD TASK */
+
+function* getAddTaskSaga(action) {
+  console.log('1111111111111111111111111111');
+  try {
+    yield put(showLoader());
+    const response = yield call(getAddTaskApi, action.payload.params);
+console.log('2222222222222222',response);
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getAddTaskSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getAddTaskFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getAddTaskFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
+
 ///watcher///
 
 function* AdminSaga() {
@@ -214,6 +243,7 @@ function* AdminSaga() {
   yield takeLatest(ADD_DESIGNATION, addDesignation);
   yield takeLatest(FETCH_DESIGNATION, getDesignation);
   yield takeLatest(FETCH_DEPARTMENT, getDepartments);
+  yield takeLatest(ADD_TASK, getAddTaskSaga);
 }
 
 export default AdminSaga;

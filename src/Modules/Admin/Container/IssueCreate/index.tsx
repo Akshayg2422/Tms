@@ -107,10 +107,10 @@ function IssueCreate() {
     let companies: any = [];
 
     if (details && details.length > 0) {
-      details.forEach(({ branch_id, display_name }) => {
+      details.forEach(({ id, display_name }) => {
         companies = [
           ...companies,
-          { id: branch_id, text: display_name, name: display_name },
+          { id: id, text: display_name, name: display_name },
         ];
       });
 

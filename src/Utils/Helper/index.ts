@@ -13,6 +13,10 @@ export const getDataAndTime = (time: any) => {
   return moment(time).format('MMMM Do YYYY, h:mm a')
 }
 
+export const getDateAndTime = (time: any) => {
+  return moment(time).format('YYYY MMMM Do , h:mm a')
+}
+
 export function arrayOrderbyCreatedAt(array: any) {
   let modifiedArray = [];
   if (array && array.length > 0) {

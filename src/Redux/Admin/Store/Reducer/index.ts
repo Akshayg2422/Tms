@@ -31,6 +31,10 @@ import {
   COMPANY_SELECTED_DETAILS,
   REFERENCE_ISSUE_DETAILS,
   RESTORE_ADMIN,
+
+  ADD_TASK,
+  ADD_TASK_SUCCESS,
+  ADD_TASK_FAILURE,
 } from '../ActionTypes';
 
 import { AdminStateProp } from '../../Interfaces';
@@ -49,8 +53,10 @@ const initialState: AdminStateProp = {
   referenceIssueSelectedDetails: undefined,
   selectedReferenceIssues: undefined,
   companyBranchNames: undefined,
+  addTask: undefined,
 
 };
+
 
 const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
   switch (action.type) {
@@ -221,6 +227,23 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = { ...state, selectedReferenceIssues: action.payload };
       break;
 
+    /* ADD TASK */
+
+    case ADD_TASK:
+
+      state = { ...state, addTask: undefined };
+      break;
+
+    case ADD_TASK_SUCCESS:
+
+      state = { ...state, addTask: action.payload.details };
+      break;
+
+    case ADD_TASK_FAILURE:
+
+      state = { ...state, addTask: action.payload };
+      break;
+
     default:
       state = state;
       break;
@@ -232,3 +255,4 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
 
 };
 export { AdminReducer };
+
