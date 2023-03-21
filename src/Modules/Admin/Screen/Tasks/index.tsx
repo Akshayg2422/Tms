@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTickets, otpLoginFailure, setIsSync } from "@Redux";
+import { getTickets,getTasks, otpLoginFailure, setIsSync } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_TICKET_LIST, PRIORITY, ISSUES_LIST, TICKET_PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE } from "@Utils";
+import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_TICKET_LIST, ISSUES_LIST, TICKET_PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
 
 
-function Issues() {
+function Tasks() {
   const { goTo } = useNavigation();
   const { dashboardDetails, } = useSelector((state: any) => state.AdminReducer);
   const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.CompanyReducer);
@@ -18,27 +18,46 @@ function Issues() {
   const search = useInput("");
   const filteredTickets = useDropDown(FILTERED_TICKET_LIST[0])
   const ticketStatus = useDropDown(ISSUES_LIST[0])
-  const ticketPriorty = useDropDown({})
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
+  // useEffect(() => {
+  //   if (!isSync.issues) {
+  //     getTicketHandler(ticketCurrentPages)
+  //   }
+  // }, [isSync])
+  
   useEffect(() => {
-    if (!isSync.issues) {
-      getTicketHandler(ticketCurrentPages)
-    }
-  }, [isSync])
+    const params = {
+      q: "",
+      // q_many: search.value,
+      // tickets_by: filteredTickets?.value.id,
+      // ticket_status: ticketStatus?.value.id,
+      // page_number: pageNumber
+    };
+    dispatch(
+      getTasks({
+        params,
+        onSuccess: () => () => {
+          setSyncTickets(true)
+        },
+        onError: () => () => { },
+      })
+    );
 
+    
+  }, [])
 
   const getTicketHandler = (pageNumber: number) => {
 
     const params = {
       q: "",
-      q_many: search.value,
-      tickets_by: filteredTickets?.value.id,
-      ticket_status: ticketStatus?.value.id,
-      page_number: pageNumber
+      // q_many: search.value,
+      // tickets_by: filteredTickets?.value.id,
+      // ticket_status: ticketStatus?.value.id,
+      // page_number: pageNumber
     };
     dispatch(
-      getTickets({
+      getTasks({
         params,
         onSuccess: () => () => {
           setSyncTickets(true)
@@ -61,8 +80,6 @@ function Issues() {
     setSyncTickets()
     getTicketHandler(SEARCH_PAGE)
   }
-
-  console.log("Priorty",ticketPriorty.value)
 
   function Priority({ priority }) {
     const color = getObjectFromArrayByKey(TICKET_PRIORITY, 'id', priority).color
@@ -99,7 +116,7 @@ function Issues() {
       <HomeContainer isCard >
         <div className="row mt-3">
           <div className="col-lg-4  col-md-3 col-sm-12">
-            <InputHeading heading={translate("common.issueName")} />
+            <InputHeading heading={translate("common.taskName")} />
             <div className="input-group bg-white border">
               <input
                 type="text"
@@ -119,7 +136,7 @@ function Issues() {
           </div>
 
 
-          <div className="col-lg-4 col-md-3 col-sm-12 ">
+          <div className="col-lg-3 col-md-3 col-sm-12 ">
             <DropDown
               heading={translate("common.filterTickets")}
               selected={filteredTickets.value}
@@ -132,35 +149,9 @@ function Issues() {
             />
           </div>
 
-          <div className="col-lg-4 col-md-3 col-sm-12">
+          <div className="col-lg-3 col-md-3 col-sm-12">
             <DropDown
               heading={translate("common.ticketStatus")}
-              data={ISSUES_LIST}
-              selected={ticketStatus.value}
-              value={ticketStatus.value}
-              onChange={(item) => {
-                console.log(item)
-                ticketStatus.onChange(item)
-                setSyncTickets()
-              }}
-            />
-          </div>
-          <div className="col-lg-4 col-md-3 col-sm-12">
-            <DropDown
-              heading={'Priorty'}
-              data={TICKET_PRIORITY}
-              selected={ticketPriorty.value}
-              value={ticketPriorty.value}
-              onChange={(item) => {
-                console.log(item,"item--->")
-                ticketPriorty.onChange(item)
-                setSyncTickets()
-              }}
-            />
-          </div>
-          <div className="col-lg-4 col-md-3 col-sm-12">
-            <DropDown
-              heading={'internal'}
               data={ISSUES_LIST}
               selected={ticketStatus.value}
               value={ticketStatus.value}
@@ -174,7 +165,7 @@ function Issues() {
           <div className="col text-right mt-5">
             <Button
               size={"sm"}
-              text={translate("common.createTicket")}
+              text={'Add Task'}
               onClick={() => {
                 goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
               }}
@@ -218,4 +209,4 @@ function Issues() {
   );
 }
 
-export { Issues };
+export { Tasks };

@@ -14,4 +14,5 @@ export interface AdminStateProp {
   companyBranchNames:any;
   associatedCompaniesNumOfPages:any,
   associatedCompaniesCurrentPages:any,
+  tasks:any
 }

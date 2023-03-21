@@ -31,6 +31,10 @@ import {
   COMPANY_SELECTED_DETAILS,
   REFERENCE_ISSUE_DETAILS,
   RESTORE_ADMIN,
+
+  GET_TASKS,
+  GET_TASKS_SUCCESS,
+  GET_TASKS_FAILURE
 } from '../ActionTypes';
 
 import { AdminStateProp } from '../../Interfaces';
@@ -49,6 +53,7 @@ const initialState: AdminStateProp = {
   referenceIssueSelectedDetails: undefined,
   selectedReferenceIssues: undefined,
   companyBranchNames: undefined,
+  tasks: undefined
 
 };
 
@@ -220,6 +225,19 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
 
       state = { ...state, selectedReferenceIssues: action.payload };
       break;
+
+    /**
+     * Get Tasks
+     */  
+    case GET_TASKS:
+      state = {...state,tasks:undefined}
+      break;
+    case GET_TASKS_SUCCESS:
+      state ={...state,tasks:action.payload.details}
+      break;
+    case GET_TASKS_FAILURE:
+      state ={...state,tasks:action.payload}
+      break;  
 
     default:
       state = state;

@@ -30,10 +30,14 @@ import {
   REFERENCE_ISSUE_DETAILS,
   RESTORE_ADMIN,
 
+  GET_TASKS,
+  GET_TASKS_SUCCESS,
+  GET_TASKS_FAILURE
+
 } from '../ActionTypes';
 
 export const RestoreAdmin = () => {
-  return {
+  return { 
     type: RESTORE_ADMIN,
 
 
@@ -227,5 +231,28 @@ export const referenceIssueDetails = (params) => {
   return {
     type: REFERENCE_ISSUE_DETAILS,
     payload: params,
+  }
+}
+
+/* Tasks */
+
+export const getTasks = (params:any) =>{
+  return{
+    type :GET_TASKS,
+    payload: params
+  }
+}
+
+export const getTasksSuccess = (response:any) =>{
+  return{
+    type :GET_TASKS_SUCCESS,
+    payload: response
+  }
+}
+
+export const getTasksFailure = (error:any) =>{
+  return{
+    type :GET_TASKS_FAILURE,
+    payload: error
   }
 }

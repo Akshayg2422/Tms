@@ -7,6 +7,7 @@ const COMPANY = '/company/';
 const TICKET = '/ticket/';
 const AUTH = '/authentication/';
 const EMPLOYEE='/employee/'
+const TASK = '/task/'
 
 export const GET_ASSOCIATED_COMPANIES = COMPANY + 'getAssociatedCompanies';
 export const GET_ASSOCIATED_COMPANIESL = COMPANY + 'getAssociatedCompaniesl';
@@ -33,6 +34,7 @@ export const REGISTER_COMPANY = AUTH + 'registerCompany';
 export const REGISTER_ADMIN = AUTH + 'registerAdmin';
 export const GET_EMPLOYEES = EMPLOYEE + 'getEmployees';
 export const ADD_EMPLOYEE = EMPLOYEE + 'addEmployee';
+export const GET_TASKS =  TASK + 'getTasks';
 
 /**
  *  Company

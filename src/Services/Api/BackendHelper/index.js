@@ -24,6 +24,7 @@ import {
   GET_REFERENCE_TICKETS,
   ADD_BROADCAST_MESSAGES,
   GET_BROADCAST_MESSAGES,
+  GET_TASKS,
 
   /**
    * setting
@@ -78,6 +79,9 @@ export const addEmployeeApi = payload =>
   export const getBroadCastMessagesApi = payload =>
   post(GET_BROADCAST_MESSAGES, payload, {})
 
+export const getTaskApi = (payload) => post(GET_TASKS, payload, {})
+
+
 /**
  * setting
  */
@@ -85,3 +89,5 @@ export const postAddDepartmentApi = (payload) => post(POST_ADD_DEPARTMENT, paylo
 export const postAddDesignationApi = (payload) => post(POST_ADD_DESIGNATION, payload, {})
 export const fetchDesignationDataApi = (payload) => post(FETCH_DESIGNATION, payload, {})
 export const fetchDepartmentDataApi = (payload) => post(FETCH_DEPARTMENT, payload, {})
+
+

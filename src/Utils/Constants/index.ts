@@ -81,6 +81,13 @@ export const TICKET_PRIORITY = [
   { id: 4, text: "High", color: "red" },
   { id: 5, text: "Urgent", color: "gray" },
 ];
+export const PRIORITY = [
+  { id: "1", text: "Lowest" },
+  { id: "2", text: "Low" },
+  { id: "3", text: "Medium" },
+  { id: "4", text: "High"},
+  { id: "5", text: "Urgent" },
+];
 
 
 export const SEARCH_PAGE = 1
