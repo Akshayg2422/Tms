@@ -25,6 +25,12 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, sel
         }
 
     }
+    const colourStylesRow = {
+        dropdownIndicator: styles => ({
+            ...styles,
+            color: '#FFAE12',
+        })
+    }
 
     return (
         <FormGroup>
@@ -38,7 +44,8 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, sel
                     {
 
                         placeholder: placeHolder,
-                        disabled: disabled
+                        disabled: disabled,
+                        allowArrow: true,
                     }
                 }
                 onChange={proceedOnChange}
