@@ -52,7 +52,7 @@ function Broadcast() {
     );
   }
 
-  console.log(broadCastDetails.length + '===');
+  // console.log(JSON.stringify(broadCastDetails) + '===');
 
 
   return (
@@ -85,7 +85,7 @@ function Broadcast() {
             {
               broadCastDetails?.map((company: any, index: number) => {
                 return (
-                  <div>
+                  <div key={company.id}>
                     <BroadCastListedItems key={company.id} item={company} />
                     {index !== broadCastDetails?.length - 1 && (
                       <div className="mx-1">

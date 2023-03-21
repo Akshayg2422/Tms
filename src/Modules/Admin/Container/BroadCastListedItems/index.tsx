@@ -38,6 +38,7 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
               applicable_branches?.map((applicable_branches: any, index: number) => {
                 return (
                   <H
+
                     tag={"h5"}
                     className="text-capitalize font-weight-900  mb--1 "
                     text={applicable_branches.register_name}

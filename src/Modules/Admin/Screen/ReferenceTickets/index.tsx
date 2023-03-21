@@ -68,7 +68,7 @@ function ReferenceTickets() {
   return (
 
 
-    <>
+    <div className="my-3">
       {issueReferenceDetails && issueReferenceDetails?.length > 0 ?
         <CommonTable
           isPagination
@@ -93,7 +93,7 @@ function ReferenceTickets() {
           }}
 
         /> : <NoDataFound />}
-    </>
+    </div>
 
 
   );
