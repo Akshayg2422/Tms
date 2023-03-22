@@ -75,11 +75,11 @@ export const ISSUES_LIST = [
 
 
 export const TICKET_PRIORITY = [
-  { id: 1, text: "Lowest", color: "black" },
-  { id: 2, text: "Low", color: "black" },
-  { id: 3, text: "Medium", color: "orange" },
-  { id: 4, text: "High", color: "red" },
-  { id: 5, text: "Urgent", color: "gray" },
+  { id: '1', text: "Lowest", color: "black" },
+  { id: '2', text: "Low", color: "black" },
+  { id: '3', text: "Medium", color: "orange" },
+  { id: '4', text: "High", color: "red" },
+  { id: '5', text: "Urgent", color: "gray" },
 ];
 
 

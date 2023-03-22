@@ -23,8 +23,6 @@ function Broadcast() {
     (state: any) => state.AppReducer
   );
 
-
-
   useEffect(() => {
 
     if (!isSync.broadcast) {
@@ -104,3 +102,4 @@ function Broadcast() {
 }
 
 export { Broadcast };
+
