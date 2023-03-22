@@ -244,7 +244,9 @@ export const getTasks = (params:any) =>{
 }
 
 export const getTasksSuccess = (response:any) =>{
+  console.log("action--->",response)
   return{
+
     type :GET_TASKS_SUCCESS,
     payload: response
   }

@@ -55,14 +55,14 @@ export const TEM = 'TEM'
 export const EVS = 'EVS'
 export const RTS = 'RTS'
 
-export const FILTERED_TICKET_LIST = [
+export const FILTERED_LIST = [
   { id: 'all', text: 'All' },
   { id: 'created_by', text: 'Created' },
   { id: 'assigned_to', text: 'Assigned' },
   { id: 'tagged_to', text: 'Tagged' }
 ];
 
-export const ISSUES_LIST = [
+export const STATUS_LIST = [
   { id: 'ALL', text: 'All' },
   { id: 'RAI', text: 'Raised' },
   { id: 'INP', text: 'In-Prograss' },
@@ -74,20 +74,18 @@ export const ISSUES_LIST = [
 ]
 
 
-export const TICKET_PRIORITY = [
+export const PRIORITY = [
   { id: 1, text: "Lowest", color: "black" },
   { id: 2, text: "Low", color: "black" },
   { id: 3, text: "Medium", color: "orange" },
   { id: 4, text: "High", color: "red" },
   { id: 5, text: "Urgent", color: "gray" },
 ];
-export const PRIORITY = [
-  { id: "1", text: "Lowest" },
-  { id: "2", text: "Low" },
-  { id: "3", text: "Medium" },
-  { id: "4", text: "High"},
-  { id: "5", text: "Urgent" },
-];
+
+export const COMPANY = [
+  {id:1,text:"Extenal"},
+  {id:2,text:"Internal"}
+]
 
 
 export const SEARCH_PAGE = 1

@@ -5,7 +5,7 @@ const initialState: AppStateProp = {
 
   userLoggedIn: false,
   loginDetails: undefined,
-  isSync: { issues: false, companies: false, broadcast: false, dashboardDetails: false }
+  isSync: { issues: false, tasks:false, companies: false, broadcast: false, dashboardDetails: false }
 };
 
 const AppReducer = (state = initialState, action: any) => {

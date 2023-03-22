@@ -46,12 +46,12 @@ function ReferenceTickets() {
 
 
       return {
-        issue: el.title,
-        "raised by": el?.by_user.name,
-        status: getStatusFromCode(dashboardDetails, el.ticket_status),
-        "assigned to": el?.assigned_to.name,
-        phone: el?.by_user.phone,
-        email: el?.by_user.email
+        issue: el?.title,
+        "raised by": el?.by_user?.name,
+        status: getStatusFromCode(dashboardDetails, el?.ticket_status),
+        "assigned to": el?.assigned_to?.name,
+        phone: el?.by_user?.phone,
+        email: el?.by_user?.email
       };
     });
   };

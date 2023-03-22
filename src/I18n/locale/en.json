@@ -64,7 +64,10 @@
     "issueName": "Issue name",
     "filterTickets": "Filter tickets",
     "ticketStatus": "Ticket status",
-    "taskName":"Task Name"
+    "taskName":"Task Name",
+    "filterTasks": "Filter tasks",
+    "taskStatus": "Task status"
+
   },
   "errors": {
     "invalidEmail": "Invalid email address."

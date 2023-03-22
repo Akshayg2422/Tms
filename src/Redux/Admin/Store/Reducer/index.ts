@@ -53,13 +53,15 @@ const initialState: AdminStateProp = {
   referenceIssueSelectedDetails: undefined,
   selectedReferenceIssues: undefined,
   companyBranchNames: undefined,
-  tasks: undefined
+  tasks: undefined,
+  tasksNumOfPages: undefined,
+  tasksCurrentPages: 1,
 
 };
 
 const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
+  
   switch (action.type) {
-
     case RESTORE_ADMIN:
       state = initialState;
       break;
@@ -73,7 +75,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       };
       break;
     case GET_ASSOCIATED_BRANCH_SUCCESS:
-      const { data, next_page, num_pages } = action.payload?.details;
+      const { data, next_page, num_pages } = action.payload?.details; 
       state = {
         ...state,
         associatedCompanies: data,
@@ -230,13 +232,25 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
      * Get Tasks
      */  
     case GET_TASKS:
-      state = {...state,tasks:undefined}
+      state = {...state,
+        tasks:undefined,
+        tasksNumOfPages: 0,
+        tasksCurrentPages: 1,
+      }
       break;
     case GET_TASKS_SUCCESS:
-      state ={...state,tasks:action.payload.details}
+      // const { data, next_page, num_pages } = action.payload?.details; 
+      state ={...state,
+        tasks:action.payload?.details,
+        tasksNumOfPages: action.payload?.details.num_pages,
+        tasksCurrentPages: 
+        action.payload?.details.next_page === -1
+        ? action.payload?.details.num_pages
+        : action.payload?.details.next_page - 1
+       }
       break;
     case GET_TASKS_FAILURE:
-      state ={...state,tasks:action.payload}
+      state ={...state,tasks:undefined}
       break;  
 
     default:

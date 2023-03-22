@@ -219,12 +219,10 @@ function* getDepartments(action) {
     yield put(showLoader());
 
     const response = yield call(getTaskApi, action.payload.params);
-
-    console.log("GetTaskResponse",response)
-
+console.log("-------->+",response)
     if (response.success) {
       yield put(hideLoader());
-      yield put(getTasksSuccess(response.details));
+      yield put(getTasksSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());

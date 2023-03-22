@@ -20,7 +20,7 @@ import {
   ifObjectExist,
   type,
   validate,
-  TICKET_PRIORITY
+  PRIORITY
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -227,7 +227,7 @@ function IssueCreate() {
           <DropDown
             selected={selectedTicketPriority.value}
             heading={translate("common.ticketPriority")}
-            data={TICKET_PRIORITY}
+            data={PRIORITY}
             onChange={selectedTicketPriority.onChange}
           />
         </div>

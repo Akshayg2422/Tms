@@ -6,7 +6,7 @@ import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_TICKET_LIST, PRIORITY, ISSUES_LIST, TICKET_PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE } from "@Utils";
+import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_LIST,STATUS_LIST,PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE, COMPANY } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
 
 
@@ -16,8 +16,8 @@ function Issues() {
   const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.CompanyReducer);
   const dispatch = useDispatch();
   const search = useInput("");
-  const filteredTickets = useDropDown(FILTERED_TICKET_LIST[0])
-  const ticketStatus = useDropDown(ISSUES_LIST[0])
+  const filteredTickets = useDropDown(FILTERED_LIST[0])
+  const ticketStatus = useDropDown(STATUS_LIST[0])
   const ticketPriorty = useDropDown({})
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
@@ -65,13 +65,13 @@ function Issues() {
   console.log("Priorty",ticketPriorty.value)
 
   function Priority({ priority }) {
-    const color = getObjectFromArrayByKey(TICKET_PRIORITY, 'id', priority).color
+    const color = getObjectFromArrayByKey(PRIORITY, 'id', priority).color
     return <div className="row mb-0 align-items-center">
       <div style={{
         height: 10, width: 10, borderRadius: 5, background: color
       }}>
       </div>
-      <span className="ml-2">{getObjectFromArrayByKey(TICKET_PRIORITY, 'id', priority).text}</span>
+      <span className="ml-2">{getObjectFromArrayByKey(PRIORITY, 'id', priority).text}</span>
     </div>
   }
 
@@ -123,7 +123,7 @@ function Issues() {
             <DropDown
               heading={translate("common.filterTickets")}
               selected={filteredTickets.value}
-              data={FILTERED_TICKET_LIST}
+              data={FILTERED_LIST}
               value={filteredTickets.value}
               onChange={(item) => {
                 filteredTickets.onChange(item)
@@ -135,7 +135,7 @@ function Issues() {
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
               heading={translate("common.ticketStatus")}
-              data={ISSUES_LIST}
+              data={STATUS_LIST}
               selected={ticketStatus.value}
               value={ticketStatus.value}
               onChange={(item) => {
@@ -148,11 +148,10 @@ function Issues() {
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
               heading={'Priorty'}
-              data={TICKET_PRIORITY}
+              data={PRIORITY}
               selected={ticketPriorty.value}
               value={ticketPriorty.value}
               onChange={(item) => {
-                console.log(item,"item--->")
                 ticketPriorty.onChange(item)
                 setSyncTickets()
               }}
@@ -161,7 +160,7 @@ function Issues() {
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
               heading={'internal'}
-              data={ISSUES_LIST}
+              data={COMPANY}
               selected={ticketStatus.value}
               value={ticketStatus.value}
               onChange={(item) => {
