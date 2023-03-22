@@ -7,6 +7,7 @@ import {
   fetchDepartmentDataApi,
   getAssociatedCompanieslApi,
   fetchDesignationDataApi,
+  getTaskApi,
   getAddTaskApi,
 } from "@Services";
 import {
@@ -33,6 +34,9 @@ import {
   FETCH_DESIGNATION,
   getDesignationDataSuccess,
   getDesignationDataFailure,
+  GET_TASKS,
+  getTasksSuccess,
+  getTasksFailure,
   getAddTaskSuccess,
   getAddTaskFailure,
   ADD_TASK,
@@ -188,11 +192,13 @@ function* getDesignation(action) {
 
 function* getDepartments(action) {
   try {
+
     yield put(showLoader());
 
     const response = yield call(fetchDepartmentDataApi, action.payload.params);
 
     if (response.success) {
+    
       yield put(hideLoader());
       yield put(getDepartmentDataSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -204,6 +210,33 @@ function* getDepartments(action) {
   } catch (error) {
     yield put(hideLoader());
     yield put(getDepartmentDataFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
+/**
+ * get Tasks
+ */
+
+ function* getTasksSaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(getTaskApi, action.payload.params);
+console.log("-------->",response)
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getTasksSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getTasksFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getTasksFailure("Invalid Request"));
+    yield put(getAddTaskFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }
@@ -242,6 +275,7 @@ function* AdminSaga() {
   yield takeLatest(ADD_DESIGNATION, addDesignation);
   yield takeLatest(FETCH_DESIGNATION, getDesignation);
   yield takeLatest(FETCH_DEPARTMENT, getDepartments);
+  yield takeLatest(GET_TASKS,getTasksSaga)
   yield takeLatest(ADD_TASK, getAddTaskSaga);
 }
 

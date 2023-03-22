@@ -32,6 +32,9 @@ import {
   REFERENCE_ISSUE_DETAILS,
   RESTORE_ADMIN,
 
+  GET_TASKS,
+  GET_TASKS_SUCCESS,
+  GET_TASKS_FAILURE,
   ADD_TASK,
   ADD_TASK_SUCCESS,
   ADD_TASK_FAILURE,
@@ -49,18 +52,25 @@ const initialState: AdminStateProp = {
   error: '',
   designationData: undefined,
   departmentData: undefined,
+  designationCurrentPages:undefined,
+  designationNumOfPages:undefined,
+  departmentCurrentPages:undefined,
+  departmentNumOfPages:undefined,
   companyDetailsSelected: undefined,
   referenceIssueSelectedDetails: undefined,
   selectedReferenceIssues: undefined,
   companyBranchNames: undefined,
+  tasks: undefined,
+  tasksNumOfPages: undefined,
+  tasksCurrentPages: 1,
   addTask: undefined,
 
 };
 
 
 const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
+  
   switch (action.type) {
-
     case RESTORE_ADMIN:
       state = initialState;
       break;
@@ -74,7 +84,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       };
       break;
     case GET_ASSOCIATED_BRANCH_SUCCESS:
-      const { data, next_page, num_pages } = action.payload?.details;
+      const { data, next_page, num_pages } = action.payload?.details; 
       state = {
         ...state,
         associatedCompanies: data,
@@ -157,13 +167,22 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     //get departments
 
     case FETCH_DEPARTMENT:
-      state = { ...state, loading: true };
+      state = { ...state,
+        departmentData: undefined,
+        departmentNumOfPages: 0,
+        departmentCurrentPages: 1,
+         loading: true };
       break;
     case FETCH_DEPARTMENT_SUCCESS:
       state = {
         ...state,
         loading: false,
-        departmentData: action.payload,
+        departmentData: action?.payload?.data,
+        departmentNumOfPages:action?.payload?.num_pages,
+        departmentCurrentPages:
+        action?.payload?.next_page === -1
+            ?action?.payload?.num_pages
+            :action?.payload?.next_page - 1,
       };
       break;
     case FETCH_DEPARTMENT_FAILURE:
@@ -177,13 +196,24 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     //get designations
 
     case FETCH_DESIGNATION:
-      state = { ...state, loading: true };
+   
+        state = { ...state,
+          designationData: undefined,
+          designationNumOfPages: 0,
+          designationCurrentPages: 1,
+           loading: true };
+       
       break;
     case FETCH_DESIGNATION_SUCCESS:
       state = {
         ...state,
         loading: false,
-        designationData: action.payload,
+        designationData: action?.payload?.data,
+        designationNumOfPages:action?.payload?.num_pages,
+        designationCurrentPages:
+        action?.payload?.next_page === -1
+            ?action?.payload?.num_pages
+            :action?.payload?.next_page - 1,
       };
       break;
     case FETCH_DESIGNATION_FAILURE:
@@ -227,6 +257,30 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = { ...state, selectedReferenceIssues: action.payload };
       break;
 
+    /**
+     * Get Tasks
+     */  
+    case GET_TASKS:
+      state = {...state,
+        tasks:undefined,
+        tasksNumOfPages: 0,
+        tasksCurrentPages: 1,
+      }
+      break;
+    case GET_TASKS_SUCCESS:
+      // const { data, next_page, num_pages } = action.payload?.details; 
+      state ={...state,
+        tasks:action.payload?.details,
+        tasksNumOfPages: action.payload?.details.num_pages,
+        tasksCurrentPages: 
+        action.payload?.details.next_page === -1
+        ? action.payload?.details.num_pages
+        : action.payload?.details.next_page - 1
+       }
+      break;
+    case GET_TASKS_FAILURE:
+      state ={...state,tasks:undefined}
+      break;  
     /* ADD TASK */
 
     case ADD_TASK:

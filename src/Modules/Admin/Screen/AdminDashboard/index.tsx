@@ -10,7 +10,7 @@ import {
   
 } from "@Routes";
 import { icons } from "@Assets";
-import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, IssueCreate, CompanyDetails, IssueDetails, AddReferenceTicket } from "@Modules";
+import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, IssueCreate, CompanyDetails, IssueDetails, AddReferenceTicket, AddTask, TaskDetails,} from "@Modules";
 import { getDashboard,setIsSync } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -101,6 +101,8 @@ function AdminDashboard() {
           <Route path={HOME_PATH.ADD_REFERENCE_TICKET} element={<AddReferenceTicket />} />
           <Route path={HOME_PATH.CREATE_BROAD_CAST} element={<CreateBroadCast />} />
           <Route path={HOME_PATH.ISSUE_TICKET} element={<IssueCreate />} />
+          <Route path={HOME_PATH.ADD_TASK} element={<AddTask />} />
+          <Route path={HOME_PATH.TASK_DETAILS} element={<TaskDetails />} />
           {/* <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} /> */}
           {/* <Route path={CREATE_BROAD_CAST.BROAD_CAST} element={<CreateBroadCast/>} /> */}
           {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}

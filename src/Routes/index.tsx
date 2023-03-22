@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast ,CreateTask,TaskDetails} from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast, Tasks } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -10,7 +10,6 @@ export const ROUTES = {
     OTP: "/otp",
     REGISTER: '/register',
     VIEW_GOOGLE_BUSINESS: '/view-google-business',
-
   },
   HOME: {
     Admin: "/admin/issues",
@@ -36,7 +35,9 @@ export const HOME_PATH = {
   ISSUE_DETAILS: "/issue-details",
   ADD_REFERENCE_TICKET: '/add-reference-ticket',
   ISSUE_TICKET: '/issue-ticket',
-  CREATE_BROAD_CAST: '/create-broad-cast'
+  CREATE_BROAD_CAST: '/create-broad-cast',
+  ADD_TASK: '/add-task',
+  TASK_DETAILS: '/task-details'
 }
 
 export const INFO = {
@@ -58,9 +59,6 @@ export const TAB_ISSUE_ATTACH_DETAILS = {
   TAB_ISSUE_USER_DETAILS: "/TabIssueReferenceDetails"
 }
 
-
-
-
 export const AUTH_ROUTES = [
 
   {
@@ -81,12 +79,10 @@ export const AUTH_ROUTES = [
   {
     key: 4,
     path: AUTH_PATH.SPLASH,
-    component: <TaskDetails />
+    component: <Splash />
   },
 
 ];
-
-
 
 export const ADMIN_ROUTES = [
   {
@@ -95,6 +91,13 @@ export const ADMIN_ROUTES = [
     icon: "ni ni-bell-55 text-red",
     layout: "/admin",
     component: <Issues />
+  },
+  {
+    path: "/tasks",
+    name: "Tasks",
+    icon: "bi bi-list-task text-primary",
+    layout: "/admin",
+    component: <Tasks />
   },
   {
     path: "/companies",
@@ -159,8 +162,6 @@ export const COMPANY_ROUTES = [
   },
 
 ];
-
-
 
 export * from "./RequireAuth";
 export * from "./RequireHome";

@@ -21,7 +21,7 @@ import {
     ifObjectExist,
     type,
     validate,
-    TICKET_PRIORITY,
+    PRIORITY,
     getDateAndTime
 } from "@Utils";
 import { useEffect, useState } from "react";
@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
 import moment from "moment";
 
-function CreateTask() {
+function AddTask() {
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
 
@@ -238,7 +238,7 @@ function CreateTask() {
                     <DropDown
                         selected={selectedTicketPriority.value}
                         heading={translate("common.ticketPriority")}
-                        data={TICKET_PRIORITY}
+                        data={PRIORITY}
                         onChange={selectedTicketPriority.onChange}
                     />
                     <DateTimePicker
@@ -288,4 +288,4 @@ function CreateTask() {
     );
 }
 
-export { CreateTask };
+export { AddTask };
