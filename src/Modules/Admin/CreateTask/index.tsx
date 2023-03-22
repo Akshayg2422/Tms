@@ -6,7 +6,7 @@ import {
     Radio,
     Dropzone,
     showToast,
-    DateTimePicker,
+    DateTimePicker, DateTimePickerProps,
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -27,6 +27,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
+import moment from "moment";
 
 function CreateTask() {
     const dispatch = useDispatch();
@@ -54,7 +55,7 @@ function CreateTask() {
     const selectedUser = useDropDown("");
     const selectedTicketPriority = useDropDown("");
     const isParent = useInput(false);
-
+    const [eta, setEta] = useState("")
 
 
     const handleImagePicker = (index: number, file: any) => {
@@ -72,10 +73,11 @@ function CreateTask() {
             brand_branch_id: selectedCompany?.id || "",
             assigned_to_id: selectedUser?.value?.id,
             priority: selectedTicketPriority?.value?.id,
-            ticket_attachments: [{ attachments: photo }],
-            is_parent: false,
-            eta_time: "2023-03-20T11:42",
+            task_attachments: [{ attachments: photo }],
+            is_parent: true,
+            eta_time: eta,
         };
+
 
         const validation = validate(CREATE_TICKET, params);
 
@@ -174,6 +176,10 @@ function CreateTask() {
         );
     }, [typeSelect, selectedCompany]);
 
+    const handleEtaChange = (value: any) => {
+        setEta(value);
+    };
+
     return (
         <div>
             <HomeContainer isCard title={translate("common.addTask")!}>
@@ -237,15 +243,11 @@ function CreateTask() {
                         onChange={selectedTicketPriority.onChange}
                     />
                     <DateTimePicker
-                        type={'both'}
-                        placeholder={'ETA'}
-                        dateFormat={getDateAndTime('')}
-                    />
-                    <Input
-                        type={"checkbox"}
-                        heading={translate("common.isParent")}
-                        value={isParent.value}
-                        onChange={isParent.onChange}
+                        id="eta-picker"
+                        heading="ETA"
+                        placeholder="Select ETA"
+                        type="both"
+                        onChange={handleEtaChange}
                     />
                 </div>
 
