@@ -16,14 +16,19 @@ import {
   getDesignationData,
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase } from "@Utils";
+import { convertToUpperCase, paginationHandler } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
 
 function Settings() {
   const dispatch = useDispatch();
-  const { departmentData, designationData } = useSelector(
+  const { departmentData, designationData,  departmentCurrentPages, departmentNumOfPages, designationCurrentPages,designationNumOfPages } = useSelector(
     (state: any) => state.AdminReducer
   );
+  // console.log(departmentData,"departmentData--------->");
+  // console.log(departmentNumOfPages,"departmentData--------->");
+  // console.log(departmentCurrentPages,"departmentData--------->");
+  console.log(departmentCurrentPages,"bbbbbbbbbcccccccccccc");
+  
 
   const [showDepartments, setShowDepartments] = useState(false);
   const [showDesignations, setShowDesignations] = useState(false);
@@ -33,34 +38,51 @@ function Settings() {
 
   const [department, setDepartment] = useState("");
   const [designation, setDesignation] = useState("");
+
   const dynamicHeight: any = useDynamicHeight()
 
 
-  const getDepartmentList = () => {
-    const params = {};
 
+  const getDepartmentList = (pageNumber: number) => {
+
+    const params = {
+      page_number: pageNumber
+    };
     dispatch(
       getDepartmentData({
         params,
         onSuccess: (success: any) => () => {
-          setShowDepartments(!showDepartments)
+          if(!showDepartments){
+           setShowDepartments(!showDepartments)
+          }
         },
         onError: (error: string) => () => {
 
         },
       })
     );
+    
   };
+  
 
-  const getDesignationList = () => {
+  const getDesignationList = (pageNumber: number) => {
+    console.log(pageNumber,"----------->");
+    
 
-    const params = {};
+    const params = {
+      page_number: pageNumber
+    };
 
     dispatch(
       getDesignationData({
         params,
         onSuccess: (success: any) => () => {
+
+          if(!showDesignations){
+           
+            
           setShowDesignations(!showDesignations)
+          }
         },
         onError: (error: string) => () => {
 
@@ -130,6 +152,14 @@ function Settings() {
     return data.map((el: any) => {
       return {
         name: el.name,
+        Admin:
+        <div className="d-flex justify-content-center ">
+        <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
+        </div>,
+       superAdmin: <div className="d-flex justify-content-center ">
+       <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
+       </div>,
+       edit:<i className="fas fa-pen"></i>,
       };
     });
   };
@@ -138,6 +168,15 @@ function Settings() {
     return data.map((el: any) => {
       return {
         name: el.name,
+         Admin:
+         <div className="d-flex justify-content-center ">
+         <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
+         </div>,
+        superAdmin: <div className="d-flex justify-content-center ">
+        <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
+        </div>,
+        edit:<i className="fas fa-pen"></i>,
+
       };
     });
   };
@@ -165,7 +204,8 @@ function Settings() {
                       size={"sm"}
                       onClick={() => {
                         if (!showDepartments) {
-                          getDepartmentList();
+                          
+                         getDepartmentList(departmentCurrentPages)
                         } else {
                           setShowDepartments(!showDepartments)
                         }
@@ -190,7 +230,27 @@ function Settings() {
                 >
                   {departmentData && departmentData?.length > 0 ? (
                     <CommonTable
-                      displayDataSet={normalizedDepartmentData(departmentData)} />) : (
+                    isPagination
+                    tableDataSet={departmentData}
+                    displayDataSet={normalizedDepartmentData(departmentData)}
+                    noOfPage={departmentNumOfPages}
+                    currentPage={departmentCurrentPages}
+                    paginationNumberClick={(currentPage) => {
+
+                        getDepartmentList(paginationHandler("current", currentPage));
+
+                      }}
+                      previousClick={() => {
+                        getDepartmentList(paginationHandler("prev", departmentCurrentPages))
+                      }
+                      }
+                      nextClick={() => {
+                        getDepartmentList(paginationHandler("next", departmentCurrentPages));
+                      }
+                      }
+
+
+                       />) : (
                     <div
                       className=" d-flex justify-content-center align-items-center"
                       style={{
@@ -198,7 +258,7 @@ function Settings() {
                       }}
                     >
                       <NoRecordsFound />
-                    </div>
+                     </div>
                   )}
                 </div>
               </Card>
@@ -221,7 +281,7 @@ function Settings() {
                       size={"sm"}
                       onClick={() => {
                         if (!showDesignations) {
-                          getDesignationList();
+                          getDesignationList(designationCurrentPages);
                         } else {
                           setShowDesignations(!showDesignations)
                         }
@@ -244,9 +304,26 @@ function Settings() {
                     margin: '0px -39px 0px -39px'
                   }}
                 >
-                  {designationData && designationData.data.length > 0 ? (
+                  {designationData && designationData?.length > 0 ? (
                     <CommonTable
-                      displayDataSet={normalizedDesignationData(designationData.data)}
+                    isPagination
+                    tableDataSet={designationData}
+                    displayDataSet={normalizedDesignationData(designationData)}
+                    noOfPage={designationNumOfPages}
+                    currentPage={designationCurrentPages}
+                    paginationNumberClick={(currentPage) => {
+
+                      getDesignationList(paginationHandler("current", currentPage));
+
+                      }}
+                      previousClick={() => {
+                        getDesignationList(paginationHandler("prev", designationCurrentPages))
+                      }
+                      }
+                      nextClick={() => {
+                        getDesignationList(paginationHandler("next", designationCurrentPages));
+                      }
+                      }
                     />
                   ) : (
                     <div
