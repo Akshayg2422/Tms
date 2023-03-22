@@ -243,7 +243,6 @@ function AddTask() {
                     />
                     <DateTimePicker
                         id="eta-picker"
-                        heading="ETA"
                         placeholder="Select ETA"
                         type="both"
                         onChange={handleEtaChange}
