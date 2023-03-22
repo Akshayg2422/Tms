@@ -25,6 +25,8 @@ function Thread() {
     const textMessage = useInput('')
 
     useEffect(() => {
+        console.log('calling proceedd api ==> calling');
+        
         ProceedGetTicketEvents()
     }, []);
 

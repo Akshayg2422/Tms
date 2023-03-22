@@ -25,6 +25,7 @@ import {
   ADD_BROADCAST_MESSAGES,
   GET_BROADCAST_MESSAGES,
   GET_TASKS,
+  FETCH_ADD_TASK,
 
   /**
    * setting
@@ -33,11 +34,12 @@ import {
   POST_ADD_DESIGNATION,
   FETCH_DESIGNATION,
   FETCH_DEPARTMENT,
+
 } from '../UrlHelper';
 
 export const getAssociatedCompaniesApi = payload =>
   post(GET_ASSOCIATED_COMPANIES, payload, {});
-  export const getAssociatedCompanieslApi = payload =>
+export const getAssociatedCompanieslApi = payload =>
   post(GET_ASSOCIATED_COMPANIESL, payload, {});
 
 export const getDashboardApi = payload => post(URL_GET_DASHBOARD, payload, {});
@@ -71,13 +73,15 @@ export const getEmployeesApi = payload =>
 
 export const addEmployeeApi = payload =>
   post(ADD_EMPLOYEE, payload, {})
-  export const getReferenceTicketsApi = payload =>
+export const getReferenceTicketsApi = payload =>
   post(GET_REFERENCE_TICKETS, payload, {})
 
-  export const addBroadCastMessagesApi = payload =>
+export const addBroadCastMessagesApi = payload =>
   post(ADD_BROADCAST_MESSAGES, payload, {})
-  export const getBroadCastMessagesApi = payload =>
+export const getBroadCastMessagesApi = payload =>
   post(GET_BROADCAST_MESSAGES, payload, {})
+  
+export const getAddTaskApi = payload => post(FETCH_ADD_TASK, payload, {})
 
 export const getTaskApi = (payload) => post(GET_TASKS, payload, {})
 

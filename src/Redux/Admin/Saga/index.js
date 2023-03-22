@@ -7,7 +7,8 @@ import {
   fetchDepartmentDataApi,
   getAssociatedCompanieslApi,
   fetchDesignationDataApi,
-  getTaskApi
+  getTaskApi,
+  getAddTaskApi,
 } from "@Services";
 import {
   GET_ASSOCIATED_BRANCH,
@@ -34,9 +35,11 @@ import {
   getDesignationDataSuccess,
   getDesignationDataFailure,
   GET_TASKS,
-  getTasks,
   getTasksSuccess,
-  getTasksFailure
+  getTasksFailure,
+  getAddTaskSuccess,
+  getAddTaskFailure,
+  ADD_TASK,
 } from "@Redux";
 
 function* getAssociatedCompaniesSaga(action) {
@@ -189,11 +192,13 @@ function* getDesignation(action) {
 
 function* getDepartments(action) {
   try {
+
     yield put(showLoader());
 
     const response = yield call(fetchDepartmentDataApi, action.payload.params);
 
     if (response.success) {
+    
       yield put(hideLoader());
       yield put(getDepartmentDataSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -217,9 +222,8 @@ function* getDepartments(action) {
  function* getTasksSaga(action) {
   try {
     yield put(showLoader());
-
     const response = yield call(getTaskApi, action.payload.params);
-console.log("-------->+",response)
+console.log("-------->",response)
     if (response.success) {
       yield put(hideLoader());
       yield put(getTasksSuccess(response));
@@ -232,6 +236,31 @@ console.log("-------->+",response)
   } catch (error) {
     yield put(hideLoader());
     yield put(getTasksFailure("Invalid Request"));
+    yield put(getAddTaskFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
+
+/* ADD TASK */
+
+function* getAddTaskSaga(action) {
+  console.log('1111111111111111111111111111');
+  try {
+    yield put(showLoader());
+    const response = yield call(getAddTaskApi, action.payload.params);
+console.log('2222222222222222',response);
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getAddTaskSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getAddTaskFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getAddTaskFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }
@@ -247,6 +276,7 @@ function* AdminSaga() {
   yield takeLatest(FETCH_DESIGNATION, getDesignation);
   yield takeLatest(FETCH_DEPARTMENT, getDepartments);
   yield takeLatest(GET_TASKS,getTasksSaga)
+  yield takeLatest(ADD_TASK, getAddTaskSaga);
 }
 
 export default AdminSaga;

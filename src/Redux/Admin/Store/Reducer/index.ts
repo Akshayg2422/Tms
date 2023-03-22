@@ -34,7 +34,10 @@ import {
 
   GET_TASKS,
   GET_TASKS_SUCCESS,
-  GET_TASKS_FAILURE
+  GET_TASKS_FAILURE,
+  ADD_TASK,
+  ADD_TASK_SUCCESS,
+  ADD_TASK_FAILURE,
 } from '../ActionTypes';
 
 import { AdminStateProp } from '../../Interfaces';
@@ -49,6 +52,10 @@ const initialState: AdminStateProp = {
   error: '',
   designationData: undefined,
   departmentData: undefined,
+  designationCurrentPages:undefined,
+  designationNumOfPages:undefined,
+  departmentCurrentPages:undefined,
+  departmentNumOfPages:undefined,
   companyDetailsSelected: undefined,
   referenceIssueSelectedDetails: undefined,
   selectedReferenceIssues: undefined,
@@ -56,8 +63,10 @@ const initialState: AdminStateProp = {
   tasks: undefined,
   tasksNumOfPages: undefined,
   tasksCurrentPages: 1,
+  addTask: undefined,
 
 };
+
 
 const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
   
@@ -158,13 +167,22 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     //get departments
 
     case FETCH_DEPARTMENT:
-      state = { ...state, loading: true };
+      state = { ...state,
+        departmentData: undefined,
+        departmentNumOfPages: 0,
+        departmentCurrentPages: 1,
+         loading: true };
       break;
     case FETCH_DEPARTMENT_SUCCESS:
       state = {
         ...state,
         loading: false,
-        departmentData: action.payload,
+        departmentData: action?.payload?.data,
+        departmentNumOfPages:action?.payload?.num_pages,
+        departmentCurrentPages:
+        action?.payload?.next_page === -1
+            ?action?.payload?.num_pages
+            :action?.payload?.next_page - 1,
       };
       break;
     case FETCH_DEPARTMENT_FAILURE:
@@ -178,13 +196,24 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     //get designations
 
     case FETCH_DESIGNATION:
-      state = { ...state, loading: true };
+   
+        state = { ...state,
+          designationData: undefined,
+          designationNumOfPages: 0,
+          designationCurrentPages: 1,
+           loading: true };
+       
       break;
     case FETCH_DESIGNATION_SUCCESS:
       state = {
         ...state,
         loading: false,
-        designationData: action.payload,
+        designationData: action?.payload?.data,
+        designationNumOfPages:action?.payload?.num_pages,
+        designationCurrentPages:
+        action?.payload?.next_page === -1
+            ?action?.payload?.num_pages
+            :action?.payload?.next_page - 1,
       };
       break;
     case FETCH_DESIGNATION_FAILURE:
@@ -252,6 +281,22 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     case GET_TASKS_FAILURE:
       state ={...state,tasks:undefined}
       break;  
+    /* ADD TASK */
+
+    case ADD_TASK:
+
+      state = { ...state, addTask: undefined };
+      break;
+
+    case ADD_TASK_SUCCESS:
+
+      state = { ...state, addTask: action.payload.details };
+      break;
+
+    case ADD_TASK_FAILURE:
+
+      state = { ...state, addTask: action.payload };
+      break;
 
     default:
       state = state;
@@ -264,3 +309,4 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
 
 };
 export { AdminReducer };
+

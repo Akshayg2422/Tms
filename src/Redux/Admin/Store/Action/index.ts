@@ -32,12 +32,16 @@ import {
 
   GET_TASKS,
   GET_TASKS_SUCCESS,
-  GET_TASKS_FAILURE
+  GET_TASKS_FAILURE,
+
+  ADD_TASK,
+  ADD_TASK_SUCCESS,
+  ADD_TASK_FAILURE,
 
 } from '../ActionTypes';
 
 export const RestoreAdmin = () => {
-  return { 
+  return {
     type: RESTORE_ADMIN,
 
 
@@ -236,25 +240,44 @@ export const referenceIssueDetails = (params) => {
 
 /* Tasks */
 
-export const getTasks = (params:any) =>{
-  return{
-    type :GET_TASKS,
+export const getTasks = (params: any) => {
+  return {
+    type: GET_TASKS,
     payload: params
   }
 }
 
-export const getTasksSuccess = (response:any) =>{
-  console.log("action--->",response)
-  return{
+export const getTasksSuccess = (response: any) => {
+  return {
 
-    type :GET_TASKS_SUCCESS,
+    type: GET_TASKS_SUCCESS,
     payload: response
   }
 }
 
-export const getTasksFailure = (error:any) =>{
-  return{
-    type :GET_TASKS_FAILURE,
+export const getTasksFailure = (error: any) => {
+  return {
+    type: GET_TASKS_FAILURE,
+    payload: error
+  }
+}
+
+/* CREATE TASK */
+export const getAddTask = (params: any) => {
+  return {
+    type: ADD_TASK,
+    payload: params
+  }
+}
+export const getAddTaskSuccess = (response: any) => {
+  return {
+    type: ADD_TASK_SUCCESS,
+    payload: response
+  }
+}
+export const getAddTaskFailure = (error: any) => {
+  return {
+    type: ADD_TASK_FAILURE,
     payload: error
   }
 }

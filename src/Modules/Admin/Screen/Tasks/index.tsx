@@ -175,9 +175,9 @@ function Tasks() {
           <div className="col text-right mt-5">
             <Button
               size={"sm"}
-              text={translate("common.createTicket")}
+              text={'Add Task'}
               onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
               }}
             />
           </div>

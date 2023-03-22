@@ -56,3 +56,7 @@ export const FETCH_DEPARTMENT = COMPANY + 'getDepartments';
 const SERVICE = '/service/';
 
 export const SECTOR_SERVICE_TYPES = SERVICE + 'getSectorServiceTypes';
+
+/* ADD TASK */
+
+export const FETCH_ADD_TASK = TASK + 'raiseNewTask'

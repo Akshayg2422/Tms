@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets } from "@Redux";
-import { Divider, Button, HomeContainer, Table, NoDataFound, } from "@Components";
+import { Divider, Button, HomeContainer, Table, NoDataFound, CommonTable, Input, } from "@Components";
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
@@ -14,8 +14,14 @@ function AddReferenceTicket() {
   const { selectedIssues } = useSelector(
     (state: any) => state.AdminReducer
   );
+
+
+
+  
   const [selectedIssueDetails, setSelectedIssueDetails] = useState<any>("");
+  const [isCheck,setIsCheck]=useState(false)
   const Search = useInput("");
+
 
   const submitHandler = () => {
     // dispatch(referenceIssueDetails(selectedIssueDetails));
@@ -73,7 +79,14 @@ function AddReferenceTicket() {
         status: getStatusFromCode(dashboardDetails, el.ticket_status),
         "assigned to": el?.assigned_to.name,
         phone: el.by_user?.phone,
-        email: el.by_user?.email
+        email: el.by_user?.email,
+        '':
+        <div className="d-flex justify-content-center from-check">
+        <Input className="form-check-input" type="checkbox" id="flexCheckChecked" 
+        onClick={( )=>{setIsCheck(true)}}
+        ></Input>
+        </div>,
+        
       };
     });
   };
@@ -120,13 +133,19 @@ function AddReferenceTicket() {
         </div>
       </div>
       <div>
-        <div className="m-4">
+        <div className="m-3">
           <div className="row justify-content-center">
-            <div className="col">
-              <HomeContainer isCard title={'Reference Tickets'}>
-                {tickets && tickets?.data.length > 0 ? <Table tableDataSet={tickets?.data} displayDataSet={normalizedTableData(tickets?.data)} /> : <NoDataFound />}
-              </HomeContainer>
-            </div>
+          
+  
+                {tickets && tickets?.length > 0 ? <CommonTable title={'Reference Tickets'} tableDataSet={tickets} displayDataSet={normalizedTableData(tickets)}
+               tableOnClick={(idx, index, item)=>{
+                  if(isCheck){
+                  onSelectedTickets(item)
+                  }
+                }}
+                /> : <NoDataFound />}
+             
+       
           </div>
         </div>
       </div>

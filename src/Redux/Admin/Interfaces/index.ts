@@ -17,4 +17,9 @@ export interface AdminStateProp {
   tasks:any
   tasksNumOfPages:any,
   tasksCurrentPages:any
+  designationCurrentPages:any,
+  designationNumOfPages:any,
+  departmentCurrentPages:any,
+  departmentNumOfPages:any,
+  addTask:any,
 }

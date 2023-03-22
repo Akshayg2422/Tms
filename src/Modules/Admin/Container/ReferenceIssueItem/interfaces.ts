@@ -1,5 +1,5 @@
 export interface ReferenceIssueItemProps {
-    item: any
+    item?: any
     id?:any
     // onClick?:()=>void
     value?:string

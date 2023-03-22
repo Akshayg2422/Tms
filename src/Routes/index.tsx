@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket,Tasks, OtherTicket, Broadcast } from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket,Tasks, OtherTicket, Broadcast,AddTask } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 

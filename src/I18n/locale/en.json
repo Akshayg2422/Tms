@@ -66,8 +66,9 @@
     "ticketStatus": "Ticket status",
     "taskName":"Task Name",
     "filterTasks": "Filter tasks",
-    "taskStatus": "Task status"
-
+    "taskStatus": "Task status",
+    "addTask": "Add Task",
+    "isParent": "IsParent"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
