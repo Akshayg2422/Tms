@@ -54,7 +54,6 @@ function CreateTask() {
     const description = useInput("");
     const selectedUser = useDropDown("");
     const selectedTicketPriority = useDropDown("");
-    const isParent = useInput(false);
     const [eta, setEta] = useState("")
 
 
