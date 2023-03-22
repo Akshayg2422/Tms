@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast ,CreateTask} from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast ,CreateTask,TaskDetails} from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -81,7 +81,7 @@ export const AUTH_ROUTES = [
   {
     key: 4,
     path: AUTH_PATH.SPLASH,
-    component: <CreateTask />
+    component: <TaskDetails />
   },
 
 ];

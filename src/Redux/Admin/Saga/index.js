@@ -33,7 +33,6 @@ import {
   FETCH_DESIGNATION,
   getDesignationDataSuccess,
   getDesignationDataFailure,
-  getAddTask,
   getAddTaskSuccess,
   getAddTaskFailure,
   ADD_TASK,
