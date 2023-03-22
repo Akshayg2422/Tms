@@ -140,12 +140,8 @@ function AddReferenceTicket() {
                 {tickets && tickets?.length > 0 ? <CommonTable title={'Reference Tickets'} tableDataSet={tickets} displayDataSet={normalizedTableData(tickets)}
                tableOnClick={(idx, index, item)=>{
                   if(isCheck){
-
                   onSelectedTickets(item)
-                 
                   }
-                  
-                  
                 }}
                 /> : <NoDataFound />}
              
