@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast ,CreateTask} from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket,Tasks, OtherTicket, Broadcast,AddTask } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -36,7 +36,8 @@ export const HOME_PATH = {
   ISSUE_DETAILS: "/issue-details",
   ADD_REFERENCE_TICKET: '/add-reference-ticket',
   ISSUE_TICKET: '/issue-ticket',
-  CREATE_BROAD_CAST: '/create-broad-cast'
+  CREATE_BROAD_CAST: '/create-broad-cast',
+  ADD_TASK: '/add-task'
 }
 
 export const INFO = {
@@ -81,7 +82,7 @@ export const AUTH_ROUTES = [
   {
     key: 4,
     path: AUTH_PATH.SPLASH,
-    component: <CreateTask />
+    component: <Splash />
   },
 
 ];
@@ -95,6 +96,13 @@ export const ADMIN_ROUTES = [
     icon: "ni ni-bell-55 text-red",
     layout: "/admin",
     component: <Issues />
+  },
+  {
+    path: "/tasks",
+    name: "Tasks",
+    icon: "bi bi-list-task text-primary",
+    layout: "/admin",
+    component: <Tasks />
   },
   {
     path: "/companies",

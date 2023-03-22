@@ -1,44 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTickets, otpLoginFailure, setIsSync } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable } from "@Components";
+import { getTasks, setIsSync } from "@Redux";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_LIST,STATUS_LIST,PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE, COMPANY } from "@Utils";
+import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE, COMPANY } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
 
 
-function Issues() {
+function Tasks() {
   const { goTo } = useNavigation();
   const { dashboardDetails, } = useSelector((state: any) => state.AdminReducer);
-  const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.CompanyReducer);
+  const { tasks,tasksNumOfPages,tasksCurrentPages } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
-  const filteredTickets = useDropDown(FILTERED_LIST[0])
-  const ticketStatus = useDropDown(STATUS_LIST[0])
-  const ticketPriorty = useDropDown({})
+  const filteredTasks = useDropDown(FILTERED_LIST[0])
+  const taskStatus = useDropDown(STATUS_LIST[0])
+  const taskPriorty = useDropDown({})
+  const internal = useDropDown({})
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
   useEffect(() => {
-    if (!isSync.issues) {
-      getTicketHandler(ticketCurrentPages)
+    if (!isSync.tasks) {
+      getTaskHandler(tasksCurrentPages)
     }
   }, [isSync])
+  
 
+  console.log("==========",tasks,tasksNumOfPages,tasksCurrentPages )
 
-  const getTicketHandler = (pageNumber: number) => {
+  const getTaskHandler = (pageNumber: number) => {
 
     const params = {
       q: "",
       q_many: search.value,
-      tickets_by: filteredTickets?.value.id,
-      ticket_status: ticketStatus?.value.id,
-      page_number: pageNumber
+      // tickets_by: filteredTickets?.value.id,
+      // ticket_status: ticketStatus?.value.id,
+       page_number: pageNumber
     };
     dispatch(
-      getTickets({
+      getTasks({
         params,
         onSuccess: () => () => {
           setSyncTickets(true)
@@ -52,17 +55,15 @@ function Issues() {
     dispatch(
       setIsSync({
         ...isSync,
-        issues: sync,
+        tasks: sync,
       })
     );
   }
 
-  function proceedTickerSearch() {
+  function proceedTaskSearch() {
     setSyncTickets()
-    getTicketHandler(SEARCH_PAGE)
+    getTaskHandler(SEARCH_PAGE)
   }
-
-  console.log("Priorty",ticketPriorty.value)
 
   function Priority({ priority }) {
     const color = getObjectFromArrayByKey(PRIORITY, 'id', priority).color
@@ -78,11 +79,11 @@ function Issues() {
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
-        issue: el.title,
-        attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company.attachment_logo)} />,
-        "raised by": el?.by_user.name,
+        issue: el?.title,
+       attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} />,
+        "raised by": el?.by_user?.name,
         "priority": <Priority priority={el?.priority} />,
-        status: getStatusFromCode(dashboardDetails, el.ticket_status),
+        status: getStatusFromCode(dashboardDetails, el?.task_status),
         "assigned to": el?.assigned_to?.name,
         'phone': el?.raised_by_company?.phone,
         'email': el?.raised_by_company?.email,
@@ -94,12 +95,13 @@ function Issues() {
 
 
 
+
   return (
     <>
       <HomeContainer isCard >
         <div className="row mt-3">
           <div className="col-lg-4  col-md-3 col-sm-12">
-            <InputHeading heading={translate("common.issueName")} />
+            <InputHeading heading={translate("common.taskName")} />
             <div className="input-group bg-white border">
               <input
                 type="text"
@@ -110,7 +112,7 @@ function Issues() {
               />
               <span
                 className="input-group-text  border border-0"
-                onClick={proceedTickerSearch}
+                onClick={proceedTaskSearch}
                 style={{ cursor: "pointer" }}
               >
                 <i className="fas fa-search" />
@@ -121,12 +123,12 @@ function Issues() {
 
           <div className="col-lg-4 col-md-3 col-sm-12 ">
             <DropDown
-              heading={translate("common.filterTickets")}
-              selected={filteredTickets.value}
+              heading={translate("common.filterTasks")}
+              selected={filteredTasks.value}
               data={FILTERED_LIST}
-              value={filteredTickets.value}
+              value={filteredTasks.value}
               onChange={(item) => {
-                filteredTickets.onChange(item)
+                filteredTasks.onChange(item)
                 setSyncTickets()
               }}
             />
@@ -134,13 +136,13 @@ function Issues() {
 
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-              heading={translate("common.ticketStatus")}
+              heading={translate("common.taskStatus")}
               data={STATUS_LIST}
-              selected={ticketStatus.value}
-              value={ticketStatus.value}
+              selected={taskStatus.value}
+              value={taskStatus.value}
               onChange={(item) => {
                 console.log(item)
-                ticketStatus.onChange(item)
+                taskStatus.onChange(item)
                 setSyncTickets()
               }}
             />
@@ -149,22 +151,22 @@ function Issues() {
             <DropDown
               heading={'Priorty'}
               data={PRIORITY}
-              selected={ticketPriorty.value}
-              value={ticketPriorty.value}
+              selected={taskPriorty.value}
+              value={taskPriorty.value}
               onChange={(item) => {
-                ticketPriorty.onChange(item)
+                taskPriorty.onChange(item)
                 setSyncTickets()
               }}
             />
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-              heading={'internal'}
+              heading={'Company'}
               data={COMPANY}
-              selected={ticketStatus.value}
-              value={ticketStatus.value}
+              selected={internal.value}
+              value={internal.value}
               onChange={(item) => {
-                ticketStatus.onChange(item)
+                internal.onChange(item)
                 setSyncTickets()
               }}
             />
@@ -173,36 +175,37 @@ function Issues() {
           <div className="col text-right mt-5">
             <Button
               size={"sm"}
-              text={translate("common.createTicket")}
+              text={'Add Task'}
               onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
               }}
             />
           </div>
         </div>
       </HomeContainer>
 
-      {tickets && tickets.length > 0 &&
+
+      {tasks && tasks.data.length > 0 ?
         <>
 
           <CommonTable
             isPagination
-            title="Issue"
-            tableDataSet={tickets}
-            displayDataSet={normalizedTableData(tickets)}
-            noOfPage={ticketNumOfPages}
-            currentPage={ticketCurrentPages}
+            title="Tasks"
+            tableDataSet={tasks.data}
+            displayDataSet={normalizedTableData(tasks.data)}
+           noOfPage={tasksNumOfPages}
+           currentPage={tasksCurrentPages}
             paginationNumberClick={(currentPage) => {
-              getTicketHandler(paginationHandler("current", currentPage));
+              getTaskHandler(paginationHandler("current", currentPage));
             }}
             previousClick={() => {
-              getTicketHandler(paginationHandler("prev", ticketCurrentPages))
+              getTaskHandler(paginationHandler("prev", tasksCurrentPages))
             }
             }
             nextClick={() => {
-              getTicketHandler(paginationHandler("next", ticketCurrentPages));
+              getTaskHandler(paginationHandler("next", tasksCurrentPages));
             }
-            }
+           }
             tableOnClick={(idx, index, item) => {
               dispatch(setSelectedIssues(item));
               dispatch(setSelectedReferenceIssues(undefined))
@@ -211,10 +214,11 @@ function Issues() {
             }
           />
         </>
+        : <NoDataFound/>
       }
 
     </>
   );
 }
 
-export { Issues };
+export { Tasks };

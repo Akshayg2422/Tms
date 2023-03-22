@@ -4,6 +4,7 @@ export * from './Auth'
 export * from './Admin'
 export * from './Website'
 export * from './Firebase'
+export * from './Task'
 
 
 

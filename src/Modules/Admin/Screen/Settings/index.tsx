@@ -159,7 +159,7 @@ function Settings() {
        superAdmin: <div className="d-flex justify-content-center ">
        <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
        </div>,
-       edit:<i className="fas fa-pen"></i>,
+       edit:<i className="bi bi-pencil"></i>,
       };
     });
   };
@@ -175,7 +175,7 @@ function Settings() {
         superAdmin: <div className="d-flex justify-content-center ">
         <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
         </div>,
-        edit:<i className="fas fa-pen"></i>,
+        edit:<i className="bi bi-pencil "></i>,
 
       };
     });

@@ -9,19 +9,15 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, sel
     // const [selected, setSelected] = useState<Option | undefined>(value);
 
     function proceedOnChange(e: any) {
-
         const selectedId = e.target.value
-
         if (onChange) {
             const selectedItemById = data?.find((option: Option) => {
                 return option.id == selectedId
             })
-
             if (selectedItemById) {
                 onChange(selectedItemById)
                 // setSelected(selectedItemById)
             }
-
         }
 
     }
