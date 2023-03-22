@@ -184,11 +184,13 @@ function* getDesignation(action) {
 
 function* getDepartments(action) {
   try {
+
     yield put(showLoader());
 
     const response = yield call(fetchDepartmentDataApi, action.payload.params);
 
     if (response.success) {
+    
       yield put(hideLoader());
       yield put(getDepartmentDataSuccess(response.details));
       yield call(action.payload.onSuccess(response));

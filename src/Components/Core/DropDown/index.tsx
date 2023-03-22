@@ -14,7 +14,7 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, sel
 
         if (onChange) {
             const selectedItemById = data?.find((option: Option) => {
-                return option.id === selectedId
+                return option.id == selectedId
             })
 
             if (selectedItemById) {

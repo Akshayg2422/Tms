@@ -22,7 +22,7 @@ function Companies() {
     }
   }, [isSync])
 
-console.log('associatedCompanies',associatedCompanies);
+
 
   const getAssociatedCompaniesHandler = (pageNumber: number) => {
 

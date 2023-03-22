@@ -15,15 +15,13 @@ function AddReferenceTicket() {
     (state: any) => state.AdminReducer
   );
 
-  console.log(tickets ,"tickets ===========>");
-  console.log( dashboardDetails ,"tickets ===========>");
-  console.log(selectedIssues ,"tickets ===========>");
+
 
   
   const [selectedIssueDetails, setSelectedIssueDetails] = useState<any>("");
   const [isCheck,setIsCheck]=useState(false)
   const Search = useInput("");
-console.log(isCheck,"===========================>");
+
 
   const submitHandler = () => {
     // dispatch(referenceIssueDetails(selectedIssueDetails));
@@ -85,7 +83,7 @@ console.log(isCheck,"===========================>");
         '':
         <div className="d-flex justify-content-center from-check">
         <Input className="form-check-input" type="checkbox" id="flexCheckChecked" 
-        onClick={()=>{setIsCheck(true)}}
+        onClick={( )=>{setIsCheck(true)}}
         ></Input>
         </div>,
         
@@ -144,8 +142,7 @@ console.log(isCheck,"===========================>");
                   if(isCheck){
 
                   onSelectedTickets(item)
-                  console.log(item,":naveen");
-                  
+                 
                   }
                   
                   
