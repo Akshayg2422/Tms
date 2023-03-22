@@ -222,7 +222,7 @@ function AddTask() {
 
                     {typeSelect && typeSelect?.id === "1" && (
                         <DropDown
-                            heading={translate("common.company")}
+                            placeHolder={translate("common.company")!}
                             data={modifiedCompanyDropDownData}
                             onChange={setSelectedCompany}
                             selected={selectedCompany}
@@ -231,13 +231,13 @@ function AddTask() {
 
                     <DropDown
                         selected={selectedUser.value}
-                        heading={translate("common.user")}
+                        placeHolder={translate("common.user")!}
                         data={companyUserDashboard}
                         onChange={selectedUser.onChange}
                     />
                     <DropDown
                         selected={selectedTicketPriority.value}
-                        heading={translate("common.ticketPriority")}
+                        placeHolder={translate("common.taskPriority")!}
                         data={PRIORITY}
                         onChange={selectedTicketPriority.onChange}
                     />
@@ -252,7 +252,7 @@ function AddTask() {
 
                 <div className="pl-3">
                     <label className={`form-control-label`}>
-                        {translate("auth.attach")}
+                        {'Add Attachment'}
                     </label>
                 </div>
 
