@@ -6,7 +6,7 @@ import {
     Radio,
     Dropzone,
     showToast,
-    DateTimePicker, DateTimePickerProps,
+    DateTimePicker,
 } from "@Components";
 import { translate } from "@I18n";
 import {
