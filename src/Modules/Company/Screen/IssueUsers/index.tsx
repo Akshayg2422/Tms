@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Card, Divider, HomeContainer, NoDataFound, Table } from "@Components";
+import { Card, CommonTable, Divider, HomeContainer, NoDataFound, Table } from "@Components";
 import { UserItem } from "@Modules";
 import { getEmployees } from "@Redux";
 
@@ -14,11 +14,11 @@ function IssueUsers() {
   useEffect(() => {
 
     const params = {
-
       branch_id: selectedReferenceIssues
         ? selectedReferenceIssues.raised_by_company?.branch_id
         : selectedIssues.raised_by_company?.branch_id,
     };
+
 
     dispatch(
       getEmployees({
@@ -31,23 +31,20 @@ function IssueUsers() {
 
 
   const normalizedTableData = (employees: any) => {
-    return employees.map((el: any) => {
-      return {
-        name: el?.name,
-        phone: el?.mobile_number,
-        email: el?.email
-      };
-    });
+    if (employees && employees.length > 0)
+      return employees.map((el: any) => {
+        return {
+          name: el?.name,
+          phone: el?.mobile_number,
+          email: el?.email
+        };
+      });
   };
 
   return (
-
-    <HomeContainer isCard title={"Employee Details"}>
-      {
-        employees && employees?.length > 0 && <Table tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
-      }
-    </HomeContainer>
-
+    <div className="my-3">
+      <CommonTable title={"Employee Details"} tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
+    </div>
   );
 }
 export { IssueUsers };

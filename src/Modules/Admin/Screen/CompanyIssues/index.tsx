@@ -5,6 +5,7 @@ import { getTickets } from '@Redux';
 import { CommonTable, NoDataFound } from '@Components';
 import { setIsSync } from '@Redux'
 import { getStatusFromCode } from '@Utils';
+import { t } from 'i18n-js';
 function CompanyIssues() {
 
   const dispatch = useDispatch();
@@ -30,24 +31,23 @@ function CompanyIssues() {
 
 
   const normalizedTableData = (data: any) => {
-    return data.map((el: any) => {
-      return {
-        issue: el.title,
-        "raised by": el?.by_user.name,
-        status: getStatusFromCode(dashboardDetails, el.ticket_status),
-        "assigned to": el?.assigned_to.name,
-        phone: el.by_user?.phone,
-        email: el.by_user?.email
-      };
-    });
+    if (data && data.length > 0)
+      return data.map((el: any) => {
+        return {
+          issue: el.title,
+          "raised by": el?.by_user.name,
+          status: getStatusFromCode(dashboardDetails, el.ticket_status),
+          "assigned to": el?.assigned_to?.name,
+          phone: el.by_user?.phone,
+          email: el.by_user?.email
+        };
+      });
   };
 
   return (
-    <>
-      {
-        tickets && tickets?.length > 0 ? < CommonTable  displayDataSet={normalizedTableData(tickets)} /> : <NoDataFound />
-      }
-    </>
+    <div className='my-3'>
+      <CommonTable title={'Issue'} displayDataSet={normalizedTableData(tickets)} />
+    </div>
 
   )
 }

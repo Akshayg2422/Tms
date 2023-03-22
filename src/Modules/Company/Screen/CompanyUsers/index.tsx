@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Table, Button } from '@Components'
+import { Card, Table, Button, CommonTable } from '@Components'
 import { getEmployees } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { HOME_PATH } from '@Routes'
@@ -40,11 +40,9 @@ function CompanyUsers() {
             <div className='text-right mt--3'>
                 <Button text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_USER) }} />
             </div>
-            <Card className='mt-3 py-2'>
-                {
-                    employees && employees.length > 0 && <Table tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
-                }
-            </Card>
+            <div className='mx--3 mt-3'>
+                <CommonTable title='User' tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
+            </div>
         </div>
     )
 }

@@ -23,12 +23,11 @@ function Companies() {
   }, [isSync])
 
 
-
   const getAssociatedCompaniesHandler = (pageNumber: number) => {
-
     const params = {
       page_number: pageNumber
     };
+
     dispatch(
       getAssociatedBranch({
         params,
@@ -76,7 +75,7 @@ function Companies() {
       </HomeContainer>
 
       <>
-        {associatedCompanies && associatedCompanies?.length > 0 ?
+        {associatedCompanies && associatedCompanies?.length > 0 &&
           <CommonTable
             isPagination
             title={'Companies'}
@@ -96,11 +95,10 @@ function Companies() {
             }
             }
             tableOnClick={(idx, index, item) => {
-              console.log(item,'uuuuuuuuuuuuuuuuu');
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
               dispatch(companySelectedDetails(item));
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
 
-            }} /> : <NoDataFound />}
+            }} />}
       </>
     </>
   );

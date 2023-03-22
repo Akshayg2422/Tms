@@ -47,7 +47,9 @@
         "createCompany":"நிறுவனம் உருவாக்கு",
         "company": "நிறுவனம்",
         "user":"பயனர்",
-        "ticketPriority":"டிக்கெட்முன்னுரிமை"
+        "ticketPriority":"டிக்கெட்முன்னுரிமை",
+        "addTask":"பணியைச் சேர்க்கவும்",
+        "isParent":"பெற்றோர்"
         
     },
     "errors": {
