@@ -68,7 +68,8 @@
     "filterTasks": "Filter tasks",
     "taskStatus": "Task status",
     "addTask": "Add Task",
-    "isParent": "IsParent"
+    "isParent": "IsParent",
+    "addSubTask": "Add SubTask"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
