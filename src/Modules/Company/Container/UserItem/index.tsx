@@ -11,7 +11,6 @@ function UserItem({ item }: UserItemProps) {
       <div className="container-fluid ">
         <div className="row ml-sm-0 ml--4">
 
-       
         <div className=" col-lg-6 col-sm-0 col-7 ">
           <h4 className="text-uppercase mb-0"> {name} </h4>
         </div>

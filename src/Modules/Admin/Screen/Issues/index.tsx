@@ -21,7 +21,11 @@ function Issues() {
   const ticketPriorty = useDropDown({})
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
+  
+
   useEffect(() => {
+   
+    
     if (!isSync.issues) {
       getTicketHandler(ticketCurrentPages)
     }
@@ -211,6 +215,7 @@ function Issues() {
             }
           />
         </>
+
       }
 
     </>
