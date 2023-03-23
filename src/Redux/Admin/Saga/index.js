@@ -223,7 +223,6 @@ function* getDepartments(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskApi, action.payload.params);
-console.log("-------->",response)
     if (response.success) {
       yield put(hideLoader());
       yield put(getTasksSuccess(response));
@@ -236,7 +235,6 @@ console.log("-------->",response)
   } catch (error) {
     yield put(hideLoader());
     yield put(getTasksFailure("Invalid Request"));
-    yield put(getAddTaskFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }
@@ -244,11 +242,9 @@ console.log("-------->",response)
 /* ADD TASK */
 
 function* getAddTaskSaga(action) {
-  console.log('1111111111111111111111111111');
   try {
     yield put(showLoader());
     const response = yield call(getAddTaskApi, action.payload.params);
-console.log('2222222222222222',response);
     if (response.success) {
       yield put(hideLoader());
       yield put(getAddTaskSuccess(response.details));

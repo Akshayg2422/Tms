@@ -11,6 +11,9 @@ export * from './HomeContainer'
 export * from './FilePicker'
 export * from './Tabs'
 export * from './NoDataFound'
+export * from './Priorty'
+export * from './Status'
+
 
 
 

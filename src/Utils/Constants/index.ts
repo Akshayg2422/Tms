@@ -56,20 +56,20 @@ export const EVS = 'EVS'
 export const RTS = 'RTS'
 
 export const FILTERED_LIST = [
-  { id: 'all', text: 'All' },
+  { id: 'ALL', text: 'All' },
   { id: 'created_by', text: 'Created' },
   { id: 'assigned_to', text: 'Assigned' },
   { id: 'tagged_to', text: 'Tagged' }
 ];
 
 export const STATUS_LIST = [
-  { id: 'ALL', text: 'All' },
-  { id: 'RAI', text: 'Raised' },
-  { id: 'INP', text: 'In-Prograss' },
-  { id: 'CAN', text: 'Cancel' },
-  { id: "CLS", text: 'Close' },
-  { id: 'ONH', text: 'On-Hold' },
-  { id: 'REJ', text: 'Reject' }
+  { id: 'ALL', text: 'All', },
+  { id: 'RAI', text: 'Raised', color:"gray"  },
+  { id: 'INP', text: 'In-Progress', color:"yellow"  },
+  { id: 'CAN', text: 'Cancel' ,color:"red"},
+  { id: "CLS", text: 'Close' ,color:"red"  },
+  { id: 'ONH', text: 'On-Hold' ,color:"black"  },
+  { id: 'REJ', text: 'Reject' ,color:"red" }
 
 ]
 
@@ -83,8 +83,8 @@ export const PRIORITY = [
 ];
 
 export const COMPANY = [
-  {id:1,text:"Extenal"},
-  {id:2,text:"Internal"}
+  {id:'external',text:"External"},
+  {id:'',text:"Internal"},
 ]
 
 

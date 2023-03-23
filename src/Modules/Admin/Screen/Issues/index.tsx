@@ -6,8 +6,9 @@ import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_LIST,STATUS_LIST,PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE, COMPANY } from "@Utils";
+import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE, COMPANY } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
+import { icons } from "@Assets";
 
 
 function Issues() {
@@ -19,6 +20,7 @@ function Issues() {
   const filteredTickets = useDropDown(FILTERED_LIST[0])
   const ticketStatus = useDropDown(STATUS_LIST[0])
   const ticketPriorty = useDropDown({})
+  const company = useDropDown({})
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
   useEffect(() => {
@@ -35,6 +37,8 @@ function Issues() {
       q_many: search.value,
       tickets_by: filteredTickets?.value.id,
       ticket_status: ticketStatus?.value.id,
+      company: company.value.id ? company.value.id : 'ALL',
+      priority:ticketPriorty.value.id ? ticketPriorty.value.id:"ALL",
       page_number: pageNumber
     };
     dispatch(
@@ -46,6 +50,7 @@ function Issues() {
         onError: () => () => { },
       })
     );
+    console.log("params", params)
   };
 
   function setSyncTickets(sync = false) {
@@ -62,32 +67,64 @@ function Issues() {
     getTicketHandler(SEARCH_PAGE)
   }
 
-  console.log("Priorty",ticketPriorty.value)
+  console.log("Priorty", ticketPriorty.value)
 
   function Priority({ priority }) {
     const color = getObjectFromArrayByKey(PRIORITY, 'id', priority).color
-    return <div className="row mb-0 align-items-center">
+    return <div className="row m-0 justify-content-center align-items-center">
       <div style={{
         height: 10, width: 10, borderRadius: 5, background: color
       }}>
       </div>
-      <span className="ml-2">{getObjectFromArrayByKey(PRIORITY, 'id', priority).text}</span>
+      <span className="ml-2">{/* {getObjectFromArrayByKey(PRIORITY, 'id', priority).text} */}</span>
     </div>
   }
+
+  function Status({ status }) {
+    const color = getObjectFromArrayByKey(STATUS_LIST, 'id', status).color
+    return <div className="">
+      <span style={{color:color}} className="">{getObjectFromArrayByKey(STATUS_LIST, 'id', status).text} </span>
+    </div>
+  }
+
 
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
+        "": <Priority priority={el?.priority} />,
         issue: el.title,
-        attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company.attachment_logo)} />,
-        "raised by": el?.by_user.name,
-        "priority": <Priority priority={el?.priority} />,
-        status: getStatusFromCode(dashboardDetails, el.ticket_status),
-        "assigned to": el?.assigned_to?.name,
-        'phone': el?.raised_by_company?.phone,
-        'email': el?.raised_by_company?.email,
-        company: el?.raised_by_company?.display_name,
-        address: el?.raised_by_company?.address
+        attchments:
+          <div className="avatar-group" style={{
+            width: '130px'
+          }}>
+            {
+              el?.ticket_attachments &&
+              el?.ticket_attachments.length > 0 && el?.ticket_attachments.map((item) => {
+
+                return <a className="avatar avatar-md">
+                     <Image
+                        variant={'avatar'}
+                         src={getPhoto(item?.attachment_file)} />
+                </a>
+              })
+            }
+
+          </div>,
+
+        "raised by": <>
+          <div> {el?.by_user?.name} </div>
+          <div> {el?.by_user?.phone} </div>
+          <div>{el?.by_user?.email} </div>
+        </>,
+        "raised to": < >
+          {/* <div> <Image variant={'avatar'} src={getPhoto(el?.raised_by_company.attachment_logo)} /> </div> */}
+          <div>{el?.assigned_to?.name}</div>
+          <div>{el?.raised_by_company?.phone} </div>
+          <div>{el?.raised_by_company?.email} </div>
+          <div>{el?.raised_by_company?.display_name}</div>
+          <div>{el?.raised_by_company?.address}</div>
+        </>,
+        status: getStatusFromCode(dashboardDetails, el.ticket_status)
       };
     });
   };
@@ -159,12 +196,12 @@ function Issues() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-              heading={'internal'}
+              heading={'Company'}
               data={COMPANY}
-              selected={ticketStatus.value}
-              value={ticketStatus.value}
+              selected={company.value}
+              value={company.value}
               onChange={(item) => {
-                ticketStatus.onChange(item)
+                company.onChange(item)
                 setSyncTickets()
               }}
             />
