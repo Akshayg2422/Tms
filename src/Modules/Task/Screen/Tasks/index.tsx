@@ -70,13 +70,13 @@ function Tasks() {
       return {
         "task": <div className="row m-0" style={{ width: "230px" }}> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
         "task attachments":
-          <div className=" m-0" style={{
+          <div className="avatar-group m-0" style={{
             width: '100px'
           }}>
             {
               el?.task_attachments &&
               el?.task_attachments.length > 0 && el?.task_attachments.map((item) => {
-                return <a className="avatar avatar-md">
+                return <a className=" avatar-md">
                   <Image
                     variant={'rounded'}
                     src={getPhoto(item?.attachment_file)} />
