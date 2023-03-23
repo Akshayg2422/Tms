@@ -146,7 +146,7 @@ function IssueCreate() {
 
   useEffect(() => {
     const params = {
-      branch_id:
+      ticket_id:
         typeSelect?.id === "2"
           ? dashboardDetails?.permission_details?.branch_id
           : selectedCompany?.id || "",

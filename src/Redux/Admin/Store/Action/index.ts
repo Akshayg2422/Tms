@@ -49,7 +49,7 @@ export const RestoreAdmin = () => {
 };
 
 export const getAssociatedBranch = (params: any) => {
-  console.log(params, "jjjjjjjjjjjjjj");
+  
 
   return {
     type: GET_ASSOCIATED_BRANCH,
@@ -115,7 +115,6 @@ export const getDashboardFailure = (error: any) => {
  */
 
 export const setSelectedIssues = (response: any) => {
-
   return {
     type: SET_SELECTED_ISSUES,
     payload: response,
