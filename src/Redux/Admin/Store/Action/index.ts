@@ -26,6 +26,22 @@ import {
   FETCH_DESIGNATION,
   FETCH_DESIGNATION_SUCCESS,
   FETCH_DESIGNATION_FAILURE,
+
+  GET_BRAND_SECTOR,
+  GET_BRAND_SECTOR_SUCCESS,
+  GET_BRAND_SECTOR_FAILURE,
+  GET_TICKET_TAG,
+  GET_TICKET_TAG_SUCCESS,
+  GET_TICKET_TAG_FAILURE,
+  ADD_BRAND_SECTOR,
+  ADD_BRAND_SECTOR_SUCCESS,
+  ADD_BRAND_SECTOR_FAILURE,
+  ADD_TICKET_TAG,
+  ADD_TICKET_TAG_SUCCESS,
+  ADD_TICKET_TAG_FAILURE,
+
+
+
   COMPANY_SELECTED_DETAILS,
   REFERENCE_ISSUE_DETAILS,
   RESTORE_ADMIN,
@@ -278,3 +294,97 @@ export const getAddTaskFailure = (error: any) => {
     payload: error
   }
 }
+
+
+/**
+ * add department
+ */
+export const addBrandSector = (params) => {
+  return {
+    type: ADD_BRAND_SECTOR,
+    payload: params,
+  };
+};
+
+export const addBrandSectorSuccess = (response) => {
+  return {
+    type: ADD_BRAND_SECTOR_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addBrandSectorFailure = (error) => {
+  return {
+    type: ADD_BRAND_SECTOR_FAILURE,
+    payload: error,
+  };
+};
+/**
+ * add designation
+ */
+export const addTicketTag = (params) => {
+  return {
+    type: ADD_TICKET_TAG,
+    payload: params,
+  };
+};
+
+export const addTicketTagSuccess = (response) => {
+  return {
+    type: ADD_TICKET_TAG_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addTicketTagFailure = (error) => {
+  return {
+    type: ADD_TASK_FAILURE,
+    payload: error,
+  };
+};
+//get designation
+
+export const getBrandSector = (params) => {
+  return {
+    type: GET_BRAND_SECTOR,
+    payload: params,
+  };
+};
+
+export const getBrandSectorSuccess = (response) => {
+  return {
+    type: GET_BRAND_SECTOR_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getBrandSectorFailure = (error) => {
+  return {
+    type: GET_BRAND_SECTOR_FAILURE,
+    payload: error,
+  };
+};
+
+//get departments
+
+export const getTicketTag = (params) => {
+  return {
+    type: GET_TICKET_TAG,
+    payload: params,
+  };
+};
+
+export const getTicketTagSuccess = (response) => {
+
+  return {
+    type: GET_TICKET_TAG_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getTicketTagFailure = (error) => {
+  return {
+    type: GET_TICKET_TAG_FAILURE,
+    payload: error,
+  };
+};

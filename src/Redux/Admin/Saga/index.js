@@ -7,6 +7,10 @@ import {
   fetchDepartmentDataApi,
   getAssociatedCompanieslApi,
   fetchDesignationDataApi,
+  getTicketTagApi,
+  getBrandSectorsApi,
+  addBrandSectorApi,
+  addTicketTagApi,
   getTaskApi,
   getAddTaskApi,
 } from "@Services";
@@ -25,21 +29,34 @@ import {
   ADD_DEPARTMENT,
   addDepartmentSuccess,
   addDepartmentFailure,
+  ADD_BRAND_SECTOR,
+  addBrandSectorSuccess,
+  addBrandSectorFailure,
   ADD_DESIGNATION,
   addDesignationSuccess,
   addDesignationFailure,
+  ADD_TICKET_TAG,
+  addTicketTagSuccess,
+  addTicketTagFailure,
   FETCH_DEPARTMENT,
   getDepartmentDataSuccess,
   getDepartmentDataFailure,
+  GET_BRAND_SECTOR,
+  getBrandSectorSuccess,
+  getBrandSectorFailure,
   FETCH_DESIGNATION,
   getDesignationDataSuccess,
   getDesignationDataFailure,
+  GET_TICKET_TAG,
+  getTicketTagSuccess,
+  getTicketTagFailure,
   GET_TASKS,
   getTasksSuccess,
   getTasksFailure,
   getAddTaskSuccess,
   getAddTaskFailure,
   ADD_TASK,
+  getTicketTags,
 } from "@Redux";
 
 function* getAssociatedCompaniesSaga(action) {
@@ -135,6 +152,28 @@ function* addDepartment(action) {
     yield call(action.payload.onError);
   }
 }
+/**add brand sector */
+function* addBrandSector(action) {
+  try {
+    yield put(showLoader());
+
+    const response = yield call(addBrandSectorApi, action.payload.params);
+
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(addBrandSectorSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(addBrandSectorFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(addBrandSectorFailure("Invalid Request"));
+    yield call(action.payload.onError);
+  }
+}
 
 /**
  * add Designation
@@ -162,6 +201,30 @@ function* addDesignation(action) {
   }
 }
 /**
+ * add ticket tag
+ */
+function* addTicketTag(action) {
+  try {
+    yield put(showLoader());
+
+    const response = yield call(addTicketTagApi, action.payload.params);
+
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(addTicketTagSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(addTicketTagFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(addTicketTagFailure("Invalid Request"));
+    yield call(action.payload.onError);
+  }
+}
+/**
  * get designation
  */
 
@@ -182,6 +245,30 @@ function* getDesignation(action) {
   } catch (error) {
     yield put(hideLoader());
     yield put(getDesignationDataFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
+/**get ticket tag */
+function* getTicketTag(action) {
+
+  try {
+    yield put(showLoader());
+    const response = yield call(getTicketTagApi, action.payload.params);
+
+    if (response.success) {
+      
+      yield put(hideLoader());
+      yield put(getTicketTagSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getTicketTagFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+   
+    yield put(hideLoader());
+    yield put(getTicketTagFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }
@@ -213,7 +300,33 @@ function* getDepartments(action) {
     yield call(action.payload.onError(error));
   }
 }
+/**
+ * get brand sector
+ */
 
+function* getBrandSector(action) {
+  try {
+
+    yield put(showLoader());
+
+    const response = yield call(getBrandSectorsApi, action.payload.params);
+
+    if (response.success) {
+    
+      yield put(hideLoader());
+      yield put(getBrandSectorSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getBrandSectorFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getBrandSectorFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
 
 /**
  * get Tasks
@@ -223,7 +336,7 @@ function* getDepartments(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskApi, action.payload.params);
-console.log("-------->",response)
+
     if (response.success) {
       yield put(hideLoader());
       yield put(getTasksSuccess(response));
@@ -244,7 +357,7 @@ console.log("-------->",response)
 /* ADD TASK */
 
 function* getAddTaskSaga(action) {
-  console.log('1111111111111111111111111111');
+  
   try {
     yield put(showLoader());
     const response = yield call(getAddTaskApi, action.payload.params);
@@ -277,6 +390,10 @@ function* AdminSaga() {
   yield takeLatest(FETCH_DEPARTMENT, getDepartments);
   yield takeLatest(GET_TASKS,getTasksSaga)
   yield takeLatest(ADD_TASK, getAddTaskSaga);
+  yield takeLatest(ADD_BRAND_SECTOR, addBrandSector);
+  yield takeLatest(ADD_TICKET_TAG, addTicketTag);
+  yield takeLatest(GET_BRAND_SECTOR, getBrandSector);
+  yield takeLatest(GET_TICKET_TAG, getTicketTag);
 }
 
 export default AdminSaga;

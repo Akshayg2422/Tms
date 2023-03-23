@@ -22,4 +22,10 @@ export interface AdminStateProp {
   departmentCurrentPages:any,
   departmentNumOfPages:any,
   addTask:any,
+  brandSector: any,
+  ticketTag:any,
+  brandSectorCurrentPages:any,
+  brandSectorNumOfPages:any,
+  ticketTagCurrentPages:any,
+  ticketTagNumOfPages:any,
 }
