@@ -23,7 +23,6 @@ import {
     type,
     validate,
     PRIORITY,
-    getDateAndTime
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,9 +35,10 @@ function AddSubTask() {
     const [typeSelect, setTypeSelect] = useState(type[0]);
     const [isSelect, setIsSelect] = useState(false);
 
-    const { dashboardDetails, tasks } = useSelector(
+    const { dashboardDetails, taskItem } = useSelector(
         (state: any) => state.AdminReducer
     );
+    console.log('taskItem',taskItem);
     const { isSync } = useSelector((state: any) => state.AppReducer);
 
     const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
@@ -63,6 +63,8 @@ function AddSubTask() {
         // setSelectDropzone(updatedPhoto);
         setPhoto(newUpdatedPhoto);
     };
+   
+    
 
     const submitTaskHandler = () => {
         const params = {
@@ -75,9 +77,10 @@ function AddSubTask() {
             task_attachments: [{ attachments: photo }],
             is_parent: false,
             eta_time: eta,
-            parent_id: tasks.data[0].id
+            parent_id: taskItem.id
         };
         console.log('Add SubTask Params', params);
+        console.log('taskItem',taskItem);
 
 
         const validation = validate(CREATE_TICKET, params);

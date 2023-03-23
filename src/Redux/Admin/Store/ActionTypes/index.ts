@@ -51,3 +51,10 @@ export const ADD_TASK = 'ADD_TASK';
 export const ADD_TASK_SUCCESS = 'ADD_TASK_SUCCESS';
 export const ADD_TASK_FAILURE = 'ADD_TASK_FAILURE';
 
+export const GET_SUB_TASKS = 'GET_SUB_TASKS';
+export const GET_SUB_TASKS_SUCCESS = 'GET_SUB_TASKS_SUCCESS';
+export const GET_SUB_TASKS_FAILURE = 'GET_SUB_TASKS_FAILURE';
+
+export const GET_TASKS_ITEM = 'GET_TASKS_ITEM';
+
+

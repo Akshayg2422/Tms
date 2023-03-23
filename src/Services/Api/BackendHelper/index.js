@@ -26,6 +26,7 @@ import {
   GET_BROADCAST_MESSAGES,
   GET_TASKS,
   FETCH_ADD_TASK,
+  FETCH_SUB_TASKS,
 
   /**
    * setting
@@ -84,6 +85,8 @@ export const getBroadCastMessagesApi = payload =>
 export const getAddTaskApi = payload => post(FETCH_ADD_TASK, payload, {})
 
 export const getTaskApi = (payload) => post(GET_TASKS, payload, {})
+
+export const getSubTaskApi = (payload) => post(FETCH_SUB_TASKS, payload, {})
 
 
 /**

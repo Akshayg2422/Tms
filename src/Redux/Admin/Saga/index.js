@@ -9,6 +9,7 @@ import {
   fetchDesignationDataApi,
   getTaskApi,
   getAddTaskApi,
+  getSubTaskApi,
 } from "@Services";
 import {
   GET_ASSOCIATED_BRANCH,
@@ -37,9 +38,13 @@ import {
   GET_TASKS,
   getTasksSuccess,
   getTasksFailure,
+  ADD_TASK,
   getAddTaskSuccess,
   getAddTaskFailure,
-  ADD_TASK,
+  GET_SUB_TASKS,
+  getSubTasksSuccess,
+  getSubTasksFailure,
+
 } from "@Redux";
 
 function* getAssociatedCompaniesSaga(action) {
@@ -198,7 +203,7 @@ function* getDepartments(action) {
     const response = yield call(fetchDepartmentDataApi, action.payload.params);
 
     if (response.success) {
-    
+
       yield put(hideLoader());
       yield put(getDepartmentDataSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -219,11 +224,10 @@ function* getDepartments(action) {
  * get Tasks
  */
 
- function* getTasksSaga(action) {
+function* getTasksSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskApi, action.payload.params);
-console.log("-------->",response)
     if (response.success) {
       yield put(hideLoader());
       yield put(getTasksSuccess(response));
@@ -236,7 +240,6 @@ console.log("-------->",response)
   } catch (error) {
     yield put(hideLoader());
     yield put(getTasksFailure("Invalid Request"));
-    yield put(getAddTaskFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }
@@ -244,11 +247,9 @@ console.log("-------->",response)
 /* ADD TASK */
 
 function* getAddTaskSaga(action) {
-  console.log('1111111111111111111111111111');
   try {
     yield put(showLoader());
     const response = yield call(getAddTaskApi, action.payload.params);
-console.log('2222222222222222',response);
     if (response.success) {
       yield put(hideLoader());
       yield put(getAddTaskSuccess(response.details));
@@ -265,6 +266,31 @@ console.log('2222222222222222',response);
   }
 }
 
+/*GET SUB TASK*/
+
+function* getSubTasksSaga(action) {
+  console.log('sub task calling================>');
+  console.log('GET SUB TASK ACTION',action);
+  try {
+    yield put(showLoader());
+    const response = yield call(getSubTaskApi, action.payload.params);
+    console.log('GET SUB TASK RESPONSEEEEEEEEEE',response);
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getSubTasksSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getSubTasksFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getSubTasksFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
+
 ///watcher///
 
 function* AdminSaga() {
@@ -275,8 +301,9 @@ function* AdminSaga() {
   yield takeLatest(ADD_DESIGNATION, addDesignation);
   yield takeLatest(FETCH_DESIGNATION, getDesignation);
   yield takeLatest(FETCH_DEPARTMENT, getDepartments);
-  yield takeLatest(GET_TASKS,getTasksSaga)
+  yield takeLatest(GET_TASKS, getTasksSaga)
   yield takeLatest(ADD_TASK, getAddTaskSaga);
+  yield takeLatest(GET_SUB_TASKS, getSubTasksSaga);
 }
 
 export default AdminSaga;

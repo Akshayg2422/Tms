@@ -38,6 +38,12 @@ import {
   ADD_TASK_SUCCESS,
   ADD_TASK_FAILURE,
 
+  GET_SUB_TASKS,
+  GET_SUB_TASKS_SUCCESS,
+  GET_SUB_TASKS_FAILURE,
+
+  GET_TASKS_ITEM,
+
 } from '../ActionTypes';
 
 export const RestoreAdmin = () => {
@@ -49,7 +55,7 @@ export const RestoreAdmin = () => {
 };
 
 export const getAssociatedBranch = (params: any) => {
-  
+
 
   return {
     type: GET_ASSOCIATED_BRANCH,
@@ -278,3 +284,37 @@ export const getAddTaskFailure = (error: any) => {
     payload: error
   }
 }
+
+/* GET SUB TASK*/
+
+export const getSubTasks = (params: any) => {
+  console.log('paramsssssssss', params);
+
+  return {
+    type: GET_SUB_TASKS,
+    payload: params
+  }
+}
+
+export const getSubTasksSuccess = (response: any) => {
+  return {
+
+    type: GET_SUB_TASKS_SUCCESS,
+    payload: response
+  }
+}
+
+export const getSubTasksFailure = (error: any) => {
+  return {
+    type: GET_SUB_TASKS_FAILURE,
+    payload: error
+  }
+}
+
+export const getTaskItem = (params: any) => {
+  return {
+    type: GET_TASKS_ITEM,
+    payload: params
+  }
+}
+

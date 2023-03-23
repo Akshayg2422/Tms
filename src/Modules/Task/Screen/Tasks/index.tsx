@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, setIsSync } from "@Redux";
+import { getTasks,getSubTasks, setIsSync, getTaskItem } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
@@ -29,13 +29,12 @@ function Tasks() {
   }, [isSync])
 
 
+
   const getTaskHandler = (pageNumber: number) => {
 
     const params = {
       q: "",
       q_many: search.value,
-      // tickets_by: filteredTickets?.value.id,
-      // ticket_status: ticketStatus?.value.id,
       page_number: pageNumber
     };
     dispatch(
@@ -91,9 +90,6 @@ function Tasks() {
     });
   };
 
-
-
-
   return (
     <>
       <HomeContainer isCard >
@@ -139,6 +135,7 @@ function Tasks() {
               selected={taskStatus.value}
               value={taskStatus.value}
               onChange={(item) => {
+                console.log(item)
                 taskStatus.onChange(item)
                 setSyncTickets()
               }}
@@ -204,8 +201,9 @@ function Tasks() {
             }
             }
             tableOnClick={(idx, index, item) => {
-              dispatch(setSelectedIssues(item));
-              dispatch(setSelectedReferenceIssues(undefined))
+              console.log('itemmmmmmmmmmmmmmmmmmmmmmmmmm',item);
+              dispatch(getTaskItem(item));
+              // dispatch(setSelectedReferenceIssues(undefined))
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS);
             }
             }
