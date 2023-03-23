@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 
 function IssueDetails() {
 
-  const { selectedReferenceIssues } = useSelector((state: any) => state.AdminReducer);
+  // const { selectedReferenceIssues } = useSelector((state: any) => state.AdminReducer);
 
   const TABS = [
     { id: "1", title: "THREAD", component: <Thread /> },
