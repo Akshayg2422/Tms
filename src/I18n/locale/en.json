@@ -118,7 +118,9 @@
     "description": "Description",
     "referenceNo": "Reference No",
     "createBroadCast": "CREATE BROADCAST",
-    "attach": "Attach"
+    "attach": "Attach",
+    "sector":"Sector",
+    "tags":"Tag"
   },
   "product": {
     "Store": "Store",
