@@ -13,7 +13,7 @@ import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
 function Tasks() {
   const { goTo } = useNavigation();
   const { dashboardDetails, } = useSelector((state: any) => state.AdminReducer);
-  const { tasks,tasksNumOfPages,tasksCurrentPages } = useSelector((state: any) => state.AdminReducer);
+  const { tasks, tasksNumOfPages, tasksCurrentPages } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTasks = useDropDown(FILTERED_LIST[0])
@@ -27,9 +27,7 @@ function Tasks() {
       getTaskHandler(tasksCurrentPages)
     }
   }, [isSync])
-  
 
-  console.log("==========",tasks,tasksNumOfPages,tasksCurrentPages )
 
   const getTaskHandler = (pageNumber: number) => {
 
@@ -38,7 +36,7 @@ function Tasks() {
       q_many: search.value,
       // tickets_by: filteredTickets?.value.id,
       // ticket_status: ticketStatus?.value.id,
-       page_number: pageNumber
+      page_number: pageNumber
     };
     dispatch(
       getTasks({
@@ -80,7 +78,7 @@ function Tasks() {
     return data.map((el: any) => {
       return {
         issue: el?.title,
-       attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} />,
+        attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} />,
         "raised by": el?.by_user?.name,
         "priority": <Priority priority={el?.priority} />,
         status: getStatusFromCode(dashboardDetails, el?.task_status),
@@ -141,7 +139,6 @@ function Tasks() {
               selected={taskStatus.value}
               value={taskStatus.value}
               onChange={(item) => {
-                console.log(item)
                 taskStatus.onChange(item)
                 setSyncTickets()
               }}
@@ -193,8 +190,8 @@ function Tasks() {
             title="Tasks"
             tableDataSet={tasks.data}
             displayDataSet={normalizedTableData(tasks.data)}
-           noOfPage={tasksNumOfPages}
-           currentPage={tasksCurrentPages}
+            noOfPage={tasksNumOfPages}
+            currentPage={tasksCurrentPages}
             paginationNumberClick={(currentPage) => {
               getTaskHandler(paginationHandler("current", currentPage));
             }}
@@ -205,16 +202,16 @@ function Tasks() {
             nextClick={() => {
               getTaskHandler(paginationHandler("next", tasksCurrentPages));
             }
-           }
+            }
             tableOnClick={(idx, index, item) => {
               dispatch(setSelectedIssues(item));
               dispatch(setSelectedReferenceIssues(undefined))
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS);
             }
             }
           />
         </>
-        : <NoDataFound/>
+        : <NoDataFound />
       }
 
     </>
