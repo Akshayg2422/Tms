@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket,Tasks, OtherTicket, Broadcast,AddTask } from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast, Tasks } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -10,7 +10,6 @@ export const ROUTES = {
     OTP: "/otp",
     REGISTER: '/register',
     VIEW_GOOGLE_BUSINESS: '/view-google-business',
-
   },
   HOME: {
     Admin: "/admin/issues",
@@ -37,7 +36,9 @@ export const HOME_PATH = {
   ADD_REFERENCE_TICKET: '/add-reference-ticket',
   ISSUE_TICKET: '/issue-ticket',
   CREATE_BROAD_CAST: '/create-broad-cast',
-  ADD_TASK: '/add-task'
+  ADD_TASK: '/add-task',
+  ADD_SUB_TASK: '/add-sub-task',
+  TASK_DETAILS: '/task-details'
 }
 
 export const INFO = {
@@ -58,9 +59,6 @@ export const TAB_ISSUE_ATTACH_DETAILS = {
   COMPANY: "/company",
   TAB_ISSUE_USER_DETAILS: "/TabIssueReferenceDetails"
 }
-
-
-
 
 export const AUTH_ROUTES = [
 
@@ -86,8 +84,6 @@ export const AUTH_ROUTES = [
   },
 
 ];
-
-
 
 export const ADMIN_ROUTES = [
   {
@@ -167,8 +163,6 @@ export const COMPANY_ROUTES = [
   },
 
 ];
-
-
 
 export * from "./RequireAuth";
 export * from "./RequireHome";

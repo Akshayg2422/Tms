@@ -23,7 +23,11 @@ function Issues() {
   const company = useDropDown({})
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
+  
+
   useEffect(() => {
+   
+    
     if (!isSync.issues) {
       getTicketHandler(ticketCurrentPages)
     }
@@ -248,6 +252,7 @@ function Issues() {
             }
           />
         </>
+
       }
 
     </>

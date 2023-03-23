@@ -50,6 +50,11 @@ export const BRAND_SECTORS = COMPANY + 'getBrandSectors';
  export const FETCH_DESIGNATION = EMPLOYEE + 'getDesignations';
 export const FETCH_DEPARTMENT = COMPANY + 'getDepartments';
 
+export const GET_BRAND_SECTOR= COMPANY+'getBrandSectors';
+export const ADD_BRAND_SECTOR=COMPANY+'addBrandSectors';
+ export const GET_TICKET_TAG =TICKET +'getTicketTags';
+export const ADD_TICKET_TAG=TICKET +'addTicketTags';
+
 /**
  *  Service
  */

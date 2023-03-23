@@ -50,7 +50,8 @@
         "ticketPriority":"டிக்கெட்முன்னுரிமை",
         "taskName":"பணி பெயர்",
         "addTask":"பணியைச் சேர்க்கவும்",
-        "isParent":"பெற்றோர்"
+        "isParent":"பெற்றோர்",
+        "addSubTask": "துணைப் பணியைச் சேர்க்கவும்"
         
     },
     "errors": {
@@ -100,7 +101,10 @@
         "description":"விளக்கம்",
         "referenceNo":"குறிப்பு எண்",
 
-        "createBroadCast":"உருவாக்க பிராட்காஸ்ட்"
+        "createBroadCast":"உருவாக்க பிராட்காஸ்ட்",
+        "sector":"துறை",
+        "tag":"குறிச்சொல்"
+        
     },
     "product": {
         "Store": "ஸ்டோர்",

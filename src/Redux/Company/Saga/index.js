@@ -78,6 +78,7 @@ function* getTicketsSaga(action) {
     yield put(showLoader());
     const response = yield call(getTicketsApi, action.payload.params);
     if (response.success) {
+      console.log(response, "rrrrrrrrrrrrrrrrrrr");
       yield put(hideLoader());
       yield put(getTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -156,10 +157,12 @@ function* getTicketTagsSaga(action) {
 
 
 function* getEmployeesSaga(action) {
+
   try {
     yield put(showLoader());
     const response = yield call(getEmployeesApi, action.payload.params);
     if (response.success) {
+
       yield put(hideLoader());
       yield put(getEmployeesSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -169,6 +172,7 @@ function* getEmployeesSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
+
     yield put(hideLoader());
     yield put(getEmployeesFailure(error));
     yield call(action.payload.onError(error));
