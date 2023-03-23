@@ -67,33 +67,34 @@ function ReferenceTasks() {
 
   return (
 
+    <></>
 
-    <div style={{ height: '82.3vh' }}>
-      {issueReferenceDetails && issueReferenceDetails?.length > 0 ?
-        <CommonTable
-          isPagination
-          tableDataSet={issueReferenceDetails}
-          currentPage={referenceTicketCurrentPages}
-          noOfPage={referenceTicketNoOfPages}
-          title={"Reference Details"}
-          displayDataSet={normalizedTableData(issueReferenceDetails)}
-          paginationNumberClick={(currentPage) => {
-            proceedgetReferenceTickets(paginationHandler("current", currentPage));
-          }}
-          previousClick={() => {
-            proceedgetReferenceTickets(paginationHandler("prev", referenceTicketCurrentPages))
-          }
-          }
-          nextClick={() => {
-            proceedgetReferenceTickets(paginationHandler("next", referenceTicketCurrentPages));
-          }
-          }
-          tableOnClick={(e, index, item) => {
-            const selectedItem = issueReferenceDetails.data?.[index]
-          }}
+    // <div style={{ height: '82.3vh' }}>
+    //   {issueReferenceDetails && issueReferenceDetails?.length > 0 ?
+    //     <CommonTable
+    //       isPagination
+    //       tableDataSet={issueReferenceDetails}
+    //       currentPage={referenceTicketCurrentPages}
+    //       noOfPage={referenceTicketNoOfPages}
+    //       title={"Reference Details"}
+    //       displayDataSet={normalizedTableData(issueReferenceDetails)}
+    //       paginationNumberClick={(currentPage) => {
+    //         proceedgetReferenceTickets(paginationHandler("current", currentPage));
+    //       }}
+    //       previousClick={() => {
+    //         proceedgetReferenceTickets(paginationHandler("prev", referenceTicketCurrentPages))
+    //       }
+    //       }
+    //       nextClick={() => {
+    //         proceedgetReferenceTickets(paginationHandler("next", referenceTicketCurrentPages));
+    //       }
+    //       }
+    //       tableOnClick={(e, index, item) => {
+    //         const selectedItem = issueReferenceDetails.data?.[index]
+    //       }}
 
-        /> : <NoDataFound />}
-    </div>
+    //     /> : <NoDataFound />}
+    // </div>
 
 
   );

@@ -123,8 +123,6 @@ export const setSelectedIssues = (response: any) => {
 };
 export const setSelectedReferenceIssues = (response: any) => {
 
-
-
   return {
     type: SET_REFERENCE_SELECTED_ISSUES,
     payload: response,

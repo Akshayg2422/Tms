@@ -37,6 +37,7 @@ export const HOME_PATH = {
   ISSUE_TICKET: '/issue-ticket',
   CREATE_BROAD_CAST: '/create-broad-cast',
   ADD_TASK: '/add-task',
+  ADD_SUB_TASK: '/add-sub-task',
   TASK_DETAILS: '/task-details'
 }
 
