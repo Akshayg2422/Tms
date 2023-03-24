@@ -45,6 +45,20 @@ import {
   GET_SUB_TASKS_FAILURE,
 
   GET_TASKS_ITEM,
+  ADD_BRAND_SECTOR_SUCCESS,
+  ADD_BRAND_SECTOR_FAILURE,
+  ADD_TICKET_TAG_SUCCESS,
+  ADD_TICKET_TAG_FAILURE,
+  GET_BRAND_SECTOR_SUCCESS,
+  GET_BRAND_SECTOR_FAILURE,
+  GET_TICKET_TAG_SUCCESS,
+  GET_TICKET_TAG_FAILURE,
+  GET_TICKET_TAG,
+  GET_BRAND_SECTOR,
+  ADD_BRAND_SECTOR,
+  ADD_TICKET_TAG,
+  
+
 } from '../ActionTypes';
 
 import { AdminStateProp } from '../../Interfaces';
@@ -57,12 +71,24 @@ const initialState: AdminStateProp = {
   selectedIssues: undefined,
   loading: false,
   error: '',
+
   designationData: undefined,
   departmentData: undefined,
-  designationCurrentPages: undefined,
-  designationNumOfPages: undefined,
-  departmentCurrentPages: undefined,
-  departmentNumOfPages: undefined,
+  designationCurrentPages:undefined,
+  designationNumOfPages:undefined,
+  departmentCurrentPages:undefined,
+  departmentNumOfPages:undefined,
+
+  brandSector: undefined,
+  ticketTag: undefined,
+  brandSectorCurrentPages:undefined,
+  brandSectorNumOfPages:undefined,
+  ticketTagCurrentPages:undefined,
+  ticketTagNumOfPages:undefined,
+
+
+
+
   companyDetailsSelected: undefined,
   referenceIssueSelectedDetails: undefined,
   selectedReferenceIssues: undefined,
@@ -293,8 +319,109 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       }
       break;
     case GET_TASKS_FAILURE:
-      state = { ...state, tasks: undefined }
+      state ={...state,tasks:undefined}
+      break;  
+
+        /**
+     * add BRAND SECTOR
+     */
+    case ADD_BRAND_SECTOR:
+      state = { ...state, loading: true };
       break;
+    case ADD_BRAND_SECTOR_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
+    case ADD_BRAND_SECTOR_FAILURE:
+      state = {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+      break;
+
+    /**
+     * add TICKET TAG
+     */
+    case ADD_TICKET_TAG:
+      state = { ...state, loading: true };
+      break;
+    case ADD_TICKET_TAG_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
+    case ADD_TICKET_TAG_FAILURE:
+      state = {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+      break;
+
+       //get BRAND SECTOR
+
+    case GET_BRAND_SECTOR:
+      state = { ...state,
+        brandSector: undefined,
+        brandSectorNumOfPages: 0,
+        brandSectorCurrentPages: 1,
+         loading: true };
+      break;
+    case GET_BRAND_SECTOR_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        brandSector: action?.payload?.data,
+        brandSectorNumOfPages:action?.payload?.num_pages,
+        brandSectorCurrentPages:
+        action?.payload?.next_page === -1
+            ?action?.payload?.num_pages
+            :action?.payload?.next_page - 1,
+      };
+      break;
+    case GET_BRAND_SECTOR_FAILURE:
+      state = {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+      break;
+
+    //get designations
+
+    case GET_TICKET_TAG:
+   
+        state = { ...state,
+          designationData: undefined,
+          designationNumOfPages: 0,
+          designationCurrentPages: 1,
+           loading: true };
+       
+      break;
+    case GET_TICKET_TAG_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        ticketTag:action?.payload?.data,
+        ticketTagNumOfPages:action?.payload?.num_pages,
+        ticketTagCurrentPages:
+        action?.payload?.next_page === -1
+            ?action?.payload?.num_pages
+            :action?.payload?.next_page - 1,
+      };
+      break;
+    case GET_TICKET_TAG_FAILURE:
+      state = {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+      break;
+
     /* ADD TASK */
 
     case ADD_TASK:

@@ -24,4 +24,10 @@ export interface AdminStateProp {
   addTask:any,
   subTasks:any,
   taskItem:any,
+  brandSector: any,
+  ticketTag:any,
+  brandSectorCurrentPages:any,
+  brandSectorNumOfPages:any,
+  ticketTagCurrentPages:any,
+  ticketTagNumOfPages:any,
 }

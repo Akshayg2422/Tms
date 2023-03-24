@@ -69,6 +69,7 @@
     "taskStatus": "Task status",
     "addTask": "Add Task",
     "isParent": "IsParent",
+    "taskPriority": "Task Priority",
     "addSubTask": "Add SubTask"
   },
   "errors": {
@@ -118,7 +119,9 @@
     "description": "Description",
     "referenceNo": "Reference No",
     "createBroadCast": "CREATE BROADCAST",
-    "attach": "Attach"
+    "attach": "Attach",
+    "sector":"Sector",
+    "tags":"Tag"
   },
   "product": {
     "Store": "Store",

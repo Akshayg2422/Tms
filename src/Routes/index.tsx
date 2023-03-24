@@ -87,18 +87,18 @@ export const AUTH_ROUTES = [
 
 export const ADMIN_ROUTES = [
   {
-    path: "/issues",
-    name: "Issues",
-    icon: "ni ni-bell-55 text-red",
-    layout: "/admin",
-    component: <Issues />
-  },
-  {
     path: "/tasks",
     name: "Tasks",
     icon: "bi bi-list-task text-primary",
     layout: "/admin",
     component: <Tasks />
+  },
+  {
+    path: "/issues",
+    name: "Issues",
+    icon: "ni ni-bell-55 text-red",
+    layout: "/admin",
+    component: <Issues />
   },
   {
     path: "/companies",

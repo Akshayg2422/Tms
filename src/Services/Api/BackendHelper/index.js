@@ -27,7 +27,10 @@ import {
   GET_TASKS,
   FETCH_ADD_TASK,
   FETCH_SUB_TASKS,
-
+  GET_BRAND_SECTOR,
+  ADD_BRAND_SECTOR,
+  GET_TICKET_TAG,
+  ADD_TICKET_TAG,
   /**
    * setting
    */
@@ -96,5 +99,10 @@ export const postAddDepartmentApi = (payload) => post(POST_ADD_DEPARTMENT, paylo
 export const postAddDesignationApi = (payload) => post(POST_ADD_DESIGNATION, payload, {})
 export const fetchDesignationDataApi = (payload) => post(FETCH_DESIGNATION, payload, {})
 export const fetchDepartmentDataApi = (payload) => post(FETCH_DEPARTMENT, payload, {})
+
+export const getBrandSectorApi = (payload) => post(GET_BRAND_SECTOR, payload, {})
+export const addBrandSectorApi = (payload) => post(ADD_BRAND_SECTOR, payload, {})
+export const getTicketTagApi = (payload) => post(GET_TICKET_TAG, payload, {})
+export const addTicketTagApi = (payload) => post(ADD_TICKET_TAG, payload, {})
 
 

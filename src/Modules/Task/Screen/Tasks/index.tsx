@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks,getSubTasks, setIsSync, getTaskItem } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable } from "@Components";
+import { getTasks, getTaskItem, setIsSync } from "@Redux";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE, COMPANY } from "@Utils";
-import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
+import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY, SEARCH_PAGE, COMPANY } from "@Utils";
 
 
 function Tasks() {
   const { goTo } = useNavigation();
-  const { dashboardDetails, } = useSelector((state: any) => state.AdminReducer);
   const { tasks, tasksNumOfPages, tasksCurrentPages } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTasks = useDropDown(FILTERED_LIST[0])
   const taskStatus = useDropDown(STATUS_LIST[0])
   const taskPriorty = useDropDown({})
-  const internal = useDropDown({})
+  const company = useDropDown({})
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
   useEffect(() => {
@@ -35,6 +33,10 @@ function Tasks() {
     const params = {
       q: "",
       q_many: search.value,
+      tasks_by: filteredTasks?.value.id,
+      task_status: taskStatus?.value.id,
+      company: company.value.id ? company.value.id : 'ALL',
+      priority: taskPriorty.value.id ? taskPriorty.value.id : "ALL",
       page_number: pageNumber
     };
     dispatch(
@@ -47,6 +49,7 @@ function Tasks() {
       })
     );
   };
+
 
   function setSyncTickets(sync = false) {
     dispatch(
@@ -62,30 +65,38 @@ function Tasks() {
     getTaskHandler(SEARCH_PAGE)
   }
 
-  function Priority({ priority }) {
-    const color = getObjectFromArrayByKey(PRIORITY, 'id', priority).color
-    return <div className="row mb-0 align-items-center">
-      <div style={{
-        height: 10, width: 10, borderRadius: 5, background: color
-      }}>
-      </div>
-      <span className="ml-2">{getObjectFromArrayByKey(PRIORITY, 'id', priority).text}</span>
-    </div>
-  }
-
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
-        issue: el?.title,
-        attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} />,
-        "raised by": el?.by_user?.name,
-        "priority": <Priority priority={el?.priority} />,
-        status: getStatusFromCode(dashboardDetails, el?.task_status),
-        "assigned to": el?.assigned_to?.name,
-        'phone': el?.raised_by_company?.phone,
-        'email': el?.raised_by_company?.email,
-        company: el?.raised_by_company?.display_name,
-        address: el?.raised_by_company?.address
+        "task": <div className="row m-0" style={{ width: "230px" }}> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
+        "task attachments":
+          <div className="avatar-group m-0" style={{
+            width: '100px'
+          }}>
+            {
+              el?.task_attachments &&
+              el?.task_attachments.length > 0 && el?.task_attachments.map((item) => {
+                return <a className="avatar avatar-md rounded-circle"
+                  href="#pablo"
+                  onClick={(e) => e.preventDefault()}>
+                  <Image
+                    variant={'rounded'}
+                    src={getPhoto(item?.attachment_file)} />
+                </a>
+              })
+            }
+
+          </div>,
+        "raised by": <div className="m-0" style={{ width: "" }}>
+          <div className="h5 m-0"> {el?.by_user?.name} </div>
+        </div>,
+        "raised to": <div className=" m-0" style={{ width: "250px" }}>
+          <div className="mb-2"> <Image variant={'avatar'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
+          <div className="h5 m-0"> {el?.raised_by_company?.display_name}</div>
+          <div className=" m-0 "> Assigned to: @ <span className="h5"> {el?.assigned_to?.name} </span> </div>
+          <div> {el?.raised_by_company?.address} </div>
+        </div>,
+        status: <Status status={el?.task_status} />
       };
     });
   };
@@ -157,10 +168,10 @@ function Tasks() {
             <DropDown
               heading={'Company'}
               data={COMPANY}
-              selected={internal.value}
-              value={internal.value}
+              selected={company.value}
+              value={company.value}
               onChange={(item) => {
-                internal.onChange(item)
+                company.onChange(item)
                 setSyncTickets()
               }}
             />
@@ -201,7 +212,7 @@ function Tasks() {
             }
             }
             tableOnClick={(idx, index, item) => {
-              console.log('itemmmmmmmmmmmmmmmmmmmmmmmmmm',item);
+              console.log('itemmmmmmmmmmmmmmmmmmmmmmmmmm', item);
               dispatch(getTaskItem(item));
               // dispatch(setSelectedReferenceIssues(undefined))
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS);
