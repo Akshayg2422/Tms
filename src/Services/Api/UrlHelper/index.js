@@ -35,6 +35,7 @@ export const REGISTER_ADMIN = AUTH + 'registerAdmin';
 export const GET_EMPLOYEES = EMPLOYEE + 'getEmployees';
 export const ADD_EMPLOYEE = EMPLOYEE + 'addEmployee';
 export const GET_TASKS =  TASK + 'getTasks';
+export const FETCH_TASK_USERS = TASK + 'getTaskUsers';
 
 /**
  *  Company
@@ -69,3 +70,4 @@ export const FETCH_ADD_TASK = TASK + 'raiseNewTask'
 /* GET SUB TASK */
 
 export const FETCH_SUB_TASKS = TASK + 'getSubTasks'
+
