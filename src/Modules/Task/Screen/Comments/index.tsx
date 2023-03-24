@@ -15,7 +15,7 @@ function Comments() {
     getSubTaskHandler()
   }, [])
 
-  // console.log('subTaskssubTasks', subTasks);
+  console.log('subTaskssubTasks', subTasks);
 
 
   const getSubTaskHandler = () => {
@@ -46,10 +46,10 @@ function Comments() {
   // }
 
   const normalizedTableData = (data: any) => {
-   
+    console.log('normalizedTableData', JSON.stringify(data));
 
     return data.map((el: any) => {
-     
+      console.log('ellllllllllllllllllllll', JSON.stringify(el));
 
       return {
         "Sub task": <div className="row m-0 overflow-auto overflow-hide"> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
@@ -62,13 +62,10 @@ function Comments() {
 
       {subTasks && subTasks.data.length > 0 ?
         <>
-          <div className="row" style={{ height: '82.3vh' }}>
-            <div className={'col-xl-8 m-0 p-0  overflow-auto overflow-hide'}>
-              <CardHeader>
-                <h5 className="h3 mb-0">Events</h5>
-              </CardHeader>
-
-              <div className="" >
+        
+          <div className="d-flex" style={{ height: '82.9vh' }}>
+          <Card className={'col-xl-8 mx-3 '}>
+              <div className="shadow-none ml-3" >
                 <div
                   className="timeline timeline-one-side"
                   data-timeline-axis-style="dashed"
@@ -96,40 +93,8 @@ function Comments() {
                   </div>
                 </div>
               </div>
-              <div className="d-flex justify-content-end" >
-                <div
-                  className="timeline timeline-two-side"
-                  data-timeline-axis-style="dashed"
-                  data-timeline-content="axis"
-                >
-                  <div className="timeline-block">
-                    <div className="timeline-content">
-                      <div className="d-flex justify-content-start pt-1">
-                        <div className="pr-5">
-                          <small className="text-muted">
-                            <i className="fas fa-clock mr-1" />10 hrs ago
-                          </small>
-                        </div>
-                        <div>
-                          <span className="text-muted text-sm font-weight-bold"> New message</span>
-                        </div>
-                      </div>
-                      <h6 className="text-sm mt-1 mb-0">
-                        Let's meet at Starbucks at 11:30. Why?
-                      </h6>
-                    </div>
-                    <span className="timeline-step badge-info">
-                      <i className="ni ni-bell-55" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-
-
-
-            </div>
-            <div className={'col-xl-4 overflow-auto overflow-hide'}>
+            </Card>
+            <Card className={'col-xl-4 overflow-auto overflow-hide'}>
               <div className={'mx--5'}>
                 <CommonTable
                   title="SUB TASKS"
@@ -137,7 +102,7 @@ function Comments() {
                   displayDataSet={normalizedTableData(subTasks?.data)}
                 />
               </div>
-            </div>
+            </Card>
           </div>
         </>
         : <NoDataFound />
