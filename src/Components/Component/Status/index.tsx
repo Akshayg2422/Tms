@@ -5,8 +5,9 @@ type statusProps = {
   }
 function Status({ status }:statusProps) {
     const color = getObjectFromArrayByKey(STATUS_LIST, 'id', status).color
-    return <div className="">
-      <span style={{ color: color }} className="">{getObjectFromArrayByKey(STATUS_LIST, 'id', status).text} </span>
+    return <div className="row mb-0 align-items-center">
+       <div style={{ height: 10, width: 10, borderRadius: 5, background: color}}> </div>
+      <span className="ml-2">{getObjectFromArrayByKey(STATUS_LIST, 'id', status).text} </span>
     </div>
   }
   export {Status}

@@ -8,6 +8,7 @@ import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY, SEARCH_PAGE, COMPANY } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
+import { icons } from "@Assets";
 
 
 function Tasks() {
@@ -76,7 +77,9 @@ function Tasks() {
             {
               el?.task_attachments &&
               el?.task_attachments.length > 0 && el?.task_attachments.map((item) => {
-                return <a className=" avatar-md">
+                return <a className="avatar avatar-md rounded-circle"
+                  href="#pablo"
+                  onClick={(e) => e.preventDefault()}>
                   <Image
                     variant={'rounded'}
                     src={getPhoto(item?.attachment_file)} />
@@ -84,7 +87,7 @@ function Tasks() {
               })
             }
 
-          </div>,
+          </div>, 
         "raised by": <div className="m-0" style={{ width: "" }}>
           <div className="h5 m-0"> {el?.by_user?.name} </div>
         </div>,
@@ -94,7 +97,7 @@ function Tasks() {
           <div className=" m-0 "> Assigned to: @ <span className="h5"> {el?.assigned_to?.name} </span> </div>
           <div> {el?.raised_by_company?.address} </div>
         </div>,
-        status: <Status status={el?.task_status} />
+        status:  <Status status={el?.task_status} />
       };
     });
   };
@@ -212,7 +215,7 @@ function Tasks() {
             }
             }
             tableOnClick={(idx, index, item) => {
-              
+
             }
             }
           />
