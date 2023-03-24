@@ -336,7 +336,6 @@ function* getBrandSector(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskApi, action.payload.params);
-
     if (response.success) {
       yield put(hideLoader());
       yield put(getTasksSuccess(response));
@@ -349,7 +348,6 @@ function* getBrandSector(action) {
   } catch (error) {
     yield put(hideLoader());
     yield put(getTasksFailure("Invalid Request"));
-    yield put(getAddTaskFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }
@@ -357,11 +355,9 @@ function* getBrandSector(action) {
 /* ADD TASK */
 
 function* getAddTaskSaga(action) {
-  
   try {
     yield put(showLoader());
     const response = yield call(getAddTaskApi, action.payload.params);
-console.log('2222222222222222',response);
     if (response.success) {
       yield put(hideLoader());
       yield put(getAddTaskSuccess(response.details));

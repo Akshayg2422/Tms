@@ -520,7 +520,7 @@ function Settings() {
          * Designation
          */}
 
-        <Modal
+        <Modal 
           isOpen={addDesignationModal.visible}
           onClose={() => addDesignationModal.hide()}
           title={translate("auth.designation")!}
