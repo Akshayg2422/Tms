@@ -54,7 +54,7 @@ function Issues() {
         onError: () => () => { },
       })
     );
-    console.log("params", params)
+    
   };
 
   function setSyncTickets(sync = false) {
@@ -71,7 +71,7 @@ function Issues() {
     getTicketHandler(SEARCH_PAGE)
   }
 
-  console.log("Priorty", ticketPriorty.value)
+ 
 
   function Priority({ priority }) {
     const color = getObjectFromArrayByKey(PRIORITY, 'id', priority).color
@@ -180,7 +180,7 @@ function Issues() {
               selected={ticketStatus.value}
               value={ticketStatus.value}
               onChange={(item) => {
-                console.log(item)
+               
                 ticketStatus.onChange(item)
                 setSyncTickets()
               }}

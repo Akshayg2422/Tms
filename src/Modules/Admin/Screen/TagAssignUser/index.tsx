@@ -49,14 +49,14 @@ function TagAssignUser() {
                 : selectedIssues?.id,
         };
         
-        // dispatch(
-        //     getEmployees({
-        //         params,
-        //         onSuccess: (response) => () => {
-        //         },
-        //         onFailure: () => () => { }
-        //     })
-        // )
+        dispatch(
+            getEmployees({
+                params,
+                onSuccess: (response) => () => {
+                },
+                onFailure: () => () => { }
+            })
+        )
     }, [selectedIssues, selectedReferenceIssues])
 
     const getApiHandler = () => {
@@ -143,7 +143,7 @@ function TagAssignUser() {
                     onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TICKET) }}
                 />
             </div>
-            {/* <Modal size={'md'} fade={false} isOpen={openModalTagUser}
+            <Modal size={'md'} fade={false} isOpen={openModalTagUser}
                 onClose={() => {
                     setOpenModalTagUser(!openModalTagUser)
                 }}>
@@ -180,9 +180,9 @@ function TagAssignUser() {
                         block
                         onClick={() => { ProceedTagUser() }} />
                 </div>
-            </Modal> */}
+            </Modal>
 
-            {/* <Modal size={'md'} fade={false} isOpen={openModalReassignUser}
+            <Modal size={'md'} fade={false} isOpen={openModalReassignUser}
                 onClose={() => {
                     setOpenModalReassignUser(!openModalReassignUser)
                 }}>
@@ -215,7 +215,7 @@ function TagAssignUser() {
                         block
                         onClick={() => { ProceedReassignUser() }} />
                 </div>
-            </Modal> */}
+            </Modal>
         </>
     )
 }

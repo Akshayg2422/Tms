@@ -14,7 +14,10 @@ import {
   getTaskApi,
   getAddTaskApi,
   getSubTaskApi,
-  getTaskUsersApi
+  getReferenceTasksApi,
+  getTaskUsersApi,
+  getTicketUsersApi,
+ 
 } from "@Services";
 import {
   GET_ASSOCIATED_BRANCH,
@@ -65,6 +68,12 @@ import {
   getTaskUsersSuccess,
   getTaskUsersFailure,
   getTicketTags,
+  GET_REFERENCE_TASKS,
+  getReferenceTasksSuccess,
+  getReferenceTasksFailure,
+  GET_TICKET_USERS,
+  getTicketUsersSuccess,
+  getTicketUsersFailure,
 
 } from "@Redux";
 
@@ -282,6 +291,31 @@ function* getTicketTag(action) {
   }
 }
 
+/**get reference tasks */
+function* getReferenceTasksSaga(action) {
+
+  try {
+    yield put(showLoader());
+    const response = yield call(getReferenceTasksApi, action.payload.params);
+
+    if (response.success) {
+
+      yield put(hideLoader());
+      yield put(getReferenceTasksSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getReferenceTasksFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+   
+    yield put(hideLoader());
+    yield put(getReferenceTasksFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
+
 /**
  * get Departments
  */
@@ -367,6 +401,7 @@ function* getAddTaskSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getAddTaskApi, action.payload.params);
+   
     if (response.success) {
       yield put(hideLoader());
       yield put(getAddTaskSuccess(response.details));
@@ -386,12 +421,11 @@ function* getAddTaskSaga(action) {
 /*GET SUB TASK*/
 
 function* getSubTasksSaga(action) {
-  console.log('sub task calling================>');
-  console.log('GET SUB TASK ACTION',action);
+
   try {
     yield put(showLoader());
     const response = yield call(getSubTaskApi, action.payload.params);
-    console.log('GET SUB TASK RESPONSEEEEEEEEEE',response);
+   
     if (response.success) {
       yield put(hideLoader());
       yield put(getSubTasksSuccess(response));
@@ -429,6 +463,28 @@ function* getTaskUsersSaga(action) {
   }
 }
 
+function* getTicketUsersSaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(getTicketUsersApi, action.payload.params);
+   
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getTicketUsersSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getTicketUsersFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getTicketUsersFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
 ///watcher///
 
 function* AdminSaga() {
@@ -446,7 +502,9 @@ function* AdminSaga() {
   yield takeLatest(ADD_TICKET_TAG, addTicketTag);
   yield takeLatest(GET_BRAND_SECTOR, getBrandSector);
   yield takeLatest(GET_TICKET_TAG, getTicketTag);
+  yield takeLatest(GET_REFERENCE_TASKS,getReferenceTasksSaga);
   yield takeLatest(GET_TASK_USERS, getTaskUsersSaga)
+  yield takeLatest(GET_TICKET_USERS, getTicketUsersSaga)
 }
 
 export default AdminSaga;

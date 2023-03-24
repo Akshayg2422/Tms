@@ -38,7 +38,7 @@ function AddSubTask() {
     const { dashboardDetails, taskItem } = useSelector(
         (state: any) => state.AdminReducer
     );
-    console.log('taskItem', taskItem);
+   
     const { isSync } = useSelector((state: any) => state.AppReducer);
 
     const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
@@ -79,8 +79,7 @@ function AddSubTask() {
             eta_time: eta,
             parent_id: taskItem.id
         };
-        console.log('Add SubTask Params', params);
-        console.log('taskItem', taskItem);
+        
 
 
         const validation = validate(CREATE_TICKET, params);
