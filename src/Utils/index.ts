@@ -4,4 +4,5 @@ export * from './Helper';
 export * from './Constants';
 export * from './Fonts';
 export * from './CommonMethods';
+export * from './Moment'
 

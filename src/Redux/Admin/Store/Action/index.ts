@@ -60,6 +60,10 @@ import {
 
   GET_TASKS_ITEM,
 
+  GET_TASK_USERS,
+  GET_TASK_USERS_SUCCESS,
+  GET_TASK_USERS_FAILURE
+
 } from '../ActionTypes';
 
 export const RestoreAdmin = () => {
@@ -427,3 +431,27 @@ export const getTicketTagFailure = (error) => {
     payload: error,
   };
 };
+
+/* Task Users */
+
+export const getTaskUsers = (params: any) => {
+  return {
+    type: GET_TASK_USERS,
+    payload: params
+  }
+}
+
+export const getTaskUsersSuccess = (response: any) => {
+  return {
+
+    type: GET_TASK_USERS_SUCCESS,
+    payload: response
+  }
+}
+
+export const getTaskUsersFailure = (error: any) => {
+  return {
+    type: GET_TASK_USERS_FAILURE,
+    payload: error
+  }
+}

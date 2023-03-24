@@ -57,6 +57,10 @@ import {
   GET_BRAND_SECTOR,
   ADD_BRAND_SECTOR,
   ADD_TICKET_TAG,
+
+  GET_TASK_USERS,
+  GET_TASK_USERS_SUCCESS,
+  GET_TASK_USERS_FAILURE
   
 
 } from '../ActionTypes';
@@ -99,6 +103,7 @@ const initialState: AdminStateProp = {
   addTask: undefined,
   subTasks: undefined,
   taskItem: undefined,
+  taskUsers: undefined
 };
 
 
@@ -455,6 +460,16 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     case GET_TASKS_ITEM:
       state = { ...state, taskItem: action.payload }
       break;
+
+      case GET_TASK_USERS:
+        state = { ...state, taskUsers: undefined }
+        break;
+      case GET_TASK_USERS_SUCCESS:
+        state = { ...state, taskUsers: action.payload?.details }
+        break;
+      case GET_TASK_USERS_FAILURE:
+        state = { ...state, taskUsers: undefined }
+        break;
 
     default:
       state = state;

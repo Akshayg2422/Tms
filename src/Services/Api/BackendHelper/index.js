@@ -31,6 +31,7 @@ import {
   ADD_BRAND_SECTOR,
   GET_TICKET_TAG,
   ADD_TICKET_TAG,
+  FETCH_TASK_USERS,
   /**
    * setting
    */
@@ -90,6 +91,8 @@ export const getAddTaskApi = payload => post(FETCH_ADD_TASK, payload, {})
 export const getTaskApi = (payload) => post(GET_TASKS, payload, {})
 
 export const getSubTaskApi = (payload) => post(FETCH_SUB_TASKS, payload, {})
+
+export const getTaskUsersApi = (payload) => post(FETCH_TASK_USERS, payload, {})
 
 
 /**
