@@ -13,6 +13,7 @@ import {
   addTicketTagApi,
   getTaskApi,
   getAddTaskApi,
+  getSubTaskApi,
 } from "@Services";
 import {
   GET_ASSOCIATED_BRANCH,
@@ -53,9 +54,12 @@ import {
   GET_TASKS,
   getTasksSuccess,
   getTasksFailure,
+  ADD_TASK,
   getAddTaskSuccess,
   getAddTaskFailure,
-  ADD_TASK,
+  GET_SUB_TASKS,
+  getSubTasksSuccess,
+  getSubTasksFailure,
   getTicketTags,
 } from "@Redux";
 
@@ -285,7 +289,7 @@ function* getDepartments(action) {
     const response = yield call(fetchDepartmentDataApi, action.payload.params);
 
     if (response.success) {
-    
+
       yield put(hideLoader());
       yield put(getDepartmentDataSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -332,7 +336,7 @@ function* getBrandSector(action) {
  * get Tasks
  */
 
- function* getTasksSaga(action) {
+function* getTasksSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskApi, action.payload.params);
@@ -374,6 +378,31 @@ function* getAddTaskSaga(action) {
   }
 }
 
+/*GET SUB TASK*/
+
+function* getSubTasksSaga(action) {
+  console.log('sub task calling================>');
+  console.log('GET SUB TASK ACTION',action);
+  try {
+    yield put(showLoader());
+    const response = yield call(getSubTaskApi, action.payload.params);
+    console.log('GET SUB TASK RESPONSEEEEEEEEEE',response);
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getSubTasksSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getSubTasksFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getSubTasksFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
+
 ///watcher///
 
 function* AdminSaga() {
@@ -384,8 +413,9 @@ function* AdminSaga() {
   yield takeLatest(ADD_DESIGNATION, addDesignation);
   yield takeLatest(FETCH_DESIGNATION, getDesignation);
   yield takeLatest(FETCH_DEPARTMENT, getDepartments);
-  yield takeLatest(GET_TASKS,getTasksSaga)
+  yield takeLatest(GET_TASKS, getTasksSaga)
   yield takeLatest(ADD_TASK, getAddTaskSaga);
+  yield takeLatest(GET_SUB_TASKS, getSubTasksSaga);
   yield takeLatest(ADD_BRAND_SECTOR, addBrandSector);
   yield takeLatest(ADD_TICKET_TAG, addTicketTag);
   yield takeLatest(GET_BRAND_SECTOR, getBrandSector);

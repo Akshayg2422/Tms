@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, setIsSync } from "@Redux";
+import { getTasks, getTaskItem, setIsSync } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY, SEARCH_PAGE, COMPANY } from "@Utils";
-import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
-import { icons } from "@Assets";
 
 
 function Tasks() {
@@ -27,6 +25,7 @@ function Tasks() {
       getTaskHandler(tasksCurrentPages)
     }
   }, [isSync])
+
 
 
   const getTaskHandler = (pageNumber: number) => {
@@ -87,7 +86,7 @@ function Tasks() {
               })
             }
 
-          </div>, 
+          </div>,
         "raised by": <div className="m-0" style={{ width: "" }}>
           <div className="h5 m-0"> {el?.by_user?.name} </div>
         </div>,
@@ -97,13 +96,10 @@ function Tasks() {
           <div className=" m-0 "> Assigned to: @ <span className="h5"> {el?.assigned_to?.name} </span> </div>
           <div> {el?.raised_by_company?.address} </div>
         </div>,
-        status:  <Status status={el?.task_status} />
+        status: <Status status={el?.task_status} />
       };
     });
   };
-
-
-
 
   return (
     <>
@@ -150,6 +146,7 @@ function Tasks() {
               selected={taskStatus.value}
               value={taskStatus.value}
               onChange={(item) => {
+                console.log(item)
                 taskStatus.onChange(item)
                 setSyncTickets()
               }}
@@ -215,7 +212,10 @@ function Tasks() {
             }
             }
             tableOnClick={(idx, index, item) => {
-
+              console.log('itemmmmmmmmmmmmmmmmmmmmmmmmmm', item);
+              dispatch(getTaskItem(item));
+              // dispatch(setSelectedReferenceIssues(undefined))
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS);
             }
             }
           />
