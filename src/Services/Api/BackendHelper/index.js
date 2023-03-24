@@ -31,6 +31,7 @@ import {
   ADD_BRAND_SECTOR,
   GET_TICKET_TAG,
   ADD_TICKET_TAG,
+  FETCH_TASK_USERS,
   /**
    * setting
    */
@@ -38,7 +39,7 @@ import {
   POST_ADD_DESIGNATION,
   FETCH_DESIGNATION,
   FETCH_DEPARTMENT,
-
+  GET_TICKET_USERS,
 GET_REFERENCE_TASKS
 
 } from '../UrlHelper';
@@ -93,6 +94,8 @@ export const getTaskApi = (payload) => post(GET_TASKS, payload, {})
 
 export const getSubTaskApi = (payload) => post(FETCH_SUB_TASKS, payload, {})
 
+export const getTaskUsersApi = (payload) => post(FETCH_TASK_USERS, payload, {})
+
 
 /**
  * setting
@@ -107,5 +110,5 @@ export const addBrandSectorApi = (payload) => post(ADD_BRAND_SECTOR, payload, {}
 export const getTicketTagApi = (payload) => post(GET_TICKET_TAG, payload, {})
 export const addTicketTagApi = (payload) => post(ADD_TICKET_TAG, payload, {})
 export const getReferenceTasksApi = (payload) => post(GET_REFERENCE_TASKS, payload, {})
-
+export const getTicketUsersApi = (payload) => post(GET_TICKET_USERS, payload, {})
 

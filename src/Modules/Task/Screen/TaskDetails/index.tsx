@@ -42,7 +42,7 @@ function TaskDetails() {
             </div>
 
             <div className='mt-3 mx-3' style={{ cursor: 'pointer' }}>
-                <div className='card-header'>
+                <div >
                     <div className="align-items-center">
                         <Tabs tabs={TABS} selected={selectedTab} onChange={setSelectedTab} />
                     </div>

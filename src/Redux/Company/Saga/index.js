@@ -78,7 +78,7 @@ function* getTicketsSaga(action) {
     yield put(showLoader());
     const response = yield call(getTicketsApi, action.payload.params);
     if (response.success) {
-   
+  //  console.log(JSON.stringify(response),"rrrrrrrrrrrrrrrrrrr");
       yield put(hideLoader());
       yield put(getTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -162,7 +162,7 @@ function* getEmployeesSaga(action) {
     yield put(showLoader());
     const response = yield call(getEmployeesApi, action.payload.params);
     if (response.success) {
-
+      
       yield put(hideLoader());
       yield put(getEmployeesSuccess(response.details));
       yield call(action.payload.onSuccess(response));

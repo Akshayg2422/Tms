@@ -60,8 +60,13 @@ import {
   GET_REFERENCE_TASKS,
   GET_REFERENCE_TASKS_SUCCESS,
   GET_REFERENCE_TASKS_FAILURE,
+  GET_TASK_USERS,
+  GET_TASK_USERS_SUCCESS,
+  GET_TASK_USERS_FAILURE,
+  GET_TICKET_USERS,
+  GET_TICKET_USERS_SUCCESS,
+  GET_TICKET_USERS_FAILURE,
   
-
 } from '../ActionTypes';
 
 import { AdminStateProp } from '../../Interfaces';
@@ -102,6 +107,8 @@ const initialState: AdminStateProp = {
   referencesTasks:undefined,
   referencesTasksNumOfPages: undefined,
   referencesTasksCurrentPages:undefined,
+  taskUsers: undefined,
+  ticketEmployees:undefined,
 };
 
 
@@ -146,7 +153,22 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = { ...state };
       break;
 
+/**get_ticket_users */
+case GET_TICKET_USERS:
+  state = {
+    ...state
+  };
 
+  break;
+case GET_TICKET_USERS_SUCCESS:
+  state = {
+    ...state,
+    ticketEmployees: action.payload,
+  };
+  break;
+case GET_TICKET_USERS_FAILURE:
+  state = { ...state, ticketEmployees: undefined };
+  break;
 
     /**
      * Dashboard
@@ -486,6 +508,16 @@ case GET_REFERENCE_TASKS_FAILURE:
     case GET_TASKS_ITEM:
       state = { ...state, taskItem: action.payload }
       break;
+
+      case GET_TASK_USERS:
+        state = { ...state, taskUsers: undefined }
+        break;
+      case GET_TASK_USERS_SUCCESS:
+        state = { ...state, taskUsers: action.payload?.details }
+        break;
+      case GET_TASK_USERS_FAILURE:
+        state = { ...state, taskUsers: undefined }
+        break;
 
     default:
       state = state;

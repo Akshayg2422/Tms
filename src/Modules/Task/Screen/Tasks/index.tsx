@@ -6,7 +6,7 @@ import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY, SEARCH_PAGE, COMPANY } from "@Utils";
+import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY, SEARCH_PAGE,getDataAndTime,getMomentObjFromServer, COMPANY,getDisplayDateFromMoment,getDisplayDateTimeFromMoment, getServerTimeFromMoment } from "@Utils";
 
 
 function Tasks() {
@@ -96,6 +96,7 @@ function Tasks() {
           <div className=" m-0 "> Assigned to: @ <span className="h5"> {el?.assigned_to?.name} </span> </div>
           <div> {el?.raised_by_company?.address} </div>
         </div>,
+        date: getServerTimeFromMoment(getMomentObjFromServer(el.created_at)),
         status: <Status status={el?.task_status} />
       };
     });
@@ -146,7 +147,6 @@ function Tasks() {
               selected={taskStatus.value}
               value={taskStatus.value}
               onChange={(item) => {
-                console.log(item)
                 taskStatus.onChange(item)
                 setSyncTickets()
               }}

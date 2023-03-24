@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubTasks, setIsSync } from "@Redux";
-import { NoDataFound, Card, Image, CommonTable } from "@Components";
+import { NoDataFound, Card, Image, CommonTable, Priority } from "@Components";
 import { getPhoto } from "@Utils";
 
 
@@ -26,8 +26,8 @@ function Comments() {
       getSubTasks({
         params,
         onSuccess: (response) => () => {
-          console.log('response',response);
-          
+          console.log('response', response);
+
           // setSyncTickets(true)
         },
         onError: () => () => { },
@@ -45,17 +45,13 @@ function Comments() {
   // }
 
   const normalizedTableData = (data: any) => {
-    // console.log('normalizedTableData', data);
+   
 
     return data.map((el: any) => {
-      // console.log('ellllllllllllllllllllll',JSON.stringify(el));
-      
+     
+
       return {
-        title: el?.title,
-        description: el?.description,
-        task_attachments: <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} />,
-        reference_number: el.reference_number,
-        eta_time: el.eta_time,
+        "Sub task": <div className="row m-0 overflow-auto overflow-hide"> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
       };
     });
   };
@@ -67,11 +63,13 @@ function Comments() {
         <>
           <div className={'d-flex justify-content-end'} style={{ height: '82.3vh' }}>
             <Card className={'col-4 overflow-auto overflow-hide'}>
+              <div className={'mx--5'}>
               <CommonTable
-                title="Tasks"
+                title="SUB TASKS"
                 tableDataSet={subTasks?.data}
                 displayDataSet={normalizedTableData(subTasks?.data)}
               />
+              </div>
             </Card>
           </div>
         </>

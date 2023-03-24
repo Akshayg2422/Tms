@@ -49,9 +49,6 @@ function RegisterUser() {
     const validation = validate(USER_FORM_RULES, params);
 
     if (ifObjectExist(validation)) {
-
-      console.log(JSON.stringify(params));
-
       dispatch(
         registerAdmin({
           params,

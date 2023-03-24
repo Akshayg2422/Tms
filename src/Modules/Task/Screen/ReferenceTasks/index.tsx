@@ -15,16 +15,16 @@ function ReferenceTasks() {
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
   useEffect(() => {
-
+    if (!isSync.referenceTickets) {
     proceedgetReferenceTasks(referencesTasksCurrentPages);
-
-  }, []);
+    }
+  }, [isSync]);
 
 
   const proceedgetReferenceTasks = (pageNumber: number) => {
     const params = {
       pageNumber: pageNumber,
-      id: taskItem?.id,
+      task_id: taskItem?.id,
       q: ""
 
     };
@@ -52,14 +52,14 @@ function ReferenceTasks() {
     });
   };
 
-  // function setSyncCompany(sync = false) {
-  //   dispatch(
-  //     setIsSync({
-  //       ...isSync,
-  //       referenceTickets: sync,
-  //     })
-  //   );
-  // }
+  function setSyncCompany(sync = false) {
+    dispatch(
+      setIsSync({
+        ...isSync,
+        referenceTickets: sync,
+      })
+    );
+  }
 
   return (
 
