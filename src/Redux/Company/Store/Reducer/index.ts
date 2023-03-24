@@ -30,6 +30,9 @@ import {
   GET_BROADCAST_MESSAGES,
   GET_BROADCAST_MESSAGES_SUCCESS,
   GET_BROADCAST_MESSAGES_FAILURE,
+  GET_TASK_EVENTS,
+  GET_TASK_EVENTS_SUCCESS,
+  GET_TASK_EVENTS_FAILURE
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
 
@@ -47,7 +50,8 @@ const initialState: CompanyStateProp = {
   referenceTicketCurrentPages: 1,
   broadCastDetails: [],
   broadCastCurrentPage: 1,
-  broadCastNumOfPages: undefined
+  broadCastNumOfPages: undefined,
+  taskEvents: undefined
 
 };
 
@@ -243,6 +247,21 @@ const CompanyReducer = (
         issueReferenceDetails: undefined,
       };
       break;
+      case GET_TASK_EVENTS:
+        state = {
+          ...state,
+          taskEvents: undefined,
+        };
+        break;
+      case GET_TASK_EVENTS_SUCCESS:
+        state = {
+          ...state,
+          taskEvents: action.payload.details,
+        };
+        break;
+      case GET_TASK_EVENTS_FAILURE:
+        state = { ...state, taskEvents: undefined };
+        break;
     default:
       state = state;
       break;

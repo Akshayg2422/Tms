@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
     Comments,
     TaskUsers,
-    AttachmentsTask,
+    TaskAttachments,
     ReferenceTasks
 } from "@Modules";
 import { Button, Card, Tabs } from "@Components";
@@ -18,7 +18,7 @@ function TaskDetails() {
 
     const TABS = [
         { id: "1", title: "COMMENTS", component: <Comments /> },
-        { id: "2", title: "ATTACH", component: <AttachmentsTask /> },
+        { id: "2", title: "ATTACH", component: <TaskAttachments/> },
         { id: "3", title: "reference", component: <ReferenceTasks /> },
         { id: "4", title: "user", component: <TaskUsers /> },
     ];

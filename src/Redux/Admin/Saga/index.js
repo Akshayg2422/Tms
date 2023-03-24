@@ -386,12 +386,9 @@ function* getAddTaskSaga(action) {
 /*GET SUB TASK*/
 
 function* getSubTasksSaga(action) {
-  console.log('sub task calling================>');
-  console.log('GET SUB TASK ACTION',action);
   try {
     yield put(showLoader());
     const response = yield call(getSubTaskApi, action.payload.params);
-    console.log('GET SUB TASK RESPONSEEEEEEEEEE',response);
     if (response.success) {
       yield put(hideLoader());
       yield put(getSubTasksSuccess(response));

@@ -14,7 +14,7 @@ function Comments() {
     getSubTaskHandler()
   }, [])
 
-  console.log('subTaskssubTasks', subTasks);
+ 
 
 
   const getSubTaskHandler = () => {
@@ -26,7 +26,6 @@ function Comments() {
       getSubTasks({
         params,
         onSuccess: (response) => () => {
-          console.log('response', response);
 
           // setSyncTickets(true)
         },
@@ -48,7 +47,7 @@ function Comments() {
     console.log('normalizedTableData', JSON.stringify(data));
 
     return data.map((el: any) => {
-      console.log('ellllllllllllllllllllll', JSON.stringify(el));
+    
 
       return {
         "Sub task": <div className="row m-0 overflow-auto overflow-hide"> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,

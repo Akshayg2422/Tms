@@ -6,14 +6,7 @@ import { getTaskUsers } from "@Redux";
 
 function TaskUsers() {
   const dispatch = useDispatch();
-  const { employees } = useSelector((state: any) => state.CompanyReducer);
-  const { selectedIssues, selectedReferenceIssues } = useSelector(
-    (state: any) => state.AdminReducer
-  );
-
   const { taskUsers, taskItem } = useSelector((state: any) => state.AdminReducer);
-
-  console.log("taskItem", JSON.stringify(taskUsers))
 
   useEffect(() => {
 

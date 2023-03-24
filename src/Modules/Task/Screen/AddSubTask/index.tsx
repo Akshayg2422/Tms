@@ -38,7 +38,6 @@ function AddSubTask() {
     const { dashboardDetails, taskItem } = useSelector(
         (state: any) => state.AdminReducer
     );
-    console.log('taskItem', taskItem);
     const { isSync } = useSelector((state: any) => state.AppReducer);
 
     const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
