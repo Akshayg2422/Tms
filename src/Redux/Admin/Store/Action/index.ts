@@ -39,8 +39,9 @@ import {
   ADD_TICKET_TAG,
   ADD_TICKET_TAG_SUCCESS,
   ADD_TICKET_TAG_FAILURE,
-
-
+  GET_REFERENCE_TASKS,
+  GET_REFERENCE_TASKS_SUCCESS,
+  GET_REFERENCE_TASKS_FAILURE,
 
   COMPANY_SELECTED_DETAILS,
   REFERENCE_ISSUE_DETAILS,
@@ -377,7 +378,7 @@ export const addTicketTagSuccess = (response) => {
 
 export const addTicketTagFailure = (error) => {
   return {
-    type: ADD_TASK_FAILURE,
+    type: ADD_TICKET_TAG_FAILURE,
     payload: error,
   };
 };
@@ -424,6 +425,31 @@ export const getTicketTagSuccess = (response) => {
 export const getTicketTagFailure = (error) => {
   return {
     type: GET_TICKET_TAG_FAILURE,
+    payload: error,
+  };
+};
+
+export const getReferenceTasks = (params) => {
+
+  return {
+    type: GET_REFERENCE_TASKS,
+    payload: params,
+  };
+};
+
+export const getReferenceTasksSuccess = (response) => {
+
+  
+
+  return {
+    type: GET_REFERENCE_TASKS_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getReferenceTasksFailure = (error) => {
+  return {
+    type: GET_REFERENCE_TASKS_FAILURE,
     payload: error,
   };
 };

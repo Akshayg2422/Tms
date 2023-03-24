@@ -32,7 +32,7 @@ export const VALIDATE_USER_BUSINESS = AUTH + 'validateUserBusiness';
 export const BUSINESS_PLACES_DETAILS = AUTH + 'getBusinessPlaceDetails';
 export const REGISTER_COMPANY = AUTH + 'registerCompany';
 export const REGISTER_ADMIN = AUTH + 'registerAdmin';
-export const GET_EMPLOYEES = EMPLOYEE + 'getEmployees';
+export const GET_EMPLOYEES =TICKET+'getTicketUsers';
 export const ADD_EMPLOYEE = EMPLOYEE + 'addEmployee';
 export const GET_TASKS =  TASK + 'getTasks';
 
@@ -68,4 +68,6 @@ export const FETCH_ADD_TASK = TASK + 'raiseNewTask'
 
 /* GET SUB TASK */
 
-export const FETCH_SUB_TASKS = TASK + 'getSubTasks'
+export const FETCH_SUB_TASKS = TASK +'getSubTasks'
+
+export const GET_REFERENCE_TASKS=TASK+'getReferenceTasks'

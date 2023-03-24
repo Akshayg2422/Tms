@@ -39,6 +39,8 @@ import {
   FETCH_DESIGNATION,
   FETCH_DEPARTMENT,
 
+GET_REFERENCE_TASKS
+
 } from '../UrlHelper';
 
 export const getAssociatedCompaniesApi = payload =>
@@ -104,5 +106,6 @@ export const getBrandSectorApi = (payload) => post(GET_BRAND_SECTOR, payload, {}
 export const addBrandSectorApi = (payload) => post(ADD_BRAND_SECTOR, payload, {})
 export const getTicketTagApi = (payload) => post(GET_TICKET_TAG, payload, {})
 export const addTicketTagApi = (payload) => post(ADD_TICKET_TAG, payload, {})
+export const getReferenceTasksApi = (payload) => post(GET_REFERENCE_TASKS, payload, {})
 
 

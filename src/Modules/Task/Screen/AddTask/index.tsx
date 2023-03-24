@@ -151,6 +151,8 @@ function AddTask() {
     }, []);
 
     useEffect(() => {
+        console.log('addddd');
+        
         const params = {
             branch_id:
                 typeSelect?.id === "2"

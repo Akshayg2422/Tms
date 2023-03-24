@@ -212,7 +212,6 @@ function Tasks() {
             }
             }
             tableOnClick={(idx, index, item) => {
-              console.log('itemmmmmmmmmmmmmmmmmmmmmmmmmm', item);
               dispatch(getTaskItem(item));
               // dispatch(setSelectedReferenceIssues(undefined))
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS);

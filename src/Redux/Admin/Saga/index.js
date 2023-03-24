@@ -14,6 +14,7 @@ import {
   getTaskApi,
   getAddTaskApi,
   getSubTaskApi,
+  getReferenceTasksApi,
 } from "@Services";
 import {
   GET_ASSOCIATED_BRANCH,
@@ -61,6 +62,9 @@ import {
   getSubTasksSuccess,
   getSubTasksFailure,
   getTicketTags,
+  GET_REFERENCE_TASKS,
+  getReferenceTasksSuccess,
+  getReferenceTasksFailure
 } from "@Redux";
 
 function* getAssociatedCompaniesSaga(action) {
@@ -277,6 +281,31 @@ function* getTicketTag(action) {
   }
 }
 
+/**get reference tasks */
+function* getReferenceTasksSaga(action) {
+
+  try {
+    yield put(showLoader());
+    const response = yield call(getReferenceTasksApi, action.payload.params);
+
+    if (response.success) {
+
+      yield put(hideLoader());
+      yield put(getReferenceTasksSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getReferenceTasksFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+   
+    yield put(hideLoader());
+    yield put(getReferenceTasksFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
+
 /**
  * get Departments
  */
@@ -420,6 +449,7 @@ function* AdminSaga() {
   yield takeLatest(ADD_TICKET_TAG, addTicketTag);
   yield takeLatest(GET_BRAND_SECTOR, getBrandSector);
   yield takeLatest(GET_TICKET_TAG, getTicketTag);
+  yield takeLatest(GET_REFERENCE_TASKS,getReferenceTasksSaga);
 }
 
 export default AdminSaga;

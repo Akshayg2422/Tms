@@ -78,7 +78,7 @@ function* getTicketsSaga(action) {
     yield put(showLoader());
     const response = yield call(getTicketsApi, action.payload.params);
     if (response.success) {
-      console.log(response, "rrrrrrrrrrrrrrrrrrr");
+   
       yield put(hideLoader());
       yield put(getTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));

@@ -25,8 +25,7 @@ function Thread() {
     const textMessage = useInput('')
 
     useEffect(() => {
-        console.log('calling proceedd api ==> calling');
-        
+    
         ProceedGetTicketEvents()
     }, []);
 
@@ -74,7 +73,7 @@ function Thread() {
     return (
 
         <div>
-            
+            {/* <TagAssignUser/> */}
             <div className='d-flex justify-content-center'>
                 <Card className='col-lg-10 col-sm-12 overflow-auto overflow-hide mt--3 mb--5' style={{ height: '84.5vh' }}>
 

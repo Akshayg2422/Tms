@@ -14,7 +14,7 @@ function Comments() {
     getSubTaskHandler()
   }, [])
 
-  console.log('subTaskssubTasks', subTasks);
+  // console.log('subTaskssubTasks', subTasks);
 
 
   const getSubTaskHandler = () => {
@@ -45,10 +45,10 @@ function Comments() {
   // }
 
   const normalizedTableData = (data: any) => {
-    console.log('normalizedTableData', data);
+    // console.log('normalizedTableData', data);
 
     return data.map((el: any) => {
-      console.log('ellllllllllllllllllllll',JSON.stringify(el));
+      // console.log('ellllllllllllllllllllll',JSON.stringify(el));
       
       return {
         title: el?.title,
