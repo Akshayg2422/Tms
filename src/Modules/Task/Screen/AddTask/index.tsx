@@ -151,6 +151,8 @@ function AddTask() {
     }, []);
 
     useEffect(() => {
+        console.log('addddd');
+        
         const params = {
             branch_id:
                 typeSelect?.id === "2"
@@ -222,7 +224,8 @@ function AddTask() {
 
                     {typeSelect && typeSelect?.id === "1" && (
                         <DropDown
-                            placeHolder={translate("common.company")!}
+                        heading={translate("common.company")!}
+                            placeHolder={'please select a company...'}
                             data={modifiedCompanyDropDownData}
                             onChange={setSelectedCompany}
                             selected={selectedCompany}
@@ -230,20 +233,23 @@ function AddTask() {
                     )}
 
                     <DropDown
+                    heading={translate("common.user")!}
                         selected={selectedUser.value}
-                        placeHolder={translate("common.user")!}
+                        placeHolder={'please select a user...'}
                         data={companyUserDashboard}
                         onChange={selectedUser.onChange}
                     />
                     <DropDown
+                    heading={translate("common.taskPriority")!}
                         selected={selectedTicketPriority.value}
-                        placeHolder={translate("common.taskPriority")!}
+                        placeHolder={'please select a taskPriority...'}
                         data={PRIORITY}
                         onChange={selectedTicketPriority.onChange}
                     />
                     <DateTimePicker
+                    heading={'Select ETA'}
                         id="eta-picker"
-                        placeholder="Select ETA"
+                        placeholder={'please select a ETA...'}
                         type="both"
                         onChange={handleEtaChange}
                     />

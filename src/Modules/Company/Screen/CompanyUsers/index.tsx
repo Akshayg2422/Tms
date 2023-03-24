@@ -14,10 +14,10 @@ function CompanyUsers() {
     const { companyDetailsSelected } = useSelector(
         (state: any) => state.AdminReducer
     );
-
-
     useEffect(() => {
+        
         const params = { branch_id: companyDetailsSelected.branch_id };
+       
         dispatch(getEmployees({
             params,
             onSuccess: () => () => { },

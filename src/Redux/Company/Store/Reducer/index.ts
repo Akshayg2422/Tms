@@ -94,7 +94,7 @@ const CompanyReducer = (
       break;
 
     case GET_BROADCAST_MESSAGES:
-      console.log(JSON.stringify(action.payload) + "=====GET_BROADCAST_MESSAGES");
+     
       const { page_number } = action.payload.params
       state = {
         ...state,

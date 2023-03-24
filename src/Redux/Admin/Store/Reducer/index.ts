@@ -57,8 +57,16 @@ import {
   GET_BRAND_SECTOR,
   ADD_BRAND_SECTOR,
   ADD_TICKET_TAG,
+  GET_REFERENCE_TASKS,
+  GET_REFERENCE_TASKS_SUCCESS,
+  GET_REFERENCE_TASKS_FAILURE,
+  GET_TASK_USERS,
+  GET_TASK_USERS_SUCCESS,
+  GET_TASK_USERS_FAILURE,
+  GET_TICKET_USERS,
+  GET_TICKET_USERS_SUCCESS,
+  GET_TICKET_USERS_FAILURE,
   
-
 } from '../ActionTypes';
 
 import { AdminStateProp } from '../../Interfaces';
@@ -85,10 +93,6 @@ const initialState: AdminStateProp = {
   brandSectorNumOfPages:undefined,
   ticketTagCurrentPages:undefined,
   ticketTagNumOfPages:undefined,
-
-
-
-
   companyDetailsSelected: undefined,
   referenceIssueSelectedDetails: undefined,
   selectedReferenceIssues: undefined,
@@ -99,6 +103,12 @@ const initialState: AdminStateProp = {
   addTask: undefined,
   subTasks: undefined,
   taskItem: undefined,
+
+  referencesTasks:undefined,
+  referencesTasksNumOfPages: undefined,
+  referencesTasksCurrentPages:undefined,
+  taskUsers: undefined,
+  ticketEmployees:undefined,
 };
 
 
@@ -143,7 +153,22 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = { ...state };
       break;
 
+/**get_ticket_users */
+case GET_TICKET_USERS:
+  state = {
+    ...state
+  };
 
+  break;
+case GET_TICKET_USERS_SUCCESS:
+  state = {
+    ...state,
+    ticketEmployees: action.payload,
+  };
+  break;
+case GET_TICKET_USERS_FAILURE:
+  state = { ...state, ticketEmployees: undefined };
+  break;
 
     /**
      * Dashboard
@@ -228,7 +253,35 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
         loading: false,
       };
       break;
-
+//GET REFERENCE TASKS
+case GET_REFERENCE_TASKS:
+  state = {
+    ...state,
+    referencesTasks: undefined,
+    referencesTasksNumOfPages: 0,
+    referencesTasksCurrentPages: 1,
+    loading: true
+  };
+  break;
+case GET_REFERENCE_TASKS_SUCCESS:
+  state = {
+    ...state,
+    loading: false,
+    referencesTasks: action?.payload?.data,
+    referencesTasksNumOfPages: action?.payload?.num_pages,
+    referencesTasksCurrentPages:
+      action?.payload?.next_page === -1
+        ? action?.payload?.num_pages
+        : action?.payload?.next_page - 1,
+  };
+  break;
+case GET_REFERENCE_TASKS_FAILURE:
+  state = {
+    ...state,
+    error: action.payload,
+    loading: false,
+  };
+  break;
     //get designations
 
     case FETCH_DESIGNATION:
@@ -455,6 +508,16 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     case GET_TASKS_ITEM:
       state = { ...state, taskItem: action.payload }
       break;
+
+      case GET_TASK_USERS:
+        state = { ...state, taskUsers: undefined }
+        break;
+      case GET_TASK_USERS_SUCCESS:
+        state = { ...state, taskUsers: action.payload?.details }
+        break;
+      case GET_TASK_USERS_FAILURE:
+        state = { ...state, taskUsers: undefined }
+        break;
 
     default:
       state = state;
