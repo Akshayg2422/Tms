@@ -26,7 +26,7 @@ function CompanyUsers() {
     }, []);
 
     const normalizedTableData = (data: any) => {
-        return data.map((el: any) => {
+        return data?.map((el: any) => {
             return {
                 name: el.name,
                 phone: el?.mobile_number,
