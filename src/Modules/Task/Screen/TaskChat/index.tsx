@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChatProps } from './interfaces';
+import { TaskChatProps } from './interfaces';
 import { useSelector } from 'react-redux'
 import { getDataAndTime, getPhoto } from '@Utils';
 import { H, Image, ImageFullScreen } from '@Components'
@@ -19,7 +19,7 @@ function Receive({ item }: any) {
 
         <>
             {
-                ((item && item?.message) || (item?.attachments?.attachments)) && (
+                ((item && item?.message) || (item?.attachments)) && (
                     <div className={'d-flex justify-content-end'}>
                         <div
                             className={'col-5 alert fade show text-white'}
@@ -36,7 +36,7 @@ function Receive({ item }: any) {
                             </div>
                             {item.message}
                             <div>
-                                {item?.attachments?.attachments.map((attach) => {
+                                {item?.attachments.map((attach) => {
                                     return (
                                         <div
                                             className={'alert fade show text-white d-flex justify-content-center'}
@@ -66,7 +66,7 @@ function Receive({ item }: any) {
             }
 
             {
-                item?.assigned_to?.name === undefined ? null :
+                item?.assigned_to === undefined ? null :
                     <div className='d-flex justify-content-center text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
             }
 
@@ -87,7 +87,7 @@ function Sent({ item }: any) {
     return (
         <>
             {
-                ((item && item?.message) || (item?.attachments?.attachments)) && (
+                ((item && item?.message) || (item?.attachments)) && (
                     <div className={'d-flex justify-content-start'}>
                         <div
                             className={'col-6 alert fade show text-white'}
@@ -104,7 +104,7 @@ function Sent({ item }: any) {
                             </div>
                             {item.message}
                             <div>
-                                {item?.attachments?.attachments.map((attach) => {
+                                {item?.attachments.map((attach) => {
                                     return (
                                         <div
                                             className={'alert fade show text-white d-flex justify-content-center'}
@@ -142,13 +142,13 @@ function Sent({ item }: any) {
     )
 }
 
-function Chat({ item }: ChatProps) {
-    console.log(JSON.stringify('item',item));
-    
+function TaskChat({ item }: TaskChatProps) {
+    console.log(JSON.stringify('item', item));
+
 
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
-    console.log(JSON.stringify('dashboardDetails',dashboardDetails));
-    
+    console.log(JSON.stringify('dashboardDetails', dashboardDetails));
+
 
     function getChatComponents() {
 
@@ -159,5 +159,5 @@ function Chat({ item }: ChatProps) {
     return <div>{getChatComponents()}</div>;
 }
 
-export { Chat }
+export { TaskChat }
 

@@ -10,7 +10,8 @@ import {
   getReferenceTicketsApi,
   addBroadCastMessagesApi,
   getBroadCastMessagesApi,
-  getTaskEventsApi
+  getTaskEventsApi,
+  addTaskEventApi,
 
 } from '@Services';
 import {
@@ -52,7 +53,10 @@ import {
   getBroadCastMessagesFailure,
   GET_TASK_EVENTS,
   getTaskEventsSuccess,
-  getTaskEventsFailure
+  getTaskEventsFailure,
+  ADD_TASK_EVENT,
+  addTaskEventSuccess,
+  addTaskEventFailure,
 
 } from '@Redux';
 
@@ -82,7 +86,6 @@ function* getTicketsSaga(action) {
     yield put(showLoader());
     const response = yield call(getTicketsApi, action.payload.params);
     if (response.success) {
-  //  console.log(JSON.stringify(response),"rrrrrrrrrrrrrrrrrrr");
       yield put(hideLoader());
       yield put(getTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -166,7 +169,7 @@ function* getEmployeesSaga(action) {
     yield put(showLoader());
     const response = yield call(getEmployeesApi, action.payload.params);
     if (response.success) {
-      
+
       yield put(hideLoader());
       yield put(getEmployeesSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -268,11 +271,11 @@ function* getBroadCastMessagesSaga(action) {
 }
 
 function* getTaskEventsSaga(action) {
-  console.log("TaskEventSaaga",action)
+
   try {
     yield put(showLoader());
     const response = yield call(getTaskEventsApi, action.payload.params);
-    console.log("res---------->",response)
+    console.log('getTaskEventsSaga', response)
     if (response.success) {
       yield put(hideLoader());
       yield put(getTaskEventsSuccess(response));
@@ -283,9 +286,32 @@ function* getTaskEventsSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    console.log("error",error)
+    console.log("error", error)
     yield put(hideLoader());
     yield put(getTaskEventsFailure(error));
+    yield call(action.payload.onError(error));
+
+  }
+}
+
+function* addTaskEventSaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(addTaskEventApi, action.payload.params);
+    console.log('addTaskEventSaga', response)
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(addTaskEventSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(addTaskEventFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    console.log("error", error)
+    yield put(hideLoader());
+    yield put(addTaskEventFailure(error));
     yield call(action.payload.onError(error));
 
   }
@@ -304,6 +330,7 @@ function* CompanySaga() {
   yield takeLatest(ADD_BROADCAST_MESSAGES, addBroadCastMessagesSaga)
   yield takeLatest(GET_BROADCAST_MESSAGES, getBroadCastMessagesSaga)
   yield takeLatest(GET_TASK_EVENTS, getTaskEventsSaga)
+  yield takeLatest(ADD_TASK_EVENT, addTaskEventSaga)
 }
 
 

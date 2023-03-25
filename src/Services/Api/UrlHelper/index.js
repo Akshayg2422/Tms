@@ -38,6 +38,7 @@ export const GET_TASKS =  TASK + 'getTasks';
 export const FETCH_TASK_USERS = TASK + 'getTaskUsers';
 export const FETCH_TASK_EVENTS = TASK + 'getTaskEvents';
 export const GET_TICKET_USERS =TICKET+'getTicketUsers';
+export const FETCH_ADD_TASK_EVENTS = TASK + 'addTaskEvent'
 
 /**
  *  Company
