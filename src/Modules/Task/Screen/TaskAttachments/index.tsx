@@ -45,7 +45,7 @@ function TaskAttachments() {
 
 
   return (
-    <HomeContainer >
+    <HomeContainer isCard >
       <div style={{ height: '82.3vh' }}>
         <div className="input-group bg-white border  col-lg-5 col-md-5 ">
           <input
