@@ -10,6 +10,7 @@ import {
   getReferenceTicketsApi,
   addBroadCastMessagesApi,
   getBroadCastMessagesApi,
+  getTaskEventsApi
 
 } from '@Services';
 import {
@@ -48,7 +49,10 @@ import {
   addBroadCastMessagesSuccess,
   addBroadCastMessagesFailure,
   getBroadCastMessagesSuccess,
-  getBroadCastMessagesFailure
+  getBroadCastMessagesFailure,
+  GET_TASK_EVENTS,
+  getTaskEventsSuccess,
+  getTaskEventsFailure
 
 } from '@Redux';
 
@@ -263,7 +267,32 @@ function* getBroadCastMessagesSaga(action) {
   }
 }
 
+function* getTaskEventsSaga(action) {
+  console.log("TaskEventSaaga",action)
+  try {
+    yield put(showLoader());
+    const response = yield call(getTaskEventsApi, action.payload.params);
+    console.log("res---------->",response)
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getTaskEventsSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getTaskEventsFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    console.log("error",error)
+    yield put(hideLoader());
+    yield put(getTaskEventsFailure(error));
+    yield call(action.payload.onError(error));
+
+  }
+}
+
 function* CompanySaga() {
+  console.log("Watcher")
   yield takeLatest(RAISE_NEW_TICKET, raiseNewTicketSaga);
   yield takeLatest(GET_TICKETS, getTicketsSaga);
   yield takeLatest(GET_TICKET_EVENTS, getTicketEventsSaga);
@@ -274,6 +303,8 @@ function* CompanySaga() {
   yield takeLatest(GET_REFERENCE_TICKETS, getReferenceTicketsSaga)
   yield takeLatest(ADD_BROADCAST_MESSAGES, addBroadCastMessagesSaga)
   yield takeLatest(GET_BROADCAST_MESSAGES, getBroadCastMessagesSaga)
+  yield takeLatest(GET_TASK_EVENTS, getTaskEventsSaga)
 }
+
 
 export default CompanySaga;

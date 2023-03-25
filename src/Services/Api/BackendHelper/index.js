@@ -32,6 +32,7 @@ import {
   GET_TICKET_TAG,
   ADD_TICKET_TAG,
   FETCH_TASK_USERS,
+  FETCH_TASK_EVENTS,
   /**
    * setting
    */
@@ -95,6 +96,8 @@ export const getTaskApi = (payload) => post(GET_TASKS, payload, {})
 export const getSubTaskApi = (payload) => post(FETCH_SUB_TASKS, payload, {})
 
 export const getTaskUsersApi = (payload) => post(FETCH_TASK_USERS, payload, {})
+
+export const getTaskEventsApi = (payload) => post(FETCH_TASK_EVENTS, payload, {})
 
 
 /**
