@@ -26,7 +26,6 @@ function Comments() {
       getSubTasks({
         params,
         onSuccess: (response) => () => {
-          console.log('response', response);
 
           // setSyncTickets(true)
         },

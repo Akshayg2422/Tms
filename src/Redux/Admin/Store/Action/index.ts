@@ -312,8 +312,6 @@ export const getAddTaskFailure = (error: any) => {
 /* GET SUB TASK*/
 
 export const getSubTasks = (params: any) => {
-  console.log('paramsssssssss', params);
-
   return {
     type: GET_SUB_TASKS,
     payload: params
