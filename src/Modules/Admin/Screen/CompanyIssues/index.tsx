@@ -14,9 +14,11 @@ function CompanyIssues() {
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
 
+  
+
   useEffect(() => {
     const params = { branch_id: companyDetailsSelected.branch_id }
-
+    
     dispatch(getTickets({
       params,
       onSuccess: () => () => {

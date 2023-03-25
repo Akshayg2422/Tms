@@ -207,6 +207,7 @@ export const getReferenceTicketsFailure = (error: any) => {
  */
 
 export const getEmployees = (params: any) => {
+
   return {
     type: GET_EMPLOYEES,
     payload: params,
@@ -214,6 +215,7 @@ export const getEmployees = (params: any) => {
 };
 
 export const getEmployeesSuccess = (response: any) => {
+
   return {
     type: GET_EMPLOYEES_SUCCESS,
     payload: response,

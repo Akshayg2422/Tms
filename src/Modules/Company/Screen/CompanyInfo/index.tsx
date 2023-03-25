@@ -11,7 +11,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
 
   const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
   const { display_name, attachment_logo, address, phone, email } = companyDetailsSelected;
-
+ 
   return (
     <HomeContainer>
       <Card >

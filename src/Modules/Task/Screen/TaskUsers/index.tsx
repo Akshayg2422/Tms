@@ -14,7 +14,6 @@ function TaskUsers() {
       task_id: taskItem.id,
     };
 
-
     dispatch(
       getTaskUsers({
         params,
@@ -32,7 +31,8 @@ function TaskUsers() {
         <div>
           <h5 className="text-muted">ASSIGNED TO </h5>
         </div>
-        {taskUsers[0].assigned_to && <Card className="mt-1 py-2 shadow-none" >
+        {taskUsers[0].assigned_to && 
+        <Card className="mt-1 py-2 shadow-none" >
           <UserItem item={taskUsers[0].assigned_to} />
         </Card>}
 

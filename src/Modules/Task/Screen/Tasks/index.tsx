@@ -147,7 +147,6 @@ function Tasks() {
               selected={taskStatus.value}
               value={taskStatus.value}
               onChange={(item) => {
-                console.log(item)
                 taskStatus.onChange(item)
                 setSyncTickets()
               }}

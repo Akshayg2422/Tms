@@ -30,5 +30,9 @@ export interface AdminStateProp {
   brandSectorNumOfPages:any,
   ticketTagCurrentPages:any,
   ticketTagNumOfPages:any,
-  taskUsers:any
+  referencesTasks:any,
+  referencesTasksNumOfPages:any,
+  referencesTasksCurrentPages:any,
+  taskUsers:any,
+  ticketEmployees:any;
 }

@@ -132,7 +132,7 @@ function CreateCompany({}: CreateCompanyProps) {
           onSelect={(image) => {
             let encoded = image.toString().replace(/^data:(.*,)?/, "");
             setPhoto(encoded);
-            console.log(encoded, "encoded");
+          
           }}
         />
       </div>
