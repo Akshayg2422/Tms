@@ -162,6 +162,7 @@ function* getEmployeesSaga(action) {
     yield put(showLoader());
     const response = yield call(getEmployeesApi, action.payload.params);
     if (response.success) {
+   
       
       yield put(hideLoader());
       yield put(getEmployeesSuccess(response.details));

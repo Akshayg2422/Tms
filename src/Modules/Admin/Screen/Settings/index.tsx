@@ -138,9 +138,7 @@ function Settings() {
         params,
         onSuccess: (success: any) => () => {
 
-
           if (!showTags) {
-
 
             setShowTags(!showTags)
           }
@@ -262,7 +260,7 @@ function Settings() {
               onError: (error: string) => () => { },
             })
           );
-          setDesignation("");
+          // setDesignation("");
           showToast(success.message, "success");
         },
         onError: (error: string) => () => {

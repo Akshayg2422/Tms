@@ -34,9 +34,9 @@ function Receive({ item }: any) {
                                     text={getDataAndTime(item.created_at)} tag={'h4'}
                                 />
                             </div>
-                            {item.message}
+                            {item?.message}
                             <div>
-                                {item?.attachments?.attachments.map((attach) => {
+                                {item?.attachments?.attachments?.map((attach) => {
                                     return (
                                         <div
                                             className={'alert fade show text-white d-flex justify-content-center'}
@@ -96,15 +96,15 @@ function Sent({ item }: any) {
                         >
                             <div className={'row mb--3'}>
                                 <H className={'col-6 pb-3 text-black'}
-                                    text={item.by_user.name} tag={'h4'}
+                                    text={item?.by_user?.name} tag={'h4'}
                                 />
                                 <H className={'col-6 text-xs text-capitalize text-black'}
-                                    text={getDataAndTime(item.created_at)} tag={'h4'}
+                                    text={getDataAndTime(item?.created_at)} tag={'h4'}
                                 />
                             </div>
-                            {item.message}
+                            {item?.message}
                             <div>
-                                {item?.attachments?.attachments.map((attach) => {
+                                {item?.attachments?.attachments?.map((attach) => {
                                     return (
                                         <div
                                             className={'alert fade show text-white d-flex justify-content-center'}
@@ -127,15 +127,15 @@ function Sent({ item }: any) {
 
                     return (
                         <div className={'d-flex justify-content-center text-lightGray mb-1'}>
-                            <div>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
+                            <div>{`@${taggedElements.name} tagged by ${item?.by_user?.name}`} </div>
                         </div>
                     )
                 })
             }
 
             {
-                item?.assigned_to?.name === undefined ? null :
-                    <div className='d-flex justify-content-center text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
+                item?.assigned_to === undefined ? null :
+                    <div className='d-flex justify-content-center text-lightGray mb-1'>{`@${item?.assigned_to} tagged by ${item?.by_user?.name}`} </div>
             }
 
         </>
@@ -143,9 +143,9 @@ function Sent({ item }: any) {
 }
 
 function Chat({ item }: ChatProps) {
-
+  
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
-
+ 
     function getChatComponents() {
 
         const isUser = item.by_user?.id === dashboardDetails.user_details?.id;

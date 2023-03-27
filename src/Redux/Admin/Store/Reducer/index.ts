@@ -449,9 +449,9 @@ case GET_REFERENCE_TASKS_FAILURE:
     case GET_TICKET_TAG:
    
         state = { ...state,
-          designationData: undefined,
-          designationNumOfPages: 0,
-          designationCurrentPages: 1,
+          ticketTag: undefined,
+          ticketTagNumOfPages: 0,
+          ticketTagCurrentPages: 1,
            loading: true };
        
       break;

@@ -14,6 +14,8 @@ function CompanyUsers() {
     const { companyDetailsSelected } = useSelector(
         (state: any) => state.AdminReducer
     );
+   
+    
     useEffect(() => {
         
         const params = { branch_id: companyDetailsSelected.branch_id };
@@ -26,7 +28,7 @@ function CompanyUsers() {
     }, []);
 
     const normalizedTableData = (data: any) => {
-        return data.map((el: any) => {
+        return data?.map((el: any) => {
             return {
                 name: el.name,
                 phone: el?.mobile_number,

@@ -37,7 +37,7 @@ function Issues() {
   const getTicketHandler = (pageNumber: number) => {
 
     const params = {
-      q: "",
+      // q: "",
       q_many: search.value,
       tickets_by: filteredTickets?.value.id,
       ticket_status: ticketStatus?.value.id,
@@ -45,6 +45,7 @@ function Issues() {
       priority:ticketPriorty.value.id ? ticketPriorty.value.id:"ALL",
       page_number: pageNumber
     };
+    
     dispatch(
       getTickets({
         params,
@@ -70,8 +71,6 @@ function Issues() {
     setSyncTickets()
     getTicketHandler(SEARCH_PAGE)
   }
-
- 
 
   function Priority({ priority }) {
     const color = getObjectFromArrayByKey(PRIORITY, 'id', priority).color
@@ -223,7 +222,7 @@ function Issues() {
         </div>
       </HomeContainer>
 
-      {tickets && tickets.length > 0 &&
+      {tickets && tickets.length > 0 ?
         <>
 
           <CommonTable
@@ -253,7 +252,7 @@ function Issues() {
           />
         </>
 
-      }
+     :<NoDataFound /> }
 
     </>
   );
