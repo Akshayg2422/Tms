@@ -66,7 +66,7 @@ function Companies() {
         <div className="text-right">
           <Button
             size={'sm'}
-            text={translate("common.createCompany")}
+            text={translate("common.addCompany")}
             onClick={() => {
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_COMPANY);
             }}

@@ -13,4 +13,5 @@ export interface CompanyStateProp {
   referenceTicketNoOfPages: any;
   broadCastCurrentPage: any;
   broadCastNumOfPages: any;
+  taskEvents: any;
 }

@@ -57,8 +57,8 @@ export const RTS = 'RTS'
 
 export const FILTERED_LIST = [
   { id: 'ALL', text: 'All' },
-  { id: 'created_by', text: 'Created' },
-  { id: 'assigned_to', text: 'Assigned' },
+  { id: 'created_by', text: 'Created by me' },
+  { id: 'assigned_to', text: 'Assigned to me' },
   { id: 'tagged_to', text: 'Tagged' }
 ];
 
@@ -74,7 +74,8 @@ export const STATUS_LIST = [
 ]
 
 
-export const PRIORITY = [
+export const PRIORITY_DROPDOWN_LIST = [
+  {id:'ALL',text:"All"},
   { id: 1, text: "Lowest", color: "black" },
   { id: 2, text: "Low", color: "black" },
   { id: 3, text: "Medium", color: "orange" }, 
@@ -82,7 +83,16 @@ export const PRIORITY = [
   { id: 5, text: "Critical", color: "gray" },
 ];
 
-export const COMPANY = [
+export const PRIORITY= [
+  { id: 1, text: "Lowest", color: "black" },
+  { id: 2, text: "Low", color: "black" },
+  { id: 3, text: "Medium", color: "orange" }, 
+  { id: 4, text: "High", color: "red" },
+  { id: 5, text: "Critical", color: "gray" },
+];
+
+export const COMPANY_TYPE = [
+  {id:'ALL',text:"All"},
   {id:'external',text:"External"},
   {id:'',text:"Internal"},
 ]

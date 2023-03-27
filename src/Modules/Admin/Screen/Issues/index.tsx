@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTickets, otpLoginFailure, setIsSync } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable } from "@Components";
+import { getTickets, setIsSync } from "@Redux";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable, Priority, Status } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, getStatusFromCode, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY, getObjectFromArrayByKey, SEARCH_PAGE, COMPANY } from "@Utils";
+import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getServerTimeFromMoment, getMomentObjFromServer } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
-import { icons } from "@Assets";
 
 
 function Issues() {
   const { goTo } = useNavigation();
-  const { dashboardDetails, } = useSelector((state: any) => state.AdminReducer);
   const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.CompanyReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTickets = useDropDown(FILTERED_LIST[0])
   const ticketStatus = useDropDown(STATUS_LIST[0])
-  const ticketPriorty = useDropDown({})
-  const company = useDropDown({})
+  const ticketPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
+  const companyType = useDropDown(COMPANY_TYPE[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
-  
+
 
   useEffect(() => {
-   
-    
+
+
     if (!isSync.issues) {
       getTicketHandler(ticketCurrentPages)
     }
@@ -41,8 +39,8 @@ function Issues() {
       q_many: search.value,
       tickets_by: filteredTickets?.value.id,
       ticket_status: ticketStatus?.value.id,
-      company: company.value.id ? company.value.id : 'ALL',
-      priority:ticketPriorty.value.id ? ticketPriorty.value.id:"ALL",
+      company: companyType.value.id,
+      priority: ticketPriority.value.id,
       page_number: pageNumber
     };
     
@@ -55,7 +53,7 @@ function Issues() {
         onError: () => () => { },
       })
     );
-    
+
   };
 
   function setSyncTickets(sync = false) {
@@ -72,62 +70,47 @@ function Issues() {
     getTicketHandler(SEARCH_PAGE)
   }
 
-  function Priority({ priority }) {
-    const color = getObjectFromArrayByKey(PRIORITY, 'id', priority).color
-    return <div className="row m-0 justify-content-center align-items-center">
-      <div style={{
-        height: 10, width: 10, borderRadius: 5, background: color
-      }}>
-      </div>
-      <span className="ml-2">{/* {getObjectFromArrayByKey(PRIORITY, 'id', priority).text} */}</span>
-    </div>
-  }
-
-  function Status({ status }) {
-    const color = getObjectFromArrayByKey(STATUS_LIST, 'id', status).color
-    return <div className="">
-      <span style={{color:color}} className="">{getObjectFromArrayByKey(STATUS_LIST, 'id', status).text} </span>
-    </div>
-  }
-
 
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
-        "": <Priority priority={el?.priority} />,
-        issue: el.title,
+
+        "issue": <div className="row m-0" style={{ width: "" }}> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
         attchments:
           <div className="avatar-group" style={{
-            width: '130px'
+            width: '160px'
           }}>
             {
               el?.ticket_attachments &&
               el?.ticket_attachments.length > 0 && el?.ticket_attachments.map((item) => {
 
-                return <a className="avatar avatar-md">
-                     <Image
-                        variant={'avatar'}
-                         src={getPhoto(item?.attachment_file)} />
+                return <a className="avatar avatar-md "
+                  href="#pablo"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Image
+                    variant={'avatar'}
+                    src={getPhoto(item?.attachment_file)} />
                 </a>
               })
             }
 
           </div>,
 
-        "raised by": <>
-          <div> {el?.by_user?.name} </div>
-          <div> {el?.by_user?.phone} </div>
-          <div>{el?.by_user?.email} </div>
-        </>,
-        "raised to": < >
-          {/* <div> <Image variant={'avatar'} src={getPhoto(el?.raised_by_company.attachment_logo)} /> </div> */}
-          <div>{el?.assigned_to?.name}</div>
-          <div>{el?.raised_by_company?.phone} </div>
-          <div>{el?.raised_by_company?.email} </div>
-          <div>{el?.raised_by_company?.display_name}</div>
-          <div>{el?.raised_by_company?.address}</div>
-        </>,
-        status: getStatusFromCode(dashboardDetails, el.ticket_status)
+        "raised by":
+          <div className="m-0 h5"> {el?.by_user?.name} </div>,
+        "raised to":
+          <div className="row">
+            <div className="col-3 d-flex  justify-contnet-center mr--2"> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
+            <div className="col-9  mb-0">
+              <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
+              <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
+              <div className=""></div>
+              <div className="">{el?.raised_by_company?.address}</div>
+            </div>
+          </div>,
+        date: getServerTimeFromMoment(getMomentObjFromServer(el.created_at)),
+        status: <Status status={el?.ticket_status} />
       };
     });
   };
@@ -179,7 +162,7 @@ function Issues() {
               selected={ticketStatus.value}
               value={ticketStatus.value}
               onChange={(item) => {
-               
+
                 ticketStatus.onChange(item)
                 setSyncTickets()
               }}
@@ -187,12 +170,12 @@ function Issues() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-              heading={'Priorty'}
-              data={PRIORITY}
-              selected={ticketPriorty.value}
-              value={ticketPriorty.value}
+              heading={'Priority'}
+              data={PRIORITY_DROPDOWN_LIST}
+              selected={ticketPriority.value}
+              value={ticketPriority.value}
               onChange={(item) => {
-                ticketPriorty.onChange(item)
+                ticketPriority.onChange(item)
                 setSyncTickets()
               }}
             />
@@ -200,25 +183,26 @@ function Issues() {
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
               heading={'Company'}
-              data={COMPANY}
-              selected={company.value}
-              value={company.value}
+              data={COMPANY_TYPE}
+              selected={companyType.value}
+              value={companyType.value}
               onChange={(item) => {
-                company.onChange(item)
+                companyType.onChange(item)
                 setSyncTickets()
               }}
             />
           </div>
-
-          <div className="col text-right mt-5">
-            <Button
-              size={"sm"}
-              text={translate("common.createTicket")}
-              onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
-              }}
-            />
-          </div>
+        </div>
+      </HomeContainer>
+      <HomeContainer>
+        <div className="text-right ">
+          <Button
+            size={"sm"}
+            text={translate("common.addTicket")}
+            onClick={() => {
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+            }}
+          />
         </div>
       </HomeContainer>
 
@@ -250,9 +234,7 @@ function Issues() {
             }
             }
           />
-        </>
-
-     :<NoDataFound /> }
+        </> : <NoDataFound/> }
 
     </>
   );

@@ -7,6 +7,7 @@ import {
   Modal,
   NoRecordsFound,
   showToast,
+  Checkbox
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -51,6 +52,8 @@ function Settings() {
   const [sector, setSector] = useState("");
   const [tags, setTags] = useState("");
   const [description, setDescription] = useState("");
+  const [isSuperAdmin,setIsSuperAdmin] = useState(true);
+  const [isAdmin,setIsAdmin] = useState(false);
 
   const dynamicHeight: any = useDynamicHeight()
 
@@ -275,11 +278,16 @@ function Settings() {
       return {
         name: el.name,
         Admin:
-          <div className="d-flex justify-content-center ">
-            <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
+          <div className="">
+            <Checkbox  id="superAdmin" defaultChecked={isSuperAdmin} onCheckChange={()=>{
+             setIsSuperAdmin(!isSuperAdmin)
+            }}/>
+            
           </div>,
-        superAdmin: <div className="d-flex justify-content-center ">
-          <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
+        superAdmin: <div className=" ">
+          <Checkbox  id="admin" defaultChecked={isAdmin} onCheckChange={()=>{
+             setIsSuperAdmin(!isAdmin)
+            }}/>
         </div>,
         edit: <i className="bi bi-pencil"></i>,
       };
