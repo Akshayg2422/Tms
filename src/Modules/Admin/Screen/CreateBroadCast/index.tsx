@@ -142,7 +142,7 @@ function CreateBroadCast() {
 
   return (
     <div>
-      <HomeContainer isCard title={translate("auth.createBroadCast")!}>
+      <HomeContainer isCard title={translate("auth.addBroadCast")!}>
         <div className="col-md-9 col-lg-7">
           <Input
             heading={translate("auth.title")}

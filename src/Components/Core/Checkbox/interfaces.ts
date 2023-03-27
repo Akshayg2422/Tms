@@ -5,7 +5,7 @@ import { Variants } from '@Components'
  */
 export interface CheckboxProps extends InputProps {
     id: string;
-    text: string
+    text?: string
     variant?: Variants;
     onCheckChange?: (checked: boolean) => void;
 }

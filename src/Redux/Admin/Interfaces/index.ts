@@ -15,8 +15,8 @@ export interface AdminStateProp {
   associatedCompaniesNumOfPages:any,
   associatedCompaniesCurrentPages:any,
   tasks:any
-  tasksNumOfPages:any,
-  tasksCurrentPages:any
+  taskNumOfPages:any,
+  taskCurrentPages:any
   designationCurrentPages:any,
   designationNumOfPages:any,
   departmentCurrentPages:any,
