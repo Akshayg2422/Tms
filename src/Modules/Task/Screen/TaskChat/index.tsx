@@ -143,11 +143,11 @@ function Sent({ item }: any) {
 }
 
 function TaskChat({ item }: TaskChatProps) {
-    console.log(JSON.stringify('item', item));
+    console.log('item',JSON.stringify(item));
 
 
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
-    console.log(JSON.stringify('dashboardDetails', dashboardDetails));
+    console.log('dashboardDetails',JSON.stringify(dashboardDetails));
 
 
     function getChatComponents() {

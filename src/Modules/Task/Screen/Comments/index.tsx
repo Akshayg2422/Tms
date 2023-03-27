@@ -1,26 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getSubTasks, getTaskEvents, setIsSync } from "@Redux";
-import { NoDataFound, Card, Image, CommonTable, Priority } from "@Components";
-import { TEM, arrayOrderbyCreatedAt, getPhoto } from "@Utils";
+import { NoDataFound, Card, Image, CommonTable, Priority, Input, Modal, Dropzone, Button } from "@Components";
+import { icons } from '@Assets'
+import { TEM, MEA, arrayOrderbyCreatedAt, getPhoto } from "@Utils";
 import { CardBody, CardHeader } from "reactstrap";
 import { useInput } from "@Hooks";
-import { TaskChat, SendComments } from "@Modules";
+import { TaskChat } from "@Modules";
 
 
 function Comments() {
   const dispatch = useDispatch();
-  const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
+  const { taskEvents, addTaskEvents } = useSelector((state: any) => state.CompanyReducer);
   const { subTasks, taskItem } = useSelector((state: any) => state.AdminReducer);
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const textMessage = useInput('')
+  const [selectAttachments, setSelectAttachments] = useState(false)
+  const modalName = useInput('')
+  const [selectDropzone, setSelectDropzone] = useState<any>([{}])
+  const [photo, setPhoto] = useState<any>([])
+  const [image, setImage] = useState('')
+
 
   useEffect(() => {
     ProceedGetTaskEvents()
     getSubTaskHandler()
   }, [])
-
-  console.log('taskEvents', JSON.stringify(taskEvents));
 
   const getSubTaskHandler = () => {
     const params = {
@@ -53,10 +58,6 @@ function Comments() {
     );
   };
 
-  let getTaskEventData = arrayOrderbyCreatedAt(taskEvents?.data)
-  console.log('getTaskEventData', getTaskEventData);
-
-
   const sendMessageHandler = () => {
 
     if (textMessage) {
@@ -77,6 +78,40 @@ function Comments() {
     }
   }
 
+  const onModalSubmitHandler = () => {
+    const params = {
+      event_type: MEA,
+      id: taskItem.id,
+      attachments: [{ attachment: photo }],
+      name: modalName.value
+    };
+    dispatch(
+      addTaskEvent({
+        params,
+        onSuccess: () => () => {
+          ProceedGetTaskEvents();
+        },
+        onError: () => () => { },
+      }),
+    );
+    setSelectAttachments(!selectAttachments);
+    resetValues();
+  };
+  const resetValues = () => {
+    modalName.set('');
+    setSelectDropzone([{}]);
+  };
+
+  const handleImagePicker = (index: number, file: any) => {
+    let updatedPhoto = [...selectDropzone, file]
+    let newUpdatedPhoto = [...photo, file]
+    setSelectDropzone(updatedPhoto)
+    setPhoto(newUpdatedPhoto)
+  }
+
+  let getTaskEventData = arrayOrderbyCreatedAt(taskEvents?.data)
+  console.log('getTaskEventData', JSON.stringify(getTaskEventData));
+
   const normalizedTableData = (data: any) => {
 
     return data.map((el: any) => {
@@ -90,94 +125,56 @@ function Comments() {
   return (
     <>
 
-      <Card className='col-xl-8 mx-1 overflow-auto overflow-hide' style={{ height: '78vh' }}>
+      <div className="d-flex">
+        <div className={'col-xl-8'}>
+          <Card className='mx--3 overflow-auto overflow-hide' style={{ height: '80vh' }}>
 
-        <div className='fixed-bottom col-xl-6 col-sm-12' style={{ cursor: "pointer" }}>
-          <SendComments value={textMessage.value}
-            onClick={sendMessageHandler}
-            onChange={textMessage.onChange}
-          />
-        </div>
-        <div className={'py-5'}>
-          {/* {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
-        return (
-            <TaskChat item={el} />
-        )
-    })} */}
-        </div>
-      </Card>
-
-      {subTasks && subTasks.data.length > 0 ?
-        <>
-
-          <div className="d-flex" style={{ height: '82.9vh' }}>
-            <div>
-              {/* <TagAssignUser/> */}
-              <div className='d-flex justify-content-start'>
-
+            <div className="row d-flex align-items-end" style={{ height: '80vh' }}>
+              <div className='col-1' style={{ zIndex: 6 }}>
+                <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
+              </div>
+              <div>
+                <Modal isOpen={selectAttachments}
+                  onClose={() => {
+                    setSelectAttachments(!selectAttachments)
+                  }}>
+                  <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={modalName.onChange} />
+                  {selectDropzone && selectDropzone.map((el, index) => {
+                    return (
+                      <Dropzone variant='ICON'
+                        icon={image}
+                        size='xl'
+                        onSelect={(image) => {
+                          let file = image.toString().replace(/^data:(.*,)?/, '');
+                          handleImagePicker(index, file)
+                        }}
+                      />
+                    )
+                  })}
+                  <div className='d-flex flex-row pt-4'>
+                    <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => onModalSubmitHandler()} />
+                  </div>
+                </Modal>
+              </div>
+              <div className="col-9">
+                <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type Here'} onChange={textMessage.onChange} />
+              </div>
+              <div className="col-2">
+                <span className={'icon icon-shape text-white bg-info rounded-circle shadow'} onClick={sendMessageHandler}><i className="ni ni-send"></i></span>
               </div>
             </div>
-            {/* <Card className={'col-xl-8 mx-1'}>
-              <div className="ml-3" >
-                <div
-                  className="timeline timeline-one-side"
-                  data-timeline-axis-style="dashed"
-                  data-timeline-content="axis"
-                >
-                  <div className="timeline-block">
-                    <span className="timeline-step badge-info">
-                      <i className="ni ni-bell-55" />
-                    </span>
-                    <div className="timeline-content">
-                      <div className="d-flex justify-content-start pt-1">
-                        <div>
-                          <span className="text-muted text-sm font-weight-bold"> New message</span>
-                        </div>
-                        <div className="pl-6">
-                          <small className="text-muted">
-                            <i className="fas fa-clock mr-1" />5 hrs ago
-                          </small>
-                        </div>
-                      </div>
-                      <h6 className="text-sm mt-1 mb-0">
-                        Let's meet at Starbucks at 11:20. Why?
-                      </h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={'d-flex float-right '}>
-                <div className="ml-3" >
-                  <div
-                    className="timeline timeline-one-side"
-                    data-timeline-axis-style="dashed"
-                    data-timeline-content="axis"
-                  >
-                    <div className="timeline-block ">
-                      <span className="timeline-step badge-info ">
-                        <i className="ni ni-bell-55 " />
-                      </span>
-                      <div className="timeline-content">
-                        <div className="d-flex justify-content-start pt-1">
-                          <div className="pr-6">
-                            <small className="text-muted">
-                              <i className="fas fa-clock mr-1" />10 hrs ago
-                            </small>
-                          </div>
-                          <div>
-                            <span className="text-muted text-sm font-weight-bold"> New message</span>
-                          </div>
-                        </div>
-                        <h6 className="text-sm mt-1 mb-0">
-                          Let's meet at Starbucks at 11:30. Why?
-                        </h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card> */}
-            <Card className={'col-xl-4 d-flex justify-content-end mx--2 overflow-auto overflow-hide'}>
+            <div className={'py-5'}>
+              {/* {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
+                return (
+                  <TaskChat item={el} />
+                )
+              })} */}
+            </div>
+          </Card>
+        </div>
+        <div className={'col-xl-4'}>
+          {subTasks && subTasks.data.length > 0 ?
+            <Card className={'mx--3 overflow-auto overflow-hide shadow-none'} style={{ height: '80vh' }}>
               <div className={'mx--5'}>
                 <CommonTable
                   title="SUB TASKS"
@@ -186,11 +183,10 @@ function Comments() {
                 />
               </div>
             </Card>
-          </div>
-        </>
-        : <NoDataFound />
-      }
-
+            : <NoDataFound />
+          }
+        </div>
+      </div>
     </>
   );
 }
