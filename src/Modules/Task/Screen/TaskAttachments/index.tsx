@@ -1,7 +1,7 @@
 import React, { useEffect, } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput } from "@Hooks";
-import {  HomeContainer, Image, NoDataFound } from "@Components";
+import { HomeContainer, Image, NoDataFound } from "@Components";
 import { translate } from "@I18n";
 import { getTaskEvents } from "@Redux";
 import { getPhoto, MEA } from "@Utils";
@@ -14,7 +14,7 @@ function TaskAttachments() {
 
   useEffect(() => {
     const params = {
-      task_id:taskItem.id,
+      task_id: taskItem.id,
       event_type: MEA,
     };
 
@@ -63,7 +63,7 @@ function TaskAttachments() {
               return (
                 <>
                   <div>
-                    <h4 className='my-2'> {item.attachments?.name} </h4>
+                    <h4 className='my-2'> {item?.attachments?.name} </h4>
                     {
                       item?.attachments?.attachments.map((image: any) => {
                         return (

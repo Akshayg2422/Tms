@@ -62,18 +62,23 @@ function Comments() {
 
     if (textMessage) {
       const params = {
-        id: taskItem.id,
+        task_id: taskItem.id,
         message: textMessage.value,
         event_type: TEM
       }
 
       dispatch(addTaskEvent({
         params,
-        onSuccess: () => () => {
+        onSuccess: (response) => () => {
           textMessage.set('')
           ProceedGetTaskEvents()
+          console.log('addTaskEventSuccessssMessage', response);
+
         },
-        onFailure: () => () => { }
+        onFailure: (error) => () => {
+          console.log('error message', error);
+
+        }
       }))
     }
   }
@@ -88,10 +93,15 @@ function Comments() {
     dispatch(
       addTaskEvent({
         params,
-        onSuccess: () => () => {
+        onSuccess: (response) => () => {
           ProceedGetTaskEvents();
+          console.log('modalresponse', response);
+
         },
-        onError: () => () => { },
+        onError: (error) => () => {
+          console.log('modalerror', error);
+
+        },
       }),
     );
     setSelectAttachments(!selectAttachments);
@@ -110,7 +120,6 @@ function Comments() {
   }
 
   let getTaskEventData = arrayOrderbyCreatedAt(taskEvents?.data)
-  console.log('getTaskEventData', JSON.stringify(getTaskEventData));
 
   const normalizedTableData = (data: any) => {
 
@@ -121,6 +130,7 @@ function Comments() {
       };
     });
   };
+  console.log('getTaskEventData==========>', JSON.stringify(getTaskEventData));
 
   return (
     <>
@@ -164,11 +174,14 @@ function Comments() {
               </div>
             </div>
             <div className={'py-5'}>
-              {/* {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
+              {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
+                console.log('map====>', el);
+
                 return (
                   <TaskChat item={el} />
+
                 )
-              })} */}
+              })}
             </div>
           </Card>
         </div>

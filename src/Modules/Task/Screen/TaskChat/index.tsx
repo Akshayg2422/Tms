@@ -19,7 +19,7 @@ function Receive({ item }: any) {
 
         <>
             {
-                ((item && item?.message) || (item?.attachments)) && (
+                ((item && item?.message) || (item?.attachments.attachments)) && (
                     <div className={'d-flex justify-content-end'}>
                         <div
                             className={'col-5 alert fade show text-white'}
@@ -36,7 +36,7 @@ function Receive({ item }: any) {
                             </div>
                             {item.message}
                             <div>
-                                {item?.attachments.map((attach) => {
+                                {item?.attachments.attachments.map((attach) => {
                                     return (
                                         <div
                                             className={'alert fade show text-white d-flex justify-content-center'}
@@ -87,7 +87,7 @@ function Sent({ item }: any) {
     return (
         <>
             {
-                ((item && item?.message) || (item?.attachments)) && (
+                ((item && item?.message) || (item?.attachments.attachments)) && (
                     <div className={'d-flex justify-content-start'}>
                         <div
                             className={'col-6 alert fade show text-white'}
@@ -104,14 +104,14 @@ function Sent({ item }: any) {
                             </div>
                             {item.message}
                             <div>
-                                {item?.attachments.map((attach) => {
+                                {item?.attachments.attachments.map((attach) => {
                                     return (
                                         <div
                                             className={'alert fade show text-white d-flex justify-content-center'}
                                             role={'alert'}
                                         >
                                             <ImageFullScreen onChange={handleFullScreenChange}>
-                                                <Image src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
+                                                <Image src={getPhoto(attach?.attachment_file)} style={{ height: "200px", width: "200px" }} />
                                             </ImageFullScreen>
                                         </div>
                                     )
@@ -143,7 +143,7 @@ function Sent({ item }: any) {
 }
 
 function TaskChat({ item }: TaskChatProps) {
-    console.log('item',JSON.stringify(item));
+    console.log('item22222222222222222222222222222222222',JSON.stringify(item));
 
 
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
@@ -156,7 +156,7 @@ function TaskChat({ item }: TaskChatProps) {
 
         return <>{isUser ? <Receive item={item} /> : <Sent item={item} />}</>;
     }
-    return <div>{getChatComponents()}</div>;
+    return <div></div>;
 }
 
 export { TaskChat }
