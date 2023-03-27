@@ -2,7 +2,7 @@ import {
   Button,
   HomeContainer,
   Input,
-  Radio,
+  Checkbox,
   Dropzone,
   showToast,
   MultiSelectDropDown,
@@ -37,10 +37,16 @@ function CreateBroadCast() {
   const title = useInput("");
   const description = useInput("");
 
+  const[internalCheck, setInternalCheck] = useState(true)
+  const[externalCheck, setExternalCheck] = useState(false)
+
   const handleImagePicker = (index: number, file: any) => {
     let newUpdatedPhoto = [...photo, file];
     setPhoto(newUpdatedPhoto);
   };
+
+
+  
 
   const submitTicketHandler = () => {
     const params = {
@@ -49,14 +55,12 @@ function CreateBroadCast() {
       ...(selectedCompanyId.length > 0 && {
         applicable_branches_ids: { add: selectedCompanyId },
       }),
+      ...(internalCheck&& { internalCompany:true }),
       broadcast_attachments: [{ attachments: photo }],
     };
 
-
     const validation = validate(typeSelect?.id === "1"?CREATE_BROAD_CAST_EXTERNAL:CREATE_BROAD_CAST_INTERNAL, params);
 
-
-    
     if (ifObjectExist(validation)) {
       dispatch(
         addBroadCastMessages({
@@ -131,10 +135,7 @@ function CreateBroadCast() {
     }
     
     else{
-      setTypeSelect(type[1])
       setIsSelect(true)
-     
-      
     }
   }
   
@@ -142,7 +143,7 @@ function CreateBroadCast() {
 
   return (
     <div>
-      <HomeContainer isCard title={translate("auth.createBroadCast")!}>
+      <HomeContainer isCard title={translate("auth.addBroadCast")!}>
         <div className="col-md-9 col-lg-7">
           <Input
             heading={translate("auth.title")}
@@ -154,11 +155,11 @@ function CreateBroadCast() {
             value={description.value}
             onChange={description.onChange}
           />
-<div   onClick={() => {
+{/* <div   onClick={() => {
               isSelect &&
                 showToast("there is no associatedBranches in this company");
-            }}>
-          <Radio
+            }}> */}
+          {/* <Radio
             selected={typeSelect}
             data={type}
             disableId={isSelect ? type[1] : ""}
@@ -168,9 +169,42 @@ function CreateBroadCast() {
               setSelectedCompanyId([]);
             }}
 
-          />
+          /> */}
+        <div className="row col ">
+          <div className="pr-3"><Checkbox defaultChecked={externalCheck} text={'External'} id={'1'} 
+          onCheckChange={
+            setExternalCheck
+          }
+         />
+         
           </div>
-          {typeSelect && typeSelect?.id === "1" && (
+          <div  >
+            <Checkbox text={'Internal'} id={'2'}
+    
+          defaultChecked={internalCheck}
+          onCheckChange={setInternalCheck}
+          
+           />
+          </div>
+          
+          {/* </div>  */}
+      
+          </div>
+          {/* {typeSelect && typeSelect?.id === "1" && (
+            <MultiSelectDropDown
+              heading={translate("common.company")!}
+              options={modifiedCompanyDropDownData!}
+              displayValue={"value"}
+              onSelect={(item) => {
+                setSelectedCompany(item);
+              }}
+              onRemove={(item) => {
+                setSelectedCompany(item);
+              }}
+            />
+          )} */}
+
+{ externalCheck && (
             <MultiSelectDropDown
               heading={translate("common.company")!}
               options={modifiedCompanyDropDownData!}

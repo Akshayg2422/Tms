@@ -46,7 +46,9 @@ function CreateCompany({}: CreateCompanyProps) {
       email: email.value,
       gender: gender.value?.id,
       designation: "Management",
-    };
+    }
+console.log(params,'registeradmin');
+
 
     const validation = validate(USER_FORM_RULES, {
       first_name: fullName.value,
@@ -85,7 +87,6 @@ function CreateCompany({}: CreateCompanyProps) {
       mobile_number2: companyContactNumber.value,
       attachment_logo: photo,
     };
-
     const validation = validate(BUSINESS_FORM_RULES, params);
 
     if (ifObjectExist(validation)) {
@@ -105,7 +106,7 @@ function CreateCompany({}: CreateCompanyProps) {
             );
           },
           onError: (error: any) => () => {
-            showToast("");
+            showToast(error.message,"error");
           },
         })
       );
@@ -115,7 +116,7 @@ function CreateCompany({}: CreateCompanyProps) {
   };
 
   return (
-    <HomeContainer isCard title={translate("common.createCompany")!}>
+    <HomeContainer isCard title={translate("common.addCompany")!}>
       <div className="col-md-9 col-lg-5">
         <H
           tag={"h3"}

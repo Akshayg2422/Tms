@@ -28,6 +28,8 @@ function AddUser() {
   const { companyDetailsSelected, designationData } = useSelector(
     (state: any) => state.AdminReducer
   );
+  console.log(designationData,"dddddddddddddddddddddddddddddd");
+  
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
   const dispatch = useDispatch();
@@ -52,7 +54,7 @@ function AddUser() {
   }, []);
 
   const submitAddUserHandler = () => {
-    if (designationData.data[0].name !== designationValue) {
+    if (designationData[0].name !== designationValue) {
       const params = {
         branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
@@ -101,8 +103,10 @@ function AddUser() {
         mobile_number: contactNumber.value,
         email: email.value,
         gender: gender.value.id,
-        designation_name: designationData?.data[0].id,
+        designation_name: designationData[0]?.id,
       };
+     
+      
 
       const validation = validate(ADD_USER_RULES, {
         branch_id: companyDetailsSelected?.branch_id,
@@ -110,7 +114,7 @@ function AddUser() {
         mobile_number: contactNumber.value,
         ...(email.value && { email: email.value }),
         gender: gender.value.id,
-        designation_name: designationData?.data[0]?.id,
+        designation_name: designationData[0]?.id,
       });
 
       if (ifObjectExist(validation)) {
@@ -172,7 +176,7 @@ function AddUser() {
               <AutoCompleteDropDown
                 heading={"Designation"}
                 value={designationValue}
-                item={designationData?.data}
+                item={designationData}
                 onChange={(event, value) => setDesignationValue(value)}
                 onSelect={(value) => {
                   setDesignationValue(value);

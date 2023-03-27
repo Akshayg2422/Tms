@@ -57,7 +57,7 @@ function Broadcast() {
     <HomeContainer>
       <div className="col text-right ">
         <Button
-          text={translate("auth.createBroadCast")!}
+          text={translate("auth.addBroadCast")!}
           size={"sm"}
           onClick={() =>
             goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_BROAD_CAST)

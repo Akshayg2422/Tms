@@ -95,8 +95,8 @@ export const ADMIN_ROUTES = [
   },
   {
     path: "/issues",
-    name: "Issues",
-    icon: "ni ni-bell-55 text-red",
+    name: "Tickets",
+    icon: "ni ni-bell-55 text-primary",
     layout: "/admin",
     component: <Issues />
   },
@@ -110,7 +110,7 @@ export const ADMIN_ROUTES = [
   {
     path: "/broadCast",
     name: "Broadcast",
-    icon: "ni ni-world-2 text-primary",
+    icon: "bi bi-megaphone text-primary",
     layout: "/admin",
     component: <Broadcast />
   },

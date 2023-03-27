@@ -49,10 +49,13 @@ function Send({ onClick, value, onChange }: SendProps) {
         dispatch(
             addTicketEvent({
                 params,
-                onSuccess: () => () => {
+                onSuccess: (response) => () => {
                     ProceedGetTicketEvents();
+                    
                 },
-                onError: () => () => { },
+                onError: (error) => () => {
+                    
+                 },
             }),
         );
         setSelectAttachments(!selectAttachments);

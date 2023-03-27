@@ -171,7 +171,7 @@ function IssueCreate() {
 
   return (
     <div>
-      <HomeContainer isCard title={translate("common.createTicket")!}>
+      <HomeContainer isCard title={translate("common.addTicket")!}>
         <div className="col-md-9 col-lg-7">
           <Input
             heading={translate("auth.title")}

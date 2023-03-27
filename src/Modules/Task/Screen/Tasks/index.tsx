@@ -6,23 +6,23 @@ import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY, SEARCH_PAGE, getDataAndTime, getMomentObjFromServer, COMPANY, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getServerTimeFromMoment } from "@Utils";
+import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getServerTimeFromMoment } from "@Utils";
 
 
 function Tasks() {
   const { goTo } = useNavigation();
-  const { tasks, tasksNumOfPages, tasksCurrentPages } = useSelector((state: any) => state.AdminReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTasks = useDropDown(FILTERED_LIST[0])
   const taskStatus = useDropDown(STATUS_LIST[0])
-  const taskPriorty = useDropDown({})
-  const company = useDropDown({})
+  const taskPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
+  const companyType = useDropDown(COMPANY_TYPE[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
   useEffect(() => {
     if (!isSync.tasks) {
-      getTaskHandler(tasksCurrentPages)
+      getTaskHandler(taskCurrentPages)
     }
   }, [isSync])
 
@@ -35,8 +35,8 @@ function Tasks() {
       q_many: search.value,
       tasks_by: filteredTasks?.value.id,
       task_status: taskStatus?.value.id,
-      company: company.value.id ? company.value.id : 'ALL',
-      priority: taskPriorty.value.id ? taskPriorty.value.id : "ALL",
+      company: companyType.value.id,
+      priority: taskPriority.value.id,
       page_number: pageNumber
     };
     dispatch(
@@ -68,34 +68,38 @@ function Tasks() {
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
-        "task": <div className="row m-0" style={{ width: "230px" }}> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
-        "task attachments":
+        "task":  
+        <div className="row m-0" style={{ width: "" }}> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
+            "attachments":
           <div className="avatar-group m-0" style={{
-            width: '100px'
+            width: '160px'
           }}>
             {
               el?.task_attachments &&
               el?.task_attachments.length > 0 && el?.task_attachments.map((item) => {
-                return <a className="avatar avatar-md rounded-circle"
+                return <a className="avatar avatar-md"
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}>
                   <Image
-                    variant={'rounded'}
+                    variant={'avatar'}
                     src={getPhoto(item?.attachment_file)} />
                 </a>
               })
             }
 
           </div>,
-        "raised by": <div className="m-0" style={{ width: "" }}>
-          <div className="h5 m-0"> {el?.by_user?.name} </div>
-        </div>,
-        "raised to": <div className=" m-0" style={{ width: "250px" }}>
-          <div className="mb-2"> <Image variant={'avatar'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
-          <div className="h5 m-0"> {el?.raised_by_company?.display_name}</div>
-          <div className=" m-0 "> Assigned to: @ <span className="h5"> {el?.assigned_to?.name} </span> </div>
-          <div> {el?.raised_by_company?.address} </div>
-        </div>,
+        "raised by":
+          <div className="h5 m-0"> {el?.by_user?.name} </div>,
+        "raised to":
+          <div className="row">
+            <div className="col-3 d-flex  justify-contnet-center mr--2"> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
+            <div className="col-9  mb-0">
+              <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
+              <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
+              <div className=""></div>
+              <div className="">{el?.raised_by_company?.address}</div>
+            </div>
+          </div>,
         date: getServerTimeFromMoment(getMomentObjFromServer(el.created_at)),
         status: <Status status={el?.task_status} />
       };
@@ -154,12 +158,12 @@ function Tasks() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-              heading={'Priorty'}
-              data={PRIORITY}
-              selected={taskPriorty.value}
-              value={taskPriorty.value}
+              heading={'Priority'}
+              data={PRIORITY_DROPDOWN_LIST}
+              selected={taskPriority.value}
+              value={taskPriority.value}
               onChange={(item) => {
-                taskPriorty.onChange(item)
+                taskPriority.onChange(item)
                 setSyncTickets()
               }}
             />
@@ -167,25 +171,27 @@ function Tasks() {
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
               heading={'Company'}
-              data={COMPANY}
-              selected={company.value}
-              value={company.value}
+              data={COMPANY_TYPE}
+              selected={companyType.value}
+              value={companyType.value}
               onChange={(item) => {
-                company.onChange(item)
+                companyType.onChange(item)
                 setSyncTickets()
               }}
             />
           </div>
+        </div>
+      </HomeContainer>
 
-          <div className="col text-right mt-5">
-            <Button
-              size={"sm"}
-              text={'Add Task'}
-              onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
-              }}
-            />
-          </div>
+      <HomeContainer>
+        <div className="text-right">
+          <Button
+            size={"sm"}
+            text={translate('common.addTask')}
+            onClick={() => {
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
+            }}
+          />
         </div>
       </HomeContainer>
 
@@ -198,17 +204,17 @@ function Tasks() {
             title="Tasks"
             tableDataSet={tasks.data}
             displayDataSet={normalizedTableData(tasks.data)}
-            noOfPage={tasksNumOfPages}
-            currentPage={tasksCurrentPages}
+            noOfPage={taskNumOfPages}
+            currentPage={taskCurrentPages}
             paginationNumberClick={(currentPage) => {
               getTaskHandler(paginationHandler("current", currentPage));
             }}
             previousClick={() => {
-              getTaskHandler(paginationHandler("prev", tasksCurrentPages))
+              getTaskHandler(paginationHandler("prev", taskCurrentPages))
             }
             }
             nextClick={() => {
-              getTaskHandler(paginationHandler("next", tasksCurrentPages));
+              getTaskHandler(paginationHandler("next", taskCurrentPages));
             }
             }
             tableOnClick={(idx, index, item) => {

@@ -98,8 +98,8 @@ const initialState: AdminStateProp = {
   selectedReferenceIssues: undefined,
   companyBranchNames: undefined,
   tasks: undefined,
-  tasksNumOfPages: undefined,
-  tasksCurrentPages: 1,
+  taskNumOfPages: undefined,
+  taskCurrentPages: 1,
   addTask: undefined,
   subTasks: undefined,
   taskItem: undefined,
@@ -355,8 +355,8 @@ case GET_REFERENCE_TASKS_FAILURE:
       state = {
         ...state,
         tasks: undefined,
-        tasksNumOfPages: 0,
-        tasksCurrentPages: 1,
+        taskNumOfPages: 0,
+        taskCurrentPages: 1,
       }
       break;
     case GET_TASKS_SUCCESS:
@@ -364,8 +364,8 @@ case GET_REFERENCE_TASKS_FAILURE:
       state = {
         ...state,
         tasks: action.payload?.details,
-        tasksNumOfPages: action.payload?.details.num_pages,
-        tasksCurrentPages:
+        taskNumOfPages: action.payload?.details.num_pages,
+        taskCurrentPages:
           action.payload?.details.next_page === -1
             ? action.payload?.details.num_pages
             : action.payload?.details.next_page - 1
@@ -449,9 +449,9 @@ case GET_REFERENCE_TASKS_FAILURE:
     case GET_TICKET_TAG:
    
         state = { ...state,
-          designationData: undefined,
-          designationNumOfPages: 0,
-          designationCurrentPages: 1,
+          ticketTag: undefined,
+          ticketTagNumOfPages: 0,
+          ticketTagCurrentPages: 1,
            loading: true };
        
       break;
