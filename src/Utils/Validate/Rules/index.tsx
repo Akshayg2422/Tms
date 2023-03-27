@@ -116,7 +116,6 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
   },
   applicable_branches_ids:{
     presence: { allowEmpty: false, message: "Company cannot be empty" },
-
   },
   broadcast_attachments:
   { 

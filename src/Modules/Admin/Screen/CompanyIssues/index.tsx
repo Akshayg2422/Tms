@@ -48,7 +48,7 @@ function CompanyIssues() {
 
   return (
     <div className='my-3'>
-      <CommonTable title={'Issue'} displayDataSet={normalizedTableData(tickets)} />
+    {tickets&&tickets.length>0?<CommonTable title={'Issue'} displayDataSet={normalizedTableData(tickets)} />: <NoDataFound/>}
     </div>
 
   )

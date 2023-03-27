@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets } from "@Redux";
-import { Divider, Button, HomeContainer, Table, NoDataFound, CommonTable, Input, } from "@Components";
+import { Divider, Button, HomeContainer, Table, NoDataFound, CommonTable, Input, Checkbox, } from "@Components";
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
@@ -40,6 +40,8 @@ function AddReferenceTicket() {
     );
   };
   const onSelectedTickets = (item: any) => {
+    console.log(item,"iiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+    
 
     let updatedSelectedId: any = [...selectedIssueDetails];
     if (selectedIssueDetails?.length > 0) {
@@ -72,7 +74,11 @@ function AddReferenceTicket() {
   };
 
   const normalizedTableData = (data: any) => {
+    console.log(data,"ddddddddddddd");
+    
     return data.map((el: any) => {
+      console.log(el,'eeeel');
+      
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
@@ -80,13 +86,7 @@ function AddReferenceTicket() {
         "assigned to": el?.assigned_to.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
-        '':
-        <div className="d-flex justify-content-center from-check">
-        <Input className="form-check-input" type="checkbox" id="flexCheckChecked" 
-        onClick={( )=>{setIsCheck(true)}}
-        ></Input>
-        </div>,
-        
+        '':<Checkbox  id={el.id} onCheckChange={ ()=>setIsCheck }  defaultChecked={isCheck} />,
       };
     });
   };
@@ -138,11 +138,11 @@ function AddReferenceTicket() {
           
   
                 {tickets && tickets?.length > 0 ? <CommonTable title={'Reference Tickets'} tableDataSet={tickets} displayDataSet={normalizedTableData(tickets)}
-               tableOnClick={(idx, index, item)=>{
-                  if(isCheck){
-                  onSelectedTickets(item)
-                  }
-                }}
+              //  tableOnClick={(id, index, item)=>{
+              //     if(isCheck){
+              //     onSelectedTickets(item)
+              //     }
+              //   }}
                 /> : <NoDataFound />}
              
        

@@ -5,7 +5,7 @@ import { getPhoto, getDataAndTime } from "@Utils";
 import { translate } from "@I18n";
 
 function BroadCastListedItems({ item }: BroadCastItemsProps) {
-  const { title, attachments, description, created_by, created_at, applicable_branches } =
+  const { title, attachments, description, created_by, created_at, applicable_branches,for_internal_company,for_external_company } =
     item;
 
 
@@ -69,6 +69,8 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
               className="text-capitalize font-weight-900 mt--1 "
               text={created_by?.name}
             />
+            {for_internal_company && <H tag={"h5"} text={'Internal'} className="mb--1"/>}
+           { for_external_company &&<H  tag={"h5"} text={'External'} />}
           </div>
         </div>
 

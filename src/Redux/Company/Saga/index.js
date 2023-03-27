@@ -209,6 +209,7 @@ function* getReferenceTicketsSaga(action) {
     yield put(showLoader());
     const response = yield call(getReferenceTicketsApi, action.payload.params);
     if (response.success) {
+      console.log(JSON.stringify(response));
       yield put(hideLoader());
       yield put(getReferenceTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -228,7 +229,7 @@ function* addBroadCastMessagesSaga(action) {
     yield put(showLoader());
     const response = yield call(addBroadCastMessagesApi, action.payload.params);
     if (response.success) {
-
+      
       yield put(hideLoader());
       yield put(addBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -251,7 +252,7 @@ function* getBroadCastMessagesSaga(action) {
     // yield put(showLoader());
     const response = yield call(getBroadCastMessagesApi, action.payload.params);
     if (response.success) {
-
+    
       // yield put(hideLoader());
       yield put(getBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -269,11 +270,9 @@ function* getBroadCastMessagesSaga(action) {
 }
 
 function* getTaskEventsSaga(action) {
-  console.log("TaskEventSaaga",action)
   try {
     yield put(showLoader());
     const response = yield call(getTaskEventsApi, action.payload.params);
-    console.log("res---------->",response)
     if (response.success) {
       yield put(hideLoader());
       yield put(getTaskEventsSuccess(response));
