@@ -100,7 +100,7 @@ function Issues() {
           <div className="m-0 h5"> {el?.by_user?.name} </div>,
         "raised to":
           <div className="row">
-            <div className="col-2 d-flex  justify-contnet-center mr--2"> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
+            <div className="col-2 d-flex  justify-contnet-center mr--2"> <Image variant={'avatar'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
             <div className="col-10  mb-0">
               <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
               <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
@@ -205,7 +205,7 @@ function Issues() {
         </div>
       </HomeContainer>
 
-      {tickets && tickets.length > 0 &&
+      {tickets && tickets.length > 0 ?
         <>
 
           <CommonTable
@@ -233,7 +233,7 @@ function Issues() {
             }
             }
           />
-        </>
+        </> : <NoDataFound/>
 
       }
 
