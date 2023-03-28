@@ -1,65 +1,77 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { CompanyUsers } from "@Modules";
-import { TaskInfoProps } from "./interfaces";
-import { H, Image, Badge, Card, HomeContainer } from "@Components";
-import { getPhoto, handleEmailClick } from '@Utils'
+import { H, Image, Card, HomeContainer } from "@Components";
+import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto } from '@Utils'
 import { translate } from "@I18n";
 
-function TaskInfo({ item }: TaskInfoProps) {
+function TaskInfo() {
 
-  const { taskItem } = useSelector((state: any) => state.AdminReducer);
-  
-  
-  const { title, attachment_logo, address, phone, email } = taskItem;
- 
-  return (
-    <HomeContainer>
-      <Card className={'mt--3'} style={{ height: '85vh' }}>
-        <div className="mx-sm-0 mx--4">
-          <div className="text-center">
-            <Image
-              variant={"rounded"}
-              size={"xxl"}
-              src={getPhoto(attachment_logo)}
-            />
-          </div>
-          <div className="col-sm pt-3 pl-0 pr-lg-0 pr-md-0 pr-sm-0">
-            <div className="text-center">
-              <H tag={"h3"} className="mb-0" text={title} />
-              <p className="text-sm">{address}</p>
-            </div>
-            <div className="container-fluid mx-sm-0 mx--2">
-              <div className="col justify-content-between pt-3 text-sm-0">
-                <div className="row">
-                  <div className="col-lg-9 col-sm-0 col-9">
-                    <h6 className="text-uppercase text-muted mb-0"> {translate('common.phone')} </h6>
-                    <h5>{phone}</h5>
-                  </div>
-                  <div className="col-lg-3 col-sm-0 col-3  text-right">
-                    <Badge pill color={"info"} text={"Call"} style={{ cursor: 'pointer' }} />
-                  </div>
+    const { taskItem } = useSelector((state: any) => state.AdminReducer);
+
+    const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time } = taskItem;
+
+    return (
+        <HomeContainer>
+
+
+            <Card className={'mt--3 mr--2'} style={{ height: '58vh' }}>
+                <div className="row align-items-start">
+                    <div className="col">
+                        <H tag={"h3"} text={title} />
+                        <h3 className="text-sm text-muted">{description}</h3>
+                    </div>
+                    <div className="col"></div>
+                    <div className="col mr--9">
+                        <h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6>
+                    </div>
                 </div>
-
-                <div className="row justify-content-between pt-1">
-                  <div className="col-lg-9 col-sm-0 col-9">
-                    <h6 className="text-uppercase text-muted mb-0"> {translate('common.email')} </h6>
-                    <h5>{email}</h5>
-                  </div>
-                  <div className="col-lg-3 col-sm-0 col-3  text-right">
-                    <Badge pill color="success" text={'e-mail'} style={{ cursor: 'pointer' }} onClick={() => { (handleEmailClick(email)) }} />
-                  </div>
-
+                <div className="row align-items-center my-4">
+                    <div className="col">
+                        {
+                            task_attachments &&
+                            task_attachments?.length > 0 && task_attachments?.map((item) => {
+                                return <a
+                                    href="#pablo"
+                                    onClick={(e) => e.preventDefault()}>
+                                    <Image
+                                        variant={'avatar'}
+                                        src={getPhoto(item?.attachment_file)} />
+                                </a>
+                            })
+                        }
+                    </div>
+                    <div className="col"></div>
+                    <div className="col">
+                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}</h6>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Card>
-    </HomeContainer>
+                <div className="row align-items-end my-5">
+                    <div className="col">
+                        <div className="h5 mb-0"> {by_user?.name} </div>
+                        <div className="h5 mb-0"> {by_user?.phone} </div>
+                        <div className="h5 mb-0"> {by_user?.email} </div>
+                    </div>
+                    <div className="col align-self-center mr--5">
+                        <div className="col d-flex  justify-content-center mr--2"> <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} /> </div>
+                    </div>
 
-  );
+                    <div className="col">
+                        <h6>
+                            <div className="h5 mb-0"> {raised_by_company?.display_name} </div>
+                            <div className="h5 mb-0"> @<span className="h5"> {assigned_to?.name} </span></div>
+                            <div className="h5 mb-0"></div>
+                            <div className={'text-uppercase  text-muted'}>{raised_by_company?.address}</div>
+                        </h6>
+                    </div>
+                    <div className="col">
+
+                    </div>
+                </div>
+            </Card>
+        </HomeContainer>
+
+    );
 }
 
 export { TaskInfo };

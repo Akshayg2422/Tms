@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSubTasks } from "@Redux";
 import { HOME_PATH } from "@Routes";
 import { useNavigation } from "@Hooks";
-import { NoDataFound, CommonTable, Priority, Card,Button } from "@Components";
+import { NoDataFound, CommonTable, Priority, Card, Button } from "@Components";
 
 function SubTaskListing() {
     const dispatch = useDispatch();
     const { goTo } = useNavigation();
     const { subTasks, taskItem } = useSelector((state: any) => state.AdminReducer);
-    console.log('2222222222222222222222222222222222222222222222222222222',JSON.stringify(taskItem));
 
     useEffect(() => {
         getSubTaskHandler()
@@ -42,28 +41,18 @@ function SubTaskListing() {
     return (
         <div>
             {subTasks && subTasks.data.length > 0 ?
-                <Card className={'overflow-auto overflow-hide border mx--2'} style={{ height: '85vh' }}>
-                    <span className={'d-flex justify-content-end'}>
-                    <Button
-                        size={"sm"}
-                        text={'Add New'}
-                        onClick={() => {
-                            goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_SUB_TASK);
-                        }}
+                <div className={'mx--5'}>
+                    <CommonTable
+                        title="SUB TASKS"
+                        tableDataSet={subTasks?.data}
+                        displayDataSet={normalizedTableData(subTasks?.data)}
                     />
-                    </span>
-                    <div className={'mx--5'}>
-                        <CommonTable
-                            title="SUB TASKS"
-                            tableDataSet={subTasks?.data}
-                            displayDataSet={normalizedTableData(subTasks?.data)}
-                        />
-                    </div>
-                </Card>
-                : <NoDataFound />
+                </div>
+                :
+                null
             }
         </div>
     )
 }
 
-export  {SubTaskListing}
+export { SubTaskListing }

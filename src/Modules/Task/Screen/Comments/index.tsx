@@ -53,13 +53,8 @@ function Comments() {
         onSuccess: (response) => () => {
           textMessage.set('')
           ProceedGetTaskEvents()
-          console.log('addTaskEventSuccessssMessage', response);
-
         },
-        onFailure: (error) => () => {
-          console.log('error message', error);
-
-        }
+        onFailure: (error) => () => { }
       }))
     }
   }
@@ -76,13 +71,8 @@ function Comments() {
         params,
         onSuccess: (response) => () => {
           ProceedGetTaskEvents();
-          console.log('modalresponse', response);
-
         },
-        onError: (error) => () => {
-          console.log('modalerror', error);
-
-        },
+        onError: (error) => () => { },
       }),
     );
     setSelectAttachments(!selectAttachments);
@@ -102,8 +92,6 @@ function Comments() {
 
   let getTaskEventData = arrayOrderbyCreatedAt(taskEvents?.data)
 
-  console.log('getTaskEventData==========>', JSON.stringify(getTaskEventData));
-
   return (
     <>
 
@@ -112,7 +100,6 @@ function Comments() {
           <Card className='mx--3 shadow-none border overflow-auto overflow-hide' style={{ height: '81vh' }}>
             <div>
               {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
-                console.log('map====>', el);
 
                 return (
                   <TaskChat item={el} />

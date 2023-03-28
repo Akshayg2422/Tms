@@ -102,7 +102,7 @@ function AdminDashboard() {
           <Route path={HOME_PATH.CREATE_BROAD_CAST} element={<CreateBroadCast />} />
           <Route path={HOME_PATH.ISSUE_TICKET} element={<IssueCreate />} />
           <Route path={HOME_PATH.ADD_TASK} element={<AddTask />} />
-          <Route path={HOME_PATH.TASK_DETAILS} element={<TaskDetails />} />
+          <Route path={HOME_PATH.TASK_DETAILS+'/:id'} element={<TaskDetails />} />
           <Route path={HOME_PATH.ADD_SUB_TASK} element={<AddSubTask />} />
           {/* <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} /> */}
           {/* <Route path={CREATE_BROAD_CAST.BROAD_CAST} element={<CreateBroadCast/>} /> */}
