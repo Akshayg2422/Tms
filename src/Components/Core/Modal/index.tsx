@@ -6,6 +6,7 @@ function Modal({isOpen,children,title,size = "md",onClose,...rest}: ModalProps) 
   
   return (
     <RsModal
+      fade={false}
       className={`modal-dialog-centered modal-${size}`}
       isOpen={isOpen}
       {...rest}
