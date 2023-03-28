@@ -157,9 +157,7 @@ function Settings() {
         params,
         onSuccess: (success: any) => () => {
 
-
           if (!showTags) {
-
 
             setShowTags(!showTags)
           }
@@ -454,7 +452,7 @@ function Settings() {
               }} />
             </div>
         }),
-        edit: <i className="bi bi-pencil"></i>,
+     
       };
     });
   };
@@ -478,7 +476,7 @@ function Settings() {
             }} />
           </div>
         }),
-        edit: <i className="bi bi-pencil "></i>,
+       
 
       };
     });

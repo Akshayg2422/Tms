@@ -36,6 +36,7 @@ function CreateCompany({}: CreateCompanyProps) {
   const gender = useDropDown(GENDER_LIST[0]);
   const name = useInput("");
   const address = useInput("");
+  const city = useInput("");
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
 
@@ -46,8 +47,7 @@ function CreateCompany({}: CreateCompanyProps) {
       email: email.value,
       gender: gender.value?.id,
       designation: "Management",
-    };
-
+    }
     const validation = validate(USER_FORM_RULES, {
       first_name: fullName.value,
       mobile_number: contactNumber.value,
@@ -79,13 +79,13 @@ function CreateCompany({}: CreateCompanyProps) {
   const onRegisterCompany = () => {
     const params = {
       registered_name: name.value,
+      city:city.value,
       communication_address: address.value,
       pincode: pinCode.value,
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
       attachment_logo: photo,
     };
-
     const validation = validate(BUSINESS_FORM_RULES, params);
 
     if (ifObjectExist(validation)) {
@@ -105,7 +105,7 @@ function CreateCompany({}: CreateCompanyProps) {
             );
           },
           onError: (error: any) => () => {
-            showToast("");
+            showToast(error.message,"error");
           },
         })
       );
@@ -142,7 +142,12 @@ function CreateCompany({}: CreateCompanyProps) {
           value={name.value}
           onChange={name.onChange}
         />
-
+         <Input
+         type={'text'}
+          heading={translate("auth.city")}
+          value={city.value}
+          onChange={city.onChange}
+        />
         <Input
           heading={translate("auth.address")}
           value={address.value}

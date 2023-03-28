@@ -75,7 +75,7 @@ function Companies() {
       </HomeContainer>
 
       <>
-        {associatedCompanies && associatedCompanies?.length > 0 &&
+        {associatedCompanies && associatedCompanies?.length > 0 ?
           <CommonTable
             isPagination
             title={'Companies'}
@@ -98,7 +98,7 @@ function Companies() {
               dispatch(companySelectedDetails(item));
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
 
-            }} />}
+            }} />:<NoDataFound/>}
       </>
     </>
   );

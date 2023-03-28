@@ -35,7 +35,7 @@ function Issues() {
   const getTicketHandler = (pageNumber: number) => {
 
     const params = {
-      q: "",
+      // q: "",
       q_many: search.value,
       tickets_by: filteredTickets?.value.id,
       ticket_status: ticketStatus?.value.id,
@@ -43,6 +43,7 @@ function Issues() {
       priority: ticketPriority.value.id,
       page_number: pageNumber
     };
+    
     dispatch(
       getTickets({
         params,
@@ -100,8 +101,8 @@ function Issues() {
           <div className="m-0 h5"> {el?.by_user?.name} </div>,
         "raised to":
           <div className="row">
-            <div className="col-2 d-flex  justify-contnet-center mr--2"> <Image variant={'avatar'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
-            <div className="col-10  mb-0">
+            <div className="col-3 d-flex  justify-contnet-center mr--2"> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
+            <div className="col-9  mb-0">
               <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
               <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
               <div className=""></div>
@@ -233,9 +234,7 @@ function Issues() {
             }
             }
           />
-        </> : <NoDataFound/>
-
-      }
+        </> : <NoDataFound/> }
 
     </>
   );

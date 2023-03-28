@@ -121,7 +121,8 @@
     "addBroadCast": "ADD BROADCAST",
     "attach": "Attach",
     "sector":"Sector",
-    "tags":"Tag"
+    "tags":"Tag",
+    "city":"City"
   },
   "product": {
     "Store": "Store",

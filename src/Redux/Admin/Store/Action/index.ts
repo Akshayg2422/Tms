@@ -67,6 +67,7 @@ import {
   GET_TICKET_USERS,
   GET_TICKET_USERS_SUCCESS,
   GET_TICKET_USERS_FAILURE,
+  GET_CURRENT_PAGE,
 
 } from '../ActionTypes';
 
@@ -468,7 +469,7 @@ export const getTaskUsers = (params: any) => {
 }
 
 export const getTaskUsersSuccess = (response: any) => {
-  console.log(response,"rrrrrrrrrrrrrrrrrrr====");
+  console.log(response,"");
   
   return {
 
@@ -510,3 +511,11 @@ export const getTicketUsersFailure = (error: any) => {
   }
 }
 
+
+export const getCurrentPage = (params: any) => {
+
+  return {
+    type: GET_CURRENT_PAGE,
+    payload: params
+  }
+}

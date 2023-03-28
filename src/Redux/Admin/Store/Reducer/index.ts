@@ -66,6 +66,7 @@ import {
   GET_TICKET_USERS,
   GET_TICKET_USERS_SUCCESS,
   GET_TICKET_USERS_FAILURE,
+  GET_CURRENT_PAGE,
   
 } from '../ActionTypes';
 
@@ -103,6 +104,7 @@ const initialState: AdminStateProp = {
   addTask: undefined,
   subTasks: undefined,
   taskItem: undefined,
+  current:undefined,
 
   referencesTasks:undefined,
   referencesTasksNumOfPages: undefined,
@@ -449,9 +451,9 @@ case GET_REFERENCE_TASKS_FAILURE:
     case GET_TICKET_TAG:
    
         state = { ...state,
-          designationData: undefined,
-          designationNumOfPages: 0,
-          designationCurrentPages: 1,
+          ticketTag: undefined,
+          ticketTagNumOfPages: 0,
+          ticketTagCurrentPages: 1,
            loading: true };
        
       break;
@@ -504,6 +506,11 @@ case GET_REFERENCE_TASKS_FAILURE:
     case GET_SUB_TASKS_FAILURE:
       state = { ...state, subTasks: action.payload }
       break;
+      
+      case GET_CURRENT_PAGE:
+        state = { ...state, current: action.payload }
+        break;
+  
 
     case GET_TASKS_ITEM:
       state = { ...state, taskItem: action.payload }

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets } from "@Redux";
-import { Divider, Button, HomeContainer, Table, NoDataFound, CommonTable, Input, } from "@Components";
+import { Divider, Button, HomeContainer, Table, NoDataFound, CommonTable, Input, Checkbox, showToast, } from "@Components";
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
-import { RTS, getStatusFromCode } from "@Utils";
+import { RTS, getStatusFromCode,getArrayFromArrayOfObject, validate, ifObjectExist, ADD_REFERENCE_TICKET, getValidateError } from "@Utils";
 
 function AddReferenceTicket() {
   const dispatch = useDispatch();
@@ -14,50 +14,55 @@ function AddReferenceTicket() {
   const { selectedIssues } = useSelector(
     (state: any) => state.AdminReducer
   );
-
-
-
-  
-  const [selectedIssueDetails, setSelectedIssueDetails] = useState<any>("");
-  const [isCheck,setIsCheck]=useState(false)
+  const [selectedReferenceTickets,setSelectedReferenceTickets]=useState([])
   const Search = useInput("");
 
 
   const submitHandler = () => {
-    // dispatch(referenceIssueDetails(selectedIssueDetails));
+
     const params = {
       id: selectedIssues?.id,
       event_type: RTS,
-      reference_ticket: selectedIssueDetails,
+      reference_ticket: getArrayFromArrayOfObject(selectedReferenceTickets,'id'),
     };
 
+    const validation=validate(ADD_REFERENCE_TICKET,params)
+    if (ifObjectExist(validation)) {
     dispatch(
       addTicketEvent({
         params,
-        onSuccess: () => () => { },
-        onError: () => () => { },
+        onSuccess: (response: any) => () => {
+          if (response.success) {
+            showToast(response.message, "success");
+            // goBack();
+          }
+         },
+        onError: (error) => () => { 
+          showToast(error.error_message);
+        },
       })
     );
+    }
+    else {
+      showToast(getValidateError(validation));
+    }
   };
   const onSelectedTickets = (item: any) => {
-
-    let updatedSelectedId: any = [...selectedIssueDetails];
-    if (selectedIssueDetails?.length > 0) {
-      const selectedItem = updatedSelectedId;
-      const ifExist = selectedItem.some(
-        (existEl: any) => existEl.id === item?.id
+    
+    let updatedSelectedReferenceTickets: any = [...selectedReferenceTickets];
+    
+      const ifExist = updatedSelectedReferenceTickets.some(
+        (el: any) => el.id === item?.id
       );
       if (ifExist) {
-        updatedSelectedId = selectedItem.filter(
+        updatedSelectedReferenceTickets = updatedSelectedReferenceTickets.filter(
           (filterItem: any) => filterItem.id !== item?.id
         );
       } else {
-        updatedSelectedId = [...updatedSelectedId, item];
+        updatedSelectedReferenceTickets = [...updatedSelectedReferenceTickets, item];
       }
-    } else {
-      updatedSelectedId = [item];
-    }
-    setSelectedIssueDetails(updatedSelectedId);
+  
+      setSelectedReferenceTickets(updatedSelectedReferenceTickets);
   };
 
   const getSearchHandler = () => {
@@ -72,7 +77,13 @@ function AddReferenceTicket() {
   };
 
   const normalizedTableData = (data: any) => {
+  
     return data.map((el: any) => {
+   
+      const isReference = selectedReferenceTickets.some(
+        (element: any) => element.id === el?.id
+      );
+      
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
@@ -80,13 +91,9 @@ function AddReferenceTicket() {
         "assigned to": el?.assigned_to.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
-        '':
-        <div className="d-flex justify-content-center from-check">
-        <Input className="form-check-input" type="checkbox" id="flexCheckChecked" 
-        onClick={( )=>{setIsCheck(true)}}
-        ></Input>
-        </div>,
-        
+        '':<Checkbox  id={el.id} onCheckChange={()=> onSelectedTickets(el) } 
+         defaultChecked={isReference} />,
+         
       };
     });
   };
@@ -138,14 +145,8 @@ function AddReferenceTicket() {
           
   
                 {tickets && tickets?.length > 0 ? <CommonTable title={'Reference Tickets'} tableDataSet={tickets} displayDataSet={normalizedTableData(tickets)}
-               tableOnClick={(idx, index, item)=>{
-                  if(isCheck){
-                  onSelectedTickets(item)
-                  }
-                }}
                 /> : <NoDataFound />}
-             
-       
+
           </div>
         </div>
       </div>

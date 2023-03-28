@@ -131,7 +131,6 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
             </NavLink>
             <Collapse isOpen={state[prop.state]}>
               <Nav className="nav-sm flex-column">
-                {createLinks(prop.views)}
               </Nav>
             </Collapse>
           </NavItem>
@@ -220,7 +219,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
                 className="pointer"
                 target="_blank"
               >
-                <i className="ni ni-button-power text-red" />
+                <i className="ni ni-button-power  text-primary" />
                 <span className="nav-link-text">Logout</span>
               </NavLink>
             </NavItem>
