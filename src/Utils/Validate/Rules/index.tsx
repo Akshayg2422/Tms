@@ -147,3 +147,32 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
       },
   
       }
+    export const ADD_DEPARTMENT={
+      name:{
+        presence: { allowEmpty: false, message: "department name cannot be empty" },
+      }
+    }
+
+    export const ADD_DESIGNATION={
+      name:{
+        presence: { allowEmpty: false, message: "designation name cannot be empty" },
+      }
+    }
+
+    export const ADD_SECTOR={
+      name:{
+        presence: { allowEmpty: false, message: "sector name cannot be empty" },
+      },
+      description:{
+        presence: { allowEmpty: false, message: "description cannot be empty" },
+      }
+    }
+
+    export const ADD_TAG={
+      name:{
+        presence: { allowEmpty: false, message: "tag name cannot be empty" },
+      },
+      description:{
+        presence: { allowEmpty: false, message: "description cannot be empty" },
+      }
+    }
