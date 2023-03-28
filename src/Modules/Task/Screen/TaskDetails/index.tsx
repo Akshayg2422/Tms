@@ -3,11 +3,12 @@ import {
     Comments,
     TaskUsers,
     TaskAttachments,
-    ReferenceTasks
+    ReferenceTasks,
+    SubTaskListing,
+    TaskInfo,
 } from "@Modules";
-import { Button, Card, Tabs } from "@Components";
+import { Card, Tabs } from "@Components";
 import { useSelector } from "react-redux";
-import { HOME_PATH } from "@Routes";
 import { useNavigation } from "@Hooks";
 
 function TaskDetails() {
@@ -18,7 +19,7 @@ function TaskDetails() {
 
     const TABS = [
         { id: "1", title: "COMMENTS", component: <Comments /> },
-        { id: "2", title: "ATTACH", component: <TaskAttachments/> },
+        { id: "2", title: "ATTACH", component: <TaskAttachments /> },
         { id: "3", title: "reference", component: <ReferenceTasks /> },
         { id: "4", title: "user", component: <TaskUsers /> },
     ];
@@ -31,24 +32,20 @@ function TaskDetails() {
 
     return (
         <>
-            <div className="col text-right mt-3">
-                <Button
-                    size={"sm"}
-                    text={'Add Sub Task'}
-                    onClick={() => {
-                        goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_SUB_TASK);
-                    }}
-                />
-            </div>
 
-            <div className='mt-3 mx-3' style={{ cursor: 'pointer' }}>
-                <div >
-                    <div className="align-items-center">
-                        <Tabs tabs={TABS} selected={selectedTab} onChange={setSelectedTab} />
-                    </div>
+            <div className="row mt-3">
+                <div className="col-8 mr--2">
+                    <TaskInfo />
                 </div>
-
+                <div className="col-4 mx--3">
+                    <SubTaskListing />
+                </div>
             </div>
+            <div className="align-items-center mt--3">
+                <Tabs tabs={TABS} selected={selectedTab} onChange={setSelectedTab} />
+            </div>
+
+
         </>
     );
 }

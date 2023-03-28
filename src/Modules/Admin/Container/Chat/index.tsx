@@ -19,7 +19,7 @@ function Receive({ item }: any) {
 
         <>
             {
-                ((item && item?.message) || (item?.attachments)) && (
+                ((item && item?.message) || (item?.attachments?.attachments)) && (
                     <div className={'d-flex justify-content-end'}>
                         <div
                             className={'col-5 alert fade show text-white'}
@@ -87,7 +87,7 @@ function Sent({ item }: any) {
     return (
         <>
             {
-                ((item && item?.message) || (item?.attachments)) && (
+                ((item && item?.message) || (item?.attachments?.attachments)) && (
                     <div className={'d-flex justify-content-start'}>
                         <div
                             className={'col-6 alert fade show text-white'}
@@ -143,9 +143,9 @@ function Sent({ item }: any) {
 }
 
 function Chat({ item }: ChatProps) {
-  
+
     const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
- 
+
     function getChatComponents() {
 
         const isUser = item.by_user?.id === dashboardDetails.user_details?.id;

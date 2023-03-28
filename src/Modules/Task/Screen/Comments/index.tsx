@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTaskEvent, getSubTasks, getTaskEvents, setIsSync } from "@Redux";
-import { NoDataFound, Card, Image, CommonTable, Priority, Input, Modal, Dropzone, Button } from "@Components";
+import { addTaskEvent, getTaskEvents } from "@Redux";
+import { Card, Image, Input, Modal, Dropzone, Button } from "@Components";
 import { icons } from '@Assets'
-import { TEM, MEA, arrayOrderbyCreatedAt, getPhoto } from "@Utils";
-import { CardBody, CardHeader } from "reactstrap";
+import { TEM, MEA, arrayOrderbyCreatedAt } from "@Utils";
 import { useInput } from "@Hooks";
 import { TaskChat } from "@Modules";
 
 
 function Comments() {
   const dispatch = useDispatch();
-  const { taskEvents, addTaskEvents } = useSelector((state: any) => state.CompanyReducer);
-  const { subTasks, taskItem } = useSelector((state: any) => state.AdminReducer);
-  const { isSync } = useSelector((state: any) => state.AppReducer);
+  const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
+  const { taskItem } = useSelector((state: any) => state.AdminReducer);
   const textMessage = useInput('')
   const [selectAttachments, setSelectAttachments] = useState(false)
   const modalName = useInput('')
@@ -24,25 +22,8 @@ function Comments() {
 
   useEffect(() => {
     ProceedGetTaskEvents()
-    getSubTaskHandler()
   }, [])
 
-  const getSubTaskHandler = () => {
-    const params = {
-      task_id: taskItem?.id
-    }
-
-    dispatch(
-      getSubTasks({
-        params,
-        onSuccess: (response) => () => {
-
-          // setSyncTickets(true)
-        },
-        onError: () => () => { },
-      })
-    );
-  };
 
   const ProceedGetTaskEvents = () => {
     const params = {
@@ -62,7 +43,7 @@ function Comments() {
 
     if (textMessage) {
       const params = {
-        task_id: taskItem.id,
+        id: taskItem.id,
         message: textMessage.value,
         event_type: TEM
       }
@@ -121,26 +102,25 @@ function Comments() {
 
   let getTaskEventData = arrayOrderbyCreatedAt(taskEvents?.data)
 
-  const normalizedTableData = (data: any) => {
-
-    return data.map((el: any) => {
-
-      return {
-        "Sub task": <div className="row m-0 overflow-auto overflow-hide"> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
-      };
-    });
-  };
   console.log('getTaskEventData==========>', JSON.stringify(getTaskEventData));
 
   return (
     <>
 
       <div className="d-flex">
-        <div className={'col-xl-8'}>
-          <Card className='mx--3 overflow-auto overflow-hide' style={{ height: '80vh' }}>
+        <div className={'col-xl-12'}>
+          <Card className='mx--3 shadow-none border overflow-auto overflow-hide' style={{ height: '81vh' }}>
+            <div>
+              {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
+                console.log('map====>', el);
 
-            <div className="row d-flex align-items-end" style={{ height: '80vh' }}>
-              <div className='col-1' style={{ zIndex: 6 }}>
+                return (
+                  <TaskChat item={el} />
+                )
+              })}
+            </div>
+            <div className="row d-flex align-items-end">
+              <div className='col-1 py-4' style={{ zIndex: 6 }}>
                 <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
               </div>
               <div>
@@ -166,38 +146,15 @@ function Comments() {
                   </div>
                 </Modal>
               </div>
-              <div className="col-9">
-                <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type Here'} onChange={textMessage.onChange} />
+              <div className="col-10">
+                <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type a message'} onChange={textMessage.onChange} />
               </div>
-              <div className="col-2">
+              <div className="col-1 py-4">
                 <span className={'icon icon-shape text-white bg-info rounded-circle shadow'} onClick={sendMessageHandler}><i className="ni ni-send"></i></span>
               </div>
             </div>
-            <div className={'py-5'}>
-              {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
-                console.log('map====>', el);
 
-                return (
-                  <TaskChat item={el} />
-
-                )
-              })}
-            </div>
           </Card>
-        </div>
-        <div className={'col-xl-4'}>
-          {subTasks && subTasks.data.length > 0 ?
-            <Card className={'mx--3 overflow-auto overflow-hide shadow-none'} style={{ height: '80vh' }}>
-              <div className={'mx--5'}>
-                <CommonTable
-                  title="SUB TASKS"
-                  tableDataSet={subTasks?.data}
-                  displayDataSet={normalizedTableData(subTasks?.data)}
-                />
-              </div>
-            </Card>
-            : <NoDataFound />
-          }
         </div>
       </div>
     </>
