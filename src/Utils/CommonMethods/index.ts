@@ -43,3 +43,9 @@ export function paginationHandler(type: 'next' | 'prev' | 'current', position: n
   let page = type === 'next' ? position + 1 : type === 'prev' ? position - 1 : position;
   return page;
 }
+
+export function getArrayFromArrayOfObject(data: Array<any>, key: string)
+ {   console.log('get Array======>', data, 'key', key); let modifiedArr: any = [];   
+ if (data && data.length > 0)
+  {     data.forEach((el: any) => {       modifiedArr = [...modifiedArr, el[key]]; });  
+     console.log('modified======>', modifiedArr);   }   return modifiedArr; }

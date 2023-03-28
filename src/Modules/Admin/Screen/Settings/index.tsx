@@ -232,7 +232,7 @@ function Settings() {
               onError: (error: string) => () => { },
             })
           );
-          setDesignation("");
+          // setDesignation("");
           showToast(success.message, "success");
         },
         onError: (error: string) => () => {

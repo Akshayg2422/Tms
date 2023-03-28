@@ -30,6 +30,9 @@ export const ADD_USER_RULES = {
   designation_name: {
     presence: { allowEmpty: false, message: "Designation cannot be empty" },
   },
+  profile_image:{
+    presence: { allowEmpty: false, message: "profile image cannot be empty" }
+  }
 };
 
 export const OTP_RULES = {
@@ -51,6 +54,9 @@ export const BUSINESS_FORM_RULES = {
   registered_name: {
     presence: { message: "Name cannot be empty" },
     length: { minimum: 3, message: "Name minimum 3 chars" },
+  },
+  city:{
+    presence: { allowEmpty: false, message: "city cannot be empty" },
   },
   communication_address: {
     presence: { allowEmpty: false, message: "Address cannot be empty" },
@@ -134,3 +140,10 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
     },
 
     }
+
+    export const ADD_REFERENCE_TICKET= {
+      reference_ticket: {
+        presence: { allowEmpty: false, message: " Reference Ticket cannot be empty" },
+      },
+  
+      }

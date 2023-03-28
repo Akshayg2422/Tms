@@ -9,6 +9,7 @@ import {
   Button,
   showToast,
   AutoCompleteDropDown,
+  Dropzone,
 } from "@Components";
 
 import {
@@ -28,9 +29,10 @@ function AddUser() {
   const { companyDetailsSelected, designationData } = useSelector(
     (state: any) => state.AdminReducer
   );
-  console.log(designationData,"dddddddddddddddddddddddddddddd");
+  
   
   const { isSync } = useSelector((state: any) => state.AppReducer);
+  const [photo, setPhoto] = useState("");
 
   const dispatch = useDispatch();
   const firstName = useInput("");
@@ -62,6 +64,7 @@ function AddUser() {
         email: email.value,
         gender: gender.value?.id,
         designation_name: designationValue,
+        profile_image:photo,
       };
 
       const validation = validate(ADD_USER_RULES, {
@@ -71,6 +74,7 @@ function AddUser() {
         ...(email.value && { email: email.value }),
         gender: gender.value?.id,
         designation_name: designationValue,
+        profile_image:photo,
       });
       if (ifObjectExist(validation)) {
         dispatch(
@@ -104,10 +108,11 @@ function AddUser() {
         email: email.value,
         gender: gender.value.id,
         designation_name: designationData[0]?.id,
+        profile_image:photo
       };
      
+    
       
-
       const validation = validate(ADD_USER_RULES, {
         branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
@@ -115,6 +120,7 @@ function AddUser() {
         ...(email.value && { email: email.value }),
         gender: gender.value.id,
         designation_name: designationData[0]?.id,
+        profile_image:photo,
       });
 
       if (ifObjectExist(validation)) {
@@ -184,6 +190,23 @@ function AddUser() {
               />
             )}
           </div>
+          <div >
+          <label className={`form-control-label`}>
+          {translate("auth.attach")}
+          </label>
+        </div>
+          <div className=" pb-2 pt-1">
+          <Dropzone
+          variant="ICON"
+          icon={photo}
+          size="xl"
+          onSelect={(image) => {
+            let encoded = image.toString().replace(/^data:(.*,)?/, "");
+            setPhoto(encoded);
+          
+          }}
+        />
+        </div>
         </div>
 
         <div className="col mt-4">

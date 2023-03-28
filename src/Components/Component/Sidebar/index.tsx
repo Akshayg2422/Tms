@@ -131,7 +131,6 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
             </NavLink>
             <Collapse isOpen={state[prop.state]}>
               <Nav className="nav-sm flex-column">
-                {createLinks(prop.views)}
               </Nav>
             </Collapse>
           </NavItem>
