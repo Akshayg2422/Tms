@@ -17,6 +17,7 @@ import {
   getReferenceTasksApi,
   getTaskUsersApi,
   getTicketUsersApi,
+  getTaskGroupApi,
  
 } from "@Services";
 import {
@@ -74,6 +75,9 @@ import {
   GET_TICKET_USERS,
   getTicketUsersSuccess,
   getTicketUsersFailure,
+  GET_TASK_GROUP,
+  getTaskGroupSuccess,
+  getTaskGroupFailure
 
 } from "@Redux";
 
@@ -486,6 +490,26 @@ function* getTicketUsersSaga(action) {
   }
 }
 
+function* getTaskGroupSaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(getTaskGroupApi, action.payload.params);
+   
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getTaskGroupSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getTaskGroupFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getTaskGroupFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+  }
+}
 
 ///watcher///
 
@@ -507,6 +531,7 @@ function* AdminSaga() {
   yield takeLatest(GET_REFERENCE_TASKS,getReferenceTasksSaga);
   yield takeLatest(GET_TASK_USERS, getTaskUsersSaga)
   yield takeLatest(GET_TICKET_USERS, getTicketUsersSaga)
+  yield takeLatest(GET_TASK_GROUP, getTaskGroupSaga)
 }
 
 export default AdminSaga;

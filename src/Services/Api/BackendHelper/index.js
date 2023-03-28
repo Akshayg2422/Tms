@@ -41,7 +41,9 @@ import {
   FETCH_DESIGNATION,
   FETCH_DEPARTMENT,
   GET_TICKET_USERS,
-GET_REFERENCE_TASKS
+GET_REFERENCE_TASKS,
+GET_TASK_GROUP,
+ADD_TASK_GROUP
 
 } from '../UrlHelper';
 
@@ -114,4 +116,5 @@ export const getTicketTagApi = (payload) => post(GET_TICKET_TAG, payload, {})
 export const addTicketTagApi = (payload) => post(ADD_TICKET_TAG, payload, {})
 export const getReferenceTasksApi = (payload) => post(GET_REFERENCE_TASKS, payload, {})
 export const getTicketUsersApi = (payload) => post(GET_TICKET_USERS, payload, {})
-
+export const getTaskGroupApi = (payload) => post(GET_TASK_GROUP, payload, {})
+export const AddTaskGroupApi = (payload) => post(ADD_TASK_GROUP, payload, {})

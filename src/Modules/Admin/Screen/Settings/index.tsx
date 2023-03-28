@@ -18,12 +18,13 @@ import {
   addBrandSector,
   addTicketTag,
   getBrandSector,
-  getTicketTag
+  getTicketTag,
+  getTaskGroup,
+  addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
-import { Console } from "console";
 
 function Settings() {
   const dispatch = useDispatch();
@@ -34,7 +35,11 @@ function Settings() {
     brandSectorNumOfPages,
     ticketTagCurrentPages,
     ticketTagNumOfPages,
-    dashboardDetails
+    dashboardDetails,
+    getTaskGroupDetails,
+    taskGroupCurrentPages,
+  taskGroupNumOfPages
+    
   } = useSelector(
     (state: any) => state.AdminReducer
   );
@@ -58,6 +63,9 @@ function Settings() {
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [departmentDataList, setDepartmentDataList] = useState(departmentData);
   const [designationDataList, setDesignationDataList] = useState(designationData);
+  const [showTaskGroup, setShowTaskGroup] = useState(false);
+  const addTaskGroupModal = useModal(false);
+  const [task, setTask] = useState("");
 
 
   console.log("*********", isAdmin, isSuperAdmin)
@@ -163,13 +171,34 @@ function Settings() {
           }
         },
         onError: (error: string) => () => {
-
-
-
         },
       })
     );
   };
+
+  const getTaskGroupList = (pageNumber: number) => {
+
+    const params = {
+      page_number: pageNumber
+    };
+
+    dispatch(
+      getTaskGroup({
+        params,
+        onSuccess: (success: any) => () => {
+
+          if (!showTaskGroup) {
+
+            setShowTags(!showTaskGroup)
+          }
+        },
+        onError: (error: string) => () => {
+        },
+      })
+    );
+  };
+
+
 
 
   const postAddingDepartment = () => {
@@ -315,6 +344,44 @@ function Settings() {
     }
   };
 
+  /**add task group */
+  const addTaskGroupAdding = () => {
+    const params = {
+      name: convertToUpperCase(task),
+      description: convertToUpperCase(description)
+    };
+    const validation = validate(ADD_TASK_GROUP, params)
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addTaskGroup({
+          params,
+          onSuccess: (success: any) => () => {
+            addTaskGroupModal.hide()
+
+            dispatch(
+              getTaskGroup({
+                params,
+                onSuccess: (success: any) => () => { },
+                onError: (error: string) => () => { },
+              })
+            );
+            // setDesignation("");
+            showToast(success.message, "success");
+          },
+          onError: (error: string) => () => {
+
+          },
+        })
+      );
+    }
+    else {
+      showToast(getValidateError(validation));
+
+    }
+  };
+
+
+
   const handleDepartmentAdminProcess = (item) => {
 
     const updateData = departmentDataList.map((el: any) => {
@@ -427,8 +494,6 @@ function Settings() {
       })
     );
 
-
-
   }
 
   const normalizedDepartmentData = (data: any) => {
@@ -492,6 +557,15 @@ function Settings() {
   };
 
   const normalizedBrandSectorData = (data: any) => {
+    return data.map((el: any) => {
+      return {
+        name: el.name,
+
+      };
+    });
+  };
+
+  const normalizedTaskGroupData = (data: any) => {
     return data.map((el: any) => {
       return {
         name: el.name,
@@ -965,6 +1039,119 @@ function Settings() {
             />
           </div>
         </Modal>
+      </div>
+
+      <div className="mx-3">
+        <div className=" row">
+          <div className="col-sm-6 pl-2 pt-0">
+            <>
+              <Card style={{ height: showTaskGroup? dynamicHeight.dynamicHeight - 35 : '5em' }}>
+                <div className="row">
+                  <div className="col">
+                    <h3>{translate("auth.tags")}</h3>
+                  </div>
+                  <div className="text-right mr-3 ">
+                    <Button
+                      text={
+                        showTaskGroup
+                          ? translate("course.hide")
+                          : translate("course.view")
+                      }
+                      size={"sm"}
+                      onClick={() => {
+                        if (!showTaskGroup) {
+                          getTaskGroupList(taskGroupCurrentPages);
+                        } else {
+                          setShowTags(!showTaskGroup)
+                        }
+
+                      }}
+                    />
+                    <Button
+                      text={translate("product.addItem")}
+                      size={"sm"}
+                      onClick={() => { addTaskGroupModal.show() }}
+                    />
+                  </div>
+                </div>
+
+
+                <div
+                  className="overflow-auto overflow-hide"
+                  style={{
+                    height: showTaskGroup ? dynamicHeight.dynamicHeight - 100 : '0px',
+                    margin: '0px -39px 0px -39px'
+                  }}
+                >
+                  {getTaskGroupDetails && getTaskGroupDetails?.length > 0 ? (
+                    <CommonTable
+                      isPagination
+                      tableDataSet={getTaskGroupDetails}
+                      displayDataSet={normalizedTaskGroupData(getTaskGroupDetails)}
+                      noOfPage={taskGroupNumOfPages}
+                      currentPage={taskGroupCurrentPages}
+                      paginationNumberClick={(currentPage) => {
+
+                        getTaskGroupList(paginationHandler("current", currentPage));
+
+                      }}
+                      previousClick={() => {
+                        getTaskGroupList(paginationHandler("prev", taskGroupCurrentPages))
+                      }
+                      }
+                      nextClick={() => {
+                        getTaskGroupList(paginationHandler("next", taskGroupCurrentPages));
+                      }
+                      }
+                    />
+                  ) : (
+                    <div
+                      className=" d-flex justify-content-center align-items-center"
+                      style={{
+                        height: "30.5rem",
+                      }}
+                    >
+                      <NoRecordsFound />
+                    </div>
+                  )}
+                </div>
+              </Card>
+            </>
+          </div>
+        </div>
+
+        {/**
+         * brand sector
+         */}
+
+        <Modal
+
+          isOpen={addSectorModal.visible}
+          onClose={() => addSectorModal.hide()}
+          title={translate("auth.sector")!}
+        >
+          <div className="">
+            <Input
+              placeholder={translate("auth.sector")}
+              value={sector}
+              onChange={(e) => setSector(e.target.value)}
+            />
+          </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() => addSectorModal.hide()}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                addBrandSectorAdding();
+              }}
+            />
+          </div>
+        </Modal>
+
       </div>
     </>
   )
