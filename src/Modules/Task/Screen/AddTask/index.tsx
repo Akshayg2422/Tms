@@ -92,7 +92,7 @@ function AddTask() {
                         dispatch(
                             setIsSync({
                                 ...isSync,
-                                issues: false,
+                                tasks: false,
                             })
                         );
                     },

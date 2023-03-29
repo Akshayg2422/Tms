@@ -98,7 +98,7 @@ export const CREATE_TICKET = {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
   reference_number: {
-    presence: { allowEmpty: false, message: "referenceNo cannot be empty" },
+    presence: { allowEmpty: false, message: "reference no cannot be empty" },
   },
 
   assigned_to_id: {
