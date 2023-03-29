@@ -35,4 +35,5 @@ export interface AdminStateProp {
   referencesTasksCurrentPages:any,
   taskUsers:any,
   ticketEmployees:any;
+  current:any;
 }

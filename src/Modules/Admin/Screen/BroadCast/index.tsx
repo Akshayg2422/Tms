@@ -50,7 +50,6 @@ function Broadcast() {
     );
   }
 
-  // console.log(JSON.stringify(broadCastDetails) + '===');
 
 
   return (
@@ -65,7 +64,7 @@ function Broadcast() {
         />
       </div>
 
-      {broadCastDetails && broadCastDetails.length > 0 &&
+      {broadCastDetails && broadCastDetails.length > 0 ?
         <InfiniteScroll
           dataLength={broadCastDetails.length}
           hasMore={broadCastCurrentPage !== -1}
@@ -96,7 +95,7 @@ function Broadcast() {
           </Card>
 
         </InfiniteScroll>
-      }
+     :<NoDataFound/> }
     </HomeContainer>
   );
 }

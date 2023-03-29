@@ -45,21 +45,19 @@ function CreateBroadCast() {
     setPhoto(newUpdatedPhoto);
   };
 
-
-  
-
   const submitTicketHandler = () => {
     const params = {
       title: title?.value,
       description: description?.value,
       ...(selectedCompanyId.length > 0 && {
-        applicable_branches_ids: { add: selectedCompanyId },
+        applicable_branches: selectedCompanyId ,
       }),
-      ...(internalCheck&& { internalCompany:true }),
+      ...(internalCheck&& {for_internal_company:true }),
+      ...(externalCheck&& {for_external_company:true }),
       broadcast_attachments: [{ attachments: photo }],
     };
 
-    const validation = validate(typeSelect?.id === "1"?CREATE_BROAD_CAST_EXTERNAL:CREATE_BROAD_CAST_INTERNAL, params);
+    const validation = validate(externalCheck?CREATE_BROAD_CAST_EXTERNAL:CREATE_BROAD_CAST_INTERNAL, params);
 
     if (ifObjectExist(validation)) {
       dispatch(
@@ -124,10 +122,10 @@ function CreateBroadCast() {
     if (details && details.length > 0) {
       
       
-      details.forEach(({ branch_id, display_name }) => {
+      details.forEach(({ id, display_name }) => {
         companies = [
           ...companies,
-          { key: branch_id, value: display_name, name: display_name },
+          { key: id, value: display_name, name: display_name },
         ];
       });
 
@@ -180,7 +178,6 @@ function CreateBroadCast() {
           </div>
           <div  >
             <Checkbox text={'Internal'} id={'2'}
-    
           defaultChecked={internalCheck}
           onCheckChange={setInternalCheck}
           

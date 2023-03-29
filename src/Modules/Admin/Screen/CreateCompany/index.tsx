@@ -36,6 +36,7 @@ function CreateCompany({}: CreateCompanyProps) {
   const gender = useDropDown(GENDER_LIST[0]);
   const name = useInput("");
   const address = useInput("");
+  const city = useInput("");
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
 
@@ -47,9 +48,6 @@ function CreateCompany({}: CreateCompanyProps) {
       gender: gender.value?.id,
       designation: "Management",
     }
-console.log(params,'registeradmin');
-
-
     const validation = validate(USER_FORM_RULES, {
       first_name: fullName.value,
       mobile_number: contactNumber.value,
@@ -81,6 +79,7 @@ console.log(params,'registeradmin');
   const onRegisterCompany = () => {
     const params = {
       registered_name: name.value,
+      city:city.value,
       communication_address: address.value,
       pincode: pinCode.value,
       mobile_number1: contactNumber.value,
@@ -143,7 +142,12 @@ console.log(params,'registeradmin');
           value={name.value}
           onChange={name.onChange}
         />
-
+         <Input
+         type={'text'}
+          heading={translate("auth.city")}
+          value={city.value}
+          onChange={city.onChange}
+        />
         <Input
           heading={translate("auth.address")}
           value={address.value}

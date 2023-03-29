@@ -21,8 +21,9 @@ import {
   getTicketTag
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
+import { Console } from "console";
 
 function Settings() {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ function Settings() {
     brandSectorNumOfPages,
     ticketTagCurrentPages,
     ticketTagNumOfPages,
+    dashboardDetails
   } = useSelector(
     (state: any) => state.AdminReducer
   );
@@ -52,10 +54,17 @@ function Settings() {
   const [sector, setSector] = useState("");
   const [tags, setTags] = useState("");
   const [description, setDescription] = useState("");
-  const [isSuperAdmin,setIsSuperAdmin] = useState(true);
-  const [isAdmin,setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [departmentDataList, setDepartmentDataList] = useState(departmentData);
+  const [designationDataList, setDesignationDataList] = useState(designationData);
 
+
+  console.log("*********", isAdmin, isSuperAdmin)
   const dynamicHeight: any = useDynamicHeight()
+
+
+  //   console.log("dashboardDetails", dashboardDetails?.permission_details.is_super_admin)
 
 
 
@@ -67,10 +76,14 @@ function Settings() {
     dispatch(
       getDepartmentData({
         params,
-        onSuccess: (success: any) => () => {
+        onSuccess: (response: any) => () => {
+          if (response.success) {
+            setDepartmentDataList(response?.details?.data)
+          }
           if (!showDepartments) {
             setShowDepartments(!showDepartments)
           }
+
         },
         onError: (error: string) => () => {
 
@@ -114,13 +127,16 @@ function Settings() {
     dispatch(
       getDesignationData({
         params,
-        onSuccess: (success: any) => () => {
+        onSuccess: (response: any) => () => {
 
           if (!showDesignations) {
-
-
             setShowDesignations(!showDesignations)
           }
+
+          if (response.success) {
+            setDesignationDataList(response?.details?.data)
+          }
+
         },
         onError: (error: string) => () => {
 
@@ -159,28 +175,36 @@ function Settings() {
   const postAddingDepartment = () => {
     const params = {
       name: convertToUpperCase(department),
+      is_admin: isAdmin,
+      ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
     };
+    const validation = validate(ADD_DEPARTMENT, params)
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addDepartment({
+          params,
+          onSuccess: (success: any) => () => {
+            addDepartMentModal.hide()
+            dispatch(
+              getDepartmentData({
+                params,
+                onSuccess: (success: any) => () => { },
+                onError: (error: string) => () => { },
+              })
+            );
+            setDepartment("");
+            showToast(success.message, "success");
+          },
+          onError: (error: string) => () => {
 
-    dispatch(
-      addDepartment({
-        params,
-        onSuccess: (success: any) => () => {
-          addDepartMentModal.hide()
-          dispatch(
-            getDepartmentData({
-              params,
-              onSuccess: (success: any) => () => { },
-              onError: (error: string) => () => { },
-            })
-          );
-          setDepartment("");
-          showToast(success.message, "success");
-        },
-        onError: (error: string) => () => {
+          },
+        })
+      );
+    }
+    else {
+      showToast(getValidateError(validation));
 
-        },
-      })
-    );
+    }
   };
 
   /**add brand sector */
@@ -189,57 +213,70 @@ function Settings() {
     const params = {
       name: convertToUpperCase(sector),
     };
+    const validation = validate(ADD_SECTOR, params)
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addBrandSector({
+          params,
+          onSuccess: (success: any) => () => {
+            addSectorModal.hide()
+            dispatch(
+              getBrandSector({
+                params,
+                onSuccess: (success: any) => () => { },
+                onError: (error: string) => () => { },
+              })
+            );
+            setDepartment("");
+            showToast(success.message, "success");
+          },
+          onError: (error: string) => () => {
 
-    dispatch(
-      addBrandSector({
-        params,
-        onSuccess: (success: any) => () => {
-          addSectorModal.hide()
-          dispatch(
-            getBrandSector({
-              params,
-              onSuccess: (success: any) => () => { },
-              onError: (error: string) => () => { },
-            })
-          );
-          setDepartment("");
-          showToast(success.message, "success");
-        },
-        onError: (error: string) => () => {
+          },
+        })
+      );
+    }
+    else {
+      showToast(getValidateError(validation));
 
-        },
-      })
-    );
+    }
   };
 
   const postAddingDesignation = () => {
     const params = {
       name: convertToUpperCase(designation),
-      is_admin: true,
+      is_admin: isAdmin,
+      ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
     };
+    const validation = validate(ADD_DESIGNATION, params)
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addDesignation({
 
-    dispatch(
-      addDesignation({
+          params,
+          onSuccess: (success: any) => () => {
+            addDesignationModal.hide()
 
-        params,
-        onSuccess: (success: any) => () => {
-          addDesignationModal.hide()
+            dispatch(
+              getDesignationData({
+                params,
+                onSuccess: (success: any) => () => { },
+                onError: (error: string) => () => { },
+              })
+            );
+            setDesignation("");
+            showToast(success.message, "success");
+          },
+          onError: (error: string) => () => {
 
-          dispatch(
-            getDesignationData({
-              params,
-              onSuccess: (success: any) => () => { },
-              onError: (error: string) => () => { },
-            })
-          );
-          setDesignation("");
-          showToast(success.message, "success");
-        },
-        onError: (error: string) => () => {
+          },
+        })
+      );
+    }
+    else {
+      showToast(getValidateError(validation));
 
-        },
-      })
-    );
+    }
   };
 
   /**add ticket tag */
@@ -248,48 +285,174 @@ function Settings() {
       name: convertToUpperCase(tags),
       description: convertToUpperCase(description)
     };
+    const validation = validate(ADD_TAG, params)
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addTicketTag({
+          params,
+          onSuccess: (success: any) => () => {
+            addTagsModal.hide()
 
-    dispatch(
-      addTicketTag({
+            dispatch(
+              getTicketTag({
+                params,
+                onSuccess: (success: any) => () => { },
+                onError: (error: string) => () => { },
+              })
+            );
+            setDesignation("");
+            showToast(success.message, "success");
+          },
+          onError: (error: string) => () => {
 
-        params,
-        onSuccess: (success: any) => () => {
-          addTagsModal.hide()
+          },
+        })
+      );
+    }
+    else {
+      showToast(getValidateError(validation));
 
-          dispatch(
-            getTicketTag({
-              params,
-              onSuccess: (success: any) => () => { },
-              onError: (error: string) => () => { },
-            })
-          );
-          // setDesignation("");
-          showToast(success.message, "success");
-        },
-        onError: (error: string) => () => {
-
-        },
-      })
-    );
+    }
   };
 
+  const handleDepartmentAdminProcess = (item) => {
+
+    const updateData = departmentDataList.map((el: any) => {
+      if (el.id === item.id) {
+        return { ...el, is_admin: !el.is_admin }
+      }
+      return el
+    })
+
+    setDepartmentDataList(updateData)
+
+    const findElement = updateData.find((finditem) => finditem.id === item.id)
+
+    const params = {
+      id: findElement?.id,
+      is_admin: findElement?.is_admin
+    }
+
+    dispatch(
+      addDepartment({
+        params,
+        onSuccess: (success: any) => () => { },
+        onError: (error: string) => () => { },
+      })
+    );
+
+
+  }
+
+
+  const handleDepartmentSuperAdminProcess = (item) => {
+
+    const updateData = departmentDataList.map((el: any) => {
+      if (el.id === item.id) {
+        return { ...el, is_super_admin: !el.is_super_admin }
+      }
+      return el
+    })
+
+    setDepartmentDataList(updateData)
+
+    const findElement = updateData.find((finditem) => finditem.id === item.id)
+    const params = {
+      id: findElement?.id,
+      is_super_admin: findElement?.is_super_admin
+    }
+
+    dispatch(
+      addDepartment({
+        params,
+        onSuccess: (success: any) => () => { },
+        onError: (error: string) => () => { },
+      })
+    );
+
+  }
+
+  const handleDesignationAdminProcess = (item) => {
+
+    const updateData = designationDataList.map((el: any) => {
+      if (el.id === item.id) {
+        return { ...el, is_admin: !el.is_admin }
+      }
+      return el
+    })
+
+    setDesignationDataList(updateData)
+
+    const findElement = updateData.find((finditem) => finditem.id === item.id)
+
+    const params = {
+      id: findElement?.id,
+      is_admin: findElement?.is_admin
+    }
+
+    dispatch(
+      addDesignation({
+        params,
+        onSuccess: (success: any) => () => { },
+        onError: (error: string) => () => { },
+      })
+    );
+
+
+
+  }
+
+  const handleDesignationSuperAdminProcess = (item) => {
+
+    const updateData = designationDataList.map((el: any) => {
+      if (el.id === item.id) {
+        return { ...el, is_super_admin: !el.is_super_admin }
+      }
+      return el
+    })
+
+    setDesignationDataList(updateData)
+
+    const findElement = updateData.find((finditem) => finditem.id === item.id)
+    const params = {
+      id: findElement?.id,
+      is_super_admin: findElement?.is_super_admin
+    }
+
+    dispatch(
+      addDesignation({
+        params,
+        onSuccess: (success: any) => () => { },
+        onError: (error: string) => () => { },
+      })
+    );
+
+
+
+  }
+
   const normalizedDepartmentData = (data: any) => {
-    return data.map((el: any) => {
+    return data.map((el: any, index: any) => {
       return {
-        name: el.name,
-        Admin:
-          <div className="">
-            <Checkbox  id="superAdmin" defaultChecked={isSuperAdmin} onCheckChange={()=>{
-             setIsSuperAdmin(!isSuperAdmin)
-            }}/>
-            
-          </div>,
-        superAdmin: <div className=" ">
-          <Checkbox  id="admin" defaultChecked={isAdmin} onCheckChange={()=>{
-             setIsSuperAdmin(!isAdmin)
-            }}/>
-        </div>,
-        edit: <i className="bi bi-pencil"></i>,
+        name: el?.name,
+        ... (dashboardDetails?.permission_details.is_admin && {
+          Admin:
+            <div className=" d-flex justify-content-center align-items-center ">
+              <Input type={'checkbox'} checked={el?.is_admin} onChange={() => {
+                handleDepartmentAdminProcess(el)
+              }} />
+            </div>
+        }),
+
+        ...(dashboardDetails?.permission_details.is_super_admin && {
+          superAdmin:
+            <div className=" d-flex justify-content-center align-items-center">
+              <Input type={'checkbox'} checked={el?.is_super_admin} onChange={() => {
+                handleDepartmentSuperAdminProcess(el)
+              }} />
+            </div>
+        }),
+     
       };
     });
   };
@@ -298,14 +461,22 @@ function Settings() {
     return data.map((el: any) => {
       return {
         name: el.name,
-        Admin:
-          <div className="d-flex justify-content-center ">
-            <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
-          </div>,
-        superAdmin: <div className="d-flex justify-content-center ">
-          <Input className="form-check-input" type="checkbox" id="flexCheckDefault"></Input>
-        </div>,
-        edit: <i className="bi bi-pencil "></i>,
+        ... (dashboardDetails?.permission_details.is_admin && {
+          Admin:
+            <div className="d-flex justify-content-center align-items-center">
+              <Input type={'checkbox'} checked={el?.is_admin} onChange={() => {
+                handleDesignationAdminProcess(el)
+              }} />
+            </div>
+        }),
+        ...(dashboardDetails?.permission_details.is_super_admin && {
+          superAdmin: <div className="d-flex justify-content-center align-items-center">
+            <Input type={'checkbox'} checked={el?.is_super_admin} onChange={() => {
+              handleDesignationSuperAdminProcess(el)
+            }} />
+          </div>
+        }),
+       
 
       };
     });
@@ -377,11 +548,11 @@ function Settings() {
                     margin: '0px -39px 0px -39px'
                   }}
                 >
-                  {departmentData && departmentData?.length > 0 ? (
+                  {departmentDataList && departmentDataList?.length > 0 ? (
                     <CommonTable
                       isPagination
-                      tableDataSet={departmentData}
-                      displayDataSet={normalizedDepartmentData(departmentData)}
+                      tableDataSet={departmentDataList}
+                      displayDataSet={normalizedDepartmentData(departmentDataList)}
                       noOfPage={departmentNumOfPages}
                       currentPage={departmentCurrentPages}
                       paginationNumberClick={(currentPage) => {
@@ -453,11 +624,11 @@ function Settings() {
                     margin: '0px -39px 0px -39px'
                   }}
                 >
-                  {designationData && designationData?.length > 0 ? (
+                  {designationDataList && designationDataList?.length > 0 ? (
                     <CommonTable
                       isPagination
-                      tableDataSet={designationData}
-                      displayDataSet={normalizedDesignationData(designationData)}
+                      tableDataSet={designationDataList}
+                      displayDataSet={normalizedDesignationData(designationDataList)}
                       noOfPage={designationNumOfPages}
                       currentPage={designationCurrentPages}
                       paginationNumberClick={(currentPage) => {
@@ -495,7 +666,7 @@ function Settings() {
          */}
 
         <Modal
-
+           
           isOpen={addDepartMentModal.visible}
           onClose={() => addDepartMentModal.hide()}
           title={translate("common.department")!}
@@ -506,6 +677,14 @@ function Settings() {
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
             />
+          </div>
+          <div className="row ">
+            <span className="col-2">
+               <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />
+            </span>
+            <span className="col-2">
+               <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />
+             </span>
           </div>
           <div className="text-right">
             <Button
@@ -537,6 +716,14 @@ function Settings() {
               value={designation}
               onChange={(e) => setDesignation(e.target.value)}
             />
+          </div>
+          <div className="row ">
+            <span className="col-2">
+               <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />
+            </span>
+            <span className="col-2">
+               <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />
+             </span>
           </div>
           <div className="text-right">
             <Button

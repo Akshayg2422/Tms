@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Table, Button, CommonTable } from '@Components'
+import { Card, Table, Button, CommonTable,Image } from '@Components'
 import { getEmployees } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { HOME_PATH } from '@Routes'
 import { translate } from "@I18n";
+import { getPhoto, paginationHandler } from "@Utils";
 function CompanyUsers() {
 
     const { goTo } = useNavigation()
@@ -31,6 +32,7 @@ function CompanyUsers() {
         return data?.map((el: any) => {
             return {
                 name: el.name,
+                profile:<Image variant={'rounded'} src={getPhoto(el?.profile_image)} />,
                 phone: el?.mobile_number,
                 email: el?.email
             };
