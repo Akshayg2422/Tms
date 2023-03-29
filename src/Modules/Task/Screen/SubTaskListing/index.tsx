@@ -40,7 +40,7 @@ function SubTaskListing() {
 
     return (
         <div>
-            {subTasks && subTasks.data.length > 0 ?
+            {subTasks && subTasks?.data?.length > 0 ?
                 <div className={'mx--5'}>
                     <CommonTable
                         title="SUB TASKS"

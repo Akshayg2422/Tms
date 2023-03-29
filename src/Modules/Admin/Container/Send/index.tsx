@@ -46,16 +46,18 @@ function Send({ onClick, value, onChange }: SendProps) {
             attachments: [{ attachment: photo }],
             name: modalName.value
         };
+        console.log('444444444444444444444444444444444444444444444444444444444444444', params);
+
         dispatch(
             addTicketEvent({
                 params,
                 onSuccess: (response) => () => {
                     ProceedGetTicketEvents();
-                    
+
                 },
                 onError: (error) => () => {
-                    
-                 },
+
+                },
             }),
         );
         setSelectAttachments(!selectAttachments);
@@ -64,6 +66,7 @@ function Send({ onClick, value, onChange }: SendProps) {
     const resetValues = () => {
         modalName.set('');
         setSelectDropzone([{}]);
+        setPhoto([])
     };
 
     const handleImagePicker = (index: number, file: any) => {
