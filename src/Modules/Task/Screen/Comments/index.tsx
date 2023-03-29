@@ -95,55 +95,56 @@ function Comments() {
   return (
     <>
 
-      <div className="d-flex">
-        <div className={'col-xl-12'}>
-          <Card className='mx--3 shadow-none border overflow-auto overflow-hide mb-3' style={{ height: '87vh' }}>
+      <Card className="container overflow-auto overflow-hide mb--1" style={{ height: '89vh' }}>
+        <div className="row">
+          <div className="col">
             <div>
               {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
 
                 return (
-                  <TaskChat item={el} />
+                  <div className={''}><TaskChat item={el} /></div>
                 )
               })}
             </div>
-            <div className="row d-flex align-items-end fixed-bottom">
-              <div className='col py-4' style={{ zIndex: 6 }}>
-                <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
-              </div>
-              <div>
-                <Modal isOpen={selectAttachments}
-                  onClose={() => {
-                    setSelectAttachments(!selectAttachments)
-                  }}>
-                  <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={modalName.onChange} />
-                  {selectDropzone && selectDropzone.map((el, index) => {
-                    return (
-                      <Dropzone variant='ICON'
-                        icon={image}
-                        size='xl'
-                        onSelect={(image) => {
-                          let file = image.toString().replace(/^data:(.*,)?/, '');
-                          handleImagePicker(index, file)
-                        }}
-                      />
-                    )
-                  })}
-                  <div className='d-flex flex-row pt-4'>
-                    <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => onModalSubmitHandler()} />
-                  </div>
-                </Modal>
-              </div>
-              <div className="col-10">
-                <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type a message'} onChange={textMessage.onChange} />
-              </div>
-              <div className="col py-4">
-                <span className={'icon icon-shape text-white bg-info rounded-circle shadow'} onClick={sendMessageHandler}><i className="ni ni-send"></i></span>
-              </div>
-            </div>
-
-          </Card>
+          </div>
         </div>
-      </div>
+        <div className="row fixed-bottom position-absolute mx-xl-9 mx-md-9 mx-sm-9" style={{zIndex:"unset"}}>
+          <div className="col">
+            <div className={'py-2'}>
+              <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
+            </div>
+            <div>
+              <Modal isOpen={selectAttachments}
+                onClose={() => {
+                  setSelectAttachments(!selectAttachments)
+                }}>
+                <Input className='rounded-pill' heading={'Name'} value={modalName.value} onChange={modalName.onChange} />
+                {selectDropzone && selectDropzone.map((el, index) => {
+                  return (
+                    <Dropzone variant='ICON'
+                      icon={image}
+                      size='xl'
+                      onSelect={(image) => {
+                        let file = image.toString().replace(/^data:(.*,)?/, '');
+                        handleImagePicker(index, file)
+                      }}
+                    />
+                  )
+                })}
+                <div className='d-flex flex-row pt-4'>
+                  <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => onModalSubmitHandler()} />
+                </div>
+              </Modal>
+            </div>
+          </div>
+          <div className="col-10">
+            <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type a message'} onChange={textMessage.onChange} />
+          </div>
+          <div className="col">
+            <span className={'icon icon-shape text-white bg-info rounded-circle shadow'} onClick={sendMessageHandler}><i className="ni ni-send"></i></span>
+          </div>
+        </div>
+      </Card>
     </>
   );
 }
