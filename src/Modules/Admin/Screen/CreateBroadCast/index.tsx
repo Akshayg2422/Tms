@@ -39,11 +39,15 @@ function CreateBroadCast() {
 
   const[internalCheck, setInternalCheck] = useState(true)
   const[externalCheck, setExternalCheck] = useState(false)
+  let attach=photo.slice(-2,4)
 
   const handleImagePicker = (index: number, file: any) => {
     let newUpdatedPhoto = [...photo, file];
+
     setPhoto(newUpdatedPhoto);
+
   };
+    
 
   const submitTicketHandler = () => {
     const params = {
@@ -54,7 +58,7 @@ function CreateBroadCast() {
       }),
       ...(internalCheck&& {for_internal_company:true }),
       ...(externalCheck&& {for_external_company:true }),
-      broadcast_attachments: [{ attachments: photo }],
+      broadcast_attachments: [{ attachments:  attach}],
     };
 
     const validation = validate(externalCheck?CREATE_BROAD_CAST_EXTERNAL:CREATE_BROAD_CAST_INTERNAL, params);
@@ -233,6 +237,7 @@ function CreateBroadCast() {
                   onSelect={(image) => {
                     let file = image.toString().replace(/^data:(.*,)?/, "");
                     handleImagePicker(index, file);
+                    
                     setSelectDropzone([{ id: "1" }, { id: "2" }]);
                   }}
                 />

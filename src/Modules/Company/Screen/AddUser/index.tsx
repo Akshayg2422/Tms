@@ -41,6 +41,7 @@ function AddUser() {
   const gender = useDropDown(GENDER_LIST[0]);
   const [designationValue, setDesignationValue] = useState("");
   const { goBack } = useNavigation();
+  let attach=photo.slice(-1,4)
 
   useEffect(() => {
     const params = {
@@ -64,7 +65,7 @@ function AddUser() {
         email: email.value,
         gender: gender.value?.id,
         designation_name: designationValue,
-        profile_image:photo,
+        profile_image:attach,
       };
 
       const validation = validate(ADD_USER_RULES, {

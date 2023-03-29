@@ -66,9 +66,7 @@ function Settings() {
   const [showTaskGroup, setShowTaskGroup] = useState(false);
   const addTaskGroupModal = useModal(false);
   const [task, setTask] = useState("");
-
-
-  console.log("*********", isAdmin, isSuperAdmin)
+  const [taskDescription, setTaskDescription] = useState("");
   const dynamicHeight: any = useDynamicHeight()
 
 
@@ -85,11 +83,11 @@ function Settings() {
       getDepartmentData({
         params,
         onSuccess: (response: any) => () => {
-          if (response.success) {
-            setDepartmentDataList(response?.details?.data)
-          }
           if (!showDepartments) {
             setShowDepartments(!showDepartments)
+          }
+          if (response.success) {
+            setDepartmentDataList(response?.details?.data)
           }
 
         },
@@ -189,10 +187,12 @@ function Settings() {
 
           if (!showTaskGroup) {
 
-            setShowTags(!showTaskGroup)
+            setShowTaskGroup(!showTaskGroup)
           }
         },
         onError: (error: string) => () => {
+
+          
         },
       })
     );
@@ -207,6 +207,7 @@ function Settings() {
       is_admin: isAdmin,
       ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
     };
+    
     const validation = validate(ADD_DEPARTMENT, params)
     if (ifObjectExist(validation)) {
       dispatch(
@@ -214,13 +215,15 @@ function Settings() {
           params,
           onSuccess: (success: any) => () => {
             addDepartMentModal.hide()
-            dispatch(
-              getDepartmentData({
-                params,
-                onSuccess: (success: any) => () => { },
-                onError: (error: string) => () => { },
-              })
-            );
+
+            getDepartmentList(departmentCurrentPages)
+            // dispatch(
+            //   getDepartmentData({
+            //     params,
+            //     onSuccess: (success: any) => () => { },
+            //     onError: (error: string) => () => { },
+            //   })
+            // );
             setDepartment("");
             showToast(success.message, "success");
           },
@@ -256,7 +259,8 @@ function Settings() {
                 onError: (error: string) => () => { },
               })
             );
-            setDepartment("");
+            setSector("");
+            setDescription("")
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
@@ -285,14 +289,14 @@ function Settings() {
           params,
           onSuccess: (success: any) => () => {
             addDesignationModal.hide()
-
-            dispatch(
-              getDesignationData({
-                params,
-                onSuccess: (success: any) => () => { },
-                onError: (error: string) => () => { },
-              })
-            );
+            getDesignationList (departmentCurrentPages)
+            // dispatch(
+            //   getDesignationData({
+            //     params,
+            //     onSuccess: (success: any) => () => { },
+            //     onError: (error: string) => () => { },
+            //   })
+            // );
             setDesignation("");
             showToast(success.message, "success");
           },
@@ -329,7 +333,7 @@ function Settings() {
                 onError: (error: string) => () => { },
               })
             );
-            setDesignation("");
+            setTags("");
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
@@ -348,8 +352,9 @@ function Settings() {
   const addTaskGroupAdding = () => {
     const params = {
       name: convertToUpperCase(task),
-      description: convertToUpperCase(description)
+      description: convertToUpperCase(taskDescription)
     };
+    
     const validation = validate(ADD_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
       dispatch(
@@ -357,7 +362,7 @@ function Settings() {
           params,
           onSuccess: (success: any) => () => {
             addTaskGroupModal.hide()
-
+            
             dispatch(
               getTaskGroup({
                 params,
@@ -365,10 +370,13 @@ function Settings() {
                 onError: (error: string) => () => { },
               })
             );
-            // setDesignation("");
+            setTask("");
+            setTaskDescription('')
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
+            console.log(error,"eeeeeeeeee");
+            
 
           },
         })
@@ -428,7 +436,6 @@ function Settings() {
       id: findElement?.id,
       is_super_admin: findElement?.is_super_admin
     }
-
     dispatch(
       addDepartment({
         params,
@@ -1041,14 +1048,14 @@ function Settings() {
         </Modal>
       </div>
 
-      <div className="mx-3">
+      <div className="mx-4">
         <div className=" row">
           <div className="col-sm-6 pl-2 pt-0">
             <>
               <Card style={{ height: showTaskGroup? dynamicHeight.dynamicHeight - 35 : '5em' }}>
                 <div className="row">
                   <div className="col">
-                    <h3>{translate("auth.tags")}</h3>
+                    <h3>{translate("auth.group")}</h3>
                   </div>
                   <div className="text-right mr-3 ">
                     <Button
@@ -1062,7 +1069,7 @@ function Settings() {
                         if (!showTaskGroup) {
                           getTaskGroupList(taskGroupCurrentPages);
                         } else {
-                          setShowTags(!showTaskGroup)
+                          setShowTaskGroup(!showTaskGroup)
                         }
 
                       }}
@@ -1126,27 +1133,32 @@ function Settings() {
 
         <Modal
 
-          isOpen={addSectorModal.visible}
-          onClose={() => addSectorModal.hide()}
-          title={translate("auth.sector")!}
+          isOpen={addTaskGroupModal.visible}
+          onClose={() => addTaskGroupModal.hide()}
+          title={translate("auth.task")!}
         >
           <div className="">
             <Input
-              placeholder={translate("auth.sector")}
-              value={sector}
-              onChange={(e) => setSector(e.target.value)}
+              placeholder={translate("auth.task")}
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+            />
+               <Input
+              placeholder={translate("auth.description")}
+              value={taskDescription}
+              onChange={(e) => setTaskDescription(e.target.value)}
             />
           </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => addSectorModal.hide()}
+              onClick={() => addTaskGroupModal.hide()}
             />
             <Button
               text={translate("common.submit")}
               onClick={() => {
-                addBrandSectorAdding();
+                addTaskGroupAdding();
               }}
             />
           </div>

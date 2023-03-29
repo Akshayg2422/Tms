@@ -503,12 +503,12 @@ case GET_REFERENCE_TASKS_FAILURE:
     state = {
       ...state,
       loading: false,
-      getTaskGroupDetails:action?.payload?.data,
-      taskGroupNumOfPages:action?.payload?.num_pages,
+      getTaskGroupDetails:action?.payload?.details?.data,
+      taskGroupNumOfPages:action?.payload?.details?.num_pages,
       taskGroupCurrentPages:
-      action?.payload?.next_page === -1
-          ?action?.payload?.num_pages
-          :action?.payload?.next_page - 1,
+      action?.payload?.details?.next_page === -1
+          ?action?.payload?.details?.num_pages
+          :action?.payload?.details?.next_page - 1,
     };
     break;
   case GET_TASK_GROUP_FAILURE:

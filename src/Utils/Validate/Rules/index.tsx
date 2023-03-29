@@ -120,7 +120,7 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  applicable_branches_ids:{
+  applicable_branches:{
     presence: { allowEmpty: false, message: "Company cannot be empty" },
   },
   broadcast_attachments:
@@ -164,9 +164,9 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
       name:{
         presence: { allowEmpty: false, message: "sector name cannot be empty" },
       },
-      description:{
-        presence: { allowEmpty: false, message: "description cannot be empty" },
-      }
+      // description:{
+      //   presence: { allowEmpty: false, message: "description cannot be empty" },
+      // }
     }
 
     export const ADD_TAG={

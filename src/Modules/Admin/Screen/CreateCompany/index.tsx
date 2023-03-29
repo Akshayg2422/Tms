@@ -39,6 +39,7 @@ function CreateCompany({}: CreateCompanyProps) {
   const city = useInput("");
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
+  let attach=photo.slice(-1,4)
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -84,7 +85,7 @@ function CreateCompany({}: CreateCompanyProps) {
       pincode: pinCode.value,
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
-      attachment_logo: photo,
+      attachment_logo: attach,
     };
     const validation = validate(BUSINESS_FORM_RULES, params);
 
