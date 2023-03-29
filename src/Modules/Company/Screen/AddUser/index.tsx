@@ -47,6 +47,7 @@ function AddUser() {
     const params = {
       branch_id: companyDetailsSelected?.branch_id,
     };
+    console.log("prams-->",params)
     dispatch(
       getDesignationData({
         params,
@@ -57,7 +58,7 @@ function AddUser() {
   }, []);
 
   const submitAddUserHandler = () => {
-    if (designationData[0].name !== designationValue) {
+    if (designationData[0]?.name !== designationValue) {
       const params = {
         branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,

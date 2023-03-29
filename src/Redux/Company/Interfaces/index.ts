@@ -14,4 +14,5 @@ export interface CompanyStateProp {
   broadCastCurrentPage: any;
   broadCastNumOfPages: any;
   taskEvents: any;
+  addTaskEvents: any;
 }

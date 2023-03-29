@@ -64,7 +64,7 @@ function ReferenceTasks() {
   return (
 
 
-    <div style={{ height: '82.3vh' }} className="mx--4">
+    <div style={{ height: '82.3vh' }} className="mx--3">
       {referencesTasks && referencesTasks?.length > 0 ?
         <CommonTable
           isPagination

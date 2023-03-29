@@ -43,7 +43,8 @@ import {
   GET_TICKET_USERS,
 GET_REFERENCE_TASKS,
 GET_TASK_GROUP,
-ADD_TASK_GROUP
+ADD_TASK_GROUP,
+FETCH_ADD_TASK_EVENTS,
 
 } from '../UrlHelper';
 
@@ -90,7 +91,7 @@ export const addBroadCastMessagesApi = payload =>
   post(ADD_BROADCAST_MESSAGES, payload, {})
 export const getBroadCastMessagesApi = payload =>
   post(GET_BROADCAST_MESSAGES, payload, {})
-  
+
 export const getAddTaskApi = payload => post(FETCH_ADD_TASK, payload, {})
 
 export const getTaskApi = (payload) => post(GET_TASKS, payload, {})
@@ -100,6 +101,8 @@ export const getSubTaskApi = (payload) => post(FETCH_SUB_TASKS, payload, {})
 export const getTaskUsersApi = (payload) => post(FETCH_TASK_USERS, payload, {})
 
 export const getTaskEventsApi = (payload) => post(FETCH_TASK_EVENTS, payload, {})
+
+export const addTaskEventApi = (payload) => post(FETCH_ADD_TASK_EVENTS, payload, {})
 
 
 /**

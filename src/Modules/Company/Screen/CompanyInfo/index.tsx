@@ -11,7 +11,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
 
   const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
   const { display_name, attachment_logo, address, phone, email } = companyDetailsSelected;
- 
+
   return (
     <HomeContainer>
       <Card >
@@ -35,7 +35,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
                     <h6 className="text-uppercase text-muted mb-0"> {translate('common.phone')} </h6>
                     <h5>{phone}</h5>
                   </div>
-                  <div className="col-lg-3 col-sm-0 col-3  text-right">
+                  <div className="col-lg-3 col-sm-0 col-3 text-right">
                     <Badge pill color={"info"} text={"Call"} style={{ cursor: 'pointer' }} />
                   </div>
                 </div>

@@ -284,7 +284,7 @@ function* getTicketTag(action) {
     const response = yield call(getTicketTagApi, action.payload.params);
 
     if (response.success) {
-      
+
       yield put(hideLoader());
       yield put(getTicketTagSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -294,7 +294,7 @@ function* getTicketTag(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-   
+
     yield put(hideLoader());
     yield put(getTicketTagFailure("Invalid Request"));
     yield call(action.payload.onError(error));
@@ -319,7 +319,7 @@ function* getReferenceTasksSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-   
+
     yield put(hideLoader());
     yield put(getReferenceTasksFailure("Invalid Request"));
     yield call(action.payload.onError(error));
@@ -365,7 +365,7 @@ function* getBrandSector(action) {
     const response = yield call(getBrandSectorsApi, action.payload.params);
 
     if (response.success) {
-    
+
       yield put(hideLoader());
       yield put(getBrandSectorSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -411,7 +411,7 @@ function* getAddTaskSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getAddTaskApi, action.payload.params);
-   
+
     if (response.success) {
       yield put(hideLoader());
       yield put(getAddTaskSuccess(response.details));
@@ -435,7 +435,7 @@ function* getSubTasksSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getSubTaskApi, action.payload.params);
-   
+
     if (response.success) {
       yield put(hideLoader());
       yield put(getSubTasksSuccess(response));
@@ -456,7 +456,6 @@ function* getTaskUsersSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskUsersApi, action.payload.params);
-    console.log("taskUsersresponse",response)
     if (response.success) {
       yield put(hideLoader());
       yield put(getTaskUsersSuccess(response));
@@ -477,7 +476,7 @@ function* getTicketUsersSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTicketUsersApi, action.payload.params);
-   
+
     if (response.success) {
       yield put(hideLoader());
       yield put(getTicketUsersSuccess(response));
@@ -555,7 +554,7 @@ function* AdminSaga() {
   yield takeLatest(ADD_TICKET_TAG, addTicketTag);
   yield takeLatest(GET_BRAND_SECTOR, getBrandSector);
   yield takeLatest(GET_TICKET_TAG, getTicketTag);
-  yield takeLatest(GET_REFERENCE_TASKS,getReferenceTasksSaga);
+  yield takeLatest(GET_REFERENCE_TASKS, getReferenceTasksSaga);
   yield takeLatest(GET_TASK_USERS, getTaskUsersSaga)
   yield takeLatest(GET_TICKET_USERS, getTicketUsersSaga)
   yield takeLatest(GET_TASK_GROUP, getTaskGroupSaga)
