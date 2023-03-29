@@ -108,7 +108,7 @@ function Comments() {
             </div>
           </div>
         </div>
-        <div className="row fixed-bottom position-absolute mx-xl-9 mx-md-9 mx-sm-9" style={{zIndex:"unset"}}>
+        <div className="row fixed-bottom position-absolute" style={{zIndex:"unset"}}>
           <div className="col">
             <div className={'py-2'}>
               <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
