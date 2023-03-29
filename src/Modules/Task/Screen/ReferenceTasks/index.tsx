@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsSync, getReferenceTasks } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
+import { Card } from "reactstrap";
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ function ReferenceTasks() {
 
   useEffect(() => {
     if (!isSync.referenceTickets) {
-    proceedgetReferenceTasks(referencesTasksCurrentPages);
+      proceedgetReferenceTasks(referencesTasksCurrentPages);
     }
   }, [isSync]);
 
@@ -64,7 +65,7 @@ function ReferenceTasks() {
   return (
 
 
-    <div style={{ height: '82.3vh' }} className="mx--3">
+    <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: '89vh' }}>
       {referencesTasks && referencesTasks?.length > 0 ?
         <CommonTable
           isPagination
@@ -89,7 +90,7 @@ function ReferenceTasks() {
           }}
 
         /> : <NoDataFound />}
-    </div>
+    </Card>
 
 
   );
