@@ -74,4 +74,6 @@ export const FETCH_ADD_TASK = TASK + 'raiseNewTask'
 
 export const GET_REFERENCE_TASKS=TASK+'getReferenceTasks'
 export const FETCH_SUB_TASKS = TASK + 'getSubTasks'
+export const ADD_TASK_GROUP=TASK+'addTaskGroup'
+export const GET_TASK_GROUP=TASK+'getTaskGroup'
 

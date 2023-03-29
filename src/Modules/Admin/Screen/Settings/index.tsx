@@ -18,12 +18,13 @@ import {
   addBrandSector,
   addTicketTag,
   getBrandSector,
-  getTicketTag
+  getTicketTag,
+  getTaskGroup,
+  addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
-import { Console } from "console";
 
 function Settings() {
   const dispatch = useDispatch();
@@ -34,7 +35,11 @@ function Settings() {
     brandSectorNumOfPages,
     ticketTagCurrentPages,
     ticketTagNumOfPages,
-    dashboardDetails
+    dashboardDetails,
+    getTaskGroupDetails,
+    taskGroupCurrentPages,
+  taskGroupNumOfPages
+    
   } = useSelector(
     (state: any) => state.AdminReducer
   );
@@ -58,9 +63,10 @@ function Settings() {
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [departmentDataList, setDepartmentDataList] = useState(departmentData);
   const [designationDataList, setDesignationDataList] = useState(designationData);
-
-
-  console.log("*********", isAdmin, isSuperAdmin)
+  const [showTaskGroup, setShowTaskGroup] = useState(false);
+  const addTaskGroupModal = useModal(false);
+  const [task, setTask] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
   const dynamicHeight: any = useDynamicHeight()
 
 
@@ -77,11 +83,11 @@ function Settings() {
       getDepartmentData({
         params,
         onSuccess: (response: any) => () => {
-          if (response.success) {
-            setDepartmentDataList(response?.details?.data)
-          }
           if (!showDepartments) {
             setShowDepartments(!showDepartments)
+          }
+          if (response.success) {
+            setDepartmentDataList(response?.details?.data)
           }
 
         },
@@ -163,13 +169,36 @@ function Settings() {
           }
         },
         onError: (error: string) => () => {
-
-
-
         },
       })
     );
   };
+
+  const getTaskGroupList = (pageNumber: number) => {
+
+    const params = {
+      page_number: pageNumber
+    };
+
+    dispatch(
+      getTaskGroup({
+        params,
+        onSuccess: (success: any) => () => {
+
+          if (!showTaskGroup) {
+
+            setShowTaskGroup(!showTaskGroup)
+          }
+        },
+        onError: (error: string) => () => {
+
+          
+        },
+      })
+    );
+  };
+
+
 
 
   const postAddingDepartment = () => {
@@ -178,6 +207,7 @@ function Settings() {
       is_admin: isAdmin,
       ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
     };
+    
     const validation = validate(ADD_DEPARTMENT, params)
     if (ifObjectExist(validation)) {
       dispatch(
@@ -185,13 +215,15 @@ function Settings() {
           params,
           onSuccess: (success: any) => () => {
             addDepartMentModal.hide()
-            dispatch(
-              getDepartmentData({
-                params,
-                onSuccess: (success: any) => () => { },
-                onError: (error: string) => () => { },
-              })
-            );
+
+            getDepartmentList(departmentCurrentPages)
+            // dispatch(
+            //   getDepartmentData({
+            //     params,
+            //     onSuccess: (success: any) => () => { },
+            //     onError: (error: string) => () => { },
+            //   })
+            // );
             setDepartment("");
             showToast(success.message, "success");
           },
@@ -227,7 +259,8 @@ function Settings() {
                 onError: (error: string) => () => { },
               })
             );
-            setDepartment("");
+            setSector("");
+            setDescription("")
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
@@ -256,14 +289,14 @@ function Settings() {
           params,
           onSuccess: (success: any) => () => {
             addDesignationModal.hide()
-
-            dispatch(
-              getDesignationData({
-                params,
-                onSuccess: (success: any) => () => { },
-                onError: (error: string) => () => { },
-              })
-            );
+            getDesignationList (departmentCurrentPages)
+            // dispatch(
+            //   getDesignationData({
+            //     params,
+            //     onSuccess: (success: any) => () => { },
+            //     onError: (error: string) => () => { },
+            //   })
+            // );
             setDesignation("");
             showToast(success.message, "success");
           },
@@ -300,7 +333,7 @@ function Settings() {
                 onError: (error: string) => () => { },
               })
             );
-            setDesignation("");
+            setTags("");
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
@@ -314,6 +347,48 @@ function Settings() {
 
     }
   };
+
+  /**add task group */
+  const addTaskGroupAdding = () => {
+    const params = {
+      name: convertToUpperCase(task),
+      description: convertToUpperCase(taskDescription)
+    };
+    
+    const validation = validate(ADD_TASK_GROUP, params)
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addTaskGroup({
+          params,
+          onSuccess: (success: any) => () => {
+            addTaskGroupModal.hide()
+            
+            dispatch(
+              getTaskGroup({
+                params,
+                onSuccess: (success: any) => () => { },
+                onError: (error: string) => () => { },
+              })
+            );
+            setTask("");
+            setTaskDescription('')
+            showToast(success.message, "success");
+          },
+          onError: (error: string) => () => {
+            console.log(error,"eeeeeeeeee");
+            
+
+          },
+        })
+      );
+    }
+    else {
+      showToast(getValidateError(validation));
+
+    }
+  };
+
+
 
   const handleDepartmentAdminProcess = (item) => {
 
@@ -361,7 +436,6 @@ function Settings() {
       id: findElement?.id,
       is_super_admin: findElement?.is_super_admin
     }
-
     dispatch(
       addDepartment({
         params,
@@ -427,8 +501,6 @@ function Settings() {
       })
     );
 
-
-
   }
 
   const normalizedDepartmentData = (data: any) => {
@@ -492,6 +564,15 @@ function Settings() {
   };
 
   const normalizedBrandSectorData = (data: any) => {
+    return data.map((el: any) => {
+      return {
+        name: el.name,
+
+      };
+    });
+  };
+
+  const normalizedTaskGroupData = (data: any) => {
     return data.map((el: any) => {
       return {
         name: el.name,
@@ -965,6 +1046,124 @@ function Settings() {
             />
           </div>
         </Modal>
+      </div>
+
+      <div className="mx-4">
+        <div className=" row">
+          <div className="col-sm-6 pl-2 pt-0">
+            <>
+              <Card style={{ height: showTaskGroup? dynamicHeight.dynamicHeight - 35 : '5em' }}>
+                <div className="row">
+                  <div className="col">
+                    <h3>{translate("auth.group")}</h3>
+                  </div>
+                  <div className="text-right mr-3 ">
+                    <Button
+                      text={
+                        showTaskGroup
+                          ? translate("course.hide")
+                          : translate("course.view")
+                      }
+                      size={"sm"}
+                      onClick={() => {
+                        if (!showTaskGroup) {
+                          getTaskGroupList(taskGroupCurrentPages);
+                        } else {
+                          setShowTaskGroup(!showTaskGroup)
+                        }
+
+                      }}
+                    />
+                    <Button
+                      text={translate("product.addItem")}
+                      size={"sm"}
+                      onClick={() => { addTaskGroupModal.show() }}
+                    />
+                  </div>
+                </div>
+
+
+                <div
+                  className="overflow-auto overflow-hide"
+                  style={{
+                    height: showTaskGroup ? dynamicHeight.dynamicHeight - 100 : '0px',
+                    margin: '0px -39px 0px -39px'
+                  }}
+                >
+                  {getTaskGroupDetails && getTaskGroupDetails?.length > 0 ? (
+                    <CommonTable
+                      isPagination
+                      tableDataSet={getTaskGroupDetails}
+                      displayDataSet={normalizedTaskGroupData(getTaskGroupDetails)}
+                      noOfPage={taskGroupNumOfPages}
+                      currentPage={taskGroupCurrentPages}
+                      paginationNumberClick={(currentPage) => {
+
+                        getTaskGroupList(paginationHandler("current", currentPage));
+
+                      }}
+                      previousClick={() => {
+                        getTaskGroupList(paginationHandler("prev", taskGroupCurrentPages))
+                      }
+                      }
+                      nextClick={() => {
+                        getTaskGroupList(paginationHandler("next", taskGroupCurrentPages));
+                      }
+                      }
+                    />
+                  ) : (
+                    <div
+                      className=" d-flex justify-content-center align-items-center"
+                      style={{
+                        height: "30.5rem",
+                      }}
+                    >
+                      <NoRecordsFound />
+                    </div>
+                  )}
+                </div>
+              </Card>
+            </>
+          </div>
+        </div>
+
+        {/**
+         * brand sector
+         */}
+
+        <Modal
+
+          isOpen={addTaskGroupModal.visible}
+          onClose={() => addTaskGroupModal.hide()}
+          title={translate("auth.task")!}
+        >
+          <div className="">
+            <Input
+              placeholder={translate("auth.task")}
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+            />
+               <Input
+              placeholder={translate("auth.description")}
+              value={taskDescription}
+              onChange={(e) => setTaskDescription(e.target.value)}
+            />
+          </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() => addTaskGroupModal.hide()}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                addTaskGroupAdding();
+              }}
+            />
+          </div>
+        </Modal>
+
       </div>
     </>
   )

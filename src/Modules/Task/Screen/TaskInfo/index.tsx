@@ -42,7 +42,7 @@ function TaskInfo() {
                     </div>
                     <div className="col"></div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}</h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}<h5 className="bi bi-pencil"></h5></h6>
                     </div>
                 </div>
                 <div className="row align-items-end my-5">
@@ -51,11 +51,11 @@ function TaskInfo() {
                         <div className="h5 mb-0"> {by_user?.phone} </div>
                         <div className="h5 mb-0"> {by_user?.email} </div>
                     </div>
-                    <div className="col align-self-center mr--5">
+                    <div className="col align-self-center mx--4">
                         <div className="col d-flex  justify-content-center mr--2"> <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} /> </div>
                     </div>
 
-                    <div className="col">
+                    <div className="col-6">
                         <h6>
                             <div className="h5 mb-0"> {raised_by_company?.display_name} </div>
                             <div className="h5 mb-0"> @<span className="h5"> {assigned_to?.name} </span></div>

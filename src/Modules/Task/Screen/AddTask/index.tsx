@@ -55,6 +55,8 @@ function AddTask() {
     const selectedUser = useDropDown("");
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
+    let attach=photo.slice(-2,4)
+    
 
 
     const handleImagePicker = (index: number, file: any) => {
@@ -72,7 +74,7 @@ function AddTask() {
             brand_branch_id: selectedCompany?.id || "",
             assigned_to_id: selectedUser?.value?.id,
             priority: selectedTicketPriority?.value?.id,
-            task_attachments: [{ attachments: photo }],
+            task_attachments: [{ attachments: attach }],
             is_parent: true,
             eta_time: eta,
         };
@@ -151,7 +153,7 @@ function AddTask() {
     }, []);
 
     useEffect(() => {
-        console.log('addddd');
+
         
         const params = {
             branch_id:
