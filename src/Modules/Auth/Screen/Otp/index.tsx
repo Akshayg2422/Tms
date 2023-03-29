@@ -58,7 +58,9 @@ function Otp() {
             localStorage.setItem(USER_TOKEN, response.details.token);
             goTo(AUTH_PATH.SPLASH)
           },
-          onError: e => () => { },
+          onError: (error) => () => {
+            showToast(error.error_message,'error')
+           },
         }),
       );
     } else {

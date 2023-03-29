@@ -92,7 +92,7 @@ function AddTask() {
                         dispatch(
                             setIsSync({
                                 ...isSync,
-                                issues: false,
+                                tasks: false,
                             })
                         );
                     },
@@ -239,13 +239,12 @@ function AddTask() {
                         data={companyUserDashboard}
                         onChange={selectedUser.onChange}
                     />
-                    <DropDown
-                    heading={translate("common.taskPriority")!}
-                        selected={selectedTicketPriority.value}
-                        placeHolder={'please select a taskPriority...'}
-                        data={PRIORITY}
-                        onChange={selectedTicketPriority.onChange}
-                    />
+                   <DropDown 
+                     heading={translate("common.taskPriority")!}
+                     selected={selectedTicketPriority.value}
+                     placeHolder={'please select a task priority...'}
+                     data={PRIORITY}
+                     onChange={selectedTicketPriority.onChange}/>
                     <DateTimePicker
                     heading={'Select ETA'}
                         id="eta-picker"

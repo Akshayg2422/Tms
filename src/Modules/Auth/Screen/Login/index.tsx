@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Input, Button, H, Logo, Radio, showToast } from "@Components";
 import { translate } from "@I18n";
-import { LANGUAGES, BUSINESS, validate, MOBILE_NUMBER_RULES, ifObjectExist } from "@Utils";
+import { LANGUAGES, BUSINESS, validate, MOBILE_NUMBER_RULES, ifObjectExist, getValidateError } from "@Utils";
 import { useInput, useNavigation } from "@Hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { AUTH_PATH } from '@Routes'
@@ -36,16 +36,17 @@ function Login() {
       dispatch(
         validateUserBusiness({
           params,
-          onSuccess: () => () => {
+          onSuccess: (response) => () => {
             dispatch(setRegisteredMobileNumber(mobileNumber.value));
             goTo(AUTH_PATH.OTP)
           },
-          onError: () => () => {
+          onError: (error) => () => {
+             showToast(error.error_message,'error');
           },
         })
       );
     } else {
-      showToast(validation.mobileNumber + "");
+      showToast(getValidateError(validation));
     }
   };
 
