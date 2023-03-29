@@ -119,7 +119,7 @@ function Issues() {
 
   return (
     <>
-      <HomeContainer isCard >
+      <HomeContainer isCard className={'mb--3'} >
         <div className="row mt-3">
           <div className="col-lg-4  col-md-3 col-sm-12">
             <InputHeading heading={translate("common.issueName")} />

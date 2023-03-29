@@ -32,7 +32,10 @@ import {
   GET_BROADCAST_MESSAGES_FAILURE,
   GET_TASK_EVENTS,
   GET_TASK_EVENTS_SUCCESS,
-  GET_TASK_EVENTS_FAILURE
+  GET_TASK_EVENTS_FAILURE,
+  ADD_TASK_EVENT,
+  ADD_TASK_EVENT_SUCCESS,
+  ADD_TASK_EVENT_FAILURE,
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
 
@@ -51,7 +54,8 @@ const initialState: CompanyStateProp = {
   broadCastDetails: [],
   broadCastCurrentPage: 1,
   broadCastNumOfPages: undefined,
-  taskEvents: undefined
+  taskEvents: undefined,
+  addTaskEvents: undefined,
 
 };
 
@@ -98,7 +102,7 @@ const CompanyReducer = (
       break;
 
     case GET_BROADCAST_MESSAGES:
-     
+
       const { page_number } = action.payload.params
       state = {
         ...state,
@@ -238,7 +242,6 @@ const CompanyReducer = (
           action.payload?.details?.next_page === -1
             ? action.payload?.details?.num_pages
             : action.payload?.details?.next_page - 1,
-
       };
       break;
     case GET_REFERENCE_TICKETS_FAILURE:
@@ -247,21 +250,38 @@ const CompanyReducer = (
         issueReferenceDetails: undefined,
       };
       break;
-      case GET_TASK_EVENTS:
+    case GET_TASK_EVENTS:
+      state = {
+        ...state,
+        taskEvents: undefined,
+      };
+      break;
+    case GET_TASK_EVENTS_SUCCESS:
+      state = {
+        ...state,
+        taskEvents: action.payload.details,
+      };
+      break;
+    case GET_TASK_EVENTS_FAILURE:
+      state = { ...state, taskEvents: undefined };
+      break;
+
+      case ADD_TASK_EVENT:
         state = {
           ...state,
-          taskEvents: undefined,
+          addTaskEvents: undefined,
         };
         break;
-      case GET_TASK_EVENTS_SUCCESS:
+      case ADD_TASK_EVENT_SUCCESS:
         state = {
           ...state,
-          taskEvents: action.payload.details,
+          addTaskEvents: action.payload.details,
         };
         break;
-      case GET_TASK_EVENTS_FAILURE:
-        state = { ...state, taskEvents: undefined };
+      case ADD_TASK_EVENT_FAILURE:
+        state = { ...state, addTaskEvents: undefined };
         break;
+
     default:
       state = state;
       break;
