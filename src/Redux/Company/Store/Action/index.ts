@@ -33,7 +33,11 @@ import {
 
   GET_TASK_EVENTS,
   GET_TASK_EVENTS_SUCCESS,
-  GET_TASK_EVENTS_FAILURE
+  GET_TASK_EVENTS_FAILURE,
+
+  ADD_TASK_EVENT,
+  ADD_TASK_EVENT_SUCCESS,
+  ADD_TASK_EVENT_FAILURE,
 
 } from '../ActionTypes';
 
@@ -317,8 +321,7 @@ export const getBroadCastMessagesFailure = (error: any) => {
  * @param
  * @returns
  */
- export const getTaskEvents = (params: any) => {
-  console.log("get task event action",params)
+export const getTaskEvents = (params: any) => {
   return {
     type: GET_TASK_EVENTS,
     payload: params,
@@ -336,6 +339,31 @@ export const getTaskEventsFailure = (error: any) => {
 
   return {
     type: GET_TASK_EVENTS_FAILURE,
+    payload: error,
+  };
+};
+
+/*ADD TASK EVENTS*/
+
+export const addTaskEvent = (params: any) => {
+  console.log("ADD task event action", params)
+  return {
+    type: ADD_TASK_EVENT,
+    payload: params,
+  };
+};
+
+export const addTaskEventSuccess = (response: any) => {
+  return {
+    type: ADD_TASK_EVENT_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addTaskEventFailure = (error: any) => {
+
+  return {
+    type: ADD_TASK_EVENT_FAILURE,
     payload: error,
   };
 };

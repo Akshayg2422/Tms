@@ -108,7 +108,7 @@ function Tasks() {
 
   return (
     <>
-      <HomeContainer isCard >
+      <HomeContainer isCard className={'mb--3'}>
         <div className="row mt-3">
           <div className="col-lg-4  col-md-3 col-sm-12">
             <InputHeading heading={translate("common.taskName")} />
@@ -219,8 +219,10 @@ function Tasks() {
             }
             tableOnClick={(idx, index, item) => {
               dispatch(getTaskItem(item));
+              console.log(JSON.stringify(item));
+
               // dispatch(setSelectedReferenceIssues(undefined))
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS);
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS+'/'+ item?.id);
             }
             }
           />

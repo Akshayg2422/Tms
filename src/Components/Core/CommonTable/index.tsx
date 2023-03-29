@@ -12,7 +12,7 @@ interface CommonTableProps {
   previousClick?: () => void;
   nextClick?: () => void;
   paginationNumberClick?: (text: number) => void;
-  tableOnClick?: (event: any, index: number, item: object) => void;
+  tableOnClick?: (event: any, index: number, item: any) => void;
 }
 
 interface ChildComponentProps {
