@@ -97,7 +97,7 @@ function Comments() {
 
       <div className="d-flex">
         <div className={'col-xl-12'}>
-          <Card className='mx--3 shadow-none border overflow-auto overflow-hide' style={{ height: '81vh' }}>
+          <Card className='mx--3 shadow-none border overflow-auto overflow-hide mb-3' style={{ height: '87vh' }}>
             <div>
               {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
 
@@ -106,8 +106,8 @@ function Comments() {
                 )
               })}
             </div>
-            <div className="row d-flex align-items-end">
-              <div className='col-1 py-4' style={{ zIndex: 6 }}>
+            <div className="row d-flex align-items-end fixed-bottom">
+              <div className='col py-4' style={{ zIndex: 6 }}>
                 <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
               </div>
               <div>
@@ -136,7 +136,7 @@ function Comments() {
               <div className="col-10">
                 <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type a message'} onChange={textMessage.onChange} />
               </div>
-              <div className="col-1 py-4">
+              <div className="col py-4">
                 <span className={'icon icon-shape text-white bg-info rounded-circle shadow'} onClick={sendMessageHandler}><i className="ni ni-send"></i></span>
               </div>
             </div>

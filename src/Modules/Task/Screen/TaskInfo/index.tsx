@@ -15,7 +15,7 @@ function TaskInfo() {
         <HomeContainer>
 
 
-            <Card className={'mt--3 mr--2'} style={{ height: '58vh' }}>
+            <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
                     <div className="col">
                         <H tag={"h3"} text={title} />
@@ -36,8 +36,7 @@ function TaskInfo() {
                                     onClick={(e) => e.preventDefault()}>
                                     <Image
                                         variant={'avatar'}
-                                        src={getPhoto(item?.attachment_file)} />
-                                </a>
+                                        src={getPhoto(item?.attachment_file)} /></a>
                             })
                         }
                     </div>
