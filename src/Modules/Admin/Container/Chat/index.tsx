@@ -134,7 +134,7 @@ function Sent({ item }: any) {
             }
 
             {
-                item?.assigned_to === undefined ? null :
+                item?.assigned_to?.name === undefined ? null :
                     <div className='d-flex justify-content-center text-lightGray mb-1'>{`@${item?.assigned_to} tagged by ${item?.by_user?.name}`} </div>
             }
 

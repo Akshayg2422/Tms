@@ -2,38 +2,33 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components";
-import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto } from '@Utils'
-import { translate } from "@I18n";
-import { useInput } from "@Hooks";
+import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
+import { useInput, useNavigation } from "@Hooks";
+import { addTaskEvent, getTaskEvents, getTasks } from "@Redux";
 
 function TaskInfo() {
-    const { addTaskEvents } = useSelector((state: any) => state.CompanyReducer);
+
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
     const dispatch = useDispatch();
-    const [editEta, setEditEta] = useState(false)
-    const editModalName = useInput('')
-
-
-
-
     const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time } = taskItem;
+
+    const [editEta, setEditEta] = useState(false)
+    const etaMomentObj = getMomentObjFromServer(eta_time);
+    const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
+    const editModalName = useInput(initialEtaValue);
+
     const editEtaSubmitHandler = () => {
         const params = {
             id: taskItem.id,
-            eta_time: eta_time,
+            eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
-        console.log('params', params);
 
         dispatch(
-            addTaskEvents({
+            addTaskEvent({
                 params,
-                onSuccess: (response) => () => {
-                    console.log('etaaaaaaaaaaaaaaaaaa', response);
-                },
-                onError: (error) => () => {
-                    console.log('errorrrrrrrrrrrrrrrrrrrrrrr', error);
-                }
+                onSuccess: (response) => () => { },
+                onError: (error) => () => { }
             })
         )
         setEditEta(!editEta)
@@ -41,8 +36,6 @@ function TaskInfo() {
 
     return (
         <HomeContainer>
-
-
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
                     <div className="col">
@@ -109,3 +102,5 @@ function TaskInfo() {
 }
 
 export { TaskInfo };
+
+
