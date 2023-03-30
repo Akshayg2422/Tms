@@ -164,17 +164,18 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
   };
 
   let navbarBrandProps;
-  if (logo && logo.innerLink) {
-    navbarBrandProps = {
-      to: logo.innerLink,
-      tag: Link,
-    };
-  } else if (logo && logo.outterLink) {
-    navbarBrandProps = {
-      href: logo.outterLink,
-      target: "_blank",
-    };
-  }
+  // if (logo && logo.innerLink) {
+  //   navbarBrandProps = {
+  //     to: logo.innerLink,
+  //     tag: Link,
+  //   };
+  // } 
+  // else if (logo && logo.outterLink) {
+  //   navbarBrandProps = {
+  //     href: logo.outterLink,
+  //     target: "_blank",
+  //   };
+  // }
 
   const scrollBarInner = (
     <div className="scrollbar-inner">
@@ -188,6 +189,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
             />
           </NavbarBrand>
         ) : null}
+        
         <div className="ml-auto">
           <div
             className={classnames("sidenav-toggler d-none d-xl-block", {
@@ -248,6 +250,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
           </div>
         </div>
       </Modal>
+      
     </div>
   );
 

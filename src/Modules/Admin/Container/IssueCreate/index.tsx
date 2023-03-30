@@ -51,6 +51,7 @@ function IssueCreate() {
   const description = useInput("");
   const selectedUser = useDropDown("");
   const selectedTicketPriority = useDropDown("");
+  let attach=photo.slice(-2,4)
   
 
 
@@ -69,7 +70,7 @@ function IssueCreate() {
       brand_branch_id: selectedCompany?.id || "",
       assigned_to_id: selectedUser?.value?.id,
       priority: selectedTicketPriority?.value?.id,
-      ticket_attachments: [{ attachments: photo }],
+      ticket_attachments: [{ attachments:attach}],
     };
 
     const validation = validate(CREATE_TICKET, params);
@@ -143,15 +144,13 @@ function IssueCreate() {
       })
     );
   }, []);
-
   useEffect(() => {
+  
     const params = {
-      ticket_id:
-        typeSelect?.id === "2"
-          ? dashboardDetails?.permission_details?.branch_id
-          : selectedCompany?.id || "",
+      branch_id:
+        typeSelect?.id === "2"? dashboardDetails?.permission_details?.branch_id: selectedCompany?.id || "",
     };
-
+  
     dispatch(
       getEmployees({
         params,

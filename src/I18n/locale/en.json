@@ -122,7 +122,9 @@
     "attach": "Attach",
     "sector":"Sector",
     "tags":"Tag",
-    "city":"City"
+    "city":"City",
+    "task":"Task",
+    "group":"Group"
   },
   "product": {
     "Store": "Store",

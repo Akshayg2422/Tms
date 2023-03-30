@@ -67,6 +67,13 @@ import {
   GET_TICKET_USERS_SUCCESS,
   GET_TICKET_USERS_FAILURE,
   GET_CURRENT_PAGE,
+
+  GET_TASK_GROUP,
+  GET_TASK_GROUP_FAILURE,
+  GET_TASK_GROUP_SUCCESS,
+  ADD_TASK_GROUP,
+  ADD_TASK_GROUP_SUCCESS,
+  ADD_TASK_GROUP_FAILURE
   
 } from '../ActionTypes';
 
@@ -111,6 +118,11 @@ const initialState: AdminStateProp = {
   referencesTasksCurrentPages:undefined,
   taskUsers: undefined,
   ticketEmployees:undefined,
+
+  getTaskGroupDetails:undefined,
+  taskGroupCurrentPages:undefined,
+  taskGroupNumOfPages:undefined,
+  addTaskGroup:undefined,
 };
 
 
@@ -477,6 +489,36 @@ case GET_REFERENCE_TASKS_FAILURE:
       };
       break;
 
+      /**get task group */
+      case GET_TASK_GROUP:
+   
+      state = { ...state,
+        getTaskGroupDetails: undefined,
+        taskGroupNumOfPages: 0,
+        taskGroupCurrentPages: 1,
+         loading: true };
+     
+    break;
+  case GET_TASK_GROUP_SUCCESS:
+    state = {
+      ...state,
+      loading: false,
+      getTaskGroupDetails:action?.payload?.details?.data,
+      taskGroupNumOfPages:action?.payload?.details?.num_pages,
+      taskGroupCurrentPages:
+      action?.payload?.details?.next_page === -1
+          ?action?.payload?.details?.num_pages
+          :action?.payload?.details?.next_page - 1,
+    };
+    break;
+  case GET_TASK_GROUP_FAILURE:
+    state = {
+      ...state,
+      error: action.payload,
+      loading: false,
+    };
+    break;
+
     /* ADD TASK */
 
     case ADD_TASK:
@@ -492,6 +534,21 @@ case GET_REFERENCE_TASKS_FAILURE:
     case ADD_TASK_FAILURE:
 
       state = { ...state, addTask: action.payload };
+      break;
+/**add task group */
+      case ADD_TASK_GROUP:
+
+      state = { ...state, addTaskGroup: undefined };
+      break;
+
+    case ADD_TASK_GROUP_SUCCESS:
+
+      state = { ...state, addTaskGroup: action.payload.details };
+      break;
+
+    case ADD_TASK_GROUP_FAILURE:
+
+      state = { ...state, addTaskGroup: action.payload };
       break;
 
     /* GET SUB TASK*/

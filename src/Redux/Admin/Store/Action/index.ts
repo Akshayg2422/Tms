@@ -1,3 +1,4 @@
+
 import {
   GET_ASSOCIATED_BRANCH,
   GET_ASSOCIATED_BRANCH_SUCCESS,
@@ -68,6 +69,12 @@ import {
   GET_TICKET_USERS_SUCCESS,
   GET_TICKET_USERS_FAILURE,
   GET_CURRENT_PAGE,
+  GET_TASK_GROUP,
+  ADD_TASK_GROUP,
+  GET_TASK_GROUP_FAILURE,
+  GET_TASK_GROUP_SUCCESS,
+  ADD_TASK_GROUP_SUCCESS,
+  ADD_TASK_GROUP_FAILURE,
 
 } from '../ActionTypes';
 
@@ -516,5 +523,58 @@ export const getCurrentPage = (params: any) => {
   return {
     type: GET_CURRENT_PAGE,
     payload: params
+  }
+}
+
+
+export const getTaskGroup = (params: any) => {
+
+
+
+
+  return {
+    type: GET_TASK_GROUP,
+    payload: params
+  }
+}
+export const getTaskGroupSuccess = (response: any) => {
+
+  return {
+    type: GET_TASK_GROUP_SUCCESS,
+    payload: response
+  }
+}
+export const getTaskGroupFailure = (error: any) => {
+
+  return {
+    type: GET_TASK_GROUP_FAILURE,
+    payload: error
+  }
+}
+
+export const addTaskGroup = (params: any) => {
+
+
+  return {
+    type: ADD_TASK_GROUP,
+    payload: params
+  }
+}
+
+export const addTaskGroupSuccess = (response: any) => {
+
+
+  return {
+    type: ADD_TASK_GROUP_SUCCESS,
+    payload: response
+  }
+}
+
+export const addTaskGroupFailure = (error: any) => {
+
+
+  return {
+    type: ADD_TASK_GROUP_FAILURE,
+    payload: error
   }
 }

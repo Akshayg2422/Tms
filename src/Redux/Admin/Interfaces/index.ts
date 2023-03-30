@@ -36,4 +36,8 @@ export interface AdminStateProp {
   taskUsers:any,
   ticketEmployees:any;
   current:any;
+  getTaskGroupDetails:any,
+  taskGroupCurrentPages:any,
+  taskGroupNumOfPages:any,
+  addTaskGroup:any,
 }
