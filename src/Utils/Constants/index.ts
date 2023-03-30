@@ -54,6 +54,7 @@ export const RGU = 'RGU'
 export const TEM = 'TEM'
 export const EVS = 'EVS'
 export const RTS = 'RTS'
+export const ETA = 'ETA'
 
 export const FILTERED_LIST = [
   { id: 'ALL', text: 'All' },
