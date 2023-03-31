@@ -5,6 +5,7 @@ import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components
 import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
 import { useInput, useNavigation } from "@Hooks";
 import { addTaskEvent, getTaskEvents } from "@Redux";
+import { TagAndAssignUser } from "../TagAndAssignUser";
 
 function TaskInfo() {
 
@@ -55,6 +56,7 @@ function TaskInfo() {
 
     return (
         <HomeContainer>
+            <TagAndAssignUser/>
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
                     <div className="col">
@@ -64,6 +66,7 @@ function TaskInfo() {
                     <div className="col"></div>
                     <div className="col mr--9">
                         <h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6>
+                        
                     </div>
                 </div>
                 <div className="row align-items-center my-4">
