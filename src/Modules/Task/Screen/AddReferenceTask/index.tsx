@@ -148,7 +148,7 @@ function AddReferenceTask() {
 
 
 
-            {tasks && tasks.data?.length > 0 ? <CommonTable title={'Reference task'} tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
+            {tasks && tasks.data?.length > 0 ? <CommonTable title={'Add Reference task'} tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
             /> : <NoDataFound />}
 
           </div>
