@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, getTaskItem, setIsSync } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status } from "@Components";
@@ -6,9 +6,7 @@ import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getServerTimeFromMoment, getDisplayTimeFromMoment } from "@Utils";
-import { Badge, Col, ListGroupItem, Row } from "reactstrap";
-import { icons } from "@Assets";
+import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment } from "@Utils";
 
 
 function Tasks() {
@@ -70,11 +68,10 @@ function Tasks() {
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
-        "task":
-
-          <div className="row m-0" style={{ width: "" }}> <Priority priority={el?.priority} />  <span className="ml-2">{el?.title}</span></div>,
-        "attachments":
-          <div className="avatar-group m-0" style={{
+        "task":  
+        <div className="row m-0" style={{ width: "" }}> <Priority priority={el?.priority} /> <span className="ml-">{el?.title}</span></div>,
+            "attachments":
+          <div className="avatar-group " style={{
             width: '160px'
           }}>
             {
@@ -94,148 +91,142 @@ function Tasks() {
         "raised by":
           <div className="h5 m-0"> {el?.by_user?.name} </div>,
         "raised to":
-        <div className="row" >
-          <div className="col-4 d-flex  justify-content-center "> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> 
-          </div>
-          <div className="col-8  mb-0">
-            <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
-            <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
-            <div className=""></div>
-            <div className="">{el?.raised_by_company?.place || "Gummidipoondi"}</div>
-          </div>
-        </ div>,
-    date: getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at)),
-      status: <Status status={el?.task_status} />
-};
+          <div className="row">
+            <div className="col-4 d-flex  justify-content-center "> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> 
+            </div>
+            <div className="col-8  mb-0">
+              <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
+              <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
+              <div className=""></div>
+              <div className="">{el?.raised_by_company?.place || "Gummidipoondi"}</div>
+            </div>
+          </div>,
+        date: getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at)),
+        status: <Status status={el?.task_status} />
+      };
     });
   };
 
-return (
-  <>
-    <HomeContainer isCard className={'mb--3'}>
-      <div className="row mt-3">
-        <div className="col-lg-4  col-md-3 col-sm-12">
-          <InputHeading heading={translate("common.taskName")} />
-          <div className="input-group bg-white border">
-            <input
-              type="text"
-              className="form-control bg-transparent border border-0"
-              placeholder={translate("auth.search")!}
-              value={search.value}
-              onChange={search.onChange}
-            />
-            <span
-              className="input-group-text  border border-0"
-              onClick={proceedTaskSearch}
-              style={{ cursor: "pointer" }}
-            >
-              <i className="fas fa-search" />
-            </span>
+  return (
+    <>
+      <HomeContainer>
+        <div className="text-right">
+          <Button
+            size={"sm"}
+            text={translate('common.addTask')}
+            onClick={() => {
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
+            }}
+          />
+        </div>
+      </HomeContainer>
+      {tasks && tasks.data.length > 0 ?
+        <>
+
+          <CommonTable
+          heading={  <>
+          <div className="row mt-3 mb--3">
+            <div className="col-lg-4  col-md-3 col-sm-12">
+              <InputHeading heading={translate("common.taskName")} />
+              <div className="input-group bg-white border">
+                <input
+                  type="text"
+                  className="form-control bg-transparent border border-0"
+                  placeholder={translate("auth.search")!}
+                  value={search.value}
+                  onChange={search.onChange}
+                />
+                <span
+                  className="input-group-text  border border-0"
+                  onClick={proceedTaskSearch}
+                  style={{ cursor: "pointer" }}
+                >
+                  <i className="fas fa-search" />
+                </span>
+              </div>
+            </div>
+            <div className="col-lg-4 col-md-3 col-sm-12 ">
+              <DropDown
+                heading={translate("common.filterTasks")}
+                selected={filteredTasks.value}
+                data={FILTERED_LIST}
+                value={filteredTasks.value}
+                onChange={(item) => {
+                  filteredTasks.onChange(item)
+                  setSyncTickets()
+                }}
+              />
+            </div>
+  
+            <div className="col-lg-4 col-md-3 col-sm-12">
+              <DropDown
+                heading={translate("common.taskStatus")}
+                data={STATUS_LIST}
+                selected={taskStatus.value}
+                value={taskStatus.value}
+                onChange={(item) => {
+                  taskStatus.onChange(item)
+                  setSyncTickets()
+                }}
+              />
+            </div>
+            <div className="col-lg-4 col-md-3 col-sm-12">
+              <DropDown
+                heading={'Priority'}
+                data={PRIORITY_DROPDOWN_LIST}
+                selected={taskPriority.value}
+                value={taskPriority.value}
+                onChange={(item) => {
+                  taskPriority.onChange(item)
+                  setSyncTickets()
+                }}
+              />
+            </div>
+            <div className="col-lg-4 col-md-3 col-sm-12">
+              <DropDown
+                heading={'Company'}
+                data={COMPANY_TYPE}
+                selected={companyType.value}
+                value={companyType.value}
+                onChange={(item) => {
+                  companyType.onChange(item)
+                  setSyncTickets()
+                }}
+              />
+            </div>
           </div>
-        </div>
-
-
-        <div className="col-lg-4 col-md-3 col-sm-12 ">
-          <DropDown
-            heading={translate("common.filterTasks")}
-            selected={filteredTasks.value}
-            data={FILTERED_LIST}
-            value={filteredTasks.value}
-            onChange={(item) => {
-              filteredTasks.onChange(item)
-              setSyncTickets()
+        </>}
+            isPagination
+            title="Tasks"
+            tableDataSet={tasks.data}
+            displayDataSet={normalizedTableData(tasks.data)}
+            noOfPage={taskNumOfPages}
+            currentPage={taskCurrentPages}
+            paginationNumberClick={(currentPage) => {
+              getTaskHandler(paginationHandler("current", currentPage));
             }}
+            previousClick={() => {
+              getTaskHandler(paginationHandler("prev", taskCurrentPages))
+            }
+            }
+            nextClick={() => {
+              getTaskHandler(paginationHandler("next", taskCurrentPages));
+            }
+            }
+            tableOnClick={(idx, index, item) => {
+              dispatch(getTaskItem(item));
+              // console.log('1111111111111', JSON.stringify(item));
+              // dispatch(setSelectedReferenceIssues(undefined))
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS + '/' + item?.id);
+            }
+            }
           />
-        </div>
+        </>
+        : <NoDataFound />
+      }
 
-        <div className="col-lg-4 col-md-3 col-sm-12">
-          <DropDown
-            heading={translate("common.taskStatus")}
-            data={STATUS_LIST}
-            selected={taskStatus.value}
-            value={taskStatus.value}
-            onChange={(item) => {
-              taskStatus.onChange(item)
-              setSyncTickets()
-            }}
-          />
-        </div>
-        <div className="col-lg-4 col-md-3 col-sm-12">
-          <DropDown
-            heading={'Priority'}
-            data={PRIORITY_DROPDOWN_LIST}
-            selected={taskPriority.value}
-            value={taskPriority.value}
-            onChange={(item) => {
-              taskPriority.onChange(item)
-              setSyncTickets()
-            }}
-          />
-        </div>
-        <div className="col-lg-4 col-md-3 col-sm-12">
-          <DropDown
-            heading={'Company'}
-            data={COMPANY_TYPE}
-            selected={companyType.value}
-            value={companyType.value}
-            onChange={(item) => {
-              companyType.onChange(item)
-              setSyncTickets()
-            }}
-          />
-        </div>
-      </div>
-    </HomeContainer>
-
-    <HomeContainer>
-      <div className="text-right">
-        <Button
-          size={"sm"}
-          text={translate('common.addTask')}
-          onClick={() => {
-            goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
-          }}
-        />
-      </div>
-    </HomeContainer>
-
-
-    {tasks && tasks.data.length > 0 ?
-      <>
-
-        <CommonTable
-          isPagination
-          title="Tasks"
-          tableDataSet={tasks.data}
-          displayDataSet={normalizedTableData(tasks.data)}
-          noOfPage={taskNumOfPages}
-          currentPage={taskCurrentPages}
-          paginationNumberClick={(currentPage) => {
-            getTaskHandler(paginationHandler("current", currentPage));
-          }}
-          previousClick={() => {
-            getTaskHandler(paginationHandler("prev", taskCurrentPages))
-          }
-          }
-          nextClick={() => {
-            getTaskHandler(paginationHandler("next", taskCurrentPages));
-          }
-          }
-          tableOnClick={(idx, index, item) => {
-            dispatch(getTaskItem(item));
-            console.log(JSON.stringify(item));
-
-            // dispatch(setSelectedReferenceIssues(undefined))
-            goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS + '/' + item?.id);
-          }
-          }
-        />
-      </>
-      : <NoDataFound />
-    }
-
-  </>
-);
+    </>
+  );
 }
 
 export { Tasks };

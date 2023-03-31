@@ -5,8 +5,8 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { Modal, Button } from '@Components'
 import { useNavigation, useModal } from '@Hooks'
 import { AUTH_PATH } from '@Routes'
-import { userLogout } from '@Redux'
-import { useDispatch } from 'react-redux'
+import { getCurrentPage, userLogout } from '@Redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 import {
@@ -22,7 +22,9 @@ import { SidebarProps } from './interfaces';
 
 function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive = false }: SidebarProps) {
 
-
+  const { current } = useSelector(
+    (state: any) => state.AdminReducer
+  );
   const [state, setState] = React.useState<any>({});
   const location = useLocation();
 
@@ -137,17 +139,18 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
         );
       }
       return (
-        <NavItem className={activeRoute(prop.layout + prop.path)} key={key}>
+        <NavItem className={`${prop.name === current ? "sass-nav-active" : 'sass-nav'}`} key={key}>
           <NavLink
             to={prop.layout + prop.path}
             className=""
-            onClick={closeSideNav}
+            onClick={()=>{closeSideNav()
+              dispatch(getCurrentPage(prop.name))}}
             tag={NavLinkRRD}
           >
             {prop.icon !== undefined ? (
-              <>
-                <i className={prop.icon} />
-                <span className="nav-link-text">{prop.name}</span>
+              <>  
+               <i className={`${prop.icon}  ${prop.name === current ? "text-primary" : 'text-black'}`}/>
+                <span className={` ${prop.name === current ? "text-primary" : 'nav-link-text'}`}>{prop.name}</span>
               </>
             ) : prop.miniName !== undefined ? (
               <>
@@ -221,7 +224,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
                 className="pointer"
                 target="_blank"
               >
-                <i className="ni ni-button-power  text-primary" />
+                <i className="ni ni-button-power " />
                 <span className="nav-link-text">Logout</span>
               </NavLink>
             </NavItem>
