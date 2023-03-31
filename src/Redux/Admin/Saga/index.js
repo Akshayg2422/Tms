@@ -390,6 +390,7 @@ function* getTasksSaga(action) {
     yield put(showLoader());
     const response = yield call(getTaskApi, action.payload.params);
     if (response.success) {
+      console.log('==========>',JSON.stringify(response))
       yield put(hideLoader());
       yield put(getTasksSuccess(response));
       yield call(action.payload.onSuccess(response));

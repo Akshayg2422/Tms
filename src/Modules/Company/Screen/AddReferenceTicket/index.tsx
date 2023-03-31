@@ -17,7 +17,7 @@ function AddReferenceTicket() {
   const [selectedReferenceTickets,setSelectedReferenceTickets]=useState([])
   const Search = useInput("");
 
-
+  //  console.log("tickets",tickets)
   const submitHandler = () => {
 
     const params = {

@@ -18,6 +18,7 @@ function AddReferenceTask() {
   const [selectedReferenceTask,setSelectedReferenceTask]=useState([])
   const Search = useInput("");
 
+  // console.log('tasks--->',tasks)
 
   const submitHandler = () => {
 
@@ -145,6 +146,7 @@ function AddReferenceTask() {
           <div className="row justify-content-center">
           
   
+                
                 {tasks && tasks?.length > 0 ? <CommonTable title={'Reference task'} tableDataSet={tasks} displayDataSet={normalizedTableData(tasks)}
                 /> : <NoDataFound />}
 
