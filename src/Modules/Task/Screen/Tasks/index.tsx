@@ -187,7 +187,7 @@ function Tasks() {
         <div className="text-right">
           <Button
             size={"sm"}
-            text={translate('common.addTask')}
+            text={translate('common.createTask')}
             onClick={() => {
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
             }}

@@ -1,11 +1,11 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, HomeContainer, Modal, Input, Button, } from "@Components";
 import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
 import { useInput, useNavigation } from "@Hooks";
 import { addTaskEvent, getTaskEvents, getTasks } from "@Redux";
-import {DropDownMenuArrow,} from "@Modules";
+import { DropDownMenuArrow, } from "@Modules";
 import { HOME_PATH } from "@Routes";
 
 function TaskInfo() {
@@ -22,6 +22,25 @@ function TaskInfo() {
     const [openModalReassignUser, setOpenModalReassignUser] = useState(false)
     const { goTo } = useNavigation()
 
+    useEffect(() => {
+        ProceedGetTaskEvents()
+    }, [])
+
+
+    const ProceedGetTaskEvents = () => {
+        const params = {
+            task_id: taskItem?.id
+        }
+
+        dispatch(
+            getTaskEvents({
+                params,
+                onSuccess: (response) => () => { },
+                onError: () => () => { },
+            })
+        );
+    };
+
     const editEtaSubmitHandler = () => {
         const params = {
             id: taskItem.id,
@@ -32,7 +51,7 @@ function TaskInfo() {
         dispatch(
             addTaskEvent({
                 params,
-                onSuccess: (response) => () => { },
+                onSuccess: (response) => () => { ProceedGetTaskEvents() },
                 onError: (error) => () => { }
             })
         )
@@ -41,9 +60,9 @@ function TaskInfo() {
 
     return (
         <HomeContainer>
-            
+
             <Card className={'mx--3'} style={{ height: '58vh' }}>
-                
+
                 <div className="row align-items-start">
                     <div className="col">
                         <H tag={"h3"} text={title} />
@@ -54,14 +73,14 @@ function TaskInfo() {
                         <h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6>
                     </div>
                     <div className="d-flex justify-content-end">
-                <DropDownMenuArrow
-                    onClickTagUser={() => { setOpenModalTagUser(!openModalTagUser) }}
-                    onClickReassignUser={() => { setOpenModalReassignUser(!openModalReassignUser) }}
-                    onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TASK) }}
-                />
-            </div>
+                        <DropDownMenuArrow
+                            onClickTagUser={() => { setOpenModalTagUser(!openModalTagUser) }}
+                            onClickReassignUser={() => { setOpenModalReassignUser(!openModalReassignUser) }}
+                            onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TASK) }}
+                        />
+                    </div>
                 </div>
-                
+
                 <div className="row align-items-center my-4">
                     <div className="col">
                         {

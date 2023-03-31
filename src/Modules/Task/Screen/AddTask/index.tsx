@@ -11,7 +11,7 @@ import {
 import { translate } from "@I18n";
 import {
     getEmployees,
-    getAddTask,
+    addTask,
     setIsSync,
     getAssociatedCompanyBranch,
 } from "@Redux";
@@ -55,8 +55,8 @@ function AddTask() {
     const selectedUser = useDropDown("");
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
-    let attach=photo.slice(-2,4)
-    
+    let attach = photo.slice(-2, 4)
+
 
 
     const handleImagePicker = (index: number, file: any) => {
@@ -84,7 +84,7 @@ function AddTask() {
 
         if (ifObjectExist(validation)) {
             dispatch(
-                getAddTask({
+                addTask({
                     params,
                     onSuccess: (response: any) => () => {
                         if (response.success) {
@@ -154,7 +154,7 @@ function AddTask() {
 
     useEffect(() => {
 
-        
+
         const params = {
             branch_id:
                 typeSelect?.id === "2"
@@ -226,7 +226,7 @@ function AddTask() {
 
                     {typeSelect && typeSelect?.id === "1" && (
                         <DropDown
-                        heading={translate("common.company")!}
+                            heading={translate("common.company")!}
                             placeHolder={'please select a company...'}
                             data={modifiedCompanyDropDownData}
                             onChange={setSelectedCompany}
@@ -235,20 +235,20 @@ function AddTask() {
                     )}
 
                     <DropDown
-                    heading={translate("common.user")!}
+                        heading={translate("common.user")!}
                         selected={selectedUser.value}
                         placeHolder={'please select a user...'}
                         data={companyUserDashboard}
                         onChange={selectedUser.onChange}
                     />
-                   <DropDown 
-                     heading={translate("common.taskPriority")!}
-                     selected={selectedTicketPriority.value}
-                     placeHolder={'please select a task priority...'}
-                     data={PRIORITY}
-                     onChange={selectedTicketPriority.onChange}/>
+                    <DropDown
+                        heading={translate("common.taskPriority")!}
+                        selected={selectedTicketPriority.value}
+                        placeHolder={'please select a task priority...'}
+                        data={PRIORITY}
+                        onChange={selectedTicketPriority.onChange} />
                     <DateTimePicker
-                    heading={'Select ETA'}
+                        heading={'Select ETA'}
                         id="eta-picker"
                         placeholder={'please select a ETA...'}
                         type="both"

@@ -12,14 +12,14 @@ import {
   addBrandSectorApi,
   addTicketTagApi,
   getTaskApi,
-  getAddTaskApi,
+  addTaskApi,
   getSubTaskApi,
   getReferenceTasksApi,
   getTaskUsersApi,
   getTicketUsersApi,
   getTaskGroupApi,
   addTaskGroupApi,
- 
+
 } from "@Services";
 import {
   GET_ASSOCIATED_BRANCH,
@@ -61,8 +61,8 @@ import {
   getTasksSuccess,
   getTasksFailure,
   ADD_TASK,
-  getAddTaskSuccess,
-  getAddTaskFailure,
+  addTaskSuccess,
+  addTaskFailure,
   GET_SUB_TASKS,
   getSubTasksSuccess,
   getSubTasksFailure,
@@ -139,7 +139,7 @@ function* getDashboardSaga(action) {
     yield put(showLoader());
     const response = yield call(getDashboardApi, action.payload.params);
     if (response.success) {
-      
+
       yield put(hideLoader());
       yield put(getDashboardSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -410,20 +410,20 @@ function* getTasksSaga(action) {
 function* getAddTaskSaga(action) {
   try {
     yield put(showLoader());
-    const response = yield call(getAddTaskApi, action.payload.params);
+    const response = yield call(addTaskApi, action.payload.params);
 
     if (response.success) {
       yield put(hideLoader());
-      yield put(getAddTaskSuccess(response.details));
+      yield put(addTaskSuccess(response.details));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());
-      yield put(getAddTaskFailure(response.error_message));
+      yield put(addTaskFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
     yield put(hideLoader());
-    yield put(getAddTaskFailure("Invalid Request"));
+    yield put(addTaskFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }
@@ -497,9 +497,9 @@ function* getTaskGroupSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskGroupApi, action.payload.params);
-   
+
     if (response.success) {
-    
+
       yield put(hideLoader());
       yield put(getTaskGroupSuccess(response));
       yield call(action.payload.onSuccess(response));
@@ -519,9 +519,9 @@ function* addTaskGroupSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(addTaskGroupApi, action.payload.params);
-   
+
     if (response.success) {
-     
+
       yield put(hideLoader());
       yield put(addTaskGroupSuccess(response));
       yield call(action.payload.onSuccess(response));
