@@ -3,7 +3,7 @@ import {
     useState,
 } from "react";
 import {
-    DropDownMenuArrow,
+    TripleDot,
 } from "@Modules";
 import {
     Divider,
@@ -18,8 +18,10 @@ import {
     useSelector
 } from "react-redux";
 import {
+    addTaskEvent,
     addTicketEvent,
     getEmployees,
+    getTaskEvents,
     getTicketsEvents
 } from "@Redux";
 import { translate } from "@I18n";
@@ -29,12 +31,12 @@ import { icons } from "@Assets";
 import { TGU, RGU } from '@Utils';
 
 
-function TagAssignUser() {
+function TagAndAssignUser() {
 
     const [openModalTagUser, setOpenModalTagUser] = useState(false)
     const [openModalReassignUser, setOpenModalReassignUser] = useState(false)
     const dispatch = useDispatch()
-    const { selectedIssues, selectedReferenceIssues } = useSelector((state: any) => state.AdminReducer);
+    const { taskItem } = useSelector((state: any) => state.AdminReducer);
     const { employees } = useSelector((state: any) => state.CompanyReducer);
     const { goTo } = useNavigation()
     const [selectTagUser, setSelectTagUser] = useState([])
@@ -44,11 +46,9 @@ function TagAssignUser() {
 
         getApiHandler()
         const params = {
-            branch_id: selectedReferenceIssues
-                ? selectedReferenceIssues?.raised_by_company?.branch_id
-                : selectedIssues?.id,
+            branch_id: taskItem.raised_by_company?.branch_id
         };
-        
+
         dispatch(
             getEmployees({
                 params,
@@ -57,16 +57,14 @@ function TagAssignUser() {
                 onFailure: () => () => { }
             })
         )
-    }, [selectedIssues, selectedReferenceIssues])
+    }, [taskItem])
 
     const getApiHandler = () => {
         const params = {
-            ticket_id: selectedReferenceIssues
-                ? selectedReferenceIssues?.id
-                : selectedIssues?.id,
+            task_id: taskItem.id
         };
         dispatch(
-            getTicketsEvents({
+            getTaskEvents({
                 params,
                 onSuccess: (response) => () => {
                 },
@@ -100,12 +98,10 @@ function TagAssignUser() {
         const params = {
             event_type: TGU,
             tagged_users: selectTagUser,
-            id: selectedReferenceIssues
-                ? selectedReferenceIssues?.id
-                : selectedIssues?.id,
+            id: taskItem.id
         };
 
-        dispatch(addTicketEvent({
+        dispatch(addTaskEvent({
             params,
             onSuccess: (response) => () => {
                 getApiHandler()
@@ -119,9 +115,7 @@ function TagAssignUser() {
         const params = {
             event_type: RGU,
             assigned_to: selectReassignUser.id,
-            id: selectedReferenceIssues
-                ? selectedReferenceIssues?.id
-                : selectedIssues?.id,
+            id: taskItem.id
         };
 
         dispatch(addTicketEvent({
@@ -137,10 +131,10 @@ function TagAssignUser() {
     return (
         <>
             <div className="d-flex justify-content-end">
-                <DropDownMenuArrow
+                <TripleDot
                     onClickTagUser={() => { setOpenModalTagUser(!openModalTagUser) }}
                     onClickReassignUser={() => { setOpenModalReassignUser(!openModalReassignUser) }}
-                    onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TICKET) }}
+                    onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TASK) }}
                 />
             </div>
             <Modal size={'md'} fade={false} isOpen={openModalTagUser}
@@ -220,4 +214,4 @@ function TagAssignUser() {
     )
 }
 
-export { TagAssignUser }
+export { TagAndAssignUser }

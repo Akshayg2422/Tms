@@ -68,9 +68,9 @@ function Tasks() {
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
       return {
-        "task":  
-        <div className="row m-0" style={{ width: "" }}> <Priority priority={el?.priority} /> <span className="ml-">{el?.title}</span></div>,
-            "attachments":
+        "task":
+          <div className="row m-0" style={{ width: "" }}> <Priority priority={el?.priority} /> <span className="ml-">{el?.title}</span></div>,
+        "attachments":
           <div className="avatar-group " style={{
             width: '160px'
           }}>
@@ -92,7 +92,7 @@ function Tasks() {
           <div className="h5 m-0"> {el?.by_user?.name} </div>,
         "raised to":
           <div className="row">
-            <div className="col-4 d-flex  justify-content-center "> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> 
+            <div className="col-4 d-flex  justify-content-center "> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} />
             </div>
             <div className="col-8  mb-0">
               <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
@@ -124,78 +124,78 @@ function Tasks() {
         <>
 
           <CommonTable
-          heading={  <>
-          <div className="row mt-3 mb--3">
-            <div className="col-lg-4  col-md-3 col-sm-12">
-              <InputHeading heading={translate("common.taskName")} />
-              <div className="input-group bg-white border">
-                <input
-                  type="text"
-                  className="form-control bg-transparent border border-0"
-                  placeholder={translate("auth.search")!}
-                  value={search.value}
-                  onChange={search.onChange}
-                />
-                <span
-                  className="input-group-text  border border-0"
-                  onClick={proceedTaskSearch}
-                  style={{ cursor: "pointer" }}
-                >
-                  <i className="fas fa-search" />
-                </span>
+            heading={<>
+              <div className="row mt-3 mb--3">
+                <div className="col-lg-4  col-md-3 col-sm-12">
+                  <InputHeading heading={translate("common.taskName")} />
+                  <div className="input-group bg-white border">
+                    <input
+                      type="text"
+                      className="form-control bg-transparent border border-0"
+                      placeholder={translate("auth.search")!}
+                      value={search.value}
+                      onChange={search.onChange}
+                    />
+                    <span
+                      className="input-group-text  border border-0"
+                      onClick={proceedTaskSearch}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <i className="fas fa-search" />
+                    </span>
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-3 col-sm-12 ">
+                  <DropDown
+                    heading={translate("common.filterTasks")}
+                    selected={filteredTasks.value}
+                    data={FILTERED_LIST}
+                    value={filteredTasks.value}
+                    onChange={(item) => {
+                      filteredTasks.onChange(item)
+                      setSyncTickets()
+                    }}
+                  />
+                </div>
+
+                <div className="col-lg-4 col-md-3 col-sm-12">
+                  <DropDown
+                    heading={translate("common.taskStatus")}
+                    data={STATUS_LIST}
+                    selected={taskStatus.value}
+                    value={taskStatus.value}
+                    onChange={(item) => {
+                      taskStatus.onChange(item)
+                      setSyncTickets()
+                    }}
+                  />
+                </div>
+                <div className="col-lg-4 col-md-3 col-sm-12">
+                  <DropDown
+                    heading={'Priority'}
+                    data={PRIORITY_DROPDOWN_LIST}
+                    selected={taskPriority.value}
+                    value={taskPriority.value}
+                    onChange={(item) => {
+                      taskPriority.onChange(item)
+                      setSyncTickets()
+                    }}
+                  />
+                </div>
+                <div className="col-lg-4 col-md-3 col-sm-12">
+                  <DropDown
+                    heading={'Company'}
+                    data={COMPANY_TYPE}
+                    selected={companyType.value}
+                    value={companyType.value}
+                    onChange={(item) => {
+                      companyType.onChange(item)
+                      setSyncTickets()
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="col-lg-4 col-md-3 col-sm-12 ">
-              <DropDown
-                heading={translate("common.filterTasks")}
-                selected={filteredTasks.value}
-                data={FILTERED_LIST}
-                value={filteredTasks.value}
-                onChange={(item) => {
-                  filteredTasks.onChange(item)
-                  setSyncTickets()
-                }}
-              />
-            </div>
-  
-            <div className="col-lg-4 col-md-3 col-sm-12">
-              <DropDown
-                heading={translate("common.taskStatus")}
-                data={STATUS_LIST}
-                selected={taskStatus.value}
-                value={taskStatus.value}
-                onChange={(item) => {
-                  taskStatus.onChange(item)
-                  setSyncTickets()
-                }}
-              />
-            </div>
-            <div className="col-lg-4 col-md-3 col-sm-12">
-              <DropDown
-                heading={'Priority'}
-                data={PRIORITY_DROPDOWN_LIST}
-                selected={taskPriority.value}
-                value={taskPriority.value}
-                onChange={(item) => {
-                  taskPriority.onChange(item)
-                  setSyncTickets()
-                }}
-              />
-            </div>
-            <div className="col-lg-4 col-md-3 col-sm-12">
-              <DropDown
-                heading={'Company'}
-                data={COMPANY_TYPE}
-                selected={companyType.value}
-                value={companyType.value}
-                onChange={(item) => {
-                  companyType.onChange(item)
-                  setSyncTickets()
-                }}
-              />
-            </div>
-          </div>
-        </>}
+            </>}
             isPagination
             title="Tasks"
             tableDataSet={tasks.data}
@@ -215,8 +215,6 @@ function Tasks() {
             }
             tableOnClick={(idx, index, item) => {
               dispatch(getTaskItem(item));
-              console.log('1111111111111', JSON.stringify(item));
-
               // dispatch(setSelectedReferenceIssues(undefined))
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS + '/' + item?.id);
             }

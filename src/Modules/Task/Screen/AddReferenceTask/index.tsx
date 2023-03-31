@@ -5,66 +5,67 @@ import { Divider, Button, NoDataFound, CommonTable, Input, Checkbox, showToast, 
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
-import { RTS, getStatusFromCode,getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK } from "@Utils";
-// import { HOME_PATH } from "@Routes";
+import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK } from "@Utils";
 
 function AddReferenceTask() {
   const dispatch = useDispatch();
-  const { tasks } = useSelector((state: any) => state.CompanyReducer);
-  const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
+  const { tasks, dashboardDetails, taskItem } = useSelector((state: any) => state.AdminReducer);
   const { selectedIssues } = useSelector(
     (state: any) => state.AdminReducer
   );
-  const [selectedReferenceTask,setSelectedReferenceTask]=useState([])
+  const [selectedReferenceTask, setSelectedReferenceTask] = useState([])
   const Search = useInput("");
 
-  // console.log('tasks--->',tasks)
+  console.log('tasks--->', JSON.stringify(tasks))
 
   const submitHandler = () => {
 
     const params = {
-      id: selectedIssues?.id,
-      event_type: RTS,
-      reference_task: getArrayFromArrayOfObject(selectedReferenceTask,'id'),
-    };
 
-    const validation=validate(ADD_REFERENCE_TASK,params)
+      id: taskItem?.id,
+      event_type: RTS,
+      reference_task: getArrayFromArrayOfObject(selectedReferenceTask, 'id'),
+    };
+    console.log('param-------->', params);
+
+
+    const validation = validate(ADD_REFERENCE_TASK, params)
     if (ifObjectExist(validation)) {
-    dispatch(
-      addTaskEvent({
-        params,
-        onSuccess: (response: any) => () => {
-          if (response.success) {
-            showToast(response.message, "success");
-            // goBack();
-          }
-         },
-        onError: (error) => () => { 
-          showToast(error.error_message);
-        },
-      })
-    );
+      dispatch(
+        addTaskEvent({
+          params,
+          onSuccess: (response: any) => () => {
+            if (response.success) {
+              showToast(response.message, "success");
+              // goBack();
+            }
+          },
+          onError: (error) => () => {
+            showToast(error.error_message);
+          },
+        })
+      );
     }
     else {
       showToast(getValidateError(validation));
     }
   };
   const onSelectedTask = (item: any) => {
-    
+
     let updatedSelectedReferenceTask: any = [...selectedReferenceTask];
-    
-      const ifExist = updatedSelectedReferenceTask.some(
-        (el: any) => el.id === item?.id
+
+    const ifExist = updatedSelectedReferenceTask.some(
+      (el: any) => el.id === item?.id
+    );
+    if (ifExist) {
+      updatedSelectedReferenceTask = updatedSelectedReferenceTask.filter(
+        (filterItem: any) => filterItem.id !== item?.id
       );
-      if (ifExist) {
-        updatedSelectedReferenceTask = updatedSelectedReferenceTask.filter(
-          (filterItem: any) => filterItem.id !== item?.id
-        );
-      } else {
-        updatedSelectedReferenceTask = [...updatedSelectedReferenceTask, item];
-      }
-  
-      setSelectedReferenceTask(updatedSelectedReferenceTask);
+    } else {
+      updatedSelectedReferenceTask = [...updatedSelectedReferenceTask, item];
+    }
+
+    setSelectedReferenceTask(updatedSelectedReferenceTask);
   };
 
   const getSearchHandler = () => {
@@ -72,30 +73,30 @@ function AddReferenceTask() {
     dispatch(
       getTasks({
         params,
-        onSuccess: () => () => { },
+        onSuccess: () => () => {},
         onError: () => () => { },
       })
     );
   };
 
   const normalizedTableData = (data: any) => {
-  
+
     return data.map((el: any) => {
-   
+
       const isReference = selectedReferenceTask.some(
         (element: any) => element.id === el?.id
       );
-      
+
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
-        status: getStatusFromCode(dashboardDetails, el.t_status),
+        status: getStatusFromCode(dashboardDetails, el.tasks_status),
         "assigned to": el?.assigned_to.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
-        '':<Checkbox  id={el.id} onCheckChange={()=> onSelectedTask(el) } 
-         defaultChecked={isReference} />,
-         
+        '': <Checkbox id={el.id} onCheckChange={() => onSelectedTask(el)}
+          defaultChecked={isReference} />,
+
       };
     });
   };
@@ -137,18 +138,18 @@ function AddReferenceTask() {
             </div>
           </div>
           <div className="col-lg-2 col-md-12 mt-lg-1 mt-sm-0 mt-md-3 mt-3 col-sm-12  justify-content-end d-flex">
-            <Button text={translate("common.submit")} onClick={submitHandler} size="sm"/>
+            <Button text={translate("common.submit")} onClick={submitHandler} size="sm" />
           </div>
         </div>
       </div>
       <div>
         <div className="m-3">
           <div className="row justify-content-center">
-          
-  
-                
-                {tasks && tasks?.length > 0 ? <CommonTable title={'Reference task'} tableDataSet={tasks} displayDataSet={normalizedTableData(tasks)}
-                /> : <NoDataFound />}
+
+
+
+            {tasks && tasks.data?.length > 0 ? <CommonTable title={'Reference task'} tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
+            /> : <NoDataFound />}
 
           </div>
         </div>
