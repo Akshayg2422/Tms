@@ -375,9 +375,7 @@ function Settings() {
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
-            console.log(error,"eeeeeeeeee");
-            
-
+            // console.log(error,"eeeeeeeeee");
           },
         })
       );

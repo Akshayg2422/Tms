@@ -119,7 +119,7 @@ function Issues() {
 
   return (
     <>
-      <HomeContainer isCard className={'mb--3'} >
+      {/* <HomeContainer isCard className={'mb--3'} >
         <div className="row mt-3">
           <div className="col-lg-4  col-md-3 col-sm-12">
             <InputHeading heading={translate("common.issueName")} />
@@ -130,6 +130,7 @@ function Issues() {
                 placeholder={translate("auth.search")!}
                 value={search.value}
                 onChange={search.onChange}
+                
               />
               <span
                 className="input-group-text  border border-0"
@@ -193,7 +194,7 @@ function Issues() {
             />
           </div>
         </div>
-      </HomeContainer>
+      </HomeContainer> */}
       <HomeContainer>
         <div className="text-right ">
           <Button
@@ -210,6 +211,82 @@ function Issues() {
         <>
 
           <CommonTable
+             heading={< >
+             <div className="row mt-3 mb--4">
+               <div className="col-lg-4  col-md-3 col-sm-12">
+                 <InputHeading heading={translate("common.issueName")} />
+                 <div className="input-group bg-white border">
+                   <input
+                     type="text"
+                     className="form-control bg-transparent border border-0"
+                     placeholder={translate("auth.search")!}
+                     value={search.value}
+                     onChange={search.onChange}
+                     
+                   />
+                   <span
+                     className="input-group-text  border border-0"
+                     onClick={proceedTickerSearch}
+                     style={{ cursor: "pointer" }}
+                   >
+                     <i className="fas fa-search" />
+                   </span>
+                 </div>
+               </div>
+     
+     
+               <div className="col-lg-4 col-md-3 col-sm-12 ">
+                 <DropDown
+                   heading={translate("common.filterTickets")}
+                   selected={filteredTickets.value}
+                   data={FILTERED_LIST}
+                   value={filteredTickets.value}
+                   onChange={(item) => {
+                     filteredTickets.onChange(item)
+                     setSyncTickets()
+                   }}
+                 />
+               </div>
+     
+               <div className="col-lg-4 col-md-3 col-sm-12">
+                 <DropDown
+                   heading={translate("common.ticketStatus")}
+                   data={STATUS_LIST}
+                   selected={ticketStatus.value}
+                   value={ticketStatus.value}
+                   onChange={(item) => {
+     
+                     ticketStatus.onChange(item)
+                     setSyncTickets()
+                   }}
+                 />
+               </div>
+               <div className="col-lg-4 col-md-3 col-sm-12">
+                 <DropDown
+                   heading={'Priority'}
+                   data={PRIORITY_DROPDOWN_LIST}
+                   selected={ticketPriority.value}
+                   value={ticketPriority.value}
+                   onChange={(item) => {
+                     ticketPriority.onChange(item)
+                     setSyncTickets()
+                   }}
+                 />
+               </div>
+               <div className="col-lg-4 col-md-3 col-sm-12">
+                 <DropDown
+                   heading={'Company'}
+                   data={COMPANY_TYPE}
+                   selected={companyType.value}
+                   value={companyType.value}
+                   onChange={(item) => {
+                     companyType.onChange(item)
+                     setSyncTickets()
+                   }}
+                 />
+               </div>
+             </div>
+           </>}
             isPagination
             title="Issue"
             tableDataSet={tickets}
