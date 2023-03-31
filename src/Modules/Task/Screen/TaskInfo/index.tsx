@@ -1,10 +1,12 @@
 
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components";
+import { H, Image, Card, HomeContainer, Modal, Input, Button, } from "@Components";
 import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
 import { useInput, useNavigation } from "@Hooks";
 import { addTaskEvent, getTaskEvents, getTasks } from "@Redux";
+import {DropDownMenuArrow,} from "@Modules";
+import { HOME_PATH } from "@Routes";
 
 function TaskInfo() {
 
@@ -16,6 +18,9 @@ function TaskInfo() {
     const etaMomentObj = getMomentObjFromServer(eta_time);
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
     const editModalName = useInput(initialEtaValue);
+    const [openModalTagUser, setOpenModalTagUser] = useState(false)
+    const [openModalReassignUser, setOpenModalReassignUser] = useState(false)
+    const { goTo } = useNavigation()
 
     const editEtaSubmitHandler = () => {
         const params = {
@@ -36,7 +41,9 @@ function TaskInfo() {
 
     return (
         <HomeContainer>
+            
             <Card className={'mx--3'} style={{ height: '58vh' }}>
+                
                 <div className="row align-items-start">
                     <div className="col">
                         <H tag={"h3"} text={title} />
@@ -46,7 +53,15 @@ function TaskInfo() {
                     <div className="col mr--9">
                         <h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6>
                     </div>
+                    <div className="d-flex justify-content-end">
+                <DropDownMenuArrow
+                    onClickTagUser={() => { setOpenModalTagUser(!openModalTagUser) }}
+                    onClickReassignUser={() => { setOpenModalReassignUser(!openModalReassignUser) }}
+                    onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TASK) }}
+                />
+            </div>
                 </div>
+                
                 <div className="row align-items-center my-4">
                     <div className="col">
                         {
