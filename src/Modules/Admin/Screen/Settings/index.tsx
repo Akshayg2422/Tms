@@ -38,8 +38,8 @@ function Settings() {
     dashboardDetails,
     getTaskGroupDetails,
     taskGroupCurrentPages,
-  taskGroupNumOfPages
-    
+    taskGroupNumOfPages
+
   } = useSelector(
     (state: any) => state.AdminReducer
   );
@@ -70,7 +70,7 @@ function Settings() {
   const dynamicHeight: any = useDynamicHeight()
 
 
-  //   console.log("dashboardDetails", dashboardDetails?.permission_details.is_super_admin)
+    console.log("dashboardDetails", dashboardDetails)
 
 
 
@@ -192,7 +192,7 @@ function Settings() {
         },
         onError: (error: string) => () => {
 
-          
+
         },
       })
     );
@@ -207,7 +207,7 @@ function Settings() {
       is_admin: isAdmin,
       ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
     };
-    
+
     const validation = validate(ADD_DEPARTMENT, params)
     if (ifObjectExist(validation)) {
       dispatch(
@@ -226,6 +226,8 @@ function Settings() {
             // );
             setDepartment("");
             showToast(success.message, "success");
+            setIsAdmin(false)
+            setIsSuperAdmin(false)
           },
           onError: (error: string) => () => {
 
@@ -289,7 +291,7 @@ function Settings() {
           params,
           onSuccess: (success: any) => () => {
             addDesignationModal.hide()
-            getDesignationList (departmentCurrentPages)
+            getDesignationList(departmentCurrentPages)
             // dispatch(
             //   getDesignationData({
             //     params,
@@ -299,6 +301,8 @@ function Settings() {
             // );
             setDesignation("");
             showToast(success.message, "success");
+            setIsAdmin(false)
+            setIsSuperAdmin(false)
           },
           onError: (error: string) => () => {
 
@@ -354,7 +358,7 @@ function Settings() {
       name: convertToUpperCase(task),
       description: convertToUpperCase(taskDescription)
     };
-    
+
     const validation = validate(ADD_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
       dispatch(
@@ -362,7 +366,7 @@ function Settings() {
           params,
           onSuccess: (success: any) => () => {
             addTaskGroupModal.hide()
-            
+
             dispatch(
               getTaskGroup({
                 params,
@@ -375,7 +379,9 @@ function Settings() {
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
-            // console.log(error,"eeeeeeeeee");
+            console.log(error, "eeeeeeeeee");
+
+
           },
         })
       );
@@ -522,7 +528,7 @@ function Settings() {
               }} />
             </div>
         }),
-     
+
       };
     });
   };
@@ -534,7 +540,7 @@ function Settings() {
         ... (dashboardDetails?.permission_details.is_admin && {
           Admin:
             <div className="d-flex justify-content-center align-items-center">
-              <Input type={'checkbox'} checked={el?.is_admin} onChange={() => {
+              <Input type={'checkbox'} className={''} checked={el?.is_admin} onChange={() => {
                 handleDesignationAdminProcess(el)
               }} />
             </div>
@@ -546,7 +552,7 @@ function Settings() {
             }} />
           </div>
         }),
-       
+
 
       };
     });
@@ -662,166 +668,6 @@ function Settings() {
                 </div>
               </Card>
             </>
-          </div>
-          <div className="col-sm-6 pl-2 pt-2">
-            <>
-              <Card style={{ height: showDesignations ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
-                <div className="row">
-                  <div className="col">
-                    <h3>{translate("auth.designation")}</h3>
-                  </div>
-                  <div className="text-right mr-3 ">
-                    <Button
-                      text={
-                        showDesignations
-                          ? translate("course.hide")
-                          : translate("course.view")
-                      }
-                      size={"sm"}
-                      onClick={() => {
-                        if (!showDesignations) {
-                          getDesignationList(designationCurrentPages);
-                        } else {
-                          setShowDesignations(!showDesignations)
-                        }
-
-                      }}
-                    />
-                    <Button
-                      text={translate("product.addItem")}
-                      size={"sm"}
-                      onClick={() => { addDesignationModal.show() }}
-                    />
-                  </div>
-                </div>
-
-
-                <div
-                  className="overflow-auto overflow-hide"
-                  style={{
-                    height: showDesignations ? dynamicHeight.dynamicHeight - 100 : '0px',
-                    margin: '0px -39px 0px -39px'
-                  }}
-                >
-                  {designationDataList && designationDataList?.length > 0 ? (
-                    <CommonTable
-                      isPagination
-                      tableDataSet={designationDataList}
-                      displayDataSet={normalizedDesignationData(designationDataList)}
-                      noOfPage={designationNumOfPages}
-                      currentPage={designationCurrentPages}
-                      paginationNumberClick={(currentPage) => {
-
-                        getDesignationList(paginationHandler("current", currentPage));
-
-                      }}
-                      previousClick={() => {
-                        getDesignationList(paginationHandler("prev", designationCurrentPages))
-                      }
-                      }
-                      nextClick={() => {
-                        getDesignationList(paginationHandler("next", designationCurrentPages));
-                      }
-                      }
-                    />
-                  ) : (
-                    <div
-                      className=" d-flex justify-content-center align-items-center"
-                      style={{
-                        height: "30.5rem",
-                      }}
-                    >
-                      <NoRecordsFound />
-                    </div>
-                  )}
-                </div>
-              </Card>
-            </>
-          </div>
-        </div>
-
-        {/**
-         * Department
-         */}
-
-        <Modal
-           
-          isOpen={addDepartMentModal.visible}
-          onClose={() => addDepartMentModal.hide()}
-          title={translate("common.department")!}
-        >
-          <div className="">
-            <Input
-              placeholder={translate("common.department")!}
-              value={department}
-              onChange={(e) => setDepartment(e.target.value)}
-            />
-          </div>
-          <div className="row ">
-            <span className="col-2">
-               <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />
-            </span>
-            <span className="col-2">
-               <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />
-             </span>
-          </div>
-          <div className="text-right">
-            <Button
-              color={"secondary"}
-              text={translate("common.cancel")}
-              onClick={() => addDepartMentModal.hide()}
-            />
-            <Button
-              text={translate("common.submit")}
-              onClick={() => {
-                postAddingDepartment();
-              }}
-            />
-          </div>
-        </Modal>
-
-        {/**
-         * Designation
-         */}
-
-        <Modal 
-          isOpen={addDesignationModal.visible}
-          onClose={() => addDesignationModal.hide()}
-          title={translate("auth.designation")!}
-        >
-          <div className="">
-            <Input
-              placeholder={translate("auth.designation")!}
-              value={designation}
-              onChange={(e) => setDesignation(e.target.value)}
-            />
-          </div>
-          <div className="row ">
-            <span className="col-2">
-               <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />
-            </span>
-            <span className="col-2">
-               <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />
-             </span>
-          </div>
-          <div className="text-right">
-            <Button
-              color={"secondary"}
-              text={translate("common.cancel")}
-              onClick={() => addDesignationModal.hide()}
-            />
-            <Button
-              text={translate("common.submit")}
-              onClick={() => {
-                postAddingDesignation();
-              }}
-            />
-          </div>
-        </Modal>
-      </div>
-      <div className="mx-3">
-        <div className=" row">
-          <div className="col-sm-6 mb-0 pr-2 ">
             <>
               <Card style={{ height: showSector ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
                 <div className="row">
@@ -897,9 +743,154 @@ function Settings() {
                   )}
                 </div>
               </Card>
+                  <Card style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
+                    <div className="row">
+                      <div className="col">
+                        <h3>{translate("auth.group")}</h3>
+                      </div>
+                      <div className="text-right mr-3 ">
+                        <Button
+                          text={
+                            showTaskGroup
+                              ? translate("course.hide")
+                              : translate("course.view")
+                          }
+                          size={"sm"}
+                          onClick={() => {
+                            if (!showTaskGroup) {
+                              getTaskGroupList(taskGroupCurrentPages);
+                            } else {
+                              setShowTaskGroup(!showTaskGroup)
+                            }
+
+                          }}
+                        />
+                        <Button
+                          text={translate("product.addItem")}
+                          size={"sm"}
+                          onClick={() => { addTaskGroupModal.show() }}
+                        />
+                      </div>
+                    </div>
+
+
+                    <div
+                      className="overflow-auto overflow-hide"
+                      style={{
+                        height: showTaskGroup ? dynamicHeight.dynamicHeight - 100 : '0px',
+                        margin: '0px -39px 0px -39px'
+                      }}
+                    >
+                      {getTaskGroupDetails && getTaskGroupDetails?.length > 0 ? (
+                        <CommonTable
+                          isPagination
+                          tableDataSet={getTaskGroupDetails}
+                          displayDataSet={normalizedTaskGroupData(getTaskGroupDetails)}
+                          noOfPage={taskGroupNumOfPages}
+                          currentPage={taskGroupCurrentPages}
+                          paginationNumberClick={(currentPage) => {
+
+                            getTaskGroupList(paginationHandler("current", currentPage));
+
+                          }}
+                          previousClick={() => {
+                            getTaskGroupList(paginationHandler("prev", taskGroupCurrentPages))
+                          }
+                          }
+                          nextClick={() => {
+                            getTaskGroupList(paginationHandler("next", taskGroupCurrentPages));
+                          }
+                          }
+                        />
+                      ) : (
+                        <div
+                          className=" d-flex justify-content-center align-items-center"
+                          style={{
+                            height: "30.5rem",
+                          }}
+                        >
+                          <NoRecordsFound />
+                        </div>
+                      )}
+                    </div>
+                  </Card>
+
             </>
           </div>
-          <div className="col-sm-6 pl-2 pt-0">
+          <div className="col-sm-6 pl-2 pt-2">
+            <>
+              <Card style={{ height: showDesignations ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
+                <div className="row">
+                  <div className="col">
+                    <h3>{translate("auth.designation")}</h3>
+                  </div>
+                  <div className="text-right mr-3 ">
+                    <Button
+                      text={
+                        showDesignations
+                          ? translate("course.hide")
+                          : translate("course.view")
+                      }
+                      size={"sm"}
+                      onClick={() => {
+                        if (!showDesignations) {
+                          getDesignationList(designationCurrentPages);
+                        } else {
+                          setShowDesignations(!showDesignations)
+                        }
+
+                      }}
+                    />
+                    <Button
+                      text={translate("product.addItem")}
+                      size={"sm"}
+                      onClick={() => { addDesignationModal.show() }}
+                    />
+                  </div>
+                </div>
+
+
+                <div
+                  className="overflow-auto overflow-hide"
+                  style={{
+                    height: showDesignations ? dynamicHeight.dynamicHeight - 100 : '0px',
+                    margin: '0px -39px 0px -39px'
+                  }}
+                >
+                  {designationDataList && designationDataList?.length > 0 ? (
+                    <CommonTable
+                      isPagination
+                      tableDataSet={designationDataList}
+                      displayDataSet={normalizedDesignationData(designationDataList)}
+                      noOfPage={designationNumOfPages}
+                      currentPage={designationCurrentPages}
+                      paginationNumberClick={(currentPage) => {
+
+                        getDesignationList(paginationHandler("current", currentPage));
+
+                      }}
+                      previousClick={() => {
+                        getDesignationList(paginationHandler("prev", designationCurrentPages))
+                      }
+                      }
+                      nextClick={() => {
+                        getDesignationList(paginationHandler("next", designationCurrentPages));
+                      }
+                      }
+                    />
+                  ) : (
+                    <div
+                      className=" d-flex justify-content-center align-items-center"
+                      style={{
+                        height: "30.5rem",
+                      }}
+                    >
+                      <NoRecordsFound />
+                    </div>
+                  )}
+                </div>
+              </Card>
+            </>
             <>
               <Card style={{ height: showTags ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
                 <div className="row">
@@ -977,6 +968,85 @@ function Settings() {
         </div>
 
         {/**
+         * Department
+         */}
+
+        <Modal
+
+          isOpen={addDepartMentModal.visible}
+          onClose={() => addDepartMentModal.hide()}
+          title={translate("common.department")!}
+        >
+          <div className="">
+            <Input
+              placeholder={translate("common.department")!}
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+            />
+          </div>
+          <div className="row ">
+            <span className="col-2">
+              <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />
+            </span>
+            <span className="col-2">
+              <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />
+            </span>
+          </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() => addDepartMentModal.hide()}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                postAddingDepartment();
+              }}
+            />
+          </div>
+        </Modal>
+
+        {/**
+         * Designation
+         */}
+
+        <Modal
+          isOpen={addDesignationModal.visible}
+          onClose={() => addDesignationModal.hide()}
+          title={translate("auth.designation")!}
+        >
+          <div className="">
+            <Input
+              placeholder={translate("auth.designation")!}
+              value={designation}
+              onChange={(e) => setDesignation(e.target.value)}
+            />
+          </div>
+          <div className="row ">
+            <span className="col-2">
+              <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />
+            </span>
+            <span className="col-2">
+              <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />
+            </span>
+          </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() => addDesignationModal.hide()}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                postAddingDesignation();
+              }}
+            />
+          </div>
+        </Modal>
+
+        {/**
          * brand sector
          */}
 
@@ -1044,86 +1114,6 @@ function Settings() {
             />
           </div>
         </Modal>
-      </div>
-
-      <div className="mx-4">
-        <div className=" row">
-          <div className="col-sm-6 pl-2 pt-0">
-            <>
-              <Card style={{ height: showTaskGroup? dynamicHeight.dynamicHeight - 35 : '5em' }}>
-                <div className="row">
-                  <div className="col">
-                    <h3>{translate("auth.group")}</h3>
-                  </div>
-                  <div className="text-right mr-3 ">
-                    <Button
-                      text={
-                        showTaskGroup
-                          ? translate("course.hide")
-                          : translate("course.view")
-                      }
-                      size={"sm"}
-                      onClick={() => {
-                        if (!showTaskGroup) {
-                          getTaskGroupList(taskGroupCurrentPages);
-                        } else {
-                          setShowTaskGroup(!showTaskGroup)
-                        }
-
-                      }}
-                    />
-                    <Button
-                      text={translate("product.addItem")}
-                      size={"sm"}
-                      onClick={() => { addTaskGroupModal.show() }}
-                    />
-                  </div>
-                </div>
-
-
-                <div
-                  className="overflow-auto overflow-hide"
-                  style={{
-                    height: showTaskGroup ? dynamicHeight.dynamicHeight - 100 : '0px',
-                    margin: '0px -39px 0px -39px'
-                  }}
-                >
-                  {getTaskGroupDetails && getTaskGroupDetails?.length > 0 ? (
-                    <CommonTable
-                      isPagination
-                      tableDataSet={getTaskGroupDetails}
-                      displayDataSet={normalizedTaskGroupData(getTaskGroupDetails)}
-                      noOfPage={taskGroupNumOfPages}
-                      currentPage={taskGroupCurrentPages}
-                      paginationNumberClick={(currentPage) => {
-
-                        getTaskGroupList(paginationHandler("current", currentPage));
-
-                      }}
-                      previousClick={() => {
-                        getTaskGroupList(paginationHandler("prev", taskGroupCurrentPages))
-                      }
-                      }
-                      nextClick={() => {
-                        getTaskGroupList(paginationHandler("next", taskGroupCurrentPages));
-                      }
-                      }
-                    />
-                  ) : (
-                    <div
-                      className=" d-flex justify-content-center align-items-center"
-                      style={{
-                        height: "30.5rem",
-                      }}
-                    >
-                      <NoRecordsFound />
-                    </div>
-                  )}
-                </div>
-              </Card>
-            </>
-          </div>
-        </div>
 
         {/**
          * brand sector
@@ -1141,7 +1131,7 @@ function Settings() {
               value={task}
               onChange={(e) => setTask(e.target.value)}
             />
-               <Input
+            <Input
               placeholder={translate("auth.description")}
               value={taskDescription}
               onChange={(e) => setTaskDescription(e.target.value)}
