@@ -94,17 +94,18 @@ export const ADMIN_ROUTES = [
     layout: "/admin",
     component: <Tasks />
   },
+ 
   {
     path: "/issues",
     name: "Tickets",
-    icon: "ni ni-bell-55 text-primary",
+    icon: "bi bi-bell text-primary",
     layout: "/admin",
     component: <Issues />
   },
   {
     path: "/companies",
     name: "Companies",
-    icon: "ni ni-square-pin text-primary",
+    icon: "bi bi-geo-alt text-primary",
     layout: "/admin",
     component: <Companies />
   },
@@ -115,10 +116,11 @@ export const ADMIN_ROUTES = [
     layout: "/admin",
     component: <Broadcast />
   },
+ 
   {
     path: "/settings",
     name: "Settings",
-    icon: "ni ni-settings-gear-65 text-primary",
+    icon: "bi bi-gear text-primary",
     layout: "/admin",
     component: <Settings />
   }

@@ -6,6 +6,7 @@ import {
   Radio,
   Dropzone,
   showToast,
+  DropDownIcon,
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -150,7 +151,7 @@ function IssueCreate() {
       branch_id:
         typeSelect?.id === "2"? dashboardDetails?.permission_details?.branch_id: selectedCompany?.id || "",
     };
-  
+
     dispatch(
       getEmployees({
         params,
@@ -194,6 +195,7 @@ function IssueCreate() {
                 showToast("there is no associatedBranches in this company");
             }}
           >
+           
             <Radio
               // selected={typeSelect}
               data={type}
@@ -208,7 +210,9 @@ function IssueCreate() {
               }}
             />
           </div>
-
+       
+          
+          <DropDownIcon data={PRIORITY} />
           {typeSelect && typeSelect?.id === "1" && (
             <DropDown
               heading={translate("common.company")}
@@ -237,6 +241,7 @@ function IssueCreate() {
             {translate("auth.attach")}
           </label>
         </div>
+    
 
         <div className="col-md-9 col-lg-7 pb-4 ">
           {selectDropzone &&
