@@ -56,17 +56,16 @@ function TaskInfo() {
 
     return (
         <HomeContainer>
-            <TagAndAssignUser/>
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
                     <div className="col">
                         <H tag={"h3"} text={title} />
                         <h3 className="text-sm text-muted">{description}</h3>
                     </div>
-                    <div className="col"></div>
-                    <div className="col mr--9">
-                        <h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6>
-                        
+                    <div className="col-6 "></div>
+                    <div className="col-2 mr--9 mt-1"><h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6></div>
+                    <div className="col ">
+                        <TagAndAssignUser />
                     </div>
                 </div>
                 <div className="row align-items-center my-4">
@@ -85,7 +84,7 @@ function TaskInfo() {
                     </div>
                     <div className="col"></div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2"></span></h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}<span style={{cursor:'pointer'}} onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2"></span></h6>
                     </div>
                 </div>
                 <Modal isOpen={editEta}

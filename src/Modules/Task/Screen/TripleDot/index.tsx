@@ -10,7 +10,7 @@ function TripleDot({ onClickTagUser, onClickReassignUser, onClickAttachReference
                 <DropdownToggle
                     color=""
                     size="sm"
-                    className="btn-icon-only text-light"
+                    className="text-light"
                 >
                     <i className="fas fa-ellipsis-v" />
                 </DropdownToggle>
