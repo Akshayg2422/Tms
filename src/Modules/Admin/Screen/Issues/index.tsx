@@ -100,15 +100,16 @@ function Issues() {
         "raised by":
           <div className="m-0 h5"> {el?.by_user?.name} </div>,
         "raised to":
-          <div className="row">
-            <div className="col-4 d-flex  justify-contnet-center mr--2"> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
-            <div className="col-8  mb-0">
-              <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
-              <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
-              <div className=""></div>
-              <div className="">{el?.raised_by_company?.place || "Gummidipoondi"}</div>
-            </div>
-          </div>,
+        <div className="row" >
+        <div className="col-4 d-flex  justify-content-center "> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> 
+        </div>
+        <div className="col-8  mb-0">
+          <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
+          <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
+          <div className=""></div>
+          <div className="">{el?.raised_by_company?.place || "Gummidipoondi"}</div>
+        </div>
+      </ div>,
         date: getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at)),
         status: <div> <Status status={el?.ticket_status} /> </div>
       };
