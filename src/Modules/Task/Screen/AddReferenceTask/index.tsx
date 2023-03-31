@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
-import { Divider, Button, HomeContainer, Table, NoDataFound, CommonTable, Input, Checkbox, showToast, } from "@Components";
+import { Divider, Button, NoDataFound, CommonTable, Input, Checkbox, showToast, } from "@Components";
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
 import { RTS, getStatusFromCode,getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK } from "@Utils";
+// import { HOME_PATH } from "@Routes";
 
 function AddReferenceTask() {
   const dispatch = useDispatch();
@@ -101,9 +102,9 @@ function AddReferenceTask() {
   return (
     <div>
       <div className="container mt-4">
-        <div className="row justify-content-center">
+        <div className="row justify-content-end">
           <div className="col-lg-5  col-md-12 col-sm-12">
-            <div className="input-group bg-white border rounded-pill">
+            <div className="input-group bg-white border rounded-pill ">
               <input
                 type="text"
                 className="form-control bg-transparent border border-0"
@@ -134,8 +135,8 @@ function AddReferenceTask() {
               </span>
             </div>
           </div>
-          <div className="col-lg-2 col-md-12 mt-lg-1 mt-sm-0 mt-md-3 mt-3 col-sm-12  text-right">
-            <Button text={translate("common.submit")} onClick={submitHandler} />
+          <div className="col-lg-2 col-md-12 mt-lg-1 mt-sm-0 mt-md-3 mt-3 col-sm-12  justify-content-end d-flex">
+            <Button text={translate("common.submit")} onClick={submitHandler} size="sm"/>
           </div>
         </div>
       </div>
