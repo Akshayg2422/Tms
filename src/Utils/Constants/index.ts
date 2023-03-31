@@ -76,15 +76,14 @@ export const STATUS_LIST = [
 
 export const PRIORITY_DROPDOWN_LIST = [
   {id:'ALL',text:"All"},
-  { id: 1, text: "Lowest", color: "black" },
+  { id: 1, text:"Lowest", color: "black" },
   { id: 2, text: "Low", color: "black" },
   { id: 3, text: "Medium", color: "orange" }, 
   { id: 4, text: "High", color: "red" },
   { id: 5, text: "Critical", color: "gray" },
 ];
-
 export const PRIORITY= [
-  { id: 1, text: "Lowest", color: "black" },
+  { id: 1, text:"Lowest", color: "black" },
   { id: 2, text: "Low", color: "black" },
   { id: 3, text: "Medium", color: "orange" }, 
   { id: 4, text: "High", color: "red" },
@@ -100,4 +99,5 @@ export const COMPANY_TYPE = [
 
 export const SEARCH_PAGE = 1
 export const INITIAL_PAGE = 1
+
 

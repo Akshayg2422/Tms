@@ -73,7 +73,6 @@ function Companies() {
           />
         </div>
       </HomeContainer>
-
       <>
         {associatedCompanies && associatedCompanies?.length > 0 ?
           <CommonTable

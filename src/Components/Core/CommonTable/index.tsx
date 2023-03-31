@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, NoRecordsFound } from "@Components";
+import { Table, NoRecordsFound, Heading } from "@Components";
 
 
 interface CommonTableProps {
@@ -13,6 +13,7 @@ interface CommonTableProps {
   nextClick?: () => void;
   paginationNumberClick?: (text: number) => void;
   tableOnClick?: (event: any, index: number, item: any) => void;
+  heading?:any;
 }
 
 interface ChildComponentProps {
@@ -28,7 +29,7 @@ interface GetPaginatorSetProps {
 
 
 
-function CommonTable({ title, displayDataSet, tableDataSet, isPagination, currentPage, noOfPage, previousClick, nextClick, paginationNumberClick, tableOnClick }: CommonTableProps) {
+function CommonTable({ title, displayDataSet, tableDataSet, isPagination, currentPage, noOfPage,heading,previousClick, nextClick, paginationNumberClick, tableOnClick }: CommonTableProps) {
 
   const CommonHeader = ({ children }) => {
     return (
@@ -38,6 +39,7 @@ function CommonTable({ title, displayDataSet, tableDataSet, isPagination, curren
             <div className="row align-items-center">
               <div className="col" >
                 <h3 className="mb-0" >{title}</h3>
+                 {heading}
               </div>
             </div>
 
