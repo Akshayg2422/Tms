@@ -1,10 +1,10 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components";
 import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
 import { useInput, useNavigation } from "@Hooks";
-import { addTaskEvent, getTaskEvents, getTasks } from "@Redux";
+import { addTaskEvent, getTaskEvents } from "@Redux";
 
 function TaskInfo() {
 
@@ -17,6 +17,25 @@ function TaskInfo() {
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
     const editModalName = useInput(initialEtaValue);
 
+    useEffect(() => {
+        ProceedGetTaskEvents()
+    }, [])
+
+
+    const ProceedGetTaskEvents = () => {
+        const params = {
+            task_id: taskItem?.id
+        }
+
+        dispatch(
+            getTaskEvents({
+                params,
+                onSuccess: (response) => () => { },
+                onError: () => () => { },
+            })
+        );
+    };
+
     const editEtaSubmitHandler = () => {
         const params = {
             id: taskItem.id,
@@ -27,7 +46,7 @@ function TaskInfo() {
         dispatch(
             addTaskEvent({
                 params,
-                onSuccess: (response) => () => { },
+                onSuccess: (response) => () => { ProceedGetTaskEvents() },
                 onError: (error) => () => { }
             })
         )

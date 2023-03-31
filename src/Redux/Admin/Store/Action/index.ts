@@ -61,7 +61,7 @@ import {
   GET_SUB_TASKS_FAILURE,
 
   GET_TASKS_ITEM,
-  
+
   GET_TASK_USERS,
   GET_TASK_USERS_SUCCESS,
   GET_TASK_USERS_FAILURE,
@@ -298,19 +298,19 @@ export const getTasksFailure = (error: any) => {
 }
 
 /* CREATE TASK */
-export const getAddTask = (params: any) => {
+export const addTask = (params: any) => {
   return {
     type: ADD_TASK,
     payload: params
   }
 }
-export const getAddTaskSuccess = (response: any) => {
+export const addTaskSuccess = (response: any) => {
   return {
     type: ADD_TASK_SUCCESS,
     payload: response
   }
 }
-export const getAddTaskFailure = (error: any) => {
+export const addTaskFailure = (error: any) => {
   return {
     type: ADD_TASK_FAILURE,
     payload: error
@@ -452,7 +452,7 @@ export const getReferenceTasks = (params) => {
 
 export const getReferenceTasksSuccess = (response) => {
 
-  
+
 
   return {
     type: GET_REFERENCE_TASKS_SUCCESS,
@@ -476,7 +476,7 @@ export const getTaskUsers = (params: any) => {
 }
 
 export const getTaskUsersSuccess = (response: any) => {
-  
+
   return {
 
     type: GET_TASK_USERS_SUCCESS,
@@ -501,8 +501,8 @@ export const getTicketUsers = (params: any) => {
 }
 
 export const getTicketUsersSuccess = (response: any) => {
- 
-  
+
+
   return {
 
     type: GET_TICKET_USERS_SUCCESS,
@@ -528,10 +528,6 @@ export const getCurrentPage = (params: any) => {
 
 
 export const getTaskGroup = (params: any) => {
-
-
-
-
   return {
     type: GET_TASK_GROUP,
     payload: params

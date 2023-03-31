@@ -108,7 +108,7 @@ const initialState: AdminStateProp = {
   tasks: undefined,
   taskNumOfPages: undefined,
   taskCurrentPages: 1,
-  addTask: undefined,
+  addingTask: undefined,
   subTasks: undefined,
   taskItem: undefined,
   current:undefined,
@@ -523,17 +523,17 @@ case GET_REFERENCE_TASKS_FAILURE:
 
     case ADD_TASK:
 
-      state = { ...state, addTask: undefined };
+      state = { ...state, addingTask: undefined };
       break;
 
     case ADD_TASK_SUCCESS:
 
-      state = { ...state, addTask: action.payload.details };
+      state = { ...state, addingTask: action.payload.details };
       break;
 
     case ADD_TASK_FAILURE:
 
-      state = { ...state, addTask: action.payload };
+      state = { ...state, addingTask: action.payload };
       break;
 /**add task group */
       case ADD_TASK_GROUP:

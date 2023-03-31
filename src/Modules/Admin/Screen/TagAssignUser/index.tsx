@@ -48,7 +48,7 @@ function TagAssignUser() {
                 ? selectedReferenceIssues?.raised_by_company?.branch_id
                 : selectedIssues?.id,
         };
-        
+
         dispatch(
             getEmployees({
                 params,
