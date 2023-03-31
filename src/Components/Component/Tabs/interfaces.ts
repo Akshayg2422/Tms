@@ -1,5 +1,5 @@
 export type TabItem = {
-  title: string;
+  title: any;
   component: any
   id: string
 }

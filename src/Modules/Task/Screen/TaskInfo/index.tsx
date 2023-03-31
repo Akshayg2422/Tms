@@ -1,20 +1,41 @@
 
-import React from "react";
-import { useSelector } from "react-redux";
-import { H, Image, Card, HomeContainer } from "@Components";
-import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto } from '@Utils'
-import { translate } from "@I18n";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components";
+import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
+import { useInput, useNavigation } from "@Hooks";
+import { addTaskEvent, getTaskEvents, getTasks } from "@Redux";
 
 function TaskInfo() {
 
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
-
+    const dispatch = useDispatch();
     const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time } = taskItem;
+
+    const [editEta, setEditEta] = useState(false)
+    const etaMomentObj = getMomentObjFromServer(eta_time);
+    const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
+    const editModalName = useInput(initialEtaValue);
+
+    const editEtaSubmitHandler = () => {
+        const params = {
+            id: taskItem.id,
+            eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
+            event_type: ETA,
+        }
+
+        dispatch(
+            addTaskEvent({
+                params,
+                onSuccess: (response) => () => { },
+                onError: (error) => () => { }
+            })
+        )
+        setEditEta(!editEta)
+    }
 
     return (
         <HomeContainer>
-
-
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
                     <div className="col">
@@ -42,9 +63,16 @@ function TaskInfo() {
                     </div>
                     <div className="col"></div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}<h5 className="bi bi-pencil"></h5></h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2"></span></h6>
                     </div>
                 </div>
+                <Modal isOpen={editEta}
+                    onClose={() => { setEditEta(!editEta) }}
+                >
+                    <Input className='rounded-pill' heading={'Name'} value={editModalName.value} onChange={editModalName.onChange} />
+                    <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => editEtaSubmitHandler()} />
+
+                </Modal>
                 <div className="row align-items-end my-5">
                     <div className="col">
                         <div className="h5 mb-0"> {by_user?.name} </div>
@@ -74,3 +102,5 @@ function TaskInfo() {
 }
 
 export { TaskInfo };
+
+
