@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTicketEvent, getTickets } from "@Redux";
+import { addTaskEvent, getTasks } from "@Redux";
 import { Divider, Button, HomeContainer, Table, NoDataFound, CommonTable, Input, Checkbox, showToast, } from "@Components";
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
@@ -14,7 +14,7 @@ function AddReferenceTask() {
   const { selectedIssues } = useSelector(
     (state: any) => state.AdminReducer
   );
-  const [selectedReferenceTickets,setSelectedReferenceTickets]=useState([])
+  const [selectedReferenceTask,setSelectedReferenceTask]=useState([])
   const Search = useInput("");
 
 
@@ -23,13 +23,13 @@ function AddReferenceTask() {
     const params = {
       id: selectedIssues?.id,
       event_type: RTS,
-      reference_ticket: getArrayFromArrayOfObject(selectedReferenceTickets,'id'),
+      reference_task: getArrayFromArrayOfObject(selectedReferenceTask,'id'),
     };
 
     const validation=validate(ADD_REFERENCE_TASK,params)
     if (ifObjectExist(validation)) {
     dispatch(
-      addTicketEvent({
+      addTaskEvent({
         params,
         onSuccess: (response: any) => () => {
           if (response.success) {
@@ -47,28 +47,28 @@ function AddReferenceTask() {
       showToast(getValidateError(validation));
     }
   };
-  const onSelectedTickets = (item: any) => {
+  const onSelectedTask = (item: any) => {
     
-    let updatedSelectedReferenceTickets: any = [...selectedReferenceTickets];
+    let updatedSelectedReferenceTask: any = [...selectedReferenceTask];
     
-      const ifExist = updatedSelectedReferenceTickets.some(
+      const ifExist = updatedSelectedReferenceTask.some(
         (el: any) => el.id === item?.id
       );
       if (ifExist) {
-        updatedSelectedReferenceTickets = updatedSelectedReferenceTickets.filter(
+        updatedSelectedReferenceTask = updatedSelectedReferenceTask.filter(
           (filterItem: any) => filterItem.id !== item?.id
         );
       } else {
-        updatedSelectedReferenceTickets = [...updatedSelectedReferenceTickets, item];
+        updatedSelectedReferenceTask = [...updatedSelectedReferenceTask, item];
       }
   
-      setSelectedReferenceTickets(updatedSelectedReferenceTickets);
+      setSelectedReferenceTask(updatedSelectedReferenceTask);
   };
 
   const getSearchHandler = () => {
     const params = { q_many: Search.value };
     dispatch(
-      getTickets({
+      getTasks({
         params,
         onSuccess: () => () => { },
         onError: () => () => { },
@@ -80,18 +80,18 @@ function AddReferenceTask() {
   
     return data.map((el: any) => {
    
-      const isReference = selectedReferenceTickets.some(
+      const isReference = selectedReferenceTask.some(
         (element: any) => element.id === el?.id
       );
       
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
-        status: getStatusFromCode(dashboardDetails, el.ticket_status),
+        status: getStatusFromCode(dashboardDetails, el.t_status),
         "assigned to": el?.assigned_to.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
-        '':<Checkbox  id={el.id} onCheckChange={()=> onSelectedTickets(el) } 
+        '':<Checkbox  id={el.id} onCheckChange={()=> onSelectedTask(el) } 
          defaultChecked={isReference} />,
          
       };
