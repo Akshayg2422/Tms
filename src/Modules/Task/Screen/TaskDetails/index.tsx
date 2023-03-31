@@ -8,27 +8,18 @@ import {
     TaskInfo,
 } from "@Modules";
 import { Button, Card, Tabs } from "@Components";
-import { useSelector } from "react-redux";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 
 function TaskDetails() {
 
-
-    const { goTo, params } = useNavigation();
-
-    // const {id}= params
-
-    // console.log(id+'=====');
-
-
-    const { selectedReferenceIssues } = useSelector((state: any) => state.AdminReducer);
+    const { goTo } = useNavigation();
 
     const TABS = [
-        { id: "1", title: "COMMENTS", component: <Comments /> },
-        { id: "2", title: "ATTACH", component: <TaskAttachments /> },
-        { id: "3", title: "reference", component: <ReferenceTasks /> },
-        { id: "4", title: "user", component: <TaskUsers /> },
+        { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>COMMENTS</span></div>, component: <Comments /> },
+        { id: "2", title: <div className="bi bi-paperclip">ATTACH</div>, component: <TaskAttachments /> },
+        { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCE</span></div>, component: <ReferenceTasks /> },
+        { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USER</span></div>, component: <TaskUsers /> },
     ];
 
     const [selectedTab, setSelectedTab] = useState(TABS[0]);
