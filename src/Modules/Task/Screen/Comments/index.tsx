@@ -102,7 +102,7 @@ function Comments() {
       <div className={' mb--1'} >
         <div className="container mb--1">
           <div className="row">
-            <Card className="col overflow-auto overflow-hide" style={{ height: '89vh' }}>
+            <Card className="col overflow-auto overflow-hide" style={{ height: '81.3vh' }}>
               <div>
                 {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
 
