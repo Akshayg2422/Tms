@@ -92,7 +92,7 @@ export const addBroadCastMessagesApi = payload =>
 export const getBroadCastMessagesApi = payload =>
   post(GET_BROADCAST_MESSAGES, payload, {})
 
-export const getAddTaskApi = payload => post(FETCH_ADD_TASK, payload, {})
+export const addTaskApi = payload => post(FETCH_ADD_TASK, payload, {})
 
 export const getTaskApi = (payload) => post(GET_TASKS, payload, {})
 

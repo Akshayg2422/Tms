@@ -21,7 +21,7 @@ export interface AdminStateProp {
   designationNumOfPages:any,
   departmentCurrentPages:any,
   departmentNumOfPages:any,
-  addTask:any,
+  addingTask:any,
   subTasks:any,
   taskItem:any,
   brandSector: any,
