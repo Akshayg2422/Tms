@@ -99,10 +99,10 @@ function Comments() {
   return (
     <>
 
-      <div className={' mb--1'} >
+      <Card className={' mb--1'} style={{ height: '89vh' }} >
         <div className="container mb--1">
           <div className="row">
-            <Card className="col overflow-auto overflow-hide" style={{ height: '81.3vh' }}>
+            <Card className="col m-0 mt--4 mb--3 shadow-none overflow-auto overflow-hide" style={{ height: '76.2vh' }}>
               <div>
                 {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
 
@@ -156,7 +156,7 @@ function Comments() {
             </div>
           </div>
         </div>
-      </div>
+      </Card>
     </>
   );
 }
