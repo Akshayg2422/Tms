@@ -11,7 +11,6 @@ import {
     H,
     Button,
     Image,
-    Tabs
 } from "@Components";
 import {
     useDispatch,
@@ -19,10 +18,8 @@ import {
 } from "react-redux";
 import {
     addTaskEvent,
-    addTicketEvent,
     getEmployees,
     getTaskEvents,
-    getTicketsEvents
 } from "@Redux";
 import { translate } from "@I18n";
 import { useNavigation } from "@Hooks";
@@ -52,12 +49,11 @@ function TagAndAssignUser() {
         dispatch(
             getEmployees({
                 params,
-                onSuccess: (response) => () => {
-                },
+                onSuccess: (response) => () => { },
                 onFailure: () => () => { }
             })
         )
-    }, [taskItem])
+    }, [])
 
     const getApiHandler = () => {
         const params = {
@@ -66,8 +62,7 @@ function TagAndAssignUser() {
         dispatch(
             getTaskEvents({
                 params,
-                onSuccess: (response) => () => {
-                },
+                onSuccess: (response) => () => { },
                 onFailure: () => () => { }
             })
         )
@@ -118,7 +113,7 @@ function TagAndAssignUser() {
             id: taskItem.id
         };
 
-        dispatch(addTicketEvent({
+        dispatch(addTaskEvent({
             params,
             onSuccess: (response) => () => {
                 setOpenModalReassignUser(!openModalReassignUser)
@@ -134,7 +129,7 @@ function TagAndAssignUser() {
                 <TripleDot
                     onClickTagUser={() => { setOpenModalTagUser(!openModalTagUser) }}
                     onClickReassignUser={() => { setOpenModalReassignUser(!openModalReassignUser) }}
-                    // onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TICKET) }}
+                // onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TICKET) }}
                 />
             </div>
             <Modal size={'md'} fade={false} isOpen={openModalTagUser}
