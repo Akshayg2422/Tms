@@ -1,10 +1,11 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components";
 import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
 import { useInput, useNavigation } from "@Hooks";
-import { addTaskEvent, getTaskEvents, getTasks } from "@Redux";
+import { addTaskEvent, getTaskEvents } from "@Redux";
+import { TagAndAssignUser } from "../TagAndAssignUser";
 
 function TaskInfo() {
 
@@ -17,6 +18,25 @@ function TaskInfo() {
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
     const editModalName = useInput(initialEtaValue);
 
+    useEffect(() => {
+        ProceedGetTaskEvents()
+    }, [])
+
+
+    const ProceedGetTaskEvents = () => {
+        const params = {
+            task_id: taskItem?.id
+        }
+
+        dispatch(
+            getTaskEvents({
+                params,
+                onSuccess: (response) => () => { },
+                onError: () => () => { },
+            })
+        );
+    };
+
     const editEtaSubmitHandler = () => {
         const params = {
             id: taskItem.id,
@@ -27,7 +47,7 @@ function TaskInfo() {
         dispatch(
             addTaskEvent({
                 params,
-                onSuccess: (response) => () => { },
+                onSuccess: (response) => () => { ProceedGetTaskEvents() },
                 onError: (error) => () => { }
             })
         )
@@ -42,9 +62,10 @@ function TaskInfo() {
                         <H tag={"h3"} text={title} />
                         <h3 className="text-sm text-muted">{description}</h3>
                     </div>
-                    <div className="col"></div>
-                    <div className="col mr--9">
-                        <h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6>
+                    <div className="col-6 "></div>
+                    <div className="col-2 mr--9 mt-1"><h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6></div>
+                    <div className="col ">
+                        <TagAndAssignUser />
                     </div>
                 </div>
                 <div className="row align-items-center my-4">
@@ -63,7 +84,7 @@ function TaskInfo() {
                     </div>
                     <div className="col"></div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2"></span></h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}<span style={{cursor:'pointer'}} onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2"></span></h6>
                     </div>
                 </div>
                 <Modal isOpen={editEta}

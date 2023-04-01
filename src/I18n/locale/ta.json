@@ -51,8 +51,8 @@
         "taskName":"பணி பெயர்",
         "addTask":"பணியைச் சேர்க்கவும்",
         "isParent":"பெற்றோர்",
-        "addSubTask": "துணைப் பணியைச் சேர்க்கவும்"
-        
+        "addSubTask": "துணைப் பணியைச் சேர்க்கவும்",
+        "createTask": "உருவாக்குபணி"
     },
     "errors": {
         "invalidEmail": "Invalid email address."

@@ -5,7 +5,7 @@ type NotDataFoundProps = {
 
 function NoDataFound({ text = 'No Data Found' }: NotDataFoundProps) {
     return (
-        <div className="text-muted text-center" >{text}</div>
+        <div className="text-muted text-center mt-6 " >{text}</div>
     );
 }
 

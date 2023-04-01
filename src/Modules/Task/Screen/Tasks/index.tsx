@@ -92,9 +92,9 @@ function Tasks() {
           <div className="h5 m-0"> {el?.by_user?.name} </div>,
         "raised to":
           <div className="row">
-            <div className="col-4 d-flex  justify-content-center "> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> 
+            <div className="col-5 d-flex  justify-content-center "> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> 
             </div>
-            <div className="col-8  mb-0">
+            <div className="col-7  mb-0">
               <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
               <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
               <div className=""></div>
@@ -113,25 +113,22 @@ function Tasks() {
         <div className="text-right">
           <Button
             size={"sm"}
-            text={translate('common.addTask')}
+            text={translate('common.createTask')}
             onClick={() => {
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
             }}
           />
         </div>
       </HomeContainer>
-      {tasks && tasks.data.length > 0 ?
-        <>
-
-          <CommonTable
-          heading={  <>
-          <div className="row mt-3 mb--3">
+      <HomeContainer isCard className={'mb--5'} >
+        <h3>Tasks</h3>
+        <div className="row mt-3 mb--3">
             <div className="col-lg-4  col-md-3 col-sm-12">
               <InputHeading heading={translate("common.taskName")} />
               <div className="input-group bg-white border">
                 <input
                   type="text"
-                  className="form-control bg-transparent border border-0"
+                  className="form-control bg-transparent border border-0  form-control-sm"
                   placeholder={translate("auth.search")!}
                   value={search.value}
                   onChange={search.onChange}
@@ -147,6 +144,7 @@ function Tasks() {
             </div>
             <div className="col-lg-4 col-md-3 col-sm-12 ">
               <DropDown
+              className="form-control-sm"
                 heading={translate("common.filterTasks")}
                 selected={filteredTasks.value}
                 data={FILTERED_LIST}
@@ -160,6 +158,7 @@ function Tasks() {
   
             <div className="col-lg-4 col-md-3 col-sm-12">
               <DropDown
+               className="form-control-sm"
                 heading={translate("common.taskStatus")}
                 data={STATUS_LIST}
                 selected={taskStatus.value}
@@ -172,6 +171,7 @@ function Tasks() {
             </div>
             <div className="col-lg-4 col-md-3 col-sm-12">
               <DropDown
+               className="form-control-sm"
                 heading={'Priority'}
                 data={PRIORITY_DROPDOWN_LIST}
                 selected={taskPriority.value}
@@ -184,6 +184,7 @@ function Tasks() {
             </div>
             <div className="col-lg-4 col-md-3 col-sm-12">
               <DropDown
+               className="form-control-sm"
                 heading={'Company'}
                 data={COMPANY_TYPE}
                 selected={companyType.value}
@@ -195,9 +196,14 @@ function Tasks() {
               />
             </div>
           </div>
-        </>}
+       
+      </HomeContainer>
+      {tasks && tasks.data.length > 0 ?
+        <>
+
+          <CommonTable
             isPagination
-            title="Tasks"
+            // title="Tasks"
             tableDataSet={tasks.data}
             displayDataSet={normalizedTableData(tasks.data)}
             noOfPage={taskNumOfPages}

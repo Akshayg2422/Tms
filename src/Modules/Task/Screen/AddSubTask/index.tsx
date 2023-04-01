@@ -11,7 +11,7 @@ import {
 import { translate } from "@I18n";
 import {
     getEmployees,
-    getAddTask,
+    addTask,
     setIsSync,
     getAssociatedCompanyBranch,
     getTasks,
@@ -78,14 +78,14 @@ function AddSubTask() {
             eta_time: eta,
             parent_id: taskItem.id
         };
-        
+
 
 
         const validation = validate(CREATE_TICKET, params);
 
         if (ifObjectExist(validation)) {
             dispatch(
-                getAddTask({
+                addTask({
                     params,
                     onSuccess: (response: any) => () => {
                         if (response.success) {
