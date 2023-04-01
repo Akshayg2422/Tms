@@ -118,8 +118,6 @@ function CommonTable({ title, displayDataSet, tableDataSet, isPagination, curren
     }
 
   }
-
-
   return (
     <CommonHeader>
       {displayDataSet && displayDataSet.length > 0 ? <Table tableDataSet={tableDataSet} displayDataSet={displayDataSet} tableOnClick={tableOnClick} /> : <NoRecordsFound />}

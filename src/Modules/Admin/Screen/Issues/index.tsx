@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable, Priority, Status } from "@Components";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable, Priority, Status, DropDownIcon } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getServerTimeFromMoment, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
+import { log } from "console";
 
 
 function Issues() {
@@ -64,6 +65,7 @@ function Issues() {
       })
     );
   }
+ 
 
   function proceedTickerSearch() {
     setSyncTickets()
@@ -101,8 +103,8 @@ function Issues() {
           <div className="m-0 h5"> {el?.by_user?.name} </div>,
         "raised to":
           <div className="row">
-            <div className="col-4 d-flex  justify-contnet-center mr--2"> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
-            <div className="col-8  mb-0">
+            <div className="col-5 d-flex  justify-content-center mr--2"> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
+            <div className="col-7  mb-0">
               <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
               <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
               <div className=""></div>
@@ -119,18 +121,29 @@ function Issues() {
 
   return (
     <>
-      {/* <HomeContainer isCard className={'mb--3'} >
-        <div className="row mt-3">
-          <div className="col-lg-4  col-md-3 col-sm-12">
+     <HomeContainer>
+        <div className="text-right ">
+          <Button
+            size={"sm"}
+            text={translate("common.addTicket")}
+            onClick={() => {
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+            }}
+          />
+        </div>
+      </HomeContainer>
+      <HomeContainer isCard className={'mb--5'} >
+        <h3>Issue</h3>
+        <div className="row mb--3">
+          <div className="col-lg-4  col-md-3 col-sm-12 ">
             <InputHeading heading={translate("common.issueName")} />
             <div className="input-group bg-white border">
               <input
                 type="text"
-                className="form-control bg-transparent border border-0"
+                className="form-control bg-transparent border border-0 form-control-sm"
                 placeholder={translate("auth.search")!}
                 value={search.value}
                 onChange={search.onChange}
-                
               />
               <span
                 className="input-group-text  border border-0"
@@ -141,10 +154,9 @@ function Issues() {
               </span>
             </div>
           </div>
-
-
           <div className="col-lg-4 col-md-3 col-sm-12 ">
             <DropDown
+             className="form-control-sm"
               heading={translate("common.filterTickets")}
               selected={filteredTickets.value}
               data={FILTERED_LIST}
@@ -158,12 +170,12 @@ function Issues() {
 
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
+             className="form-control-sm"
               heading={translate("common.ticketStatus")}
               data={STATUS_LIST}
               selected={ticketStatus.value}
               value={ticketStatus.value}
               onChange={(item) => {
-
                 ticketStatus.onChange(item)
                 setSyncTickets()
               }}
@@ -171,6 +183,7 @@ function Issues() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
+            className="form-control-sm"
               heading={'Priority'}
               data={PRIORITY_DROPDOWN_LIST}
               selected={ticketPriority.value}
@@ -183,6 +196,7 @@ function Issues() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
+             className="form-control-sm"
               heading={'Company'}
               data={COMPANY_TYPE}
               selected={companyType.value}
@@ -194,101 +208,14 @@ function Issues() {
             />
           </div>
         </div>
-      </HomeContainer> */}
-      <HomeContainer>
-        <div className="text-right ">
-          <Button
-            size={"sm"}
-            text={translate("common.addTicket")}
-            onClick={() => {
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
-            }}
-          />
-        </div>
       </HomeContainer>
+     
 
       {tickets && tickets.length > 0 ?
         <>
-
           <CommonTable
-             heading={< >
-             <div className="row mt-3 mb--4">
-               <div className="col-lg-4  col-md-3 col-sm-12">
-                 <InputHeading heading={translate("common.issueName")} />
-                 <div className="input-group bg-white border">
-                   <input
-                     type="text"
-                     className="form-control bg-transparent border border-0"
-                     placeholder={translate("auth.search")!}
-                     value={search.value}
-                     onChange={search.onChange}
-                     
-                   />
-                   <span
-                     className="input-group-text  border border-0"
-                     onClick={proceedTickerSearch}
-                     style={{ cursor: "pointer" }}
-                   >
-                     <i className="fas fa-search" />
-                   </span>
-                 </div>
-               </div>
-     
-     
-               <div className="col-lg-4 col-md-3 col-sm-12 ">
-                 <DropDown
-                   heading={translate("common.filterTickets")}
-                   selected={filteredTickets.value}
-                   data={FILTERED_LIST}
-                   value={filteredTickets.value}
-                   onChange={(item) => {
-                     filteredTickets.onChange(item)
-                     setSyncTickets()
-                   }}
-                 />
-               </div>
-     
-               <div className="col-lg-4 col-md-3 col-sm-12">
-                 <DropDown
-                   heading={translate("common.ticketStatus")}
-                   data={STATUS_LIST}
-                   selected={ticketStatus.value}
-                   value={ticketStatus.value}
-                   onChange={(item) => {
-     
-                     ticketStatus.onChange(item)
-                     setSyncTickets()
-                   }}
-                 />
-               </div>
-               <div className="col-lg-4 col-md-3 col-sm-12">
-                 <DropDown
-                   heading={'Priority'}
-                   data={PRIORITY_DROPDOWN_LIST}
-                   selected={ticketPriority.value}
-                   value={ticketPriority.value}
-                   onChange={(item) => {
-                     ticketPriority.onChange(item)
-                     setSyncTickets()
-                   }}
-                 />
-               </div>
-               <div className="col-lg-4 col-md-3 col-sm-12">
-                 <DropDown
-                   heading={'Company'}
-                   data={COMPANY_TYPE}
-                   selected={companyType.value}
-                   value={companyType.value}
-                   onChange={(item) => {
-                     companyType.onChange(item)
-                     setSyncTickets()
-                   }}
-                 />
-               </div>
-             </div>
-           </>}
+          
             isPagination
-            title="Issue"
             tableDataSet={tickets}
             displayDataSet={normalizedTableData(tickets)}
             noOfPage={ticketNumOfPages}

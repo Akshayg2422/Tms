@@ -4,7 +4,7 @@ import Select2 from 'react-select2-wrapper';
 import { Option, InputHeading } from '@Components'
 import { FormGroup } from 'reactstrap'
 
-function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, selected, data, onChange }: DropDownProps) {
+function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, selected, data, onChange,className='form-control' }: DropDownProps) {
 
     // const [selected, setSelected] = useState<Option | undefined>(value);
     
@@ -34,7 +34,7 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, sel
             <InputHeading heading={heading} id={id} />
             <Select2
             // style={{   height: 10, width: 10, borderRadius: 5, margin: "5px", background:'green'}}
-                className={'form-control'}
+                className={className}
                 data-minimum-results-for-search={'Infinity'}
                 data={data}
                 value={selected && selected.id}
@@ -46,7 +46,10 @@ function DropDown({ id, heading, defaultValue, disabled, value, placeHolder, sel
                     }
                 }
                 onChange={proceedOnChange}
-            />
+            >
+
+<div><></></div>
+            </Select2>
         </FormGroup>
     )
 }
