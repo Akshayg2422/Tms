@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast, Tasks } from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast, Tasks,Profile } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -86,6 +86,14 @@ export const AUTH_ROUTES = [
 ];
 
 export const ADMIN_ROUTES = [
+
+  {
+    path: "/profile",
+    name: "Profile",
+    icon: "bi bi-person-circle text-primary",
+    layout: "/admin",
+    component: <Profile/>
+  },
   {
     path: "/tasks",
     name: "Tasks",
