@@ -90,7 +90,7 @@ export const ADMIN_ROUTES = [
   {
     path: "/profile",
     name: "Profile",
-    icon: "bi bi-list-task text-primary",
+    icon: "bi bi-person-circle text-primary",
     layout: "/admin",
     component: <Profile/>
   },
