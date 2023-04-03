@@ -10,6 +10,7 @@ import {
 import { Button, Card, Tabs } from "@Components";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
+import { translate } from "@I18n";
 
 function TaskDetails() {
 
@@ -40,7 +41,7 @@ function TaskDetails() {
                             <span className={'ml-lg-9 ml-xl-9 ml-md-9 ml-sm-9 pl-lg-5 pl-xl-5 pl-md-5 pl-sm-5 mt--3'} style={{ position: 'absolute', zIndex: '1' }}>
                                 <Button
                                     size={"sm"}
-                                    text={'Add New'}
+                                    text={translate('common.addNew')}
                                     onClick={() => {
                                         goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_SUB_TASK);
                                     }}
