@@ -10,7 +10,6 @@ import { Notification } from './Notification'
  *  select-react  - important need to add this app.js
  */
 import "select2/dist/css/select2.min.css";
-
 import "react-notification-alert/dist/animate.css";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import "@fullcalendar/common/main.min.css";
