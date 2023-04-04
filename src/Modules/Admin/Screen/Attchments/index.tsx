@@ -25,8 +25,8 @@ function Attachments() {
     dispatch(
       getTicketsEvents({
         params,
-        onSuccess: () => () => {},
-        onFailure: () => () => {},
+        onSuccess: () => () => { },
+        onFailure: () => () => { },
       })
     );
   }, [selectedIssues, selectedReferenceIssues]);
@@ -42,57 +42,56 @@ function Attachments() {
     dispatch(
       getTicketsEvents({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   };
 
 
-    return (
-        <HomeContainer >
-            <Card>
-                <div className="input-group bg-white border  col-lg-5 col-md-5 ">
-                    <input
-                        type="text"
-                        className="form-control bg-transparent border border-0"
-                        placeholder={translate("auth.search")!}
-                        value={search.value}
-                        onChange={search.onChange}
-                    />
-                    <span className="input-group-text border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
-                </div>
-                <div className='mt-4'>
+  return (
+    <HomeContainer >
+      <Card>
+        <div className="input-group bg-white border  col-lg-5 col-md-5 ">
+          <input
+            type="text"
+            className="form-control bg-transparent border border-0"
+            placeholder={translate("auth.search")!}
+            value={search.value}
+            onChange={search.onChange}
+          />
+          <span className="input-group-text border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
+        </div>
+        <div className='mt-4'>
+          {
+            ticketEvents && ticketEvents?.data.length > 0 ? ticketEvents?.data.map((item: any, index: number) => {
+
+              return (
+                <>
+                  {item?.attachments?.attachments && <div>
+                    <h4 className='my-2'> {item?.attachments?.name} </h4>
                     {
-                        ticketEvents && ticketEvents?.data.length > 0 ? ticketEvents?.data.map((item: any, index: number) => {
-                  
-                            return (
-                               <>
-                                    {item?.attachments?.attachments &&<div>
-                                        <h4 className='my-2'> {item?.attachments?.name} </h4>
-                                        {
-                                            item?.attachments?.attachments.map((image: any) => {
-                                             
-                                                return (
-                                                 
-                                          
-                                                    <span className='mr-3 my-3'>
-                                                        <Image src={getPhoto(image?.attachment_file)} style={{height:"120px",width:"120px"}} />
-                                                    </span>
-                                                )
-                                            })
-                                        }
-                                    </div>}
-                                </>
-                            )
-                        }) : <NoDataFound />
+                      item?.attachments?.attachments.map((image: any) => {
 
+                        return (
+
+                          <span className='mr-3 my-3'>
+                            <Image src={getPhoto(image?.attachment_file)} style={{ height: "120px", width: "120px" }} />
+                          </span>
+                        )
+                      })
                     }
-                </div>
-            </Card>
+                  </div>}
+                </>
+              )
+            }) : <NoDataFound />
 
-        </HomeContainer>
+          }
+        </div>
+      </Card>
 
-    )
+    </HomeContainer>
+
+  )
 }
 export { Attachments };

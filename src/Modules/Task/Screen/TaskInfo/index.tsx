@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components";
 import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
-import { useInput, useNavigation } from "@Hooks";
+import { useInput } from "@Hooks";
 import { addTaskEvent, getTaskEvents } from "@Redux";
 import { TagAndAssignUser } from "../TagAndAssignUser";
 
@@ -11,7 +11,8 @@ function TaskInfo() {
 
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
     const dispatch = useDispatch();
-    const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time } = taskItem;
+    const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time,order_sequence } = taskItem;
+    console.log('22222222222222222222222222222',JSON.stringify(taskItem))
 
     const [editEta, setEditEta] = useState(false)
     const etaMomentObj = getMomentObjFromServer(eta_time);
@@ -61,6 +62,7 @@ function TaskInfo() {
                     <div className="col">
                         <H tag={"h3"} text={title} />
                         <h3 className="text-sm text-muted">{description}</h3>
+                        <h5>{order_sequence}</h5>
                     </div>
                     <div className="col-6 "></div>
                     <div className="col-2 mr--9 mt-1"><h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6></div>
@@ -84,7 +86,7 @@ function TaskInfo() {
                     </div>
                     <div className="col"></div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}<span style={{cursor:'pointer'}} onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2"></span></h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}<span style={{ cursor: 'pointer' }} onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2"></span></h6>
                     </div>
                 </div>
                 <Modal isOpen={editEta}
@@ -112,9 +114,7 @@ function TaskInfo() {
                             <div className={'text-uppercase  text-muted'}>{raised_by_company?.address}</div>
                         </h6>
                     </div>
-                    <div className="col">
-
-                    </div>
+                    <div className="col"></div>
                 </div>
             </Card>
         </HomeContainer>

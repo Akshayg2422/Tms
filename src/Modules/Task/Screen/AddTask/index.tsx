@@ -22,12 +22,10 @@ import {
     type,
     validate,
     PRIORITY,
-    getDateAndTime
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
-import moment from "moment";
 
 function AddTask() {
     const dispatch = useDispatch();
@@ -60,9 +58,7 @@ function AddTask() {
 
 
     const handleImagePicker = (index: number, file: any) => {
-        // let updatedPhoto = [...selectDropzone, file];
         let newUpdatedPhoto = [...photo, file];
-        // setSelectDropzone(updatedPhoto);
         setPhoto(newUpdatedPhoto);
     };
 

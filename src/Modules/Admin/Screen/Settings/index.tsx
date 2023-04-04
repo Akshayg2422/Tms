@@ -70,7 +70,7 @@ function Settings() {
   const dynamicHeight: any = useDynamicHeight()
 
 
-    console.log("dashboardDetails", dashboardDetails)
+  console.log("dashboardDetails", dashboardDetails)
 
 
 
@@ -594,7 +594,7 @@ function Settings() {
         <div className=" row mt-2 ">
           <div className="col-sm-6  pr-2 mt-2">
             <>
-              <Card style={{ height: showDepartments ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
+              <Card className={'mb-3'} style={{ height: showDepartments ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
                 <div className="row">
                   <div className="col">
                     <h3>{translate("common.department")}</h3>
@@ -669,7 +669,7 @@ function Settings() {
               </Card>
             </>
             <>
-              <Card style={{ height: showSector ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
+              <Card className={'mb-3'} style={{ height: showSector ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
                 <div className="row">
                   <div className="col">
                     <h3>{translate("auth.sector")}</h3>
@@ -743,83 +743,83 @@ function Settings() {
                   )}
                 </div>
               </Card>
-                  <Card style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
-                    <div className="row">
-                      <div className="col">
-                        <h3>{translate("auth.group")}</h3>
-                      </div>
-                      <div className="text-right mr-3 ">
-                        <Button
-                          text={
-                            showTaskGroup
-                              ? translate("course.hide")
-                              : translate("course.view")
-                          }
-                          size={"sm"}
-                          onClick={() => {
-                            if (!showTaskGroup) {
-                              getTaskGroupList(taskGroupCurrentPages);
-                            } else {
-                              setShowTaskGroup(!showTaskGroup)
-                            }
+              <Card className={'mb-3'} style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
+                <div className="row">
+                  <div className="col">
+                    <h3>{translate("auth.group")}</h3>
+                  </div>
+                  <div className="text-right mr-3 ">
+                    <Button
+                      text={
+                        showTaskGroup
+                          ? translate("course.hide")
+                          : translate("course.view")
+                      }
+                      size={"sm"}
+                      onClick={() => {
+                        if (!showTaskGroup) {
+                          getTaskGroupList(taskGroupCurrentPages);
+                        } else {
+                          setShowTaskGroup(!showTaskGroup)
+                        }
 
-                          }}
-                        />
-                        <Button
-                          text={translate("product.addItem")}
-                          size={"sm"}
-                          onClick={() => { addTaskGroupModal.show() }}
-                        />
-                      </div>
-                    </div>
+                      }}
+                    />
+                    <Button
+                      text={translate("product.addItem")}
+                      size={"sm"}
+                      onClick={() => { addTaskGroupModal.show() }}
+                    />
+                  </div>
+                </div>
 
 
+                <div
+                  className="overflow-auto overflow-hide"
+                  style={{
+                    height: showTaskGroup ? dynamicHeight.dynamicHeight - 100 : '0px',
+                    margin: '0px -39px 0px -39px'
+                  }}
+                >
+                  {getTaskGroupDetails && getTaskGroupDetails?.length > 0 ? (
+                    <CommonTable
+                      isPagination
+                      tableDataSet={getTaskGroupDetails}
+                      displayDataSet={normalizedTaskGroupData(getTaskGroupDetails)}
+                      noOfPage={taskGroupNumOfPages}
+                      currentPage={taskGroupCurrentPages}
+                      paginationNumberClick={(currentPage) => {
+
+                        getTaskGroupList(paginationHandler("current", currentPage));
+
+                      }}
+                      previousClick={() => {
+                        getTaskGroupList(paginationHandler("prev", taskGroupCurrentPages))
+                      }
+                      }
+                      nextClick={() => {
+                        getTaskGroupList(paginationHandler("next", taskGroupCurrentPages));
+                      }
+                      }
+                    />
+                  ) : (
                     <div
-                      className="overflow-auto overflow-hide"
+                      className=" d-flex justify-content-center align-items-center"
                       style={{
-                        height: showTaskGroup ? dynamicHeight.dynamicHeight - 100 : '0px',
-                        margin: '0px -39px 0px -39px'
+                        height: "30.5rem",
                       }}
                     >
-                      {getTaskGroupDetails && getTaskGroupDetails?.length > 0 ? (
-                        <CommonTable
-                          isPagination
-                          tableDataSet={getTaskGroupDetails}
-                          displayDataSet={normalizedTaskGroupData(getTaskGroupDetails)}
-                          noOfPage={taskGroupNumOfPages}
-                          currentPage={taskGroupCurrentPages}
-                          paginationNumberClick={(currentPage) => {
-
-                            getTaskGroupList(paginationHandler("current", currentPage));
-
-                          }}
-                          previousClick={() => {
-                            getTaskGroupList(paginationHandler("prev", taskGroupCurrentPages))
-                          }
-                          }
-                          nextClick={() => {
-                            getTaskGroupList(paginationHandler("next", taskGroupCurrentPages));
-                          }
-                          }
-                        />
-                      ) : (
-                        <div
-                          className=" d-flex justify-content-center align-items-center"
-                          style={{
-                            height: "30.5rem",
-                          }}
-                        >
-                          <NoRecordsFound />
-                        </div>
-                      )}
+                      <NoRecordsFound />
                     </div>
-                  </Card>
+                  )}
+                </div>
+              </Card>
 
             </>
           </div>
           <div className="col-sm-6 pl-2 pt-2">
             <>
-              <Card style={{ height: showDesignations ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
+              <Card className={'mb-3'} style={{ height: showDesignations ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
                 <div className="row">
                   <div className="col">
                     <h3>{translate("auth.designation")}</h3>
