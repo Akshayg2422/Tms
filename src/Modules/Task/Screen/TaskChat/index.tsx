@@ -22,7 +22,7 @@ function Receive({ item }: any) {
             {
                 ((item && item?.message) || (item?.attachments?.attachments)) && (
                     <div className={'d-flex justify-content-end'}>
-                        <div className="ml-3" >
+                        <div className="col-5" >
                             <div
                                 className="timeline timeline-one-side"
                                 data-timeline-axis-style="dashed"
@@ -102,7 +102,7 @@ function Send({ item }: any) {
             {
                 ((item && item?.message) || (item?.attachments?.attachments)) && (
                     <div className={'d-flex justify-content-start'}>
-                        <div className="ml-3" >
+                        <div className="col-5" >
                             <div
                                 className="timeline timeline-one-side"
                                 data-timeline-axis-style="dashed"

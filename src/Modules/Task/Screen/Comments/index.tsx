@@ -5,7 +5,7 @@ import { Card, Image, Input, Modal, Dropzone, Button } from "@Components";
 import { icons } from '@Assets'
 import { TEM, MEA, arrayOrderbyCreatedAt } from "@Utils";
 import { useInput } from "@Hooks";
-import { TaskChat } from "@Modules";
+import { TagAndAssignUser, TaskChat } from "@Modules";
 
 
 function Comments() {
@@ -112,7 +112,11 @@ function Comments() {
                 })}
               </div>
             </Card>
+            <div className="row mt--4">
+              <TagAndAssignUser />
+            </div>
           </div>
+
           <div className="row fixed-bottom position-absolute">
             <div className="col pr-0 pointer">
               <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }}
