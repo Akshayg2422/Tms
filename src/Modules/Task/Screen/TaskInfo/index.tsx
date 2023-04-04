@@ -19,8 +19,10 @@ function TaskInfo() {
     const etaMomentObj = getMomentObjFromServer(eta_time);
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
     const editModalName = useInput(initialEtaValue);
- 
-    
+    console.log('111111111111111111', JSON.stringify(taskItem))
+    console.log('2222222222222222222', etaMomentObj)
+    console.log('3333333333333333333333', initialEtaValue)
+    console.log('4444444444444444444', editModalName)
 
     useEffect(() => {
         ProceedGetTaskEvents()
@@ -62,16 +64,13 @@ console.log(params,"pppppppppp")
         <HomeContainer>
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
-                    <div className="col">
+                    <div className="col-7">
                         <H tag={"h3"} text={title} />
                         <h3 className="text-sm text-muted">{description}</h3>
                         <h5>{order_sequence}</h5>
                     </div>
-                    <div className="col-6 "></div>
+                    <div className="col-3"></div>
                     <div className="col-2 mr--9 mt-1"><h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6></div>
-                    <div className="col ">
-                        <TagAndAssignUser />
-                    </div>
                 </div>
                 <div className="row align-items-center my-4">
                     <div className="col">
