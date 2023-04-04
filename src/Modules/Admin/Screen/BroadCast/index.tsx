@@ -54,7 +54,7 @@ function Broadcast() {
 
   return (
     <HomeContainer>
-      <div className="col text-right ">
+      <div className="col text-right p-0">
         <Button
           text={translate("auth.addBroadCast")!}
           size={"sm"}
@@ -95,7 +95,7 @@ function Broadcast() {
           </Card>
 
         </InfiniteScroll>
-     :<NoDataFound/> }
+        : <NoDataFound />}
     </HomeContainer>
   );
 }
