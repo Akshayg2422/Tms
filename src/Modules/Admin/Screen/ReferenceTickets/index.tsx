@@ -89,14 +89,14 @@ function ReferenceTickets() {
             proceedgetReferenceTickets(paginationHandler("next", referenceTicketCurrentPages));
           }
           }
-          tableOnClick={(e, index, item) => {
-            const selectedItem = issueReferenceDetails.data?.[index]
-          }
-          // tableOnClick={(idx, index, item) => {
-          //   // dispatch(setSelectedIssues(item));
-          //   dispatch(setSelectedReferenceIssues(item))
-          //   goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+          // tableOnClick={(e, index, item) => {
+          //   const selectedItem = issueReferenceDetails.data?.[index]
           // }
+          tableOnClick={(idx, index, item) => {
+            // dispatch(setSelectedIssues(item));
+            dispatch(setSelectedReferenceIssues(item))
+            goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+          }
         
         
         }

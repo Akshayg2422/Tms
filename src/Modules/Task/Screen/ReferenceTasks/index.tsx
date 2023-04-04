@@ -1,7 +1,7 @@
 import { NoDataFound, CommonTable } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsSync, getReferenceTasks } from "@Redux";
+import { setIsSync, getReferenceTasks,getReferenceId } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 import { Card } from "reactstrap";
 
@@ -9,7 +9,7 @@ function ReferenceTasks() {
   const dispatch = useDispatch();
   const { selectedReferenceIssues, dashboardDetails, referencesTasks,
     referencesTasksNumOfPages,
-    referencesTasksCurrentPages, taskItem } = useSelector(
+    referencesTasksCurrentPages, taskItem,getReferenceId } = useSelector(
       (state: any) => state.AdminReducer
     );
 
@@ -86,7 +86,7 @@ function ReferenceTasks() {
           }
           }
           tableOnClick={(e, index, item) => {
-            // const selectedItem = issueReferenceDetails.data?.[index]
+            // dispatch(getReferenceId(item))
           }}
 
         /> : <NoDataFound />}

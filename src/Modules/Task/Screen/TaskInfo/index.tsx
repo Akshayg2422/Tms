@@ -9,16 +9,18 @@ import { TagAndAssignUser } from "../TagAndAssignUser";
 function TaskInfo() {
 
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
+    const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
+  
+
+
     const dispatch = useDispatch();
     const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, order_sequence } = taskItem;
     const [editEta, setEditEta] = useState(false)
     const etaMomentObj = getMomentObjFromServer(eta_time);
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
     const editModalName = useInput(initialEtaValue);
-    console.log('111111111111111111',JSON.stringify(taskItem))
-    console.log('2222222222222222222',etaMomentObj)
-    console.log('3333333333333333333333',initialEtaValue)
-    console.log('4444444444444444444',editModalName)
+ 
+    
 
     useEffect(() => {
         ProceedGetTaskEvents()
@@ -45,7 +47,7 @@ function TaskInfo() {
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
-
+console.log(params,"pppppppppp")
         dispatch(
             addTaskEvent({
                 params,
@@ -89,7 +91,7 @@ function TaskInfo() {
                     </div>
                     <div className="col"></div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(editModalName.value))}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span></h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">{ editModalName.value}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span></h6>
                     </div>
                 </div>
                 <Modal isOpen={editEta}

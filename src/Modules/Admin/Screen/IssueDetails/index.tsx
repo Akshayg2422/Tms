@@ -23,7 +23,6 @@ function IssueDetails() {
 
   useEffect(() => {
     setSelectedTab(TABS[0]);
-    console.log(selectedTab,"llllllllllllllll")
   }, [selectedReferenceIssues ])
 
   return (
