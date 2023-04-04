@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
-import { Divider, Button, NoDataFound, CommonTable, Input, Checkbox, showToast, } from "@Components";
-import { ReferenceIssueItem } from "@Modules";
+import { Button, NoDataFound, CommonTable, Checkbox, showToast, } from "@Components";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK } from "@Utils";
@@ -10,14 +9,8 @@ import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectEx
 function AddReferenceTask() {
   const dispatch = useDispatch();
   const { tasks, dashboardDetails, taskItem } = useSelector((state: any) => state.AdminReducer);
-  const { selectedIssues } = useSelector(
-    (state: any) => state.AdminReducer
-  );
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([])
   const Search = useInput("");
-
-  console.log('tasks--->', JSON.stringify(tasks))
-
   const submitHandler = () => {
 
     const params = {
@@ -26,7 +19,6 @@ function AddReferenceTask() {
       event_type: RTS,
       reference_task: getArrayFromArrayOfObject(selectedReferenceTask, 'id'),
     };
-    console.log('param-------->', params);
 
 
     const validation = validate(ADD_REFERENCE_TASK, params)
@@ -37,7 +29,6 @@ function AddReferenceTask() {
           onSuccess: (response: any) => () => {
             if (response.success) {
               showToast(response.message, "success");
-              // goBack();
             }
           },
           onError: (error) => () => {
@@ -73,7 +64,7 @@ function AddReferenceTask() {
     dispatch(
       getTasks({
         params,
-        onSuccess: () => () => {},
+        onSuccess: () => () => { },
         onError: () => () => { },
       })
     );
@@ -145,9 +136,6 @@ function AddReferenceTask() {
       <div>
         <div className="m-3">
           <div className="row justify-content-center">
-
-
-
             {tasks && tasks.data?.length > 0 ? <CommonTable title={'Add Reference task'} tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
             /> : <NoDataFound />}
 

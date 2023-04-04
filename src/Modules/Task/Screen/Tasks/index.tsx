@@ -69,10 +69,10 @@ function Tasks() {
     return data.map((el: any) => {
       return {
         "task":
-          <div className="row m-0" style={{ width: "" }}> <Priority priority={el?.priority} /> <span className="ml-">{el?.title}</span></div>,
+          <div className="row"> <Priority priority={el?.priority} /> <span className="col">{el?.title}</span></div>,
         "attachments":
-          <div className="avatar-group " style={{
-            width: '160px'
+          <div className="avatar-group" style={{
+            width: '87px'
           }}>
             {
               el?.task_attachments &&
@@ -92,15 +92,15 @@ function Tasks() {
           <div className="h5 m-0"> {el?.by_user?.name} </div>,
         "raised to":
           <>
-            <div className="row align-items-start">
-              <div className="col-3 align-self-center">
-                <div className="col d-flex  justify-content-center mr--2"> <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} /> </div>
+            <div className="row">
+              <div className="col-3 p-0 align-self-center">
+                <div className="col p-0 d-flex justify-content-center"> {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />} </div>
               </div>
 
-              <div className="col-9">
+              <div className="col-9 text-truncate">
                 <h6>
                   <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
-                  <div className="h5 mb-0">@<span className="h5"> {el?.assigned_to?.name} </span></div>
+                  <div className="h5 mb-0 d-inline-block text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
                   <div className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place || "Gummidipoondi"}</div>
                 </h6>
               </div>
@@ -108,7 +108,7 @@ function Tasks() {
             </div>
 
           </>,
-        date: getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at)),
+        date: <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
         status: <Status status={el?.task_status} />
       };
     });

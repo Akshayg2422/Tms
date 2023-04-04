@@ -11,8 +11,6 @@ function TaskInfo() {
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
     const dispatch = useDispatch();
     const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, order_sequence } = taskItem;
-    console.log('22222222222222222222222222222', JSON.stringify(taskItem))
-
     const [editEta, setEditEta] = useState(false)
     const etaMomentObj = getMomentObjFromServer(eta_time);
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
@@ -40,8 +38,7 @@ function TaskInfo() {
     const editEtaSubmitHandler = () => {
         const params = {
             id: taskItem.id,
-            eta_time:
-                getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
+            eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
 
@@ -106,8 +103,8 @@ function TaskInfo() {
                         <div className="h5 mb-0"> {by_user?.email} </div>
                     </div>
                     <div className="col align-self-center mx--4">
-                        <div className="col d-flex justify-content-center mr--2"> <Image variant={'rounded'}
-                            src={getPhoto(raised_by_company?.attachment_logo)} /> </div>
+                        <div className="col p-0 d-flex justify-content-center mr--2">
+                            {raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />} </div>
                     </div>
 
                     <div className="col-6">
