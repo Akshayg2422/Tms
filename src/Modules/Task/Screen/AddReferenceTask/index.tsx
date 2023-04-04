@@ -137,7 +137,7 @@ function AddReferenceTask() {
               </span>
             </div>
           </div>
-          <div className="col-lg-2 col-md-12 mt-lg-1 mt-sm-0 mt-md-3 mt-3 col-sm-12  justify-content-end d-flex">
+          <div className="col-lg-2 col-md-12 mt-lg-1 mt-sm-0 mt-md-3 mt-3 col-sm-12  ">
             <Button text={translate("common.submit")} onClick={submitHandler} size="sm" />
           </div>
         </div>
