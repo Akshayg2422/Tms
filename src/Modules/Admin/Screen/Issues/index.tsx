@@ -8,7 +8,7 @@ import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getServerTimeFromMoment, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
-import { log } from "console";
+
 
 
 function Issues() {

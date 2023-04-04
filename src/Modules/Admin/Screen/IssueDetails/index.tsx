@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 
 function IssueDetails() {
 
-  // const { selectedReferenceIssues } = useSelector((state: any) => state.AdminReducer);
+  const { selectedReferenceIssues } = useSelector((state: any) => state.AdminReducer);
 
   const TABS = [
     { id: "1", title:<div className="bi bi-chat-text"><span className={'mx-1'}>Thread</span></div>,component: <Thread /> },
@@ -23,7 +23,8 @@ function IssueDetails() {
 
   useEffect(() => {
     setSelectedTab(TABS[0]);
-  }, [])
+    console.log(selectedTab,"llllllllllllllll")
+  }, [selectedReferenceIssues ])
 
   return (
     <>

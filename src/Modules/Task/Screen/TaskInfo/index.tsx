@@ -85,7 +85,7 @@ function TaskInfo() {
                     </div>
                     <div className="col"></div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(eta_time))}<span style={{ cursor: 'pointer' }} onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2"></span></h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">{editModalName.value}<span style={{ cursor: 'pointer' }} onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2"></span></h6>
                     </div>
                 </div>
                 <Modal isOpen={editEta}
