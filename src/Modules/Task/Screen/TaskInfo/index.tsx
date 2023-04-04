@@ -15,6 +15,10 @@ function TaskInfo() {
     const etaMomentObj = getMomentObjFromServer(eta_time);
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
     const editModalName = useInput(initialEtaValue);
+    console.log('111111111111111111',JSON.stringify(taskItem))
+    console.log('2222222222222222222',etaMomentObj)
+    console.log('3333333333333333333333',initialEtaValue)
+    console.log('4444444444444444444',editModalName)
 
     useEffect(() => {
         ProceedGetTaskEvents()
@@ -85,7 +89,7 @@ function TaskInfo() {
                     </div>
                     <div className="col"></div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{editModalName.value}<span style={{ cursor: 'pointer' }} onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2"></span></h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(editModalName.value))}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span></h6>
                     </div>
                 </div>
                 <Modal isOpen={editEta}

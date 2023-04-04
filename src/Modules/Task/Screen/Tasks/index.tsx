@@ -141,9 +141,8 @@ function Tasks() {
                 onChange={search.onChange}
               />
               <span
-                className="input-group-text  border border-0"
+                className="input-group-text pointer border border-0"
                 onClick={proceedTaskSearch}
-                style={{ cursor: "pointer" }}
               >
                 <i className="fas fa-search" />
               </span>

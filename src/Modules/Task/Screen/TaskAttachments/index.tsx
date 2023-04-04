@@ -55,7 +55,7 @@ function TaskAttachments() {
           value={search.value}
           onChange={search.onChange}
         />
-        <span className="input-group-text border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
+        <span className="input-group-text pointer border border-0" onClick={getSearchHandler}>  <i className="fas fa-search" /></span>
       </div>
       <div className='mt-4'>
         {
@@ -64,19 +64,19 @@ function TaskAttachments() {
             return (
               <>
                 {item?.attachments?.attachments && <div>
-                    <h4 className='my-2'> {item?.attachments?.name} </h4>
-                    {
-                      item?.attachments?.attachments?.map((image: any) => {
+                  <h4 className='my-2'> {item?.attachments?.name} </h4>
+                  {
+                    item?.attachments?.attachments?.map((image: any) => {
 
-                        return (
+                      return (
 
-                          <span className='mx-2'>
-                            <Image className={'mb-3'} src={getPhoto(image?.attachment_file)} style={{ height: "280px", width: "295px" }} />
-                          </span>
-                        )
-                      })
-                    }
-                  </div>
+                        <span className='mx-2'>
+                          <Image className={'mb-3'} src={getPhoto(image?.attachment_file)} style={{ height: "280px", width: "295px" }} />
+                        </span>
+                      )
+                    })
+                  }
+                </div>
                 }
               </>
             )
