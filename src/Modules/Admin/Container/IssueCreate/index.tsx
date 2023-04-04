@@ -16,7 +16,8 @@ import {
   getAssociatedCompanyBranch,
 } from "@Redux";
 import {
-  CREATE_TICKET,
+  CREATE_EXTERNAL,
+  CREATE_INTERNAL,
   getValidateError,
   ifObjectExist,
   type,
@@ -74,7 +75,7 @@ function IssueCreate() {
       ticket_attachments: [{ attachments:attach}],
     };
 
-    const validation = validate(CREATE_TICKET, params);
+    const validation = validate( typeSelect?.id === "1"?CREATE_EXTERNAL:CREATE_INTERNAL, params);
 
     if (ifObjectExist(validation)) {
       dispatch(

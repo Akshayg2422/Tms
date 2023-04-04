@@ -17,7 +17,8 @@ import {
     getTasks,
 } from "@Redux";
 import {
-    CREATE_TICKET,
+    CREATE_INTERNAL,
+    CREATE_EXTERNAL,
     getValidateError,
     ifObjectExist,
     type,
@@ -81,7 +82,7 @@ function AddSubTask() {
 
 
 
-        const validation = validate(CREATE_TICKET, params);
+        const validation = validate(typeSelect?.id === "1"?CREATE_EXTERNAL:CREATE_INTERNAL, params);
 
         if (ifObjectExist(validation)) {
             dispatch(
