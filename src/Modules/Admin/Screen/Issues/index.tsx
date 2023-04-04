@@ -44,7 +44,7 @@ function Issues() {
       priority: ticketPriority.value.id,
       page_number: pageNumber
     };
-    
+
     dispatch(
       getTickets({
         params,
@@ -65,7 +65,7 @@ function Issues() {
       })
     );
   }
- 
+
 
   function proceedTickerSearch() {
     setSyncTickets()
@@ -121,7 +121,7 @@ function Issues() {
 
   return (
     <>
-     <HomeContainer>
+      <HomeContainer>
         <div className="text-right ">
           <Button
             size={"sm"}
@@ -146,9 +146,8 @@ function Issues() {
                 onChange={search.onChange}
               />
               <span
-                className="input-group-text  border border-0"
+                className="input-group-text pointer border border-0"
                 onClick={proceedTickerSearch}
-                style={{ cursor: "pointer" }}
               >
                 <i className="fas fa-search" />
               </span>
@@ -156,7 +155,7 @@ function Issues() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12 ">
             <DropDown
-             className="form-control-sm"
+              className="form-control-sm"
               heading={translate("common.filterTickets")}
               selected={filteredTickets.value}
               data={FILTERED_LIST}
@@ -170,7 +169,7 @@ function Issues() {
 
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-             className="form-control-sm"
+              className="form-control-sm"
               heading={translate("common.ticketStatus")}
               data={STATUS_LIST}
               selected={ticketStatus.value}
@@ -183,7 +182,7 @@ function Issues() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-            className="form-control-sm"
+              className="form-control-sm"
               heading={'Priority'}
               data={PRIORITY_DROPDOWN_LIST}
               selected={ticketPriority.value}
@@ -196,7 +195,7 @@ function Issues() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-             className="form-control-sm"
+              className="form-control-sm"
               heading={'Company'}
               data={COMPANY_TYPE}
               selected={companyType.value}
@@ -209,12 +208,12 @@ function Issues() {
           </div>
         </div>
       </HomeContainer>
-     
+
 
       {tickets && tickets.length > 0 ?
         <>
           <CommonTable
-          
+
             isPagination
             tableDataSet={tickets}
             displayDataSet={normalizedTableData(tickets)}
@@ -238,7 +237,7 @@ function Issues() {
             }
             }
           />
-        </> : <NoDataFound/> }
+        </> : <NoDataFound />}
 
     </>
   );

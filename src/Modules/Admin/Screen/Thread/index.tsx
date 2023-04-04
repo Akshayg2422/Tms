@@ -76,7 +76,7 @@ function Thread() {
             <div className='d-flex justify-content-center'>
                 <Card className='col-lg-10 col-sm-12 overflow-auto overflow-hide mt--3 mb--5' style={{ height: '84.5vh' }}>
 
-                    <div className='fixed-bottom col-lg-6 col-sm-12' style={{ cursor: "pointer" }}>
+                    <div className='fixed-bottom pointer col-lg-6 col-sm-12'>
                         <Send value={textMessage.value}
                             onClick={sendMessageHandler}
                             onChange={textMessage.onChange}
