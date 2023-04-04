@@ -94,7 +94,7 @@ function Tasks() {
           <>
             <div className="row align-items-start">
               <div className="col-3 align-self-center">
-                <div className="col d-flex  justify-content-center mr--2"> <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} /> </div>
+                <div className="col d-flex  justify-content-center mr--2">{el.raised_by_company?.attachment_logo  && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} /> }</div>
               </div>
 
               <div className="col-9">

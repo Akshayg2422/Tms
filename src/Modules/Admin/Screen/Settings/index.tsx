@@ -25,6 +25,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
+import { log } from "console";
 
 function Settings() {
   const dispatch = useDispatch();
@@ -230,7 +231,7 @@ function Settings() {
             setIsSuperAdmin(false)
           },
           onError: (error: string) => () => {
-
+            showToast('Department is already exists');
           },
         })
       );
@@ -266,6 +267,7 @@ function Settings() {
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
+            showToast('Sector is already exists');
 
           },
         })
@@ -305,6 +307,7 @@ function Settings() {
             setIsSuperAdmin(false)
           },
           onError: (error: string) => () => {
+            showToast('Designation is already exists');
 
           },
         })
@@ -341,6 +344,7 @@ function Settings() {
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
+            showToast('Tags is already exists');
 
           },
         })
@@ -379,7 +383,7 @@ function Settings() {
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
-            console.log(error, "eeeeeeeeee");
+            showToast('Task is already exists');
 
 
           },

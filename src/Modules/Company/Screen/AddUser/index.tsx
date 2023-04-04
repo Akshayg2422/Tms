@@ -41,13 +41,15 @@ function AddUser() {
   const gender = useDropDown(GENDER_LIST[0]);
   const [designationValue, setDesignationValue] = useState("");
   const { goBack } = useNavigation();
-  let attach=photo.slice(-1,4)
+  let attach=[photo]
+  let photoAttach=attach.slice(-1,4)
+
 
   useEffect(() => {
     const params = {
       branch_id: companyDetailsSelected?.branch_id,
     };
-    console.log("prams-->",params)
+   
     dispatch(
       getDesignationData({
         params,
@@ -66,7 +68,7 @@ function AddUser() {
         email: email.value,
         gender: gender.value?.id,
         designation_name: designationValue,
-        profile_image:attach,
+        profile_image:photoAttach[0],
       };
 
       const validation = validate(ADD_USER_RULES, {
@@ -76,7 +78,7 @@ function AddUser() {
         ...(email.value && { email: email.value }),
         gender: gender.value?.id,
         designation_name: designationValue,
-        profile_image:photo,
+        profile_image:photoAttach[0],
       });
       if (ifObjectExist(validation)) {
         dispatch(
@@ -110,7 +112,7 @@ function AddUser() {
         email: email.value,
         gender: gender.value.id,
         designation_name: designationData[0]?.id,
-        profile_image:photo
+        profile_image:photoAttach[0]
       };
      
     
@@ -122,8 +124,9 @@ function AddUser() {
         ...(email.value && { email: email.value }),
         gender: gender.value.id,
         designation_name: designationData[0]?.id,
-        profile_image:photo,
+        profile_image:photoAttach[0],
       });
+   
 
       if (ifObjectExist(validation)) {
         dispatch(

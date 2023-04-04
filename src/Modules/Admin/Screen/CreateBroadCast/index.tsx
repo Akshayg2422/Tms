@@ -56,7 +56,7 @@ function CreateBroadCast() {
       ...(selectedCompanyId.length > 0 && {
         applicable_branches: selectedCompanyId ,
       }),
-      ...(internalCheck&& {for_internal_company:true }),
+      ...(internalCheck&&externalCheck && {for_internal_company:true }),
       ...(externalCheck&& {for_external_company:true }),
       broadcast_attachments: [{ attachments:  attach}],
     };

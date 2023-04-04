@@ -32,7 +32,7 @@ function CompanyUsers() {
         return data?.map((el: any) => {
             return {
                 name: el.name,
-                profile:<Image variant={'rounded'} src={getPhoto(el?.profile_image)} />,
+                profile:  el?.profile_image && <Image variant={'rounded'} src={getPhoto(el?.profile_image)} />,
                 phone: el?.mobile_number,
                 email: el?.email
             };
