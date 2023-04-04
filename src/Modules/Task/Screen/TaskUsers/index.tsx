@@ -26,10 +26,10 @@ function TaskUsers() {
 
 
   return (
-    <HomeContainer>
+    <div className={'overflow-auto overflow-hide'} style={{ height: '89vh' }}>
       {taskUsers && taskUsers.length > 0 && <div>
         <div>
-          <h5 className="text-muted">ASSIGNED TO </h5>
+          <h5 className="text-muted mt-4">ASSIGNED TO </h5>
         </div>
         {taskUsers[0].assigned_to && 
         <Card className="mt-1 py-2 shadow-none" >
@@ -66,7 +66,7 @@ function TaskUsers() {
 
       </div>}
 
-    </HomeContainer>
+    </div>
   );
 }
 export { TaskUsers };

@@ -139,7 +139,7 @@ function* getDashboardSaga(action) {
     yield put(showLoader());
     const response = yield call(getDashboardApi, action.payload.params);
     if (response.success) {
-
+      console.log("==============>ddd",JSON.stringify(response))
       yield put(hideLoader());
       yield put(getDashboardSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));

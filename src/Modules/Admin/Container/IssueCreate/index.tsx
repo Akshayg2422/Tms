@@ -7,7 +7,7 @@ import {
   Dropzone,
   showToast,
   DropDownIcon,
-} from "@Components";
+} from '@Components';
 import { translate } from "@I18n";
 import {
   getEmployees,
@@ -210,9 +210,7 @@ function IssueCreate() {
               }}
             />
           </div>
-       
           
-          <DropDownIcon data={PRIORITY} />
           {typeSelect && typeSelect?.id === "1" && (
             <DropDown
               heading={translate("common.company")}

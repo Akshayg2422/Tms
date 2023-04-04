@@ -71,7 +71,8 @@
     "isParent": "IsParent",
     "taskPriority": "Task Priority",
     "addSubTask": "Add SubTask",
-    "createTask": "Create Task"
+    "createTask": "CREATE TASK",
+    "addNew": "ADD NEW"
   },
   "errors": {
     "invalidEmail": "Invalid email address."

@@ -52,7 +52,7 @@ function Receive({ item }: any) {
                                                     <div
                                                     >
                                                         <ImageFullScreen onChange={handleFullScreenChange}>
-                                                            <Image src={getPhoto(attach.attachment_file)} style={{ backgroundColor: 'white', height: "200px", width: "200px" }} />
+                                                            <Image className={'rounded m-1'} src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
                                                         </ImageFullScreen>
                                                     </div>
                                                 )
@@ -71,7 +71,7 @@ function Receive({ item }: any) {
                 item.tagged_users?.length > 0 && item.tagged_users.map((taggedElements) => {
 
                     return (
-                        <div className={'d-flex justify-content-center text-lightGray mb-1'}>
+                        <div className={'d-flex justify-content-end text-lightGray mb-1'}>
                             <div>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
                         </div>
                     )
@@ -80,7 +80,7 @@ function Receive({ item }: any) {
 
             {
                 item?.assigned_to?.name === undefined ? null :
-                    <div className='d-flex justify-content-center text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
+                    <div className='d-flex justify-content-end text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
             }
 
         </>
@@ -151,7 +151,7 @@ function Send({ item }: any) {
                 item.tagged_users?.length > 0 && item.tagged_users.map((taggedElements) => {
 
                     return (
-                        <div className={'d-flex justify-content-center text-lightGray mb-1'}>
+                        <div className={'d-flex justify-content-start text-lightGray mb-1'}>
                             <div>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
                         </div>
                     )
@@ -160,7 +160,7 @@ function Send({ item }: any) {
 
             {
                 item?.assigned_to?.name === undefined ? null :
-                    <div className='d-flex justify-content-center text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
+                    <div className='d-flex justify-content-start text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
             }
 
         </>

@@ -24,7 +24,10 @@ export const image = {
     TMS_Img6: require('./brand/TMS_Img6.png'),
     TMS_Img7: require('./brand/TMS_Img7.png'),
     TMS_Img8: require('./brand/TMS_Img8.png'),
-    TMS_Img9: require('./brand/TMS_Img9.png')
+    TMS_Img9: require('./brand/TMS_Img9.png'),
+
+
+    RED_DOT: require('./theme/full-stop.png')
 
 
 }

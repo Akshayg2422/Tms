@@ -99,10 +99,10 @@ function Comments() {
   return (
     <>
 
-      <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: '89vh' }}>
+      <Card className={' mb--1'} style={{ height: '89vh' }} >
         <div className="container mb--1">
           <div className="row">
-            <div className="col">
+            <Card className="col m-0 mt--4 mb--3 shadow-none overflow-auto overflow-hide" style={{ height: '76.2vh' }}>
               <div>
                 {getTaskEventData && getTaskEventData.length > 0 && getTaskEventData.map((el) => {
 
@@ -111,13 +111,19 @@ function Comments() {
                   )
                 })}
               </div>
-            </div>
+            </Card>
           </div>
-          <div className="row fixed-bottom position-absolute" style={{ zIndex: "auto" }}>
-            <div className="col">
-              <div className={'py-2'}>
-                <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }} />
-              </div>
+          <div className="row fixed-bottom position-absolute">
+            <div className="col pr-0">
+              <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }}
+                style={{
+                  position: 'absolute',
+                  zIndex: 1,
+                  top: '50%',
+                  transform: 'translateY(-82%)',
+                  right: 13
+                }}
+              />
               <div>
                 <Modal isOpen={selectAttachments}
                   onClose={() => {
@@ -142,7 +148,7 @@ function Comments() {
                 </Modal>
               </div>
             </div>
-            <div className="col-10">
+            <div className="col-10 p-0">
               <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type a message'} onChange={textMessage.onChange} />
             </div>
             <div className="col">
