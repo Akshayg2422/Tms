@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components";
@@ -41,7 +40,8 @@ function TaskInfo() {
     const editEtaSubmitHandler = () => {
         const params = {
             id: taskItem.id,
-            eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
+            eta_time:
+                getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
 
@@ -74,12 +74,14 @@ function TaskInfo() {
                     <div className="col">
                         {
                             task_attachments &&
-                            task_attachments?.length > 0 && task_attachments?.map((item) => {
+                            task_attachments?.length > 0 &&
+                            task_attachments?.map((item) => {
                                 return <a
                                     href="#pablo"
                                     onClick={(e) => e.preventDefault()}>
                                     <Image
                                         variant={'avatar'}
+
                                         src={getPhoto(item?.attachment_file)} /></a>
                             })
                         }
@@ -92,7 +94,8 @@ function TaskInfo() {
                 <Modal isOpen={editEta}
                     onClose={() => { setEditEta(!editEta) }}
                 >
-                    <Input className='rounded-pill' heading={'Name'} value={editModalName.value} onChange={editModalName.onChange} />
+                    <Input className='rounded-pill' heading={'Name'}
+                        value={editModalName.value} onChange={editModalName.onChange} />
                     <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => editEtaSubmitHandler()} />
 
                 </Modal>
@@ -103,25 +106,26 @@ function TaskInfo() {
                         <div className="h5 mb-0"> {by_user?.email} </div>
                     </div>
                     <div className="col align-self-center mx--4">
-                        <div className="col d-flex  justify-content-center mr--2"> <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} /> </div>
+                        <div className="col d-flex justify-content-center mr--2"> <Image variant={'rounded'}
+                            src={getPhoto(raised_by_company?.attachment_logo)} /> </div>
                     </div>
 
                     <div className="col-6">
                         <h6>
-                            <div className="h5 mb-0"> {raised_by_company?.display_name} </div>
-                            <div className="h5 mb-0"> @<span className="h5"> {assigned_to?.name} </span></div>
+                            <div className="h5 mb-0">
+                                {raised_by_company?.display_name} </div>
+                            <div className="h5 mb-0"> @<span
+                                className="h5"> {assigned_to?.name} </span></div>
                             <div className="h5 mb-0"></div>
-                            <div className={'text-uppercase  text-muted'}>{raised_by_company?.address}</div>
+                            <div className={'text-uppercase text-muted'}>{raised_by_company?.address}</div>
                         </h6>
                     </div>
                     <div className="col"></div>
                 </div>
-            </Card>
-        </HomeContainer>
+            </Card >
+        </HomeContainer >
 
     );
 }
 
 export { TaskInfo };
-
-

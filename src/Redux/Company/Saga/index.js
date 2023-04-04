@@ -230,7 +230,7 @@ function* addBroadCastMessagesSaga(action) {
     yield put(showLoader());
     const response = yield call(addBroadCastMessagesApi, action.payload.params);
     if (response.success) {
-      
+
       yield put(hideLoader());
       yield put(addBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -253,7 +253,7 @@ function* getBroadCastMessagesSaga(action) {
     // yield put(showLoader());
     const response = yield call(getBroadCastMessagesApi, action.payload.params);
     if (response.success) {
-    
+
       // yield put(hideLoader());
       yield put(getBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -275,7 +275,6 @@ function* getTaskEventsSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskEventsApi, action.payload.params);
-    console.log('getTaskEventsSaga', response)
     if (response.success) {
       yield put(hideLoader());
       yield put(getTaskEventsSuccess(response));

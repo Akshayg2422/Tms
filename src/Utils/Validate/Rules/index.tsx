@@ -187,3 +187,10 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
       }
 
     }
+
+    
+    export const ADD_REFERENCE_TASK= {
+      reference_task: {
+        presence: { allowEmpty: false, message: " Reference Task cannot be empty" },
+      }
+    }
