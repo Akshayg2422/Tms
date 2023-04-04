@@ -31,7 +31,7 @@ function Tasks() {
   const getTaskHandler = (pageNumber: number) => {
 
     const params = {
-      q: "",
+      // q: "",
       q_many: search.value,
       tasks_by: filteredTasks?.value.id,
       task_status: taskStatus?.value.id,

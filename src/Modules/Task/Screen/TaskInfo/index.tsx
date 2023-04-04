@@ -11,8 +11,8 @@ function TaskInfo() {
 
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
     const dispatch = useDispatch();
-    const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time,order_sequence } = taskItem;
-    console.log('22222222222222222222222222222',JSON.stringify(taskItem))
+    const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, order_sequence } = taskItem;
+    console.log('22222222222222222222222222222', JSON.stringify(taskItem))
 
     const [editEta, setEditEta] = useState(false)
     const etaMomentObj = getMomentObjFromServer(eta_time);
