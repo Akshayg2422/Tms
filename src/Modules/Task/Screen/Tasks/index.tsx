@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, getTaskItem, setIsSync,getSelectReferenceId} from "@Redux";
+import { getTasks, getTaskItem, setIsSync, getSelectReferenceId } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment } from "@Utils";
-import { log } from "console";
-
 
 function Tasks() {
   const { goTo } = useNavigation();
@@ -28,11 +26,9 @@ function Tasks() {
   }, [isSync])
 
 
-
   const getTaskHandler = (pageNumber: number) => {
 
     const params = {
-      // q: "",
       q_many: search.value,
       tasks_by: filteredTasks?.value.id,
       task_status: taskStatus?.value.id,

@@ -25,8 +25,6 @@ function Issues() {
 
 
   useEffect(() => {
-
-
     if (!isSync.issues) {
       getTicketHandler(ticketCurrentPages)
     }
@@ -36,7 +34,6 @@ function Issues() {
   const getTicketHandler = (pageNumber: number) => {
 
     const params = {
-      // q: "",
       q_many: search.value,
       tickets_by: filteredTickets?.value.id,
       ticket_status: ticketStatus?.value.id,
@@ -77,10 +74,10 @@ function Issues() {
     return data.map((el: any) => {
       return {
 
-        "issue": <div className="row m-0" style={{ width: "" }}> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
-        attchments:
+        "issue": <div className="row"> <Priority priority={el?.priority} /> <span className="col">{el?.title}</span></div>,
+        "attachments":
           <div className="avatar-group" style={{
-            width: '160px'
+            width: '87px'
           }}>
             {
               el?.ticket_attachments &&
@@ -100,17 +97,25 @@ function Issues() {
           </div>,
 
         "raised by":
-          <div className="m-0 h5"> {el?.by_user?.name} </div>,
+          <div className="h5"> {el?.by_user?.name} </div>,
         "raised to":
-          <div className="row">
-            <div className="col-5 d-flex  justify-content-center mr--2">{el?.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} />} </div>
-            <div className="col-7  mb-0">
-              <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
-              <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
-              <div className=""></div>
-              <div className="">{el?.raised_by_company?.place || "Gummidipoondi"}</div>
+          <>
+            <div className="row">
+              <div className="col-3 p-0 align-self-center">
+                <div className="col p-0 d-flex justify-content-center"> {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />} </div>
+              </div>
+
+              <div className="col-9 text-truncate">
+                <h6>
+                  <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
+                  <div className="h5 mb-0 d-inline-block text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
+                  <div className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place || "Gummidipoondi"}</div>
+                </h6>
+              </div>
+              <div className="col"></div>
             </div>
-          </div>,
+
+          </>,
         date: getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at)),
         status: <div> <Status status={el?.ticket_status} /> </div>
       };
