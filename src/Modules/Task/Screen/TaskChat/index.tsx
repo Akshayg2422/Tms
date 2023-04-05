@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TaskChatProps } from './interfaces';
 import { useSelector } from 'react-redux'
 import { getDataAndTime, getPhoto } from '@Utils';
-import { Card, H, Image, ImageFullScreen } from '@Components'
+import { Image, ImageFullScreen } from '@Components'
 import { FullScreenHandle } from 'react-full-screen'
 
 function Receive({ item }: any) {

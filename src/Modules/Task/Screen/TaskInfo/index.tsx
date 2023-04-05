@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components";
 import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
 import { useInput } from "@Hooks";
-import { addTaskEvent, getTaskEvents } from "@Redux";
-import { TagAndAssignUser } from "../TagAndAssignUser";
+import { addTaskEvent, getTasks } from "@Redux";
 
 function TaskInfo() {
 
@@ -15,10 +14,6 @@ function TaskInfo() {
     const etaMomentObj = getMomentObjFromServer(eta_time);
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
     const editModalName = useInput(initialEtaValue);
-    console.log('111111111111111111', JSON.stringify(taskItem))
-    console.log('2222222222222222222', etaMomentObj)
-    console.log('3333333333333333333333', initialEtaValue)
-    console.log('4444444444444444444', editModalName)
 
     useEffect(() => {
         ProceedGetTaskEvents()
@@ -31,7 +26,7 @@ function TaskInfo() {
         }
 
         dispatch(
-            getTaskEvents({
+            getTasks({
                 params,
                 onSuccess: (response) => () => { },
                 onError: () => () => { },
@@ -79,7 +74,6 @@ function TaskInfo() {
                                     onClick={(e) => e.preventDefault()}>
                                     <Image
                                         variant={'avatar'}
-
                                         src={getPhoto(item?.attachment_file)} /></a>
                             })
                         }
