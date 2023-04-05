@@ -11,9 +11,10 @@ import { Button, Card, Tabs } from "@Components";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
+import { useSelector } from "react-redux";
 
 function TaskDetails() {
-
+const {getReferenceId} = useSelector((state: any) => state.AdminReducer);
     const { goTo } = useNavigation();
 
     const TABS = [
@@ -27,7 +28,7 @@ function TaskDetails() {
 
     useEffect(() => {
         setSelectedTab(TABS[0]);
-    }, [])
+    }, [getReferenceId])
 
     return (
         <>

@@ -8,6 +8,10 @@ import { addTaskEvent, getTasks } from "@Redux";
 function TaskInfo() {
 
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
+    const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
+  
+
+
     const dispatch = useDispatch();
     const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, order_sequence } = taskItem;
     const [editEta, setEditEta] = useState(false)
@@ -40,7 +44,7 @@ function TaskInfo() {
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
-
+console.log(params,"pppppppppp")
         dispatch(
             addTaskEvent({
                 params,
@@ -80,7 +84,7 @@ function TaskInfo() {
                     </div>
                     <div className="col"></div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateTimeFromMoment(getMomentObjFromServer(editModalName.value))}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span></h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">{ editModalName.value}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span></h6>
                     </div>
                 </div>
                 <Modal isOpen={editEta}

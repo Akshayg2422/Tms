@@ -6,12 +6,12 @@ import { getTaskUsers } from "@Redux";
 
 function TaskUsers() {
   const dispatch = useDispatch();
-  const { taskUsers, taskItem } = useSelector((state: any) => state.AdminReducer);
+  const { taskUsers, taskItem ,getReferenceId} = useSelector((state: any) => state.AdminReducer);
 
   useEffect(() => {
 
     const params = {
-      task_id: taskItem.id,
+      task_id:getReferenceId?getReferenceId.id:taskItem.id,
     };
 
     dispatch(
@@ -21,7 +21,7 @@ function TaskUsers() {
         onError: () => () => { },
       })
     );
-  }, []);
+  }, [,getReferenceId,taskItem]);
 
 
 

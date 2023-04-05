@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, getTaskItem, setIsSync } from "@Redux";
+import { getTasks, getTaskItem, setIsSync,getSelectReferenceId} from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment } from "@Utils";
+import { log } from "console";
 
 
 function Tasks() {
@@ -227,7 +228,7 @@ function Tasks() {
             }
             tableOnClick={(idx, index, item) => {
               dispatch(getTaskItem(item));
-              // dispatch(setSelectedReferenceIssues(undefined))
+              dispatch(getSelectReferenceId(undefined))
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS + '/' + item?.id);
             }
             }
