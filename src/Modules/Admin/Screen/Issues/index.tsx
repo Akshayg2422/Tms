@@ -8,7 +8,7 @@ import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getServerTimeFromMoment, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
-import { log } from "console";
+
 
 
 function Issues() {
@@ -22,11 +22,7 @@ function Issues() {
   const companyType = useDropDown(COMPANY_TYPE[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
-
-
   useEffect(() => {
-
-
     if (!isSync.issues) {
       getTicketHandler(ticketCurrentPages)
     }
@@ -36,7 +32,6 @@ function Issues() {
   const getTicketHandler = (pageNumber: number) => {
 
     const params = {
-      // q: "",
       q_many: search.value,
       tickets_by: filteredTickets?.value.id,
       ticket_status: ticketStatus?.value.id,
@@ -44,7 +39,7 @@ function Issues() {
       priority: ticketPriority.value.id,
       page_number: pageNumber
     };
-    
+
     dispatch(
       getTickets({
         params,
@@ -65,7 +60,7 @@ function Issues() {
       })
     );
   }
- 
+
 
   function proceedTickerSearch() {
     setSyncTickets()
@@ -77,10 +72,10 @@ function Issues() {
     return data.map((el: any) => {
       return {
 
-        "issue": <div className="row m-0" style={{ width: "" }}> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
-        attchments:
+        "issue": <div className="row"> <Priority priority={el?.priority} /> <span className="col">{el?.title}</span></div>,
+        "attachments":
           <div className="avatar-group" style={{
-            width: '160px'
+            width: '87px'
           }}>
             {
               el?.ticket_attachments &&
@@ -100,17 +95,25 @@ function Issues() {
           </div>,
 
         "raised by":
-          <div className="m-0 h5"> {el?.by_user?.name} </div>,
+          <div className="h5"> {el?.by_user?.name} </div>,
         "raised to":
-          <div className="row">
-            <div className="col-5 d-flex  justify-content-center mr--2"> <Image variant={'rounded'} src={getPhoto(el?.raised_by_company?.attachment_logo)} /> </div>
-            <div className="col-7  mb-0">
-              <div className="h5 mb-0"> {el?.raised_by_company?.display_name} </div>
-              <div className=""> @<span className="h5"> {el?.assigned_to?.name} </span></div>
-              <div className=""></div>
-              <div className="">{el?.raised_by_company?.place || "Gummidipoondi"}</div>
+          <>
+            <div className="row">
+              <div className="col-3 p-0 align-self-center">
+                <div className="col p-0 d-flex justify-content-center"> {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />} </div>
+              </div>
+
+              <div className="col-9 text-truncate">
+                <h6>
+                  <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
+                  <div className="h5 mb-0 d-inline-block text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
+                  <div className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place || "Gummidipoondi"}</div>
+                </h6>
+              </div>
+              <div className="col"></div>
             </div>
-          </div>,
+
+          </>,
         date: getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at)),
         status: <div> <Status status={el?.ticket_status} /> </div>
       };
@@ -121,7 +124,7 @@ function Issues() {
 
   return (
     <>
-     <HomeContainer>
+      <HomeContainer>
         <div className="text-right ">
           <Button
             size={"sm"}
@@ -146,9 +149,8 @@ function Issues() {
                 onChange={search.onChange}
               />
               <span
-                className="input-group-text  border border-0"
+                className="input-group-text pointer border border-0"
                 onClick={proceedTickerSearch}
-                style={{ cursor: "pointer" }}
               >
                 <i className="fas fa-search" />
               </span>
@@ -156,7 +158,7 @@ function Issues() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12 ">
             <DropDown
-             className="form-control-sm"
+              className="form-control-sm"
               heading={translate("common.filterTickets")}
               selected={filteredTickets.value}
               data={FILTERED_LIST}
@@ -170,7 +172,7 @@ function Issues() {
 
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-             className="form-control-sm"
+              className="form-control-sm"
               heading={translate("common.ticketStatus")}
               data={STATUS_LIST}
               selected={ticketStatus.value}
@@ -183,7 +185,7 @@ function Issues() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-            className="form-control-sm"
+              className="form-control-sm"
               heading={'Priority'}
               data={PRIORITY_DROPDOWN_LIST}
               selected={ticketPriority.value}
@@ -196,7 +198,7 @@ function Issues() {
           </div>
           <div className="col-lg-4 col-md-3 col-sm-12">
             <DropDown
-             className="form-control-sm"
+              className="form-control-sm"
               heading={'Company'}
               data={COMPANY_TYPE}
               selected={companyType.value}
@@ -209,12 +211,12 @@ function Issues() {
           </div>
         </div>
       </HomeContainer>
-     
+
 
       {tickets && tickets.length > 0 ?
         <>
           <CommonTable
-          
+
             isPagination
             tableDataSet={tickets}
             displayDataSet={normalizedTableData(tickets)}
@@ -238,7 +240,7 @@ function Issues() {
             }
             }
           />
-        </> : <NoDataFound/> }
+        </> : <NoDataFound />}
 
     </>
   );

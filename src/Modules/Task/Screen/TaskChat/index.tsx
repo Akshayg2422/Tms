@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TaskChatProps } from './interfaces';
 import { useSelector } from 'react-redux'
 import { getDataAndTime, getPhoto } from '@Utils';
-import { Card, H, Image, ImageFullScreen } from '@Components'
+import { Image, ImageFullScreen } from '@Components'
 import { FullScreenHandle } from 'react-full-screen'
 
 function Receive({ item }: any) {
@@ -22,7 +22,7 @@ function Receive({ item }: any) {
             {
                 ((item && item?.message) || (item?.attachments?.attachments)) && (
                     <div className={'d-flex justify-content-end'}>
-                        <div className="ml-3" >
+                        <div className="col-5" >
                             <div
                                 className="timeline timeline-one-side"
                                 data-timeline-axis-style="dashed"
@@ -52,7 +52,7 @@ function Receive({ item }: any) {
                                                     <div
                                                     >
                                                         <ImageFullScreen onChange={handleFullScreenChange}>
-                                                            <Image className={'rounded m-1'} src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
+                                                            <Image className={'rounded m-1 pointer'} src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
                                                         </ImageFullScreen>
                                                     </div>
                                                 )
@@ -102,7 +102,7 @@ function Send({ item }: any) {
             {
                 ((item && item?.message) || (item?.attachments?.attachments)) && (
                     <div className={'d-flex justify-content-start'}>
-                        <div className="ml-3" >
+                        <div className="col-5" >
                             <div
                                 className="timeline timeline-one-side"
                                 data-timeline-axis-style="dashed"

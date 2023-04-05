@@ -346,7 +346,7 @@ export const getTaskEventsFailure = (error: any) => {
 /*ADD TASK EVENTS*/
 
 export const addTaskEvent = (params: any) => {
-  console.log("ADD task event action", params)
+ 
   return {
     type: ADD_TASK_EVENT,
     payload: params,

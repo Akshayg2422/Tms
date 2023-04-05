@@ -60,7 +60,7 @@ function Attachments() {
             value={search.value}
             onChange={search.onChange}
           />
-          <span className="input-group-text border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
+          <span className="input-group-text border border-0 pointer" onClick={getSearchHandler} >  <i className="fas fa-search" /></span>
         </div>
         <div className='mt-4'>
           {

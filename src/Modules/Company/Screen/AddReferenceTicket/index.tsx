@@ -17,7 +17,7 @@ function AddReferenceTicket() {
   const [selectedReferenceTickets,setSelectedReferenceTickets]=useState([])
   const Search = useInput("");
 
-
+  //  console.log("tickets",tickets)
   const submitHandler = () => {
 
     const params = {
@@ -112,23 +112,20 @@ function AddReferenceTicket() {
                 onChange={Search.onChange}
               />
               <span
-                className="input-group-text  border border-0"
+                className="input-group-text pointer  border border-0"
                 onClick={getSearchHandler}
-                style={{ cursor: "pointer" }}
               >
                 {" "}
                 <i className="fas fa-search" />
               </span>
               <span
-                className="input-group-text  border border-0"
-                style={{ cursor: "pointer" }}
+                className="input-group-text pointer  border border-0"
               >
                 {" "}
                 All{" "}
               </span>
               <span
-                className="input-group-text  bg-transparent border border-0"
-                style={{ cursor: "pointer" }}
+                className="input-group-text pointer bg-transparent border border-0"
               >
                 <i className="bi bi-chevron-down " />
               </span>

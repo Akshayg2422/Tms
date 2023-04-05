@@ -1,10 +1,13 @@
 import { HomeContainer, NoDataFound, CommonTable } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTickets, setIsSync } from "@Redux";
+import { getReferenceTickets, setIsSync, setSelectedReferenceIssues } from "@Redux";
 import {  getStatusFromCode, paginationHandler } from "@Utils";
+import { HOME_PATH } from "@Routes";
+import { useNavigation } from "@Hooks";
 
 function ReferenceTickets() {
+  const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { issueReferenceDetails, referenceTicketNoOfPages, referenceTicketCurrentPages } = useSelector(
     (state: any) => state.CompanyReducer
@@ -19,7 +22,7 @@ function ReferenceTickets() {
     if (!isSync.referenceTickets) {
       proceedgetReferenceTickets(referenceTicketCurrentPages);
     }
-  }, [isSync]);
+  }, [isSync,selectedReferenceIssues]);
 
 
   const proceedgetReferenceTickets = (pageNumber: number) => {
@@ -86,9 +89,17 @@ function ReferenceTickets() {
             proceedgetReferenceTickets(paginationHandler("next", referenceTicketCurrentPages));
           }
           }
-          tableOnClick={(e, index, item) => {
-            const selectedItem = issueReferenceDetails.data?.[index]
-          }}
+          // tableOnClick={(e, index, item) => {
+          //   const selectedItem = issueReferenceDetails.data?.[index]
+          // }
+          tableOnClick={(idx, index, item) => {
+            // dispatch(setSelectedIssues(item));
+            dispatch(setSelectedReferenceIssues(item))
+            goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+          }
+        
+        
+        }
 
         /> : <NoDataFound />}
     </div>

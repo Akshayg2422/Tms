@@ -10,12 +10,11 @@ function TaskAttachments() {
   const dispatch = useDispatch();
   const search = useInput("");
   const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
-  const { taskItem } = useSelector((state: any) => state.AdminReducer);
-
+  const { taskItem,getReferenceId } = useSelector((state: any) => state.AdminReducer);
 
   useEffect(() => {
     const params = {
-      task_id: taskItem.id,
+      task_id:getReferenceId?getReferenceId.id:taskItem.id,
       event_type: MEA,
     };
 
@@ -26,12 +25,12 @@ function TaskAttachments() {
         onFailure: () => () => { }
       })
     );
-  }, []);
+  }, [getReferenceId,taskItem]);
 
 
   const getSearchHandler = () => {
     const params = {
-      task_id: taskItem.id,
+      task_id:getReferenceId?getReferenceId.id:taskItem.id,
       q_many: search.value,
       event_type: MEA,
     };
@@ -55,7 +54,7 @@ function TaskAttachments() {
           value={search.value}
           onChange={search.onChange}
         />
-        <span className="input-group-text border border-0" onClick={getSearchHandler} style={{ cursor: "pointer" }} >  <i className="fas fa-search" /></span>
+        <span className="input-group-text pointer border border-0" onClick={getSearchHandler}>  <i className="fas fa-search" /></span>
       </div>
       <div className='mt-4'>
         {
@@ -64,19 +63,19 @@ function TaskAttachments() {
             return (
               <>
                 {item?.attachments?.attachments && <div>
-                    <h4 className='my-2'> {item?.attachments?.name} </h4>
-                    {
-                      item?.attachments?.attachments?.map((image: any) => {
+                  <h4 className='my-2'> {item?.attachments?.name} </h4>
+                  {
+                    item?.attachments?.attachments?.map((image: any) => {
 
-                        return (
+                      return (
 
-                          <span className='mx-2'>
-                            <Image className={'mb-3'} src={getPhoto(image?.attachment_file)} style={{ height: "280px", width: "295px" }} />
-                          </span>
-                        )
-                      })
-                    }
-                  </div>
+                        <span className='mx-2'>
+                          <Image className={'mb-3'} src={getPhoto(image?.attachment_file)} style={{ height: "280px", width: "295px" }} />
+                        </span>
+                      )
+                    })
+                  }
+                </div>
                 }
               </>
             )

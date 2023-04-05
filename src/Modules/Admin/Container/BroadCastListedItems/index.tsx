@@ -8,7 +8,6 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
   const { title, attachments, description, created_by, created_at, applicable_branches,for_internal_company,for_external_company } =
     item;
 
-
   return (
     <div className="row d-flex justify-content-center ">
       <div className="col-lg-12 my--3">

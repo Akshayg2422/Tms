@@ -73,7 +73,8 @@ import {
   GET_TASK_GROUP_SUCCESS,
   ADD_TASK_GROUP,
   ADD_TASK_GROUP_SUCCESS,
-  ADD_TASK_GROUP_FAILURE
+  ADD_TASK_GROUP_FAILURE,
+  GET_REFERENCE_ID
   
 } from '../ActionTypes';
 
@@ -123,6 +124,7 @@ const initialState: AdminStateProp = {
   taskGroupCurrentPages:undefined,
   taskGroupNumOfPages:undefined,
   addTaskGroup:undefined,
+  getReferenceId:undefined,
 };
 
 
@@ -519,6 +521,11 @@ case GET_REFERENCE_TASKS_FAILURE:
     };
     break;
 
+    case GET_REFERENCE_ID:
+      state = { ...state,
+        getReferenceId:action.payload,
+         loading: true };
+      break;
     /* ADD TASK */
 
     case ADD_TASK:
@@ -572,6 +579,7 @@ case GET_REFERENCE_TASKS_FAILURE:
     case GET_TASKS_ITEM:
       state = { ...state, taskItem: action.payload }
       break;
+
 
       case GET_TASK_USERS:
         state = { ...state, taskUsers: undefined }

@@ -34,6 +34,7 @@ export const HOME_PATH = {
   ADD_USER: "/add-user",
   ISSUE_DETAILS: "/issue-details",
   ADD_REFERENCE_TICKET: '/add-reference-ticket',
+  ADD_REFERENCE_TASK: '/add-reference-task',
   ISSUE_TICKET: '/issue-ticket',
   CREATE_BROAD_CAST: '/create-broad-cast',
   ADD_TASK: '/add-task',

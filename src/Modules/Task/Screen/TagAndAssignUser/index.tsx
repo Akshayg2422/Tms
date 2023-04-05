@@ -129,7 +129,7 @@ function TagAndAssignUser() {
                 <TripleDot
                     onClickTagUser={() => { setOpenModalTagUser(!openModalTagUser) }}
                     onClickReassignUser={() => { setOpenModalReassignUser(!openModalReassignUser) }}
-                // onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TICKET) }}
+                    onClickAttachReference={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_REFERENCE_TASK) }}
                 />
             </div>
             <Modal size={'md'} fade={false} isOpen={openModalTagUser}
