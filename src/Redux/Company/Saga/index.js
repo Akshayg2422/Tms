@@ -210,7 +210,7 @@ function* getReferenceTicketsSaga(action) {
     yield put(showLoader());
     const response = yield call(getReferenceTicketsApi, action.payload.params);
     if (response.success) {
-      console.log(JSON.stringify(response));
+     
       yield put(hideLoader());
       yield put(getReferenceTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -230,7 +230,7 @@ function* addBroadCastMessagesSaga(action) {
     yield put(showLoader());
     const response = yield call(addBroadCastMessagesApi, action.payload.params);
     if (response.success) {
-      
+
       yield put(hideLoader());
       yield put(addBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -253,7 +253,7 @@ function* getBroadCastMessagesSaga(action) {
     // yield put(showLoader());
     const response = yield call(getBroadCastMessagesApi, action.payload.params);
     if (response.success) {
-    
+
       // yield put(hideLoader());
       yield put(getBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -275,7 +275,6 @@ function* getTaskEventsSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskEventsApi, action.payload.params);
-    console.log('getTaskEventsSaga', response)
     if (response.success) {
       yield put(hideLoader());
       yield put(getTaskEventsSuccess(response));
@@ -286,7 +285,7 @@ function* getTaskEventsSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    console.log("error", error)
+  
     yield put(hideLoader());
     yield put(getTaskEventsFailure(error));
     yield call(action.payload.onError(error));
@@ -298,7 +297,7 @@ function* addTaskEventSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(addTaskEventApi, action.payload.params);
-    console.log('addTaskEventSaga', response)
+   
     if (response.success) {
       yield put(hideLoader());
       yield put(addTaskEventSuccess(response));
@@ -309,7 +308,7 @@ function* addTaskEventSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    console.log("error", error)
+
     yield put(hideLoader());
     yield put(addTaskEventFailure(error));
     yield call(action.payload.onError(error));
