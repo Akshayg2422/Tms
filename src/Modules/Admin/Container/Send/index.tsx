@@ -7,7 +7,7 @@ import { MEA } from '@Utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { addTicketEvent, getTicketsEvents } from '@Redux'
 
-function Send({ onClick, value, onChange }: SendProps) {
+function Send({ onClick, value,onKeyDown, onChange }: SendProps) {
 
     const dispatch = useDispatch()
     const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
@@ -75,6 +75,7 @@ function Send({ onClick, value, onChange }: SendProps) {
         setSelectDropzone(updatedPhoto)
         setPhoto(newUpdatedPhoto)
     }
+    
     return (
         <div className='row fixed-bottom'>
             <div className='col-lg-3'></div>
@@ -105,7 +106,7 @@ function Send({ onClick, value, onChange }: SendProps) {
                 </Modal>
             </div>
             <div className='col-lg-7 col-sm-0 col-auto'>
-                <Input className={'rounded-pill'} style={{ backgroundColor: '#f8e6e4' }} type='text' value={value} placeholder={'Type Here'} onChange={onChange} />
+                <Input className={'rounded-pill'} style={{ backgroundColor: '#f8e6e4' }} type='text' value={value} placeholder={'Type Here'} onKeyDown={onKeyDown} onChange={onChange} />
             </div>
             <div className={'col mb-4'}>
                 <div className={'icon icon-shape text-white rounded-circle shadow'} style={{ backgroundColor: '#fec8e0' }} onClick={onClick}><i className="ni ni-send"></i></div>

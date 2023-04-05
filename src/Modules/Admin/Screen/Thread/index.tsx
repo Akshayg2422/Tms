@@ -68,6 +68,12 @@ function Thread() {
             }))
         }
     }
+    
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            sendMessageHandler();
+        }
+    };
 
     return (
 
@@ -80,6 +86,7 @@ function Thread() {
                         <Send value={textMessage.value}
                             onClick={sendMessageHandler}
                             onChange={textMessage.onChange}
+                            onKeyDown={handleKeyDown}
                         />
                     </div>
                     <div className={'py-5'}>

@@ -52,7 +52,7 @@ function Receive({ item }: any) {
                                                     <div
                                                     >
                                                         <ImageFullScreen onChange={handleFullScreenChange}>
-                                                            <Image className={'rounded m-1'} src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
+                                                            <Image className={'rounded m-1 pointer'} src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
                                                         </ImageFullScreen>
                                                     </div>
                                                 )

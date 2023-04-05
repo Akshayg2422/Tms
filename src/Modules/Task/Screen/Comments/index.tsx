@@ -93,6 +93,13 @@ function Comments() {
     setPhoto(newUpdatedPhoto)
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      sendMessageHandler();
+    }
+  };
+
+
   let getTaskEventData = arrayOrderbyCreatedAt(taskEvents?.data)
 
 
@@ -153,7 +160,7 @@ function Comments() {
               </div>
             </div>
             <div className="col-10 p-0">
-              <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type a message'} onChange={textMessage.onChange} />
+              <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type a message'} onKeyDown={handleKeyDown} onChange={textMessage.onChange} />
             </div>
             <div className="col">
               <span className={'icon icon-shape text-white bg-info rounded-circle shadow pointer'} onClick={sendMessageHandler}><i className="ni ni-send"></i></span>
