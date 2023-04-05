@@ -4,6 +4,7 @@ import { Card, CommonTable, Divider, HomeContainer, NoDataFound, Table } from "@
 import { UserItem } from "@Modules";
 import { getEmployees,getTicketUsers} from "@Redux";
 
+
 function IssueUsers() {
   const dispatch = useDispatch();
   const { employees } = useSelector((state: any) => state.CompanyReducer);
@@ -12,14 +13,13 @@ function IssueUsers() {
     (state: any) => state.AdminReducer
   );
 
-  
  
   useEffect(() => {
 
     const params = {
       ticket_id:
         selectedReferenceIssues
-          ? selectedReferenceIssues?.raised_by_company?.branch_id:
+          ? selectedReferenceIssues?.id:
         selectedIssues?.id,
     };
 

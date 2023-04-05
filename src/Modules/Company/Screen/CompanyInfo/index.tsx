@@ -36,7 +36,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
                     <h5>{phone}</h5>
                   </div>
                   <div className="col-lg-3 col-sm-0 col-3 text-right">
-                    <Badge pill color={"info"} text={"Call"} style={{ cursor: 'pointer' }} />
+                    <Badge  className={'pointer'}  pill color={"info"} text={"Call"} />
                   </div>
                 </div>
 
@@ -46,7 +46,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
                     <h5>{email}</h5>
                   </div>
                   <div className="col-lg-3 col-sm-0 col-3  text-right">
-                    <Badge pill color="success" text={'e-mail'} style={{ cursor: 'pointer' }} onClick={() => { (handleEmailClick(email)) }} />
+                    <Badge className={'pointer'} pill color="success" text={'e-mail'} onClick={() => { (handleEmailClick(email)) }} />
                   </div>
 
                 </div>

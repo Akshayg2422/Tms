@@ -75,6 +75,7 @@ import {
   GET_TASK_GROUP_SUCCESS,
   ADD_TASK_GROUP_SUCCESS,
   ADD_TASK_GROUP_FAILURE,
+  GET_REFERENCE_ID,
 
 } from '../ActionTypes';
 
@@ -236,7 +237,7 @@ export const getDesignationDataFailure = (error) => {
 
 //get departments
 
-export const getDepartmentData = (params) => {
+export const getDepartmentData = (params:any) => {
   return {
     type: FETCH_DEPARTMENT,
     payload: params,
@@ -276,6 +277,7 @@ export const referenceIssueDetails = (params) => {
 /* Tasks */
 
 export const getTasks = (params: any) => {
+ 
   return {
     type: GET_TASKS,
     payload: params
@@ -466,6 +468,15 @@ export const getReferenceTasksFailure = (error) => {
     payload: error,
   };
 };
+
+
+export const getSelectReferenceId=(response)=>{
+  return{
+    type: GET_REFERENCE_ID,
+    payload: response,
+
+  }
+}
 /* Task Users */
 
 export const getTaskUsers = (params: any) => {

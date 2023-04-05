@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubTasks } from "@Redux";
-import { HOME_PATH } from "@Routes";
 import { useNavigation } from "@Hooks";
-import { NoDataFound, CommonTable, Priority, Card, Button } from "@Components";
+import { CommonTable, Priority, } from "@Components";
 
 function SubTaskListing() {
     const dispatch = useDispatch();
@@ -33,15 +32,19 @@ function SubTaskListing() {
         return data.map((el: any) => {
 
             return {
-                "Sub task": <div className="row m-0 overflow-auto overflow-hide"> <Priority priority={el?.priority} /> <span className="ml-2">{el?.title}</span></div>,
+                "Sub task":
+                    <div className="row m-0 overflow-auto overflow-hide">
+                        <Priority priority={el?.priority} />
+                        <span className="ml-2">{el?.title}</span>
+                    </div>
             };
         });
     };
 
     return (
-        <div>
+        <div className={'container'}>
             {subTasks && subTasks?.data?.length > 0 ?
-                <div className={'mx--5'}>
+                <div className={'mx--6'}>
                     <CommonTable
                         title="SUB TASKS"
                         tableDataSet={subTasks?.data}

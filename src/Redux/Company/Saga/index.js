@@ -275,6 +275,7 @@ function* getTaskEventsSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskEventsApi, action.payload.params);
+    // console.log("==========>",JSON.stringify(response))
     if (response.success) {
       yield put(hideLoader());
       yield put(getTaskEventsSuccess(response));

@@ -64,7 +64,7 @@ export const ADD_TICKET_TAG=TICKET +'addTicketTags';
  */
 const SERVICE = '/service/';
 
-export const SECTOR_SERVICE_TYPES = SERVICE + 'getSectorServiceTypes';
+export const SECTOR_SERVICE_TYPES = SERVICE +'getSectorServiceTypes';
 
 /* ADD TASK */
 

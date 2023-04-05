@@ -23,6 +23,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { registerCompany, registerAdmin, setIsSync } from "@Redux";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
+import { log } from "console";
 
 function CreateCompany({}: CreateCompanyProps) {
   const { isSync } = useSelector((state: any) => state.AppReducer);
@@ -39,8 +40,9 @@ function CreateCompany({}: CreateCompanyProps) {
   const city = useInput("");
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
-  let attach=photo.slice(-1,4)
-
+  let attach=[photo]
+  let PhotoAttach=attach.slice(-1,4)
+ 
   const submitRegisteredAdminHandler = () => {
     const params = {
       first_name: fullName.value,
@@ -85,8 +87,9 @@ function CreateCompany({}: CreateCompanyProps) {
       pincode: pinCode.value,
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
-      attachment_logo: attach,
+      attachment_logo:PhotoAttach[0],
     };
+  
     const validation = validate(BUSINESS_FORM_RULES, params);
 
     if (ifObjectExist(validation)) {

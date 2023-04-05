@@ -90,7 +90,32 @@ export const USER_FORM_RULES = {
   },
 };
 
-export const CREATE_TICKET = {
+
+export const CREATE_EXTERNAL = {
+  title: {
+    presence: { allowEmpty: false, message: "title cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  reference_number: {
+    presence: { allowEmpty: false, message: "reference no cannot be empty" },
+  },
+  brand_branch_id: {
+    presence: { allowEmpty: false, message: "Please select company" },
+  },
+
+  assigned_to_id: {
+    presence: { allowEmpty: false, message: "please select User" },
+  },
+  priority:{
+    presence: { allowEmpty: false, message: "please select priority" },
+  
+  },
+  
+
+};
+export const CREATE_INTERNAL = {
   title: {
     presence: { allowEmpty: false, message: "title cannot be empty" },
   },
@@ -186,4 +211,11 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
         presence: { allowEmpty: false, message: "description cannot be empty" },
       }
 
+    }
+
+    
+    export const ADD_REFERENCE_TASK= {
+      reference_task: {
+        presence: { allowEmpty: false, message: " Reference Task cannot be empty" },
+      }
     }

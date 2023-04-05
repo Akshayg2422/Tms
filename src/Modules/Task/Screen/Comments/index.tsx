@@ -5,7 +5,7 @@ import { Card, Image, Input, Modal, Dropzone, Button } from "@Components";
 import { icons } from '@Assets'
 import { TEM, MEA, arrayOrderbyCreatedAt } from "@Utils";
 import { useInput } from "@Hooks";
-import { TaskChat } from "@Modules";
+import { TagAndAssignUser, TaskChat } from "@Modules";
 
 
 function Comments() {
@@ -93,6 +93,13 @@ function Comments() {
     setPhoto(newUpdatedPhoto)
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      sendMessageHandler();
+    }
+  };
+
+
   let getTaskEventData = arrayOrderbyCreatedAt(taskEvents?.data)
 
 
@@ -112,9 +119,13 @@ function Comments() {
                 })}
               </div>
             </Card>
+            <div className="row mt--4">
+              <TagAndAssignUser />
+            </div>
           </div>
+
           <div className="row fixed-bottom position-absolute">
-            <div className="col pr-0">
+            <div className="col pr-0 pointer">
               <Image variant='rounded' size='sm' src={icons.addFillSquare} onClick={() => { setSelectAttachments(!selectAttachments) }}
                 style={{
                   position: 'absolute',
@@ -149,10 +160,10 @@ function Comments() {
               </div>
             </div>
             <div className="col-10 p-0">
-              <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type a message'} onChange={textMessage.onChange} />
+              <Input className={'rounded-pill'} type='text' value={textMessage.value} placeholder={'Type a message'} onKeyDown={handleKeyDown} onChange={textMessage.onChange} />
             </div>
             <div className="col">
-              <span className={'icon icon-shape text-white bg-info rounded-circle shadow'} onClick={sendMessageHandler}><i className="ni ni-send"></i></span>
+              <span className={'icon icon-shape text-white bg-info rounded-circle shadow pointer'} onClick={sendMessageHandler}><i className="ni ni-send"></i></span>
             </div>
           </div>
         </div>

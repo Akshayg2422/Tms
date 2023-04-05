@@ -139,7 +139,6 @@ function* getDashboardSaga(action) {
     yield put(showLoader());
     const response = yield call(getDashboardApi, action.payload.params);
     if (response.success) {
-      console.log("==============>ddd",JSON.stringify(response))
       yield put(hideLoader());
       yield put(getDashboardSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -261,7 +260,7 @@ function* getDesignation(action) {
     const response = yield call(fetchDesignationDataApi, action.payload.params);
 
     if (response.success) {
-      console.log(JSON.stringify(response));
+     
       yield put(hideLoader());
       yield put(getDesignationDataSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -309,7 +308,7 @@ function* getReferenceTasksSaga(action) {
     const response = yield call(getReferenceTasksApi, action.payload.params);
 
     if (response.success) {
-
+    
       yield put(hideLoader());
       yield put(getReferenceTasksSuccess(response.details));
       yield call(action.payload.onSuccess(response));
