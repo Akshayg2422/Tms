@@ -22,8 +22,6 @@ function Issues() {
   const companyType = useDropDown(COMPANY_TYPE[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
-
-
   useEffect(() => {
 
 

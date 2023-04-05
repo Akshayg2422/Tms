@@ -336,7 +336,11 @@ function Settings() {
             dispatch(
               getTicketTag({
                 params,
-                onSuccess: (success: any) => () => { },
+                onSuccess: (success: any) => () => {
+
+                  setDescription('')
+
+                 },
                 onError: (error: string) => () => { },
               })
             );
