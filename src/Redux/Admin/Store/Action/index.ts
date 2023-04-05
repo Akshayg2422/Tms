@@ -470,10 +470,10 @@ export const getReferenceTasksFailure = (error) => {
 };
 
 
-export const getReferenceId=(params)=>{
+export const getSelectReferenceId=(response)=>{
   return{
     type: GET_REFERENCE_ID,
-    payload: params,
+    payload: response,
 
   }
 }

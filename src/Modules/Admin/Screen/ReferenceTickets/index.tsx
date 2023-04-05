@@ -22,7 +22,7 @@ function ReferenceTickets() {
     if (!isSync.referenceTickets) {
       proceedgetReferenceTickets(referenceTicketCurrentPages);
     }
-  }, [isSync]);
+  }, [isSync,selectedReferenceIssues]);
 
 
   const proceedgetReferenceTickets = (pageNumber: number) => {

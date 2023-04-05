@@ -46,7 +46,7 @@ function Send({ onClick, value, onChange }: SendProps) {
             attachments: [{ attachment: photo }],
             name: modalName.value
         };
-        console.log('444444444444444444444444444444444444444444444444444444444444444', params);
+      
 
         dispatch(
             addTicketEvent({
