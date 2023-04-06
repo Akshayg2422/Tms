@@ -17,6 +17,7 @@ function SubTaskListing() {
         const params = {
             task_id: getSubTaskId ? getSubTaskId.id : taskItem?.id
         }
+        console.log('paramseeeeeeeeeeeeeeeeeeeeeeeeeee', params)
 
         dispatch(
             getSubTasks({
@@ -49,7 +50,7 @@ function SubTaskListing() {
                         title="SUB TASKS"
                         tableDataSet={subTasks?.data}
                         displayDataSet={normalizedTableData(subTasks?.data)}
-                        tableOnClick={(item) => {
+                        tableOnClick={(e, index,item) => {
                             dispatch(getSelectSubTaskId(item))
                         }}
                     />

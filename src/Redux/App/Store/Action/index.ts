@@ -1,4 +1,4 @@
-import { USER_LOGIN_DETAILS, RESTORE_APP, USER_LOGOUT, HANDLING_API } from '../ActionTypes';
+import { USER_LOGIN_DETAILS, RESTORE_APP, USER_LOGOUT, HANDLING_API, HANDLING_FCM } from '../ActionTypes';
 
 
 
@@ -24,6 +24,13 @@ export const userLogout = (params: any) => {
 export const setIsSync = (params: any) => {
   return {
     type: HANDLING_API,
+    payload: params,
+  };
+};
+
+export const getFcmToken = (params: any) => {
+  return {
+    type: HANDLING_FCM,
     payload: params,
   };
 };

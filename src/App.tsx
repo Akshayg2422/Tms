@@ -1,10 +1,9 @@
 import { AppLoader, PageNotFound, ScreenWrapper } from "@Components";
 import { Route, Routes } from "react-router-dom";
 import { AUTH_ROUTES, HOME_PATH } from "@Routes";
-import { AdminDashboard, CompanyDashBoard } from "@Modules";
+import { AdminDashboard, CompanyDashBoard, PushNotification } from "@Modules";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
-import { Notification } from './Notification'
 
 /**
  *  select-react  - important need to add this app.js
@@ -17,14 +16,16 @@ import "@fullcalendar/daygrid/main.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-
 import { changeLanguage } from "@I18n";
-
 
 
 function App() {
   const { language } = useSelector((state: any) => state.AuthReducer);
   changeLanguage(language?.value);
+
+  const { fcmToken } = useSelector((state: any) => state.AppReducer);
+
+  console.log("fcm====>", fcmToken)
 
   const getRoutes = (routes: any) => {
     return routes.map((prop: any, key: any) => {
@@ -40,7 +41,7 @@ function App() {
 
   return (
     <ScreenWrapper>
-      <Notification />
+      <PushNotification />
       <AppLoader />
       <Routes>
         {getRoutes(AUTH_ROUTES)}
