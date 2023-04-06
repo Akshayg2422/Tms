@@ -1,23 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, getTaskItem, setIsSync, getSelectReferenceId } from "@Redux";
+import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment } from "@Utils";
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
 
 function Tasks() {
   const { goTo } = useNavigation();
   const { tasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
-  const filteredTasks = useDropDown(FILTERED_LIST[0])
-  const taskStatus = useDropDown(STATUS_LIST[0])
+  const filteredTasks = useDropDown(FILTERED_LIST[2])
+  const taskStatus = useDropDown(STATUS_LIST[2])
   const taskPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
   const companyType = useDropDown(COMPANY_TYPE[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
+  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =useState();
+  const [basicTag,setBasicTag]=useState(true)
+  const [advanceTag,setAdvanceTag]=useState(false)
+
+  const getCompanyBranchDropdown = (details: any) => {
+
+    let companies: any = [];
+    companies.push( {id:'',text:"Self"})
+
+    if (details && details.length > 0) {
+      details.forEach(({ id, display_name }) => {
+        companies = [
+          ...companies,
+          { id: id, text: display_name, name: display_name },
+        ];
+      });
+      setModifiedCompanyDropDownData(companies);
+    } 
+  };
+
+  useEffect(() => {
+    const params = { q: "" };
+    dispatch(
+        getAssociatedCompanyBranch({
+            params,
+            onSuccess: (response: any) => () => {
+                dispatch(
+                    setIsSync({
+                        ...isSync,
+                        companies: false,
+                    })
+                );
+                getCompanyBranchDropdown(response.details);
+
+            },
+            onError: () => () => {
+
+            },
+        })
+    );
+}, []);
 
   useEffect(() => {
     if (!isSync.tasks) {
@@ -114,20 +156,62 @@ function Tasks() {
   return (
     <>
       <HomeContainer>
-        <div className="text-right">
-          <Button
+       
+      <div className="d-flex justify-content-end">   <div className="mr-2"> <Button
             size={"sm"}
             text={translate('common.createTask')}
             onClick={() => {
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
             }}
           />
+          </div>
+      <div >
+            <UncontrolledDropdown>
+                <DropdownToggle
+                    color=""
+                    size="sm"
+                    className="text-light"
+                >
+                    <i className="bi bi-cassette"></i>
+                </DropdownToggle>
+                <DropdownMenu className="dropdown-menu-arrow" right>
+                    <DropdownItem
+                        href="#pablo"
+                        onClick={()=>{
+                       
+                          setBasicTag(true)
+                          setAdvanceTag(false)}
+                         
+                        }
+                    >
+                       <div className={basicTag?'text-primary':'text-black'}>
+                        {translate('auth.basic')}
+                        </div>
+                    </DropdownItem>
+
+                    <DropdownItem
+                        href="#pablo"
+                        onClick={()=>{
+                            setAdvanceTag(true)
+                            setBasicTag(false)}
+                        }
+                    >
+                      <div className={advanceTag?'text-primary':'text-black'}>
+                        {translate('auth.advance')}
+                        </div>
+                    </DropdownItem>
+
+                </DropdownMenu>
+            </UncontrolledDropdown>
         </div>
+        </div>
+
+        
       </HomeContainer>
       <HomeContainer isCard className={'mb--5'} >
         <h3>Tasks</h3>
         <div className="row mt-3 mb--3">
-          <div className="col-lg-4  col-md-3 col-sm-12">
+          <div className="col-lg-3  col-md-3 col-sm-12">
             <InputHeading heading={translate("common.taskName")} />
             <div className="input-group bg-white border">
               <input
@@ -145,7 +229,7 @@ function Tasks() {
               </span>
             </div>
           </div>
-          <div className="col-lg-4 col-md-3 col-sm-12 ">
+          <div className="col-lg-3 col-md-3 col-sm-12 ">
             <DropDown
               className="form-control-sm"
               heading={translate("common.filterTasks")}
@@ -159,7 +243,7 @@ function Tasks() {
             />
           </div>
 
-          <div className="col-lg-4 col-md-3 col-sm-12">
+          <div className="col-lg-3 col-md-3 col-sm-12">
             <DropDown
               className="form-control-sm"
               heading={translate("common.taskStatus")}
@@ -172,7 +256,7 @@ function Tasks() {
               }}
             />
           </div>
-          <div className="col-lg-4 col-md-3 col-sm-12">
+          <div className="col-lg-3 col-md-3 col-sm-12">
             <DropDown
               className="form-control-sm"
               heading={'Priority'}
@@ -185,11 +269,12 @@ function Tasks() {
               }}
             />
           </div>
-          <div className="col-lg-4 col-md-3 col-sm-12">
+          {advanceTag&&
+          <div className="col-lg-3 col-md-3 col-sm-12">
             <DropDown
               className="form-control-sm"
               heading={'Company'}
-              data={COMPANY_TYPE}
+              data={modifiedCompanyDropDownData}
               selected={companyType.value}
               value={companyType.value}
               onChange={(item) => {
@@ -198,6 +283,7 @@ function Tasks() {
               }}
             />
           </div>
+}
         </div>
 
       </HomeContainer>

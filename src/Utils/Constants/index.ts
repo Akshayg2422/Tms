@@ -92,9 +92,7 @@ export const PRIORITY= [
 ];
 
 export const COMPANY_TYPE = [
-  {id:'ALL',text:"All"},
-  {id:'external',text:"External"},
-  {id:'',text:"Internal"},
+  {id:'',text:"Self"},
 ]
 
 

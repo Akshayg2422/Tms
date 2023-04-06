@@ -53,7 +53,7 @@ function IssueCreate() {
   const description = useInput("");
   const selectedUser = useDropDown("");
   const selectedTicketPriority = useDropDown("");
-  let attach=photo.slice(-2,4)
+  let attach=photo.slice(-4,9)
   
 
 
@@ -253,7 +253,7 @@ function IssueCreate() {
                   onSelect={(image) => {
                     let file = image.toString().replace(/^data:(.*,)?/, "");
                     handleImagePicker(index, file);
-                    setSelectDropzone([{ id: "1" }, { id: "2" }]);
+                    setSelectDropzone([{ id: "1" }, { id: "2" },{ id: "3" }, { id: "4" }]);
                   }}
                 />
               );

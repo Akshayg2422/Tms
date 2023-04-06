@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTickets, setIsSync } from "@Redux";
+import { getAssociatedCompanyBranch, getTickets, setIsSync } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable, Priority, Status, DropDownIcon } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
@@ -8,19 +8,61 @@ import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getServerTimeFromMoment, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
+import { log } from "console";
 
 
 
 function Issues() {
+  
   const { goTo } = useNavigation();
   const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.CompanyReducer);
   const dispatch = useDispatch();
   const search = useInput("");
-  const filteredTickets = useDropDown(FILTERED_LIST[0])
-  const ticketStatus = useDropDown(STATUS_LIST[0])
+  const filteredTickets = useDropDown(FILTERED_LIST[2])
+  const ticketStatus = useDropDown(STATUS_LIST[2])
   const ticketPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
   const companyType = useDropDown(COMPANY_TYPE[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
+  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
+  useState();
+  const getCompanyBranchDropdown = (details: any) => {
+
+    let companies: any = [];
+    companies.push( {id:'',text:"Self"})
+
+    if (details && details.length > 0) {
+      details.forEach(({ id, display_name }) => {
+        companies = [
+          ...companies,
+          { id: id, text: display_name, name: display_name },
+        ];
+      });
+      setModifiedCompanyDropDownData(companies);
+    } 
+  };
+
+  //
+  useEffect(() => {
+    const params = { q: "" };
+    dispatch(
+        getAssociatedCompanyBranch({
+            params,
+            onSuccess: (response: any) => () => {
+                dispatch(
+                    setIsSync({
+                        ...isSync,
+                        companies: false,
+                    })
+                );
+                getCompanyBranchDropdown(response.details);
+
+            },
+            onError: () => () => {
+
+            },
+        })
+    );
+}, []);
 
   useEffect(() => {
     if (!isSync.issues) {
@@ -200,7 +242,7 @@ function Issues() {
             <DropDown
               className="form-control-sm"
               heading={'Company'}
-              data={COMPANY_TYPE}
+              data={modifiedCompanyDropDownData}
               selected={companyType.value}
               value={companyType.value}
               onChange={(item) => {

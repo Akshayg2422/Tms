@@ -126,7 +126,10 @@
     "tags":"Tag",
     "city":"City",
     "task":"Task",
-    "group":"Group"
+    "group":"Group",
+    "code":"Code",
+    "basic":"Basic",
+    "advance":"Advance"
   },
   "product": {
     "Store": "Store",
