@@ -76,6 +76,7 @@ import {
   ADD_TASK_GROUP_SUCCESS,
   ADD_TASK_GROUP_FAILURE,
   GET_REFERENCE_ID,
+  GET_SUBTASK_ID,
 
 } from '../ActionTypes';
 
@@ -477,6 +478,15 @@ export const getSelectReferenceId=(response)=>{
 
   }
 }
+
+export const getSelectSubTaskId=(response)=>{
+  return{
+    type: GET_SUBTASK_ID,
+    payload: response,
+
+  }
+}
+
 /* Task Users */
 
 export const getTaskUsers = (params: any) => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, getTaskItem, setIsSync, getSelectReferenceId } from "@Redux";
+import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getSelectSubTaskId } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
@@ -225,6 +225,7 @@ function Tasks() {
             tableOnClick={(idx, index, item) => {
               dispatch(getTaskItem(item));
               dispatch(getSelectReferenceId(undefined))
+              dispatch(getSelectSubTaskId(undefined))
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS + '/' + item?.id);
             }
             }

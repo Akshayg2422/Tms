@@ -74,7 +74,8 @@ import {
   ADD_TASK_GROUP,
   ADD_TASK_GROUP_SUCCESS,
   ADD_TASK_GROUP_FAILURE,
-  GET_REFERENCE_ID
+  GET_REFERENCE_ID,
+  GET_SUBTASK_ID,
   
 } from '../ActionTypes';
 
@@ -125,6 +126,7 @@ const initialState: AdminStateProp = {
   taskGroupNumOfPages:undefined,
   addTaskGroup:undefined,
   getReferenceId:undefined,
+  getSubTaskId:undefined,
 };
 
 
@@ -526,6 +528,13 @@ case GET_REFERENCE_TASKS_FAILURE:
         getReferenceId:action.payload,
          loading: true };
       break;
+      
+      case GET_SUBTASK_ID:
+      state = { ...state,
+        getSubTaskId:action.payload,
+         loading: true };
+      break;
+      
     /* ADD TASK */
 
     case ADD_TASK:

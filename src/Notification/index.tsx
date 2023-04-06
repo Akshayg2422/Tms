@@ -3,30 +3,27 @@ import toast, { Toaster } from 'react-hot-toast';
 import { requestForToken, onMessageListener } from './Firebase';
 
 const Notification = () => {
-    const [notification, setNotification] = useState({ title: '', body: '' });
-    const notify = () => toast(<ToastDisplay />);
-    function ToastDisplay() {
-        return (
-            <div >
-                <p><b>{notification?.title}</b></p>
-                <p>{notification?.body}</p>
-            </div>
-        );
-    };
-
-    useEffect(() => {
-        if (notification?.title) {
-            notify()
-        }
-    }, [notification])
+    // const [notification, setNotification] = useState({ title: '', body: '' });
 
     requestForToken();
 
     onMessageListener()
         .then((payload: any) => {
-            setNotification({ title: payload?.notification?.title, body: payload?.notification?.body });
+            console.log("foreground message", payload);
+            const title = payload?.data?.title;
+            const options = {
+                body: payload?.data?.message,
+            };
+
+            // new Notification(title, options).addEventListener('click', function () {
+            //     // this.close()
+            // });
+
+            console.log("---------->", options, title);
+
+
         })
-        .catch((err) => console.log('failed: ', err));
+        .catch((err: any) => console.log('failed: ', err));
 
     return (
         <Toaster />

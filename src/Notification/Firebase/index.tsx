@@ -23,7 +23,8 @@ export const requestForToken = () => {
     return getToken(messaging, { vapidKey: "BJ6Zhlt6n6SvJ1vb6ERTdgbdPfa-mQY0_2ojN28VyUAXoNI0TqRdFpZisYdrHz6aHps1f2jnTElAr0FXF4aIJME" })
         .then((currentToken) => {
             if (currentToken) {
-                console.log(currentToken);
+                console.log("----------->",currentToken);
+
                 // Perform any other neccessary action with the token
             } else {
                 // Show permission request UI
@@ -39,11 +40,9 @@ export const requestForToken = () => {
 // - a message is received while the app has focus
 // - the user clicks on an app notification created by a service worker `messaging.onBackgroundMessage` handler.
 export const onMessageListener = () =>
-    new Promise((resolve) => {
+    new Promise((resolve:any) => {
         onMessage(messaging, (payload) => {
-
-            console.log('came');
-
+            console.log("payload-------->",payload);
             resolve(payload);
         });
     });
