@@ -130,7 +130,8 @@
     "group":"Group",
     "code":"Code",
     "basic":"Basic",
-    "advance":"Advance"
+    "advance":"Advance",
+    "title/code":"Title/Code"
 
   },
   "product": {

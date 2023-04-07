@@ -30,6 +30,7 @@ function AddUser() {
     (state: any) => state.AdminReducer
   );
   
+  console.log("========>+++",JSON.stringify(designationData))
   
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const [photo, setPhoto] = useState("");

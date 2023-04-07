@@ -7,6 +7,7 @@ import {
   Dropzone,
   showToast,
   DropDownIcon,
+  AutoCompleteDropDownImage,
 } from '@Components';
 import { translate } from "@I18n";
 import {
@@ -34,6 +35,7 @@ function IssueCreate() {
 
   const [typeSelect, setTypeSelect] = useState(type[0]);
   const [isSelect, setIsSelect] = useState(false);
+  const [designationValue, setDesignationValue] = useState("");
 
   const { dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
@@ -158,8 +160,8 @@ function IssueCreate() {
         params,
         onSuccess: (response: any) => () => {
           let companiesDashboard: any = [];
-          response?.details?.forEach(({ id, name }) => {
-            companiesDashboard = [...companiesDashboard, { id, text: name }];
+          response?.details?.forEach(({ id, name,profile_image }) => {
+            companiesDashboard = [...companiesDashboard, { id, name:name,profile_image:profile_image }];
           });
           setCompanyUserDashboard(companiesDashboard);
         },
@@ -227,6 +229,18 @@ function IssueCreate() {
             data={companyUserDashboard}
             onChange={selectedUser.onChange}
           />
+
+      
+      { companyUserDashboard &&   <AutoCompleteDropDownImage
+            value={designationValue}
+            item={companyUserDashboard}
+            onChange={(event, value) => setDesignationValue(value)}
+            onSelect={(value) => {
+              setDesignationValue(value);
+            }}
+          />
+}
+
           <DropDown
             selected={selectedTicketPriority.value}
             heading={translate("common.ticketPriority")}
