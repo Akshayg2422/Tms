@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status } from "@Components";
@@ -8,6 +9,7 @@ import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment } from "@Utils";
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import { icons} from "@Assets";
 
 function Tasks() {
   const { goTo } = useNavigation();
@@ -156,23 +158,31 @@ function Tasks() {
   return (
     <>
       <HomeContainer>
-       
-      <div className="d-flex justify-content-end">   <div className="mr-2"> <Button
+    <div className="text-right">
+    <Button
             size={"sm"}
             text={translate('common.createTask')}
             onClick={() => {
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
             }}
           />
-          </div>
-      <div >
+          </div>   
+     
+        
+      </HomeContainer>
+      <HomeContainer isCard className={'mb--5'} >
+      <div className="row">  
+       <div className="col-11">
+        <h3>Tasks</h3>
+        </div>
+        <div className="pl-4">
             <UncontrolledDropdown>
                 <DropdownToggle
                     color=""
                     size="sm"
                     className="text-light"
                 >
-                    <i className="bi bi-cassette"></i>
+                     <Image src={icons.Equalizer} className="bg-white" variant={'avatar'} size={'xs'} />
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-arrow" right>
                     <DropdownItem
@@ -204,12 +214,10 @@ function Tasks() {
                 </DropdownMenu>
             </UncontrolledDropdown>
         </div>
+
         </div>
 
-        
-      </HomeContainer>
-      <HomeContainer isCard className={'mb--5'} >
-        <h3>Tasks</h3>
+
         <div className="row mt-3 mb--3">
           <div className="col-lg-3  col-md-3 col-sm-12">
             <InputHeading heading={translate("common.taskName")} />
@@ -232,7 +240,7 @@ function Tasks() {
           <div className="col-lg-3 col-md-3 col-sm-12 ">
             <DropDown
               className="form-control-sm"
-              heading={translate("common.filterTasks")}
+              heading={translate("common.assignedTo")}
               selected={filteredTasks.value}
               data={FILTERED_LIST}
               value={filteredTasks.value}

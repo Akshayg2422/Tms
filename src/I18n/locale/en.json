@@ -72,7 +72,8 @@
     "taskPriority": "Task Priority",
     "addSubTask": "Add SubTask",
     "createTask": "CREATE TASK",
-    "addNew": "ADD NEW"
+    "addNew": "ADD NEW",
+    "assignedTo":"AssignedTo"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -130,6 +131,7 @@
     "code":"Code",
     "basic":"Basic",
     "advance":"Advance"
+
   },
   "product": {
     "Store": "Store",
