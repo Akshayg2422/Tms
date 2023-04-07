@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAssociatedCompanyBranch, getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable, Priority, Status } from "@Components";
+import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST,PRIORITY_DROPDOWNICON_LIST, SEARCH_PAGE, COMPANY_TYPE, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
+import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, PRIORITY_DROPDOWNICON_LIST, SEARCH_PAGE, COMPANY_TYPE, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
 import { log } from "console";
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
@@ -327,7 +327,18 @@ function Issues() {
             }
             }
           />
-        </> : <NoDataFound />}
+        </> : <div ><NoTaskFound text={'No Ticket Found'} />
+          <div className="text-center">
+            <Button
+              size={"sm"}
+              text={translate("common.addTicket")}
+              onClick={() => {
+                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+              }}
+            />
+          </div>
+
+        </div>}
 
     </>
   );

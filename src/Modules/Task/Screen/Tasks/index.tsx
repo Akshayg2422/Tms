@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status } from "@Components";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
@@ -122,7 +122,8 @@ function Tasks() {
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}>
                   <Image
-                    variant={'avatar'}
+                    variant={'rounded'}
+                    size={'xs'}
                     src={getPhoto(item?.attachment_file)} />
                 </a>
               })
@@ -296,10 +297,8 @@ function Tasks() {
       </HomeContainer>
       {tasks && tasks.data.length > 0 ?
         <>
-
           <CommonTable
             isPagination
-            // title="Tasks"
             tableDataSet={tasks.data}
             displayDataSet={normalizedTableData(tasks.data)}
             noOfPage={taskNumOfPages}
@@ -324,7 +323,20 @@ function Tasks() {
             }
           />
         </>
-        : <NoDataFound />
+
+        : 
+        <div ><NoTaskFound/>
+         <div className="text-center">
+    <Button
+            size={"md"}
+            text={translate('common.createTask')}
+            onClick={() => {
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
+            }}
+          />
+          </div>  
+
+        </div>
       }
 
     </>
