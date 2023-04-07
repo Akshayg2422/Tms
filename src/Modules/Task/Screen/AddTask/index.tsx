@@ -7,6 +7,8 @@ import {
     Dropzone,
     showToast,
     DateTimePicker,
+    AutoCompleteDropDownImage,
+    Image
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -27,6 +29,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
+import { icons } from "@Assets";
 
 function AddTask() {
     const dispatch = useDispatch();
@@ -47,11 +50,13 @@ function AddTask() {
     const [selectedCompany, setSelectedCompany] = useState<any>({});
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
+    const [selectedUser, setSelectedUser] = useState("");
+    const [selectedUserId, setSelectedUserId] = useState<any>();
 
     const referenceNo = useInput("");
     const title = useInput("");
     const description = useInput("");
-    const selectedUser = useDropDown("");
+
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
     let attach = photo.slice(-4, 9)
@@ -69,7 +74,7 @@ function AddTask() {
             description: description?.value,
             reference_number: referenceNo?.value,
             brand_branch_id: selectedCompany?.id || "",
-            assigned_to_id: selectedUser?.value?.id,
+            assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
@@ -104,8 +109,6 @@ function AddTask() {
             showToast(getValidateError(validation));
         }
     };
-
-
 
     const getCompanyBranchDropdown = (details: any) => {
 
@@ -164,8 +167,8 @@ function AddTask() {
                 params,
                 onSuccess: (response: any) => () => {
                     let companiesDashboard: any = [];
-                    response?.details?.forEach(({ id, name }) => {
-                        companiesDashboard = [...companiesDashboard, { id, text: name }];
+                    response?.details?.forEach(({ id, name ,profile_image,designation}) => {
+                        companiesDashboard = [...companiesDashboard, {id, name:name,profile_image:profile_image,designation:designation.name }];
                     });
                     setCompanyUserDashboard(companiesDashboard);
                 },
@@ -182,7 +185,20 @@ function AddTask() {
 
     return (
         <div>
-            <HomeContainer isCard title={translate("common.addTask")!}>
+            <HomeContainer isCard >
+
+            <div className='row col '>
+          <div
+          onClick={()=>goBack()} 
+          ><Image  
+                    size={'sm'}
+                    variant='rounded'
+                    className='bg-white mt--1  pl-2'
+                    src={icons.backArrow}   /></div>
+      <div className='pl-2'>  <h3>{translate("common.addTask")!}</h3>
+      </div>
+        </div>
+        <hr className='mt-3'></hr>
                 <div className="col-md-9 col-lg-7">
                     <Input
                         heading={translate("auth.title")}
@@ -231,19 +247,34 @@ function AddTask() {
                         />
                     )}
 
-                    <DropDown
+                    {/* <DropDown
                         heading={translate("common.user")!}
                         selected={selectedUser.value}
                         placeHolder={'please select a user...'}
                         data={companyUserDashboard}
                         onChange={selectedUser.onChange}
-                    />
-                    <DropDown
+                    /> */}
+
+        { companyUserDashboard &&   
+         <AutoCompleteDropDownImage
+         heading={translate("common.user")!}
+         placeholder={'please select a user...'}
+            value={selectedUser}
+            getItemValue={(item)=>item.value}
+            item={companyUserDashboard}
+            onChange={(item) => setSelectedUser(item?.id)}
+            onSelect={(value,item) => {
+                setSelectedUser(value);
+                setSelectedUserId(item)
+            }}
+          />}
+                 <div className="mt--4"> <DropDown
                         heading={translate("common.taskPriority")!}
                         selected={selectedTicketPriority.value}
                         placeHolder={'please select a task priority...'}
                         data={PRIORITY}
                         onChange={selectedTicketPriority.onChange} />
+                        </div>  
                     <DateTimePicker
                         heading={'Select ETA'}
                         id="eta-picker"

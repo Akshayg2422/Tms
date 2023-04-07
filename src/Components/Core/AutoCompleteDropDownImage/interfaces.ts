@@ -9,5 +9,6 @@ export interface AutoCompleteDropDownProps{
     wrapperStyle?:any
     children?:any
     heading?:string
+    placeholder?:string
 
 }

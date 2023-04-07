@@ -168,7 +168,6 @@ function* getEmployeesSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getEmployeesApi, action.payload.params);
-    console.log('==========>',JSON.stringify(response))
     if (response.success) {
       yield put(hideLoader());
       yield put(getEmployeesSuccess(response.details));

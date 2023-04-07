@@ -7,6 +7,7 @@ import {
   Dropzone,
   showToast,
   DropDownIcon,
+  Image,
   AutoCompleteDropDownImage,
 } from '@Components';
 import { translate } from "@I18n";
@@ -23,11 +24,14 @@ import {
   ifObjectExist,
   type,
   validate,
-  PRIORITY
+  PRIORITY,
+  getPhoto
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
+import { icons } from '@Assets';
+
 
 function IssueCreate() {
   const dispatch = useDispatch();
@@ -35,7 +39,8 @@ function IssueCreate() {
 
   const [typeSelect, setTypeSelect] = useState(type[0]);
   const [isSelect, setIsSelect] = useState(false);
-  const [designationValue, setDesignationValue] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUserId, setSelectedUserId] = useState<any>("");
 
   const { dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
@@ -53,7 +58,6 @@ function IssueCreate() {
   const referenceNo = useInput("");
   const title = useInput("");
   const description = useInput("");
-  const selectedUser = useDropDown("");
   const selectedTicketPriority = useDropDown("");
   let attach=photo.slice(-4,9)
   
@@ -72,7 +76,7 @@ function IssueCreate() {
       description: description?.value,
       reference_number: referenceNo?.value,
       brand_branch_id: selectedCompany?.id || "",
-      assigned_to_id: selectedUser?.value?.id,
+      assigned_to_id: selectedUserId?.id,
       priority: selectedTicketPriority?.value?.id,
       ticket_attachments: [{ attachments:attach}],
     };
@@ -160,8 +164,8 @@ function IssueCreate() {
         params,
         onSuccess: (response: any) => () => {
           let companiesDashboard: any = [];
-          response?.details?.forEach(({ id, name,profile_image }) => {
-            companiesDashboard = [...companiesDashboard, { id, name:name,profile_image:profile_image }];
+          response?.details?.forEach(({ id, name,profile_image ,designation}) => {
+            companiesDashboard = [...companiesDashboard, { id, name:name,profile_image:profile_image,designation:designation.name }];
           });
           setCompanyUserDashboard(companiesDashboard);
         },
@@ -174,7 +178,20 @@ function IssueCreate() {
 
   return (
     <div>
-      <HomeContainer isCard title={translate("common.addTicket")!}>
+      <HomeContainer isCard >
+        <div className='row col '>
+          <div
+          onClick={()=>goBack()} 
+          ><Image  
+                    size={'sm'}
+                    variant='rounded'
+                    className='bg-white mt--1  pl-2'
+                    src={icons.backArrow}   /></div>
+      <div className='pl-2'>  <h3>{translate("common.addTicket")!}</h3>
+      </div>
+        </div>
+        <hr className='mt-3'></hr>
+    
         <div className="col-md-9 col-lg-7">
           <Input
             heading={translate("auth.title")}
@@ -223,30 +240,34 @@ function IssueCreate() {
             />
           )}
 
-          <DropDown
+          {/* <DropDown
             selected={selectedUser.value}
             heading={translate("common.user")}
             data={companyUserDashboard}
             onChange={selectedUser.onChange}
-          />
+          /> */}
 
       
       { companyUserDashboard &&   <AutoCompleteDropDownImage
-            value={designationValue}
+      heading={translate("common.user")!}
+            value={selectedUser}
+            getItemValue={(item)=>item?.name}
             item={companyUserDashboard}
-            onChange={(event, value) => setDesignationValue(value)}
-            onSelect={(value) => {
-              setDesignationValue(value);
+            onChange={(event, value) =>  setSelectedUser(value)}
+            onSelect={(value,item) => {
+              setSelectedUser(value);
+              setSelectedUserId(item)
             }}
           />
 }
-
+<div className='mt--3'>
           <DropDown
             selected={selectedTicketPriority.value}
             heading={translate("common.ticketPriority")}
             data={PRIORITY}
             onChange={selectedTicketPriority.onChange}
           />
+          </div>
         </div>
 
         <div className="pl-3">

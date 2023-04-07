@@ -6,6 +6,7 @@ import {
   Dropzone,
   showToast,
   MultiSelectDropDown,
+  Image
 } from "@Components";
 import { translate } from "@I18n";
 import {addBroadCastMessages ,setIsSync,getAssociatedCompanyBranch} from "@Redux";
@@ -20,6 +21,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation } from "@Hooks";
+import { icons } from "@Assets";
 
 
 function CreateBroadCast() {
@@ -146,7 +148,20 @@ function CreateBroadCast() {
 
   return (
     <div>
-      <HomeContainer isCard title={translate("auth.addBroadCast")!}>
+      <HomeContainer isCard >
+
+      <div className='row col '>
+          <div
+          onClick={()=>goBack()} 
+          ><Image  
+                    size={'sm'}
+                    variant='rounded'
+                    className='bg-white mt--1  pl-2'
+                    src={icons.backArrow}   /></div>
+      <div className='pl-2'>  <h3>{translate("auth.addBroadCast")!}</h3>
+      </div>
+        </div>
+        <hr className='mt-3'></hr>
         <div className="col-md-9 col-lg-7">
           <Input
             heading={translate("auth.title")}

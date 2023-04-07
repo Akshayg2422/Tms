@@ -8,6 +8,7 @@ import {
     getPhoto,
     matchStateToTerm,
   } from "@Utils";
+import { placeholder } from "i18n-js";
 
 function AutoCompleteDropDownImage({
   value,
@@ -17,26 +18,32 @@ function AutoCompleteDropDownImage({
   onChange,
   getItemValue,
   heading,
+  placeholder
 }:  AutoCompleteDropDownProps) {
   return (
     <div>
+        <FormGroup>
       <Autocomplete
+
         renderInput={(props) => (
           <FormGroup>
             <InputHeading heading={heading} />
             <input
+            placeholder={placeholder}
               className={"designation-input form-control col"}
               {...props}
+              
             />
           </FormGroup>
         )}
         value={value}
         wrapperStyle={{ position: "relative", display: "inline-block" }}
         items={item}
-        getItemValue={(item) => item?.name}
+        getItemValue={getItemValue}
         shouldItemRender={matchStateToTerm}
         onChange={onChange}
         onSelect={onSelect}
+        
         renderMenu={(children) => (
           <div className="menu designation-scroll-bar">{children}</div>
         )}
@@ -46,14 +53,23 @@ function AutoCompleteDropDownImage({
               background: isHighlighted ? "lightgray" : "white",
             }}
             key={item?.id}
-
           >
-            {item?.name}
-            {item?.profile_image&&<Image  variant={'avatar'}
+            <div className="row py-2">
+            <div  className="pl-4 pr-2">
+                {<Image  variant={'rounded'}
+                size={'sm'}
                     src={getPhoto(item?.profile_image)}/>}
+                    </div>
+            <div>
+              {item?.name}/{item?.designation}
+                </div>
+               
+          </div>
+
           </div>
         )}
       />
+      </FormGroup>
     </div>
   );
 }

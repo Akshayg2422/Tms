@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAssociatedCompanyBranch, getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable, Priority, Status, DropDownIcon } from "@Components";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable, Priority, Status, DropDownIcon, NoTaskFound } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
@@ -326,7 +326,18 @@ function Issues() {
             }
             }
           />
-        </> : <NoDataFound />}
+        </> :  <div ><NoTaskFound text={'No Ticket Found'}/>
+         <div className="text-center">
+         <Button
+            size={"sm"}
+            text={translate("common.addTicket")}
+            onClick={() => {
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+            }}
+          />
+          </div>  
+
+        </div>}
 
     </>
   );
