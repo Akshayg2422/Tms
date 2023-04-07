@@ -1,3 +1,4 @@
+import { icons } from "@Assets";
 
 
 export const ERRORS = {
@@ -67,34 +68,45 @@ export const FILTERED_LIST = [
 
 export const STATUS_LIST = [
   { id: 'ALL', text: 'All', },
-  { id: 'RAI', text: 'Raised', color:"gray"  },
-  { id: 'INP', text: 'In-Progress', color:"yellow"  },
-  { id: 'CAN', text: 'Cancel' ,color:"red"},
-  { id: "CLS", text: 'Close' ,color:"red"  },
-  { id: 'ONH', text: 'On-Hold' ,color:"black"  },
-  { id: 'REJ', text: 'Reject' ,color:"red" }
+  { id: 'RAI', text: 'Raised', color: "gray" },
+  { id: 'INP', text: 'In-Progress', color: "yellow" },
+  { id: 'CAN', text: 'Cancel', color: "red" },
+  { id: "CLS", text: 'Close', color: "red" },
+  { id: 'ONH', text: 'On-Hold', color: "black" },
+  { id: 'REJ', text: 'Reject', color: "red" }
 
 ]
 
 
 export const PRIORITY_DROPDOWN_LIST = [
-  {id:'ALL',text:"All"},
-  { id: 1, text:"Lowest", color: "black" },
+  { id: 'ALL', text: "All" },
+  { id: 1, text: "Lowest", color: "black" },
   { id: 2, text: "Low", color: "black" },
-  { id: 3, text: "Medium", color: "orange" }, 
+  { id: 3, text: "Medium", color: "orange" },
   { id: 4, text: "High", color: "red" },
   { id: 5, text: "Critical", color: "gray" },
 ];
-export const PRIORITY= [
-  { id: 1, text:"Lowest", color: "black" },
+export const PRIORITY = [
+  { id: 1, text: "Lowest", color: "black" },
   { id: 2, text: "Low", color: "black" },
-  { id: 3, text: "Medium", color: "orange" }, 
+  { id: 3, text: "Medium", color: "orange" },
   { id: 4, text: "High", color: "red" },
   { id: 5, text: "Critical", color: "gray" },
 ];
 
+
+export const PRIORITY_DROPDOWNICON_LIST = [
+  { id: 'ALL', text: "All" },
+  { id: 1, text: "Lowest", icon: icons.eye, color: "black" },
+  { id: 2, text: "Low", icon: icons.eye, color: "black" },
+  { id: 3, text: "Medium", icon: icons.eye, color: "orange" },
+  { id: 3, text: "High", icon: icons.eye, color: "red" },
+  { id: 3, text: "Critical", icon: icons.eye, color: "gray" }
+];
+
+
 export const COMPANY_TYPE = [
-  {id:'',text:"Self"},
+  { id: '', text: "Self" },
 ]
 
 

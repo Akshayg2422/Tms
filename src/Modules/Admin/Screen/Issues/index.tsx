@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAssociatedCompanyBranch, getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable, Priority, Status, DropDownIcon } from "@Components";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable, Priority, Status } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getServerTimeFromMoment, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
+import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST,PRIORITY_DROPDOWNICON_LIST, SEARCH_PAGE, COMPANY_TYPE, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
 import { log } from "console";
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
@@ -28,8 +28,8 @@ function Issues() {
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
-  const getCompanyBranchDropdown = (details: any) => {
 
+  const getCompanyBranchDropdown = (details: any) => {
     let companies: any = [];
     companies.push({ id: '', text: "Self" })
 
@@ -272,7 +272,7 @@ function Issues() {
             <DropDown
               className="form-control-sm"
               heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.Priority")}</h4>}
-              data={PRIORITY_DROPDOWN_LIST}
+              data={PRIORITY_DROPDOWNICON_LIST}
               selected={ticketPriority.value}
               value={ticketPriority.value}
               onChange={(item) => {
@@ -280,6 +280,7 @@ function Issues() {
                 setSyncTickets()
               }}
             />
+
           </div>
           {
             advanceTag && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
