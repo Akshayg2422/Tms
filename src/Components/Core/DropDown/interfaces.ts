@@ -1,7 +1,7 @@
 import { Option, InputHeadingProps } from '@Components'
 export interface DropDownProps extends InputHeadingProps {
     placeHolder?: string;
-    data?: Array<Option>;
+    data?: Array<Option>
     defaultValue?: Option;
     onChange?: (item: Option) => void;
     multiple?: string;
