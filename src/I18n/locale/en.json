@@ -73,7 +73,9 @@
     "addSubTask": "Add SubTask",
     "createTask": "CREATE TASK",
     "addNew": "ADD NEW",
-    "assignedTo":"AssignedTo"
+    "assignedTo":"AssignedTo",
+    "codeTitle": "Code/Title",
+    "Priority" : "Priority"
   },
   "errors": {
     "invalidEmail": "Invalid email address."

@@ -1,9 +1,8 @@
-import { NoDataFound, CommonTable } from "@Components";
+import { NoDataFound,Card, CommonTable } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsSync, getReferenceTasks,getSelectReferenceId} from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
-import { Card } from "reactstrap";
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
@@ -29,6 +28,7 @@ function ReferenceTasks() {
       q: ""
 
     };
+    console.log('1111111111paramseeeeeeee',params)
    
 
     dispatch(
@@ -88,7 +88,6 @@ function ReferenceTasks() {
           }
           tableOnClick={(e, index, item) => {
             dispatch(getSelectReferenceId(item))
-       
           }}
 
         /> : <NoDataFound />}

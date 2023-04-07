@@ -14,7 +14,7 @@ import { translate } from "@I18n";
 import { useSelector } from "react-redux";
 
 function TaskDetails() {
-const {getReferenceId} = useSelector((state: any) => state.AdminReducer);
+    const { getReferenceId, getSubTaskId } = useSelector((state: any) => state.AdminReducer);
     const { goTo } = useNavigation();
 
     const TABS = [
@@ -28,7 +28,7 @@ const {getReferenceId} = useSelector((state: any) => state.AdminReducer);
 
     useEffect(() => {
         setSelectedTab(TABS[0]);
-    }, [getReferenceId])
+    }, [getReferenceId, getSubTaskId])
 
     return (
         <>

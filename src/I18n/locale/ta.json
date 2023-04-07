@@ -54,7 +54,9 @@
         "addSubTask": "துணைப் பணியைச் சேர்க்கவும்",
         "createTask": "உருவாக்குபணி",
         "addNew": "புதிதாக சேர்க்கவும்",
-        "assignedTo":"ஒதுக்கப்பட்டது"
+        "assignedTo":"ஒதுக்கப்பட்டது",
+        "codeTitle": "குறியீடு தலைப்பு",
+        "Priority" : "முன்னுரிமை"
     },
     "errors": {
         "invalidEmail": "Invalid email address."

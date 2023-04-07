@@ -1,4 +1,4 @@
 export interface InputHeadingProps {
-    heading?: string | undefined | null
+    heading?: string | undefined | null | any
     id?: string
 }
