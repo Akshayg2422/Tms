@@ -330,7 +330,7 @@ function Issues() {
         </> : <div ><NoTaskFound text={'No Ticket Found'} />
           <div className="text-center">
             <Button
-              size={"sm"}
+              size={"md"}
               text={translate("common.addTicket")}
               onClick={() => {
                 goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);

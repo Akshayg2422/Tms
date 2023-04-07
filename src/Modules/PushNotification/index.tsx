@@ -6,6 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
+import { HOME_PATH, ROUTES } from "@Routes";
 
 const MAX_LENGTH = 70
 
@@ -68,7 +69,12 @@ const PushNotification = () => {
 
     const routingHandler = (payload: any) => {
 
-        const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
+        // const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
+        const route_type = 'HOME_PATH.ADD_TASK'
+
+        if(route_type === 'HOME_PATH.ADD_TASK'){
+            goTo(ROUTES.HOME.Company)
+        }
 
     //     if (route_type === NOTI_TYPE_BROADCAST_MESSAGE) {
     //         goTo(navigation, ROUTE.ROUTE_MY_NOTIFICATION);
