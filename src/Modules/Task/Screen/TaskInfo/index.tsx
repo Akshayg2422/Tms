@@ -66,6 +66,7 @@ console.log(params,"pppppppppp")
                     </div>
                     <div className="col-3"></div>
                     <div className="col-2 mr--9 mt-1"><h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6></div>
+                    
                 </div>
                 <div className="row align-items-center my-4">
                     <div className="col">

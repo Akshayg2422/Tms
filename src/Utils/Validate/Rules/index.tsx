@@ -207,8 +207,16 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
       name:{
         presence: { allowEmpty: false, message: "tag name cannot be empty" },
       },
+      code:{
+        presence: { allowEmpty: false, message: "code name cannot be empty" },
+
+      },
       description:{
         presence: { allowEmpty: false, message: "description cannot be empty" },
+      },
+      photo:{
+        presence: { allowEmpty: false, message: "Photo cannot be empty" }
+
       }
 
     }

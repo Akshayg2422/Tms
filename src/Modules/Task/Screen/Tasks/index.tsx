@@ -1,23 +1,67 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getSelectSubTaskId } from "@Redux";
+import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment } from "@Utils";
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import { icons } from "@Assets";
 
 function Tasks() {
   const { goTo } = useNavigation();
   const { tasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
-  const filteredTasks = useDropDown(FILTERED_LIST[0])
-  const taskStatus = useDropDown(STATUS_LIST[0])
+  const filteredTasks = useDropDown(FILTERED_LIST[2])
+  const taskStatus = useDropDown(STATUS_LIST[2])
   const taskPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
   const companyType = useDropDown(COMPANY_TYPE[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
+  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
+  const [basicTag, setBasicTag] = useState(true)
+  const [advanceTag, setAdvanceTag] = useState(false)
+
+  const getCompanyBranchDropdown = (details: any) => {
+
+    let companies: any = [];
+    companies.push({ id: '', text: "Self" })
+
+    if (details && details.length > 0) {
+      details.forEach(({ id, display_name }) => {
+        companies = [
+          ...companies,
+          { id: id, text: display_name, name: display_name },
+        ];
+      });
+      setModifiedCompanyDropDownData(companies);
+    }
+  };
+
+  useEffect(() => {
+    const params = { q: "" };
+    dispatch(
+      getAssociatedCompanyBranch({
+        params,
+        onSuccess: (response: any) => () => {
+          dispatch(
+            setIsSync({
+              ...isSync,
+              companies: false,
+            })
+          );
+          getCompanyBranchDropdown(response.details);
+
+        },
+        onError: () => () => {
+
+        },
+      })
+    );
+  }, []);
 
   useEffect(() => {
     if (!isSync.tasks) {
@@ -105,7 +149,7 @@ function Tasks() {
             </div>
 
           </>,
-        date: <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
+        'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
         status: <Status status={el?.task_status} />
       };
     });
@@ -123,12 +167,59 @@ function Tasks() {
             }}
           />
         </div>
+
+
       </HomeContainer>
       <HomeContainer isCard className={'mb--5'} >
-        <h3>Tasks</h3>
+        <div className="row mb--3">
+          <h3 className={'col-11'}>Tasks</h3>
+          <div className="pl-4">
+            <UncontrolledDropdown>
+              <DropdownToggle
+                color=""
+                size="sm"
+                className="text-light"
+              >
+                <Image src={icons.Equalizer} className="bg-white" variant={'avatar'} size={'xs'} />
+              </DropdownToggle>
+              <DropdownMenu className="dropdown-menu-arrow" right>
+                <DropdownItem
+                  href="#pablo"
+                  onClick={() => {
+
+                    setBasicTag(true)
+                    setAdvanceTag(false)
+                  }
+
+                  }
+                >
+                  <div className={basicTag ? 'text-primary' : 'text-black'}>
+                    {translate('auth.basic')}
+                  </div>
+                </DropdownItem>
+
+                <DropdownItem
+                  href="#pablo"
+                  onClick={() => {
+                    setAdvanceTag(true)
+                    setBasicTag(false)
+                  }
+                  }
+                >
+                  <div className={advanceTag ? 'text-primary' : 'text-black'}>
+                    {translate('auth.advance')}
+                  </div>
+                </DropdownItem>
+
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </div>
+        </div>
+
+
         <div className="row mt-3 mb--3">
-          <div className="col-lg-4  col-md-3 col-sm-12">
-            <InputHeading heading={translate("common.taskName")} />
+          <div className="col-lg-3  col-md-3 col-sm-12">
+            <InputHeading heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.codeTitle")}</h4>} />
             <div className="input-group bg-white border">
               <input
                 type="text"
@@ -145,10 +236,10 @@ function Tasks() {
               </span>
             </div>
           </div>
-          <div className="col-lg-4 col-md-3 col-sm-12 ">
+          <div className="col-lg-3 col-md-3 col-sm-12 ">
             <DropDown
               className="form-control-sm"
-              heading={translate("common.filterTasks")}
+              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.assignedTo")}</h4>}
               selected={filteredTasks.value}
               data={FILTERED_LIST}
               value={filteredTasks.value}
@@ -159,10 +250,10 @@ function Tasks() {
             />
           </div>
 
-          <div className="col-lg-4 col-md-3 col-sm-12">
+          <div className="col-lg-3 col-md-3 col-sm-12">
             <DropDown
               className="form-control-sm"
-              heading={translate("common.taskStatus")}
+              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.ticketStatus")}</h4>}
               data={STATUS_LIST}
               selected={taskStatus.value}
               value={taskStatus.value}
@@ -172,10 +263,10 @@ function Tasks() {
               }}
             />
           </div>
-          <div className="col-lg-4 col-md-3 col-sm-12">
+          <div className="col-lg-3 col-md-3 col-sm-12">
             <DropDown
               className="form-control-sm"
-              heading={'Priority'}
+              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.Priority")}</h4>}
               data={PRIORITY_DROPDOWN_LIST}
               selected={taskPriority.value}
               value={taskPriority.value}
@@ -185,19 +276,21 @@ function Tasks() {
               }}
             />
           </div>
-          <div className="col-lg-4 col-md-3 col-sm-12">
-            <DropDown
-              className="form-control-sm"
-              heading={'Company'}
-              data={COMPANY_TYPE}
-              selected={companyType.value}
-              value={companyType.value}
-              onChange={(item) => {
-                companyType.onChange(item)
-                setSyncTickets()
-              }}
-            />
-          </div>
+          {advanceTag &&
+            <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+              <DropDown
+                className="form-control-sm"
+                heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.company")}</h4>}
+                data={modifiedCompanyDropDownData}
+                selected={companyType.value}
+                value={companyType.value}
+                onChange={(item) => {
+                  companyType.onChange(item)
+                  setSyncTickets()
+                }}
+              />
+            </div>
+          }
         </div>
 
       </HomeContainer>

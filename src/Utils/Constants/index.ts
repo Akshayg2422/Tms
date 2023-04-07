@@ -7,6 +7,8 @@ export const ERRORS = {
 
 export const USER_TOKEN = 'USER_TOKEN'
 
+export const FCM_TOKEN = 'FCM_TOKEN'
+
 export const GENDER_LIST = [
   { id: 'M', text: 'Male' },
   { id: 'F', text: 'Female' },
@@ -92,9 +94,7 @@ export const PRIORITY= [
 ];
 
 export const COMPANY_TYPE = [
-  {id:'ALL',text:"All"},
-  {id:'external',text:"External"},
-  {id:'',text:"Internal"},
+  {id:'',text:"Self"},
 ]
 
 

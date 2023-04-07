@@ -103,4 +103,6 @@ export const icons = {
   clinic: require('./Clinic/icon.png'),
   back: require('./Back/icon.png'),
   addFillGray: require('./AddFillGray/plus new.png'),
+  addToFill: require('./AddToFill/clipboard.png'),
+  Equalizer: require('./Panel/panel.png'),
 };

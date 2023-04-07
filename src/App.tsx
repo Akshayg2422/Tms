@@ -17,15 +17,15 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { changeLanguage } from "@I18n";
+import { FCM_TOKEN } from "./Utils";
 
 
 function App() {
   const { language } = useSelector((state: any) => state.AuthReducer);
   changeLanguage(language?.value);
 
-  const { fcmToken } = useSelector((state: any) => state.AppReducer);
-
-  console.log("fcm====>", fcmToken)
+  const fcmToken = localStorage.getItem(FCM_TOKEN)
+  console.log("FCM TOKEN======>", fcmToken)
 
   const getRoutes = (routes: any) => {
     return routes.map((prop: any, key: any) => {
