@@ -24,7 +24,7 @@ function Tasks() {
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
-  const [selectTag, setSelectTag] = useState<any>([])
+  const [selectTag, setSelectTag] = useState<any>([0])
   console.log(selectTag,"aaaaaaaaaaaaa")
 
   const test=[{id:'1',text:'welcome'},{id:'2',text:'tester'},{id:'3',text:'tester3'}]
@@ -193,7 +193,7 @@ function Tasks() {
           <div>
             {test&&test.length>0 && test.map((el:any)=>{
               return(
-                <Badge text={ '#'+el.text} className={`bg-${el?.id===selectTag[0]?.id?"primary":"white"}`}
+                <Badge text={ '#'+el.text} className={`bg-${el?.id===selectTag?.id?"primary":"white"}`}
                 onClick={()=>{onSelectedTask(el)}}
                 />
               )
