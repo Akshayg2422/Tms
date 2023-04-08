@@ -101,10 +101,10 @@ function Companies() {
             goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
 
           }} /> :
-        <div className={'py-5'}><NoTaskFound text={'No Company Found'} />
+        <div className={'py-5'}><NoTaskFound text={'No Companies Found'} />
           <div className="text-center">
             <Button
-              size={'sm'}
+              size={'md'}
               text={translate("common.addCompany")}
               onClick={() => {
                 goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_COMPANY);
