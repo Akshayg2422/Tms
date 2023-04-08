@@ -105,5 +105,6 @@ export const icons = {
   addFillGray: require('./AddFillGray/plus new.png'),
   addToFill: require('./AddToFill/clipboard.png'),
   Equalizer: require('./Panel/panel.png'),
-  backArrow: require('./BackArrow/arrow.png')
+  backArrow: require('./BackArrow/icon.png'),
+  questionMark: require ('./RoundedQuestionMark/icon.png')
 };

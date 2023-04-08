@@ -94,7 +94,6 @@ export const PRIORITY = [
   { id: 5, text: "Critical", color: "gray" },
 ];
 
-
 export const PRIORITY_DROPDOWNICON_LIST = [
   { id: 'ALL', text: "All" },
   { id: 1, text: "Lowest", icon: icons.eye, color: "black" },
