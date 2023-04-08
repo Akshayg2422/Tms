@@ -101,7 +101,7 @@ function Companies() {
             goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
 
           }} /> :
-        <div className={'py-5'}><NoTaskFound />
+        <div className={'py-5'}><NoTaskFound text={'No Company Found'} />
           <div className="text-center">
             <Button
               size={'sm'}

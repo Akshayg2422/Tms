@@ -96,7 +96,7 @@ function Broadcast() {
           </Card>
 
         </InfiniteScroll>
-        : <div className={'py-5'}><NoTaskFound />
+        : <div className={'py-5'}><NoTaskFound text={'No Broadcast Found'}/>
         <div className="col text-center">
           <Button
             text={translate("auth.addBroadCast")!}
