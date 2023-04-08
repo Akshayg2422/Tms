@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound } from "@Components";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound ,Badge} from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
@@ -24,6 +24,10 @@ function Tasks() {
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
+  const [selectTag, setSelectTag] = useState<any>([])
+  console.log(selectTag,"aaaaaaaaaaaaa")
+
+  const test=[{id:'1',text:'welcome'},{id:'2',text:'tester'},{id:'3',text:'tester3'}]
 
   const getCompanyBranchDropdown = (details: any) => {
 
@@ -153,6 +157,24 @@ function Tasks() {
       };
     });
   };
+  const onSelectedTask = (item: any) => {
+
+    let updatedSelectedReferenceTask: any = [...selectTag];
+
+    const ifExist = updatedSelectedReferenceTask.some(
+      (el: any) => el.id === item?.id
+    );
+    if (ifExist) {
+      updatedSelectedReferenceTask = updatedSelectedReferenceTask.filter(
+        (filterItem: any) => filterItem.id !== item?.id
+      );
+    } else {
+      updatedSelectedReferenceTask = [...updatedSelectedReferenceTask, item];
+    }
+
+    setSelectTag(updatedSelectedReferenceTask);
+  };
+
 
   return (
     <>
@@ -167,6 +189,19 @@ function Tasks() {
               }}
             />
           </div> : null}
+
+          <div>
+            {test&&test.length>0 && test.map((el:any)=>{
+              return(
+                <Badge text={ '#'+el.text} className={`bg-${el?.id===selectTag[0]?.id?"primary":"white"}`}
+                onClick={()=>{onSelectedTask(el)}}
+                />
+              )
+               
+            })
+            
+}
+          </div>
       </HomeContainer>
       <HomeContainer isCard className={'mb--5'} >
         <div className="row mb--3">
