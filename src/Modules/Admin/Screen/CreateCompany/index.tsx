@@ -10,6 +10,7 @@ import {
   Button,
   showToast,
   Dropzone,
+  Image
 } from "@Components";
 import {
   GENDER_LIST,
@@ -24,6 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerCompany, registerAdmin, setIsSync } from "@Redux";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { log } from "console";
+import { icons } from "@Assets";
 
 function CreateCompany({}: CreateCompanyProps) {
   const { isSync } = useSelector((state: any) => state.AppReducer);
@@ -119,7 +121,20 @@ function CreateCompany({}: CreateCompanyProps) {
   };
 
   return (
-    <HomeContainer isCard title={translate("common.addCompany")!}>
+    <HomeContainer isCard >
+
+<div className='row col '>
+          <div
+          onClick={()=>goBack()} 
+          ><Image  
+                    size={'sm'}
+                    variant='rounded'
+                    className='bg-white mt--1  pl-2'
+                    src={icons.backArrow}   /></div>
+      <div className='pl-2'>  <h3>{translate("common.addCompany")!}</h3>
+      </div>
+        </div>
+        <hr className='mt-3'></hr>
       <div className="col-md-9 col-lg-5">
         <H
           tag={"h3"}

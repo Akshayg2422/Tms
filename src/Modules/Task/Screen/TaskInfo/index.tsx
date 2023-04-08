@@ -9,7 +9,7 @@ function TaskInfo() {
 
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
     const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
-  
+
 
 
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ function TaskInfo() {
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
-console.log(params,"pppppppppp")
+        console.log(params, "pppppppppp")
         dispatch(
             addTaskEvent({
                 params,
@@ -61,12 +61,11 @@ console.log(params,"pppppppppp")
                 <div className="row align-items-start">
                     <div className="col-7">
                         <H tag={"h3"} text={title} />
-                        <h3 className="text-sm text-muted">{description}</h3>
-                        <h5>{order_sequence}</h5>
                     </div>
                     <div className="col-3"></div>
                     <div className="col-2 mr--9 mt-1"><h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6></div>
                 </div>
+                <h3 className="text-sm text-muted">{description}</h3>
                 <div className="row align-items-center my-4">
                     <div className="col">
                         {
@@ -84,7 +83,7 @@ console.log(params,"pppppppppp")
                     </div>
                     <div className="col"></div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{ editModalName.value}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span></h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">{editModalName.value}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span></h6>
                     </div>
                 </div>
                 <Modal isOpen={editEta}

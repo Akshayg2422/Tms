@@ -14,7 +14,7 @@ export const icons = {
   arrowRight: require('./ArrowRight/icon.png'),
   calenderList: require('./CalenderList/icon.png'),
   backButton: require('./BackButton/icon.png'),
-
+  quantaTms: require('./QuantaTms/icon.png'),
   booking: require('./Booking/icon.png'),
   bookingFill: require('./BookingFill/icon.png'),
   brandFill: require('./BrandFill/icon.png'),
@@ -102,5 +102,9 @@ export const icons = {
   equalizer: require('./Equalizer/icon.png'),
   clinic: require('./Clinic/icon.png'),
   back: require('./Back/icon.png'),
-  addFillGray:require('./AddFillGray/plus new.png'),
+  addFillGray: require('./AddFillGray/plus new.png'),
+  addToFill: require('./AddToFill/clipboard.png'),
+  Equalizer: require('./Panel/panel.png'),
+  backArrow: require('./BackArrow/icon.png'),
+  questionMark: require ('./RoundedQuestionMark/icon.png')
 };

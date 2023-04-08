@@ -10,6 +10,7 @@ import {
   showToast,
   AutoCompleteDropDown,
   Dropzone,
+  Image
 } from "@Components";
 
 import {
@@ -22,6 +23,7 @@ import {
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { addEmployee, getDesignationData, setIsSync } from "@Redux";
+import { icons } from "@Assets";
 
 // import Autocomplete from "react-autocomplete";
 
@@ -30,6 +32,7 @@ function AddUser() {
     (state: any) => state.AdminReducer
   );
   
+
   
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const [photo, setPhoto] = useState("");
@@ -155,7 +158,20 @@ function AddUser() {
 
   return (
     <>
-      <HomeContainer isCard title={translate("common.addUser")!}>
+      <HomeContainer isCard >
+
+      <div className='row col '>
+          <div
+          onClick={()=>goBack()} 
+          ><Image  
+                    size={'sm'}
+                    variant='rounded'
+                    className='bg-white mt--1  pl-2'
+                    src={icons.backArrow}   /></div>
+      <div className='pl-2'>  <h3>{translate("common.addUser")!}</h3>
+      </div>
+        </div>
+        <hr className='mt-3'></hr>
         <div className="col-md-6">
           <Input
             heading={translate("common.name")}

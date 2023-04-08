@@ -41,4 +41,5 @@ export interface AdminStateProp {
   taskGroupNumOfPages:any,
   addTaskGroup:any,
   getReferenceId:any,
+  getSubTaskId:any,
 }

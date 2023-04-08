@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner } from "@Components";
+import { Button, Card, Divider, HomeContainer, NoTaskFound, Spinner } from "@Components";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
@@ -54,15 +54,16 @@ function Broadcast() {
 
   return (
     <HomeContainer>
-      <div className="col text-right p-0">
-        <Button
-          text={translate("auth.addBroadCast")!}
-          size={"sm"}
-          onClick={() =>
-            goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_BROAD_CAST)
-          }
-        />
-      </div>
+      {broadCastDetails && broadCastDetails.length > 0 ?
+        <div className="col text-right p-0">
+          <Button
+            text={translate("auth.addBroadCast")!}
+            size={"sm"}
+            onClick={() =>
+              goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_BROAD_CAST)
+            }
+          />
+        </div> : null}
 
       {broadCastDetails && broadCastDetails.length > 0 ?
         <InfiniteScroll
@@ -95,7 +96,18 @@ function Broadcast() {
           </Card>
 
         </InfiniteScroll>
-        : <NoDataFound />}
+        : <div className={'py-5'}><NoTaskFound text={'No Broadcast Found'} />
+          <div className="col text-center">
+            <Button
+              text={translate("auth.addBroadCast")!}
+              size={"md"}
+              onClick={() =>
+                goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_BROAD_CAST)
+              }
+            />
+          </div>
+        </div>
+      }
     </HomeContainer>
   );
 }

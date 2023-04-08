@@ -1,22 +1,23 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSubTasks } from "@Redux";
+import { getSelectSubTaskId, getSubTasks } from "@Redux";
 import { useNavigation } from "@Hooks";
 import { CommonTable, Priority, } from "@Components";
 
 function SubTaskListing() {
     const dispatch = useDispatch();
     const { goTo } = useNavigation();
-    const { subTasks, taskItem } = useSelector((state: any) => state.AdminReducer);
+    const { subTasks, taskItem, getSubTaskId } = useSelector((state: any) => state.AdminReducer);
 
     useEffect(() => {
         getSubTaskHandler()
-    }, [])
+    }, [getSubTaskId])
 
     const getSubTaskHandler = () => {
         const params = {
-            task_id: taskItem?.id
+            task_id: getSubTaskId ? getSubTaskId.id : taskItem?.id
         }
+        console.log('paramseeeeeeeeeeeeeeeeeeeeeeeeeee', params)
 
         dispatch(
             getSubTasks({
@@ -49,6 +50,9 @@ function SubTaskListing() {
                         title="SUB TASKS"
                         tableDataSet={subTasks?.data}
                         displayDataSet={normalizedTableData(subTasks?.data)}
+                        tableOnClick={(e, index,item) => {
+                            dispatch(getSelectSubTaskId(item))
+                        }}
                     />
                 </div>
                 :

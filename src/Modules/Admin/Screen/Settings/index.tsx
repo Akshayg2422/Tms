@@ -7,7 +7,9 @@ import {
   Modal,
   NoRecordsFound,
   showToast,
-  Checkbox
+  Checkbox,
+  Dropzone,
+  Image
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -23,9 +25,9 @@ import {
   addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
-import { log } from "console";
+
 
 function Settings() {
   const dispatch = useDispatch();
@@ -45,7 +47,7 @@ function Settings() {
     (state: any) => state.AdminReducer
   );
 
-
+  const [photo, setPhoto] = useState("");
   const [showDepartments, setShowDepartments] = useState(false);
   const [showDesignations, setShowDesignations] = useState(false);
   const addDepartMentModal = useModal(false);
@@ -67,13 +69,12 @@ function Settings() {
   const [showTaskGroup, setShowTaskGroup] = useState(false);
   const addTaskGroupModal = useModal(false);
   const [task, setTask] = useState("");
+   const [codeFill, setCodeFill] = useState(task.slice(0,3).toUpperCase());
   const [taskDescription, setTaskDescription] = useState("");
   const dynamicHeight: any = useDynamicHeight()
-
-
-  console.log("dashboardDetails", dashboardDetails)
-
-
+  let attach=[photo]
+  let PhotoAttach=attach.slice(-1,4)
+  console.log('l----->',getTaskGroupDetails)
 
   const getDepartmentList = (pageNumber: number) => {
 
@@ -190,6 +191,7 @@ function Settings() {
 
             setShowTaskGroup(!showTaskGroup)
           }
+
         },
         onError: (error: string) => () => {
 
@@ -364,8 +366,11 @@ function Settings() {
   const addTaskGroupAdding = () => {
     const params = {
       name: convertToUpperCase(task),
-      description: convertToUpperCase(taskDescription)
+      description: convertToUpperCase(taskDescription),
+      code:codeFill,
+      photo:PhotoAttach[0]
     };
+  console.log(params,"=================>")
 
     const validation = validate(ADD_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
@@ -383,7 +388,9 @@ function Settings() {
               })
             );
             setTask("");
+            setCodeFill('')
             setTaskDescription('')
+            setPhoto('')
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
@@ -587,7 +594,10 @@ function Settings() {
   const normalizedTaskGroupData = (data: any) => {
     return data.map((el: any) => {
       return {
-        name: el.name,
+        name:<div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
+        <div className="pt-3 pl-2">{el.name}</div>
+        </div>,
+        tag:el?.code,
 
       };
     });
@@ -1004,7 +1014,8 @@ function Settings() {
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => addDepartMentModal.hide()}
+              onClick={() =>{ addDepartMentModal.hide()
+                setDepartment('')}}
             />
             <Button
               text={translate("common.submit")}
@@ -1043,7 +1054,8 @@ function Settings() {
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => addDesignationModal.hide()}
+              onClick={() =>{ addDesignationModal.hide()
+                setDesignation('')}}
             />
             <Button
               text={translate("common.submit")}
@@ -1075,12 +1087,14 @@ function Settings() {
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => addSectorModal.hide()}
+              onClick={() =>{ addSectorModal.hide()
+                setSector('')}}
             />
             <Button
               text={translate("common.submit")}
               onClick={() => {
                 addBrandSectorAdding();
+              
               }}
             />
           </div>
@@ -1112,7 +1126,11 @@ function Settings() {
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => addTagsModal.hide()}
+              onClick={() => {addTagsModal.hide()
+                setTags('')
+                setDescription('')
+              }
+              }
             />
             <Button
               text={translate("common.submit")}
@@ -1133,23 +1151,51 @@ function Settings() {
           onClose={() => addTaskGroupModal.hide()}
           title={translate("auth.task")!}
         >
-          <div className="">
-            <Input
+          <div className="mt--4">
+      <div className='row'> 
+       <div className="col-6"> 
+          <Input
               placeholder={translate("auth.task")}
               value={task}
-              onChange={(e) => setTask(e.target.value)}
+              onChange={(e) => {setTask(e.target.value)
+                setCodeFill(e.target.value.slice(0,3).toUpperCase())}}
             />
+            </div>
+           <div className="col-6">  <Input
+            placeholder={translate("auth.code")}
+              value={codeFill}
+              onChange={(e) => {setCodeFill(e.target.value.slice(0,3).toUpperCase())}}
+            />
+            </div>
+            </div>
+
             <Input
               placeholder={translate("auth.description")}
               value={taskDescription}
               onChange={(e) => setTaskDescription(e.target.value)}
             />
           </div>
+          <div className="pb-3">
+          <Dropzone
+          variant="ICON"
+          icon={photo}
+          size="xl"
+          onSelect={(image) => {
+            let encoded = image.toString().replace(/^data:(.*,)?/, "");
+            setPhoto(encoded);
+          
+          }}
+        />
+        </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => addTaskGroupModal.hide()}
+              onClick={() => {addTaskGroupModal.hide()
+                setTask("");
+                setCodeFill('')
+                setTaskDescription('')
+                setPhoto('')}}
             />
             <Button
               text={translate("common.submit")}

@@ -77,7 +77,8 @@ function AddSubTask() {
             task_attachments: [{ attachments: photo }],
             is_parent: false,
             eta_time: eta,
-            parent_id: taskItem.id
+            parent_id: taskItem.id,
+            group_id:''
         };
 
 

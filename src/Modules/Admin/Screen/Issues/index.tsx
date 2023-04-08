@@ -1,26 +1,70 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Table, Image, CommonTable, Priority, Status, DropDownIcon } from "@Components";
+import { getAssociatedCompanyBranch, getTickets, setIsSync } from "@Redux";
+import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getServerTimeFromMoment, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
+import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, PRIORITY_DROPDOWNICON_LIST, SEARCH_PAGE, COMPANY_TYPE, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import { icons } from "@Assets";
 
 
 
 function Issues() {
+
   const { goTo } = useNavigation();
   const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.CompanyReducer);
   const dispatch = useDispatch();
   const search = useInput("");
-  const filteredTickets = useDropDown(FILTERED_LIST[0])
-  const ticketStatus = useDropDown(STATUS_LIST[0])
+  const filteredTickets = useDropDown(FILTERED_LIST[2])
+  const ticketStatus = useDropDown(STATUS_LIST[2])
   const ticketPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
   const companyType = useDropDown(COMPANY_TYPE[0])
   const { isSync } = useSelector((state: any) => state.AppReducer);
+  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
+  const [basicTag, setBasicTag] = useState(true)
+  const [advanceTag, setAdvanceTag] = useState(false)
+
+  const getCompanyBranchDropdown = (details: any) => {
+    let companies: any = [];
+    companies.push({ id: '', text: "Self" })
+
+    if (details && details.length > 0) {
+      details.forEach(({ id, display_name }) => {
+        companies = [
+          ...companies,
+          { id: id, text: display_name, name: display_name },
+        ];
+      });
+      setModifiedCompanyDropDownData(companies);
+    }
+  };
+
+  //
+  useEffect(() => {
+    const params = { q: "" };
+    dispatch(
+      getAssociatedCompanyBranch({
+        params,
+        onSuccess: (response: any) => () => {
+          dispatch(
+            setIsSync({
+              ...isSync,
+              companies: false,
+            })
+          );
+          getCompanyBranchDropdown(response.details);
+
+        },
+        onError: () => () => {
+
+        },
+      })
+    );
+  }, []);
 
   useEffect(() => {
     if (!isSync.issues) {
@@ -81,14 +125,12 @@ function Issues() {
               el?.ticket_attachments &&
               el?.ticket_attachments.length > 0 && el?.ticket_attachments.map((item) => {
 
-                return <a className="avatar avatar-md "
+                return <a
                   href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
+                  onClick={(e) => e.preventDefault()}>
                   <Image
                     variant={'avatar'}
-                    src={getPhoto(item?.attachment_file)} />
-                </a>
+                    src={getPhoto(item?.attachment_file)} /></a>
               })
             }
 
@@ -114,7 +156,7 @@ function Issues() {
             </div>
 
           </>,
-        date: getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at)),
+        'Assigned At': getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at)),
         status: <div> <Status status={el?.ticket_status} /> </div>
       };
     });
@@ -125,21 +167,63 @@ function Issues() {
   return (
     <>
       <HomeContainer>
-        <div className="text-right ">
-          <Button
-            size={"sm"}
-            text={translate("common.addTicket")}
-            onClick={() => {
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
-            }}
-          />
-        </div>
+        {tickets && tickets.length > 0 ?
+          <div className="text-right ">
+            <Button
+              size={"sm"}
+              text={translate("common.addTicket")}
+              onClick={() => {
+                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+              }}
+            />
+          </div> : null
+        }
       </HomeContainer>
       <HomeContainer isCard className={'mb--5'} >
-        <h3>Issue</h3>
+        <div className={'row'}>
+          <h3 className={'col-11'}>Issues</h3>
+          <div className={'pl-4'}>
+            <UncontrolledDropdown>
+              <DropdownToggle
+                color=""
+                size="sm"
+                className="text-light"
+              >
+                <Image src={icons.Equalizer} className="bg-white" variant={'avatar'} size={'xs'} />
+              </DropdownToggle>
+              <DropdownMenu className="dropdown-menu-arrow" right>
+                <DropdownItem
+                  href="#pablo"
+                  onClick={() => {
+
+                    setBasicTag(true)
+                    setAdvanceTag(false)
+                  }}
+                >
+                  <div className={basicTag ? 'text-primary' : 'text-black'}>
+                    {translate('auth.basic')}
+                  </div>
+                </DropdownItem>
+
+                <DropdownItem
+                  href="#pablo"
+                  onClick={() => {
+                    setAdvanceTag(true)
+                    setBasicTag(false)
+                  }}
+                >
+                  <div className={advanceTag ? 'text-primary' : 'text-black'}>
+                    {translate('auth.advance')}
+                  </div>
+                </DropdownItem>
+
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </div>
+        </div>
         <div className="row mb--3">
-          <div className="col-lg-4  col-md-3 col-sm-12 ">
-            <InputHeading heading={translate("common.issueName")} />
+          <div className="col-lg-3  col-md-3 col-sm-12">
+            <InputHeading heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.codeTitle")}</h4>} />
             <div className="input-group bg-white border">
               <input
                 type="text"
@@ -156,10 +240,10 @@ function Issues() {
               </span>
             </div>
           </div>
-          <div className="col-lg-4 col-md-3 col-sm-12 ">
+          <div className="col-lg-3 col-md-3 col-sm-12 ">
             <DropDown
               className="form-control-sm"
-              heading={translate("common.filterTickets")}
+              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.assignedTo")}</h4>}
               selected={filteredTickets.value}
               data={FILTERED_LIST}
               value={filteredTickets.value}
@@ -170,10 +254,10 @@ function Issues() {
             />
           </div>
 
-          <div className="col-lg-4 col-md-3 col-sm-12">
+          <div className="col-lg-3 col-md-3 col-sm-12">
             <DropDown
               className="form-control-sm"
-              heading={translate("common.ticketStatus")}
+              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.ticketStatus")}</h4>}
               data={STATUS_LIST}
               selected={ticketStatus.value}
               value={ticketStatus.value}
@@ -183,11 +267,11 @@ function Issues() {
               }}
             />
           </div>
-          <div className="col-lg-4 col-md-3 col-sm-12">
+          <div className="col-lg-3 col-md-3 col-sm-12">
             <DropDown
               className="form-control-sm"
-              heading={'Priority'}
-              data={PRIORITY_DROPDOWN_LIST}
+              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.Priority")}</h4>}
+              data={PRIORITY_DROPDOWNICON_LIST}
               selected={ticketPriority.value}
               value={ticketPriority.value}
               onChange={(item) => {
@@ -195,20 +279,23 @@ function Issues() {
                 setSyncTickets()
               }}
             />
+
           </div>
-          <div className="col-lg-4 col-md-3 col-sm-12">
-            <DropDown
-              className="form-control-sm"
-              heading={'Company'}
-              data={COMPANY_TYPE}
-              selected={companyType.value}
-              value={companyType.value}
-              onChange={(item) => {
-                companyType.onChange(item)
-                setSyncTickets()
-              }}
-            />
-          </div>
+          {
+            advanceTag && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+              <DropDown
+                className="form-control-sm"
+                heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.company")}</h4>}
+                data={modifiedCompanyDropDownData}
+                selected={companyType.value}
+                value={companyType.value}
+                onChange={(item) => {
+                  companyType.onChange(item)
+                  setSyncTickets()
+                }}
+              />
+            </div>
+          }
         </div>
       </HomeContainer>
 
@@ -216,7 +303,6 @@ function Issues() {
       {tickets && tickets.length > 0 ?
         <>
           <CommonTable
-
             isPagination
             tableDataSet={tickets}
             displayDataSet={normalizedTableData(tickets)}
@@ -240,7 +326,18 @@ function Issues() {
             }
             }
           />
-        </> : <NoDataFound />}
+        </> : <div ><NoTaskFound text={'No Ticket Found'} />
+          <div className="text-center">
+            <Button
+              size={"md"}
+              text={translate("common.addTicket")}
+              onClick={() => {
+                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+              }}
+            />
+          </div>
+
+        </div>}
 
     </>
   );
