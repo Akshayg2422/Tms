@@ -125,14 +125,12 @@ function Issues() {
               el?.ticket_attachments &&
               el?.ticket_attachments.length > 0 && el?.ticket_attachments.map((item) => {
 
-                return <a className="avatar avatar-md "
+                return <a
                   href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
+                  onClick={(e) => e.preventDefault()}>
                   <Image
                     variant={'avatar'}
-                    src={getPhoto(item?.attachment_file)} />
-                </a>
+                    src={getPhoto(item?.attachment_file)} /></a>
               })
             }
 

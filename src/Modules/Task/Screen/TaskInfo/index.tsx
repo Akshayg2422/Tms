@@ -65,9 +65,9 @@ function TaskInfo() {
                     <div className="col-3"></div>
                     <div className="col-2 mr--9 mt-1"><h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6></div>
                 </div>
-                <h3 className="text-sm text-muted my-2">{description}</h3>
-                <div className="row align-items-center">
-                    <div className="col my-2">
+                <h3 className="text-sm text-muted">{description}</h3>
+                <div className="row align-items-center my-4">
+                    <div className="col">
                         {
                             task_attachments &&
                             task_attachments?.length > 0 &&
@@ -94,7 +94,7 @@ function TaskInfo() {
                     <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => editEtaSubmitHandler()} />
 
                 </Modal>
-                <div className="row align-items-end my-2">
+                <div className="row align-items-end my-5">
                     <div className="col">
                         <div className="h5 mb-0"> {by_user?.name} </div>
                         <div className="h5 mb-0"> {by_user?.phone} </div>

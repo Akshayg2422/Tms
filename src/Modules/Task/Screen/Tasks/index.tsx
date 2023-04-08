@@ -118,14 +118,12 @@ function Tasks() {
             {
               el?.task_attachments &&
               el?.task_attachments.length > 0 && el?.task_attachments.map((item) => {
-                return <a className="avatar avatar-md"
+                return <a
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}>
                   <Image
-                    variant={'rounded'}
-                    size={'xs'}
-                    src={getPhoto(item?.attachment_file)} />
-                </a>
+                    variant={'avatar'}
+                    src={getPhoto(item?.attachment_file)} /></a>
               })
             }
 
