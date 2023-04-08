@@ -8,7 +8,6 @@ import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, PRIORITY_DROPDOWNICON_LIST, SEARCH_PAGE, COMPANY_TYPE, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
-import { log } from "console";
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
 import { icons } from "@Assets";
 
@@ -170,15 +169,17 @@ function Issues() {
   return (
     <>
       <HomeContainer>
-        <div className="text-right ">
-          <Button
-            size={"sm"}
-            text={translate("common.addTicket")}
-            onClick={() => {
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
-            }}
-          />
-        </div>
+        {tickets && tickets.length > 0 ?
+          <div className="text-right ">
+            <Button
+              size={"sm"}
+              text={translate("common.addTicket")}
+              onClick={() => {
+                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+              }}
+            />
+          </div> : null
+        }
       </HomeContainer>
       <HomeContainer isCard className={'mb--5'} >
         <div className={'row'}>

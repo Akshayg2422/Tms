@@ -159,17 +159,16 @@ function Tasks() {
   return (
     <>
       <HomeContainer>
-        <div className="text-right">
-          <Button
-            size={"sm"}
-            text={translate('common.createTask')}
-            onClick={() => {
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
-            }}
-          />
-        </div>
-
-
+        {tasks && tasks.data.length > 0 ?
+          <div className="text-right">
+            <Button
+              size={"sm"}
+              text={translate('common.createTask')}
+              onClick={() => {
+                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
+              }}
+            />
+          </div> : null}
       </HomeContainer>
       <HomeContainer isCard className={'mb--5'} >
         <div className="row mb--3">
@@ -324,17 +323,17 @@ function Tasks() {
           />
         </>
 
-        : 
-        <div ><NoTaskFound/>
-         <div className="text-center">
-    <Button
-            size={"md"}
-            text={translate('common.createTask')}
-            onClick={() => {
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
-            }}
-          />
-          </div>  
+        :
+        <div ><NoTaskFound />
+          <div className="text-center">
+            <Button
+              size={"md"}
+              text={translate('common.createTask')}
+              onClick={() => {
+                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
+              }}
+            />
+          </div>
 
         </div>
       }
