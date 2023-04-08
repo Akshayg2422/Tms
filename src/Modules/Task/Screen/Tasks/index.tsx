@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId } from "@Redux";
-import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound } from "@Components";
+import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound ,Badge} from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
@@ -24,6 +24,8 @@ function Tasks() {
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
+
+  const test=[{id:'1',text:'welcome'},{id:'2',text:'tester'},{id:'3',text:'tester3'}]
 
   const getCompanyBranchDropdown = (details: any) => {
 
@@ -167,6 +169,9 @@ function Tasks() {
               goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
             }}
           />
+        </div>
+        <div>
+          <Badge text={'well'}/>
         </div>
 
 
