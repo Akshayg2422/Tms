@@ -8,8 +8,9 @@ import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectEx
 
 function AddReferenceTask() {
   const dispatch = useDispatch();
-  const { tasks, dashboardDetails, taskItem } = useSelector((state: any) => state.AdminReducer);
-  const [selectedReferenceTask, setSelectedReferenceTask] = useState([])
+  const { tasks, dashboardDetails, taskItem ,referencesTasks} = useSelector((state: any) => state.AdminReducer);
+  const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
+  console.log("pppppppppp",JSON.stringify(tasks))
   const Search = useInput("");
   const submitHandler = () => {
 
@@ -69,7 +70,6 @@ function AddReferenceTask() {
       })
     );
   };
-
   const normalizedTableData = (data: any) => {
 
     return data.map((el: any) => {
@@ -77,7 +77,6 @@ function AddReferenceTask() {
       const isReference = selectedReferenceTask.some(
         (element: any) => element.id === el?.id
       );
-
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
@@ -133,7 +132,8 @@ function AddReferenceTask() {
       <div>
         <div className="m-3">
           <div className="row justify-content-center">
-            {tasks && tasks.data?.length > 0 ? <CommonTable title={'Add Reference task'} tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
+            {tasks && tasks.data?.length > 0 ? <CommonTable title={'Add Reference task'}
+             tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
             /> : <NoDataFound />}
 
           </div>

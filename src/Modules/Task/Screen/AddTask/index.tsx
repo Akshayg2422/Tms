@@ -151,8 +151,6 @@ function AddTask() {
     }, []);
 
     useEffect(() => {
-
-
         const params = {
             branch_id:
                 typeSelect?.id === "2"
@@ -165,8 +163,8 @@ function AddTask() {
                 params,
                 onSuccess: (response: any) => () => {
                     let companiesDashboard: any = [];
-                    response?.details?.forEach(({ id, name ,profile_image,designation}) => {
-                        companiesDashboard = [...companiesDashboard, {id, name:name,profile_image:profile_image,designation:designation.name }];
+                    response?.details?.forEach((item) => {
+                        companiesDashboard = [...companiesDashboard, {...item, designation:item?.designation?.name}];
                     });
                     setCompanyUserDashboard(companiesDashboard);
                 },
@@ -266,7 +264,7 @@ function AddTask() {
                 setSelectedUserId(item)
             }}
           />}
-                 <div className="mt--4"> <DropDown
+                 <div className="mt--3"> <DropDown
                         heading={translate("common.taskPriority")!}
                         selected={selectedTicketPriority.value}
                         placeHolder={'please select a task priority...'}

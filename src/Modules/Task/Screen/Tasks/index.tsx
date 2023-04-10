@@ -46,11 +46,13 @@ function Tasks() {
 
   useEffect(()=>{
     const params = {};
-    
+    //testing for setsynticket
+    setSyncTickets()
     dispatch(
       getTaskGroup({
         params,
         onSuccess: (response: any) => () => {
+          
       
         },
         onError: () => () => {
@@ -98,6 +100,7 @@ function Tasks() {
       group:selectTag?.id,
     };
   
+
     dispatch(
       getTasks({
         params,
@@ -291,6 +294,7 @@ function Tasks() {
               onChange={(item) => {
                 taskStatus.onChange(item)
                 setSyncTickets()
+
               }}
             />
           </div>

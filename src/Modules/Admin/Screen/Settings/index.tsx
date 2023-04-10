@@ -74,7 +74,6 @@ function Settings() {
   const dynamicHeight: any = useDynamicHeight()
   let attach=[photo]
   let PhotoAttach=attach.slice(-1,4)
-  console.log('l----->',getTaskGroupDetails)
 
   const getDepartmentList = (pageNumber: number) => {
 
@@ -195,14 +194,10 @@ function Settings() {
         },
         onError: (error: string) => () => {
 
-
         },
       })
     );
   };
-
-
-
 
   const postAddingDepartment = () => {
     const params = {
@@ -370,7 +365,6 @@ function Settings() {
       code:codeFill,
       photo:PhotoAttach[0]
     };
-  console.log(params,"=================>")
 
     const validation = validate(ADD_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
@@ -406,8 +400,6 @@ function Settings() {
 
     }
   };
-
-
 
   const handleDepartmentAdminProcess = (item) => {
 

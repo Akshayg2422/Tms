@@ -12,7 +12,7 @@ function NoTaskFound({ text = 'No Task Found' }: NotDataFoundProps) {
                     size={'sm'}
                     alt="..."
                     className="rounded-circle img-center img-fluid shadow shadow-lg--hover mb--3"
-                    src={icons.questionMark}
+                    src={icons.issuesProblem}
                     style={{ width: "140px", backgroundColor: '#D3D3D3' }}
                 />
             </div>

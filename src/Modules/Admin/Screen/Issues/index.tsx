@@ -45,6 +45,8 @@ function Issues() {
 
   //
   useEffect(() => {
+    //setSynctick testing
+    // setSyncTickets()
     const params = { q: "" };
     dispatch(
       getAssociatedCompanyBranch({
