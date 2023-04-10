@@ -52,7 +52,6 @@ function AddTask() {
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
-
     const referenceNo = useInput("");
     const title = useInput("");
     const description = useInput("");
@@ -80,7 +79,6 @@ function AddTask() {
             is_parent: true,
             eta_time: eta,
         };
-
 
         const validation = validate(  typeSelect?.id === "1"?CREATE_EXTERNAL: CREATE_INTERNAL, params);
 
@@ -255,14 +253,14 @@ function AddTask() {
                         onChange={selectedUser.onChange}
                     /> */}
 
-        { companyUserDashboard &&   
+        {companyUserDashboard && companyUserDashboard.length>0&&  
          <AutoCompleteDropDownImage
          heading={translate("common.user")!}
          placeholder={'please select a user...'}
             value={selectedUser}
-            getItemValue={(item)=>item.value}
+            getItemValue={(item)=>item.name}
             item={companyUserDashboard}
-            onChange={(item) => setSelectedUser(item?.id)}
+            onChange={(event,value) => setSelectedUser(value)}
             onSelect={(value,item) => {
                 setSelectedUser(value);
                 setSelectedUserId(item)
@@ -301,7 +299,9 @@ function AddTask() {
                                     onSelect={(image) => {
                                         let file = image.toString().replace(/^data:(.*,)?/, "");
                                         handleImagePicker(index, file);
-                                        setSelectDropzone([{ id: "1" }, { id: "2" },{ id: "3" }, { id: "4" }]);
+                                        {selectDropzone.length>0 && setSelectDropzone([{ id: "1" }, { id: "2" }]);}
+                                       { selectDropzone.length>1 && setSelectDropzone([{ id: "1" }, { id: "2" },{ id: "3" }]);}
+                                        { selectDropzone.length>2 && setSelectDropzone([{ id: "1" }, { id: "2" },{ id: "3" }, { id: "4" }]);}
                                     }}
                                 />
                             );

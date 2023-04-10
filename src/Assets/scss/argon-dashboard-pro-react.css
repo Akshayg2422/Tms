@@ -26996,6 +26996,116 @@ td.rdtYear:hover {
     overflow-y: scroll;
   }
 }
+@media only screen and (max-width: 350px) and (min-width: 300px) {
+  .designations-input {
+    width: 208px;
+    height: 43px;
+  }
+  .designations-scroll-bar {
+    width: 208px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 380px) and (min-width: 350px) {
+  .designations-input {
+    width: 268px;
+    height: 43px;
+  }
+  .designations-scroll-bar {
+    width: 268px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 400px) and (min-width: 380px) {
+  .designations-input {
+    width: 283px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 283px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 450px) and (min-width: 400px) {
+  .designations-input {
+    width: 504px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 304px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 550px) and (min-width: 450px) {
+  .designations-input {
+    width: 530px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 430px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 780px) and (min-width: 550px) {
+  .designations-input {
+    width: 515px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 305px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 992px) and (min-width: 780px) {
+  .designations-input {
+    width: 543px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 343px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 1200px) and (min-width: 992px) {
+  .designations-input {
+    width: 530px;
+    height: 43px;
+  }
+  .designations-scroll-bar {
+    width: 330px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 1280px) and (min-width: 1200px) {
+  .designations-input {
+    width: 515px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 440px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 1780px) and (min-width: 1290px) {
+  .designations-input {
+    width: 500px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 376px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
 button:focus, :focus {
   outline: none;
 }

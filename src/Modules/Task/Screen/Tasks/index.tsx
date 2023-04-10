@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId } from "@Redux";
+import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId, getTaskGroup } from "@Redux";
 import { HomeContainer, Button, DropDown, NoDataFound, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound ,Badge} from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
@@ -13,7 +13,7 @@ import { icons } from "@Assets";
 
 function Tasks() {
   const { goTo } = useNavigation();
-  const { tasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.AdminReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, getTaskGroupDetails } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTasks = useDropDown(FILTERED_LIST[2])
@@ -25,9 +25,8 @@ function Tasks() {
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
   const [selectTag, setSelectTag] = useState<any>([0])
-  console.log(selectTag,"aaaaaaaaaaaaa")
-
-  const test=[{id:'1',text:'welcome'},{id:'2',text:'tester'},{id:'3',text:'tester3'}]
+  // console.log("aaaaaaaaaaaaa===",JSON.stringify(getTaskGroupDetails))
+ 
 
   const getCompanyBranchDropdown = (details: any) => {
 
@@ -45,6 +44,20 @@ function Tasks() {
     }
   };
 
+  useEffect(()=>{
+    const params = {};
+    
+    dispatch(
+      getTaskGroup({
+        params,
+        onSuccess: (response: any) => () => {
+      
+        },
+        onError: () => () => {
+        },
+      })
+    )
+  },[])
   useEffect(() => {
     const params = { q: "" };
     dispatch(
@@ -61,7 +74,6 @@ function Tasks() {
 
         },
         onError: () => () => {
-
         },
       })
     );
@@ -82,8 +94,10 @@ function Tasks() {
       task_status: taskStatus?.value.id,
       company: companyType.value.id,
       priority: taskPriority.value.id,
-      page_number: pageNumber
+      page_number: pageNumber,
+      group:selectTag?.id,
     };
+  
     dispatch(
       getTasks({
         params,
@@ -116,8 +130,8 @@ function Tasks() {
         "task":
           <div className="row"> <Priority priority={el?.priority} /> <span className="col">{el?.title}</span></div>,
         "attachments":
-          <div className="avatar-group" style={{
-            width: '87px'
+          <div className="avatar-group " style={{
+            // width: '87px'
           }}>
             {
               el?.task_attachments &&
@@ -157,25 +171,7 @@ function Tasks() {
       };
     });
   };
-  const onSelectedTask = (item: any) => {
-
-    let updatedSelectedReferenceTask: any = [...selectTag];
-
-    const ifExist = updatedSelectedReferenceTask.some(
-      (el: any) => el.id === item?.id
-    );
-    if (ifExist) {
-      updatedSelectedReferenceTask = updatedSelectedReferenceTask.filter(
-        (filterItem: any) => filterItem.id !== item?.id
-      );
-    } else {
-      updatedSelectedReferenceTask = [...updatedSelectedReferenceTask, item];
-    }
-
-    setSelectTag(updatedSelectedReferenceTask);
-  };
-
-
+ 
   return (
     <>
       <HomeContainer>
@@ -191,10 +187,12 @@ function Tasks() {
           </div> : null}
 
           <div>
-            {test&&test.length>0 && test.map((el:any)=>{
+            {getTaskGroupDetails&&getTaskGroupDetails?.length>0 && getTaskGroupDetails.map((el:any)=>{
               return(
-                <Badge text={ '#'+el.text} className={`bg-${el?.id===selectTag?.id?"primary":"white"}`}
-                onClick={()=>{onSelectedTask(el)}}
+                <Badge text={ '#'+el.code} className={`bg-${el?.id===selectTag?.id?"primary":"white"}`}
+                onClick={()=>{setSelectTag(el)
+                  setSyncTickets()
+               }}
                 />
               )
                

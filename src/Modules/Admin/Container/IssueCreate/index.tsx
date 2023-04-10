@@ -80,7 +80,7 @@ function IssueCreate() {
       priority: selectedTicketPriority?.value?.id,
       ticket_attachments: [{ attachments:attach}],
     };
-
+console.log(params,"===>")
     const validation = validate( typeSelect?.id === "1"?CREATE_EXTERNAL:CREATE_INTERNAL, params);
 
     if (ifObjectExist(validation)) {
@@ -248,7 +248,7 @@ function IssueCreate() {
           /> */}
 
       
-      { companyUserDashboard &&   <AutoCompleteDropDownImage
+      { companyUserDashboard && companyUserDashboard.length>0 &&  <AutoCompleteDropDownImage
       heading={translate("common.user")!}
             value={selectedUser}
             getItemValue={(item)=>item?.name}
@@ -288,7 +288,9 @@ function IssueCreate() {
                   onSelect={(image) => {
                     let file = image.toString().replace(/^data:(.*,)?/, "");
                     handleImagePicker(index, file);
-                    setSelectDropzone([{ id: "1" }, { id: "2" },{ id: "3" }, { id: "4" }]);
+                    {selectDropzone.length>0 && setSelectDropzone([{ id: "1" }, { id: "2" }]);}
+                    { selectDropzone.length>1 && setSelectDropzone([{ id: "1" }, { id: "2" },{ id: "3" }]);}
+                     { selectDropzone.length>2 && setSelectDropzone([{ id: "1" }, { id: "2" },{ id: "3" }, { id: "4" }]);}
                   }}
                 />
               );
