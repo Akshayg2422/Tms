@@ -14,8 +14,7 @@ function AddReferenceTask() {
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
   const { goBack } = useNavigation();
   const Search = useInput("");
-console.log("===========?",JSON.stringify(tasks))
-console.log(taskNumOfPages,taskCurrentPages,"llllllllllllLLLLLLLL")
+
 
 
 useEffect(() => {

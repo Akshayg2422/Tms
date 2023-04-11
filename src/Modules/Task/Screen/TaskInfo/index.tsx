@@ -7,7 +7,7 @@ import { addTaskEvent, getTasks } from "@Redux";
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
 
-function TaskInfo({onClick}:TaskInfoProps) {
+function TaskInfo({ onClick }: TaskInfoProps) {
     const { goBack } = useNavigation();
 
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
@@ -44,7 +44,7 @@ function TaskInfo({onClick}:TaskInfoProps) {
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
-       
+
         dispatch(
             addTaskEvent({
                 params,
@@ -55,26 +55,23 @@ function TaskInfo({onClick}:TaskInfoProps) {
         setEditEta(!editEta)
     }
 
-  
+
 
     return (
         <HomeContainer>
-            
-            
-         
-       
+
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
-          <div
-          onClick={()=>{goBack()}} 
-          ><Image  
-                    size={'sm'}
-                    variant='rounded'
-                    className='bg-white mt--1  pl-2'
-                    src={icons.backArrow}   /></div>
-      
-        
-                    <div className="col-7">
+                    <div
+                        onClick={() => { goBack() }}
+                    ><Image
+                            size={'sm'}
+                            variant='rounded'
+                            className='bg-white mt--1  pl-2'
+                            src={icons.backArrow} /></div>
+
+
+                    <div className="col-6">
                         <H tag={"h3"} text={title} />
                     </div>
                     <div className="col-3"></div>
@@ -82,7 +79,7 @@ function TaskInfo({onClick}:TaskInfoProps) {
                 </div>
                 <h3 className="text-sm text-muted">{description}</h3>
                 <div className="row align-items-center my-4">
-                    <div className="col">
+                    <div className="col-5">
                         {
                             task_attachments &&
                             task_attachments?.length > 0 &&
@@ -109,7 +106,7 @@ function TaskInfo({onClick}:TaskInfoProps) {
                     <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => editEtaSubmitHandler()} />
 
                 </Modal>
-                <div className="row align-items-end my-5">
+                <div className="row align-items-end my-4">
                     <div className="col">
                         <div className="h5 mb-0"> {by_user?.name} </div>
                         <div className="h5 mb-0"> {by_user?.phone} </div>
