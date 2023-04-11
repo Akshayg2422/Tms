@@ -79,7 +79,6 @@ useEffect(() => {
       getTasks({
         params,
         onSuccess: () => () => { 
-          // setSyncTickets(true)
         },
         onError: () => () => { },
       })
@@ -115,17 +114,6 @@ useEffect(() => {
 
   return (
     <div>
-           {/* <div className='row col '>
-          <div
-          onClick={()=>goBack()} 
-          ><Image  
-                    size={'sm'}
-                    variant='rounded'
-                    className='bg-white mt--1  pl-2'
-                    src={icons.backArrow}   /></div>
-      <div className='pl-2'>  <h3>{translate("common.addTask")!}</h3>
-      </div>
-        </div> */}
       <div className="container mt-4">
         <div className="row justify-content-end">
           <div className="col-lg-5  col-md-12 col-sm-12">
