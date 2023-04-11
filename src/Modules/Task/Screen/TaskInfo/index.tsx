@@ -71,7 +71,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                             src={icons.backArrow} /></div>
 
 
-                    <div className="col-7">
+                    <div className="col-6">
                         <H tag={"h3"} text={title} />
                     </div>
                     <div className="col-3"></div>
@@ -79,7 +79,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                 </div>
                 <h3 className="text-sm text-muted">{description}</h3>
                 <div className="row align-items-center my-4">
-                    <div className="col">
+                    <div className="col-5">
                         {
                             task_attachments &&
                             task_attachments?.length > 0 &&
@@ -106,7 +106,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                     <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => editEtaSubmitHandler()} />
 
                 </Modal>
-                <div className="row align-items-end my-5">
+                <div className="row align-items-end my-4">
                     <div className="col">
                         <div className="h5 mb-0"> {by_user?.name} </div>
                         <div className="h5 mb-0"> {by_user?.phone} </div>
