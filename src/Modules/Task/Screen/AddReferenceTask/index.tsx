@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
 import { Button, NoDataFound, CommonTable, Checkbox, showToast, } from "@Components";
-import { useInput,useNavigation } from "@Hooks";
+import { useInput, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK } from "@Utils";
 
 function AddReferenceTask() {
   const dispatch = useDispatch();
-  const { tasks, dashboardDetails, taskItem ,referencesTasks} = useSelector((state: any) => state.AdminReducer);
+  const { tasks, dashboardDetails, taskItem, referencesTasks } = useSelector((state: any) => state.AdminReducer);
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
   const { goBack } = useNavigation();
   const Search = useInput("");
@@ -134,7 +134,7 @@ function AddReferenceTask() {
         <div className="m-3">
           <div className="row justify-content-center">
             {tasks && tasks.data?.length > 0 ? <CommonTable title={'Add Reference task'}
-             tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
+              tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
             /> : <NoDataFound />}
 
           </div>

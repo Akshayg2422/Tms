@@ -5,64 +5,62 @@ import { Divider, Button, HomeContainer, Table, NoDataFound, CommonTable, Input,
 import { ReferenceIssueItem } from "@Modules";
 import { useInput } from "@Hooks";
 import { translate } from "@I18n";
-import { RTS, getStatusFromCode,getArrayFromArrayOfObject, validate, ifObjectExist, ADD_REFERENCE_TICKET, getValidateError } from "@Utils";
+import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, ADD_REFERENCE_TICKET, getValidateError } from "@Utils";
 
 function AddReferenceTicket() {
   const dispatch = useDispatch();
   const { tickets } = useSelector((state: any) => state.CompanyReducer);
-  const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
-  const { selectedIssues } = useSelector(
-    (state: any) => state.AdminReducer
+  const { dashboardDetails, selectedIssues } = useSelector((state: any) => state.AdminReducer);
+  const { issueReferenceDetails } = useSelector(
+    (state: any) => state.CompanyReducer
   );
-  const [selectedReferenceTickets,setSelectedReferenceTickets]=useState([])
+  const [selectedReferenceTickets, setSelectedReferenceTickets] = useState([...issueReferenceDetails])
   const Search = useInput("");
-
-  //  console.log("tickets",tickets)
   const submitHandler = () => {
 
     const params = {
       id: selectedIssues?.id,
       event_type: RTS,
-      reference_ticket: getArrayFromArrayOfObject(selectedReferenceTickets,'id'),
+      reference_ticket: getArrayFromArrayOfObject(selectedReferenceTickets, 'id'),
     };
 
-    const validation=validate(ADD_REFERENCE_TICKET,params)
+    const validation = validate(ADD_REFERENCE_TICKET, params)
     if (ifObjectExist(validation)) {
-    dispatch(
-      addTicketEvent({
-        params,
-        onSuccess: (response: any) => () => {
-          if (response.success) {
-            showToast(response.message, "success");
-            // goBack();
-          }
-         },
-        onError: (error) => () => { 
-          showToast(error.error_message);
-        },
-      })
-    );
+      dispatch(
+        addTicketEvent({
+          params,
+          onSuccess: (response: any) => () => {
+            if (response.success) {
+              showToast(response.message, "success");
+              // goBack();
+            }
+          },
+          onError: (error) => () => {
+            showToast(error.error_message);
+          },
+        })
+      );
     }
     else {
       showToast(getValidateError(validation));
     }
   };
   const onSelectedTickets = (item: any) => {
-    
+
     let updatedSelectedReferenceTickets: any = [...selectedReferenceTickets];
-    
-      const ifExist = updatedSelectedReferenceTickets.some(
-        (el: any) => el.id === item?.id
+
+    const ifExist = updatedSelectedReferenceTickets.some(
+      (el: any) => el.id === item?.id
+    );
+    if (ifExist) {
+      updatedSelectedReferenceTickets = updatedSelectedReferenceTickets.filter(
+        (filterItem: any) => filterItem.id !== item?.id
       );
-      if (ifExist) {
-        updatedSelectedReferenceTickets = updatedSelectedReferenceTickets.filter(
-          (filterItem: any) => filterItem.id !== item?.id
-        );
-      } else {
-        updatedSelectedReferenceTickets = [...updatedSelectedReferenceTickets, item];
-      }
-  
-      setSelectedReferenceTickets(updatedSelectedReferenceTickets);
+    } else {
+      updatedSelectedReferenceTickets = [...updatedSelectedReferenceTickets, item];
+    }
+
+    setSelectedReferenceTickets(updatedSelectedReferenceTickets);
   };
 
   const getSearchHandler = () => {
@@ -77,13 +75,13 @@ function AddReferenceTicket() {
   };
 
   const normalizedTableData = (data: any) => {
-  
+
     return data.map((el: any) => {
-   
+
       const isReference = selectedReferenceTickets.some(
         (element: any) => element.id === el?.id
       );
-      
+
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
@@ -91,9 +89,9 @@ function AddReferenceTicket() {
         "assigned to": el?.assigned_to.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
-        '':<Checkbox  id={el.id} onCheckChange={()=> onSelectedTickets(el) } 
-         defaultChecked={isReference} />,
-         
+        '': <Checkbox id={el.id} onCheckChange={() => onSelectedTickets(el)}
+          defaultChecked={isReference} />,
+
       };
     });
   };
@@ -139,10 +137,10 @@ function AddReferenceTicket() {
       <div>
         <div className="m-3">
           <div className="row justify-content-center">
-          
-  
-                {tickets && tickets?.length > 0 ? <CommonTable title={'Reference Tickets'} tableDataSet={tickets} displayDataSet={normalizedTableData(tickets)}
-                /> : <NoDataFound />}
+
+
+            {tickets && tickets?.length > 0 ? <CommonTable title={'Reference Tickets'} tableDataSet={tickets} displayDataSet={normalizedTableData(tickets)}
+            /> : <NoDataFound />}
 
           </div>
         </div>

@@ -7,7 +7,7 @@ import { addTaskEvent, getTasks } from "@Redux";
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
 
-function TaskInfo({onClick}:TaskInfoProps) {
+function TaskInfo({ onClick }: TaskInfoProps) {
     const { goBack } = useNavigation();
 
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
@@ -44,7 +44,7 @@ function TaskInfo({onClick}:TaskInfoProps) {
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
-       
+
         dispatch(
             addTaskEvent({
                 params,
@@ -55,25 +55,22 @@ function TaskInfo({onClick}:TaskInfoProps) {
         setEditEta(!editEta)
     }
 
-  
+
 
     return (
         <HomeContainer>
-            
-            
-         
-       
+
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
-          <div
-          onClick={()=>{goBack()}} 
-          ><Image  
-                    size={'sm'}
-                    variant='rounded'
-                    className='bg-white mt--1  pl-2'
-                    src={icons.backArrow}   /></div>
-      
-        
+                    <div
+                        onClick={() => { goBack() }}
+                    ><Image
+                            size={'sm'}
+                            variant='rounded'
+                            className='bg-white mt--1  pl-2'
+                            src={icons.backArrow} /></div>
+
+
                     <div className="col-7">
                         <H tag={"h3"} text={title} />
                     </div>
