@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
-import { HOME_PATH, ROUTES } from "@Routes";
+import { HOME_PATH } from "@Routes";
 
 const MAX_LENGTH = 70
 
@@ -70,42 +70,42 @@ const PushNotification = () => {
     const routingHandler = (payload: any) => {
 
         // const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
-        const route_type = 'HOME_PATH.ADD_TASK'
+        const route_type = 'HOME_PATH.CREATE_COMPANY'
 
-        if(route_type === 'HOME_PATH.ADD_TASK'){
-            goTo(ROUTES.HOME.Company)
+        if (route_type === 'HOME_PATH.CREATE_COMPANY') {
+            goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
         }
 
-    //     if (route_type === NOTI_TYPE_BROADCAST_MESSAGE) {
-    //         goTo(navigation, ROUTE.ROUTE_MY_NOTIFICATION);
-    //     }
-    //     else if (route_type === NOTI_TYPE_LEAVE_REQUEST) {
-    //         goTo(navigation, ROUTE.ROUTE_MY_LEAVES);
-    //     }
-    //     else if (route_type === NOTI_TYPE_LEAVE_REQUEST_AD) {
-    //         goTo(navigation, ROUTE.ROUTE_LEAVE_REQUEST);
-    //     }
-    //     else if (route_type === NOTI_TYPE_SHIFT_REQUEST) {
-    //         goTo(navigation, ROUTE.ROUTE_EMPLOYEE_SHIFT_REQUEST);
-    //     }
-    //     else if (route_type === NOTI_TYPE_SHIFT_REQUEST_AD) {
-    //         goTo(navigation, ROUTE.ROUTE_SHIFT_REQUEST);
-    //     }
-    //     else if (route_type === NOTI_TYPE_FACE_RR_REQUEST_AD) {
-    //         goTo(navigation, ROUTE.ROUTE_FACE_RE_REGISTER_REQUEST);
-    //     }
-    //     else if (route_type === NOTI_TYPE_FACE_APPROVAL_REQUEST_AD) {
-    //         goTo(navigation, ROUTE.ROUTE_FACE_RE_REQUEST);
-    //     }
-    //     else if (route_type === NOTI_TYPE_MODIFY_LOG_REQUEST_AD) {
-    //         goTo(navigation, ROUTE.ROUTE_MODIFY_LOGS);
-    //     }
-    //     else if (route_type === NOTI_TYPE_MY_SHIFTS) {
-    //         goTo(navigation, ROUTE.ROUTE_MY_SHIFTS_DETAILS);
-    //     }
-    //     else {
-    //         // goTo(navigation, ROUTE.ROUTE_MY_NOTIFICATION);
-    //     }
+        //     if (route_type === NOTI_TYPE_BROADCAST_MESSAGE) {
+        //         goTo(navigation, ROUTE.ROUTE_MY_NOTIFICATION);
+        //     }
+        //     else if (route_type === NOTI_TYPE_LEAVE_REQUEST) {
+        //         goTo(navigation, ROUTE.ROUTE_MY_LEAVES);
+        //     }
+        //     else if (route_type === NOTI_TYPE_LEAVE_REQUEST_AD) {
+        //         goTo(navigation, ROUTE.ROUTE_LEAVE_REQUEST);
+        //     }
+        //     else if (route_type === NOTI_TYPE_SHIFT_REQUEST) {
+        //         goTo(navigation, ROUTE.ROUTE_EMPLOYEE_SHIFT_REQUEST);
+        //     }
+        //     else if (route_type === NOTI_TYPE_SHIFT_REQUEST_AD) {
+        //         goTo(navigation, ROUTE.ROUTE_SHIFT_REQUEST);
+        //     }
+        //     else if (route_type === NOTI_TYPE_FACE_RR_REQUEST_AD) {
+        //         goTo(navigation, ROUTE.ROUTE_FACE_RE_REGISTER_REQUEST);
+        //     }
+        //     else if (route_type === NOTI_TYPE_FACE_APPROVAL_REQUEST_AD) {
+        //         goTo(navigation, ROUTE.ROUTE_FACE_RE_REQUEST);
+        //     }
+        //     else if (route_type === NOTI_TYPE_MODIFY_LOG_REQUEST_AD) {
+        //         goTo(navigation, ROUTE.ROUTE_MODIFY_LOGS);
+        //     }
+        //     else if (route_type === NOTI_TYPE_MY_SHIFTS) {
+        //         goTo(navigation, ROUTE.ROUTE_MY_SHIFTS_DETAILS);
+        //     }
+        //     else {
+        //         // goTo(navigation, ROUTE.ROUTE_MY_NOTIFICATION);
+        //     }
 
     }
 
