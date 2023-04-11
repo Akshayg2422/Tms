@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
 import { Button, NoDataFound, CommonTable, Checkbox, showToast, } from "@Components";
-import { useInput } from "@Hooks";
+import { useInput,useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK } from "@Utils";
 
 function AddReferenceTask() {
   const dispatch = useDispatch();
-  const { tasks, dashboardDetails, taskItem } = useSelector((state: any) => state.AdminReducer);
-  const [selectedReferenceTask, setSelectedReferenceTask] = useState([])
+  const { tasks, dashboardDetails, taskItem ,referencesTasks} = useSelector((state: any) => state.AdminReducer);
+  const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
+  const { goBack } = useNavigation();
   const Search = useInput("");
   const submitHandler = () => {
 
@@ -27,6 +28,7 @@ function AddReferenceTask() {
         addTaskEvent({
           params,
           onSuccess: (response: any) => () => {
+            goBack()
             if (response.success) {
               showToast(response.message, "success");
             }
@@ -69,7 +71,6 @@ function AddReferenceTask() {
       })
     );
   };
-
   const normalizedTableData = (data: any) => {
 
     return data.map((el: any) => {
@@ -77,7 +78,6 @@ function AddReferenceTask() {
       const isReference = selectedReferenceTask.some(
         (element: any) => element.id === el?.id
       );
-
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
@@ -133,7 +133,8 @@ function AddReferenceTask() {
       <div>
         <div className="m-3">
           <div className="row justify-content-center">
-            {tasks && tasks.data?.length > 0 ? <CommonTable title={'Add Reference task'} tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
+            {tasks && tasks.data?.length > 0 ? <CommonTable title={'Add Reference task'}
+             tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
             /> : <NoDataFound />}
 
           </div>

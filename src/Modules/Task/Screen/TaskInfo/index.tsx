@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components";
 import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
-import { useInput } from "@Hooks";
+import { useInput, useNavigation } from "@Hooks";
 import { addTaskEvent, getTasks } from "@Redux";
+import { icons } from "@Assets";
+import { TaskInfoProps } from './interfaces'
 
-function TaskInfo() {
+function TaskInfo({onClick}:TaskInfoProps) {
+    const { goBack } = useNavigation();
 
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
     const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
-
-
-
     const dispatch = useDispatch();
     const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, order_sequence } = taskItem;
     const [editEta, setEditEta] = useState(false)
@@ -44,7 +44,7 @@ function TaskInfo() {
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
-        console.log(params, "pppppppppp")
+       
         dispatch(
             addTaskEvent({
                 params,
@@ -55,10 +55,25 @@ function TaskInfo() {
         setEditEta(!editEta)
     }
 
+  
+
     return (
         <HomeContainer>
+            
+            
+         
+       
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
+          <div
+          onClick={()=>{goBack()}} 
+          ><Image  
+                    size={'sm'}
+                    variant='rounded'
+                    className='bg-white mt--1  pl-2'
+                    src={icons.backArrow}   /></div>
+      
+        
                     <div className="col-7">
                         <H tag={"h3"} text={title} />
                     </div>

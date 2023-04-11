@@ -32,6 +32,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
 import { icons } from '@Assets';
 
+let companiesDashboard: any = [];
+
 
 function IssueCreate() {
   const dispatch = useDispatch();
@@ -46,6 +48,8 @@ function IssueCreate() {
     (state: any) => state.AdminReducer
   );
   const { isSync } = useSelector((state: any) => state.AppReducer);
+  const { employees } = useSelector((state: any) => state.CompanyReducer);
+  console.log('---------------+++++++', JSON.stringify(employees))
 
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
     useState();
@@ -59,8 +63,8 @@ function IssueCreate() {
   const title = useInput("");
   const description = useInput("");
   const selectedTicketPriority = useDropDown("");
-  let attach=photo.slice(-4,9)
-  
+  let attach = photo.slice(-4, 9)
+
 
 
   const handleImagePicker = (index: number, file: any) => {
@@ -78,10 +82,9 @@ function IssueCreate() {
       brand_branch_id: selectedCompany?.id || "",
       assigned_to_id: selectedUserId?.id,
       priority: selectedTicketPriority?.value?.id,
-      ticket_attachments: [{ attachments:attach}],
+      ticket_attachments: [{ attachments: attach }],
     };
-
-    const validation = validate( typeSelect?.id === "1"?CREATE_EXTERNAL:CREATE_INTERNAL, params);
+    const validation = validate(typeSelect?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
 
     if (ifObjectExist(validation)) {
       dispatch(
@@ -153,21 +156,22 @@ function IssueCreate() {
     );
   }, []);
   useEffect(() => {
-  
+
     const params = {
       branch_id:
-        typeSelect?.id === "2"? dashboardDetails?.permission_details?.branch_id: selectedCompany?.id || "",
+        typeSelect?.id === "2" ? dashboardDetails?.permission_details?.branch_id : selectedCompany?.id || "",
     };
-
+  
     dispatch(
       getEmployees({
         params,
         onSuccess: (response: any) => () => {
-          let companiesDashboard: any = [];
-          response?.details?.forEach(({ id, name,profile_image ,designation}) => {
-            companiesDashboard = [...companiesDashboard, { id, name:name,profile_image:profile_image,designation:designation.name }];
-          });
-          setCompanyUserDashboard(companiesDashboard);
+       
+          response?.details?.forEach((item) => {
+            companiesDashboard = [...companiesDashboard,{...item, designation: item.designation?.name}]
+          }
+          );
+          setCompanyUserDashboard(companiesDashboard)
         },
         onError: (error) => () => {
           setCompanyUserDashboard([]);
@@ -181,17 +185,17 @@ function IssueCreate() {
       <HomeContainer isCard >
         <div className='row col '>
           <div
-          onClick={()=>goBack()} 
-          ><Image  
-                    size={'sm'}
-                    variant='rounded'
-                    className='bg-white mt--1  pl-2'
-                    src={icons.backArrow}   /></div>
-      <div className='pl-2'>  <h3>{translate("common.addTicket")!}</h3>
-      </div>
+            onClick={() => goBack()}
+          ><Image
+              size={'sm'}
+              variant='rounded'
+              className='bg-white mt--1  pl-2'
+              src={icons.backArrow} /></div>
+          <div className='pl-2'>  <h3>{translate("common.addTicket")!}</h3>
+          </div>
         </div>
         <hr className='mt-3'></hr>
-    
+
         <div className="col-md-9 col-lg-7">
           <Input
             heading={translate("auth.title")}
@@ -215,7 +219,7 @@ function IssueCreate() {
                 showToast("there is no associatedBranches in this company");
             }}
           >
-           
+
             <Radio
               // selected={typeSelect}
               data={type}
@@ -230,7 +234,7 @@ function IssueCreate() {
               }}
             />
           </div>
-          
+
           {typeSelect && typeSelect?.id === "1" && (
             <DropDown
               heading={translate("common.company")}
@@ -247,26 +251,26 @@ function IssueCreate() {
             onChange={selectedUser.onChange}
           /> */}
 
-      
-      { companyUserDashboard &&   <AutoCompleteDropDownImage
-      heading={translate("common.user")!}
+
+          {companyUserDashboard && companyUserDashboard.length > 0 && <AutoCompleteDropDownImage
+            heading={translate("common.user")!}
             value={selectedUser}
-            getItemValue={(item)=>item?.name}
+            getItemValue={(item) => item?.name}
             item={companyUserDashboard}
-            onChange={(event, value) =>  setSelectedUser(value)}
-            onSelect={(value,item) => {
+            onChange={(event, value) => setSelectedUser(value)}
+            onSelect={(value, item) => {
               setSelectedUser(value);
               setSelectedUserId(item)
             }}
           />
-}
-<div className='mt--3'>
-          <DropDown
-            selected={selectedTicketPriority.value}
-            heading={translate("common.ticketPriority")}
-            data={PRIORITY}
-            onChange={selectedTicketPriority.onChange}
-          />
+          }
+          <div className='mt--3'>
+            <DropDown
+              selected={selectedTicketPriority.value}
+              heading={translate("common.ticketPriority")}
+              data={PRIORITY}
+              onChange={selectedTicketPriority.onChange}
+            />
           </div>
         </div>
 
@@ -275,7 +279,7 @@ function IssueCreate() {
             {translate("auth.attach")}
           </label>
         </div>
-    
+
 
         <div className="col-md-9 col-lg-7 pb-4 ">
           {selectDropzone &&
@@ -288,7 +292,9 @@ function IssueCreate() {
                   onSelect={(image) => {
                     let file = image.toString().replace(/^data:(.*,)?/, "");
                     handleImagePicker(index, file);
-                    setSelectDropzone([{ id: "1" }, { id: "2" },{ id: "3" }, { id: "4" }]);
+                    { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
+                    { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
+                    { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
                   }}
                 />
               );

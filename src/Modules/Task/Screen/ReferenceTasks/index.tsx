@@ -28,8 +28,6 @@ function ReferenceTasks() {
       q: ""
 
     };
-    console.log('1111111111paramseeeeeeee',params)
-   
 
     dispatch(
       getReferenceTasks({

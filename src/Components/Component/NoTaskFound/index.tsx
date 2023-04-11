@@ -1,5 +1,6 @@
 import { icons } from "@Assets";
 import { Image } from "@Components";
+
 type NotDataFoundProps = {
     text?: string
 }
@@ -10,10 +11,25 @@ function NoTaskFound({ text = 'No Task Found' }: NotDataFoundProps) {
             <div>
                 <Image
                     size={'sm'}
-                    alt="..."
                     className="rounded-circle img-center img-fluid shadow shadow-lg--hover mb--3"
-                    src={icons.questionMark}
-                    style={{ width: "140px", backgroundColor: '#D3D3D3' }}
+                    // src={icons.questionMark}
+                    style={{
+                        width: "140px",
+                        height: "140px",
+                        backgroundColor: '#D3D3D3',
+                        position: 'relative'
+                    }}
+                />
+                <img
+                    src={icons.issuesProblem}
+                    alt="..."
+                    style={{
+                        position: 'absolute',
+                        top: '63%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '8%' // <-- Adjust the size of the icon here
+                    }}
                 />
             </div>
 
@@ -23,7 +39,6 @@ function NoTaskFound({ text = 'No Task Found' }: NotDataFoundProps) {
                 </h5>
             </div>
         </div>
-
     );
 }
 

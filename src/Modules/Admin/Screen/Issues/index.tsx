@@ -45,6 +45,8 @@ function Issues() {
 
   //
   useEffect(() => {
+    //setSynctick testing
+    // setSyncTickets()
     const params = { q: "" };
     dispatch(
       getAssociatedCompanyBranch({
@@ -119,7 +121,7 @@ function Issues() {
         "issue": <div className="row"> <Priority priority={el?.priority} /> <span className="col">{el?.title}</span></div>,
         "attachments":
           <div className="avatar-group" style={{
-            width: '87px'
+            // width: '87px'
           }}>
             {
               el?.ticket_attachments &&

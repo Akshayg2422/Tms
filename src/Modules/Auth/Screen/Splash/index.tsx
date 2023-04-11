@@ -9,8 +9,6 @@ function Splash() {
   const { goTo } = useNavigation();
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
 
-
-
   useEffect(() => {
     setTimeout(() => {
       if (loginDetails?.isLoggedIn) {
@@ -21,7 +19,6 @@ function Splash() {
       }
     }, SPLASH_STAY_TIME_MILE_SECONDS);
   }, []);
-
   return (
     <div className={"d-flex h-100 custom-gradient justify-content-center align-items-center"}>
       <Logo />

@@ -7,6 +7,7 @@ import {
     Dropzone,
     showToast,
     DateTimePicker,
+    Image
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -28,6 +29,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
+import { icons } from "@Assets";
 
 function AddSubTask() {
     const dispatch = useDispatch();
@@ -184,7 +186,20 @@ function AddSubTask() {
 
     return (
         <div>
-            <HomeContainer isCard title={translate("common.addSubTask")!}>
+            <HomeContainer isCard >
+            <div className='row col '>
+          <div
+          onClick={()=>goBack()} 
+          >
+            <Image  
+                    size={'sm'}
+                    variant='rounded'
+                    className='bg-white mt--1  pl-2'
+                    src={icons.backArrow}   />
+                    </div>
+      <div className='pl-2'>  <h3>{translate("common.addSubTask")!}</h3>
+      </div>
+        </div>
                 <div className="col-md-9 col-lg-7">
                     <Input
                         heading={translate("auth.title")}

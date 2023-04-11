@@ -30,7 +30,7 @@ function AutoCompleteDropDownImage({
             <InputHeading heading={heading} />
             <input
             placeholder={placeholder}
-              className={"designation-input form-control col"}
+              className={"designations-input form-control col"}
               {...props}
               
             />
@@ -61,7 +61,7 @@ function AutoCompleteDropDownImage({
                     src={getPhoto(item?.profile_image)}/>}
                     </div>
             <div>
-              {item?.name}/{item?.designation}
+              {item?.name}|{item?.designation}
                 </div>
                
           </div>
