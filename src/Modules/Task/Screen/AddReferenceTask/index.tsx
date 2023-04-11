@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
 import { Button, NoDataFound, CommonTable, Checkbox, showToast, } from "@Components";
-import { useInput } from "@Hooks";
+import { useInput,useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK } from "@Utils";
 
@@ -10,7 +10,7 @@ function AddReferenceTask() {
   const dispatch = useDispatch();
   const { tasks, dashboardDetails, taskItem ,referencesTasks} = useSelector((state: any) => state.AdminReducer);
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
-  console.log("pppppppppp",JSON.stringify(tasks))
+  const { goBack } = useNavigation();
   const Search = useInput("");
   const submitHandler = () => {
 
@@ -28,6 +28,7 @@ function AddReferenceTask() {
         addTaskEvent({
           params,
           onSuccess: (response: any) => () => {
+            goBack()
             if (response.success) {
               showToast(response.message, "success");
             }
