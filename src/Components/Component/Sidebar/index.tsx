@@ -260,7 +260,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
   return (
     <Navbar
       className={
-        "sidenav navbar-vertical navbar-expand-xs navbar-light bg-primary " +
+        "sidenav navbar-vertical navbar-expand-xs navbar-light bg-white " +
         (rtlActive ? "" : "fixed-left")
       }
       onMouseEnter={onMouseEnterSideNav}

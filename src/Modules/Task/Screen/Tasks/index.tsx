@@ -400,6 +400,17 @@ function Tasks() {
 
         :
         <div ><NoTaskFound />
+          <img
+            src={icons.issuesProblem}
+            alt="..."
+            style={{
+              position: 'absolute',
+              top: '72%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '10%'
+            }}
+          />
           <div className="text-center">
             <Button
               size={"md"}

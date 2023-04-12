@@ -8,6 +8,7 @@ import { BroadCastListedItems } from "@Modules";
 import { getBroadCastMessages, setIsSync } from "@Redux";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { INITIAL_PAGE } from '@Utils'
+import { icons } from "@Assets";
 
 
 
@@ -57,7 +58,7 @@ function Broadcast() {
             text={translate("auth.addBroadCast")!}
             size={"sm"}
             onClick={() =>
-              goTo( HOME_PATH.CREATE_BROAD_CAST)
+              goTo(HOME_PATH.CREATE_BROAD_CAST)
             }
           />
         </div> : null}
@@ -94,6 +95,17 @@ function Broadcast() {
 
         </InfiniteScroll>
         : <div className={'py-5'}><NoTaskFound text={'No Broadcast Found'} />
+          <img
+            src={icons.broadCast}
+            alt="..."
+            style={{
+              position: 'absolute',
+              top: '32%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '10%'
+            }}
+          />
           <div className="col text-center">
             <Button
               text={translate("auth.addBroadCast")!}

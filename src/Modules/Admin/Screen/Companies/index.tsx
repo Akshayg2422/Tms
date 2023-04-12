@@ -6,6 +6,7 @@ import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler } from "@Utils";
+import { icons } from "@Assets";
 
 function Companies() {
   const dispatch = useDispatch();
@@ -98,16 +99,27 @@ function Companies() {
           }
           tableOnClick={(idx, index, item) => {
             dispatch(companySelectedDetails(item));
-            goTo( HOME_PATH.COMPANY_INFO);
+            goTo(HOME_PATH.COMPANY_INFO);
 
           }} /> :
-        <div className={'py-5'}><NoTaskFound text={'No Companies Found'} />
+        <div className={''}><NoTaskFound text="No Companies found" />
+          <img
+            src={icons.questionMark}
+            alt="..."
+            style={{
+              position: 'absolute',
+              top: '32%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '10%'
+            }}
+          />
           <div className="text-center">
             <Button
               size={'md'}
               text={translate("common.addCompany")}
               onClick={() => {
-                goTo( HOME_PATH.CREATE_COMPANY);
+                goTo(HOME_PATH.CREATE_COMPANY);
               }}
             />
           </div>
