@@ -400,15 +400,18 @@ function Tasks() {
 
         :
         <div ><NoTaskFound />
-          <img
+          <Image
+            className={'border'}
+            variant={'rounded'}
             src={icons.issuesProblem}
+            size={'xl'}
             alt="..."
             style={{
               position: 'absolute',
               top: '72%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '10%'
+              backgroundColor: '#D3D3D3'
             }}
           />
           <div className="text-center">

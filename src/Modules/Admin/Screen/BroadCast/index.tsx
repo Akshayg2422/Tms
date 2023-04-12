@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Card, Divider, HomeContainer, NoTaskFound, Spinner } from "@Components";
+import { Button, Card, Divider, HomeContainer, NoTaskFound, Spinner, Image } from "@Components";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
@@ -94,16 +94,20 @@ function Broadcast() {
           </Card>
 
         </InfiniteScroll>
-        : <div className={'py-5'}><NoTaskFound text={'No Broadcast Found'} />
-          <img
+        :
+        <div className={'py-5'}><NoTaskFound text={'No Broadcast Found'} />
+          <Image
+            className={'border'}
+            variant={'rounded'}
             src={icons.broadCast}
+            size={'xl'}
             alt="..."
             style={{
               position: 'absolute',
               top: '32%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '10%'
+              backgroundColor: '#D3D3D3'
             }}
           />
           <div className="col text-center">

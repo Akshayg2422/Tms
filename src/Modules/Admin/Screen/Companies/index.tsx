@@ -103,15 +103,18 @@ function Companies() {
 
           }} /> :
         <div className={''}><NoTaskFound text="No Companies found" />
-          <img
-            src={icons.questionMark}
+          <Image
+            className={'border'}
+            variant={'rounded'}
+            src={icons.location}
+            size={'xl'}
             alt="..."
             style={{
               position: 'absolute',
               top: '32%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '10%'
+              backgroundColor: '#D3D3D3'
             }}
           />
           <div className="text-center">

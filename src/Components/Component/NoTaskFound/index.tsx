@@ -1,4 +1,3 @@
-import { icons } from '@Assets'
 import { Image } from "@Components";
 
 type NotDataFoundProps = {
