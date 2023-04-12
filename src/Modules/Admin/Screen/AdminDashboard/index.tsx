@@ -84,6 +84,7 @@ function AdminDashboard() {
         routes={ADMIN_ROUTES}
         toggleSideNav={toggleSideNav}
         sideNavOpen={sideNavOpen}
+        rtlActive={false}
         logo={{
           innerLink: "/",
           imgSrc: icons.logo,

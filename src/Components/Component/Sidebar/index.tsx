@@ -90,7 +90,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
   // this is used on mobile devices, when a user navigates
   // the sidebar will autoclose
   const closeSideNav = () => {
-    if (window.innerWidth < 1200) {
+    if (window.innerWidth < 500) {
       if (toggleSideNav) {
         toggleSideNav();
       }
@@ -260,7 +260,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
   return (
     <Navbar
       className={
-        "sidenav navbar-vertical navbar-expand-xs navbar-light bg-white " +
+        "sidenav navbar-vertical navbar-expand-xs navbar-light bg-primary " +
         (rtlActive ? "" : "fixed-left")
       }
       onMouseEnter={onMouseEnterSideNav}
