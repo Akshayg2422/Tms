@@ -73,7 +73,6 @@ function AddTask() {
             description: description?.value,
             reference_number: referenceNo?.value,
             brand_branch_id: selectedCompany?.id || "",
-            department_id:selectDepartment?.id,
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],

@@ -44,7 +44,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
 
   // makes the sidenav normal on hover (actually when mouse enters on it)
   const onMouseEnterSideNav = () => {
-    console.log('mmmmmmmmmmmmmmmmssssssssssssss')
+    
     if (!document.body.classList.contains("g-sidenav-pinned")) {
       document.body.classList.add("g-sidenav-show");
     }
@@ -52,7 +52,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
 
   // makes the sidenav mini on hover (actually when mouse leaves from it)
   const onMouseLeaveSideNav = () => {
-    console.log('msssnnnnnnnnnnnnnpppppp')
+  
     if (!document.body.classList.contains("g-sidenav-pinned")) {
       document.body.classList.remove("g-sidenav-show");
     }
