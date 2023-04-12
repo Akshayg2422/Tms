@@ -31,7 +31,6 @@ function Broadcast() {
 
   }, []);
 
-
   function getBroadCastMessage(page_number: number) {
 
     const params = { q: "", page_number };
@@ -50,8 +49,6 @@ function Broadcast() {
     );
   }
 
-
-
   return (
     <HomeContainer>
       {broadCastDetails && broadCastDetails.length > 0 ?
@@ -60,7 +57,7 @@ function Broadcast() {
             text={translate("auth.addBroadCast")!}
             size={"sm"}
             onClick={() =>
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_BROAD_CAST)
+              goTo( HOME_PATH.CREATE_BROAD_CAST)
             }
           />
         </div> : null}

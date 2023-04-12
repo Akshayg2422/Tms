@@ -1,21 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
-import { Button, NoDataFound, CommonTable, Checkbox, showToast, } from "@Components";
-import { useInput, useNavigation } from "@Hooks";
+import { Button, NoDataFound, CommonTable, Checkbox, showToast,Image } from "@Components";
+import { useInput,useNavigation } from "@Hooks";
 import { translate } from "@I18n";
-import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK } from "@Utils";
+import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler,SEARCH_PAGE } from "@Utils";
+import { icons } from "@Assets";
 
 function AddReferenceTask() {
   const dispatch = useDispatch();
-  const { tasks, dashboardDetails, taskItem, referencesTasks } = useSelector((state: any) => state.AdminReducer);
+  const { isSync } = useSelector((state: any) => state.AppReducer);
+  const { tasks, dashboardDetails, taskItem ,referencesTasks, taskNumOfPages,taskCurrentPages} = useSelector((state: any) => state.AdminReducer);
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
   const { goBack } = useNavigation();
   const Search = useInput("");
+
+
+
+useEffect(() => {
+  if (!isSync.tasks) {
+    getSearchHandler(taskCurrentPages)
+  }
+}, [isSync])
   const submitHandler = () => {
 
     const params = {
-
       id: taskItem?.id,
       event_type: RTS,
       reference_task: getArrayFromArrayOfObject(selectedReferenceTask, 'id'),
@@ -28,8 +37,9 @@ function AddReferenceTask() {
         addTaskEvent({
           params,
           onSuccess: (response: any) => () => {
-            goBack()
+           
             if (response.success) {
+              goBack()
               showToast(response.message, "success");
             }
           },
@@ -61,16 +71,26 @@ function AddReferenceTask() {
     setSelectedReferenceTask(updatedSelectedReferenceTask);
   };
 
-  const getSearchHandler = () => {
-    const params = { q_many: Search.value };
+  const getSearchHandler = (pageNumber:any) => {
+    const params = { q_many: Search.value ,
+      page_number: pageNumber,};
+    
     dispatch(
       getTasks({
         params,
-        onSuccess: () => () => { },
+        onSuccess: () => () => { 
+        },
         onError: () => () => { },
       })
     );
   };
+  
+  function proceedTaskSearch() {
+    // setSyncTickets()
+    getSearchHandler(SEARCH_PAGE)
+  }
+  
+
   const normalizedTableData = (data: any) => {
 
     return data.map((el: any) => {
@@ -107,7 +127,7 @@ function AddReferenceTask() {
               />
               <span
                 className="input-group-text pointer border border-0"
-                onClick={getSearchHandler}
+                onClick={proceedTaskSearch}
               >
                 {" "}
                 <i className="fas fa-search" />
@@ -133,8 +153,35 @@ function AddReferenceTask() {
       <div>
         <div className="m-3">
           <div className="row justify-content-center">
-            {tasks && tasks.data?.length > 0 ? <CommonTable title={'Add Reference task'}
-              tableDataSet={tasks.data} displayDataSet={normalizedTableData(tasks.data)}
+            {tasks && tasks.data?.length > 0 ? <CommonTable title={ 
+            <div className='row col pt-2 '>
+          <div
+          onClick={()=>goBack()} 
+          ><Image  
+                    size={'sm'}
+                    variant='rounded'
+                    className='bg-white mt--1  pl-1'
+                    src={icons.backArrow}   /></div>
+      <div className='pl-2'>  <h3>{'Add Reference Task'}</h3>
+      </div>
+        </div>}
+           isPagination
+             tableDataSet={tasks.data} 
+             currentPage={taskCurrentPages}
+             noOfPage={taskNumOfPages}
+             displayDataSet={normalizedTableData(tasks.data)}
+             paginationNumberClick={(currentPage) => {
+              getSearchHandler(paginationHandler("current", currentPage));
+             }}
+             previousClick={() => {
+              getSearchHandler(paginationHandler("prev",taskCurrentPages))
+             }
+             }
+             nextClick={() => {
+              getSearchHandler(paginationHandler("next", taskCurrentPages));
+             }
+             }
+
             /> : <NoDataFound />}
 
           </div>

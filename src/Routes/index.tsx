@@ -42,21 +42,22 @@ export const HOME_PATH = {
   TASK_DETAILS: '/task-details'
 }
 
+
 export const INFO = {
-  DASHBOARD: "/admin",
+  DASHBOARD: "",
   COMPANY: "/company",
   COMPANY_INFO: "/CompanyInfo"
 }
 
 export const ADD_USER_INFO = {
-  DASHBOARD: "/admin",
+  DASHBOARD: "",
   COMPANY: "/company",
   ADD_USER: "/AddUser"
 }
 
 
 export const TAB_ISSUE_ATTACH_DETAILS = {
-  DASHBOARD: "/admin",
+  DASHBOARD: "",
   COMPANY: "/company",
   TAB_ISSUE_USER_DETAILS: "/TabIssueReferenceDetails"
 }
@@ -92,14 +93,14 @@ export const ADMIN_ROUTES = [
     path: "/profile",
     name: "Profile",
     icon: "bi bi-person-circle text-primary",
-    layout: "/admin",
+    layout: "",
     component: <Profile/>
   },
   {
     path: "/tasks",
     name: "Tasks",
     icon: "bi bi-list-task text-primary",
-    layout: "/admin",
+    layout: "",
     component: <Tasks />
   },
  
@@ -107,21 +108,21 @@ export const ADMIN_ROUTES = [
     path: "/issues",
     name: "Tickets",
     icon: "bi bi-bell text-primary",
-    layout: "/admin",
+    layout: "",
     component: <Issues />
   },
   {
     path: "/companies",
     name: "Companies",
     icon: "bi bi-geo-alt text-primary",
-    layout: "/admin",
+    layout: "",
     component: <Companies />
   },
   {
     path: "/broadCast",
     name: "Broadcast",
     icon: "bi bi-megaphone text-primary",
-    layout: "/admin",
+    layout: "",
     component: <Broadcast />
   },
  
@@ -129,7 +130,7 @@ export const ADMIN_ROUTES = [
     path: "/settings",
     name: "Settings",
     icon: "bi bi-gear text-primary",
-    layout: "/admin",
+    layout: "",
     component: <Settings />
   }
 ];

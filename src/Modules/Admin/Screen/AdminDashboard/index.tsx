@@ -92,9 +92,9 @@ function AdminDashboard() {
         }}
       />
 
-      <div className={"main-content"} ref={mainContentRef}>
-        <Routes>
-          {getRoutes(ADMIN_ROUTES)}
+      {/* <div className={"main-content"} ref={mainContentRef}>
+        <Routes> */}
+          {/* {getRoutes(ADMIN_ROUTES)}
           <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany />} />
           <Route path={HOME_PATH.COMPANY_INFO} element={<CompanyDetails />} />
           <Route path={HOME_PATH.ADD_USER} element={<AddUser />} />
@@ -105,12 +105,12 @@ function AdminDashboard() {
           <Route path={HOME_PATH.ISSUE_TICKET} element={<IssueCreate />} />
           <Route path={HOME_PATH.ADD_TASK} element={<AddTask />} />
           <Route path={HOME_PATH.TASK_DETAILS+'/:id'} element={<TaskDetails />} />
-          <Route path={HOME_PATH.ADD_SUB_TASK} element={<AddSubTask />} />
+          <Route path={HOME_PATH.ADD_SUB_TASK} element={<AddSubTask />} /> */}
           {/* <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} /> */}
           {/* <Route path={CREATE_BROAD_CAST.BROAD_CAST} element={<CreateBroadCast/>} /> */}
           {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
-        </Routes>
-      </div>
+        {/* </Routes>
+      </div> */}
 
       {sideNavOpen ? (
         <div className={"backdrop d-xl-none"} onClick={toggleSideNav} />

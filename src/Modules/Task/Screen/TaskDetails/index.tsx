@@ -44,7 +44,7 @@ function TaskDetails() {
                                     size={"sm"}
                                     text={translate('common.addNew')}
                                     onClick={() => {
-                                        goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_SUB_TASK);
+                                        goTo(HOME_PATH.ADD_SUB_TASK);
                                     }}
                                 />
                             </span>
