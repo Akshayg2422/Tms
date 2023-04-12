@@ -1,4 +1,4 @@
-import { AppLoader, PageNotFound, ScreenWrapper } from "@Components";
+import { AppLoader, PageNotFound, ScreenWrapper, Sidebar } from "@Components";
 import { Route, Routes } from "react-router-dom";
 import { ADMIN_ROUTES, AUTH_ROUTES, HOME_PATH } from "@Routes";
 import { AddReferenceTask, AddReferenceTicket, AddSubTask, AddTask, AddUser, AdminDashboard, CompanyDashBoard, CompanyDetails, CreateBroadCast, CreateCompany, IssueCreate, IssueDetails, PushNotification, TaskDetails } from "@Modules";
@@ -27,6 +27,7 @@ function App() {
 
   const fcmToken = localStorage.getItem(FCM_TOKEN)
   console.log("FCM TOKEN======>", fcmToken)
+ 
 
   const getRoutes = (routes: any) => {
     return routes.map((prop: any, key: any) => {
@@ -40,11 +41,17 @@ function App() {
     });
   };
 
+
   return (
     <ScreenWrapper>
       <PushNotification />
       <AppLoader />
-   {loginUserSuccess && <AdminDashboard/>}
+   {loginUserSuccess &&
+   
+    <AdminDashboard/>
+      
+      }
+      
    <div className={"main-content"} >
       <Routes>
         {getRoutes(AUTH_ROUTES)}
@@ -62,7 +69,7 @@ function App() {
           <Route path={HOME_PATH.ADD_SUB_TASK} element={<AddSubTask />} />
         {/* <Route path={HOME_PATH.DASHBOARD } element={<AdminDashboard />} /> */}
         {/* <Route path={HOME_PATH.COMPANY + "/*"} element={<CompanyDashBoard />} /> */}
-        <Route path={"*"} element={<PageNotFound />} />
+        {/* <Route path={"*"} element={<PageNotFound />} /> */}
       </Routes>
       </div>
       
