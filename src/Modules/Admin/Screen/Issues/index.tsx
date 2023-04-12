@@ -175,7 +175,7 @@ function Issues() {
               size={"sm"}
               text={translate("common.addTicket")}
               onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+                goTo(HOME_PATH.ISSUE_TICKET);
               }}
             />
           </div> : null
@@ -324,7 +324,7 @@ function Issues() {
             tableOnClick={(idx, index, item) => {
               dispatch(setSelectedIssues(item));
               dispatch(setSelectedReferenceIssues(undefined))
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+              goTo(HOME_PATH.ISSUE_DETAILS);
             }
             }
           />
@@ -334,7 +334,7 @@ function Issues() {
               size={"md"}
               text={translate("common.addTicket")}
               onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+                goTo(HOME_PATH.ISSUE_TICKET);
               }}
             />
           </div>

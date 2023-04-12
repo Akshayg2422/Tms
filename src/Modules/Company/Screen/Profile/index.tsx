@@ -4,16 +4,17 @@ import { useSelector } from "react-redux";
 import { translate } from "@I18n";
 
 function Profile() {
-  const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
+  const { dashboardDetails} = useSelector((state: any) => state.AdminReducer);
 
-  const { company, company_branch, permission_details, user_details, ticket_status } = dashboardDetails;
+  const { company, company_branch, permission_details, user_details, ticket_status } = dashboardDetails&&dashboardDetails;
+  console.log(dashboardDetails,"=========>")
 
 
   return (
     <HomeContainer isCard>
       <div>
         <div className="text-center">
-          <H tag={"h3"} className="mb-0" text={company.name} />
+          <H tag={"h3"} className="mb-0" text={company?.name} />
         </div>
         <hr></hr>
         {user_details && user_details?.profile_photo && <Image variant={'rounded'} src={getPhoto(user_details?.profile_photo)} />}

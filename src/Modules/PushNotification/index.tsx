@@ -73,7 +73,7 @@ const PushNotification = () => {
         const route_type = 'HOME_PATH.CREATE_COMPANY'
 
         if (route_type === 'HOME_PATH.CREATE_COMPANY') {
-            goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+            goTo(HOME_PATH.ISSUE_TICKET);
         }
 
         //     if (route_type === NOTI_TYPE_BROADCAST_MESSAGE) {

@@ -71,7 +71,7 @@ function Companies() {
               size={'sm'}
               text={translate("common.addCompany")}
               onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_COMPANY);
+                goTo(HOME_PATH.CREATE_COMPANY);
               }}
             />
           </div> : null}
@@ -98,7 +98,7 @@ function Companies() {
           }
           tableOnClick={(idx, index, item) => {
             dispatch(companySelectedDetails(item));
-            goTo(HOME_PATH.DASHBOARD + HOME_PATH.COMPANY_INFO);
+            goTo( HOME_PATH.COMPANY_INFO);
 
           }} /> :
         <div className={'py-5'}><NoTaskFound text={'No Companies Found'} />
@@ -107,7 +107,7 @@ function Companies() {
               size={'md'}
               text={translate("common.addCompany")}
               onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_COMPANY);
+                goTo( HOME_PATH.CREATE_COMPANY);
               }}
             />
           </div>

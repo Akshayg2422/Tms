@@ -7,6 +7,7 @@ export interface AdminStateProp {
   loading?:boolean;
   error?:string;
   departmentData?:any;
+  taskGroupDetails:any,
   designationData?:any;
   companyDetailsSelected?:any;
   referenceIssueSelectedDetails:any;
@@ -25,7 +26,9 @@ export interface AdminStateProp {
   subTasks:any,
   taskItem:any,
   brandSector: any,
+  getTaskGroupCurrentPages:any,
   ticketTag:any,
+  loginUserSuccess:any,
   brandSectorCurrentPages:any,
   brandSectorNumOfPages:any,
   ticketTagCurrentPages:any,
