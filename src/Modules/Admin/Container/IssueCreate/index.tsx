@@ -16,6 +16,7 @@ import {
   raiseNewTicket,
   setIsSync,
   getAssociatedCompanyBranch,
+  getDepartmentData,
 } from "@Redux";
 import {
   CREATE_EXTERNAL,
@@ -49,7 +50,7 @@ function IssueCreate() {
   );
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const { employees } = useSelector((state: any) => state.CompanyReducer);
-  console.log('---------------+++++++', JSON.stringify(employees))
+ 
 
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
     useState();
@@ -58,6 +59,8 @@ function IssueCreate() {
   const [selectedCompany, setSelectedCompany] = useState<any>({});
   const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
   const [image, setImage] = useState("");
+  const [departmentDataList,setDepartmentDatalist]=useState<any>();
+  const[selectDepartment,setSelectDepartment]=useState<any>({})
 
   const referenceNo = useInput("");
   const title = useInput("");
@@ -157,16 +160,18 @@ function IssueCreate() {
   }, []);
   useEffect(() => {
 
+    if(selectDepartment?.id){
+
     const params = {
       branch_id:
         typeSelect?.id === "2" ? dashboardDetails?.permission_details?.branch_id : selectedCompany?.id || "",
+        department_id:selectDepartment?.id,
     };
   
     dispatch(
       getEmployees({
         params,
         onSuccess: (response: any) => () => {
-       
           response?.details?.forEach((item) => {
             companiesDashboard = [...companiesDashboard,{...item, designation: item.designation?.name}]
           }
@@ -178,7 +183,35 @@ function IssueCreate() {
         },
       })
     );
-  }, [typeSelect, selectedCompany]);
+    }
+  }, [typeSelect, selectDepartment]);
+  useEffect(() => {
+    if(selectedCompany?.id|| typeSelect?.id === "2"){
+    const params = {
+        branch_id:
+            typeSelect?.id === "2"
+                ? dashboardDetails?.permission_details?.branch_id
+                : selectedCompany?.id || "",
+    };
+    dispatch(
+        getDepartmentData({
+            params,
+            onSuccess: (response: any) => () => {
+                let departmentDetails:any =[];
+                response?.details?.data?.forEach((item)=>{
+                    departmentDetails=[...departmentDetails,{...item,text:item.name}]
+                })
+                setDepartmentDatalist(departmentDetails)
+            },
+            onError: (error) => () => {
+                setDepartmentDatalist([])
+             
+            },
+        })
+    );
+
+    }
+}, [typeSelect, selectedCompany]);
 
   return (
     <div>
@@ -227,6 +260,8 @@ function IssueCreate() {
               disableId={isSelect ? type[1] : ""}
               onRadioChange={(selected) => {
                 setSelectedCompany({});
+                setSelectDepartment({})
+                setSelectedUser('')
                 // selectedUser.value(undefined);
                 if (selected) {
                   setTypeSelect(selected);
@@ -243,16 +278,17 @@ function IssueCreate() {
               selected={selectedCompany}
             />
           )}
+   {departmentDataList  && departmentDataList.length>0 && <DropDown     
+                            heading={'Department'}
+                            data={departmentDataList}
+                            onChange={setSelectDepartment}
+                            selected={selectDepartment}
+                        />
+                     }
+  
 
-          {/* <DropDown
-            selected={selectedUser.value}
-            heading={translate("common.user")}
-            data={companyUserDashboard}
-            onChange={selectedUser.onChange}
-          /> */}
 
-
-          {companyUserDashboard && companyUserDashboard.length > 0 && <AutoCompleteDropDownImage
+          {companyUserDashboard && companyUserDashboard.length > 0 &&<AutoCompleteDropDownImage
             heading={translate("common.user")!}
             value={selectedUser}
             getItemValue={(item) => item?.name}

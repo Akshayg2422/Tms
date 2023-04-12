@@ -112,9 +112,9 @@ function AdminDashboard() {
         {/* </Routes>
       </div> */}
 
-      {sideNavOpen ? (
-        <div className={"backdrop d-xl-none"} onClick={toggleSideNav} />
-      ) : null}
+      {/* {sideNavOpen ? (
+        <div className={""} onClick={toggleSideNav} />
+      ) : null} */}
     </>
   );
 }

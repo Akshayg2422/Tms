@@ -73,6 +73,7 @@ function AddTask() {
             description: description?.value,
             reference_number: referenceNo?.value,
             brand_branch_id: selectedCompany?.id || "",
+            department_id:selectDepartment?.id,
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
@@ -147,6 +148,7 @@ function AddTask() {
     }, []);
 
     useEffect(() => {
+        if(selectDepartment?.id){
         const params = {
             branch_id:
                 typeSelect?.id === "2"
@@ -160,7 +162,6 @@ function AddTask() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
-                    console.log("==ff",JSON.stringify(response))
                     let companiesDashboard: any = [];
                     response?.details?.forEach((item) => {
                         companiesDashboard = [...companiesDashboard, {...item, designation:item?.designation?.name}];
@@ -172,6 +173,7 @@ function AddTask() {
                 },
             })
         );
+        }
     }, [typeSelect,selectDepartment]);
 
 
@@ -259,6 +261,8 @@ function AddTask() {
                             onRadioChange={(selected) => {
                                 setSelectedCompany({});
                                 // selectedUser.value(undefined);
+                                setSelectDepartment({})
+                                setSelectedUser('')
                                 if (selected) {
                                     setTypeSelect(selected);
                                 }
