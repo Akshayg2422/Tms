@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId, getTaskGroup } from "@Redux";
-import { HomeContainer, Button, DropDown,  InputHeading, Image, CommonTable, Priority, Status, NoTaskFound ,Badge} from "@Components";
+import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound, Badge } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
@@ -14,7 +14,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 function Tasks() {
   const { goTo } = useNavigation();
-  const { tasks, taskNumOfPages, taskCurrentPages, getTaskGroupDetails,taskGroupDetails, getTaskGroupCurrentPages, taskGroupCurrentPages,taskGroupNumOfPages } = useSelector((state: any) => state.AdminReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, getTaskGroupDetails, taskGroupDetails, getTaskGroupCurrentPages, taskGroupCurrentPages, taskGroupNumOfPages } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTasks = useDropDown(FILTERED_LIST[2])
@@ -26,9 +26,9 @@ function Tasks() {
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
   const [selectTag, setSelectTag] = useState<any>([0])
-  console.log("aaaaaaaaaaaaa===",JSON.stringify(taskGroupDetails))
-  console.log(taskGroupNumOfPages,getTaskGroupCurrentPages)
- 
+  console.log("aaaaaaaaaaaaa===", JSON.stringify(taskGroupDetails))
+  console.log(taskGroupNumOfPages, getTaskGroupCurrentPages)
+
 
   const getCompanyBranchDropdown = (details: any) => {
 
@@ -46,7 +46,7 @@ function Tasks() {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     // getTaskGroupPage(INITIAL_PAGE)
     // const params = {};
     //testing for setsynticket
@@ -55,14 +55,14 @@ function Tasks() {
     //   getTaskGroup({
     //     params,
     //     onSuccess: (response: any) => () => {
-          
-      
+
+
     //     },
     //     onError: () => () => {
     //     },
     //   })
     // )
-  },[])
+  }, [])
 
   function getTaskGroupPage(page_number: number) {
 
@@ -72,7 +72,7 @@ function Tasks() {
       getTaskGroup({
         params,
         onSuccess: (response: any) => () => {
-          
+
         },
         onError: () => () => {
         },
@@ -107,7 +107,7 @@ function Tasks() {
       getTaskHandler(taskCurrentPages)
       getTaskGroupPage(INITIAL_PAGE)
     }
-    
+
   }, [isSync])
 
 
@@ -119,9 +119,9 @@ function Tasks() {
       company: companyType.value.id,
       priority: taskPriority.value.id,
       page_number: pageNumber,
-      group:selectTag?.id,
+      group: selectTag?.id,
     };
-  
+
 
     dispatch(
       getTasks({
@@ -153,8 +153,8 @@ function Tasks() {
         "task":
           <div className="row"> <Priority priority={el?.priority} /> <span className="col">{el?.title}</span></div>,
         "attachments":
-          <div className="avatar-group " style={{
-            // width: '87px'
+          <div className="row avatar-group" style={{
+            width: '205px'
           }}>
             {
               el?.task_attachments &&
@@ -197,7 +197,7 @@ function Tasks() {
 
 
 
- 
+
   return (
     <>
       <HomeContainer>
@@ -213,35 +213,36 @@ function Tasks() {
           </div> : null}
 
 
-          <div>
+        <div>
           {taskGroupDetails && taskGroupDetails.length > 0 &&
-        <InfiniteScroll
-          dataLength={taskGroupDetails.length}
-          hasMore={getTaskGroupCurrentPages!== -1}
-          loader={<h4>
-            <Spinner />
-          </h4>}
-          next={() => {
-            if (getTaskGroupCurrentPages !== -1) {
-              getTaskGroupPage(getTaskGroupCurrentPages)
-              console.log("ccccccccc",getTaskGroupCurrentPages)
-            }
-          }
-          }>
-            {taskGroupDetails.map((el:any)=>{
-              return(
-                <Badge text={ '#'+el.code} className={`bg-${el?.id===selectTag?.id?"primary":"white"}`}
-                onClick={()=>{setSelectTag(el)
-                  setSyncTickets()
-               }}
-                />
-              )
-               
-            })
-            
-}
-</InfiniteScroll>}
-          </div>
+            <InfiniteScroll
+              dataLength={taskGroupDetails.length}
+              hasMore={getTaskGroupCurrentPages !== -1}
+              loader={<h4>
+                <Spinner />
+              </h4>}
+              next={() => {
+                if (getTaskGroupCurrentPages !== -1) {
+                  getTaskGroupPage(getTaskGroupCurrentPages)
+                  console.log("ccccccccc", getTaskGroupCurrentPages)
+                }
+              }
+              }>
+              {taskGroupDetails.map((el: any) => {
+                return (
+                  <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
+                    onClick={() => {
+                      setSelectTag(el)
+                      setSyncTickets()
+                    }}
+                  />
+                )
+
+              })
+
+              }
+            </InfiniteScroll>}
+        </div>
       </HomeContainer>
       <HomeContainer isCard className={'mb--5'} >
         <div className="row mb--3">
@@ -391,7 +392,7 @@ function Tasks() {
               dispatch(getTaskItem(item));
               dispatch(getSelectReferenceId(undefined))
               dispatch(getSelectSubTaskId(undefined))
-              goTo( HOME_PATH.TASK_DETAILS + '/' + item?.id);
+              goTo(HOME_PATH.TASK_DETAILS + '/' + item?.id);
             }
             }
           />

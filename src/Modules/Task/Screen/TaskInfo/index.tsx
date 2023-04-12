@@ -63,6 +63,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
                     <div
+                        className={'mr--2'}
                         onClick={() => { goBack() }}
                     ><Image
                             size={'sm'}
@@ -72,12 +73,12 @@ function TaskInfo({ onClick }: TaskInfoProps) {
 
 
                     <div className="col-6">
-                        <H tag={"h3"} text={title} />
+                        <H tag={"h4"} text={title} />
                     </div>
                     <div className="col-3"></div>
                     <div className="col-2 mr--9 mt-1"><h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6></div>
                 </div>
-                <h3 className="text-sm text-muted">{description}</h3>
+                <H className={'text-muted'} tag={'h5'} text={description} />
                 <div className="row align-items-center my-4">
                     <div className="col-5">
                         {
