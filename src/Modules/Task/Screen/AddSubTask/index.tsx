@@ -16,6 +16,7 @@ import {
     setIsSync,
     getAssociatedCompanyBranch,
     getTasks,
+    getTaskGroup,
 } from "@Redux";
 import {
     CREATE_INTERNAL,
@@ -38,7 +39,7 @@ function AddSubTask() {
     const [typeSelect, setTypeSelect] = useState(type[0]);
     const [isSelect, setIsSelect] = useState(false);
 
-    const { dashboardDetails, taskItem } = useSelector(
+    const { dashboardDetails, taskItem, getTaskGroupDetails } = useSelector(
         (state: any) => state.AdminReducer
     );
     const { isSync } = useSelector((state: any) => state.AppReducer);
@@ -57,12 +58,12 @@ function AddSubTask() {
     const selectedUser = useDropDown("");
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
+    const [selectGroup, setSelectGroup] = useState<any>('')
+    const [showTaskGroup, setShowTaskGroup] = useState<any>([]);
 
 
     const handleImagePicker = (index: number, file: any) => {
-        // let updatedPhoto = [...selectDropzone, file];
         let newUpdatedPhoto = [...photo, file];
-        // setSelectDropzone(updatedPhoto);
         setPhoto(newUpdatedPhoto);
     };
 
@@ -79,13 +80,12 @@ function AddSubTask() {
             task_attachments: [{ attachments: photo }],
             is_parent: false,
             eta_time: eta,
-            parent_id: taskItem.id,
-            group_id:''
+            parent_id: taskItem?.id,
+            group_id: selectGroup?.id
         };
 
 
-
-        const validation = validate(typeSelect?.id === "1"?CREATE_EXTERNAL:CREATE_INTERNAL, params);
+        const validation = validate(typeSelect?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
 
         if (ifObjectExist(validation)) {
             dispatch(
@@ -184,22 +184,45 @@ function AddSubTask() {
         setEta(value);
     };
 
+    useEffect(() => {
+        getTaskGroupList()
+    }, [])
+
+
+    const getTaskGroupList = () => {
+        const params = {};
+
+        dispatch(
+            getTaskGroup({
+                params,
+                onSuccess: (response: any) => () => {
+                    let subTaskGroupLists: any = [];
+                    response?.details?.data?.forEach((item) => {
+                        subTaskGroupLists = [...subTaskGroupLists, { ...item, text: item.name }]
+                    })
+                    setShowTaskGroup(subTaskGroupLists)
+                },
+                onError: (error: string) => () => { },
+            })
+        );
+    };
+
     return (
         <div>
             <HomeContainer isCard >
-            <div className='row col '>
-          <div
-          onClick={()=>goBack()} 
-          >
-            <Image  
-                    size={'sm'}
-                    variant='rounded'
-                    className='bg-white mt--1  pl-2'
-                    src={icons.backArrow}   />
+                <div className='row col '>
+                    <div
+                        onClick={() => goBack()}
+                    >
+                        <Image
+                            size={'sm'}
+                            variant='rounded'
+                            className='bg-white mt--1  pl-2'
+                            src={icons.backArrow} />
                     </div>
-      <div className='pl-2'>  <h3>{translate("common.addSubTask")!}</h3>
-      </div>
-        </div>
+                    <div className='pl-2'>  <h3>{translate("common.addSubTask")!}</h3>
+                    </div>
+                </div>
                 <div className="col-md-9 col-lg-7">
                     <Input
                         heading={translate("auth.title")}
@@ -256,6 +279,12 @@ function AddSubTask() {
                         heading={translate("common.ticketPriority")}
                         data={PRIORITY}
                         onChange={selectedTicketPriority.onChange}
+                    />
+                    <DropDown
+                        selected={selectGroup}
+                        heading={translate("common.selectGroup")}
+                        data={showTaskGroup}
+                        onChange={setSelectGroup}
                     />
                     <DateTimePicker
                         id="eta-picker"
