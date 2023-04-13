@@ -329,6 +329,20 @@ function Issues() {
             }
           />
         </> : <div ><NoTaskFound text={'No Ticket Found'} />
+          <Image
+            className={'border'}
+            variant={'rounded'}
+            src={icons.bellIcon}
+            size={'xl'}
+            alt="..."
+            style={{
+              position: 'absolute',
+              top: '68%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              backgroundColor: '#D3D3D3'
+            }}
+          />
           <div className="text-center">
             <Button
               size={"md"}

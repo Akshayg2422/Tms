@@ -75,7 +75,8 @@
     "addNew": "ADD NEW",
     "assignedTo":"AssignedTo",
     "codeTitle": "Code/Title",
-    "Priority" : "Priority"
+    "Priority" : "Priority",
+    "selectGroup": "Select Group"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
