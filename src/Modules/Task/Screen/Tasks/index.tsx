@@ -12,6 +12,7 @@ import { DropdownItem, DropdownMenu, DropdownToggle, Spinner, UncontrolledDropdo
 import { icons } from "@Assets";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+
 function Tasks() {
   const { goTo } = useNavigation();
   const { tasks, taskNumOfPages, taskCurrentPages, getTaskGroupDetails, taskGroupDetails, getTaskGroupCurrentPages, taskGroupCurrentPages, taskGroupNumOfPages } = useSelector((state: any) => state.AdminReducer);
@@ -26,9 +27,6 @@ function Tasks() {
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
   const [selectTag, setSelectTag] = useState<any>([0])
-  console.log("aaaaaaaaaaaaa===", JSON.stringify(taskGroupDetails))
-  console.log(taskGroupNumOfPages, getTaskGroupCurrentPages)
-
 
   const getCompanyBranchDropdown = (details: any) => {
 
@@ -211,31 +209,32 @@ function Tasks() {
               }}
             />
           </div> : null}
-
-
         <div>
           {taskGroupDetails && taskGroupDetails.length > 0 &&
             <InfiniteScroll
               dataLength={taskGroupDetails.length}
               hasMore={getTaskGroupCurrentPages !== -1}
               loader={<h4>
+
                 <Spinner />
               </h4>}
               next={() => {
                 if (getTaskGroupCurrentPages !== -1) {
                   getTaskGroupPage(getTaskGroupCurrentPages)
-                  console.log("ccccccccc", getTaskGroupCurrentPages)
                 }
               }
               }>
+                
               {taskGroupDetails.map((el: any) => {
                 return (
+               
                   <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
                     onClick={() => {
                       setSelectTag(el)
                       setSyncTickets()
                     }}
                   />
+              
                 )
 
               })

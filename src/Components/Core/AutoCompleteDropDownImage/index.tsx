@@ -1,8 +1,8 @@
-import React from "react";
+
 import { AutoCompleteDropDownProps } from "./interfaces"
 import Autocomplete from "react-autocomplete";
 import { FormGroup } from "reactstrap";
-import { Input, InputHeading,Image} from "@Components";
+import {  InputHeading,Image} from "@Components";
 import {
   
     getPhoto,
