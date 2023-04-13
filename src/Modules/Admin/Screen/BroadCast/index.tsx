@@ -104,7 +104,7 @@ function Broadcast() {
             alt="..."
             style={{
               position: 'absolute',
-              top: '32%',
+              top: '58%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
               backgroundColor: '#D3D3D3'

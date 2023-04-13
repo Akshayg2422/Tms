@@ -408,7 +408,7 @@ function Tasks() {
             alt="..."
             style={{
               position: 'absolute',
-              top: '72%',
+              top: '68%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
               backgroundColor: '#D3D3D3'
