@@ -54,9 +54,9 @@ function TaskDetails() {
                                     />
                                 </div>
                             </div>
-                            <div className={'container'}>
-                                <SubTaskListing />
-                            </div>
+
+                            <div className={'container'}><SubTaskListing /></div>
+
                         </Card>
                     </div>
                 </div>

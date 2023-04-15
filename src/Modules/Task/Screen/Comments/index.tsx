@@ -119,9 +119,6 @@ function Comments() {
                 })}
               </div>
             </Card>
-            <div className="row mt--4">
-              <TagAndAssignUser />
-            </div>
           </div>
 
           <div className="row fixed-bottom position-absolute">
