@@ -6,6 +6,7 @@ import { useInput, useNavigation } from "@Hooks";
 import { addTaskEvent, getTasks } from "@Redux";
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
+import { TagAndAssignUser } from "@Modules";
 
 function TaskInfo({ onClick }: TaskInfoProps) {
     const { goBack } = useNavigation();
@@ -76,7 +77,13 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                         <H tag={"h4"} text={title} />
                     </div>
                     <div className="col-3"></div>
-                    <div className="col-2 mr--9 mt-1"><h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6></div>
+                    <div className="col-2 ml-4 mt-1">
+                        <h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}
+                            <div className="col ml-4 mt--4">
+                                <TagAndAssignUser />
+                            </div>
+                        </h6>
+                    </div>
                 </div>
                 <H className={'text-muted'} tag={'h5'} text={description} />
                 <div className="row align-items-center my-4">
