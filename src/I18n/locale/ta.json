@@ -56,7 +56,8 @@
         "addNew": "புதிதாக சேர்க்கவும்",
         "assignedTo":"ஒதுக்கப்பட்டது",
         "codeTitle": "குறியீடு தலைப்பு",
-        "Priority" : "முன்னுரிமை"
+        "Priority" : "முன்னுரிமை",
+        "selectGroup":"தேர்ந்தெடுக்கப்பட்ட குழு"
     },
     "errors": {
         "invalidEmail": "Invalid email address."

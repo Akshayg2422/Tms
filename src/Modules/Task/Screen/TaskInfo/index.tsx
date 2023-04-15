@@ -6,8 +6,9 @@ import { useInput, useNavigation } from "@Hooks";
 import { addTaskEvent, getTasks } from "@Redux";
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
+import { TagAndAssignUser } from "@Modules";
 
-function TaskInfo({onClick}:TaskInfoProps) {
+function TaskInfo({ onClick }: TaskInfoProps) {
     const { goBack } = useNavigation();
 
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
@@ -44,7 +45,7 @@ function TaskInfo({onClick}:TaskInfoProps) {
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
-       
+
         dispatch(
             addTaskEvent({
                 params,
@@ -55,34 +56,33 @@ function TaskInfo({onClick}:TaskInfoProps) {
         setEditEta(!editEta)
     }
 
-  
+
 
     return (
         <HomeContainer>
-            
-            
-         
-       
+
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
-          <div
-          onClick={()=>{goBack()}} 
-          ><Image  
-                    size={'sm'}
-                    variant='rounded'
-                    className='bg-white mt--1  pl-2'
-                    src={icons.backArrow}   /></div>
-      
-        
-                    <div className="col-7">
-                        <H tag={"h3"} text={title} />
+                    <div
+                        className={'col-1 m-0 p-0 mr--4 pointer'}
+                        onClick={() => { goBack() }}
+                    ><Image
+                            size={'sm'}
+                            variant='rounded'
+                            className='bg-white mt--1'
+                            src={icons.backArrow} /></div>
+
+
+                    <div className="col-6">
+                        <H tag={"h4"} text={title} />
                     </div>
-                    <div className="col-3"></div>
-                    <div className="col-2 mr--9 mt-1"><h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h6></div>
+                    <div className="col ml-2 text-uppercase">
+                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}<span className="mt--1 d-flex justify-content-end pointer"><TagAndAssignUser /></span></h6>
+                    </div>
                 </div>
-                <h3 className="text-sm text-muted">{description}</h3>
+                <H className={'text-muted'} tag={'h5'} text={description} />
                 <div className="row align-items-center my-4">
-                    <div className="col">
+                    <div className="col-5">
                         {
                             task_attachments &&
                             task_attachments?.length > 0 &&
@@ -96,7 +96,6 @@ function TaskInfo({onClick}:TaskInfoProps) {
                             })
                         }
                     </div>
-                    <div className="col"></div>
                     <div className="col">
                         <h6 className="text-uppercase d-flex justify-content-end">{editModalName.value}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span></h6>
                     </div>
@@ -109,7 +108,7 @@ function TaskInfo({onClick}:TaskInfoProps) {
                     <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => editEtaSubmitHandler()} />
 
                 </Modal>
-                <div className="row align-items-end my-5">
+                <div className="row align-items-end my-4">
                     <div className="col">
                         <div className="h5 mb-0"> {by_user?.name} </div>
                         <div className="h5 mb-0"> {by_user?.phone} </div>

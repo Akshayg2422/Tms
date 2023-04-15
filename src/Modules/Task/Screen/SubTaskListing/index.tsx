@@ -17,7 +17,6 @@ function SubTaskListing() {
         const params = {
             task_id: getSubTaskId ? getSubTaskId.id : taskItem?.id
         }
-        console.log('paramseeeeeeeeeeeeeeeeeeeeeeeeeee', params)
 
         dispatch(
             getSubTasks({
@@ -43,14 +42,13 @@ function SubTaskListing() {
     };
 
     return (
-        <div className={'container'}>
+        <div className={''}>
             {subTasks && subTasks?.data?.length > 0 ?
                 <div className={'mx--6'}>
                     <CommonTable
-                        title="SUB TASKS"
                         tableDataSet={subTasks?.data}
                         displayDataSet={normalizedTableData(subTasks?.data)}
-                        tableOnClick={(e, index,item) => {
+                        tableOnClick={(e, index, item) => {
                             dispatch(getSelectSubTaskId(item))
                         }}
                     />

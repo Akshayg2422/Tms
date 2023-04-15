@@ -1,8 +1,8 @@
-import React from "react";
+
 import { AutoCompleteDropDownProps } from "./interfaces"
 import Autocomplete from "react-autocomplete";
 import { FormGroup } from "reactstrap";
-import { Input, InputHeading,Image} from "@Components";
+import {  InputHeading,Image} from "@Components";
 import {
   
     getPhoto,
@@ -20,6 +20,7 @@ function AutoCompleteDropDownImage({
   heading,
   placeholder
 }:  AutoCompleteDropDownProps) {
+  let a=true
   return (
     <div>
         <FormGroup>
@@ -30,7 +31,7 @@ function AutoCompleteDropDownImage({
             <InputHeading heading={heading} />
             <input
             placeholder={placeholder}
-              className={"designations-input form-control col"}
+              className={ `${a==true ?"designations-input form-control col":''} `}
               {...props}
               
             />

@@ -16,6 +16,7 @@ import {
     addTask,
     setIsSync,
     getAssociatedCompanyBranch,
+    getDepartmentData,
 } from "@Redux";
 import {
     CREATE_INTERNAL,
@@ -47,7 +48,9 @@ function AddTask() {
         useState();
     const [photo, setPhoto] = useState<any>([]);
     const [companyUserDashboard, setCompanyUserDashboard] = useState<any>();
+    const [departmentDataList,setDepartmentDatalist]=useState<any>();
     const [selectedCompany, setSelectedCompany] = useState<any>({});
+    const[selectDepartment,setSelectDepartment]=useState<any>({})
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
@@ -59,9 +62,6 @@ function AddTask() {
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
     let attach = photo.slice(-4, 9)
-
-
-
     const handleImagePicker = (index: number, file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
@@ -109,10 +109,7 @@ function AddTask() {
     };
 
     const getCompanyBranchDropdown = (details: any) => {
-
-
         let companies: any = [];
-
         if (details && details.length > 0) {
             details.forEach(({ id, display_name }) => {
                 companies = [
@@ -120,7 +117,6 @@ function AddTask() {
                     { id: id, text: display_name, name: display_name },
                 ];
             });
-
             setModifiedCompanyDropDownData(companies);
         } else {
             setTypeSelect(type[1]);
@@ -151,11 +147,14 @@ function AddTask() {
     }, []);
 
     useEffect(() => {
+        if(selectDepartment?.id){
         const params = {
             branch_id:
                 typeSelect?.id === "2"
                     ? dashboardDetails?.permission_details?.branch_id
                     : selectedCompany?.id || "",
+        department_id:selectDepartment?.id
+        
         };
 
         dispatch(
@@ -173,7 +172,41 @@ function AddTask() {
                 },
             })
         );
+        }
+    }, [typeSelect,selectDepartment]);
+
+
+    useEffect(() => {
+        if(selectedCompany?.id|| typeSelect?.id === "2"){
+        const params = {
+            branch_id:
+                typeSelect?.id === "2"
+                    ? dashboardDetails?.permission_details?.branch_id
+                    : selectedCompany?.id || "",
+        };
+        dispatch(
+            getDepartmentData({
+                params,
+                onSuccess: (response: any) => () => {
+                    let departmentDetails:any =[];
+                    response?.details?.data?.forEach((item)=>{
+                        departmentDetails=[...departmentDetails,{...item,text:item.name}]
+                    })
+                    setDepartmentDatalist(departmentDetails)
+                },
+                onError: (error) => () => {
+                    setDepartmentDatalist([])
+                 
+                },
+            })
+        );
+
+        }
     }, [typeSelect, selectedCompany]);
+    
+
+
+
 
     const handleEtaChange = (value: any) => {
         setEta(value);
@@ -218,6 +251,7 @@ function AddTask() {
                                 showToast("there is no associatedBranches in this company");
                         }}
                     >
+
                         <Radio
                             // selected={typeSelect}
                             data={type}
@@ -226,6 +260,8 @@ function AddTask() {
                             onRadioChange={(selected) => {
                                 setSelectedCompany({});
                                 // selectedUser.value(undefined);
+                                setSelectDepartment({})
+                                setSelectedUser('')
                                 if (selected) {
                                     setTypeSelect(selected);
                                 }
@@ -242,6 +278,17 @@ function AddTask() {
                             selected={selectedCompany}
                         />
                     )}
+
+                     {departmentDataList  && departmentDataList.length>0 &&<DropDown     
+                            heading={'Department'}
+                            placeHolder={'please select a Department...'}
+                            data={departmentDataList}
+                            onChange={setSelectDepartment}
+                            selected={selectDepartment}
+                        />
+                     }
+
+
 
                     {/* <DropDown
                         heading={translate("common.user")!}

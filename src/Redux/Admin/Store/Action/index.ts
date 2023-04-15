@@ -77,6 +77,7 @@ import {
   ADD_TASK_GROUP_FAILURE,
   GET_REFERENCE_ID,
   GET_SUBTASK_ID,
+  LOGIN_USER,
 
 } from '../ActionTypes';
 
@@ -281,6 +282,13 @@ export const getTasks = (params: any) => {
  
   return {
     type: GET_TASKS,
+    payload: params
+  }
+}
+export const loginUser = (params: any) => {
+ 
+  return {
+    type: LOGIN_USER,
     payload: params
   }
 }

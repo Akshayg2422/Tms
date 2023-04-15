@@ -39,6 +39,10 @@ import {
   ADD_TASK_EVENT_SUCCESS,
   ADD_TASK_EVENT_FAILURE,
 
+  UPDATE_EMPLOYEE_PROFILE_PHOTO,
+  UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
+  UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE
+
 } from '../ActionTypes';
 
 export const raiseNewTicket = (params: any) => {
@@ -364,6 +368,29 @@ export const addTaskEventFailure = (error: any) => {
 
   return {
     type: ADD_TASK_EVENT_FAILURE,
+    payload: error,
+  };
+};
+
+export const addUpdateEmployeePhoto = (params: any) => {
+ 
+  return {
+    type:UPDATE_EMPLOYEE_PROFILE_PHOTO,
+    payload: params,
+  };
+};
+
+export const addUpdateEmployeePhotoSuccess = (response: any) => {
+  return {
+    type:UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addUpdateEmployeePhotoFailure = (error: any) => {
+
+  return {
+    type:UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE,
     payload: error,
   };
 };

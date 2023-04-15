@@ -95,7 +95,7 @@ function ReferenceTickets() {
           tableOnClick={(idx, index, item) => {
             // dispatch(setSelectedIssues(item));
             dispatch(setSelectedReferenceIssues(item))
-            goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+            goTo(HOME_PATH.ISSUE_DETAILS);
           }
         
         

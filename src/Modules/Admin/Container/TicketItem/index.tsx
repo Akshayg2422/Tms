@@ -76,7 +76,7 @@ function TicketItem({ item, divider }: TicketItemProps) {
       onClick={() => {
         dispatch(setSelectedIssues(item));
         dispatch(setSelectedReferenceIssues(undefined))
-        goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+        goTo( HOME_PATH.ISSUE_DETAILS);
       }}
     >
       <div className="col col-sm-9">

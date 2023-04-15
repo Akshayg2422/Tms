@@ -42,7 +42,7 @@ function CompanyUsers() {
     return (
         <div>
             <div className='text-right mt--3'>
-                <Button text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_USER) }} />
+                <Button text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.ADD_USER) }} />
             </div>
             <div className='mx--3 mt-3'>
                 <CommonTable title='User' tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />

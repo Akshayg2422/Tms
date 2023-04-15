@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Card, Divider, HomeContainer, NoTaskFound, Spinner } from "@Components";
+import { Button, Card, Divider, HomeContainer, NoTaskFound, Spinner, Image } from "@Components";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
@@ -8,6 +8,7 @@ import { BroadCastListedItems } from "@Modules";
 import { getBroadCastMessages, setIsSync } from "@Redux";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { INITIAL_PAGE } from '@Utils'
+import { icons } from "@Assets";
 
 
 
@@ -31,7 +32,6 @@ function Broadcast() {
 
   }, []);
 
-
   function getBroadCastMessage(page_number: number) {
 
     const params = { q: "", page_number };
@@ -50,8 +50,6 @@ function Broadcast() {
     );
   }
 
-
-
   return (
     <HomeContainer>
       {broadCastDetails && broadCastDetails.length > 0 ?
@@ -60,7 +58,7 @@ function Broadcast() {
             text={translate("auth.addBroadCast")!}
             size={"sm"}
             onClick={() =>
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.CREATE_BROAD_CAST)
+              goTo(HOME_PATH.CREATE_BROAD_CAST)
             }
           />
         </div> : null}
@@ -96,7 +94,22 @@ function Broadcast() {
           </Card>
 
         </InfiniteScroll>
-        : <div className={'py-5'}><NoTaskFound text={'No Broadcast Found'} />
+        :
+        <div className={'py-5'}><NoTaskFound text={'No Broadcast Found'} />
+          <Image
+            className={'border'}
+            variant={'rounded'}
+            src={icons.broadCast}
+            size={'xl'}
+            alt="..."
+            style={{
+              position: 'absolute',
+              top: '58%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              backgroundColor: '#D3D3D3'
+            }}
+          />
           <div className="col text-center">
             <Button
               text={translate("auth.addBroadCast")!}

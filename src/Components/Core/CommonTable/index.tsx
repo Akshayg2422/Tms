@@ -3,7 +3,7 @@ import { Table, NoRecordsFound, Heading } from "@Components";
 
 
 interface CommonTableProps {
-  title?: string
+  title?:any;
   displayDataSet: any
   tableDataSet?: Array<{}>;
   isPagination?: boolean

@@ -8044,8 +8044,7 @@ a.close.disabled {
   float: left;
   width: 100%;
   margin-right: -100%;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
+  backface-visibility: hidden;
   transition: transform 0.6s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -25458,7 +25457,6 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-origin {
 }
 
 .noUi-handle {
-  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   position: absolute;
 }
@@ -27035,7 +27033,7 @@ td.rdtYear:hover {
     height: 43px;
   }
   .designation-scroll-bar {
-    width: 304px;
+    width: 504px;
     height: 120px;
     overflow-y: scroll;
   }
@@ -27046,7 +27044,7 @@ td.rdtYear:hover {
     height: 43px;
   }
   .designation-scroll-bar {
-    width: 430px;
+    width: 530px;
     height: 120px;
     overflow-y: scroll;
   }
@@ -27057,7 +27055,7 @@ td.rdtYear:hover {
     height: 43px;
   }
   .designation-scroll-bar {
-    width: 305px;
+    width: 515px;
     height: 120px;
     overflow-y: scroll;
   }
@@ -27068,7 +27066,7 @@ td.rdtYear:hover {
     height: 43px;
   }
   .designation-scroll-bar {
-    width: 343px;
+    width: 543px;
     height: 120px;
     overflow-y: scroll;
   }
@@ -27079,7 +27077,7 @@ td.rdtYear:hover {
     height: 43px;
   }
   .designations-scroll-bar {
-    width: 330px;
+    width: 530px;
     height: 120px;
     overflow-y: scroll;
   }
@@ -27090,7 +27088,7 @@ td.rdtYear:hover {
     height: 43px;
   }
   .designation-scroll-bar {
-    width: 440px;
+    width: 515px;
     height: 120px;
     overflow-y: scroll;
   }
@@ -27101,7 +27099,7 @@ td.rdtYear:hover {
     height: 43px;
   }
   .designation-scroll-bar {
-    width: 376px;
+    width: 500px;
     height: 120px;
     overflow-y: scroll;
   }

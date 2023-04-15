@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId, getTaskGroup } from "@Redux";
-import { HomeContainer, Button, DropDown,  InputHeading, Image, CommonTable, Priority, Status, NoTaskFound ,Badge} from "@Components";
+import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound, Badge } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment } from "@Utils";
-import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment, INITIAL_PAGE } from "@Utils";
+import { DropdownItem, DropdownMenu, DropdownToggle, Spinner, UncontrolledDropdown } from "reactstrap";
 import { icons } from "@Assets";
+import InfiniteScroll from "react-infinite-scroll-component";
+
 
 function Tasks() {
   const { goTo } = useNavigation();
-  const { tasks, taskNumOfPages, taskCurrentPages, getTaskGroupDetails } = useSelector((state: any) => state.AdminReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, getTaskGroupDetails, taskGroupDetails, getTaskGroupCurrentPages, taskGroupCurrentPages, taskGroupNumOfPages } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTasks = useDropDown(FILTERED_LIST[2])
@@ -25,8 +27,6 @@ function Tasks() {
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
   const [selectTag, setSelectTag] = useState<any>([0])
-  // console.log("aaaaaaaaaaaaa===",JSON.stringify(getTaskGroupDetails))
- 
 
   const getCompanyBranchDropdown = (details: any) => {
 
@@ -44,22 +44,40 @@ function Tasks() {
     }
   };
 
-  useEffect(()=>{
-    const params = {};
+  useEffect(() => {
+    // getTaskGroupPage(INITIAL_PAGE)
+    // const params = {};
     //testing for setsynticket
     setSyncTickets()
+    // dispatch(
+    //   getTaskGroup({
+    //     params,
+    //     onSuccess: (response: any) => () => {
+
+
+    //     },
+    //     onError: () => () => {
+    //     },
+    //   })
+    // )
+  }, [])
+
+  function getTaskGroupPage(page_number: number) {
+
+    const params = { q: "", page_number };
+
     dispatch(
       getTaskGroup({
         params,
         onSuccess: (response: any) => () => {
-          
-      
+
         },
         onError: () => () => {
         },
       })
-    )
-  },[])
+    );
+  }
+
   useEffect(() => {
     const params = { q: "" };
     dispatch(
@@ -82,14 +100,16 @@ function Tasks() {
   }, []);
 
   useEffect(() => {
+    // setSyncTickets()
     if (!isSync.tasks) {
       getTaskHandler(taskCurrentPages)
+      getTaskGroupPage(INITIAL_PAGE)
     }
+
   }, [isSync])
 
 
   const getTaskHandler = (pageNumber: number) => {
-
     const params = {
       q_many: search.value,
       tasks_by: filteredTasks?.value.id,
@@ -97,9 +117,9 @@ function Tasks() {
       company: companyType.value.id,
       priority: taskPriority.value.id,
       page_number: pageNumber,
-      group:selectTag?.id,
+      group: selectTag?.id,
     };
-  
+
 
     dispatch(
       getTasks({
@@ -111,8 +131,6 @@ function Tasks() {
       })
     );
   };
-
-
   function setSyncTickets(sync = false) {
     dispatch(
       setIsSync({
@@ -133,8 +151,8 @@ function Tasks() {
         "task":
           <div className="row"> <Priority priority={el?.priority} /> <span className="col">{el?.title}</span></div>,
         "attachments":
-          <div className="avatar-group " style={{
-            // width: '87px'
+          <div className="row avatar-group" style={{
+            width: '205px'
           }}>
             {
               el?.task_attachments &&
@@ -174,7 +192,10 @@ function Tasks() {
       };
     });
   };
- 
+
+
+
+
   return (
     <>
       <HomeContainer>
@@ -184,25 +205,43 @@ function Tasks() {
               size={"sm"}
               text={translate('common.createTask')}
               onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
+                goTo(HOME_PATH.ADD_TASK);
               }}
             />
           </div> : null}
+        <div>
+          {taskGroupDetails && taskGroupDetails.length > 0 &&
+            <InfiniteScroll
+              dataLength={taskGroupDetails.length}
+              hasMore={getTaskGroupCurrentPages !== -1}
+              loader={<h4>
 
-          <div>
-            {getTaskGroupDetails&&getTaskGroupDetails?.length>0 && getTaskGroupDetails.map((el:any)=>{
-              return(
-                <Badge text={ '#'+el.code} className={`bg-${el?.id===selectTag?.id?"primary":"white"}`}
-                onClick={()=>{setSelectTag(el)
-                  setSyncTickets()
-               }}
-                />
-              )
+                <Spinner />
+              </h4>}
+              next={() => {
+                if (getTaskGroupCurrentPages !== -1) {
+                  getTaskGroupPage(getTaskGroupCurrentPages)
+                }
+              }
+              }>
+                
+              {taskGroupDetails.map((el: any) => {
+                return (
                
-            })
-            
-}
-          </div>
+                  <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
+                    onClick={() => {
+                      setSelectTag(el)
+                      setSyncTickets()
+                    }}
+                  />
+              
+                )
+
+              })
+
+              }
+            </InfiniteScroll>}
+        </div>
       </HomeContainer>
       <HomeContainer isCard className={'mb--5'} >
         <div className="row mb--3">
@@ -352,7 +391,7 @@ function Tasks() {
               dispatch(getTaskItem(item));
               dispatch(getSelectReferenceId(undefined))
               dispatch(getSelectSubTaskId(undefined))
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.TASK_DETAILS + '/' + item?.id);
+              goTo(HOME_PATH.TASK_DETAILS + '/' + item?.id);
             }
             }
           />
@@ -360,12 +399,26 @@ function Tasks() {
 
         :
         <div ><NoTaskFound />
+          <Image
+            className={'border'}
+            variant={'rounded'}
+            src={icons.issuesProblem}
+            size={'xl'}
+            alt="..."
+            style={{
+              position: 'absolute',
+              top: '68%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              backgroundColor: '#D3D3D3'
+            }}
+          />
           <div className="text-center">
             <Button
               size={"md"}
               text={translate('common.createTask')}
               onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ADD_TASK);
+                goTo(HOME_PATH.ADD_TASK);
               }}
             />
           </div>

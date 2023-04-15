@@ -76,6 +76,7 @@ import {
   ADD_TASK_GROUP_FAILURE,
   GET_REFERENCE_ID,
   GET_SUBTASK_ID,
+  LOGIN_USER,
   
 } from '../ActionTypes';
 
@@ -122,11 +123,14 @@ const initialState: AdminStateProp = {
   ticketEmployees:undefined,
 
   getTaskGroupDetails:undefined,
+  getTaskGroupCurrentPages:undefined,
+  taskGroupDetails:undefined,
   taskGroupCurrentPages:undefined,
   taskGroupNumOfPages:undefined,
   addTaskGroup:undefined,
   getReferenceId:undefined,
   getSubTaskId:undefined,
+  loginUserSuccess:false,
 };
 
 
@@ -495,8 +499,9 @@ case GET_REFERENCE_TASKS_FAILURE:
 
       /**get task group */
       case GET_TASK_GROUP:
-   
+        const { page_number } = action.payload.params
       state = { ...state,
+        taskGroupDetails: page_number === 1 ? [] : state. taskGroupDetails,
         getTaskGroupDetails: undefined,
         taskGroupNumOfPages: 0,
         taskGroupCurrentPages: 1,
@@ -507,6 +512,9 @@ case GET_REFERENCE_TASKS_FAILURE:
     state = {
       ...state,
       loading: false,
+      taskGroupDetails: [...state.taskGroupDetails, ...action.payload?.details?.data],
+      getTaskGroupCurrentPages:
+        action.payload?.details?.next_page,
       getTaskGroupDetails:action?.payload?.details?.data,
       taskGroupNumOfPages:action?.payload?.details?.num_pages,
       taskGroupCurrentPages:
@@ -587,6 +595,10 @@ case GET_REFERENCE_TASKS_FAILURE:
 
     case GET_TASKS_ITEM:
       state = { ...state, taskItem: action.payload }
+      break;
+      case LOGIN_USER:
+
+      state = { ...state,  loginUserSuccess: action.payload};
       break;
 
 

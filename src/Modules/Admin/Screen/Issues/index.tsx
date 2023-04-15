@@ -175,7 +175,7 @@ function Issues() {
               size={"sm"}
               text={translate("common.addTicket")}
               onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+                goTo(HOME_PATH.ISSUE_TICKET);
               }}
             />
           </div> : null
@@ -324,17 +324,31 @@ function Issues() {
             tableOnClick={(idx, index, item) => {
               dispatch(setSelectedIssues(item));
               dispatch(setSelectedReferenceIssues(undefined))
-              goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_DETAILS);
+              goTo(HOME_PATH.ISSUE_DETAILS);
             }
             }
           />
         </> : <div ><NoTaskFound text={'No Ticket Found'} />
+          <Image
+            className={'border'}
+            variant={'rounded'}
+            src={icons.bellIcon}
+            size={'xl'}
+            alt="..."
+            style={{
+              position: 'absolute',
+              top: '68%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              backgroundColor: '#D3D3D3'
+            }}
+          />
           <div className="text-center">
             <Button
               size={"md"}
               text={translate("common.addTicket")}
               onClick={() => {
-                goTo(HOME_PATH.DASHBOARD + HOME_PATH.ISSUE_TICKET);
+                goTo(HOME_PATH.ISSUE_TICKET);
               }}
             />
           </div>

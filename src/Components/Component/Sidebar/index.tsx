@@ -90,7 +90,8 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
   // this is used on mobile devices, when a user navigates
   // the sidebar will autoclose
   const closeSideNav = () => {
-    if (window.innerWidth < 1200) {
+
+    if (window.innerWidth <1200) {
       if (toggleSideNav) {
         toggleSideNav();
       }
@@ -144,6 +145,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
             to={prop.layout + prop.path}
             className=""
             onClick={()=>{closeSideNav()
+              
               dispatch(getCurrentPage(prop.name))}}
             tag={NavLinkRRD}
           >

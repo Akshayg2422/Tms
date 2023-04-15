@@ -12,7 +12,7 @@ import {
   getBroadCastMessagesApi,
   getTaskEventsApi,
   addTaskEventApi,
-
+  updateEmployeeProfilePhotoApi
 } from '@Services';
 import {
   showLoader,
@@ -57,6 +57,9 @@ import {
   ADD_TASK_EVENT,
   addTaskEventSuccess,
   addTaskEventFailure,
+  UPDATE_EMPLOYEE_PROFILE_PHOTO,
+  addUpdateEmployeePhotoSuccess,
+  addUpdateEmployeePhotoFailure,
 
 } from '@Redux';
 
@@ -318,6 +321,30 @@ function* addTaskEventSaga(action) {
   }
 }
 
+
+function* addUpdateEmployeePhotoSaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(updateEmployeeProfilePhotoApi, action.payload.params);
+   
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(addUpdateEmployeePhotoSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(addUpdateEmployeePhotoFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+
+    yield put(hideLoader());
+    yield put(addUpdateEmployeePhotoFailure(error));
+    yield call(action.payload.onError(error));
+
+  }
+}
+
 function* CompanySaga() {
   console.log("Watcher")
   yield takeLatest(RAISE_NEW_TICKET, raiseNewTicketSaga);
@@ -332,6 +359,7 @@ function* CompanySaga() {
   yield takeLatest(GET_BROADCAST_MESSAGES, getBroadCastMessagesSaga)
   yield takeLatest(GET_TASK_EVENTS, getTaskEventsSaga)
   yield takeLatest(ADD_TASK_EVENT, addTaskEventSaga)
+  yield takeLatest(UPDATE_EMPLOYEE_PROFILE_PHOTO, addUpdateEmployeePhotoSaga)
 }
 
 
