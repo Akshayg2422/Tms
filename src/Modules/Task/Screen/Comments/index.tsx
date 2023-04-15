@@ -43,7 +43,7 @@ function Comments() {
 
     if (textMessage) {
       const params = {
-        id: taskItem.id,
+        id: getReferenceId ? getReferenceId.id : getSubTaskId ? getSubTaskId.id : taskItem.id,
         message: textMessage.value,
         event_type: TEM
       }
