@@ -71,9 +71,11 @@ function AdminDashboard() {
     if (document.body.classList.contains("g-sidenav-pinned")) {
       document.body.classList.remove("g-sidenav-pinned");
       document.body.classList.add("g-sidenav-hidden");
+      console.log('ppppppppppp')
     } else {
       document.body.classList.add("g-sidenav-pinned");
       document.body.classList.remove("g-sidenav-hidden");
+      console.log('cccccccccccccccccccc')
     }
     setSideNavOpen(!sideNavOpen);
   };

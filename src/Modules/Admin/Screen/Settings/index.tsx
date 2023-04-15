@@ -48,6 +48,8 @@ function Settings() {
   );
 
   const [photo, setPhoto] = useState("");
+  const [tagPhoto, setTagPhoto] = useState("");
+
   const [showDepartments, setShowDepartments] = useState(false);
   const [showDesignations, setShowDesignations] = useState(false);
   const addDepartMentModal = useModal(false);
@@ -70,10 +72,13 @@ function Settings() {
   const addTaskGroupModal = useModal(false);
   const [task, setTask] = useState("");
    const [codeFill, setCodeFill] = useState(task.slice(0,3).toUpperCase());
+   const [TagCodeFill, setTagCodeFill] = useState(tags.slice(0,3).toUpperCase());
   const [taskDescription, setTaskDescription] = useState("");
   const dynamicHeight: any = useDynamicHeight()
   let attach=[photo]
   let PhotoAttach=attach.slice(-1,4)
+  let tagAttach=[tagPhoto]
+  let tagPhotoAttach=tagAttach.slice(-1,4)
 
   const getDepartmentList = (pageNumber: number) => {
 
@@ -99,6 +104,9 @@ function Settings() {
     );
 
   };
+  console.log("============>",JSON.stringify(ticketTag))
+  console.log("============>",JSON.stringify(getTaskGroupDetails))
+
 
   /**get Brand sector */
   const getBrandSectorList = (pageNumber: number) => {
@@ -320,9 +328,11 @@ function Settings() {
   const addTicketTagAdding = () => {
     const params = {
       name: convertToUpperCase(tags),
-      description: convertToUpperCase(description)
+      description: convertToUpperCase(description),
+      code:TagCodeFill,
+      photo:tagPhotoAttach[0]
     };
-    const validation = validate(ADD_TAG, params)
+    const validation = validate(ADD_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
       dispatch(
         addTicketTag({
@@ -335,13 +345,16 @@ function Settings() {
                 params,
                 onSuccess: (success: any) => () => {
 
-                  setDescription('')
+                  setDescription("")
+                  setTagPhoto("")
+                  setTagCodeFill("")
+                  setTags("")
 
                  },
                 onError: (error: string) => () => { },
               })
             );
-            setTags("");
+
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
@@ -568,7 +581,10 @@ function Settings() {
   const normalizedTicketTagData = (data: any) => {
     return data.map((el: any) => {
       return {
-        name: el.name,
+        name:<div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
+        <div className="pt-3 pl-2">{el.name}</div>
+        </div>,
+        tag:el?.code,
 
       };
     });
@@ -594,7 +610,9 @@ function Settings() {
       };
     });
   };
-
+const tagHandler=()=>{
+  
+}
 
 
 
@@ -1098,29 +1116,60 @@ function Settings() {
 
         <Modal
           isOpen={addTagsModal.visible}
-          onClose={() => addTagsModal.hide()}
+          onClose={() => {addTagsModal.hide()
+            setTags("")
+                setDescription('')
+                setTagPhoto('')
+                setTagCodeFill('')
+          }
+          }
           title={translate("auth.tags")!}
         >
-          <div className="">
-            <Input
+
+        <div className="row">
+          <div className="col-6">
+          <Input
               placeholder={translate("auth.tags")}
               value={tags}
-              onChange={(e) => setTags(e.target.value)}
+              onChange={(e) => {setTags(e.target.value)
+                 setTagCodeFill(e.target.value.slice(0,3).toUpperCase())}}
             />
+            </div>
+             <div className="col-6">  <Input
+            placeholder={translate("auth.code")}
+              value={TagCodeFill}
+              onChange={(e) => {setTagCodeFill(e.target.value.slice(0,3).toUpperCase())}}
+            />
+            </div>
+            </div>
+            <div>
             <Input
               placeholder={translate("auth.description")}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-
-          </div>
+            </div>
+            <div className="pb-3">
+          <Dropzone
+          variant="ICON"
+          icon={tagPhoto}
+          size="xl"
+          onSelect={(image) => {
+            let encoded = image.toString().replace(/^data:(.*,)?/, "");
+            setTagPhoto(encoded);
+          
+          }}
+        />
+        </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
               onClick={() => {addTagsModal.hide()
-                setTags('')
+                setTags("")
                 setDescription('')
+                setTagPhoto('')
+                setTagCodeFill('')
               }
               }
             />
@@ -1140,7 +1189,11 @@ function Settings() {
         <Modal
 
           isOpen={addTaskGroupModal.visible}
-          onClose={() => addTaskGroupModal.hide()}
+          onClose={() => {addTaskGroupModal.hide()
+            setTask("");
+            setCodeFill('')
+            setTaskDescription('')
+            setPhoto('')}}
           title={translate("auth.task")!}
         >
           <div className="mt--4">

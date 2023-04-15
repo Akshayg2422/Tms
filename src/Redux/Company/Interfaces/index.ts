@@ -15,4 +15,5 @@ export interface CompanyStateProp {
   broadCastNumOfPages: any;
   taskEvents: any;
   addTaskEvents: any;
+  updateEmployeeProfile:any,
 }

@@ -22,9 +22,8 @@ import {
   ifObjectExist,
 } from "@Utils";
 import { useDispatch, useSelector } from "react-redux";
-import { registerCompany, registerAdmin, setIsSync } from "@Redux";
+import { registerCompany, registerAdmin, setIsSync ,addUpdateEmployeePhoto} from "@Redux";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
-import { log } from "console";
 import { icons } from "@Assets";
 
 function CreateCompany({}: CreateCompanyProps) {

@@ -36,6 +36,9 @@ import {
   ADD_TASK_EVENT,
   ADD_TASK_EVENT_SUCCESS,
   ADD_TASK_EVENT_FAILURE,
+  UPDATE_EMPLOYEE_PROFILE_PHOTO,
+  UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
+  UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
 
@@ -56,6 +59,7 @@ const initialState: CompanyStateProp = {
   broadCastNumOfPages: undefined,
   taskEvents: undefined,
   addTaskEvents: undefined,
+  updateEmployeeProfile:undefined,
 
 };
 
@@ -281,6 +285,23 @@ const CompanyReducer = (
       case ADD_TASK_EVENT_FAILURE:
         state = { ...state, addTaskEvents: undefined };
         break;
+        
+
+        case UPDATE_EMPLOYEE_PROFILE_PHOTO:
+          state = {
+            ...state,
+            updateEmployeeProfile: undefined,
+          };
+          break;
+        case UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS:
+          state = {
+            ...state,
+            updateEmployeeProfile: action.payload.details,
+          };
+          break;
+        case UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE:
+          state = { ...state,  updateEmployeeProfile: undefined };
+          break;
 
     default:
       state = state;

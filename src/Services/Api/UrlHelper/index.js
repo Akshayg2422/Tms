@@ -45,6 +45,7 @@ export const FETCH_ADD_TASK_EVENTS = TASK + 'addTaskEvent'
  */
 
 export const BRAND_SECTORS = COMPANY + 'getBrandSectors';
+export const UPDATE_EMPLOYEE_PROFILE_PHOTO = EMPLOYEE +'updateEmployeeProfilePhoto';
 
 /**
  * SETTING

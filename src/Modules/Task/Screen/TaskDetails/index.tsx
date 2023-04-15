@@ -38,7 +38,7 @@ function TaskDetails() {
                         <TaskInfo />
                     </div>
                     <div className="col-4">
-                        <Card className="bg-blue overflow-auto overflow-hide mt-3 mr--3" style={{ height: '58vh' }}>
+                        <Card className="overflow-auto overflow-hide mt-3 mr--3" style={{ height: '58vh' }}>
                             <div className="row mt--2">
                                 <div className="col m-0 p-0">
                                     <H tag={'h5'} text={'SUB TASKS'} />
