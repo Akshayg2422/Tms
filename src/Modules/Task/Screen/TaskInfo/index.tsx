@@ -64,25 +64,20 @@ function TaskInfo({ onClick }: TaskInfoProps) {
             <Card className={'mx--3'} style={{ height: '58vh' }}>
                 <div className="row align-items-start">
                     <div
-                        className={'mr--2'}
+                        className={'col-1 m-0 p-0 mr--4 pointer'}
                         onClick={() => { goBack() }}
                     ><Image
                             size={'sm'}
                             variant='rounded'
-                            className='bg-white mt--1  pl-2'
+                            className='bg-white mt--1'
                             src={icons.backArrow} /></div>
 
 
                     <div className="col-6">
                         <H tag={"h4"} text={title} />
                     </div>
-                    <div className="col-3"></div>
-                    <div className="col-2 ml-4 mt-1">
-                        <h6>{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}
-                            <div className="col ml-4 mt--4">
-                                <TagAndAssignUser />
-                            </div>
-                        </h6>
+                    <div className="col ml-2 text-uppercase">
+                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}<span className="mt--1 d-flex justify-content-end pointer"><TagAndAssignUser /></span></h6>
                     </div>
                 </div>
                 <H className={'text-muted'} tag={'h5'} text={description} />
@@ -101,7 +96,6 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                             })
                         }
                     </div>
-                    <div className="col"></div>
                     <div className="col">
                         <h6 className="text-uppercase d-flex justify-content-end">{editModalName.value}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span></h6>
                     </div>
