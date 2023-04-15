@@ -515,6 +515,7 @@ case GET_REFERENCE_TASKS_FAILURE:
       taskGroupDetails: [...state.taskGroupDetails, ...action.payload?.details?.data],
       getTaskGroupCurrentPages:
         action.payload?.details?.next_page,
+        
       getTaskGroupDetails:action?.payload?.details?.data,
       taskGroupNumOfPages:action?.payload?.details?.num_pages,
       taskGroupCurrentPages:

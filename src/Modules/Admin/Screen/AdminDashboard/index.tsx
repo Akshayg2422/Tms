@@ -11,7 +11,7 @@ import {
 } from "@Routes";
 import { icons } from "@Assets";
 import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, IssueCreate, CompanyDetails, IssueDetails, AddReferenceTicket, AddTask, TaskDetails,AddSubTask,AddReferenceTask} from "@Modules";
-import { getDashboard,setIsSync } from "@Redux";
+import { getDashboard,setIsSync,autoCompleteDropDown } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
 
 function AdminDashboard() {
@@ -71,11 +71,18 @@ function AdminDashboard() {
     if (document.body.classList.contains("g-sidenav-pinned")) {
       document.body.classList.remove("g-sidenav-pinned");
       document.body.classList.add("g-sidenav-hidden");
-      console.log('ppppppppppp')
+     
+      dispatch(
+        autoCompleteDropDown(false)
+      )
+
     } else {
       document.body.classList.add("g-sidenav-pinned");
       document.body.classList.remove("g-sidenav-hidden");
-      console.log('cccccccccccccccccccc')
+    
+      dispatch(
+        autoCompleteDropDown(true)
+      )
     }
     setSideNavOpen(!sideNavOpen);
   };
