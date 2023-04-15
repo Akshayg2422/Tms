@@ -1,4 +1,5 @@
 
+import { AUTO_COMPLETE_DROPDOWN } from '@Redux//Company';
 import {
   GET_ASSOCIATED_BRANCH,
   GET_ASSOCIATED_BRANCH_SUCCESS,
@@ -579,8 +580,6 @@ export const getTaskGroupFailure = (error: any) => {
 }
 
 export const addTaskGroup = (params: any) => {
-
-
   return {
     type: ADD_TASK_GROUP,
     payload: params
@@ -602,5 +601,12 @@ export const addTaskGroupFailure = (error: any) => {
   return {
     type: ADD_TASK_GROUP_FAILURE,
     payload: error
+  }
+}
+
+export const autoCompleteDropDown = (params: any) => {
+  return {
+    type: AUTO_COMPLETE_DROPDOWN,
+    payload: params
   }
 }

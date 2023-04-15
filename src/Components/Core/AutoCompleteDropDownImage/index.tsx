@@ -8,6 +8,7 @@ import {
     getPhoto,
     matchStateToTerm,
   } from "@Utils";
+import { useSelector } from "react-redux";
 
 
 function AutoCompleteDropDownImage({
@@ -20,6 +21,10 @@ function AutoCompleteDropDownImage({
   heading,
   placeholder
 }:  AutoCompleteDropDownProps) {
+  
+  const {autoCompleteInputSize} = useSelector(
+    (state: any) => state.CompanyReducer
+  );
   let a=true
   return (
     <div>
@@ -31,7 +36,7 @@ function AutoCompleteDropDownImage({
             <InputHeading heading={heading} />
             <input
             placeholder={placeholder}
-              className={ `${a==true ?"designations-input form-control col":''} `}
+              className={ `${autoCompleteInputSize===true?"designations-input form-control col":'designations-auto-input form-control col'} `}
               {...props}
               
             />
