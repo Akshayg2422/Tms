@@ -6,28 +6,29 @@ import { useInput, useNavigation } from "@Hooks";
 import { addTaskEvent, getTasks } from "@Redux";
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
-import { TagAndAssignUser } from "@Modules";
+import { TagAndAssignUser, Timeline } from "@Modules";
 
 function TaskInfo({ onClick }: TaskInfoProps) {
     const { goBack } = useNavigation();
 
-    const { taskItem } = useSelector((state: any) => state.AdminReducer);
+    const { taskItem, getSubTaskId } = useSelector((state: any) => state.AdminReducer);
     const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
     const dispatch = useDispatch();
-    const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, order_sequence } = taskItem;
+    const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, order_sequence } = getSubTaskId ? getSubTaskId : taskItem;
     const [editEta, setEditEta] = useState(false)
     const etaMomentObj = getMomentObjFromServer(eta_time);
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
     const editModalName = useInput(initialEtaValue);
+    const [timeline, setTimeline] = useState(false)
 
     useEffect(() => {
         ProceedGetTaskEvents()
-    }, [])
+    }, [getSubTaskId])
 
 
     const ProceedGetTaskEvents = () => {
         const params = {
-            task_id: taskItem?.id
+            task_id: getSubTaskId ? getSubTaskId.id : taskItem?.id
         }
 
         dispatch(
@@ -41,7 +42,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
 
     const editEtaSubmitHandler = () => {
         const params = {
-            id: taskItem.id,
+            id: getSubTaskId ? getSubTaskId.id : taskItem?.id,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
             event_type: ETA,
         }
@@ -76,7 +77,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                     <div className="col-6">
                         <H tag={"h4"} text={title} />
                     </div>
-                    <div className="col ml-2 text-uppercase">
+                    <div className="col ml-2">
                         <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}<span className="mt--1 d-flex justify-content-end pointer"><TagAndAssignUser /></span></h6>
                     </div>
                 </div>
@@ -97,7 +98,11 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                         }
                     </div>
                     <div className="col">
-                        <h6 className="text-uppercase d-flex justify-content-end">{editModalName.value}<span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span></h6>
+                        <h6 className="text-uppercase d-flex justify-content-end">
+                            {editModalName.value}
+                            <span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span>
+                            <span onClick={() => { setTimeline(!timeline) }} className="mt-1 text-muted pointer ni ni-active-40"></span>
+                        </h6>
                     </div>
                 </div>
                 <Modal isOpen={editEta}
@@ -107,6 +112,11 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                         value={editModalName.value} onChange={editModalName.onChange} />
                     <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => editEtaSubmitHandler()} />
 
+                </Modal>
+                <Modal isOpen={timeline}
+                    onClose={() => { setTimeline(!timeline) }}
+                >
+                    <Timeline/>
                 </Modal>
                 <div className="row align-items-end my-4">
                     <div className="col">

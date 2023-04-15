@@ -15,7 +15,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 function Tasks() {
   const { goTo } = useNavigation();
-  const { tasks, taskNumOfPages, taskCurrentPages, getTaskGroupDetails, taskGroupDetails, getTaskGroupCurrentPages, taskGroupCurrentPages, taskGroupNumOfPages } = useSelector((state: any) => state.AdminReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, taskGroupDetails, getTaskGroupCurrentPages, getSubTaskId } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTasks = useDropDown(FILTERED_LIST[2])
@@ -224,17 +224,17 @@ function Tasks() {
                 }
               }
               }>
-                
+
               {taskGroupDetails.map((el: any) => {
                 return (
-               
+
                   <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
                     onClick={() => {
                       setSelectTag(el)
                       setSyncTickets()
                     }}
                   />
-              
+
                 )
 
               })
