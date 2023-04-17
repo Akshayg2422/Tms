@@ -40,6 +40,9 @@ import {
   UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
   UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE,
   AUTO_COMPLETE_DROPDOWN,
+  GET_TASK_GROUPL,
+  GET_TASK_GROUPL_FAILURE,
+  GET_TASK_GROUPL_SUCCESS
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
 
@@ -62,6 +65,7 @@ const initialState: CompanyStateProp = {
   addTaskEvents: undefined,
   updateEmployeeProfile:undefined,
   autoCompleteInputSize:false,
+  getTaskGrouplDetails:undefined,
 };
 
 const CompanyReducer = (
@@ -285,6 +289,24 @@ const CompanyReducer = (
         break;
       case ADD_TASK_EVENT_FAILURE:
         state = { ...state, addTaskEvents: undefined };
+        break;
+
+        //get task group
+        
+      case GET_TASK_GROUPL:
+        state = {
+          ...state,
+          getTaskGrouplDetails: undefined,
+        };
+        break;
+      case GET_TASK_GROUPL_SUCCESS:
+        state = {
+          ...state,
+          getTaskGrouplDetails: action.payload.details,
+        };
+        break;
+      case GET_TASK_GROUPL_FAILURE:
+        state = { ...state,  getTaskGrouplDetails: undefined };
         break;
         
 

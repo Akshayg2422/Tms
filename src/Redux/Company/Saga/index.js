@@ -12,7 +12,8 @@ import {
   getBroadCastMessagesApi,
   getTaskEventsApi,
   addTaskEventApi,
-  updateEmployeeProfilePhotoApi
+  updateEmployeeProfilePhotoApi,
+  getTaskGrouplApi
 } from '@Services';
 import {
   showLoader,
@@ -60,6 +61,9 @@ import {
   UPDATE_EMPLOYEE_PROFILE_PHOTO,
   addUpdateEmployeePhotoSuccess,
   addUpdateEmployeePhotoFailure,
+  GET_TASK_GROUPL,
+  getTaskGrouplSuccess,
+  getTaskGrouplFailure,
 
 } from '@Redux';
 
@@ -229,6 +233,29 @@ function* getReferenceTicketsSaga(action) {
     yield call(action.payload.onError(error));
   }
 }
+
+//taskgroupl
+function* getTaskGrouplSaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(getTaskGrouplApi, action.payload.params);
+    if (response.success) {
+     
+      yield put(hideLoader());
+      yield put(getTaskGrouplSuccess({ ...response }));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getTaskGrouplFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getTaskGrouplFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
 function* addBroadCastMessagesSaga(action) {
   try {
     yield put(showLoader());
@@ -360,7 +387,6 @@ function* CompanySaga() {
   yield takeLatest(GET_TASK_EVENTS, getTaskEventsSaga)
   yield takeLatest(ADD_TASK_EVENT, addTaskEventSaga)
   yield takeLatest(UPDATE_EMPLOYEE_PROFILE_PHOTO, addUpdateEmployeePhotoSaga)
+  yield takeLatest(GET_TASK_GROUPL, getTaskGrouplSaga)
 }
-
-
 export default CompanySaga;

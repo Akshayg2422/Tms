@@ -17,4 +17,5 @@ export interface CompanyStateProp {
   addTaskEvents: any;
   updateEmployeeProfile:any,
   autoCompleteInputSize:any,
+  getTaskGrouplDetails:any,
 }

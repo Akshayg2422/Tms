@@ -1,3 +1,4 @@
+
 import {
   RAISE_NEW_TICKET,
   RAISE_NEW_TICKET_FAILURE,
@@ -41,7 +42,11 @@ import {
 
   UPDATE_EMPLOYEE_PROFILE_PHOTO,
   UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE
+  UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE,
+
+  GET_TASK_GROUPL_FAILURE,
+  GET_TASK_GROUPL,
+  GET_TASK_GROUPL_SUCCESS,
 
 } from '../ActionTypes';
 
@@ -391,6 +396,28 @@ export const addUpdateEmployeePhotoFailure = (error: any) => {
 
   return {
     type:UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE,
+    payload: error,
+  };
+};
+
+//GET 6TASK GROUP
+export const getTaskGroupl = (params: any) => {
+  return {
+    type: GET_TASK_GROUPL,
+    payload: params,
+  };
+};
+
+export const getTaskGrouplSuccess = (response: any) => {
+  return {
+    type: GET_TASK_GROUPL_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getTaskGrouplFailure = (error: any) => {
+  return {
+    type: GET_TASK_GROUPL_FAILURE,
     payload: error,
   };
 };

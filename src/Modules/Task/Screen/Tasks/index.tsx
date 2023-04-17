@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId, getTaskGroup } from "@Redux";
-import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound, Badge ,PageNation} from "@Components";
+import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId, getTaskGroup ,getTaskGroupl} from "@Redux";
+import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound, Badge ,PageNation, Checkbox, Card} from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
@@ -10,14 +10,21 @@ import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment, INITIAL_PAGE } from "@Utils";
 import { DropdownItem, DropdownMenu, DropdownToggle, Spinner, UncontrolledDropdown } from "reactstrap";
 import { icons } from "@Assets";
-import InfiniteScroll from "react-infinite-scroll-component";
+
 
 
 function Tasks() {
+
+
+  const date = new Date();
+  const time = date.getHours()
+ 
   const { goTo } = useNavigation();
-  const { tasks, taskNumOfPages, taskCurrentPages, getTaskGroupDetails, taskGroupDetails, taskGroupCurrentPages, taskGroupNumOfPages } = useSelector((state: any) => state.AdminReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages} = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
+  const {getTaskGrouplDetails} = useSelector((state: any) => state.CompanyReducer);
   const search = useInput("");
+  const [subCheckBox,setSubCheckBox]=useState(false)
   const filteredTasks = useDropDown(FILTERED_LIST[2])
   const taskStatus = useDropDown(STATUS_LIST[2])
   const taskPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
@@ -31,7 +38,7 @@ function Tasks() {
   const getCompanyBranchDropdown = (details: any) => {
 
     let companies: any = [];
-    companies.push({ id: '', text: "Self" })
+    companies.push({ id: '', text: '𝗦𝗘𝗟𝗙' })
 
     if (details && details.length > 0) {
       details.forEach(({ id, display_name }) => {
@@ -43,7 +50,7 @@ function Tasks() {
       setModifiedCompanyDropDownData(companies);
     }
   };
-  console.log( getTaskGroupDetails,"=========>")
+ 
 
   useEffect(() => {
     // getTaskGroupPage(INITIAL_PAGE)
@@ -63,21 +70,37 @@ function Tasks() {
     // )
   }, [])
 
-  function getTaskGroupPage(page_number: number) {
+  // function getTaskGroupPage(page_number: number) {
 
-    const params = { q: "", page_number };
+  //   const params = { q: "", page_number };
 
+  //   dispatch(
+  //     getTaskGroup({
+  //       params,
+  //       onSuccess: (response: any) => () => {
+       
+
+  //       },
+  //       onError: () => () => {
+  //       },
+  //     })
+  //   );
+  // }
+
+  useEffect(()=>{
+    const params={}
     dispatch(
-      getTaskGroup({
+      getTaskGroupl({
         params,
         onSuccess: (response: any) => () => {
-
+          // console.log('=======>sssss',JSON.stringify(response),'hghhh')
+      
         },
         onError: () => () => {
         },
       })
-    );
-  }
+    )
+  },[])
 
   useEffect(() => {
     const params = { q: "" };
@@ -101,13 +124,12 @@ function Tasks() {
   }, []);
 
   useEffect(() => {
-    // setSyncTickets()
     if (!isSync.tasks) {
       getTaskHandler(taskCurrentPages)
-      getTaskGroupPage(INITIAL_PAGE)
+      // getTaskGroupPage(INITIAL_PAGE)
     }
 
-  }, [isSync])
+  }, [isSync,subCheckBox])
 
 
   const getTaskHandler = (pageNumber: number) => {
@@ -118,20 +140,22 @@ function Tasks() {
       company: companyType.value.id,
       priority: taskPriority.value.id,
       page_number: pageNumber,
-      group: selectTag?.id,
+      group:selectTag?.id?selectTag?.id:'ALL',
+      include_subtask:subCheckBox,
     };
-
 
     dispatch(
       getTasks({
         params,
-        onSuccess: () => () => {
+        onSuccess: (response) => () => {
           setSyncTickets(true)
+          console.log("=----------->",JSON.stringify(response))
         },
         onError: () => () => { },
       })
     );
   };
+  
   function setSyncTickets(sync = false) {
     dispatch(
       setIsSync({
@@ -148,9 +172,29 @@ function Tasks() {
 
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
+      const etaDate=new Date(el.eta_time)
+      let etaTime= etaDate.getHours()
       return {
         "task":
-          <div className="row"> <Priority priority={el?.priority} /> <span className="col">{el?.title}</span></div>,
+        <>
+      
+          <div className="row"> 
+          <Priority priority={el?.priority} />
+           <div>
+            <div>
+              <span className="col">{el?.title}</span></div>
+          <div className="col pt-2"> 
+             {el.parent&&el.parent?.name &&<div>{el.parent?.name}
+             </div> } </div>
+          </div>
+
+        
+         </div>
+        
+         {/* <div>
+          {el.parent&&el.parent?.name &&<div>{el.parent?.name}</div> }
+          </div> */}
+          </>,
         "attachments":
           <div className="row avatar-group" style={{
             width: '205px'
@@ -189,7 +233,10 @@ function Tasks() {
 
           </>,
         'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
-        status: <Status status={el?.task_status} />
+        status: <div><Status status={el?.task_status} />
+        {time>etaTime?'ABOVE ETA':""}
+        
+        </div>
       };
     });
   };
@@ -210,86 +257,38 @@ function Tasks() {
               }}
             />
           </div> : null}
-        <div className="row d-flex mb--2 mt-2">
-          {/* {taskGroupDetails && taskGroupDetails.length > 0 &&
-            <InfiniteScroll
-              dataLength={taskGroupDetails.length}
-              hasMore={getTaskGroupCurrentPages !== -1}
-              loader={<h4>
-
-                <Spinner />
-              </h4>}
-              next={() => {
-                if (getTaskGroupCurrentPages !== -1) {
-                  getTaskGroupPage(getTaskGroupCurrentPages)
-                }
-              }
-              }>
-                
-              {taskGroupDetails.map((el: any) => {
-                return (
-               
-                  <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
-                    onClick={() => {
-                      setSelectTag(el)
-                      setSyncTickets()
-                    }}
-                  />
-              
-                )
-
-              })
-
-              }
-            </InfiniteScroll>} */}
         
-         {/* <div className="col-10 "> 
-           {getTaskGroupDetails?.map((el: any) => {
+
+            <div className="row col mt-3">
+              <div className="pt-1 pl-2" >
+            <Badge text={' # ALL'}
+            className="bg-white pt-2 pr-4 pl-4 pb-2 mr-3"
+            style={{borderRadius:"50px"}}
+                    onClick={() => {
+                      setSelectTag(' ALL ')
+                      setSyncTickets()
+                    }}
+                  />
+                  </div>
+           {getTaskGrouplDetails?.map((el: any) => {
                 return (
-               
+                  <div className="card mx-4 my-1">
+                  <div className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}  row`} style={{paddingTop:"4px" ,paddingBottom:"4px",paddingLeft:"10px",paddingRight:"5px" ,borderRadius:"16px"}}>
+                <div  className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`} >
+                  {el?.photo?
+              <Image variant={'rounded'} src={getPhoto(el?.photo)} size={'xs'} />:<Image variant={'rounded'} src={icons.profile} size={'xs'} />}
+              </div>
+                <div   className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}>
                   <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
                     onClick={() => {
                       setSelectTag(el)
                       setSyncTickets()
                     }}
                   />
-              
-                )
+                  </div>
 
-              })
-
-              }
-              </div> */}
-         
-
-          <div className="col-auto">
-           <PageNation   isPagination 
-           leftArrow=
-           {true}
-            currentPage={ taskGroupCurrentPages}
-            noOfPage={ taskGroupNumOfPages} 
-            previousClick={() => {
-              getTaskGroupPage(paginationHandler("prev", taskGroupCurrentPages))
-            }
-            }
-            nextClick={() => {
-              getTaskGroupPage(paginationHandler("next", taskGroupCurrentPages));
-            }
-            }
-            />
-            </div>
-
-
-              <div className=""> 
-           {getTaskGroupDetails?.map((el: any) => {
-                return (
-               
-                  <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
-                    onClick={() => {
-                      setSelectTag(el)
-                      setSyncTickets()
-                    }}
-                  />
+                  </div>
+                  </div>
               
                 )
 
@@ -297,27 +296,10 @@ function Tasks() {
 
               }
               </div>
-<div className="col-auto pl-4">
-            <PageNation   isPagination 
-          rightArrow=
-                     {true}
-            currentPage={ taskGroupCurrentPages}
-            noOfPage={ taskGroupNumOfPages} 
-            previousClick={() => {
-              getTaskGroupPage(paginationHandler("prev", taskGroupCurrentPages))
-            }
-            }
-            nextClick={() => {
-              getTaskGroupPage(paginationHandler("next", taskGroupCurrentPages));
-            }
-            }
-            />
-            </div>
             
-        
+              
 
 
-        </div>
       </HomeContainer>
       <HomeContainer isCard className={'mb--5'} >
         <div className="row mb--3">
@@ -429,7 +411,7 @@ function Tasks() {
           {advanceTag &&
             <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
               <DropDown
-                className="form-control-sm"
+                className="form-control-sm   "
                 heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.company")}</h4>}
                 data={modifiedCompanyDropDownData}
                 selected={companyType.value}
@@ -441,6 +423,19 @@ function Tasks() {
               />
             </div>
           }
+          <div className="col pt-3">
+          <Checkbox id={'0'} onClick={()=>{
+            setSyncTickets()
+            
+            if(subCheckBox===false){
+            setSubCheckBox(true)}
+            else{
+              setSubCheckBox(false)
+            }
+          }} text={'Include Subtask'}/>
+
+          </div>
+        
         </div>
 
       </HomeContainer>
@@ -474,21 +469,8 @@ function Tasks() {
         </>
 
         :
-        <div ><NoTaskFound />
-          <Image
-            className={'border'}
-            variant={'rounded'}
-            src={icons.issuesProblem}
-            size={'xl'}
-            alt="..."
-            style={{
-              position: 'absolute',
-              top: '68%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              backgroundColor: '#D3D3D3'
-            }}
-          />
+        <div ><NoTaskFound src={icons.issuesProblem} />
+        
           <div className="text-center">
             <Button
               size={"md"}
