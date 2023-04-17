@@ -20225,7 +20225,7 @@ input[type=number] {
   margin-right: 250px;
 }
 .rtl .sidenav + .main-content {
-  margin-right: 62px;
+  margin-right: 10px;
 }
 .rtl .sidenav .navbar-nav {
   padding-right: 0;
@@ -27100,6 +27100,17 @@ td.rdtYear:hover {
   }
   .designation-scroll-bar {
     width: 500px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 1280px) and (min-width: 1200px) {
+  .designations-auto-input {
+    width: 623px;
+    height: 43px;
+  }
+  .designation-auto-scroll-bar {
+    width: 623px;
     height: 120px;
     overflow-y: scroll;
   }

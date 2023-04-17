@@ -38,7 +38,8 @@ import {
   ADD_TASK_EVENT_FAILURE,
   UPDATE_EMPLOYEE_PROFILE_PHOTO,
   UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE
+  UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE,
+  AUTO_COMPLETE_DROPDOWN,
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
 
@@ -60,7 +61,7 @@ const initialState: CompanyStateProp = {
   taskEvents: undefined,
   addTaskEvents: undefined,
   updateEmployeeProfile:undefined,
-
+  autoCompleteInputSize:false,
 };
 
 const CompanyReducer = (
@@ -302,6 +303,10 @@ const CompanyReducer = (
         case UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE:
           state = { ...state,  updateEmployeeProfile: undefined };
           break;
+
+          case AUTO_COMPLETE_DROPDOWN:
+            state = { ...state, autoCompleteInputSize: action.payload }
+            break;
 
     default:
       state = state;

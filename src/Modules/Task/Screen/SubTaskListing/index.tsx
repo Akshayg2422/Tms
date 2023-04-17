@@ -17,11 +17,12 @@ function SubTaskListing() {
         const params = {
             task_id: getSubTaskId ? getSubTaskId.id : taskItem?.id
         }
+        console.log('1111111111111',params)
 
         dispatch(
             getSubTasks({
                 params,
-                onSuccess: () => () => { },
+                onSuccess: (response) => () => {console.log('SubTaskList----------->',JSON.stringify(response)) },
                 onError: () => () => { },
             })
         );

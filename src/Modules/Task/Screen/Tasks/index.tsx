@@ -2,20 +2,19 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId, getTaskGroup } from "@Redux";
-import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound, Badge } from "@Components";
+import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound, Badge, PageNation } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment, INITIAL_PAGE } from "@Utils";
-import { DropdownItem, DropdownMenu, DropdownToggle, Spinner, UncontrolledDropdown } from "reactstrap";
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
 import { icons } from "@Assets";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 
 function Tasks() {
   const { goTo } = useNavigation();
-  const { tasks, taskNumOfPages, taskCurrentPages, getTaskGroupDetails, taskGroupDetails, getTaskGroupCurrentPages, taskGroupCurrentPages, taskGroupNumOfPages } = useSelector((state: any) => state.AdminReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, getTaskGroupDetails, taskGroupCurrentPages, taskGroupNumOfPages } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const search = useInput("");
   const filteredTasks = useDropDown(FILTERED_LIST[2])
@@ -43,6 +42,7 @@ function Tasks() {
       setModifiedCompanyDropDownData(companies);
     }
   };
+  console.log(getTaskGroupDetails, "=========>")
 
   useEffect(() => {
     // getTaskGroupPage(INITIAL_PAGE)
@@ -209,8 +209,8 @@ function Tasks() {
               }}
             />
           </div> : null}
-        <div>
-          {taskGroupDetails && taskGroupDetails.length > 0 &&
+        <div className="row d-flex mb--2 mt-2">
+          {/* {taskGroupDetails && taskGroupDetails.length > 0 &&
             <InfiniteScroll
               dataLength={taskGroupDetails.length}
               hasMore={getTaskGroupCurrentPages !== -1}
@@ -224,8 +224,26 @@ function Tasks() {
                 }
               }
               }>
-                
+
               {taskGroupDetails.map((el: any) => {
+                return (
+
+                  <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
+                    onClick={() => {
+                      setSelectTag(el)
+                      setSyncTickets()
+                    }}
+                  />
+
+                )
+
+              })
+
+              }
+            </InfiniteScroll>} */}
+
+          {/* <div className="col-10 "> 
+           {getTaskGroupDetails?.map((el: any) => {
                 return (
                
                   <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
@@ -240,7 +258,64 @@ function Tasks() {
               })
 
               }
-            </InfiniteScroll>}
+              </div> */}
+
+
+          <div className="col-auto">
+            <PageNation isPagination
+              leftArrow=
+              {true}
+              currentPage={taskGroupCurrentPages}
+              noOfPage={taskGroupNumOfPages}
+              previousClick={() => {
+                getTaskGroupPage(paginationHandler("prev", taskGroupCurrentPages))
+              }
+              }
+              nextClick={() => {
+                getTaskGroupPage(paginationHandler("next", taskGroupCurrentPages));
+              }
+              }
+            />
+          </div>
+
+
+          <div className="">
+            {getTaskGroupDetails?.map((el: any) => {
+              return (
+
+                <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
+                  onClick={() => {
+                    setSelectTag(el)
+                    setSyncTickets()
+                  }}
+                />
+
+              )
+
+            })
+
+            }
+          </div>
+          <div className="col-auto pl-4">
+            <PageNation isPagination
+              rightArrow=
+              {true}
+              currentPage={taskGroupCurrentPages}
+              noOfPage={taskGroupNumOfPages}
+              previousClick={() => {
+                getTaskGroupPage(paginationHandler("prev", taskGroupCurrentPages))
+              }
+              }
+              nextClick={() => {
+                getTaskGroupPage(paginationHandler("next", taskGroupCurrentPages));
+              }
+              }
+            />
+          </div>
+
+
+
+
         </div>
       </HomeContainer>
       <HomeContainer isCard className={'mb--5'} >

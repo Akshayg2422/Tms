@@ -11,7 +11,7 @@ import { TagAndAssignUser, TaskChat } from "@Modules";
 function Comments() {
   const dispatch = useDispatch();
   const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
-  const { taskItem } = useSelector((state: any) => state.AdminReducer);
+  const { taskItem, getReferenceId, getSubTaskId } = useSelector((state: any) => state.AdminReducer);
   const textMessage = useInput('')
   const [selectAttachments, setSelectAttachments] = useState(false)
   const modalName = useInput('')
@@ -22,12 +22,12 @@ function Comments() {
 
   useEffect(() => {
     ProceedGetTaskEvents()
-  }, [])
+  }, [getReferenceId, getSubTaskId])
 
 
   const ProceedGetTaskEvents = () => {
     const params = {
-      task_id: taskItem?.id
+      task_id: getReferenceId ? getReferenceId.id : getSubTaskId ? getSubTaskId.id : taskItem.id,
     }
 
     dispatch(
@@ -43,7 +43,7 @@ function Comments() {
 
     if (textMessage) {
       const params = {
-        id: taskItem.id,
+        id: getReferenceId ? getReferenceId.id : getSubTaskId ? getSubTaskId.id : taskItem.id,
         message: textMessage.value,
         event_type: TEM
       }
@@ -62,7 +62,7 @@ function Comments() {
   const onModalSubmitHandler = () => {
     const params = {
       event_type: MEA,
-      id: taskItem.id,
+      id: getReferenceId ? getReferenceId.id : getSubTaskId ? getSubTaskId.id : taskItem.id,
       attachments: [{ attachment: photo }],
       name: modalName.value
     };
