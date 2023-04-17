@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, HomeContainer, Modal, Input, Button } from "@Components";
+import { H, Image, Card, HomeContainer, Modal, Input, Button, DateTimePicker } from "@Components";
 import { ETA, getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils'
-import { useInput, useNavigation } from "@Hooks";
+import { useNavigation } from "@Hooks";
 import { addTaskEvent, getTasks } from "@Redux";
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
 import { TagAndAssignUser, Timeline } from "@Modules";
+import { translate } from "@I18n";
 
 function TaskInfo({ onClick }: TaskInfoProps) {
     const { goBack } = useNavigation();
@@ -14,17 +15,20 @@ function TaskInfo({ onClick }: TaskInfoProps) {
     const { taskItem, getSubTaskId } = useSelector((state: any) => state.AdminReducer);
     const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
     const dispatch = useDispatch();
-    const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, order_sequence } = getSubTaskId ? getSubTaskId : taskItem;
+    const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time } = getSubTaskId ? getSubTaskId : taskItem;
     const [editEta, setEditEta] = useState(false)
     const etaMomentObj = getMomentObjFromServer(eta_time);
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
-    const editModalName = useInput(initialEtaValue);
+    const [eta, setEta] = useState(initialEtaValue)
     const [timeline, setTimeline] = useState(false)
 
     useEffect(() => {
         ProceedGetTaskEvents()
     }, [getSubTaskId])
 
+    const handleEtaChange = (value: any) => {
+        setEta(value);
+    };
 
     const ProceedGetTaskEvents = () => {
         const params = {
@@ -43,7 +47,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
     const editEtaSubmitHandler = () => {
         const params = {
             id: getSubTaskId ? getSubTaskId.id : taskItem?.id,
-            eta_time: getServerTimeFromMoment(getMomentObjFromServer(editModalName.value)),
+            eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),
             event_type: ETA,
         }
 
@@ -71,19 +75,21 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                             size={'sm'}
                             variant='rounded'
                             className='bg-white mt--1'
-                            src={icons.backArrow} /></div>
+                            src={icons.backArrow} />
+                    </div>
 
-
-                    <div className="col-6">
+                    <div className="col">
                         <H tag={"h4"} text={title} />
                     </div>
-                    <div className="col ml-2">
-                        <h6 className="text-uppercase d-flex justify-content-end">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}<span className="mt--1 d-flex justify-content-end pointer"><TagAndAssignUser /></span></h6>
+                    <div className="col-5 pl-5">
+                        <H className={'mx-6 mb--1'} tag={"h5"} text={'CREATED AT :'} />
+                        <h6 className="row text-uppercase ml-6 mr--1">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}
+                            <div className="col-3 ml-1  mt--1 pointer"><TagAndAssignUser /></div></h6>
                     </div>
                 </div>
                 <H className={'text-muted'} tag={'h5'} text={description} />
                 <div className="row align-items-center my-4">
-                    <div className="col-5">
+                    <div className="col-8 mr-2">
                         {
                             task_attachments &&
                             task_attachments?.length > 0 &&
@@ -97,10 +103,11 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                             })
                         }
                     </div>
-                    <div className="col">
+                    <div className="col ml--2">
+                        <H className={'mx-5 mb--1'} tag={"h5"} text={'ETA :'} />
                         <h6 className="text-uppercase d-flex justify-content-end">
-                            {editModalName.value}
-                            <span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pointer"></span>
+                            {getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
+                            <span onClick={() => { setEditEta(!editEta) }} className="bi bi-pencil mx-2 pl-1 pointer"></span>
                             <span onClick={() => { setTimeline(!timeline) }} className="mt-1 text-muted pointer ni ni-active-40"></span>
                         </h6>
                     </div>
@@ -108,15 +115,26 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                 <Modal isOpen={editEta}
                     onClose={() => { setEditEta(!editEta) }}
                 >
-                    <Input className='rounded-pill' heading={'Name'}
-                        value={editModalName.value} onChange={editModalName.onChange} />
+                    <DateTimePicker
+                        id="eta-picker"
+                        heading="ETA"
+                        placeholder={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
+                        type="both"
+                        onChange={handleEtaChange}
+                    />
+                    <Input
+                        type={"text"}
+                        heading={translate("common.reason")}
+                    // value={.value}
+                    // onChange={.onChange}
+                    />
                     <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => editEtaSubmitHandler()} />
 
                 </Modal>
                 <Modal isOpen={timeline}
                     onClose={() => { setTimeline(!timeline) }}
                 >
-                    <Timeline/>
+                    <Timeline />
                 </Modal>
                 <div className="row align-items-end my-4">
                     <div className="col">

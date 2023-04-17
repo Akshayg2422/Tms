@@ -19,6 +19,7 @@ import {
   getTicketUsersApi,
   getTaskGroupApi,
   addTaskGroupApi,
+  getTaskHistoryApi
 
 } from "@Services";
 import {
@@ -82,6 +83,9 @@ import {
   ADD_TASK_GROUP,
   addTaskGroupSuccess,
   addTaskGroupFailure,
+  GET_TASK_HISTORY,
+  getTaskHistorySuccess,
+  getTaskHistoryFailure
 
 } from "@Redux";
 
@@ -260,7 +264,7 @@ function* getDesignation(action) {
     const response = yield call(fetchDesignationDataApi, action.payload.params);
 
     if (response.success) {
-     
+
       yield put(hideLoader());
       yield put(getDesignationDataSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -308,7 +312,7 @@ function* getReferenceTasksSaga(action) {
     const response = yield call(getReferenceTasksApi, action.payload.params);
 
     if (response.success) {
-    
+
       yield put(hideLoader());
       yield put(getReferenceTasksSuccess(response.details));
       yield call(action.payload.onSuccess(response));
@@ -497,7 +501,7 @@ function* getTaskGroupSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskGroupApi, action.payload.params);
-  
+
     if (response.success) {
 
       yield put(hideLoader());
@@ -537,6 +541,32 @@ function* addTaskGroupSaga(action) {
   }
 }
 
+/**
+ * GET TASK HISTORY
+ */
+
+function* getTaskHistorySaga(action) {
+  try {
+    yield put(showLoader());
+
+    const response = yield call(getTaskHistoryApi, action.payload.params);
+
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getTaskHistorySuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getTaskHistoryFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(getTaskHistoryFailure("Invalid Request"));
+    yield call(action.payload.onError);
+  }
+}
+
 ///watcher///
 
 function* AdminSaga() {
@@ -559,6 +589,8 @@ function* AdminSaga() {
   yield takeLatest(GET_TICKET_USERS, getTicketUsersSaga)
   yield takeLatest(GET_TASK_GROUP, getTaskGroupSaga)
   yield takeLatest(ADD_TASK_GROUP, addTaskGroupSaga)
+  yield takeLatest(GET_TASK_HISTORY, getTaskHistorySaga)
+
 }
 
 export default AdminSaga;

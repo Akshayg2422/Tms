@@ -77,10 +77,14 @@ import {
   GET_REFERENCE_ID,
   GET_SUBTASK_ID,
   LOGIN_USER,
-  
+  GET_TASK_HISTORY,
+  GET_TASK_HISTORY_SUCCESS,
+  GET_TASK_HISTORY_FAILURE,
+
 } from '../ActionTypes';
 
 import { AdminStateProp } from '../../Interfaces';
+import { log } from 'console';
 
 const initialState: AdminStateProp = {
   associatedCompanies: undefined,
@@ -93,17 +97,17 @@ const initialState: AdminStateProp = {
 
   designationData: undefined,
   departmentData: undefined,
-  designationCurrentPages:undefined,
-  designationNumOfPages:undefined,
-  departmentCurrentPages:undefined,
-  departmentNumOfPages:undefined,
+  designationCurrentPages: undefined,
+  designationNumOfPages: undefined,
+  departmentCurrentPages: undefined,
+  departmentNumOfPages: undefined,
 
   brandSector: undefined,
   ticketTag: undefined,
-  brandSectorCurrentPages:undefined,
-  brandSectorNumOfPages:undefined,
-  ticketTagCurrentPages:undefined,
-  ticketTagNumOfPages:undefined,
+  brandSectorCurrentPages: undefined,
+  brandSectorNumOfPages: undefined,
+  ticketTagCurrentPages: undefined,
+  ticketTagNumOfPages: undefined,
   companyDetailsSelected: undefined,
   referenceIssueSelectedDetails: undefined,
   selectedReferenceIssues: undefined,
@@ -114,23 +118,24 @@ const initialState: AdminStateProp = {
   addingTask: undefined,
   subTasks: undefined,
   taskItem: undefined,
-  current:undefined,
+  current: undefined,
 
-  referencesTasks:undefined,
+  referencesTasks: undefined,
   referencesTasksNumOfPages: undefined,
-  referencesTasksCurrentPages:undefined,
+  referencesTasksCurrentPages: undefined,
   taskUsers: undefined,
-  ticketEmployees:undefined,
+  ticketEmployees: undefined,
 
-  getTaskGroupDetails:undefined,
-  getTaskGroupCurrentPages:undefined,
-  taskGroupDetails:undefined,
-  taskGroupCurrentPages:undefined,
-  taskGroupNumOfPages:undefined,
-  addTaskGroup:undefined,
-  getReferenceId:undefined,
-  getSubTaskId:undefined,
-  loginUserSuccess:false,
+  getTaskGroupDetails: undefined,
+  getTaskGroupCurrentPages: undefined,
+  taskGroupDetails: undefined,
+  taskGroupCurrentPages: undefined,
+  taskGroupNumOfPages: undefined,
+  addTaskGroup: undefined,
+  getReferenceId: undefined,
+  getSubTaskId: undefined,
+  loginUserSuccess: false,
+  taskHistoryList: undefined,
 };
 
 
@@ -175,22 +180,22 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = { ...state };
       break;
 
-/**get_ticket_users */
-case GET_TICKET_USERS:
-  state = {
-    ...state
-  };
+    /**get_ticket_users */
+    case GET_TICKET_USERS:
+      state = {
+        ...state
+      };
 
-  break;
-case GET_TICKET_USERS_SUCCESS:
-  state = {
-    ...state,
-    ticketEmployees: action.payload,
-  };
-  break;
-case GET_TICKET_USERS_FAILURE:
-  state = { ...state, ticketEmployees: undefined };
-  break;
+      break;
+    case GET_TICKET_USERS_SUCCESS:
+      state = {
+        ...state,
+        ticketEmployees: action.payload,
+      };
+      break;
+    case GET_TICKET_USERS_FAILURE:
+      state = { ...state, ticketEmployees: undefined };
+      break;
 
     /**
      * Dashboard
@@ -275,35 +280,35 @@ case GET_TICKET_USERS_FAILURE:
         loading: false,
       };
       break;
-//GET REFERENCE TASKS
-case GET_REFERENCE_TASKS:
-  state = {
-    ...state,
-    referencesTasks: undefined,
-    referencesTasksNumOfPages: 0,
-    referencesTasksCurrentPages: 1,
-    loading: true
-  };
-  break;
-case GET_REFERENCE_TASKS_SUCCESS:
-  state = {
-    ...state,
-    loading: false,
-    referencesTasks: action?.payload?.data,
-    referencesTasksNumOfPages: action?.payload?.num_pages,
-    referencesTasksCurrentPages:
-      action?.payload?.next_page === -1
-        ? action?.payload?.num_pages
-        : action?.payload?.next_page - 1,
-  };
-  break;
-case GET_REFERENCE_TASKS_FAILURE:
-  state = {
-    ...state,
-    error: action.payload,
-    loading: false,
-  };
-  break;
+    //GET REFERENCE TASKS
+    case GET_REFERENCE_TASKS:
+      state = {
+        ...state,
+        referencesTasks: undefined,
+        referencesTasksNumOfPages: 0,
+        referencesTasksCurrentPages: 1,
+        loading: true
+      };
+      break;
+    case GET_REFERENCE_TASKS_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        referencesTasks: action?.payload?.data,
+        referencesTasksNumOfPages: action?.payload?.num_pages,
+        referencesTasksCurrentPages:
+          action?.payload?.next_page === -1
+            ? action?.payload?.num_pages
+            : action?.payload?.next_page - 1,
+      };
+      break;
+    case GET_REFERENCE_TASKS_FAILURE:
+      state = {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+      break;
     //get designations
 
     case FETCH_DESIGNATION:
@@ -394,12 +399,12 @@ case GET_REFERENCE_TASKS_FAILURE:
       }
       break;
     case GET_TASKS_FAILURE:
-      state ={...state,tasks:undefined}
-      break;  
+      state = { ...state, tasks: undefined }
+      break;
 
-        /**
-     * add BRAND SECTOR
-     */
+    /**
+ * add BRAND SECTOR
+ */
     case ADD_BRAND_SECTOR:
       state = { ...state, loading: true };
       break;
@@ -437,25 +442,27 @@ case GET_REFERENCE_TASKS_FAILURE:
       };
       break;
 
-       //get BRAND SECTOR
+    //get BRAND SECTOR
 
     case GET_BRAND_SECTOR:
-      state = { ...state,
+      state = {
+        ...state,
         brandSector: undefined,
         brandSectorNumOfPages: 0,
         brandSectorCurrentPages: 1,
-         loading: true };
+        loading: true
+      };
       break;
     case GET_BRAND_SECTOR_SUCCESS:
       state = {
         ...state,
         loading: false,
         brandSector: action?.payload?.data,
-        brandSectorNumOfPages:action?.payload?.num_pages,
+        brandSectorNumOfPages: action?.payload?.num_pages,
         brandSectorCurrentPages:
-        action?.payload?.next_page === -1
-            ?action?.payload?.num_pages
-            :action?.payload?.next_page - 1,
+          action?.payload?.next_page === -1
+            ? action?.payload?.num_pages
+            : action?.payload?.next_page - 1,
       };
       break;
     case GET_BRAND_SECTOR_FAILURE:
@@ -469,24 +476,26 @@ case GET_REFERENCE_TASKS_FAILURE:
     //get designations
 
     case GET_TICKET_TAG:
-   
-        state = { ...state,
-          ticketTag: undefined,
-          ticketTagNumOfPages: 0,
-          ticketTagCurrentPages: 1,
-           loading: true };
-       
+
+      state = {
+        ...state,
+        ticketTag: undefined,
+        ticketTagNumOfPages: 0,
+        ticketTagCurrentPages: 1,
+        loading: true
+      };
+
       break;
     case GET_TICKET_TAG_SUCCESS:
       state = {
         ...state,
         loading: false,
-        ticketTag:action?.payload?.data,
-        ticketTagNumOfPages:action?.payload?.num_pages,
+        ticketTag: action?.payload?.data,
+        ticketTagNumOfPages: action?.payload?.num_pages,
         ticketTagCurrentPages:
-        action?.payload?.next_page === -1
-            ?action?.payload?.num_pages
-            :action?.payload?.next_page - 1,
+          action?.payload?.next_page === -1
+            ? action?.payload?.num_pages
+            : action?.payload?.next_page - 1,
       };
       break;
     case GET_TICKET_TAG_FAILURE:
@@ -497,53 +506,59 @@ case GET_REFERENCE_TASKS_FAILURE:
       };
       break;
 
-      /**get task group */
-      case GET_TASK_GROUP:
-        const { page_number } = action.payload.params
-      state = { ...state,
-        taskGroupDetails: page_number === 1 ? [] : state. taskGroupDetails,
+    /**get task group */
+    case GET_TASK_GROUP:
+      const { page_number } = action.payload.params
+      state = {
+        ...state,
+        taskGroupDetails: page_number === 1 ? [] : state.taskGroupDetails,
         getTaskGroupDetails: undefined,
         taskGroupNumOfPages: 0,
         taskGroupCurrentPages: 1,
-         loading: true };
-     
-    break;
-  case GET_TASK_GROUP_SUCCESS:
-    state = {
-      ...state,
-      loading: false,
-      taskGroupDetails: [...state.taskGroupDetails, ...action.payload?.details?.data],
-      getTaskGroupCurrentPages:
-        action.payload?.details?.next_page,
-        
-      getTaskGroupDetails:action?.payload?.details?.data,
-      taskGroupNumOfPages:action?.payload?.details?.num_pages,
-      taskGroupCurrentPages:
-      action?.payload?.details?.next_page === -1
-          ?action?.payload?.details?.num_pages
-          :action?.payload?.details?.next_page - 1,
-    };
-    break;
-  case GET_TASK_GROUP_FAILURE:
-    state = {
-      ...state,
-      error: action.payload,
-      loading: false,
-    };
-    break;
+        loading: true
+      };
+
+      break;
+    case GET_TASK_GROUP_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        taskGroupDetails: [...state.taskGroupDetails, ...action.payload?.details?.data],
+        getTaskGroupCurrentPages:
+          action.payload?.details?.next_page,
+
+        getTaskGroupDetails: action?.payload?.details?.data,
+        taskGroupNumOfPages: action?.payload?.details?.num_pages,
+        taskGroupCurrentPages:
+          action?.payload?.details?.next_page === -1
+            ? action?.payload?.details?.num_pages
+            : action?.payload?.details?.next_page - 1,
+      };
+      break;
+    case GET_TASK_GROUP_FAILURE:
+      state = {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+      break;
 
     case GET_REFERENCE_ID:
-      state = { ...state,
-        getReferenceId:action.payload,
-         loading: true };
+      state = {
+        ...state,
+        getReferenceId: action.payload,
+        loading: true
+      };
       break;
-      
-      case GET_SUBTASK_ID:
-      state = { ...state,
-        getSubTaskId:action.payload,
-         loading: true };
+
+    case GET_SUBTASK_ID:
+      state = {
+        ...state,
+        getSubTaskId: action.payload,
+        loading: true
+      };
       break;
-      
+
     /* ADD TASK */
 
     case ADD_TASK:
@@ -560,8 +575,8 @@ case GET_REFERENCE_TASKS_FAILURE:
 
       state = { ...state, addingTask: action.payload };
       break;
-/**add task group */
-      case ADD_TASK_GROUP:
+    /**add task group */
+    case ADD_TASK_GROUP:
 
       state = { ...state, addTaskGroup: undefined };
       break;
@@ -588,30 +603,52 @@ case GET_REFERENCE_TASKS_FAILURE:
     case GET_SUB_TASKS_FAILURE:
       state = { ...state, subTasks: action.payload }
       break;
-      
-      case GET_CURRENT_PAGE:
-        state = { ...state, current: action.payload }
-        break;
-  
+
+    case GET_CURRENT_PAGE:
+      state = { ...state, current: action.payload }
+      break;
+
 
     case GET_TASKS_ITEM:
       state = { ...state, taskItem: action.payload }
       break;
-      case LOGIN_USER:
+    case LOGIN_USER:
 
-      state = { ...state,  loginUserSuccess: action.payload};
+      state = { ...state, loginUserSuccess: action.payload };
       break;
 
 
-      case GET_TASK_USERS:
-        state = { ...state, taskUsers: undefined }
-        break;
-      case GET_TASK_USERS_SUCCESS:
-        state = { ...state, taskUsers: action.payload?.details }
-        break;
-      case GET_TASK_USERS_FAILURE:
-        state = { ...state, taskUsers: undefined }
-        break;
+    case GET_TASK_USERS:
+      state = { ...state, taskUsers: undefined }
+      break;
+    case GET_TASK_USERS_SUCCESS:
+      state = { ...state, taskUsers: action.payload?.details }
+      break;
+    case GET_TASK_USERS_FAILURE:
+      state = { ...state, taskUsers: undefined }
+      break;
+
+
+    /* GET TASK HISTORY */
+
+    case GET_TASK_HISTORY:
+      state = {
+        ...state
+      };
+
+      break;
+    case GET_TASK_HISTORY_SUCCESS:
+      console.log(JSON.stringify(action.payload) + "=======GET_TASK_HISTORY_SUCCESS");
+
+      state = {
+        ...state,
+        taskHistoryList: action.payload,
+      };
+      break;
+    case GET_TASK_HISTORY_FAILURE:
+      state = { ...state, taskHistoryList: undefined };
+      break;
+
 
     default:
       state = state;

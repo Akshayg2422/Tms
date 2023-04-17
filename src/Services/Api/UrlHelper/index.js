@@ -78,3 +78,7 @@ export const FETCH_SUB_TASKS = TASK + 'getSubTasks'
 export const ADD_TASK_GROUP=TASK+'addTaskGroup'
 export const GET_TASK_GROUP=TASK+'getTaskGroup'
 
+/* GET TASK HISTORY */
+
+export const GET_TASK_HISTORY_LIST =TASK+'getTaskHistory'
+
