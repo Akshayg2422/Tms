@@ -10,11 +10,11 @@ function TaskAttachments() {
   const dispatch = useDispatch();
   const search = useInput("");
   const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
-  const { taskItem,getReferenceId } = useSelector((state: any) => state.AdminReducer);
+  const { taskItem, getReferenceId, getSubTaskId } = useSelector((state: any) => state.AdminReducer);
 
   useEffect(() => {
     const params = {
-      task_id:getReferenceId?getReferenceId.id:taskItem.id,
+      task_id: getReferenceId ? getReferenceId.id : getSubTaskId ? getSubTaskId.id : taskItem.id,
       event_type: MEA,
     };
 
@@ -25,12 +25,12 @@ function TaskAttachments() {
         onFailure: () => () => { }
       })
     );
-  }, [getReferenceId,taskItem]);
+  }, [getReferenceId, taskItem, getSubTaskId]);
 
 
   const getSearchHandler = () => {
     const params = {
-      task_id:getReferenceId?getReferenceId.id:taskItem.id,
+      task_id: getReferenceId ? getReferenceId.id : taskItem.id,
       q_many: search.value,
       event_type: MEA,
     };

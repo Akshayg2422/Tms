@@ -39,7 +39,7 @@ function AddSubTask() {
     const [typeSelect, setTypeSelect] = useState(type[0]);
     const [isSelect, setIsSelect] = useState(false);
 
-    const { dashboardDetails, taskItem, getTaskGroupDetails } = useSelector(
+    const { dashboardDetails, taskItem, getSubTaskId, getTaskGroupDetails } = useSelector(
         (state: any) => state.AdminReducer
     );
     const { isSync } = useSelector((state: any) => state.AppReducer);
@@ -80,7 +80,7 @@ function AddSubTask() {
             task_attachments: [{ attachments: photo }],
             is_parent: false,
             eta_time: eta,
-            parent_id: taskItem?.id,
+            parent_id: getSubTaskId ? getSubTaskId.id : taskItem?.id,
             group_id: selectGroup?.id
         };
 

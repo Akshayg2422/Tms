@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
-import { Button, NoDataFound, CommonTable, Checkbox, showToast,Image } from "@Components";
-import { useInput,useNavigation } from "@Hooks";
+import { Button, NoDataFound, CommonTable, Checkbox, showToast, Image } from "@Components";
+import { useInput, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
-import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler,SEARCH_PAGE } from "@Utils";
+import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE } from "@Utils";
 import { icons } from "@Assets";
 
 function AddReferenceTask() {
   const dispatch = useDispatch();
   const { isSync } = useSelector((state: any) => state.AppReducer);
-  const { tasks, dashboardDetails, taskItem ,referencesTasks, taskNumOfPages,taskCurrentPages} = useSelector((state: any) => state.AdminReducer);
+  const { tasks, dashboardDetails, taskItem, referencesTasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.AdminReducer);
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
   const { goBack } = useNavigation();
   const Search = useInput("");
 
-
-
-useEffect(() => {
-  if (!isSync.tasks) {
-    getSearchHandler(taskCurrentPages)
-  }
-}, [isSync])
+  useEffect(() => {
+    if (!isSync.tasks) {
+      getSearchHandler(taskCurrentPages)
+    }
+  }, [isSync])
   const submitHandler = () => {
 
     const params = {
@@ -37,7 +35,7 @@ useEffect(() => {
         addTaskEvent({
           params,
           onSuccess: (response: any) => () => {
-           
+
             if (response.success) {
               goBack()
               showToast(response.message, "success");
@@ -71,25 +69,27 @@ useEffect(() => {
     setSelectedReferenceTask(updatedSelectedReferenceTask);
   };
 
-  const getSearchHandler = (pageNumber:any) => {
-    const params = { q_many: Search.value ,
-      page_number: pageNumber,};
-    
+  const getSearchHandler = (pageNumber: any) => {
+    const params = {
+      q_many: Search.value,
+      page_number: pageNumber,
+    };
+
     dispatch(
       getTasks({
         params,
-        onSuccess: () => () => { 
+        onSuccess: () => () => {
         },
         onError: () => () => { },
       })
     );
   };
-  
+
   function proceedTaskSearch() {
     // setSyncTickets()
     getSearchHandler(SEARCH_PAGE)
   }
-  
+
 
   const normalizedTableData = (data: any) => {
 
@@ -153,34 +153,34 @@ useEffect(() => {
       <div>
         <div className="m-3">
           <div className="row justify-content-center">
-            {tasks && tasks.data?.length > 0 ? <CommonTable title={ 
-            <div className='row col pt-2 '>
-          <div
-          onClick={()=>goBack()} 
-          ><Image  
+            {tasks && tasks.data?.length > 0 ? <CommonTable title={
+              <div className='row col pt-2 '>
+                <div
+                  onClick={() => goBack()}
+                ><Image
                     size={'sm'}
                     variant='rounded'
                     className='bg-white mt--1  pl-1'
-                    src={icons.backArrow}   /></div>
-      <div className='pl-2'>  <h3>{'Add Reference Task'}</h3>
-      </div>
-        </div>}
-           isPagination
-             tableDataSet={tasks.data} 
-             currentPage={taskCurrentPages}
-             noOfPage={taskNumOfPages}
-             displayDataSet={normalizedTableData(tasks.data)}
-             paginationNumberClick={(currentPage) => {
-              getSearchHandler(paginationHandler("current", currentPage));
-             }}
-             previousClick={() => {
-              getSearchHandler(paginationHandler("prev",taskCurrentPages))
-             }
-             }
-             nextClick={() => {
-              getSearchHandler(paginationHandler("next", taskCurrentPages));
-             }
-             }
+                    src={icons.backArrow} /></div>
+                <div className='pl-2'>  <h3>{'Add Reference Task'}</h3>
+                </div>
+              </div>}
+              isPagination
+              tableDataSet={tasks.data}
+              currentPage={taskCurrentPages}
+              noOfPage={taskNumOfPages}
+              displayDataSet={normalizedTableData(tasks.data)}
+              paginationNumberClick={(currentPage) => {
+                getSearchHandler(paginationHandler("current", currentPage));
+              }}
+              previousClick={() => {
+                getSearchHandler(paginationHandler("prev", taskCurrentPages))
+              }
+              }
+              nextClick={() => {
+                getSearchHandler(paginationHandler("next", taskCurrentPages));
+              }
+              }
 
             /> : <NoDataFound />}
 

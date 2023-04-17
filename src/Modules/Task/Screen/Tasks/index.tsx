@@ -8,9 +8,8 @@ import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment, INITIAL_PAGE } from "@Utils";
-import { DropdownItem, DropdownMenu, DropdownToggle, Spinner, UncontrolledDropdown } from "reactstrap";
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
 import { icons } from "@Assets";
-
 
 
 function Tasks() {
@@ -53,39 +52,12 @@ function Tasks() {
  
 
   useEffect(() => {
-    // getTaskGroupPage(INITIAL_PAGE)
-    // const params = {};
-    //testing for setsynticket
+
     setSyncTickets()
-    // dispatch(
-    //   getTaskGroup({
-    //     params,
-    //     onSuccess: (response: any) => () => {
 
-
-    //     },
-    //     onError: () => () => {
-    //     },
-    //   })
-    // )
   }, [])
 
-  // function getTaskGroupPage(page_number: number) {
 
-  //   const params = { q: "", page_number };
-
-  //   dispatch(
-  //     getTaskGroup({
-  //       params,
-  //       onSuccess: (response: any) => () => {
-       
-
-  //       },
-  //       onError: () => () => {
-  //       },
-  //     })
-  //   );
-  // }
 
   useEffect(()=>{
     const params={}

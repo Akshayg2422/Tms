@@ -6,12 +6,12 @@ import { getTaskUsers } from "@Redux";
 
 function TaskUsers() {
   const dispatch = useDispatch();
-  const { taskUsers, taskItem ,getReferenceId} = useSelector((state: any) => state.AdminReducer);
+  const { taskUsers, taskItem, getReferenceId, getSubTaskId } = useSelector((state: any) => state.AdminReducer);
 
   useEffect(() => {
 
     const params = {
-      task_id:getReferenceId?getReferenceId.id:taskItem.id,
+      task_id: getReferenceId ? getReferenceId.id : getSubTaskId ? getSubTaskId.id : taskItem.id,
     };
 
     dispatch(
@@ -21,7 +21,7 @@ function TaskUsers() {
         onError: () => () => { },
       })
     );
-  }, [,getReferenceId,taskItem]);
+  }, [, getReferenceId, taskItem, getSubTaskId]);
 
 
 
@@ -31,10 +31,10 @@ function TaskUsers() {
         <div>
           <h5 className="text-muted mt-4">ASSIGNED TO </h5>
         </div>
-        {taskUsers[0].assigned_to && 
-        <Card className="mt-1 py-2 shadow-none" >
-          <UserItem item={taskUsers[0].assigned_to} />
-        </Card>}
+        {taskUsers[0].assigned_to &&
+          <Card className="mt-1 py-2 shadow-none" >
+            <UserItem item={taskUsers[0].assigned_to} />
+          </Card>}
 
         {taskUsers && <> <div>
           <h5 className="text-muted">ASSIGNED BY</h5>
@@ -46,7 +46,7 @@ function TaskUsers() {
 
 
 
-        {taskUsers && taskUsers[0].tagged_to.length>0 && <> <div>
+        {taskUsers && taskUsers[0].tagged_to.length > 0 && <> <div>
           <h5 className="text-muted">INVOLVED USER</h5>
         </div>
           <Card className="mt-1 py-2 shadow-none" >

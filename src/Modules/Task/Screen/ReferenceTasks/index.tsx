@@ -1,14 +1,14 @@
-import { NoDataFound,Card, CommonTable } from "@Components";
+import { NoDataFound, Card, CommonTable } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsSync, getReferenceTasks,getSelectReferenceId} from "@Redux";
+import { setIsSync, getReferenceTasks, getSelectReferenceId } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
-  const {  dashboardDetails, referencesTasks,
+  const { dashboardDetails, referencesTasks,
     referencesTasksNumOfPages,
-    referencesTasksCurrentPages, taskItem,getReferenceId } = useSelector(
+    referencesTasksCurrentPages, taskItem, getReferenceId, getSubTaskId } = useSelector(
       (state: any) => state.AdminReducer
     );
 
@@ -18,13 +18,13 @@ function ReferenceTasks() {
     if (!isSync.referenceTickets) {
       proceedgetReferenceTasks(referencesTasksCurrentPages);
     }
-  }, [isSync,getReferenceId]);
+  }, [isSync, getReferenceId, getSubTaskId]);
 
 
   const proceedgetReferenceTasks = (pageNumber: number) => {
     const params = {
       page_number: pageNumber,
-      task_id:getReferenceId?getReferenceId.id:taskItem?.id,
+      task_id: getReferenceId ? getReferenceId.id : getSubTaskId ? getSubTaskId.id : taskItem.id,
       q: ""
 
     };
@@ -71,7 +71,6 @@ function ReferenceTasks() {
           tableDataSet={referencesTasks}
           currentPage={referencesTasksCurrentPages}
           noOfPage={referencesTasksNumOfPages}
-          // title={"Reference Details"}
           displayDataSet={normalizedTableData(referencesTasks)}
           paginationNumberClick={(currentPage) => {
             proceedgetReferenceTasks(paginationHandler("current", currentPage));
