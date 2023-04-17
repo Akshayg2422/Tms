@@ -137,17 +137,17 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                     <Timeline />
                 </Modal>
                 <div className="row align-items-end my-4">
-                    <div className="col">
+                    <div className="col-4">
                         <div className="h5 mb-0"> {by_user?.name} </div>
                         <div className="h5 mb-0"> {by_user?.phone} </div>
                         <div className="h5 mb-0"> {by_user?.email} </div>
                     </div>
-                    <div className="col align-self-center mx--4">
-                        <div className="col p-0 d-flex justify-content-center mr--2">
+                    <div className="col-1 m-0 p-0 align-self-center">
+                        <div className="col p-0 d-flex justify-content-center">
                             {raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />} </div>
                     </div>
 
-                    <div className="col-6">
+                    <div className="col-4">
                         <h6>
                             <div className="h5 mb-0">
                                 {raised_by_company?.display_name} </div>
@@ -157,7 +157,15 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                             <div className={'text-uppercase text-muted'}>{raised_by_company?.address}</div>
                         </h6>
                     </div>
-                    <div className="col"></div>
+                    <div className="row">
+                        <div className="col">
+                        <Button size={'sm'} text={'Submit'} className={'rounded-pill'} onClick={() => editEtaSubmitHandler()} />
+                        </div>
+                        <div className="col text-right">
+                        <Button size={'sm'} text={'Submit'} className={'rounded-pill'} onClick={() => editEtaSubmitHandler()} />
+                        </div>
+                        <div className="h5 mb-0"></div>
+                    </div>
                 </div>
             </Card >
         </HomeContainer >
