@@ -9,7 +9,8 @@ import {
   showToast,
   Checkbox,
   Dropzone,
-  Image
+  Image,
+  MenuBar
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -27,6 +28,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
+import { icons } from "@Assets";
 
 
 function Settings() {
@@ -48,7 +50,11 @@ function Settings() {
   );
 
   const [photo, setPhoto] = useState("");
+  const [editPhoto, setEditPhoto] = useState("");
+  const [addSubPhoto, setAddSubPhoto] = useState("");
+
   const [tagPhoto, setTagPhoto] = useState("");
+  const [editId,setEditId]=useState('')
 
   const [showDepartments, setShowDepartments] = useState(false);
   const [showDesignations, setShowDesignations] = useState(false);
@@ -70,15 +76,36 @@ function Settings() {
   const [designationDataList, setDesignationDataList] = useState(designationData);
   const [showTaskGroup, setShowTaskGroup] = useState(false);
   const addTaskGroupModal = useModal(false);
+  const editTaskGroupModal=useModal(false);
+  const addSubTaskModal=useModal(false)
   const [task, setTask] = useState("");
+  const [editTask, setEditTask] = useState("");
+  const [editCode, setEditCode] = useState("");
+  const [editDescription, setEditDescription] = useState("");
    const [codeFill, setCodeFill] = useState(task.slice(0,3).toUpperCase());
    const [TagCodeFill, setTagCodeFill] = useState(tags.slice(0,3).toUpperCase());
   const [taskDescription, setTaskDescription] = useState("");
+  const [addSubTask, setAddSubTask] = useState("");
+  const [addSubTaskCode, setAddSubTaskCode] = useState("");
+  const [addSubTaskDescription, setAddSubTaskDescription] = useState("");
+  const [addSubTaskItem,setSubTaskItem] = useState<any>("");
+
   const dynamicHeight: any = useDynamicHeight()
   let attach=[photo]
   let PhotoAttach=attach.slice(-1,4)
+
+  let editAttach=[editPhoto]
+  let editPhotoAttach=editAttach.slice(-1,4)
+
+  let addSubAttach=[addSubPhoto]
+  let addSubPhotoAttach=addSubAttach.slice(-1,4)
+
   let tagAttach=[tagPhoto]
   let tagPhotoAttach=tagAttach.slice(-1,4)
+
+  const menuItem=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
+  {id:'1',name:"Create SubTask",icon:'bi bi-pencil'},
+  {id:'2',name:"Close",icon:"X" ,span:'x'}]
 
   const getDepartmentList = (pageNumber: number) => {
 
@@ -374,10 +401,12 @@ function Settings() {
   /**add task group */
   const addTaskGroupAdding = () => {
     const params = {
-      name: convertToUpperCase(task),
-      description: convertToUpperCase(taskDescription),
-      code:codeFill,
-      photo:PhotoAttach[0]
+      name:editTask?convertToUpperCase(editTask) : convertToUpperCase(task),
+      description:editDescription? convertToUpperCase(editDescription):convertToUpperCase(taskDescription),
+      code:editCode?editCode:codeFill,
+      photo:editPhoto?editPhotoAttach[0]:PhotoAttach[0],
+      ...(editId &&{id:editId})
+      
     };
 
     const validation = validate(ADD_TASK_GROUP, params)
@@ -387,6 +416,56 @@ function Settings() {
           params,
           onSuccess: (success: any) => () => {
             addTaskGroupModal.hide()
+            editTaskGroupModal.hide()
+
+            dispatch(
+              getTaskGroup({
+                params,
+                onSuccess: (success: any) => () => { },
+                onError: (error: string) => () => { },
+              })
+            );
+            setTask("");
+            setCodeFill('')
+            setTaskDescription('')
+            setPhoto('')
+            showToast(success.message, "success");
+          },
+          onError: (error: string) => () => {
+            showToast('Task is already exists');
+
+
+          },
+        })
+      );
+    }
+    else {
+      showToast(getValidateError(validation));
+
+    }
+  };
+  // add sub task
+  const addSubTaskGroupAdding = () => {
+
+    const params = {
+      name:convertToUpperCase(addSubTask),
+      description:convertToUpperCase(addSubTaskDescription),
+      code:addSubTaskCode,
+      photo:addSubPhotoAttach[0],
+      parent_id: addSubTaskItem?.id,
+      start_time:addSubTaskItem?.start_time,
+      end_time:addSubTaskItem?.end_time,
+      
+    };
+
+    const validation = validate(ADD_TASK_GROUP, params)
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addTaskGroup({
+          params,
+          onSuccess: (success: any) => () => {
+            addTaskGroupModal.hide()
+            editTaskGroupModal.hide()
 
             dispatch(
               getTaskGroup({
@@ -599,21 +678,45 @@ function Settings() {
       };
     });
   };
+ 
 
   const normalizedTaskGroupData = (data: any) => {
-    return data.map((el: any) => {
+    return data.map((el: any,) => {
+     
       return {
         name:<div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
         <div className="pt-3 pl-2">{el.name}</div>
         </div>,
         tag:el?.code,
+        "":<MenuBar ListedData={menuItem} onClick={(index)=>{
+          setSubTaskItem(el)
+          // console.log(index,"iiiiiiii")
+         if(index===0)
+         {
+          editTaskGroupModal.show()
+          setEditTask(el?.name)
+          setEditCode(el?.code)
+          setEditDescription(el?.description)
+          setEditPhoto(el?.photo)
+          setEditId(el?.id)
+
+
+         }
+         if(index===1)
+         {
+          
+          
+         }
+         if(index===2)
+         {
+          
+         }
+        }}  />
 
       };
     });
   };
-const tagHandler=()=>{
-  
-}
+
 
 
 
@@ -1194,7 +1297,7 @@ const tagHandler=()=>{
             setTask("");
             setCodeFill('')
             setTaskDescription('')
-            setPhoto('')}}
+            setPhoto('') }}
           title={translate("auth.task")!}
         >
           <div className="mt--4">
@@ -1251,6 +1354,141 @@ const tagHandler=()=>{
             />
           </div>
         </Modal>
+
+
+        <Modal
+
+          isOpen={editTaskGroupModal.visible}
+          onClose={() => {editTaskGroupModal.hide()
+            setEditTask("");
+            setEditCode('')
+            setEditDescription('')
+            setEditPhoto('')
+            setEditId('')
+          }}
+          title={translate("auth.task")!}
+        >
+          <div className="mt--4">
+      <div className='row'> 
+       <div className="col-6"> 
+          <Input
+              placeholder={translate("auth.task")}
+              value={editTask}
+              onChange={(e) => {setEditTask(e.target.value)
+                setEditCode(e.target.value.slice(0,3).toUpperCase())}}
+            />
+            </div>
+           <div className="col-6">  <Input
+            placeholder={translate("auth.code")}
+              value={editCode}
+              onChange={(e) => {setEditCode(e.target.value.slice(0,3).toUpperCase())}}
+            />
+            </div>
+            </div>
+
+            <Input
+              placeholder={translate("auth.description")}
+              value={editDescription}
+              onChange={(e) => setEditDescription(e.target.value)}
+            />
+          </div>
+          <div className="pb-3">
+          <Dropzone
+          variant="ICON"
+          icon={getPhoto(editPhoto)}
+          size="xl"
+          onSelect={(image) => {
+            let encoded = image.toString().replace(/^data:(.*,)?/, "");
+            setEditPhoto(encoded);
+          }}
+        />
+       
+        </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() => {editTaskGroupModal.hide()
+                setEditTask("");
+                setEditCode('')
+                setEditDescription('')
+                setEditPhoto('')
+                setEditId('')
+              }}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                addTaskGroupAdding();
+              }}
+            />
+          </div>
+        </Modal>
+
+
+
+          <Modal
+
+          isOpen={addSubTaskModal.visible}
+          onClose={() => {addSubTaskModal.hide()
+           
+          }}
+          title={translate("auth.task")!}
+        >
+          <div className="mt--4">
+      <div className='row'> 
+       <div className="col-6"> 
+          <Input
+              placeholder={translate("auth.task")}
+              value={addSubTask}
+              onChange={(e) => {setAddSubTask(e.target.value)
+                setAddSubTaskCode(e.target.value.slice(0,3).toUpperCase())}}
+            />
+            </div>
+           <div className="col-6">  <Input
+            placeholder={translate("auth.code")}
+              value={addSubTaskCode}
+              onChange={(e) => {setAddSubTaskCode(e.target.value.slice(0,3).toUpperCase())}}
+            />
+            </div>
+            </div>
+
+            <Input
+              placeholder={translate("auth.description")}
+              value={addSubTaskDescription}
+              onChange={(e) => setAddSubTaskDescription(e.target.value)}
+            />
+          </div>
+          <div className="pb-3">
+          <Dropzone
+          variant="ICON"
+          icon={addSubPhoto}
+          size="xl"
+          onSelect={(image) => {
+            let encoded = image.toString().replace(/^data:(.*,)?/, "");
+            setAddSubPhoto(encoded);
+          }}
+        />
+       
+        </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() => {addSubTaskModal.hide()
+               
+              }}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                addSubTaskGroupAdding();
+              }}
+            />
+          </div>
+        </Modal>
+
+        
 
       </div>
     </>
