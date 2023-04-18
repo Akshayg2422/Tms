@@ -328,8 +328,8 @@ function Issues() {
             }
             }
           />
-        </> : <div ><NoTaskFound text={'No Ticket Found'} />
-          <Image
+        </> : <div ><NoTaskFound text={'No Ticket Found'} src={icons.bellIcon} />
+          {/* <Image
             className={'border'}
             variant={'rounded'}
             src={icons.bellIcon}
@@ -342,7 +342,7 @@ function Issues() {
               transform: 'translate(-50%, -50%)',
               backgroundColor: '#D3D3D3'
             }}
-          />
+          /> */}
           <div className="text-center">
             <Button
               size={"md"}
