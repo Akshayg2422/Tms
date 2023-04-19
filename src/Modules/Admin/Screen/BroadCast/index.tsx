@@ -49,7 +49,7 @@ function Broadcast() {
       })
     );
   }
-
+  
   return (
     <HomeContainer>
       {broadCastDetails && broadCastDetails.length > 0 ?

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -9,7 +9,8 @@ import {
   showToast,
   Checkbox,
   Dropzone,
-  Image
+  Image,
+  MenuBar
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -25,9 +26,8 @@ import {
   addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
-
 
 function Settings() {
   const dispatch = useDispatch();
@@ -48,7 +48,13 @@ function Settings() {
   );
 
   const [photo, setPhoto] = useState("");
+  const [editPhoto, setEditPhoto] = useState("");
+  const [addSubPhoto, setAddSubPhoto] = useState("");
+  const [subCheckBox, setSubCheckBox] = useState(false)
+  console.log(subCheckBox, "============>")
+
   const [tagPhoto, setTagPhoto] = useState("");
+  const [editId, setEditId] = useState('')
 
   const [showDepartments, setShowDepartments] = useState(false);
   const [showDesignations, setShowDesignations] = useState(false);
@@ -69,17 +75,46 @@ function Settings() {
   const [departmentDataList, setDepartmentDataList] = useState(departmentData);
   const [designationDataList, setDesignationDataList] = useState(designationData);
   const [showTaskGroup, setShowTaskGroup] = useState(false);
+  const [showClosedTaskGroup, setClosedTaskGroup] = useState<Boolean>();
+  const [showOpenTaskGroup, setOpenTaskTaskGroup] = useState<Boolean>();
   const addTaskGroupModal = useModal(false);
+  const editTaskGroupModal = useModal(false);
+  const addSubTaskModal = useModal(false)
   const [task, setTask] = useState("");
-   const [codeFill, setCodeFill] = useState(task.slice(0,3).toUpperCase());
-   const [TagCodeFill, setTagCodeFill] = useState(tags.slice(0,3).toUpperCase());
+  const [editTask, setEditTask] = useState("");
+  const [editCode, setEditCode] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [codeFill, setCodeFill] = useState(task.slice(0, 3).toUpperCase());
+  const [TagCodeFill, setTagCodeFill] = useState(tags.slice(0, 3).toUpperCase());
   const [taskDescription, setTaskDescription] = useState("");
-  const dynamicHeight: any = useDynamicHeight()
-  let attach=[photo]
-  let PhotoAttach=attach.slice(-1,4)
-  let tagAttach=[tagPhoto]
-  let tagPhotoAttach=tagAttach.slice(-1,4)
+  const [addSubTask, setAddSubTask] = useState("");
+  const [addSubTaskCode, setAddSubTaskCode] = useState("");
+  const [addSubTaskDescription, setAddSubTaskDescription] = useState("");
+  const [addSubTaskItem, setSubTaskItem] = useState<any>("");
 
+  const dynamicHeight: any = useDynamicHeight()
+  let attach = [photo]
+  let PhotoAttach = attach.slice(-1, 4)
+
+  let editAttach = [editPhoto]
+  let editPhotoAttach = editAttach.slice(-1, 4)
+
+  let addSubAttach = [addSubPhoto]
+  let addSubPhotoAttach = addSubAttach.slice(-1, 4)
+
+  let tagAttach = [tagPhoto]
+  let tagPhotoAttach = tagAttach.slice(-1, 4)
+
+  const menuItemClose = [{ id: '0', name: "Edit", icon: 'bi bi-pencil' },
+  { id: '1', name: "Create SubTask", icon: 'bi bi-file-earmark-plus' },
+  { id: '2', name: "Mark As Closed", icon: "bi bi-x" }
+
+  ]
+  const menuItemOpen = [{ id: '0', name: "Edit", icon: 'bi bi-pencil' },
+  { id: '1', name: "Create SubTask", icon: 'bi bi-file-earmark-plus' },
+  { id: '2', name: "Mark As Open", icon: "bi bi-x" }
+
+  ]
   const getDepartmentList = (pageNumber: number) => {
 
     const params = {
@@ -104,11 +139,12 @@ function Settings() {
     );
 
   };
-  console.log("============>",JSON.stringify(ticketTag))
-  console.log("============>",JSON.stringify(getTaskGroupDetails))
+
+  console.log("============>", JSON.stringify(getTaskGroupDetails))
 
 
   /**get Brand sector */
+
   const getBrandSectorList = (pageNumber: number) => {
 
     const params = {
@@ -183,17 +219,21 @@ function Settings() {
     );
   };
 
+
+
+
   const getTaskGroupList = (pageNumber: number) => {
 
     const params = {
-      page_number: pageNumber
+      page_number: pageNumber,
+      include_subtaskgroup: true
     };
 
     dispatch(
       getTaskGroup({
         params,
         onSuccess: (success: any) => () => {
-          
+
 
           if (!showTaskGroup) {
 
@@ -207,6 +247,8 @@ function Settings() {
       })
     );
   };
+
+
 
   const postAddingDepartment = () => {
     const params = {
@@ -330,8 +372,8 @@ function Settings() {
     const params = {
       name: convertToUpperCase(tags),
       description: convertToUpperCase(description),
-      code:TagCodeFill,
-      photo:tagPhotoAttach[0]
+      code: TagCodeFill,
+      photo: tagPhotoAttach[0]
     };
     const validation = validate(ADD_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
@@ -351,7 +393,7 @@ function Settings() {
                   setTagCodeFill("")
                   setTags("")
 
-                 },
+                },
                 onError: (error: string) => () => { },
               })
             );
@@ -374,10 +416,12 @@ function Settings() {
   /**add task group */
   const addTaskGroupAdding = () => {
     const params = {
-      name: convertToUpperCase(task),
-      description: convertToUpperCase(taskDescription),
-      code:codeFill,
-      photo:PhotoAttach[0]
+      name: editTask ? convertToUpperCase(editTask) : convertToUpperCase(task),
+      description: editDescription ? convertToUpperCase(editDescription) : convertToUpperCase(taskDescription),
+      code: editCode ? editCode : codeFill,
+      photo: editPhoto ? editPhotoAttach[0] : PhotoAttach[0],
+      ...(editId && { id: editId })
+
     };
 
     const validation = validate(ADD_TASK_GROUP, params)
@@ -387,6 +431,7 @@ function Settings() {
           params,
           onSuccess: (success: any) => () => {
             addTaskGroupModal.hide()
+            editTaskGroupModal.hide()
 
             dispatch(
               getTaskGroup({
@@ -414,6 +459,91 @@ function Settings() {
 
     }
   };
+  // add sub task
+  const addSubTaskGroupAdding = () => {
+
+    const params = {
+      name: convertToUpperCase(addSubTask),
+      description: convertToUpperCase(addSubTaskDescription),
+      code: addSubTaskCode,
+      photo: addSubPhotoAttach[0],
+      parent_id: addSubTaskItem?.id,
+      start_time: addSubTaskItem?.start_time,
+      end_time: addSubTaskItem?.end_time,
+    };
+
+    const validation = validate(ADD_TASK_GROUP, params)
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addTaskGroup({
+          params,
+          onSuccess: (success: any) => () => {
+            addSubTaskModal.hide()
+
+            dispatch(
+              getTaskGroup({
+                params,
+                onSuccess: (success: any) => () => { },
+                onError: (error: string) => () => { },
+              })
+            );
+            setAddSubTask('')
+            setAddSubTaskCode('')
+            setAddSubPhoto('')
+            setAddSubTaskDescription('')
+            showToast(success.message, "success");
+          },
+          onError: (error: string) => () => {
+            showToast('Task is already exists');
+
+
+          },
+        })
+      );
+    }
+    else {
+      showToast(getValidateError(validation));
+
+    }
+  };
+  const CloseTaskGroup = () => {
+
+    const params = {
+      id: addSubTaskItem.id,
+      marked_as_closed: showClosedTaskGroup
+    }
+    console.log(params)
+    dispatch(
+      addTaskGroup({
+        params,
+        onSuccess: (success: any) => () => {
+          // addTaskGroupModal.hide()
+          // editTaskGroupModal.hide()
+          dispatch(
+            getTaskGroup({
+              params,
+              onSuccess: (success: any) => () => { },
+              onError: (error: string) => () => { },
+            })
+          );
+          // setTask("");
+          // setCodeFill('')
+          // setTaskDescription('')
+          // setPhoto('')
+          showToast(success.message, "success");
+        },
+        onError: (error: string) => () => {
+          showToast('Task is already exists');
+
+
+        },
+      })
+    );
+
+  }
+
+
+
 
   const handleDepartmentAdminProcess = (item) => {
 
@@ -582,10 +712,10 @@ function Settings() {
   const normalizedTicketTagData = (data: any) => {
     return data.map((el: any) => {
       return {
-        name:<div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
-        <div className="pt-3 pl-2">{el.name}</div>
+        name: <div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
+          <div className="pt-3 pl-2">{el.name}</div>
         </div>,
-        tag:el?.code,
+        tag: el?.code,
 
       };
     });
@@ -599,21 +729,75 @@ function Settings() {
       };
     });
   };
+  useEffect(() => {
+
+
+    if (showClosedTaskGroup === true || showClosedTaskGroup === false) {
+      CloseTaskGroup()
+
+
+    }
+  }, [showClosedTaskGroup])
 
   const normalizedTaskGroupData = (data: any) => {
-    return data.map((el: any) => {
+    return data.map((el: any,) => {
+
       return {
-        name:<div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
-        <div className="pt-3 pl-2">{el.name}</div>
+        name: <div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
+          <div className="pt-3 pl-2">
+            {el?.marked_as_closed === true ? <div className="text-primary">{el.name}</div> : <div>{el.name}</div>}
+            <div className="pt-1">
+              {el?.parent?.name}</div></div>
         </div>,
-        tag:el?.code,
+        tag: el?.code,
+        "": (el.marked_as_closed ?
+          (el?.is_parent &&
+            <MenuBar ListedData={menuItemOpen} onClick={(index) => {
+              setSubTaskItem(el)
+              if (index === 0) {
+                editTaskGroupModal.show()
+                setEditTask(el?.name)
+                setEditCode(el?.code)
+                setEditDescription(el?.description)
+                setEditPhoto(el?.photo)
+                setEditId(el?.id)
+              }
+              if (index === 1) {
+                addSubTaskModal.show()
+              }
+              if (index === 2) {
+                setClosedTaskGroup(false)
+                CloseTaskGroup()
+
+              }
+            }} />
+          )
+          : (el?.is_parent &&
+            <MenuBar ListedData={menuItemClose} onClick={(index) => {
+              setSubTaskItem(el)
+              if (index === 0) {
+                editTaskGroupModal.show()
+                setEditTask(el?.name)
+                setEditCode(el?.code)
+                setEditDescription(el?.description)
+                setEditPhoto(el?.photo)
+                setEditId(el?.id)
+              }
+              if (index === 1) {
+                addSubTaskModal.show()
+              }
+              if (index === 2) {
+                setClosedTaskGroup(true)
+                CloseTaskGroup()
+
+
+              }
+            }} />
+          ))
 
       };
     });
   };
-const tagHandler=()=>{
-  
-}
 
 
 
@@ -777,6 +961,20 @@ const tagHandler=()=>{
                   <div className="col">
                     <h3>{translate("auth.group")}</h3>
                   </div>
+                  <div className="col ">
+                    <Checkbox id={'0'} onClick={() => {
+
+                      if (subCheckBox === false) {
+                        setSubCheckBox(true)
+                      }
+                      else {
+                        setSubCheckBox(false)
+                      }
+                    }} text={'Include Close'} />
+
+                  </div>
+
+
                   <div className="text-right mr-3 ">
                     <Button
                       text={
@@ -1025,8 +1223,10 @@ const tagHandler=()=>{
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() =>{ addDepartMentModal.hide()
-                setDepartment('')}}
+              onClick={() => {
+                addDepartMentModal.hide()
+                setDepartment('')
+              }}
             />
             <Button
               text={translate("common.submit")}
@@ -1065,8 +1265,10 @@ const tagHandler=()=>{
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() =>{ addDesignationModal.hide()
-                setDesignation('')}}
+              onClick={() => {
+                addDesignationModal.hide()
+                setDesignation('')
+              }}
             />
             <Button
               text={translate("common.submit")}
@@ -1098,14 +1300,16 @@ const tagHandler=()=>{
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() =>{ addSectorModal.hide()
-                setSector('')}}
+              onClick={() => {
+                addSectorModal.hide()
+                setSector('')
+              }}
             />
             <Button
               text={translate("common.submit")}
               onClick={() => {
                 addBrandSectorAdding();
-              
+
               }}
             />
           </div>
@@ -1117,56 +1321,60 @@ const tagHandler=()=>{
 
         <Modal
           isOpen={addTagsModal.visible}
-          onClose={() => {addTagsModal.hide()
+          onClose={() => {
+            addTagsModal.hide()
             setTags("")
-                setDescription('')
-                setTagPhoto('')
-                setTagCodeFill('')
+            setDescription('')
+            setTagPhoto('')
+            setTagCodeFill('')
           }
           }
           title={translate("auth.tags")!}
         >
 
-        <div className="row">
-          <div className="col-6">
-          <Input
-              placeholder={translate("auth.tags")}
-              value={tags}
-              onChange={(e) => {setTags(e.target.value)
-                 setTagCodeFill(e.target.value.slice(0,3).toUpperCase())}}
-            />
+          <div className="row">
+            <div className="col-6">
+              <Input
+                placeholder={translate("auth.tags")}
+                value={tags}
+                onChange={(e) => {
+                  setTags(e.target.value)
+                  setTagCodeFill(e.target.value.slice(0, 3).toUpperCase())
+                }}
+              />
             </div>
-             <div className="col-6">  <Input
-            placeholder={translate("auth.code")}
+            <div className="col-6">  <Input
+              placeholder={translate("auth.code")}
               value={TagCodeFill}
-              onChange={(e) => {setTagCodeFill(e.target.value.slice(0,3).toUpperCase())}}
+              onChange={(e) => { setTagCodeFill(e.target.value.slice(0, 3).toUpperCase()) }}
             />
             </div>
-            </div>
-            <div>
+          </div>
+          <div>
             <Input
               placeholder={translate("auth.description")}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            </div>
-            <div className="pb-3">
-          <Dropzone
-          variant="ICON"
-          icon={tagPhoto}
-          size="xl"
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, "");
-            setTagPhoto(encoded);
-          
-          }}
-        />
-        </div>
+          </div>
+          <div className="pb-3">
+            <Dropzone
+              variant="ICON"
+              icon={tagPhoto}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                setTagPhoto(encoded);
+
+              }}
+            />
+          </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => {addTagsModal.hide()
+              onClick={() => {
+                addTagsModal.hide()
                 setTags("")
                 setDescription('')
                 setTagPhoto('')
@@ -1190,29 +1398,33 @@ const tagHandler=()=>{
         <Modal
 
           isOpen={addTaskGroupModal.visible}
-          onClose={() => {addTaskGroupModal.hide()
+          onClose={() => {
+            addTaskGroupModal.hide()
             setTask("");
             setCodeFill('')
             setTaskDescription('')
-            setPhoto('')}}
+            setPhoto('')
+          }}
           title={translate("auth.task")!}
         >
           <div className="mt--4">
-      <div className='row'> 
-       <div className="col-6"> 
-          <Input
-              placeholder={translate("auth.task")}
-              value={task}
-              onChange={(e) => {setTask(e.target.value)
-                setCodeFill(e.target.value.slice(0,3).toUpperCase())}}
-            />
-            </div>
-           <div className="col-6">  <Input
-            placeholder={translate("auth.code")}
-              value={codeFill}
-              onChange={(e) => {setCodeFill(e.target.value.slice(0,3).toUpperCase())}}
-            />
-            </div>
+            <div className='row'>
+              <div className="col-6">
+                <Input
+                  placeholder={translate("auth.task")}
+                  value={task}
+                  onChange={(e) => {
+                    setTask(e.target.value)
+                    setCodeFill(e.target.value.slice(0, 3).toUpperCase())
+                  }}
+                />
+              </div>
+              <div className="col-6">  <Input
+                placeholder={translate("auth.code")}
+                value={codeFill}
+                onChange={(e) => { setCodeFill(e.target.value.slice(0, 3).toUpperCase()) }}
+              />
+              </div>
             </div>
 
             <Input
@@ -1222,26 +1434,28 @@ const tagHandler=()=>{
             />
           </div>
           <div className="pb-3">
-          <Dropzone
-          variant="ICON"
-          icon={photo}
-          size="xl"
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, "");
-            setPhoto(encoded);
-          
-          }}
-        />
-        </div>
+            <Dropzone
+              variant="ICON"
+              icon={photo}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                setPhoto(encoded);
+
+              }}
+            />
+          </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => {addTaskGroupModal.hide()
+              onClick={() => {
+                addTaskGroupModal.hide()
                 setTask("");
                 setCodeFill('')
                 setTaskDescription('')
-                setPhoto('')}}
+                setPhoto('')
+              }}
             />
             <Button
               text={translate("common.submit")}
@@ -1251,6 +1465,150 @@ const tagHandler=()=>{
             />
           </div>
         </Modal>
+
+
+        <Modal
+
+          isOpen={editTaskGroupModal.visible}
+          onClose={() => {
+            editTaskGroupModal.hide()
+            setEditTask("");
+            setEditCode('')
+            setEditDescription('')
+            setEditPhoto('')
+            setEditId('')
+          }}
+          title={translate("auth.task")!}
+        >
+          <div className="mt--4">
+            <div className='row'>
+              <div className="col-6">
+                <Input
+                  placeholder={translate("auth.task")}
+                  value={editTask}
+                  onChange={(e) => {
+                    setEditTask(e.target.value)
+                    setEditCode(e.target.value.slice(0, 3).toUpperCase())
+                  }}
+                />
+              </div>
+              <div className="col-6">  <Input
+                placeholder={translate("auth.code")}
+                value={editCode}
+                onChange={(e) => { setEditCode(e.target.value.slice(0, 3).toUpperCase()) }}
+              />
+              </div>
+            </div>
+
+            <Input
+              placeholder={translate("auth.description")}
+              value={editDescription}
+              onChange={(e) => setEditDescription(e.target.value)}
+            />
+          </div>
+          <div className="pb-3">
+            <Dropzone
+              variant="ICON"
+              icon={getPhoto(editPhoto)}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                setEditPhoto(encoded);
+              }}
+            />
+
+          </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() => {
+                editTaskGroupModal.hide()
+                setEditTask("");
+                setEditCode('')
+                setEditDescription('')
+                setEditPhoto('')
+                setEditId('')
+              }}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                addTaskGroupAdding();
+              }}
+            />
+          </div>
+        </Modal>
+
+
+
+        <Modal
+
+          isOpen={addSubTaskModal.visible}
+          onClose={() => {
+            addSubTaskModal.hide()
+
+          }}
+          title={translate("auth.task")!}
+        >
+          <div className="mt--4">
+            <div className='row'>
+              <div className="col-6">
+                <Input
+                  placeholder={translate("auth.task")}
+                  value={addSubTask}
+                  onChange={(e) => {
+                    setAddSubTask(e.target.value)
+                    setAddSubTaskCode(e.target.value.slice(0, 3).toUpperCase())
+                  }}
+                />
+              </div>
+              <div className="pt-1"> {addSubTaskItem?.code}-</div>
+              <div className="col-5">  <Input
+                placeholder={translate("auth.code")}
+                value={addSubTaskCode}
+                onChange={(e) => { setAddSubTaskCode(e.target.value.slice(0, 3).toUpperCase()) }}
+              />
+              </div>
+            </div>
+
+            <Input
+              placeholder={translate("auth.description")}
+              value={addSubTaskDescription}
+              onChange={(e) => setAddSubTaskDescription(e.target.value)}
+            />
+          </div>
+          <div className="pb-3">
+            <Dropzone
+              variant="ICON"
+              icon={addSubPhoto}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                setAddSubPhoto(encoded);
+              }}
+            />
+
+          </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() => {
+                addSubTaskModal.hide()
+
+              }}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                addSubTaskGroupAdding();
+              }}
+            />
+          </div>
+        </Modal>
+
+
 
       </div>
     </>

@@ -47,7 +47,7 @@ const initialState: AuthSliceStateProp = {
   response: undefined,
   userDetails: undefined,
   registeredMobileNumber: undefined,
-  language: DEFAULT_LANGUAGE,
+  language:  { id: '1', text: 'English', value: 'en' },
   registerUserResponse: undefined,
   otpRegisterResponse: undefined,
   userBusinessPlaces: undefined,

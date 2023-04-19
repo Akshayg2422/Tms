@@ -53,9 +53,9 @@
     "assignedBy": "Assigned by",
     "phone": "PHONE",
     "email": "E-MAIL",
-    "tagUser": "TagUser",
-    "reassignUser": "ReassignUser",
-    "attachReference": "AttachReference",
+    "tagUser": "Tag User",
+    "reassignUser": "Reassign User",
+    "attachReference": "Attach Reference",
     "createdBy": "created by",
     "ticketPriority": "Ticket Priority",
     "created": "Created",
@@ -64,7 +64,7 @@
     "issueName": "Issue name",
     "filterTickets": "Filter tickets",
     "ticketStatus": "Ticket status",
-    "taskName":"Task Name",
+    "taskName": "Task Name",
     "filterTasks": "Filter tasks",
     "taskStatus": "Task status",
     "addTask": "ADD TASK",
@@ -73,10 +73,11 @@
     "addSubTask": "Add SubTask",
     "createTask": "CREATE TASK",
     "addNew": "ADD NEW",
-    "assignedTo":"AssignedTo",
+    "assignedTo": "AssignedTo",
     "codeTitle": "Code/Title",
-    "Priority" : "Priority",
-    "selectGroup": "Select Group"
+    "Priority": "Priority",
+    "selectGroup": "Select Group",
+    "reason": "Reason"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -126,16 +127,15 @@
     "referenceNo": "Reference No",
     "addBroadCast": "ADD BROADCAST",
     "attach": "Attach",
-    "sector":"Sector",
-    "tags":"Tag",
-    "city":"City",
-    "task":"Task",
-    "group":"Group",
-    "code":"Code",
-    "basic":"Basic",
-    "advance":"Advance",
-    "title/code":"Title/Code"
-
+    "sector": "Sector",
+    "tags": "Tag",
+    "city": "City",
+    "task": "Task",
+    "group": "Group",
+    "code": "Code",
+    "basic": "Basic",
+    "advance": "Advance",
+    "title/code": "Title/Code"
   },
   "product": {
     "Store": "Store",
