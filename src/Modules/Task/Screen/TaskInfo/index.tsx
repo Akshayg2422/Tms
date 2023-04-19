@@ -12,7 +12,7 @@ import { translate } from "@I18n";
 function TaskInfo({ onClick }: TaskInfoProps) {
     const { goBack } = useNavigation();
 
-    const { taskItem, getSubTaskId } = useSelector((state: any) => state.AdminReducer);
+    const { taskItem, getSubTaskId, tasks, dashboardDetails } = useSelector((state: any) => state.AdminReducer);
     const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
     const dispatch = useDispatch();
     const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time } = getSubTaskId ? getSubTaskId : taskItem;
@@ -120,6 +120,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
             })
         )
     }
+    // console.log('taskstaskstaskstaskstaskstaskstaskstaskstasks', JSON.stringify(tasks));
 
 
     return (
@@ -218,22 +219,28 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                     </div>
 
                     <div className="row">
-                        <div className="col">
-                            <Button size={'sm'} text={'Start'} className={'rounded-pill px-3'} onClick={() => setCurrentTimeModal(!currentTimeModal)} />
-                        </div>
-                        <Modal isOpen={currentTimeModal}
-                            onClose={() => { setCurrentTimeModal(!currentTimeModal) }}
-                        >
-                            <h5 className={''}>Are you sure you want to initiate the task ? </h5>
-                            <div className={'text-right'}>
-                                <Button size={'sm'} text={'Proceed'} className={'rounded-pill'} onClick={() => submitCurrentStartTime()} />
-                            </div>
-                        </Modal>
-                        {
-                            <div className="col text-right">
-                                <Button size={'sm'} color={'secondary'} text={'End'} className={'rounded-pill px-3'} onClick={() => submitCurrentEndTime()} />
-                            </div>
-                        }
+                        {tasks && tasks.data.length > 0 && tasks.data.map((task:any) => {
+                            return (
+                                task.assigned_to?.id === dashboardDetails.user_details?.id ?
+                                    <>
+                                        <div className="col">
+                                            <Button size={'sm'} text={'Start'} className={'rounded-pill px-3'} onClick={() => setCurrentTimeModal(!currentTimeModal)} />
+                                        </div><Modal isOpen={currentTimeModal}
+                                            onClose={() => { setCurrentTimeModal(!currentTimeModal); }}
+                                        >
+                                            <h5 className={''}>Are you sure you want to initiate the task ? </h5>
+                                            <div className={'text-right'}>
+                                                <Button size={'sm'} text={'Proceed'} className={'rounded-pill'} onClick={() => submitCurrentStartTime()} />
+                                            </div>
+                                        </Modal><div className="col text-right">
+                                            <Button size={'sm'} color={'secondary'} text={'End'} className={'rounded-pill px-3'} onClick={() => submitCurrentEndTime()} />
+                                        </div>
+                                    </> : null
+                            )
+                        })}
+
+
+
 
                     </div>
                 </div>
