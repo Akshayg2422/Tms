@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -26,10 +26,8 @@ import {
   addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ADD_TAG, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
-import { icons } from "@Assets";
-
 
 function Settings() {
   const dispatch = useDispatch();
@@ -52,6 +50,8 @@ function Settings() {
   const [photo, setPhoto] = useState("");
   const [editPhoto, setEditPhoto] = useState("");
   const [addSubPhoto, setAddSubPhoto] = useState("");
+  const [subCheckBox,setSubCheckBox]=useState(false)
+  console.log(subCheckBox,"============>")
 
   const [tagPhoto, setTagPhoto] = useState("");
   const [editId,setEditId]=useState('')
@@ -75,6 +75,8 @@ function Settings() {
   const [departmentDataList, setDepartmentDataList] = useState(departmentData);
   const [designationDataList, setDesignationDataList] = useState(designationData);
   const [showTaskGroup, setShowTaskGroup] = useState(false);
+  const [showClosedTaskGroup, setClosedTaskGroup] = useState<Boolean>();
+  const [showOpenTaskGroup, setOpenTaskTaskGroup] = useState<Boolean>();
   const addTaskGroupModal = useModal(false);
   const editTaskGroupModal=useModal(false);
   const addSubTaskModal=useModal(false)
@@ -103,10 +105,16 @@ function Settings() {
   let tagAttach=[tagPhoto]
   let tagPhotoAttach=tagAttach.slice(-1,4)
 
-  const menuItem=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
-  {id:'1',name:"Create SubTask",icon:'bi bi-pencil'},
-  {id:'2',name:"Close",icon:"X" ,span:'x'}]
+  const menuItemClose=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
+  {id:'1',name:"Create SubTask",icon:'bi bi-file-earmark-plus'},
+  {id:'2',name:"Mark As Closed",icon:"bi bi-x"}
 
+]
+const menuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
+{id:'1',name:"Create SubTask",icon:'bi bi-file-earmark-plus'},
+{id:'2',name:"Mark As Open",icon:"bi bi-x"}
+
+]
   const getDepartmentList = (pageNumber: number) => {
 
     const params = {
@@ -131,11 +139,12 @@ function Settings() {
     );
 
   };
-  console.log("============>",JSON.stringify(ticketTag))
+
   console.log("============>",JSON.stringify(getTaskGroupDetails))
 
 
   /**get Brand sector */
+
   const getBrandSectorList = (pageNumber: number) => {
 
     const params = {
@@ -210,10 +219,14 @@ function Settings() {
     );
   };
 
+  
+
+
   const getTaskGroupList = (pageNumber: number) => {
 
     const params = {
-      page_number: pageNumber
+      page_number: pageNumber,
+      include_subtaskgroup:true
     };
 
     dispatch(
@@ -234,6 +247,8 @@ function Settings() {
       })
     );
   };
+
+
 
   const postAddingDepartment = () => {
     const params = {
@@ -455,7 +470,6 @@ function Settings() {
       parent_id: addSubTaskItem?.id,
       start_time:addSubTaskItem?.start_time,
       end_time:addSubTaskItem?.end_time,
-      
     };
 
     const validation = validate(ADD_TASK_GROUP, params)
@@ -464,8 +478,7 @@ function Settings() {
         addTaskGroup({
           params,
           onSuccess: (success: any) => () => {
-            addTaskGroupModal.hide()
-            editTaskGroupModal.hide()
+          addSubTaskModal.hide()
 
             dispatch(
               getTaskGroup({
@@ -474,10 +487,10 @@ function Settings() {
                 onError: (error: string) => () => { },
               })
             );
-            setTask("");
-            setCodeFill('')
-            setTaskDescription('')
-            setPhoto('')
+        setAddSubTask('')
+        setAddSubTaskCode('')
+        setAddSubPhoto('')
+        setAddSubTaskDescription('')
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
@@ -493,6 +506,44 @@ function Settings() {
 
     }
   };
+  const CloseTaskGroup=()=>{
+
+   const  params ={
+    id:addSubTaskItem.id,
+    marked_as_closed:showClosedTaskGroup
+}
+console.log(params)
+dispatch(
+  addTaskGroup({
+    params,
+    onSuccess: (success: any) => () => {
+      // addTaskGroupModal.hide()
+      // editTaskGroupModal.hide()
+      dispatch(
+        getTaskGroup({
+          params,
+          onSuccess: (success: any) => () => { },
+          onError: (error: string) => () => { },
+        })
+      );
+      // setTask("");
+      // setCodeFill('')
+      // setTaskDescription('')
+      // setPhoto('')
+      showToast(success.message, "success");
+    },
+    onError: (error: string) => () => {
+      showToast('Task is already exists');
+
+
+    },
+  })
+);
+
+  }
+
+
+
 
   const handleDepartmentAdminProcess = (item) => {
 
@@ -678,19 +729,31 @@ function Settings() {
       };
     });
   };
- 
+  useEffect(()=>{
+
+
+  if(showClosedTaskGroup===true||showClosedTaskGroup===false){
+    CloseTaskGroup()
+  
+  
+  }
+   },[showClosedTaskGroup])
 
   const normalizedTaskGroupData = (data: any) => {
     return data.map((el: any,) => {
      
       return {
         name:<div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
-        <div className="pt-3 pl-2">{el.name}</div>
+        <div className="pt-3 pl-2">
+       {el?.marked_as_closed===true ? <div className="text-primary">{el.name}</div>:<div>{el.name}</div>}
+          <div className="pt-1">
+            {el?.parent?.name}</div></div>
         </div>,
         tag:el?.code,
-        "":<MenuBar ListedData={menuItem} onClick={(index)=>{
+        "":(el.marked_as_closed?
+        (el?.is_parent &&
+        <MenuBar ListedData={menuItemOpen} onClick={(index)=>{
           setSubTaskItem(el)
-          // console.log(index,"iiiiiiii")
          if(index===0)
          {
           editTaskGroupModal.show()
@@ -699,19 +762,44 @@ function Settings() {
           setEditDescription(el?.description)
           setEditPhoto(el?.photo)
           setEditId(el?.id)
-
-
          }
          if(index===1)
          {
-          
-          
+          addSubTaskModal.show()
          }
          if(index===2)
          {
-          
+          setClosedTaskGroup(false)
+          CloseTaskGroup()
+      
          }
         }}  />
+        )
+        : (el?.is_parent &&
+          <MenuBar ListedData={menuItemClose} onClick={(index)=>{
+            setSubTaskItem(el)
+           if(index===0)
+           {
+            editTaskGroupModal.show()
+            setEditTask(el?.name)
+            setEditCode(el?.code)
+            setEditDescription(el?.description)
+            setEditPhoto(el?.photo)
+            setEditId(el?.id)
+           }
+           if(index===1)
+           {
+            addSubTaskModal.show()
+           }
+           if(index===2)
+           {
+            setClosedTaskGroup(true)
+            CloseTaskGroup()
+        
+         
+           }
+          }}  />
+          ))
 
       };
     });
@@ -880,6 +968,20 @@ function Settings() {
                   <div className="col">
                     <h3>{translate("auth.group")}</h3>
                   </div>
+                  <div className="col ">
+          <Checkbox id={'0'} onClick={()=>{
+             
+            if(subCheckBox===false){
+            setSubCheckBox(true)
+          }
+            else{
+              setSubCheckBox(false)
+            }
+          }} text={'Include Close'}/>
+
+          </div>
+
+                  
                   <div className="text-right mr-3 ">
                     <Button
                       text={
@@ -1445,7 +1547,8 @@ function Settings() {
                 setAddSubTaskCode(e.target.value.slice(0,3).toUpperCase())}}
             />
             </div>
-           <div className="col-6">  <Input
+          <div className="pt-1"> {addSubTaskItem?.code}-</div>
+           <div className="col-5">  <Input
             placeholder={translate("auth.code")}
               value={addSubTaskCode}
               onChange={(e) => {setAddSubTaskCode(e.target.value.slice(0,3).toUpperCase())}}

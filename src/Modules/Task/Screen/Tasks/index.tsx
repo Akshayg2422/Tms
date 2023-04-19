@@ -121,7 +121,7 @@ function Tasks() {
         params,
         onSuccess: (response) => () => {
           setSyncTickets(true)
-          console.log("=----------->",JSON.stringify(response))
+         
         },
         onError: () => () => { },
       })

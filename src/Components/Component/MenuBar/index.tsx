@@ -4,9 +4,6 @@ import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from
 
 
 function MenuBar({ ListedData,onClickTagUser,dataIndex, onClick}: TripleDotProps) {
-// const [selectPosition,setSelectPOsition]=useState<any>()
-// dataIndex=selectPosition
-// console.log(dataIndex,"hhhhhhhhhhhhhhhh")
 
 
     return (
@@ -30,7 +27,6 @@ function MenuBar({ ListedData,onClickTagUser,dataIndex, onClick}: TripleDotProps
                         href="#pablo"
                         onClick={()=>onClick(index)}
                     >
-                     {el?.span}
                         <i className={el.icon} ></i>
                         
                         {el.name}
