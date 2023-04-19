@@ -10,7 +10,8 @@ import {
   Checkbox,
   Dropzone,
   Image,
-  MenuBar
+  MenuBar,
+  DateTimePicker
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -26,7 +27,7 @@ import {
   addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
 
 function Settings() {
@@ -91,6 +92,10 @@ function Settings() {
   const [addSubTaskCode, setAddSubTaskCode] = useState("");
   const [addSubTaskDescription, setAddSubTaskDescription] = useState("");
   const [addSubTaskItem,setSubTaskItem] = useState<any>("");
+  const [startTimeEta, setStatTimeEta] = useState("")
+  const [endTimeEta, setEndTimeEta] = useState("")
+  const startDate = new Date(startTimeEta)
+  const startTime = startDate.getHours()
 
   const dynamicHeight: any = useDynamicHeight()
   let attach=[photo]
@@ -112,6 +117,15 @@ function Settings() {
 ]
 const menuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
 {id:'1',name:"Create SubTask",icon:'bi bi-file-earmark-plus'},
+{id:'2',name:"Mark As Open",icon:"bi bi-x"}
+
+]
+
+const subGroupMenuItemClose=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
+{id:'2',name:"Mark As Closed",icon:"bi bi-x"}
+
+]
+const subGroupMenuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
 {id:'2',name:"Mark As Open",icon:"bi bi-x"}
 
 ]
@@ -226,7 +240,7 @@ const menuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
 
     const params = {
       page_number: pageNumber,
-      include_subtaskgroup:true
+      include_closed_taskgroup:subCheckBox
     };
 
     dispatch(
@@ -468,11 +482,11 @@ const menuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
       code:addSubTaskCode,
       photo:addSubPhotoAttach[0],
       parent_id: addSubTaskItem?.id,
-      start_time:addSubTaskItem?.start_time,
-      end_time:addSubTaskItem?.end_time,
+      start_time:startTimeEta,
+      end_time:endTimeEta,
     };
 
-    const validation = validate(ADD_TASK_GROUP, params)
+    const validation = validate(ADD_SUB_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
       dispatch(
         addTaskGroup({
@@ -512,13 +526,11 @@ const menuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
     id:addSubTaskItem.id,
     marked_as_closed:showClosedTaskGroup
 }
-console.log(params)
 dispatch(
   addTaskGroup({
     params,
     onSuccess: (success: any) => () => {
-      // addTaskGroupModal.hide()
-      // editTaskGroupModal.hide()
+   
       dispatch(
         getTaskGroup({
           params,
@@ -526,23 +538,31 @@ dispatch(
           onError: (error: string) => () => { },
         })
       );
-      // setTask("");
-      // setCodeFill('')
-      // setTaskDescription('')
-      // setPhoto('')
       showToast(success.message, "success");
     },
     onError: (error: string) => () => {
       showToast('Task is already exists');
-
-
     },
   })
-);
+);}
+
+const handleStartTimeEtaChange = (value: any) => {
+  setStatTimeEta(value)
+};
+const handleEndTimeEtaChange = (value: any) => {
+ 
+  let EndDate=new Date(value)
+  const EndTime=EndDate.getHours()
+  if(startTime<EndTime ){
+    setEndTimeEta(value)
 
   }
+  else{
+    showToast('ETA END MORE THAN 1 HOUR !');
 
-
+  }
+  
+};
 
 
   const handleDepartmentAdminProcess = (item) => {
@@ -735,9 +755,17 @@ dispatch(
   if(showClosedTaskGroup===true||showClosedTaskGroup===false){
     CloseTaskGroup()
   
-  
+
   }
    },[showClosedTaskGroup])
+
+   useEffect(()=>{
+    if(showTaskGroup===true){
+      
+      getTaskGroupList(taskGroupCurrentPages)
+  
+    }
+     },[subCheckBox])
 
   const normalizedTaskGroupData = (data: any) => {
     return data.map((el: any,) => {
@@ -751,7 +779,8 @@ dispatch(
         </div>,
         tag:el?.code,
         "":(el.marked_as_closed?
-        (el?.is_parent &&
+        (el?.is_parent ?
+          
         <MenuBar ListedData={menuItemOpen} onClick={(index)=>{
           setSubTaskItem(el)
          if(index===0)
@@ -770,14 +799,33 @@ dispatch(
          if(index===2)
          {
           setClosedTaskGroup(false)
-          CloseTaskGroup()
+         
       
          }
+        }}  />:
+        <MenuBar ListedData={subGroupMenuItemOpen} onClick={(index)=>{
+          setSubTaskItem(el)
+         if(index===0)
+         {
+          editTaskGroupModal.show()
+          setEditTask(el?.name)
+          setEditCode(el?.code)
+          setEditDescription(el?.description)
+          setEditPhoto(el?.photo)
+          setEditId(el?.id)
+         }
+        
+         if(index===1)
+         {
+          setClosedTaskGroup(false)
+         }
         }}  />
+
         )
-        : (el?.is_parent &&
+        : (el?.is_parent ?
           <MenuBar ListedData={menuItemClose} onClick={(index)=>{
             setSubTaskItem(el)
+            // console.log(el,"=======>")
            if(index===0)
            {
             editTaskGroupModal.show()
@@ -794,9 +842,26 @@ dispatch(
            if(index===2)
            {
             setClosedTaskGroup(true)
-            CloseTaskGroup()
+           }
+          }}  />
+          : 
+          <MenuBar ListedData={subGroupMenuItemClose} onClick={(index)=>{
+            setSubTaskItem(el)
+           if(index===0)
+           {
+            editTaskGroupModal.show()
+            setEditTask(el?.name)
+            setEditCode(el?.code)
+            setEditDescription(el?.description)
+            setEditPhoto(el?.photo)
+            setEditId(el?.id)
+           }
         
-         
+           if(index===1)
+           {
+            setClosedTaskGroup(true)
+           
+      
            }
           }}  />
           ))
@@ -804,10 +869,6 @@ dispatch(
       };
     });
   };
-
-
-
-
   return (
     <>
       <div className="mx-3 mb--2">
@@ -973,9 +1034,11 @@ dispatch(
              
             if(subCheckBox===false){
             setSubCheckBox(true)
+            // getTaskGroupList(taskGroupCurrentPages)
           }
             else{
               setSubCheckBox(false)
+              // getTaskGroupList(taskGroupCurrentPages)
             }
           }} text={'Include Close'}/>
 
@@ -1547,7 +1610,7 @@ dispatch(
                 setAddSubTaskCode(e.target.value.slice(0,3).toUpperCase())}}
             />
             </div>
-          <div className="pt-1"> {addSubTaskItem?.code}-</div>
+          <div className="pt-2 pr-2 text-sm"> {addSubTaskItem?.code}-</div>
            <div className="col-5">  <Input
             placeholder={translate("auth.code")}
               value={addSubTaskCode}
@@ -1555,6 +1618,25 @@ dispatch(
             />
             </div>
             </div>
+            <div className="row">
+              <div className="col-6">
+            <DateTimePicker
+                      
+                        id="eta-picker"
+                        placeholder={'Start Time'}
+                        type="both"
+                         onChange={handleStartTimeEtaChange}
+                    />
+                    </div>
+                    <div className="col-6">
+                     <DateTimePicker
+                        id="eta-picker"
+                        placeholder={'End Time'}
+                        type="both"
+                         onChange={handleEndTimeEtaChange}
+                    />
+                    </div>
+                    </div>
 
             <Input
               placeholder={translate("auth.description")}

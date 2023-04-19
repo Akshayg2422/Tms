@@ -46,7 +46,8 @@ GET_TASK_GROUP,
 ADD_TASK_GROUP,
 FETCH_ADD_TASK_EVENTS,
 UPDATE_EMPLOYEE_PROFILE_PHOTO,
-GET_TASK_GROUPL
+GET_TASK_GROUPL,
+GET_TASK_SUB_GROUP
 
 } from '../UrlHelper';
 
@@ -125,3 +126,4 @@ export const getTaskGroupApi = (payload) => post(GET_TASK_GROUP, payload, {})
 export const addTaskGroupApi = (payload) => post(ADD_TASK_GROUP, payload, {})
 export const updateEmployeeProfilePhotoApi = (payload)=>post(UPDATE_EMPLOYEE_PROFILE_PHOTO,payload,{})
 export const getTaskGrouplApi = (payload)=>post(GET_TASK_GROUPL,payload,{})
+export const getTaskSubGroupApi = (payload)=>post(GET_TASK_SUB_GROUP,payload,{})

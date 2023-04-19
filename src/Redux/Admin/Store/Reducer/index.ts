@@ -77,6 +77,8 @@ import {
   GET_REFERENCE_ID,
   GET_SUBTASK_ID,
   LOGIN_USER,
+  GET_TASK_SUB_GROUP,
+  GET_TASK_SUB_GROUP_SUCCESS,
   
 } from '../ActionTypes';
 
@@ -120,6 +122,7 @@ const initialState: AdminStateProp = {
   referencesTasksNumOfPages: undefined,
   referencesTasksCurrentPages:undefined,
   taskUsers: undefined,
+  showSubTaskGroup:undefined,
   ticketEmployees:undefined,
 
   getTaskGroupDetails:undefined,
@@ -601,6 +604,16 @@ case GET_REFERENCE_TASKS_FAILURE:
 
       state = { ...state,  loginUserSuccess: action.payload};
       break;
+      
+      case GET_TASK_SUB_GROUP:
+        state = { ...state, showSubTaskGroup: undefined }
+        break;
+      case GET_TASK_SUB_GROUP_SUCCESS:
+        state = { ...state, showSubTaskGroup: action.payload?.details }
+        break;
+      case GET_TASK_GROUP_FAILURE:
+        state = { ...state, showSubTaskGroup: undefined }
+        break;
 
 
       case GET_TASK_USERS:

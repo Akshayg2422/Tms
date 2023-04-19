@@ -221,6 +221,31 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
 
     }
 
+    export const ADD_SUB_TASK_GROUP={
+      name:{
+        presence: { allowEmpty: false, message: "tag name cannot be empty" },
+      },
+      code:{
+        presence: { allowEmpty: false, message: "code name cannot be empty" },
+
+      },
+      description:{
+        presence: { allowEmpty: false, message: "description cannot be empty" },
+      },
+      photo:{
+        presence: { allowEmpty: false, message: "Photo cannot be empty" }
+
+      },
+      start_time:{
+        presence: { allowEmpty: false, message: " please select Stat Time  cannot be empty" },
+      },
+
+      end_time:{
+        presence: { allowEmpty: false, message: " please select End Time cannot be empty" },
+      }
+   
+    }
+
     
     export const ADD_REFERENCE_TASK= {
       reference_task: {

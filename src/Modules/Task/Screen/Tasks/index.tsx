@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId, getTaskGroup ,getTaskGroupl} from "@Redux";
+import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId,getTaskGroupl,getTaskSubGroup} from "@Redux";
 import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound, Badge ,PageNation, Checkbox, Card} from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
@@ -19,7 +19,7 @@ function Tasks() {
   const time = date.getHours()
  
   const { goTo } = useNavigation();
-  const { tasks, taskNumOfPages, taskCurrentPages} = useSelector((state: any) => state.AdminReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages,showTaskSubGroup} = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
   const {getTaskGrouplDetails} = useSelector((state: any) => state.CompanyReducer);
   const search = useInput("");
@@ -33,7 +33,7 @@ function Tasks() {
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
   const [selectTag, setSelectTag] = useState<any>([0])
-
+console.log('====>',showTaskSubGroup)
   const getCompanyBranchDropdown = (details: any) => {
 
     let companies: any = [];
@@ -65,14 +65,40 @@ function Tasks() {
       getTaskGroupl({
         params,
         onSuccess: (response: any) => () => {
-          // console.log('=======>sssss',JSON.stringify(response),'hghhh')
-      
+
         },
         onError: () => () => {
         },
       })
     )
   },[])
+
+  useEffect(()=>{
+    if(selectTag?.id)
+    {
+    getShowSubTaskGroups()
+    } 
+  },[selectTag])
+
+  const getShowSubTaskGroups =()=>{
+  
+    const params = { taskgroup_id: selectTag?.id };
+    
+dispatch(
+  getTaskSubGroup({
+    params,
+    onSuccess: (response: any) => () => {
+      console.log("======>",JSON.stringify(response))
+    },
+    onError: () => () => {
+    },
+
+  })
+
+)
+
+
+  }
 
   useEffect(() => {
     const params = { q: "" };
@@ -98,7 +124,7 @@ function Tasks() {
   useEffect(() => {
     if (!isSync.tasks) {
       getTaskHandler(taskCurrentPages)
-      // getTaskGroupPage(INITIAL_PAGE)
+    
     }
 
   }, [isSync,subCheckBox])
@@ -121,6 +147,7 @@ function Tasks() {
         params,
         onSuccess: (response) => () => {
           setSyncTickets(true)
+         
          
         },
         onError: () => () => { },
@@ -163,9 +190,7 @@ function Tasks() {
         
          </div>
         
-         {/* <div>
-          {el.parent&&el.parent?.name &&<div>{el.parent?.name}</div> }
-          </div> */}
+        
           </>,
         "attachments":
           <div className="row avatar-group" style={{
@@ -239,6 +264,8 @@ function Tasks() {
                     onClick={() => {
                       setSelectTag(' ALL ')
                       setSyncTickets()
+                      
+                     
                     }}
                   />
                   </div>
@@ -255,6 +282,7 @@ function Tasks() {
                     onClick={() => {
                       setSelectTag(el)
                       setSyncTickets()
+                     
                     }}
                   />
                   </div>
@@ -395,7 +423,20 @@ function Tasks() {
               />
             </div>
           }
-          <div className="col pt-3">
+            <div className="col-lg-3 col-md-3 col-sm-12">
+            <DropDown
+              className="form-control-sm"
+              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{'oooooooo'}</h4>}
+              data={showTaskSubGroup?.data}
+              // selected={taskPriority.value}
+              // value={taskPriority.value}
+              onChange={(item) => {
+                taskPriority.onChange(item)
+                setSyncTickets()
+              }}
+            />
+          </div>
+          <div className="col pt-4">
           <Checkbox id={'0'} onClick={()=>{
             setSyncTickets()
             
@@ -407,6 +448,7 @@ function Tasks() {
           }} text={'Include Subtask'}/>
 
           </div>
+           
         
         </div>
 
