@@ -14,6 +14,7 @@ export * from './NoDataFound'
 export * from './Priorty'
 export * from './Status'
 export * from './NoTaskFound'
+export * from './MenuBar'
 
 
 

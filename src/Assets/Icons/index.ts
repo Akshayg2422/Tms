@@ -109,5 +109,6 @@ export const icons = {
   questionMark: require('./RoundedQuestionMark/icon.png'),
   issuesProblem: require('./IssuesProblem/problem.png'),
   broadCast: require('./BroadCast/icon.png'),
-  bellIcon: require('./BellIcon/icon.png')
+  bellIcon: require('./BellIcon/icon.png'),
+  editLineIcon: require('./EditLine/editing.png')
 };

@@ -229,9 +229,9 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                                 <Button size={'sm'} text={'Proceed'} className={'rounded-pill'} onClick={() => submitCurrentStartTime()} />
                             </div>
                         </Modal>
-                        { 
+                        {
                             <div className="col text-right">
-                                <Button size={'sm'} text={'End'} className={'rounded-pill px-3'} onClick={() => submitCurrentEndTime()} />
+                                <Button size={'sm'} color={'secondary'} text={'End'} className={'rounded-pill px-3'} onClick={() => submitCurrentEndTime()} />
                             </div>
                         }
 
