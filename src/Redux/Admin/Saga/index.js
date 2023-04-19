@@ -550,10 +550,12 @@ function* getTaskHistorySaga(action) {
     yield put(showLoader());
 
     const response = yield call(getTaskHistoryApi, action.payload.params);
+    console.log(JSON.stringify(response) + '========response');
 
+    
     if (response.success) {
       yield put(hideLoader());
-      yield put(getTaskHistorySuccess(response.details));
+      yield put(getTaskHistorySuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());

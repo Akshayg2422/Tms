@@ -21,6 +21,9 @@ function TaskInfo({ onClick }: TaskInfoProps) {
     const initialEtaValue = getDisplayDateTimeFromMoment(etaMomentObj);
     const [eta, setEta] = useState(initialEtaValue)
     const [timeline, setTimeline] = useState(false)
+    const [currentTimeModal, setCurrentTimeModal] = useState(false)
+    const [currentStartTime, setCurrentStartTime] = useState<Date>(new Date());
+    const [currentEndTime, setCurrentEndTime] = useState<Date>(new Date());
 
     useEffect(() => {
         ProceedGetTaskEvents()
@@ -54,13 +57,69 @@ function TaskInfo({ onClick }: TaskInfoProps) {
         dispatch(
             addTaskEvent({
                 params,
-                onSuccess: (response) => () => { ProceedGetTaskEvents() },
+                onSuccess: (response) => () => { },
                 onError: (error) => () => { }
             })
         )
         setEditEta(!editEta)
     }
 
+
+    useEffect(() => {
+
+        // submitCurrentStartTime();
+
+        const interval = setInterval(() => {
+            setCurrentStartTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(interval);
+
+    }, [getSubTaskId]);
+
+    const submitCurrentStartTime = () => {
+        const params = {
+            id: getSubTaskId ? getSubTaskId.id : taskItem?.id,
+            event_type: "ETS",
+            start_time: getServerTimeFromMoment(getMomentObjFromServer(currentStartTime)),
+        };
+
+        dispatch(
+            addTaskEvent({
+                params,
+                onSuccess: (response) => () => { setCurrentTimeModal(!currentTimeModal) },
+                onError: (error) => () => { }
+            })
+        );
+    };
+
+
+    useEffect(() => {
+
+        // submitCurrentEndTime()
+        const interval = setInterval(() => {
+            setCurrentEndTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(interval);
+
+    }, [getSubTaskId]);
+
+    const submitCurrentEndTime = () => {
+        const params = {
+            id: getSubTaskId ? getSubTaskId.id : taskItem?.id,
+            event_type: "ETE",
+            end_time: getServerTimeFromMoment(getMomentObjFromServer(currentEndTime)),
+        }
+
+        dispatch(
+            addTaskEvent({
+                params,
+                onSuccess: (response) => () => { },
+                onError: (error) => () => { }
+            })
+        )
+    }
 
 
     return (
@@ -157,14 +216,25 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                             <div className={'text-uppercase text-muted'}>{raised_by_company?.address}</div>
                         </h6>
                     </div>
+
                     <div className="row">
                         <div className="col">
-                        <Button size={'sm'} text={'Submit'} className={'rounded-pill'} onClick={() => editEtaSubmitHandler()} />
+                            <Button size={'sm'} text={'Start'} className={'rounded-pill px-3'} onClick={() => setCurrentTimeModal(!currentTimeModal)} />
                         </div>
-                        <div className="col text-right">
-                        <Button size={'sm'} text={'Submit'} className={'rounded-pill'} onClick={() => editEtaSubmitHandler()} />
-                        </div>
-                        <div className="h5 mb-0"></div>
+                        <Modal isOpen={currentTimeModal}
+                            onClose={() => { setCurrentTimeModal(!currentTimeModal) }}
+                        >
+                            <h5 className={''}>Are you sure you want to initiate the task ? </h5>
+                            <div className={'text-right'}>
+                                <Button size={'sm'} text={'Proceed'} className={'rounded-pill'} onClick={() => submitCurrentStartTime()} />
+                            </div>
+                        </Modal>
+                        { 
+                            <div className="col text-right">
+                                <Button size={'sm'} text={'End'} className={'rounded-pill px-3'} onClick={() => submitCurrentEndTime()} />
+                            </div>
+                        }
+
                     </div>
                 </div>
             </Card >

@@ -552,7 +552,6 @@ export const getTicketUsersFailure = (error: any) => {
 
 
 export const getCurrentPage = (params: any) => {
-  console.log(params, "============>")
 
   return {
     type: GET_CURRENT_PAGE,

@@ -42,7 +42,7 @@ function Tasks() {
       setModifiedCompanyDropDownData(companies);
     }
   };
-  console.log(getTaskGroupDetails, "=========>")
+
 
   useEffect(() => {
     // getTaskGroupPage(INITIAL_PAGE)

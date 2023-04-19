@@ -638,11 +638,10 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
 
       break;
     case GET_TASK_HISTORY_SUCCESS:
-      console.log(JSON.stringify(action.payload) + "=======GET_TASK_HISTORY_SUCCESS");
+      console.log(JSON.stringify(action.payload?.details) + "=======GET_TASK_HISTORY_SUCCESS");
 
       state = {
-        ...state,
-        taskHistoryList: action.payload,
+        ...state, taskHistoryList: action.payload?.details,
       };
       break;
     case GET_TASK_HISTORY_FAILURE:

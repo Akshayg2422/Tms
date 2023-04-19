@@ -71,14 +71,14 @@ function Settings() {
   const [showTaskGroup, setShowTaskGroup] = useState(false);
   const addTaskGroupModal = useModal(false);
   const [task, setTask] = useState("");
-   const [codeFill, setCodeFill] = useState(task.slice(0,3).toUpperCase());
-   const [TagCodeFill, setTagCodeFill] = useState(tags.slice(0,3).toUpperCase());
+  const [codeFill, setCodeFill] = useState(task.slice(0, 3).toUpperCase());
+  const [TagCodeFill, setTagCodeFill] = useState(tags.slice(0, 3).toUpperCase());
   const [taskDescription, setTaskDescription] = useState("");
   const dynamicHeight: any = useDynamicHeight()
-  let attach=[photo]
-  let PhotoAttach=attach.slice(-1,4)
-  let tagAttach=[tagPhoto]
-  let tagPhotoAttach=tagAttach.slice(-1,4)
+  let attach = [photo]
+  let PhotoAttach = attach.slice(-1, 4)
+  let tagAttach = [tagPhoto]
+  let tagPhotoAttach = tagAttach.slice(-1, 4)
 
   const getDepartmentList = (pageNumber: number) => {
 
@@ -104,8 +104,6 @@ function Settings() {
     );
 
   };
-  console.log("============>",JSON.stringify(ticketTag))
-  console.log("============>",JSON.stringify(getTaskGroupDetails))
 
 
   /**get Brand sector */
@@ -329,8 +327,8 @@ function Settings() {
     const params = {
       name: convertToUpperCase(tags),
       description: convertToUpperCase(description),
-      code:TagCodeFill,
-      photo:tagPhotoAttach[0]
+      code: TagCodeFill,
+      photo: tagPhotoAttach[0]
     };
     const validation = validate(ADD_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
@@ -350,7 +348,7 @@ function Settings() {
                   setTagCodeFill("")
                   setTags("")
 
-                 },
+                },
                 onError: (error: string) => () => { },
               })
             );
@@ -375,8 +373,8 @@ function Settings() {
     const params = {
       name: convertToUpperCase(task),
       description: convertToUpperCase(taskDescription),
-      code:codeFill,
-      photo:PhotoAttach[0]
+      code: codeFill,
+      photo: PhotoAttach[0]
     };
 
     const validation = validate(ADD_TASK_GROUP, params)
@@ -581,10 +579,10 @@ function Settings() {
   const normalizedTicketTagData = (data: any) => {
     return data.map((el: any) => {
       return {
-        name:<div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
-        <div className="pt-3 pl-2">{el.name}</div>
+        name: <div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
+          <div className="pt-3 pl-2">{el.name}</div>
         </div>,
-        tag:el?.code,
+        tag: el?.code,
 
       };
     });
@@ -602,17 +600,17 @@ function Settings() {
   const normalizedTaskGroupData = (data: any) => {
     return data.map((el: any) => {
       return {
-        name:<div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
-        <div className="pt-3 pl-2">{el.name}</div>
+        name: <div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
+          <div className="pt-3 pl-2">{el.name}</div>
         </div>,
-        tag:el?.code,
+        tag: el?.code,
 
       };
     });
   };
-const tagHandler=()=>{
-  
-}
+  const tagHandler = () => {
+
+  }
 
 
 
@@ -1024,8 +1022,10 @@ const tagHandler=()=>{
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() =>{ addDepartMentModal.hide()
-                setDepartment('')}}
+              onClick={() => {
+                addDepartMentModal.hide()
+                setDepartment('')
+              }}
             />
             <Button
               text={translate("common.submit")}
@@ -1064,8 +1064,10 @@ const tagHandler=()=>{
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() =>{ addDesignationModal.hide()
-                setDesignation('')}}
+              onClick={() => {
+                addDesignationModal.hide()
+                setDesignation('')
+              }}
             />
             <Button
               text={translate("common.submit")}
@@ -1097,14 +1099,16 @@ const tagHandler=()=>{
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() =>{ addSectorModal.hide()
-                setSector('')}}
+              onClick={() => {
+                addSectorModal.hide()
+                setSector('')
+              }}
             />
             <Button
               text={translate("common.submit")}
               onClick={() => {
                 addBrandSectorAdding();
-              
+
               }}
             />
           </div>
@@ -1116,56 +1120,60 @@ const tagHandler=()=>{
 
         <Modal
           isOpen={addTagsModal.visible}
-          onClose={() => {addTagsModal.hide()
+          onClose={() => {
+            addTagsModal.hide()
             setTags("")
-                setDescription('')
-                setTagPhoto('')
-                setTagCodeFill('')
+            setDescription('')
+            setTagPhoto('')
+            setTagCodeFill('')
           }
           }
           title={translate("auth.tags")!}
         >
 
-        <div className="row">
-          <div className="col-6">
-          <Input
-              placeholder={translate("auth.tags")}
-              value={tags}
-              onChange={(e) => {setTags(e.target.value)
-                 setTagCodeFill(e.target.value.slice(0,3).toUpperCase())}}
-            />
+          <div className="row">
+            <div className="col-6">
+              <Input
+                placeholder={translate("auth.tags")}
+                value={tags}
+                onChange={(e) => {
+                  setTags(e.target.value)
+                  setTagCodeFill(e.target.value.slice(0, 3).toUpperCase())
+                }}
+              />
             </div>
-             <div className="col-6">  <Input
-            placeholder={translate("auth.code")}
+            <div className="col-6">  <Input
+              placeholder={translate("auth.code")}
               value={TagCodeFill}
-              onChange={(e) => {setTagCodeFill(e.target.value.slice(0,3).toUpperCase())}}
+              onChange={(e) => { setTagCodeFill(e.target.value.slice(0, 3).toUpperCase()) }}
             />
             </div>
-            </div>
-            <div>
+          </div>
+          <div>
             <Input
               placeholder={translate("auth.description")}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            </div>
-            <div className="pb-3">
-          <Dropzone
-          variant="ICON"
-          icon={tagPhoto}
-          size="xl"
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, "");
-            setTagPhoto(encoded);
-          
-          }}
-        />
-        </div>
+          </div>
+          <div className="pb-3">
+            <Dropzone
+              variant="ICON"
+              icon={tagPhoto}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                setTagPhoto(encoded);
+
+              }}
+            />
+          </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => {addTagsModal.hide()
+              onClick={() => {
+                addTagsModal.hide()
                 setTags("")
                 setDescription('')
                 setTagPhoto('')
@@ -1189,29 +1197,33 @@ const tagHandler=()=>{
         <Modal
 
           isOpen={addTaskGroupModal.visible}
-          onClose={() => {addTaskGroupModal.hide()
+          onClose={() => {
+            addTaskGroupModal.hide()
             setTask("");
             setCodeFill('')
             setTaskDescription('')
-            setPhoto('')}}
+            setPhoto('')
+          }}
           title={translate("auth.task")!}
         >
           <div className="mt--4">
-      <div className='row'> 
-       <div className="col-6"> 
-          <Input
-              placeholder={translate("auth.task")}
-              value={task}
-              onChange={(e) => {setTask(e.target.value)
-                setCodeFill(e.target.value.slice(0,3).toUpperCase())}}
-            />
-            </div>
-           <div className="col-6">  <Input
-            placeholder={translate("auth.code")}
-              value={codeFill}
-              onChange={(e) => {setCodeFill(e.target.value.slice(0,3).toUpperCase())}}
-            />
-            </div>
+            <div className='row'>
+              <div className="col-6">
+                <Input
+                  placeholder={translate("auth.task")}
+                  value={task}
+                  onChange={(e) => {
+                    setTask(e.target.value)
+                    setCodeFill(e.target.value.slice(0, 3).toUpperCase())
+                  }}
+                />
+              </div>
+              <div className="col-6">  <Input
+                placeholder={translate("auth.code")}
+                value={codeFill}
+                onChange={(e) => { setCodeFill(e.target.value.slice(0, 3).toUpperCase()) }}
+              />
+              </div>
             </div>
 
             <Input
@@ -1221,26 +1233,28 @@ const tagHandler=()=>{
             />
           </div>
           <div className="pb-3">
-          <Dropzone
-          variant="ICON"
-          icon={photo}
-          size="xl"
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, "");
-            setPhoto(encoded);
-          
-          }}
-        />
-        </div>
+            <Dropzone
+              variant="ICON"
+              icon={photo}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                setPhoto(encoded);
+
+              }}
+            />
+          </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => {addTaskGroupModal.hide()
+              onClick={() => {
+                addTaskGroupModal.hide()
                 setTask("");
                 setCodeFill('')
                 setTaskDescription('')
-                setPhoto('')}}
+                setPhoto('')
+              }}
             />
             <Button
               text={translate("common.submit")}
