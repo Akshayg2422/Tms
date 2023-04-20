@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId,getTaskGroupl,getTaskSubGroup} from "@Redux";
-import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound, Badge ,PageNation, Checkbox, Card} from "@Components";
+import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId, getTaskGroupl, getTaskSubGroup, getDepartmentData, getDesignationData } from "@Redux";
+import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound, Badge, PageNation, Checkbox, Card } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
@@ -17,23 +17,33 @@ function Tasks() {
 
   const date = new Date();
   const time = date.getHours()
- 
+
   const { goTo } = useNavigation();
-  const { tasks, taskNumOfPages, taskCurrentPages,showTaskSubGroup} = useSelector((state: any) => state.AdminReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, showSubTaskGroup } = useSelector((state: any) => state.AdminReducer);
   const dispatch = useDispatch();
-  const {getTaskGrouplDetails} = useSelector((state: any) => state.CompanyReducer);
+  const { getTaskGrouplDetails } = useSelector((state: any) => state.CompanyReducer);
   const search = useInput("");
-  const [subCheckBox,setSubCheckBox]=useState(false)
+  const [subCheckBox, setSubCheckBox] = useState(false)
   const filteredTasks = useDropDown(FILTERED_LIST[2])
   const taskStatus = useDropDown(STATUS_LIST[2])
+  const designationDropDown = useDropDown([0])
+  const departmentDropDown = useDropDown([0])
+
+  const subTaskGroupList = useDropDown([0])
+  const [departmentDatalist, setDepartmentDatalist] = useState<any>()
+  const [designationDatalist, setDesignationDatalist] = useState<any>()
+  console.log('=============>', departmentDatalist)
+
   const taskPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
   const companyType = useDropDown(COMPANY_TYPE[0])
+  console.log('==++',companyType?.value?.id)
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
+  const [subGroupDropDownData, setSubGroupDropDownData] = useState<any>();
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
   const [selectTag, setSelectTag] = useState<any>([0])
-console.log('====>',showTaskSubGroup)
+  // console.log('====>MMMMMMMMMm',subGroupDropDownData)
   const getCompanyBranchDropdown = (details: any) => {
 
     let companies: any = [];
@@ -49,7 +59,71 @@ console.log('====>',showTaskSubGroup)
       setModifiedCompanyDropDownData(companies);
     }
   };
+  const getSubTaskGroup = () => {
+
+    let subTaskGroupDetails: any = [];
+    if (showSubTaskGroup && showSubTaskGroup?.data.length > 0) {
+
+      showSubTaskGroup?.data.forEach(({ id, name }) => {
+        subTaskGroupDetails = [
+          ...subTaskGroupDetails, { id: id, text: name },
+        ];
+
+      });
+    }
+
+    setSubGroupDropDownData(subTaskGroupDetails)
+  }
+
+
+  const getDepartmentDataList=(items:any)=>{
+      const params = {
+        branch_id: items?.id
+      };
+      dispatch(
+        getDepartmentData({
+          params,
+          onSuccess: (response: any) => () => {
+            let departmentDetails: any = [];
+            response?.details?.data?.forEach((item) => {
+              departmentDetails = [...departmentDetails, { ...item, text: item.name }]
+            })
+          
+            setDepartmentDatalist(departmentDetails)
+          },
+          onError: (error) => () => {
+            setDepartmentDatalist([])
+
+          },
+        })
+      );
+
+    
+  }
+  const getDesignationList=(items:any)=>{
+  const params = {
+    branch_id:items?.id
+  };
  
+  dispatch(
+    getDesignationData({
+      params,
+      onSuccess: (response) => () => { 
+        let designationDataList: any = [];
+        console.log(response)
+        response?.details?.data?.forEach((item) => {
+          designationDataList = [...designationDataList, { ...item, text: item.name }]
+        })
+        setDesignationDatalist(designationDataList)
+      },
+      onError: () => () => { 
+        setDesignationDatalist([])
+      },
+    })
+  );
+  }
+
+
 
   useEffect(() => {
 
@@ -59,8 +133,8 @@ console.log('====>',showTaskSubGroup)
 
 
 
-  useEffect(()=>{
-    const params={}
+  useEffect(() => {
+    const params = {}
     dispatch(
       getTaskGroupl({
         params,
@@ -71,33 +145,30 @@ console.log('====>',showTaskSubGroup)
         },
       })
     )
-  },[])
+  }, [])
 
-  useEffect(()=>{
-    if(selectTag?.id)
-    {
-    getShowSubTaskGroups()
-    } 
-  },[selectTag])
+  useEffect(() => {
+    if (selectTag?.id) {
+      getShowSubTaskGroups()
+    }
+  }, [selectTag])
 
-  const getShowSubTaskGroups =()=>{
-  
+  const getShowSubTaskGroups = () => {
+
     const params = { taskgroup_id: selectTag?.id };
-    
-dispatch(
-  getTaskSubGroup({
-    params,
-    onSuccess: (response: any) => () => {
-      console.log("======>",JSON.stringify(response))
-    },
-    onError: () => () => {
-    },
 
-  })
+    dispatch(
+      getTaskSubGroup({
+        params,
+        onSuccess: (response: any) => () => {
+         
+        },
+        onError: () => () => {
+        },
 
-)
+      })
 
-
+    )
   }
 
   useEffect(() => {
@@ -124,10 +195,10 @@ dispatch(
   useEffect(() => {
     if (!isSync.tasks) {
       getTaskHandler(taskCurrentPages)
-    
+
     }
 
-  }, [isSync,subCheckBox])
+  }, [isSync, subCheckBox])
 
 
   const getTaskHandler = (pageNumber: number) => {
@@ -138,8 +209,10 @@ dispatch(
       company: companyType.value.id,
       priority: taskPriority.value.id,
       page_number: pageNumber,
-      group:selectTag?.id?selectTag?.id:'ALL',
-      include_subtask:subCheckBox,
+      group: subTaskGroupList.value?.id ? subTaskGroupList?.value?.id : 'ALL',
+      include_subtask: subCheckBox,
+      department_id: departmentDropDown?.value.id,
+      designation_id:designationDropDown?.value.id
     };
 
     dispatch(
@@ -147,14 +220,15 @@ dispatch(
         params,
         onSuccess: (response) => () => {
           setSyncTickets(true)
-         
-         
+
+
+
         },
         onError: () => () => { },
       })
     );
   };
-  
+
   function setSyncTickets(sync = false) {
     dispatch(
       setIsSync({
@@ -171,26 +245,26 @@ dispatch(
 
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
-      const etaDate=new Date(el.eta_time)
-      let etaTime= etaDate.getHours()
+      const etaDate = new Date(el.eta_time)
+      let etaTime = etaDate.getHours()
       return {
         "task":
-        <>
-      
-          <div className="row"> 
-          <Priority priority={el?.priority} />
-           <div>
-            <div>
-              <span className="col">{el?.title}</span></div>
-          <div className="col pt-2"> 
-             {el.parent&&el.parent?.name &&<div>{el.parent?.name}
-             </div> } </div>
-          </div>
+          <>
 
-        
-         </div>
-        
-        
+            <div className="row">
+              <Priority priority={el?.priority} />
+              <div>
+                <div>
+                  <span className="col">{el?.title}</span></div>
+                <div className="col pt-2">
+                  {el.parent && el.parent?.name && <div>{el.parent?.name}
+                  </div>} </div>
+              </div>
+
+
+            </div>
+
+
           </>,
         "attachments":
           <div className="row avatar-group" style={{
@@ -231,8 +305,8 @@ dispatch(
           </>,
         'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
         status: <div><Status status={el?.task_status} />
-        {time>etaTime?'ABOVE ETA':""}
-        
+          {time > etaTime ? 'ABOVE ETA' : ""}
+
         </div>
       };
     });
@@ -254,50 +328,50 @@ dispatch(
               }}
             />
           </div> : null}
-        
 
-            <div className="row col mt-3">
-              <div className="pt-1 pl-2" >
+
+        <div className="row col mt-3">
+          <div className="pt-1 pl-2" >
             <Badge text={' # ALL'}
-            className="bg-white pt-2 pr-4 pl-4 pb-2 mr-3"
-            style={{borderRadius:"50px"}}
-                    onClick={() => {
-                      setSelectTag(' ALL ')
-                      setSyncTickets()
-                      
-                     
-                    }}
-                  />
+              className="bg-white pt-2 pr-4 pl-4 pb-2 mr-3"
+              style={{ borderRadius: "50px" }}
+              onClick={() => {
+                setSelectTag(' ALL ')
+                setSyncTickets()
+                getSubTaskGroup()
+                
+              }}
+            />
+          </div>
+          {getTaskGrouplDetails?.map((el: any) => {
+            return (
+              <div className="card mx-4 my-1">
+                <div className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}  row`} style={{ paddingTop: "4px", paddingBottom: "4px", paddingLeft: "10px", paddingRight: "5px", borderRadius: "16px" }}>
+                  <div className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`} >
+                    {el?.photo ?
+                      <Image variant={'rounded'} src={getPhoto(el?.photo)} size={'xs'} /> : <Image variant={'rounded'} src={icons.profile} size={'xs'} />}
                   </div>
-           {getTaskGrouplDetails?.map((el: any) => {
-                return (
-                  <div className="card mx-4 my-1">
-                  <div className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}  row`} style={{paddingTop:"4px" ,paddingBottom:"4px",paddingLeft:"10px",paddingRight:"5px" ,borderRadius:"16px"}}>
-                <div  className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`} >
-                  {el?.photo?
-              <Image variant={'rounded'} src={getPhoto(el?.photo)} size={'xs'} />:<Image variant={'rounded'} src={icons.profile} size={'xs'} />}
+                  <div className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}>
+                    <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
+                      onClick={() => {
+                        setSelectTag(el)
+                        setSyncTickets()
+                        getSubTaskGroup()
+                      }}
+                    />
+                  </div>
+
+                </div>
               </div>
-                <div   className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}>
-                  <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
-                    onClick={() => {
-                      setSelectTag(el)
-                      setSyncTickets()
-                     
-                    }}
-                  />
-                  </div>
 
-                  </div>
-                  </div>
-              
-                )
+            )
 
-              })
+          })
 
-              }
-              </div>
-            
-              
+          }
+        </div>
+
+
 
 
       </HomeContainer>
@@ -419,37 +493,78 @@ dispatch(
                 onChange={(item) => {
                   companyType.onChange(item)
                   setSyncTickets()
+                  getDepartmentDataList(item)
+                  getDesignationList(item)
+                  
+          if(designationDropDown?.value){
+            designationDropDown.onChange({})
+            departmentDropDown.onChange({})
+            }
                 }}
               />
             </div>
           }
-            <div className="col-lg-3 col-md-3 col-sm-12">
+       
+          { departmentDatalist&&departmentDatalist.length>0 &&<div className="col-lg-3 col-md-3 col-sm-12 mt--2">
             <DropDown
               className="form-control-sm"
-              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{'oooooooo'}</h4>}
-              data={showTaskSubGroup?.data}
-              // selected={taskPriority.value}
-              // value={taskPriority.value}
+              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.department")}</h4>}
+               data={departmentDatalist}
+               selected={departmentDropDown.value}
+               value={departmentDropDown.value}
               onChange={(item) => {
-                taskPriority.onChange(item)
+                departmentDropDown.onChange(item)
                 setSyncTickets()
               }}
             />
           </div>
-          <div className="col pt-4">
-          <Checkbox id={'0'} onClick={()=>{
-            setSyncTickets()
-            
-            if(subCheckBox===false){
-            setSubCheckBox(true)}
-            else{
-              setSubCheckBox(false)
-            }
-          }} text={'Include Subtask'}/>
+}
+         
+         {designationDatalist&&designationDatalist.length>0 &&<div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+           <DropDown
+              className="form-control-sm"
+              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("auth.designation")!}</h4>}
+               data={designationDatalist}
+               selected={designationDropDown.value}
+              value={designationDropDown.value}
+              onChange={(item) => {
+                designationDropDown.onChange(item)
+                setSyncTickets()
+              }}
+            />
 
           </div>
-           
-        
+}
+{subGroupDropDownData && subGroupDropDownData?.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+            <DropDown
+              className="form-control-sm"
+              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.subTask")}</h4>}
+              data={subGroupDropDownData}
+              selected={subTaskGroupList.value}
+              value={subTaskGroupList.value}
+              onChange={(item) => {
+                subTaskGroupList.onChange(item)
+                setSyncTickets()
+              }}
+            />
+          </div>
+          }
+         
+          <div className="col pt-3">
+            <Checkbox id={'0'} onClick={() => {
+              setSyncTickets()
+
+              if (subCheckBox === false) {
+                setSubCheckBox(true)
+              }
+              else {
+                setSubCheckBox(false)
+              }
+            }} text={'Include Subtask'} />
+
+          </div>
+
+
         </div>
 
       </HomeContainer>
@@ -484,7 +599,7 @@ dispatch(
 
         :
         <div ><NoTaskFound src={icons.issuesProblem} />
-        
+
           <div className="text-center">
             <Button
               size={"md"}

@@ -609,7 +609,9 @@ case GET_REFERENCE_TASKS_FAILURE:
         state = { ...state, showSubTaskGroup: undefined }
         break;
       case GET_TASK_SUB_GROUP_SUCCESS:
+        console.log(action.payload?.details,"ssssssssssss")
         state = { ...state, showSubTaskGroup: action.payload?.details }
+
         break;
       case GET_TASK_GROUP_FAILURE:
         state = { ...state, showSubTaskGroup: undefined }

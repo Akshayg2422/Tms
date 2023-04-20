@@ -76,7 +76,8 @@
     "assignedTo":"AssignedTo",
     "codeTitle": "Code/Title",
     "Priority" : "Priority",
-    "selectGroup": "Select Group"
+    "selectGroup": "Select Group",
+    "subTask":"Sub Task"
   },
   "errors": {
     "invalidEmail": "Invalid email address."

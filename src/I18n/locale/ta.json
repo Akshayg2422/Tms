@@ -57,7 +57,8 @@
         "assignedTo":"ஒதுக்கப்பட்டது",
         "codeTitle": "குறியீடு தலைப்பு",
         "Priority" : "முன்னுரிமை",
-        "selectGroup":"தேர்ந்தெடுக்கப்பட்ட குழு"
+        "selectGroup":"தேர்ந்தெடுக்கப்பட்ட குழு",
+        "subTask":"துணை பணி"
     },
     "errors": {
         "invalidEmail": "Invalid email address."

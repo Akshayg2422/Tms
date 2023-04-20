@@ -47,23 +47,20 @@ function Settings() {
   } = useSelector(
     (state: any) => state.AdminReducer
   );
+  console.log(departmentData,"=====>ddddddddd")
 
   const [photo, setPhoto] = useState("");
   const [editPhoto, setEditPhoto] = useState("");
   const [addSubPhoto, setAddSubPhoto] = useState("");
   const [subCheckBox,setSubCheckBox]=useState(false)
-  console.log(subCheckBox,"============>")
-
   const [tagPhoto, setTagPhoto] = useState("");
   const [editId,setEditId]=useState('')
-
   const [showDepartments, setShowDepartments] = useState(false);
   const [showDesignations, setShowDesignations] = useState(false);
   const addDepartMentModal = useModal(false);
   const addDesignationModal = useModal(false);
   const [department, setDepartment] = useState("");
   const [designation, setDesignation] = useState("");
-
   const [showSector, setShowSector] = useState(false);
   const [showTags, setShowTags] = useState(false);
   const addSectorModal = useModal(false);
@@ -73,15 +70,19 @@ function Settings() {
   const [description, setDescription] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [editIsAdmin, setEditIsAdmin] = useState<boolean>(false);
+  const [editIsSuperAdmin, setEditIsSuperAdmin] = useState<boolean>(false);
   const [departmentDataList, setDepartmentDataList] = useState(departmentData);
   const [designationDataList, setDesignationDataList] = useState(designationData);
   const [showTaskGroup, setShowTaskGroup] = useState(false);
   const [showClosedTaskGroup, setClosedTaskGroup] = useState<Boolean>();
-  const [showOpenTaskGroup, setOpenTaskTaskGroup] = useState<Boolean>();
   const addTaskGroupModal = useModal(false);
   const editTaskGroupModal=useModal(false);
-  const addSubTaskModal=useModal(false)
+  const editDepartmentModal=useModal(false);
+  const addSubTaskModal=useModal(false);
+  const addSubDepartmentModal=useModal(false)
   const [task, setTask] = useState("");
+  const [editDepartment, setEditDepartment] = useState("");
   const [editTask, setEditTask] = useState("");
   const [editCode, setEditCode] = useState("");
   const [editDescription, setEditDescription] = useState("");
@@ -89,6 +90,10 @@ function Settings() {
    const [TagCodeFill, setTagCodeFill] = useState(tags.slice(0,3).toUpperCase());
   const [taskDescription, setTaskDescription] = useState("");
   const [addSubTask, setAddSubTask] = useState("");
+  const [addSubDepartment, setAddSubDepartment] = useState("");
+  const [addSubDepartmentIsAdmin, setAddSubDepartmentIsAdmin] = useState(false);
+  const [addSubDepartmentIsSuperAdmin, setAddSubDepartmentIsSuperAdmin] = useState(false);
+const [addSubDepartmentItem,setAddSubDepartmentItem]=useState<any>('')
   const [addSubTaskCode, setAddSubTaskCode] = useState("");
   const [addSubTaskDescription, setAddSubTaskDescription] = useState("");
   const [addSubTaskItem,setSubTaskItem] = useState<any>("");
@@ -129,6 +134,15 @@ const subGroupMenuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
 {id:'2',name:"Mark As Open",icon:"bi bi-x"}
 
 ]
+const subDepartment=[
+  {id:'0',name:"Edit",icon:'bi bi-pencil'},
+  {id:'1',name:"Create SubDepartment",icon:'bi bi-file-earmark-plus'}
+]
+
+const subChildDepartments=[
+  {id:'0',name:"Edit",icon:'bi bi-pencil'},
+]
+console.log(departmentDataList,"-------dddddddddddddddddeee")
   const getDepartmentList = (pageNumber: number) => {
 
     const params = {
@@ -266,9 +280,47 @@ const subGroupMenuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
 
   const postAddingDepartment = () => {
     const params = {
-      name: convertToUpperCase(department),
-      is_admin: isAdmin,
-      ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
+      name:editDepartment?convertToUpperCase(editDepartment):convertToUpperCase(department),
+      is_admin:editDepartment?editIsAdmin:isAdmin,
+      ...(isSuperAdmin && { is_super_admin:editDepartment?editIsSuperAdmin:isSuperAdmin }),
+      ...(addSubDepartmentItem?.id &&{id:addSubDepartmentItem.id})
+    };
+console.log(params,"ppppppppp")
+    const validation = validate(ADD_DEPARTMENT, params)
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addDepartment({
+          params,
+          onSuccess: (success: any) => () => {
+            addDepartMentModal.hide()
+            editDepartmentModal.hide()
+            getDepartmentList(departmentCurrentPages)
+            showToast(success.message, "success");
+            setIsAdmin(false)
+            setIsSuperAdmin(false)
+            setDepartment("");
+            setEditIsAdmin(false)
+            setEditIsSuperAdmin(false)
+            setEditDepartment('')
+          },
+          onError: (error: string) => () => {
+            showToast('Department is already exists');
+          },
+        })
+      );
+    }
+    else {
+      showToast(getValidateError(validation));
+
+    }
+  };
+
+  const postAddingSubDepartment = () => {
+    const params = {
+      name:convertToUpperCase(addSubDepartment),
+      is_admin:addSubDepartmentIsAdmin,
+      ...(isSuperAdmin && { is_super_admin:addSubDepartmentIsSuperAdmin}),
+      parent_id: addSubDepartmentItem?.id,
     };
 
     const validation = validate(ADD_DEPARTMENT, params)
@@ -278,19 +330,13 @@ const subGroupMenuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
           params,
           onSuccess: (success: any) => () => {
             addDepartMentModal.hide()
-
-            getDepartmentList(departmentCurrentPages)
-            // dispatch(
-            //   getDepartmentData({
-            //     params,
-            //     onSuccess: (success: any) => () => { },
-            //     onError: (error: string) => () => { },
-            //   })
-            // );
-            setDepartment("");
+            addSubDepartmentModal.hide()
+             getDepartmentList(departmentCurrentPages)
+            setAddSubDepartment('')
+            setAddSubDepartmentIsAdmin(false)
+            setAddSubDepartmentIsSuperAdmin(false)
             showToast(success.message, "success");
-            setIsAdmin(false)
-            setIsSuperAdmin(false)
+         
           },
           onError: (error: string) => () => {
             showToast('Department is already exists');
@@ -475,7 +521,6 @@ const subGroupMenuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
   };
   // add sub task
   const addSubTaskGroupAdding = () => {
-
     const params = {
       name:convertToUpperCase(addSubTask),
       description:convertToUpperCase(addSubTaskDescription),
@@ -680,6 +725,7 @@ const handleEndTimeEtaChange = (value: any) => {
 
   const normalizedDepartmentData = (data: any) => {
     return data.map((el: any, index: any) => {
+      console.log('...>>>',el)
       return {
         name: el?.name,
         ... (dashboardDetails?.permission_details.is_admin && {
@@ -688,7 +734,9 @@ const handleEndTimeEtaChange = (value: any) => {
               <Input type={'checkbox'} checked={el?.is_admin} onChange={() => {
                 handleDepartmentAdminProcess(el)
               }} />
-            </div>
+            </div>,
+            
+
         }),
 
         ...(dashboardDetails?.permission_details.is_super_admin && {
@@ -697,7 +745,41 @@ const handleEndTimeEtaChange = (value: any) => {
               <Input type={'checkbox'} checked={el?.is_super_admin} onChange={() => {
                 handleDepartmentSuperAdminProcess(el)
               }} />
-            </div>
+            </div>,
+
+            '':(el?.is_parent ?
+               <MenuBar ListedData={subDepartment} onClick={(index)=>{
+              setAddSubDepartmentItem(el)
+              
+             if(index===0)
+             {
+              editDepartmentModal.show()
+              setEditDepartment(el?.name)
+              setEditIsAdmin(el?.is_admin)
+              setEditIsSuperAdmin(el?.is_super_admin)
+             
+             }
+             if(index===1)
+             {
+              addSubDepartmentModal.show()
+             }
+          
+            }}  />:
+            <MenuBar ListedData={subChildDepartments} onClick={(index)=>{
+              setAddSubDepartmentItem(el)
+
+             if(index===0)
+             {
+              editDepartmentModal.show()
+              setEditDepartment(el?.name)
+              setEditIsAdmin(el?.is_admin)
+              setEditIsSuperAdmin(el?.is_super_admin)
+             
+             }
+          
+          
+            }}  />
+            )
         }),
 
       };
@@ -1034,11 +1116,11 @@ const handleEndTimeEtaChange = (value: any) => {
              
             if(subCheckBox===false){
             setSubCheckBox(true)
-            // getTaskGroupList(taskGroupCurrentPages)
+         
           }
             else{
               setSubCheckBox(false)
-              // getTaskGroupList(taskGroupCurrentPages)
+            
             }
           }} text={'Include Close'}/>
 
@@ -1668,6 +1750,116 @@ const handleEndTimeEtaChange = (value: any) => {
               text={translate("common.submit")}
               onClick={() => {
                 addSubTaskGroupAdding();
+              }}
+            />
+          </div>
+        </Modal>
+
+        <Modal
+
+          isOpen={editDepartmentModal.visible}
+          onClose={() => {editDepartmentModal.hide()
+         
+            setEditIsAdmin(false)
+            setEditIsSuperAdmin(false)
+            setEditDepartment('')
+          }}
+          title={translate("auth.task")!}
+        >
+          <div className="">
+            <Input
+              placeholder={translate("common.department")!}
+              value={editDepartment}
+              onChange={(e) => setEditDepartment(e.target.value)}
+            />
+          </div>
+          <div className="row ">
+            <span className="col-2">
+              <Checkbox id={'Admin'} text={'Admin'} defaultChecked={editIsAdmin} onCheckChange={() =>  { 
+                if(editIsAdmin===true){
+                setEditIsAdmin(false)
+              }
+              else{
+                setEditIsAdmin(true)
+              }
+
+              if(editIsSuperAdmin===true){
+                setEditIsSuperAdmin(false)
+              }
+              else{
+                setEditIsSuperAdmin(true)
+              }
+              
+              
+              } }/>
+            </span>
+            <span className="col-2">
+              <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={editIsSuperAdmin} onCheckChange={() => {
+                   if(editIsSuperAdmin===true){
+                    setEditIsSuperAdmin(false)
+                  }
+                  else{
+                    setEditIsSuperAdmin(true)
+                  }}} />
+            </span>
+          </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() =>{editDepartmentModal.hide()
+                setEditIsAdmin(false)
+            setEditIsSuperAdmin(false)
+            setEditDepartment('')}}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                postAddingDepartment();
+              }}
+            />
+          </div>
+        </Modal>
+
+        <Modal
+          isOpen={addSubDepartmentModal.visible}
+          onClose={() => {addSubDepartmentModal.hide()
+            setAddSubDepartment('')
+            setAddSubDepartmentIsAdmin(false)
+            setAddSubDepartmentIsSuperAdmin(false)}}
+          title={translate("common.department")!}
+        >
+          <div className="">
+            <Input
+              placeholder={translate("common.department")!}
+              value={addSubDepartment}
+              onChange={(e) => setAddSubDepartment(e.target.value)}
+            />
+          </div>
+          <div className="row ">
+            <span className="col-2">
+              <Checkbox id={'Admin'} text={'Admin'} defaultChecked={addSubDepartmentIsAdmin} onCheckChange={() => { setAddSubDepartmentIsAdmin(!addSubDepartmentIsAdmin) }} />
+            </span>
+            <span className="col-2">
+              <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={addSubDepartmentIsSuperAdmin} onCheckChange={() => {setAddSubDepartmentIsSuperAdmin(!addSubDepartmentIsSuperAdmin) }} />
+            </span>
+          </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() =>{
+                addSubDepartmentModal.hide()
+                setAddSubDepartment('')
+                setAddSubDepartmentIsAdmin(false)
+                setAddSubDepartmentIsSuperAdmin(false)
+               
+              }}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                postAddingSubDepartment();
               }}
             />
           </div>
