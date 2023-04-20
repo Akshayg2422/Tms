@@ -4,7 +4,7 @@ import { translate } from "@I18n";
 import { LANGUAGES, BUSINESS, validate, MOBILE_NUMBER_RULES, ifObjectExist, getValidateError } from "@Utils";
 import { useInput, useNavigation } from "@Hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { AUTH_PATH } from '@Routes'
+import { ROUTES } from '@Routes'
 
 import {
   validateUserBusiness,
@@ -38,10 +38,10 @@ function Login() {
           params,
           onSuccess: (response) => () => {
             dispatch(setRegisteredMobileNumber(mobileNumber.value));
-            goTo(AUTH_PATH.OTP)
+            goTo(ROUTES["auth-module"].otp)
           },
           onError: (error) => () => {
-             showToast(error.error_message,'error');
+            showToast(error.error_message, 'error');
           },
         })
       );

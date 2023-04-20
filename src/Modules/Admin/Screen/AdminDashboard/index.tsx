@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
-import { useLocation, Route, Routes, Navigate,redirect } from "react-router-dom";
+import { useLocation, Route, Routes, Navigate, redirect } from "react-router-dom";
 import { Sidebar } from "@Components";
 import {
-  ADD_USER_INFO,
+
   ADMIN_ROUTES,
-  TAB_ISSUE_ATTACH_DETAILS,
-  HOME_PATH,
-  INFO,
-  
+
+
+
 } from "@Routes";
 import { icons } from "@Assets";
-import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, IssueCreate, CompanyDetails, IssueDetails, AddReferenceTicket, AddTask, TaskDetails,AddSubTask,AddReferenceTask} from "@Modules";
-import { getDashboard,setIsSync,autoCompleteDropDown } from "@Redux";
+import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, IssueCreate, CompanyDetails, IssueDetails, AddReferenceTicket, AddTask, TaskDetails, AddSubTask, AddReferenceTask } from "@Modules";
+import { getDashboard, setIsSync, autoCompleteDropDown } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
 
 function AdminDashboard() {
@@ -25,20 +24,20 @@ function AdminDashboard() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-   if(!isSync.dashboardDetails){
-    dispatch(
-      getDashboard({
-        params: {},
-        onSuccess: () => () => {
-          
-          dispatch(setIsSync({
-            ...isSync,dashboardDetails:true,
-          }))
-        },
-        onError: () => () => {},
-      })
-    );
-   }
+    if (!isSync.dashboardDetails) {
+      dispatch(
+        getDashboard({
+          params: {},
+          onSuccess: () => () => {
+
+            dispatch(setIsSync({
+              ...isSync, dashboardDetails: true,
+            }))
+          },
+          onError: () => () => { },
+        })
+      );
+    }
   }, []);
 
   useEffect(() => {
@@ -71,7 +70,7 @@ function AdminDashboard() {
     if (document.body.classList.contains("g-sidenav-pinned")) {
       document.body.classList.remove("g-sidenav-pinned");
       document.body.classList.add("g-sidenav-hidden");
-     
+
       dispatch(
         autoCompleteDropDown(false)
       )
@@ -79,7 +78,7 @@ function AdminDashboard() {
     } else {
       document.body.classList.add("g-sidenav-pinned");
       document.body.classList.remove("g-sidenav-hidden");
-    
+
       dispatch(
         autoCompleteDropDown(true)
       )
@@ -89,7 +88,7 @@ function AdminDashboard() {
 
   return (
     <>
-      <Sidebar 
+      <Sidebar
         routes={ADMIN_ROUTES}
         toggleSideNav={toggleSideNav}
         sideNavOpen={sideNavOpen}
@@ -103,7 +102,7 @@ function AdminDashboard() {
 
       {/* <div className={"main-content"} ref={mainContentRef}>
         <Routes> */}
-          {/* {getRoutes(ADMIN_ROUTES)}
+      {/* {getRoutes(ADMIN_ROUTES)}
           <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany />} />
           <Route path={HOME_PATH.COMPANY_INFO} element={<CompanyDetails />} />
           <Route path={HOME_PATH.ADD_USER} element={<AddUser />} />
@@ -115,15 +114,15 @@ function AdminDashboard() {
           <Route path={HOME_PATH.ADD_TASK} element={<AddTask />} />
           <Route path={HOME_PATH.TASK_DETAILS+'/:id'} element={<TaskDetails />} />
           <Route path={HOME_PATH.ADD_SUB_TASK} element={<AddSubTask />} /> */}
-          {/* <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} /> */}
-          {/* <Route path={CREATE_BROAD_CAST.BROAD_CAST} element={<CreateBroadCast/>} /> */}
-          {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
-        {/* </Routes>
+      {/* <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} /> */}
+      {/* <Route path={CREATE_BROAD_CAST.BROAD_CAST} element={<CreateBroadCast/>} /> */}
+      {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
+      {/* </Routes>
       </div> */}
 
-      {/* {sideNavOpen ? (
+      {sideNavOpen ? (
         <div className={""} onClick={toggleSideNav} />
-      ) : null} */}
+      ) : null}
     </>
   );
 }

@@ -19,7 +19,7 @@ export const RequireHome = ({ children }: RequireHomeProps) => {
     );
 
     if (userLoggedIn) {
-        return <Navigate to={ROUTES.HOME.DASHBOARD} state={{ path: location.pathname }} />
+        return <Navigate to={ROUTES['task-module'].tasks} state={{ path: location.pathname }} />
     }
 
     return (

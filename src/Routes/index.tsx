@@ -1,30 +1,8 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast, Tasks,Profile } from '@Modules'
+import { Issues, Companies, Settings, Broadcast, Tasks, Profile } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
-export const ROUTES = {
-  AUTH: {
-    SPLASH: "/splash",
-    LANDING: "/",
-    LOGIN: "/login",
-    OTP: "/otp",
-    REGISTER: '/register',
-    VIEW_GOOGLE_BUSINESS: '/view-google-business',
-  },
-  HOME: {
-    Admin: "/admin/issues",
-    Company: "/company/open",
-    DASHBOARD: "/dashboard",
-  },
-};
 
-export const AUTH_PATH = {
-  SPLASH: "/splash",
-  LANDING: "/",
-  LOGIN: "/login",
-  OTP: "/otp",
-  REGISTER: '/register',
-};
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -42,50 +20,107 @@ export const HOME_PATH = {
   TASK_DETAILS: '/task-details'
 }
 
+export const ROUTES = {
+  'auth-module': {
+    login: '/login',
+    otp: '/otp',
+    splash: '/splash',
+    register: '/register',
+    landing: '/'
+  },
+  'task-module': {
+    tasks: '/tasks',
+  },
+  'issue-module': {
+    issues: '/issues',
+  },
+  'company-module': {
+    companies: '/companies',
+    profile: '/profile',
+    setting: '/setting'
 
-export const INFO = {
-  DASHBOARD: "",
-  COMPANY: "/company",
-  COMPANY_INFO: "/CompanyInfo"
-}
-
-export const ADD_USER_INFO = {
-  DASHBOARD: "",
-  COMPANY: "/company",
-  ADD_USER: "/AddUser"
-}
-
-
-export const TAB_ISSUE_ATTACH_DETAILS = {
-  DASHBOARD: "",
-  COMPANY: "/company",
-  TAB_ISSUE_USER_DETAILS: "/TabIssueReferenceDetails"
+  },
+  'message-module': {
+    broadcast: '/broadcast',
+  }
 }
 
 export const AUTH_ROUTES = [
 
   {
     key: 1,
-    path: AUTH_PATH.LANDING,
+    path: ROUTES['auth-module'].landing,
     component: <Landing />
   },
   {
     key: 2,
-    path: AUTH_PATH.LOGIN,
+    path: ROUTES['auth-module'].login,
     component: <Login />
   },
   {
     key: 3,
-    path: AUTH_PATH.OTP,
+    path: ROUTES['auth-module'].otp,
     component: <Otp />
   },
   {
     key: 4,
-    path: AUTH_PATH.SPLASH,
+    path: ROUTES['auth-module'].splash,
     component: <Splash />
   },
 
 ];
+
+
+
+export const HOME_ROUTES = [
+  {
+    path: ROUTES['task-module'].tasks,
+    name: "Tasks",
+    icon: "bi bi-list-task text-primary",
+    layout: "",
+    component: <Tasks />
+  },
+
+  {
+    path: ROUTES['issue-module'].issues,
+    name: "Tickets",
+    icon: "bi bi-bell text-primary",
+    layout: "",
+    component: <Issues />
+  },
+  {
+    path: ROUTES['company-module'].companies,
+    name: "Companies",
+    icon: "bi bi-geo-alt text-primary",
+    layout: "",
+    component: <Companies />
+  },
+  {
+    path: ROUTES['message-module'].broadcast,
+    name: "Broadcast",
+    icon: "bi bi-megaphone text-primary",
+    layout: "",
+    component: <Broadcast />
+  },
+  {
+    path: ROUTES['company-module'].profile,
+    name: "Profile",
+    icon: "bi bi-person-circle text-primary",
+    layout: "",
+    component: <Profile />
+  },
+  {
+    path: ROUTES['company-module'].setting,
+    name: "Settings",
+    icon: "bi bi-gear text-primary",
+    layout: "",
+    component: <Settings />
+  }
+];
+
+
+
+
 
 export const ADMIN_ROUTES = [
 
@@ -94,7 +129,7 @@ export const ADMIN_ROUTES = [
     name: "Profile",
     icon: "bi bi-person-circle text-primary",
     layout: "",
-    component: <Profile/>
+    component: <Profile />
   },
   {
     path: "/tasks",
@@ -103,7 +138,7 @@ export const ADMIN_ROUTES = [
     layout: "",
     component: <Tasks />
   },
- 
+
   {
     path: "/issues",
     name: "Tickets",
@@ -125,7 +160,7 @@ export const ADMIN_ROUTES = [
     layout: "",
     component: <Broadcast />
   },
- 
+
   {
     path: "/settings",
     name: "Settings",
@@ -133,47 +168,6 @@ export const ADMIN_ROUTES = [
     layout: "",
     component: <Settings />
   }
-];
-
-export const COMPANY_ROUTES = [
-  {
-    collapse: true,
-    name: "Tickets",
-    icon: "ni ni-single-copy-04 text-pink",
-    state: "dashboardsCollapse",
-    views: [
-      {
-        path: "/opened",
-        name: "Opened",
-        miniName: "OP",
-        component: <OpenTicket />,
-        layout: "/company",
-
-      },
-      {
-        path: "/closed",
-        name: "Closed",
-        miniName: "CL",
-        component: <ClosedTicket />,
-        layout: "/company",
-      },
-      {
-        path: "/others",
-        name: "Others",
-        miniName: "OT",
-        component: <OtherTicket />,
-        layout: "/company",
-      },
-    ],
-  },
-  {
-    path: "/setting",
-    name: "Settings",
-    icon: "ni ni-settings-gear-65 text-gray",
-    layout: "/company",
-    component: <Settings />
-  },
-
 ];
 
 export * from "./RequireAuth";

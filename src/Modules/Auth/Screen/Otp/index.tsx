@@ -4,7 +4,7 @@ import { useInput, useTimer, useNavigation } from "@Hooks";
 import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, OTP_RULES, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
 import { useSelector, useDispatch } from "react-redux";
 import { validateRegisterUser, otpLogin, userLoginDetails } from "@Redux";
-import { AUTH_PATH } from '@Routes'
+import { ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
 
 function Otp() {
@@ -56,11 +56,11 @@ function Otp() {
               }),
             );
             localStorage.setItem(USER_TOKEN, response.details.token);
-            goTo(AUTH_PATH.SPLASH)
+            goTo(ROUTES["auth-module"].splash)
           },
           onError: (error) => () => {
-            showToast(error.error_message,'error')
-           },
+            showToast(error.error_message, 'error')
+          },
         }),
       );
     } else {
