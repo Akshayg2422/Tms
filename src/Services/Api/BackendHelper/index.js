@@ -1,3 +1,4 @@
+import { GET_TASK_HISTORY } from '@Redux/';
 import { post } from '../ApiHelper';
 import {
   VALIDATE_USER,
@@ -47,7 +48,8 @@ ADD_TASK_GROUP,
 FETCH_ADD_TASK_EVENTS,
 UPDATE_EMPLOYEE_PROFILE_PHOTO,
 GET_TASK_GROUPL,
-GET_TASK_SUB_GROUP
+GET_TASK_SUB_GROUP,
+  GET_TASK_HISTORY_LIST,
 
 } from '../UrlHelper';
 
@@ -124,6 +126,7 @@ export const getReferenceTasksApi = (payload) => post(GET_REFERENCE_TASKS, paylo
 export const getTicketUsersApi = (payload) => post(GET_TICKET_USERS, payload, {})
 export const getTaskGroupApi = (payload) => post(GET_TASK_GROUP, payload, {})
 export const addTaskGroupApi = (payload) => post(ADD_TASK_GROUP, payload, {})
-export const updateEmployeeProfilePhotoApi = (payload)=>post(UPDATE_EMPLOYEE_PROFILE_PHOTO,payload,{})
+export const updateEmployeeProfilePhotoApi = (payload) => post(UPDATE_EMPLOYEE_PROFILE_PHOTO, payload, {})
+export const getTaskHistoryApi = (payload) => post(GET_TASK_HISTORY_LIST, payload, {})
 export const getTaskGrouplApi = (payload)=>post(GET_TASK_GROUPL,payload,{})
 export const getTaskSubGroupApi = (payload)=>post(GET_TASK_SUB_GROUP,payload,{})

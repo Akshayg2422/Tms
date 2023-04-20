@@ -81,7 +81,10 @@ import {
   LOGIN_USER,
   GET_TASK_SUB_GROUP,
   GET_TASK_SUB_GROUP_SUCCESS ,
-  GET_TASK_SUB_GROUP_FAILURE
+  GET_TASK_SUB_GROUP_FAILURE,
+  GET_TASK_HISTORY,
+  GET_TASK_HISTORY_SUCCESS,
+  GET_TASK_HISTORY_FAILURE,
 
 } from '../ActionTypes';
 
@@ -243,7 +246,7 @@ export const getDesignationDataFailure = (error) => {
 
 //get departments
 
-export const getDepartmentData = (params:any) => {
+export const getDepartmentData = (params: any) => {
   return {
     type: FETCH_DEPARTMENT,
     payload: params,
@@ -283,14 +286,14 @@ export const referenceIssueDetails = (params) => {
 /* Tasks */
 
 export const getTasks = (params: any) => {
- 
+
   return {
     type: GET_TASKS,
     payload: params
   }
 }
 export const loginUser = (params: any) => {
- 
+
   return {
     type: LOGIN_USER,
     payload: params
@@ -483,16 +486,16 @@ export const getReferenceTasksFailure = (error) => {
 };
 
 
-export const getSelectReferenceId=(response)=>{
-  return{
+export const getSelectReferenceId = (response) => {
+  return {
     type: GET_REFERENCE_ID,
     payload: response,
 
   }
 }
 
-export const getSelectSubTaskId=(response)=>{
-  return{
+export const getSelectSubTaskId = (response) => {
+  return {
     type: GET_SUBTASK_ID,
     payload: response,
 
@@ -552,6 +555,7 @@ export const getTicketUsersFailure = (error: any) => {
 
 
 export const getCurrentPage = (params: any) => {
+
   return {
     type: GET_CURRENT_PAGE,
     payload: params
@@ -637,3 +641,33 @@ export const autoCompleteDropDown = (params: any) => {
     payload: params
   }
 }
+
+//GET TASK HISTORY
+
+export const getTaskHistory = (params) => {
+  console.log("getTaskHistory===action");
+  
+  return {
+    type: GET_TASK_HISTORY,
+    payload: params,
+  };
+};
+
+export const getTaskHistorySuccess = (response) => {
+  console.log("getTaskHistorySuccess===action");
+
+
+  return {
+    type: GET_TASK_HISTORY_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getTaskHistoryFailure = (error) => {
+  console.log("getTaskHistoryFailure===action");
+
+  return {
+    type: GET_TASK_HISTORY_FAILURE,
+    payload: error,
+  };
+};

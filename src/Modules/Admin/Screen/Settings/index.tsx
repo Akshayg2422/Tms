@@ -86,8 +86,8 @@ function Settings() {
   const [editTask, setEditTask] = useState("");
   const [editCode, setEditCode] = useState("");
   const [editDescription, setEditDescription] = useState("");
-   const [codeFill, setCodeFill] = useState(task.slice(0,3).toUpperCase());
-   const [TagCodeFill, setTagCodeFill] = useState(tags.slice(0,3).toUpperCase());
+  const [codeFill, setCodeFill] = useState(task.slice(0, 3).toUpperCase());
+  const [TagCodeFill, setTagCodeFill] = useState(tags.slice(0, 3).toUpperCase());
   const [taskDescription, setTaskDescription] = useState("");
   const [addSubTask, setAddSubTask] = useState("");
   const [addSubDepartment, setAddSubDepartment] = useState("");
@@ -103,26 +103,26 @@ const [addSubDepartmentItem,setAddSubDepartmentItem]=useState<any>('')
   const startTime = startDate.getHours()
 
   const dynamicHeight: any = useDynamicHeight()
-  let attach=[photo]
-  let PhotoAttach=attach.slice(-1,4)
+  let attach = [photo]
+  let PhotoAttach = attach.slice(-1, 4)
 
-  let editAttach=[editPhoto]
-  let editPhotoAttach=editAttach.slice(-1,4)
+  let editAttach = [editPhoto]
+  let editPhotoAttach = editAttach.slice(-1, 4)
 
-  let addSubAttach=[addSubPhoto]
-  let addSubPhotoAttach=addSubAttach.slice(-1,4)
+  let addSubAttach = [addSubPhoto]
+  let addSubPhotoAttach = addSubAttach.slice(-1, 4)
 
-  let tagAttach=[tagPhoto]
-  let tagPhotoAttach=tagAttach.slice(-1,4)
+  let tagAttach = [tagPhoto]
+  let tagPhotoAttach = tagAttach.slice(-1, 4)
 
-  const menuItemClose=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
-  {id:'1',name:"Create SubTask",icon:'bi bi-file-earmark-plus'},
-  {id:'2',name:"Mark As Closed",icon:"bi bi-x"}
+  const menuItemClose = [{ id: '0', name: "Edit", icon: 'bi bi-pencil' },
+  { id: '1', name: "Create SubTask", icon: 'bi bi-file-earmark-plus' },
+  { id: '2', name: "Mark As Closed", icon: "bi bi-x" }
 
-]
-const menuItemOpen=[{id:'0',name:"Edit",icon:'bi bi-pencil'},
-{id:'1',name:"Create SubTask",icon:'bi bi-file-earmark-plus'},
-{id:'2',name:"Mark As Open",icon:"bi bi-x"}
+  ]
+  const menuItemOpen = [{ id: '0', name: "Edit", icon: 'bi bi-pencil' },
+  { id: '1', name: "Create SubTask", icon: 'bi bi-file-earmark-plus' },
+  { id: '2', name: "Mark As Open", icon: "bi bi-x" }
 
 ]
 
@@ -168,7 +168,7 @@ console.log(departmentDataList,"-------dddddddddddddddddeee")
 
   };
 
-  console.log("============>",JSON.stringify(getTaskGroupDetails))
+  console.log("============>", JSON.stringify(getTaskGroupDetails))
 
 
   /**get Brand sector */
@@ -247,7 +247,7 @@ console.log(departmentDataList,"-------dddddddddddddddddeee")
     );
   };
 
-  
+
 
 
   const getTaskGroupList = (pageNumber: number) => {
@@ -261,7 +261,7 @@ console.log(departmentDataList,"-------dddddddddddddddddeee")
       getTaskGroup({
         params,
         onSuccess: (success: any) => () => {
-          
+
 
           if (!showTaskGroup) {
 
@@ -432,8 +432,8 @@ console.log(params,"ppppppppp")
     const params = {
       name: convertToUpperCase(tags),
       description: convertToUpperCase(description),
-      code:TagCodeFill,
-      photo:tagPhotoAttach[0]
+      code: TagCodeFill,
+      photo: tagPhotoAttach[0]
     };
     const validation = validate(ADD_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
@@ -453,7 +453,7 @@ console.log(params,"ppppppppp")
                   setTagCodeFill("")
                   setTags("")
 
-                 },
+                },
                 onError: (error: string) => () => { },
               })
             );
@@ -476,12 +476,12 @@ console.log(params,"ppppppppp")
   /**add task group */
   const addTaskGroupAdding = () => {
     const params = {
-      name:editTask?convertToUpperCase(editTask) : convertToUpperCase(task),
-      description:editDescription? convertToUpperCase(editDescription):convertToUpperCase(taskDescription),
-      code:editCode?editCode:codeFill,
-      photo:editPhoto?editPhotoAttach[0]:PhotoAttach[0],
-      ...(editId &&{id:editId})
-      
+      name: editTask ? convertToUpperCase(editTask) : convertToUpperCase(task),
+      description: editDescription ? convertToUpperCase(editDescription) : convertToUpperCase(taskDescription),
+      code: editCode ? editCode : codeFill,
+      photo: editPhoto ? editPhotoAttach[0] : PhotoAttach[0],
+      ...(editId && { id: editId })
+
     };
 
     const validation = validate(ADD_TASK_GROUP, params)
@@ -522,10 +522,10 @@ console.log(params,"ppppppppp")
   // add sub task
   const addSubTaskGroupAdding = () => {
     const params = {
-      name:convertToUpperCase(addSubTask),
-      description:convertToUpperCase(addSubTaskDescription),
-      code:addSubTaskCode,
-      photo:addSubPhotoAttach[0],
+      name: convertToUpperCase(addSubTask),
+      description: convertToUpperCase(addSubTaskDescription),
+      code: addSubTaskCode,
+      photo: addSubPhotoAttach[0],
       parent_id: addSubTaskItem?.id,
       start_time:startTimeEta,
       end_time:endTimeEta,
@@ -537,7 +537,7 @@ console.log(params,"ppppppppp")
         addTaskGroup({
           params,
           onSuccess: (success: any) => () => {
-          addSubTaskModal.hide()
+            addSubTaskModal.hide()
 
             dispatch(
               getTaskGroup({
@@ -546,10 +546,10 @@ console.log(params,"ppppppppp")
                 onError: (error: string) => () => { },
               })
             );
-        setAddSubTask('')
-        setAddSubTaskCode('')
-        setAddSubPhoto('')
-        setAddSubTaskDescription('')
+            setAddSubTask('')
+            setAddSubTaskCode('')
+            setAddSubPhoto('')
+            setAddSubTaskDescription('')
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
@@ -565,7 +565,7 @@ console.log(params,"ppppppppp")
 
     }
   };
-  const CloseTaskGroup=()=>{
+  const CloseTaskGroup = () => {
 
    const  params ={
     id:addSubTaskItem.id,
@@ -814,10 +814,10 @@ const handleEndTimeEtaChange = (value: any) => {
   const normalizedTicketTagData = (data: any) => {
     return data.map((el: any) => {
       return {
-        name:<div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
-        <div className="pt-3 pl-2">{el.name}</div>
+        name: <div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
+          <div className="pt-3 pl-2">{el.name}</div>
         </div>,
-        tag:el?.code,
+        tag: el?.code,
 
       };
     });
@@ -831,7 +831,7 @@ const handleEndTimeEtaChange = (value: any) => {
       };
     });
   };
-  useEffect(()=>{
+  useEffect(() => {
 
 
   if(showClosedTaskGroup===true||showClosedTaskGroup===false){
@@ -851,13 +851,13 @@ const handleEndTimeEtaChange = (value: any) => {
 
   const normalizedTaskGroupData = (data: any) => {
     return data.map((el: any,) => {
-     
+
       return {
-        name:<div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
-        <div className="pt-3 pl-2">
-       {el?.marked_as_closed===true ? <div className="text-primary">{el.name}</div>:<div>{el.name}</div>}
-          <div className="pt-1">
-            {el?.parent?.name}</div></div>
+        name: <div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
+          <div className="pt-3 pl-2">
+            {el?.marked_as_closed === true ? <div className="text-primary">{el.name}</div> : <div>{el.name}</div>}
+            <div className="pt-1">
+              {el?.parent?.name}</div></div>
         </div>,
         tag:el?.code,
         "":(el.marked_as_closed?
@@ -1106,6 +1106,7 @@ const handleEndTimeEtaChange = (value: any) => {
                   )}
                 </div>
               </Card>
+              
               <Card className={'mb-3'} style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
                 <div className="row">
                   <div className="col">
@@ -1123,10 +1124,8 @@ const handleEndTimeEtaChange = (value: any) => {
             
             }
           }} text={'Include Close'}/>
+</div>
 
-          </div>
-
-                  
                   <div className="text-right mr-3 ">
                     <Button
                       text={
@@ -1192,6 +1191,7 @@ const handleEndTimeEtaChange = (value: any) => {
                     </div>
                   )}
                 </div>
+               
               </Card>
 
             </>
@@ -1375,8 +1375,10 @@ const handleEndTimeEtaChange = (value: any) => {
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() =>{ addDepartMentModal.hide()
-                setDepartment('')}}
+              onClick={() => {
+                addDepartMentModal.hide()
+                setDepartment('')
+              }}
             />
             <Button
               text={translate("common.submit")}
@@ -1415,8 +1417,10 @@ const handleEndTimeEtaChange = (value: any) => {
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() =>{ addDesignationModal.hide()
-                setDesignation('')}}
+              onClick={() => {
+                addDesignationModal.hide()
+                setDesignation('')
+              }}
             />
             <Button
               text={translate("common.submit")}
@@ -1448,14 +1452,16 @@ const handleEndTimeEtaChange = (value: any) => {
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() =>{ addSectorModal.hide()
-                setSector('')}}
+              onClick={() => {
+                addSectorModal.hide()
+                setSector('')
+              }}
             />
             <Button
               text={translate("common.submit")}
               onClick={() => {
                 addBrandSectorAdding();
-              
+
               }}
             />
           </div>
@@ -1467,56 +1473,60 @@ const handleEndTimeEtaChange = (value: any) => {
 
         <Modal
           isOpen={addTagsModal.visible}
-          onClose={() => {addTagsModal.hide()
+          onClose={() => {
+            addTagsModal.hide()
             setTags("")
-                setDescription('')
-                setTagPhoto('')
-                setTagCodeFill('')
+            setDescription('')
+            setTagPhoto('')
+            setTagCodeFill('')
           }
           }
           title={translate("auth.tags")!}
         >
 
-        <div className="row">
-          <div className="col-6">
-          <Input
-              placeholder={translate("auth.tags")}
-              value={tags}
-              onChange={(e) => {setTags(e.target.value)
-                 setTagCodeFill(e.target.value.slice(0,3).toUpperCase())}}
-            />
+          <div className="row">
+            <div className="col-6">
+              <Input
+                placeholder={translate("auth.tags")}
+                value={tags}
+                onChange={(e) => {
+                  setTags(e.target.value)
+                  setTagCodeFill(e.target.value.slice(0, 3).toUpperCase())
+                }}
+              />
             </div>
-             <div className="col-6">  <Input
-            placeholder={translate("auth.code")}
+            <div className="col-6">  <Input
+              placeholder={translate("auth.code")}
               value={TagCodeFill}
-              onChange={(e) => {setTagCodeFill(e.target.value.slice(0,3).toUpperCase())}}
+              onChange={(e) => { setTagCodeFill(e.target.value.slice(0, 3).toUpperCase()) }}
             />
             </div>
-            </div>
-            <div>
+          </div>
+          <div>
             <Input
               placeholder={translate("auth.description")}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            </div>
-            <div className="pb-3">
-          <Dropzone
-          variant="ICON"
-          icon={tagPhoto}
-          size="xl"
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, "");
-            setTagPhoto(encoded);
-          
-          }}
-        />
-        </div>
+          </div>
+          <div className="pb-3">
+            <Dropzone
+              variant="ICON"
+              icon={tagPhoto}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                setTagPhoto(encoded);
+
+              }}
+            />
+          </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => {addTagsModal.hide()
+              onClick={() => {
+                addTagsModal.hide()
                 setTags("")
                 setDescription('')
                 setTagPhoto('')
@@ -1540,29 +1550,33 @@ const handleEndTimeEtaChange = (value: any) => {
         <Modal
 
           isOpen={addTaskGroupModal.visible}
-          onClose={() => {addTaskGroupModal.hide()
+          onClose={() => {
+            addTaskGroupModal.hide()
             setTask("");
             setCodeFill('')
             setTaskDescription('')
-            setPhoto('') }}
+            setPhoto('')
+          }}
           title={translate("auth.task")!}
         >
           <div className="mt--4">
-      <div className='row'> 
-       <div className="col-6"> 
-          <Input
-              placeholder={translate("auth.task")}
-              value={task}
-              onChange={(e) => {setTask(e.target.value)
-                setCodeFill(e.target.value.slice(0,3).toUpperCase())}}
-            />
-            </div>
-           <div className="col-6">  <Input
-            placeholder={translate("auth.code")}
-              value={codeFill}
-              onChange={(e) => {setCodeFill(e.target.value.slice(0,3).toUpperCase())}}
-            />
-            </div>
+            <div className='row'>
+              <div className="col-6">
+                <Input
+                  placeholder={translate("auth.task")}
+                  value={task}
+                  onChange={(e) => {
+                    setTask(e.target.value)
+                    setCodeFill(e.target.value.slice(0, 3).toUpperCase())
+                  }}
+                />
+              </div>
+              <div className="col-6">  <Input
+                placeholder={translate("auth.code")}
+                value={codeFill}
+                onChange={(e) => { setCodeFill(e.target.value.slice(0, 3).toUpperCase()) }}
+              />
+              </div>
             </div>
 
             <Input
@@ -1572,26 +1586,28 @@ const handleEndTimeEtaChange = (value: any) => {
             />
           </div>
           <div className="pb-3">
-          <Dropzone
-          variant="ICON"
-          icon={photo}
-          size="xl"
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, "");
-            setPhoto(encoded);
-          
-          }}
-        />
-        </div>
+            <Dropzone
+              variant="ICON"
+              icon={photo}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                setPhoto(encoded);
+
+              }}
+            />
+          </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => {addTaskGroupModal.hide()
+              onClick={() => {
+                addTaskGroupModal.hide()
                 setTask("");
                 setCodeFill('')
                 setTaskDescription('')
-                setPhoto('')}}
+                setPhoto('')
+              }}
             />
             <Button
               text={translate("common.submit")}
@@ -1606,7 +1622,8 @@ const handleEndTimeEtaChange = (value: any) => {
         <Modal
 
           isOpen={editTaskGroupModal.visible}
-          onClose={() => {editTaskGroupModal.hide()
+          onClose={() => {
+            editTaskGroupModal.hide()
             setEditTask("");
             setEditCode('')
             setEditDescription('')
@@ -1616,21 +1633,23 @@ const handleEndTimeEtaChange = (value: any) => {
           title={translate("auth.task")!}
         >
           <div className="mt--4">
-      <div className='row'> 
-       <div className="col-6"> 
-          <Input
-              placeholder={translate("auth.task")}
-              value={editTask}
-              onChange={(e) => {setEditTask(e.target.value)
-                setEditCode(e.target.value.slice(0,3).toUpperCase())}}
-            />
-            </div>
-           <div className="col-6">  <Input
-            placeholder={translate("auth.code")}
-              value={editCode}
-              onChange={(e) => {setEditCode(e.target.value.slice(0,3).toUpperCase())}}
-            />
-            </div>
+            <div className='row'>
+              <div className="col-6">
+                <Input
+                  placeholder={translate("auth.task")}
+                  value={editTask}
+                  onChange={(e) => {
+                    setEditTask(e.target.value)
+                    setEditCode(e.target.value.slice(0, 3).toUpperCase())
+                  }}
+                />
+              </div>
+              <div className="col-6">  <Input
+                placeholder={translate("auth.code")}
+                value={editCode}
+                onChange={(e) => { setEditCode(e.target.value.slice(0, 3).toUpperCase()) }}
+              />
+              </div>
             </div>
 
             <Input
@@ -1640,22 +1659,23 @@ const handleEndTimeEtaChange = (value: any) => {
             />
           </div>
           <div className="pb-3">
-          <Dropzone
-          variant="ICON"
-          icon={getPhoto(editPhoto)}
-          size="xl"
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, "");
-            setEditPhoto(encoded);
-          }}
-        />
-       
-        </div>
+            <Dropzone
+              variant="ICON"
+              icon={getPhoto(editPhoto)}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                setEditPhoto(encoded);
+              }}
+            />
+
+          </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => {editTaskGroupModal.hide()
+              onClick={() => {
+                editTaskGroupModal.hide()
                 setEditTask("");
                 setEditCode('')
                 setEditDescription('')
@@ -1674,11 +1694,12 @@ const handleEndTimeEtaChange = (value: any) => {
 
 
 
-          <Modal
+        <Modal
 
           isOpen={addSubTaskModal.visible}
-          onClose={() => {addSubTaskModal.hide()
-           
+          onClose={() => {
+            addSubTaskModal.hide()
+
           }}
           title={translate("auth.task")!}
         >
@@ -1700,6 +1721,9 @@ const handleEndTimeEtaChange = (value: any) => {
             />
             </div>
             </div>
+
+
+            {/* </div> */}
             <div className="row">
               <div className="col-6">
             <DateTimePicker
@@ -1727,23 +1751,24 @@ const handleEndTimeEtaChange = (value: any) => {
             />
           </div>
           <div className="pb-3">
-          <Dropzone
-          variant="ICON"
-          icon={addSubPhoto}
-          size="xl"
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, "");
-            setAddSubPhoto(encoded);
-          }}
-        />
-       
-        </div>
+            <Dropzone
+              variant="ICON"
+              icon={addSubPhoto}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                setAddSubPhoto(encoded);
+              }}
+            />
+
+          </div>
           <div className="text-right">
             <Button
               color={"secondary"}
               text={translate("common.cancel")}
-              onClick={() => {addSubTaskModal.hide()
-               
+              onClick={() => {
+                addSubTaskModal.hide()
+
               }}
             />
             <Button

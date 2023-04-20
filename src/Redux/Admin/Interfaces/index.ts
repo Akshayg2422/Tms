@@ -46,4 +46,5 @@ export interface AdminStateProp {
   addTaskGroup:any,
   getReferenceId:any,
   getSubTaskId:any,
+  taskHistoryList:any,
 }

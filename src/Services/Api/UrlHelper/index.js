@@ -80,3 +80,7 @@ export const GET_TASK_GROUP=TASK+'getTaskGroup'
 export const GET_TASK_GROUPL=TASK+'getTaskGroupl'
 export const GET_TASK_SUB_GROUP=TASK+'getTaskSubGroup'
 
+/* GET TASK HISTORY */
+
+export const GET_TASK_HISTORY_LIST =TASK+'getTaskHistory'
+

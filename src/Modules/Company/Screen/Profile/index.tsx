@@ -4,10 +4,8 @@ import { useSelector } from "react-redux";
 import { translate } from "@I18n";
 
 function Profile() {
-  const { dashboardDetails} = useSelector((state: any) => state.AdminReducer);
-
-  const { company, company_branch, permission_details, user_details, ticket_status } = dashboardDetails&&dashboardDetails;
-  console.log(dashboardDetails,"=========>")
+  const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
+  const { company, company_branch, permission_details, user_details, ticket_status } = dashboardDetails && dashboardDetails;
 
 
   return (

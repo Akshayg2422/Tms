@@ -17,12 +17,11 @@ function SubTaskListing() {
         const params = {
             task_id: getSubTaskId ? getSubTaskId.id : taskItem?.id
         }
-        console.log('1111111111111',params)
 
         dispatch(
             getSubTasks({
                 params,
-                onSuccess: (response) => () => {console.log('SubTaskList----------->',JSON.stringify(response)) },
+                onSuccess: (response) => () => { },
                 onError: () => () => { },
             })
         );
@@ -43,9 +42,9 @@ function SubTaskListing() {
     };
 
     return (
-        <div className={''}>
+        <div>
             {subTasks && subTasks?.data?.length > 0 ?
-                <div className={'mx--6'}>
+                <div className={'mx--6 pointer'}>
                     <CommonTable
                         tableDataSet={subTasks?.data}
                         displayDataSet={normalizedTableData(subTasks?.data)}
