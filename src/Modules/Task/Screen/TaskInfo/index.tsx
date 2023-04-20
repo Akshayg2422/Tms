@@ -191,7 +191,13 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                     <Button text={'Submit'} className={'rounded-pill px-5'} onClick={() => editEtaSubmitHandler()} />
 
                 </Modal>
-                <Modal isOpen={timeline}
+                <Modal
+                    className="modal-content shadow-none overflow-auto overflow-hide"
+                    style={{
+                        maxHeight: '90vh',
+                        // maxWidth: '50vw',
+                    }}
+                    isOpen={timeline}
                     onClose={() => { setTimeline(!timeline) }}
                 >
                     <Timeline />
@@ -219,7 +225,9 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                     </div>
 
                     <div className="row">
-                        {tasks && tasks.data.length > 0 && tasks.data.map((task:any) => {
+                        {tasks && tasks.data.length > 0 && tasks.data.map((task: any) => {
+                            // console.log('11',task.assigned_to?.id);
+                            // console.log('22',dashboardDetails.user_details?.id);
                             return (
                                 task.assigned_to?.id === dashboardDetails.user_details?.id ?
                                     <>

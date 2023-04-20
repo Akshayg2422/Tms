@@ -14,7 +14,7 @@ export function changeDropDownDataKey(arr: any) {
   }
 }
 
-export function convertToUpperCase(data: string) {
+export function convertToUpperCase(data: any) {
   let toUpperCase = data.charAt(0).toUpperCase() + data.slice(1);
   return toUpperCase
 }
