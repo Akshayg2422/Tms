@@ -77,6 +77,9 @@ import {
   GET_REFERENCE_ID,
   GET_SUBTASK_ID,
   LOGIN_USER,
+  GET_TASK_SUB_GROUP,
+  GET_TASK_SUB_GROUP_SUCCESS,
+  
   GET_TASK_HISTORY,
   GET_TASK_HISTORY_SUCCESS,
   GET_TASK_HISTORY_FAILURE,
@@ -124,7 +127,8 @@ const initialState: AdminStateProp = {
   referencesTasksNumOfPages: undefined,
   referencesTasksCurrentPages: undefined,
   taskUsers: undefined,
-  ticketEmployees: undefined,
+  showSubTaskGroup:undefined,
+  ticketEmployees:undefined,
 
   getTaskGroupDetails: undefined,
   getTaskGroupCurrentPages: undefined,
@@ -616,6 +620,18 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
 
       state = { ...state, loginUserSuccess: action.payload };
       break;
+      
+      case GET_TASK_SUB_GROUP:
+        state = { ...state, showSubTaskGroup: undefined }
+        break;
+      case GET_TASK_SUB_GROUP_SUCCESS:
+        console.log(action.payload?.details,"ssssssssssss")
+        state = { ...state, showSubTaskGroup: action.payload?.details }
+
+        break;
+      case GET_TASK_GROUP_FAILURE:
+        state = { ...state, showSubTaskGroup: undefined }
+        break;
 
 
     case GET_TASK_USERS:

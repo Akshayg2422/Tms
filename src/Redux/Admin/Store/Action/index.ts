@@ -79,6 +79,9 @@ import {
   GET_REFERENCE_ID,
   GET_SUBTASK_ID,
   LOGIN_USER,
+  GET_TASK_SUB_GROUP,
+  GET_TASK_SUB_GROUP_SUCCESS ,
+  GET_TASK_SUB_GROUP_FAILURE,
   GET_TASK_HISTORY,
   GET_TASK_HISTORY_SUCCESS,
   GET_TASK_HISTORY_FAILURE,
@@ -602,6 +605,32 @@ export const addTaskGroupFailure = (error: any) => {
 
   return {
     type: ADD_TASK_GROUP_FAILURE,
+    payload: error
+  }
+}
+
+
+export const getTaskSubGroup = (params: any) => {
+  return {
+    type: GET_TASK_SUB_GROUP,
+    payload: params
+  }
+}
+
+export const getTaskSubGroupSuccess = (response: any) => {
+
+
+  return {
+    type: GET_TASK_SUB_GROUP_SUCCESS,
+    payload: response
+  }
+}
+
+export const getTaskSubGroupFailure = (error: any) => {
+
+
+  return {
+    type: GET_TASK_SUB_GROUP_FAILURE,
     payload: error
   }
 }

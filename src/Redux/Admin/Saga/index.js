@@ -19,6 +19,7 @@ import {
   getTicketUsersApi,
   getTaskGroupApi,
   addTaskGroupApi,
+  getTaskSubGroupApi,
   getTaskHistoryApi
 
 } from "@Services";
@@ -26,6 +27,7 @@ import {
   GET_ASSOCIATED_BRANCH,
   GET_ASSOCIATED_COMPANY_BRANCH,
   GET_DASHBOARD,
+  GET_TASK_SUB_GROUP,
   showLoader,
   hideLoader,
   getAssociatedBranchSuccess,
@@ -46,6 +48,8 @@ import {
   ADD_TICKET_TAG,
   addTicketTagSuccess,
   addTicketTagFailure,
+  getTaskSubGroupSuccess,
+  getTaskSubGroupFailure,
   FETCH_DEPARTMENT,
   getDepartmentDataSuccess,
   getDepartmentDataFailure,
@@ -541,6 +545,30 @@ function* addTaskGroupSaga(action) {
   }
 }
 
+
+function* getTaskSubGroupSaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(getTaskSubGroupApi, action.payload.params);
+
+    if (response.success) {
+
+      yield put(hideLoader());
+      yield put(getTaskSubGroupSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getTaskSubGroupFailure(response.error_message));
+    }
+  }
+    catch 
+    (error) {
+    yield put(hideLoader());
+    yield put(getTaskSubGroupFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
+    }
+  }
+  
 /**
  * GET TASK HISTORY
  */
@@ -563,7 +591,6 @@ function* getTaskHistorySaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
     yield put(getTaskHistoryFailure("Invalid Request"));
     yield call(action.payload.onError);
   }
@@ -591,6 +618,7 @@ function* AdminSaga() {
   yield takeLatest(GET_TICKET_USERS, getTicketUsersSaga)
   yield takeLatest(GET_TASK_GROUP, getTaskGroupSaga)
   yield takeLatest(ADD_TASK_GROUP, addTaskGroupSaga)
+  yield takeLatest(GET_TASK_SUB_GROUP, getTaskSubGroupSaga)
   yield takeLatest(GET_TASK_HISTORY, getTaskHistorySaga)
 
 }
