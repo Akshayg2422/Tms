@@ -179,6 +179,8 @@ function TagAndAssignUser() {
                     }}>
                     {
                         employees && employees.length > 0 && employees.map((tagUser: any, index: number) => {
+                            // console.log('tagUsertagUser',JSON.stringify(tagUser));
+                            
                             const selected = selectTagUser.some(
                                 (selectUserEl: any) => selectUserEl === tagUser?.id
                             );

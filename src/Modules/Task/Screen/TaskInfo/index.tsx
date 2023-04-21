@@ -195,7 +195,6 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                     className="modal-content shadow-none overflow-auto overflow-hide"
                     style={{
                         maxHeight: '90vh',
-                        // maxWidth: '50vw',
                     }}
                     isOpen={timeline}
                     onClose={() => { setTimeline(!timeline) }}
