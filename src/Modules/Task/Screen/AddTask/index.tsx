@@ -288,16 +288,6 @@ function AddTask() {
                         />
                      }
 
-
-
-                    {/* <DropDown
-                        heading={translate("common.user")!}
-                        selected={selectedUser.value}
-                        placeHolder={'please select a user...'}
-                        data={companyUserDashboard}
-                        onChange={selectedUser.onChange}
-                    /> */}
-
         {companyUserDashboard && companyUserDashboard.length>0&&  
          <AutoCompleteDropDownImage
          heading={translate("common.user")!}
