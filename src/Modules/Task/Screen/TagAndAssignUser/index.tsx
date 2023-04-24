@@ -22,7 +22,7 @@ import {
     getTaskEvents,
 } from "@Redux";
 import { translate } from "@I18n";
-import { useNavigation } from "@Hooks";
+import { useInput, useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { icons } from "@Assets";
 import { TGU, RGU } from '@Utils';
@@ -38,13 +38,18 @@ function TagAndAssignUser() {
     const { goTo } = useNavigation()
     const [selectTagUser, setSelectTagUser] = useState([])
     const [selectReassignUser, setSelectReassignUser] = useState<any>('')
+    const search = useInput("");
 
     useEffect(() => {
-
         getApiHandler()
+    }, [])
+
+    const getEmployeeSearchHandler = () => {
         const params = {
-            branch_id: taskItem.raised_by_company?.branch_id
-        };
+            branch_id: taskItem.raised_by_company?.branch_id,
+            q_many: search.value,
+        }
+
 
         dispatch(
             getEmployees({
@@ -53,7 +58,23 @@ function TagAndAssignUser() {
                 onFailure: () => () => { }
             })
         )
-    }, [])
+
+    }
+
+    useEffect(() => {
+        if (!search.value) {
+            dispatch(
+                getEmployees({
+                    params: {
+                        branch_id: taskItem.raised_by_company?.branch_id,
+                        q_many: '',
+                    },
+                    onSuccess: (response) => () => { },
+                    onFailure: () => () => { }
+                })
+            )
+        }
+    }, [dispatch, search.value, taskItem.raised_by_company?.branch_id])
 
     const getApiHandler = () => {
         const params = {
@@ -132,76 +153,122 @@ function TagAndAssignUser() {
                     onClickAttachReference={() => { goTo(HOME_PATH.ADD_REFERENCE_TASK) }}
                 />
             </div>
-            <Modal size={'md'} fade={false} isOpen={openModalTagUser}
+            <Modal className="modal-content"
+                style={{
+                    maxHeight: '90vh',
+                    maxWidth: '50vw',
+                }}
+                size={'md'} fade={false} isOpen={openModalTagUser}
                 onClose={() => {
                     setOpenModalTagUser(!openModalTagUser)
                 }}>
-                {
-                    employees && employees.length > 0 && employees.map((tagUser: any, index: number) => {
-                        const selected = selectTagUser.some(
-                            (selectUserEl: any) => selectUserEl === tagUser?.id
-                        );
+                <div className="input-group bg-white border mt--6 mb-2 col-lg-6 col-md-6 ">
+                    <input
+                        type="text"
+                        className="form-control bg-transparent border border-0"
+                        placeholder={translate("auth.search")!}
+                        value={search.value}
+                        onChange={search.onChange}
+                    />
+                    <span className="input-group-text pointer border border-0" onClick={getEmployeeSearchHandler}>  <i className="fas fa-search" /></span>
+                </div>
+                <div className="modal-content shadow-none overflow-auto overflow-hide"
+                    style={{
+                        maxHeight: '66vh',
+                        maxWidth: '50vw',
+                    }}>
+                    {
+                        employees && employees.length > 0 && employees.map((tagUser: any, index: number) => {
+                            // console.log('tagUsertagUser',JSON.stringify(tagUser));
+                            
+                            const selected = selectTagUser.some(
+                                (selectUserEl: any) => selectUserEl === tagUser?.id
+                            );
+                            const capitalizedTagUserName = tagUser?.name.slice(0, 1).toUpperCase() + tagUser?.name.slice(1);
 
-                        return (
-                            <>
-                                <div className="row">
-                                    <H
-                                        className="py-2 m-0 col-11 pointer"
-                                        tag={'h4'}
-                                        text={tagUser.name}
-                                        onClick={() => { (onSelectedTagUser(tagUser)) }}
-                                    />
-                                    {
-                                        selected &&
-                                        <span className="pt-2">
-                                            <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
-                                        </span>
-                                    }
-                                </div>
-                                <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
-                            </>
-                        )
-                    })
-                }
-                <div className="pt-3 text-center">
+                            return (
+                                <>
+
+                                    <div className="row">
+                                        <H
+                                            className="py-2 m-0 col-10 pointer"
+                                            tag={'h5'}
+                                            text={capitalizedTagUserName}
+                                            onClick={() => { (onSelectedTagUser(tagUser)) }}
+                                        />
+                                        {
+                                            selected &&
+                                            <span className="pt-2">
+                                                <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
+                                            </span>
+                                        }
+                                    </div>
+                                    <div className=''>{index !== employees.length && <Divider space={'1'} />}</div>
+                                </>
+                            )
+                        })
+                    }
+                </div>
+                <div className="pt-3 text-right">
                     <Button
                         text={translate("common.submit")}
-                        block
                         onClick={() => { ProceedTagUser() }} />
                 </div>
             </Modal>
 
-            <Modal size={'md'} fade={false} isOpen={openModalReassignUser}
+            <Modal className="modal-content"
+                style={{
+                    maxHeight: '90vh',
+                    maxWidth: '50vw',
+                }}
+                size={'md'} fade={false} isOpen={openModalReassignUser}
                 onClose={() => {
                     setOpenModalReassignUser(!openModalReassignUser)
                 }}>
-                {
-                    employees && employees.length > 0 && employees.map((ReassignUser: any, index: number) => {
-                        const selected = selectReassignUser.id === ReassignUser.id
-                        return (
-                            <>
-                                <div className="row">
-                                    <H
-                                        className="col-11 py-2 m-0 pointer"
-                                        tag="h4"
-                                        text={ReassignUser.name}
-                                        onClick={() => { setSelectReassignUser(ReassignUser) }} />
-                                    {
-                                        selected &&
-                                        <span className="pt-2">
-                                            <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
-                                        </span>
-                                    }
-                                </div>
-                                <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
-                            </>
-                        )
-                    })
-                }
-                <div className="pt-3 text-center">
+                <div className="input-group bg-white border mt--6 mb-2 col-lg-6 col-md-6 ">
+                    <input
+                        type="text"
+                        className="form-control bg-transparent border border-0"
+                        placeholder={translate("auth.search")!}
+                        value={search.value}
+                        onChange={search.onChange}
+                    />
+                    <span className="input-group-text pointer border border-0" onClick={getEmployeeSearchHandler}>  <i className="fas fa-search" /></span>
+                </div>
+
+                <div className="modal-content shadow-none overflow-auto overflow-hide"
+                    style={{
+                        maxHeight: '66vh',
+                        maxWidth: '50vw',
+                    }}>
+                    {
+                        employees && employees.length > 0 && employees.map((ReassignUser: any, index: number) => {
+                            const selected = selectReassignUser.id === ReassignUser.id
+                            const capitalizedReassignUserName = ReassignUser.name.slice(0, 1).toUpperCase() + ReassignUser.name.slice(1)
+                            return (
+                                <>
+                                    <div className="row">
+                                        <H
+                                            className="col-11 py-2 m-0 pointer"
+                                            tag={'h5'}
+                                            text={capitalizedReassignUserName}
+                                            onClick={() => { setSelectReassignUser(ReassignUser) }} />
+                                        {
+                                            selected &&
+                                            <span className="pt-2">
+                                                <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
+                                            </span>
+                                        }
+                                    </div>
+                                    <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
+                                </>
+                            )
+                        })
+                    }
+                </div>
+                <div className="pt-3 text-right">
                     <Button
                         text={translate("common.submit")}
-                        block
                         onClick={() => { ProceedReassignUser() }} />
                 </div>
             </Modal>
