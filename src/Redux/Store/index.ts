@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { AppReducer, AuthReducer, CompanyReducer, AdminReducer, LoaderReducer } from '@Redux';
+import { AppReducer, AuthReducer, CompanyReducer, AdminReducer, LoaderReducer,UserCompanyReducer } from '@Redux';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -18,6 +18,7 @@ const reducer = combineReducers({
   AuthReducer,
   CompanyReducer,
   AdminReducer,
+  UserCompanyReducer,
   LoaderReducer
 });
 

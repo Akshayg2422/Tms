@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast, Tasks,Profile } from '@Modules'
+import { Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket, Broadcast, Tasks,Profile, Setting } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -131,7 +131,7 @@ export const ADMIN_ROUTES = [
     name: "Settings",
     icon: "bi bi-gear text-primary",
     layout: "",
-    component: <Settings />
+    component: <Setting/>
   }
 ];
 
@@ -171,7 +171,7 @@ export const COMPANY_ROUTES = [
     name: "Settings",
     icon: "ni ni-settings-gear-65 text-gray",
     layout: "/company",
-    component: <Settings />
+    component: <Setting />
   },
 
 ];
