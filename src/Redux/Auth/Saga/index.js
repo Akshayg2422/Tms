@@ -302,12 +302,14 @@ function* sectorServiceTypesSaga(action) {
 }
 
 function* pushNotificationSaga(action) {
+  console.log('called');
   try {
     yield put(showLoader());
     const response = yield call(addPushNotificationApi, action.payload.params);
+    console.log("responseeeeeesagaa==>",response)
     if (response.success) {
       yield put(hideLoader());
-      yield put(addPushNotificationSuccess({ ...response }));
+      yield put(addPushNotificationSuccess( ...response));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(hideLoader());

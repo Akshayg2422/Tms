@@ -5,7 +5,7 @@ import { translate } from "@I18n";
 
 function Profile() {
   const { dashboardDetails } = useSelector((state: any) => state.AdminReducer);
-  const { company, company_branch, permission_details, user_details, ticket_status } = dashboardDetails && dashboardDetails;
+  const { company, company_branch, permission_details, user_details, ticket_status } =  dashboardDetails;
 
 
   return (

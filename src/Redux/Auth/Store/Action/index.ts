@@ -391,6 +391,7 @@ export const restoreAuth = () => {
 /* PUSH NOTIFICATION */
 
 export const addPushNotification = (params: any) => {
+  console.log("actionnn")
   return {
     type: PUSH_NOTIFICATION,
     payload: params,
@@ -398,6 +399,7 @@ export const addPushNotification = (params: any) => {
 };
 
 export const addPushNotificationSuccess = (response: any) => {
+  console.log("actionnnsuccc")
   return {
     type: PUSH_NOTIFICATION_SUCCESS,
     payload: response,

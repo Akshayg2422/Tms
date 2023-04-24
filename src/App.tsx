@@ -1,7 +1,7 @@
 import { AppLoader, PageNotFound, ScreenWrapper, Sidebar } from "@Components";
 import { Route, Routes } from "react-router-dom";
 import { ADMIN_ROUTES, AUTH_ROUTES, HOME_PATH } from "@Routes";
-import { AddReferenceTask, AddReferenceTicket, AddSubTask, AddTask, AddUser, AdminDashboard, CompanyDashBoard, CompanyDetails, CreateBroadCast, CreateCompany, IssueCreate, IssueDetails, PushNotification, TaskDetails } from "@Modules";
+import { AddReferenceTask, AddReferenceTicket, AddSubTask, AddTask, AddUser, AdminDashboard, CompanyDetails, CreateBroadCast, CreateCompany, IssueCreate, IssueDetails, PushNotification, TaskDetails } from "@Modules";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -18,40 +18,7 @@ import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { changeLanguage } from "@I18n";
 import { FCM_TOKEN } from "./Utils";
-import { addPushNotification } from '@Redux'
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-
-
-interface DeviceInfo {
-  brand: string;
-  model: string;
-  platform: string;
-}
-
-function DeviceInfo() {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    const userAgent = navigator.userAgent;
-    const platform = navigator.platform;
-    const regex = /\(([^)]+)\)/;
-    const match = regex.exec(userAgent);
-    if (match && match.length > 1) {
-      const deviceInfo = match[1].split(';');
-      const brand = deviceInfo[0].trim();
-      const model = deviceInfo[1].trim();
-      dispatch(addPushNotification({ brand, model, platform }))
-    }
-  }, []);
-
-
-  return (
-    <></>
-  );
-}
-
-export { DeviceInfo }
+import DeviceInfo from "./Modules/Auth/Screen/DeviceInfo";
 
 
 function App() {
@@ -60,7 +27,7 @@ function App() {
   const { loginUserSuccess } = useSelector((state: any) => state.AdminReducer);
 
   const fcmToken = localStorage.getItem(FCM_TOKEN)
-  console.log("FCM TOKEN======>", fcmToken)
+  console.log("FCM TOKEN APP.TSX======>", fcmToken)
 
 
   const getRoutes = (routes: any) => {
@@ -85,8 +52,9 @@ function App() {
         <AdminDashboard />
 
       }
-
       <div className={"main-content"} >
+
+
         <Routes>
           {getRoutes(AUTH_ROUTES)}
           {getRoutes(ADMIN_ROUTES)}
@@ -107,6 +75,7 @@ function App() {
         </Routes>
       </div>
 
+      {/* <DeviceInfo/> */}
 
 
       <ToastContainer />
