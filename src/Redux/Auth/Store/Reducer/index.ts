@@ -36,7 +36,10 @@ import {
   OTP_LOGIN,
   OTP_LOGIN_FAILURE,
   OTP_LOGIN_SUCCESS,
-  RESTORE_AUTH
+  RESTORE_AUTH,
+  PUSH_NOTIFICATION,
+  PUSH_NOTIFICATION_SUCCESS,
+  PUSH_NOTIFICATION_FAILURE,
 } from '../ActionTypes';
 import { AuthSliceStateProp } from '../../Interfaces';
 import { DEFAULT_LANGUAGE } from '@Utils';
@@ -47,7 +50,7 @@ const initialState: AuthSliceStateProp = {
   response: undefined,
   userDetails: undefined,
   registeredMobileNumber: undefined,
-  language:  { id: '1', text: 'English', value: 'en' },
+  language: { id: '1', text: 'English', value: 'en' },
   registerUserResponse: undefined,
   otpRegisterResponse: undefined,
   userBusinessPlaces: undefined,
@@ -60,6 +63,7 @@ const initialState: AuthSliceStateProp = {
   businessSectorDropdownData: undefined,
   businessServiceTypesDropdownData: undefined,
   alternativeNumber: undefined,
+  notification: undefined,
 };
 
 const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
@@ -204,6 +208,19 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
     case SET_LANGUAGE:
       state = { ...state, language: action.payload };
       break;
+
+    /*PUSH NOTIFICATION */
+
+    case PUSH_NOTIFICATION:
+      state = { ...state };
+      break;
+    case PUSH_NOTIFICATION_SUCCESS:
+      state = { ...state, notification: action.payload.details };
+      break;
+    case PUSH_NOTIFICATION_FAILURE:
+      state = { ...state, notification: action.payload };
+      break;
+
     default:
       state = state;
       break;

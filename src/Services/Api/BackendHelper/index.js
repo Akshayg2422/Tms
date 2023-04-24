@@ -42,14 +42,15 @@ import {
   FETCH_DESIGNATION,
   FETCH_DEPARTMENT,
   GET_TICKET_USERS,
-GET_REFERENCE_TASKS,
-GET_TASK_GROUP,
-ADD_TASK_GROUP,
-FETCH_ADD_TASK_EVENTS,
-UPDATE_EMPLOYEE_PROFILE_PHOTO,
-GET_TASK_GROUPL,
-GET_TASK_SUB_GROUP,
+  GET_REFERENCE_TASKS,
+  GET_TASK_GROUP,
+  ADD_TASK_GROUP,
+  FETCH_ADD_TASK_EVENTS,
+  UPDATE_EMPLOYEE_PROFILE_PHOTO,
+  GET_TASK_GROUPL,
+  GET_TASK_SUB_GROUP,
   GET_TASK_HISTORY_LIST,
+  ADD_PUSH_NOTIFICATION
 
 } from '../UrlHelper';
 
@@ -128,5 +129,9 @@ export const getTaskGroupApi = (payload) => post(GET_TASK_GROUP, payload, {})
 export const addTaskGroupApi = (payload) => post(ADD_TASK_GROUP, payload, {})
 export const updateEmployeeProfilePhotoApi = (payload) => post(UPDATE_EMPLOYEE_PROFILE_PHOTO, payload, {})
 export const getTaskHistoryApi = (payload) => post(GET_TASK_HISTORY_LIST, payload, {})
-export const getTaskGrouplApi = (payload)=>post(GET_TASK_GROUPL,payload,{})
-export const getTaskSubGroupApi = (payload)=>post(GET_TASK_SUB_GROUP,payload,{})
+export const getTaskGrouplApi = (payload) => post(GET_TASK_GROUPL, payload, {})
+export const getTaskSubGroupApi = (payload) => post(GET_TASK_SUB_GROUP, payload, {})
+
+/* PUSH NOTIFICATION */
+
+export const addPushNotificationApi = payload => post(ADD_PUSH_NOTIFICATION, payload, {});

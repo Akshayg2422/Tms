@@ -21,7 +21,7 @@ function Receive({ item }: any) {
         <>
             {
                 ((item && item?.message) || (item?.attachments?.attachments)) && (
-                    <div className={'d-flex justify-content-end'}>
+                    <div className={'d-flex justify-content-start'}>
                         <div className="col-5" >
                             <div
                                 className="timeline timeline-one-side"
@@ -58,6 +58,7 @@ function Receive({ item }: any) {
                                                 )
                                             })}
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -71,8 +72,8 @@ function Receive({ item }: any) {
                 item.tagged_users?.length > 0 && item.tagged_users.map((taggedElements) => {
 
                     return (
-                        <div className={'d-flex justify-content-end text-lightGray mb-1'}>
-                            <div>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
+                        <div className={'d-flex justify-content-start text-lightGray mb-1'}>
+                            <div className={'ml-lg-4 mr-md-4'}>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
                         </div>
                     )
                 })
@@ -80,7 +81,9 @@ function Receive({ item }: any) {
 
             {
                 item?.assigned_to?.name === undefined ? null :
-                    <div className='d-flex justify-content-end text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
+                    <div className='d-flex justify-content-start text-lightGray mb-1'>
+                        <div className={'ml-lg-4 mr-md-4'}>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`}</div>
+                    </div>
             }
 
         </>
@@ -152,7 +155,7 @@ function Send({ item }: any) {
 
                     return (
                         <div className={'d-flex justify-content-start text-lightGray mb-1'}>
-                            <div>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
+                            <div className={'ml-lg-4 mr-md-4'}>{`@${taggedElements.name} tagged by ${item.by_user.name}`} </div>
                         </div>
                     )
                 })
@@ -160,7 +163,9 @@ function Send({ item }: any) {
 
             {
                 item?.assigned_to?.name === undefined ? null :
-                    <div className='d-flex justify-content-start text-lightGray mb-1'>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
+                    <div className='d-flex justify-content-start text-lightGray mb-1'>
+                        <div className={'ml-lg-4 mr-md-4'}>{`@${item?.assigned_to?.name} tagged by ${item.by_user.name}`} </div>
+                    </div>
             }
 
         </>

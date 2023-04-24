@@ -18,6 +18,40 @@ import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { changeLanguage } from "@I18n";
 import { FCM_TOKEN } from "./Utils";
+import { addPushNotification } from '@Redux'
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+
+interface DeviceInfo {
+  brand: string;
+  model: string;
+  platform: string;
+}
+
+function DeviceInfo() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    const platform = navigator.platform;
+    const regex = /\(([^)]+)\)/;
+    const match = regex.exec(userAgent);
+    if (match && match.length > 1) {
+      const deviceInfo = match[1].split(';');
+      const brand = deviceInfo[0].trim();
+      const model = deviceInfo[1].trim();
+      dispatch(addPushNotification({ brand, model, platform }))
+    }
+  }, []);
+
+
+  return (
+    <></>
+  );
+}
+
+export { DeviceInfo }
 
 
 function App() {
@@ -27,7 +61,7 @@ function App() {
 
   const fcmToken = localStorage.getItem(FCM_TOKEN)
   console.log("FCM TOKEN======>", fcmToken)
- 
+
 
   const getRoutes = (routes: any) => {
     return routes.map((prop: any, key: any) => {
@@ -46,16 +80,16 @@ function App() {
     <ScreenWrapper>
       <PushNotification />
       <AppLoader />
-   {loginUserSuccess &&
-   
-    <AdminDashboard/>
-      
+      {loginUserSuccess &&
+
+        <AdminDashboard />
+
       }
-      
-   <div className={"main-content"} >
-      <Routes>
-        {getRoutes(AUTH_ROUTES)}
-        {getRoutes(ADMIN_ROUTES)}
+
+      <div className={"main-content"} >
+        <Routes>
+          {getRoutes(AUTH_ROUTES)}
+          {getRoutes(ADMIN_ROUTES)}
           <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany />} />
           <Route path={HOME_PATH.COMPANY_INFO} element={<CompanyDetails />} />
           <Route path={HOME_PATH.ADD_USER} element={<AddUser />} />
@@ -65,16 +99,16 @@ function App() {
           <Route path={HOME_PATH.CREATE_BROAD_CAST} element={<CreateBroadCast />} />
           <Route path={HOME_PATH.ISSUE_TICKET} element={<IssueCreate />} />
           <Route path={HOME_PATH.ADD_TASK} element={<AddTask />} />
-          <Route path={HOME_PATH.TASK_DETAILS+'/:id'} element={<TaskDetails />} />
+          <Route path={HOME_PATH.TASK_DETAILS + '/:id'} element={<TaskDetails />} />
           <Route path={HOME_PATH.ADD_SUB_TASK} element={<AddSubTask />} />
-        {/* <Route path={HOME_PATH.DASHBOARD } element={<AdminDashboard />} /> */}
-        {/* <Route path={HOME_PATH.COMPANY + "/*"} element={<CompanyDashBoard />} /> */}
-        {/* <Route path={"*"} element={<PageNotFound />} /> */}
-      </Routes>
+          {/* <Route path={HOME_PATH.DASHBOARD } element={<AdminDashboard />} /> */}
+          {/* <Route path={HOME_PATH.COMPANY + "/*"} element={<CompanyDashBoard />} /> */}
+          {/* <Route path={"*"} element={<PageNotFound />} /> */}
+        </Routes>
       </div>
-      
-      
-    
+
+
+
       <ToastContainer />
 
     </ScreenWrapper>
