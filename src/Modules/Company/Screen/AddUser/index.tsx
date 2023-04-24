@@ -28,10 +28,12 @@ import { icons } from "@Assets";
 // import Autocomplete from "react-autocomplete";
 
 function AddUser() {
-  const { companyDetailsSelected, designationData } = useSelector(
+  const { companyDetailsSelected,  } = useSelector(
     (state: any) => state.AdminReducer
   );
-  
+  const { designationData,  } = useSelector(
+    (state: any) => state.UserCompanyReducer
+  );
 
   
   const { isSync } = useSelector((state: any) => state.AppReducer);

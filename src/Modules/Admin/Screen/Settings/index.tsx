@@ -32,27 +32,43 @@ import { useModal, useDynamicHeight } from "@Hooks";
 
 function Settings() {
   const dispatch = useDispatch();
-  const { departmentData, designationData, departmentCurrentPages, departmentNumOfPages, designationCurrentPages, designationNumOfPages,
-    brandSector,
-    ticketTag,
-    brandSectorCurrentPages,
-    brandSectorNumOfPages,
-    ticketTagCurrentPages,
-    ticketTagNumOfPages,
+  const { 
+ 
     dashboardDetails,
-    getTaskGroupDetails,
-    taskGroupCurrentPages,
-    taskGroupNumOfPages
+  
 
   } = useSelector(
     (state: any) => state.AdminReducer
   );
-  console.log(departmentData,"=====>ddddddddd")
+  
+  const { 
+    departmentData,
+     designationData, 
+     departmentCurrentPages,
+      departmentNumOfPages, 
+      designationCurrentPages, 
+      designationNumOfPages,
+       brandSector,
+      ticketTag,
+    brandSectorCurrentPages,
+    brandSectorNumOfPages,
+    ticketTagCurrentPages,
+    ticketTagNumOfPages,
+    // dashboardDetails,
+    getTaskGroupDetails,
+    taskGroupCurrentPages,
+    taskGroupNumOfPages
+  } = useSelector(
+    (state: any) => state.UserCompanyReducer
+  );
+ 
 
   const [photo, setPhoto] = useState("");
   const [editPhoto, setEditPhoto] = useState("");
   const [addSubPhoto, setAddSubPhoto] = useState("");
+
   const [subCheckBox,setSubCheckBox]=useState(false)
+  
   const [tagPhoto, setTagPhoto] = useState("");
   const [editId,setEditId]=useState('')
   const [showDepartments, setShowDepartments] = useState(false);
@@ -142,7 +158,7 @@ const subDepartment=[
 const subChildDepartments=[
   {id:'0',name:"Edit",icon:'bi bi-pencil'},
 ]
-console.log(departmentDataList,"-------dddddddddddddddddeee")
+// console.log(departmentDataList,"-------dddddddddddddddddeee")
   const getDepartmentList = (pageNumber: number) => {
 
     const params = {
@@ -168,7 +184,6 @@ console.log(departmentDataList,"-------dddddddddddddddddeee")
 
   };
 
-  console.log("============>", JSON.stringify(getTaskGroupDetails))
 
 
   /**get Brand sector */
@@ -283,9 +298,11 @@ console.log(departmentDataList,"-------dddddddddddddddddeee")
       name:editDepartment?convertToUpperCase(editDepartment):convertToUpperCase(department),
       is_admin:editDepartment?editIsAdmin:isAdmin,
       ...(isSuperAdmin && { is_super_admin:editDepartment?editIsSuperAdmin:isSuperAdmin }),
+      ...(editIsSuperAdmin && { is_super_admin:editDepartment?editIsSuperAdmin:isSuperAdmin }),
       ...(addSubDepartmentItem?.id &&{id:addSubDepartmentItem.id})
     };
-console.log(params,"ppppppppp")
+
+
     const validation = validate(ADD_DEPARTMENT, params)
     if (ifObjectExist(validation)) {
       dispatch(
@@ -402,13 +419,7 @@ console.log(params,"ppppppppp")
           onSuccess: (success: any) => () => {
             addDesignationModal.hide()
             getDesignationList(departmentCurrentPages)
-            // dispatch(
-            //   getDesignationData({
-            //     params,
-            //     onSuccess: (success: any) => () => { },
-            //     onError: (error: string) => () => { },
-            //   })
-            // );
+       
             setDesignation("");
             showToast(success.message, "success");
             setIsAdmin(false)
@@ -1779,6 +1790,8 @@ const handleEndTimeEtaChange = (value: any) => {
             />
           </div>
         </Modal>
+
+        
 
         <Modal
 
