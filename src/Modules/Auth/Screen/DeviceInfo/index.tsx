@@ -22,6 +22,8 @@ function DeviceInfo() {
 
     const getDeviceInfo = () => {
         const userAgent = navigator.userAgent;
+        console.log('navigator', navigator);
+
         const platform = navigator.platform;
         const regex = /\(([^)]+)\)/;
         const match = regex.exec(userAgent);
@@ -32,7 +34,6 @@ function DeviceInfo() {
             const deviceInfo = match[1].split(';');
             brand = deviceInfo[0].trim();
             model = deviceInfo[1].trim();
-            // dispatch(addPushNotification({ brand, model, platform }))
         }
         return { brand, model, platform }
     }

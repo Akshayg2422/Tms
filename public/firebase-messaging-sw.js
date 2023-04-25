@@ -34,9 +34,9 @@ const messaging = firebase.messaging();
 // Handle incoming messages while the app is not in focus (i.e in the background, hidden behind other tabs, or completely closed).
 messaging.onBackgroundMessage(function (payload) {
 
-  const notificationTitle = payload.notification.title;
+  const notificationTitle = payload?.data?.title;
   const notificationOptions = {
-    body: payload.notification.body,
+    body: payload?.data?.message,
   };
 
   // eslint-disable-next-line no-restricted-globals
