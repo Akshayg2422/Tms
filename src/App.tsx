@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { PageNotFound, ScreenWrapper, Sidebar, ComponentLoader, Button } from "@Components";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { HOME_ROUTES, AUTH_ROUTES, ROUTES, RequireAuth, RequireHome } from "@Routes";
+import { HOME_ROUTES, AUTH_ROUTES, TASK_ROUTES, RequireAuth, RequireHome } from "@Routes";
 import { Tasks } from "@Modules";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -51,6 +51,7 @@ function App() {
         <Routes>
           {getRoutes(AUTH_ROUTES, AUTH)}
           {getRoutes(HOME_ROUTES, HOME)}
+          {getRoutes(TASK_ROUTES, HOME)}
           <Route path={"*"} element={<PageNotFound />} />
         </Routes>
       </ScreenWrapper>

@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile } from '@Modules'
+import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -30,6 +30,7 @@ export const ROUTES = {
   },
   'task-module': {
     tasks: '/tasks',
+    'tasks-details': '/tasks-details',
   },
   'issue-module': {
     issues: '/issues',
@@ -117,6 +118,14 @@ export const HOME_ROUTES = [
   }
 ];
 
+export const TASK_ROUTES = [
+  {
+    key: 1,
+    path: ROUTES['task-module']['tasks-details'] + '/:id',
+    component: <TaskDetails />
+  },
+];
+
 
 
 
@@ -165,7 +174,7 @@ export const ADMIN_ROUTES = [
     name: "Settings",
     icon: "bi bi-gear text-primary",
     layout: "",
-    component: <Settings />
+    component: <Setting />
   }
 ];
 

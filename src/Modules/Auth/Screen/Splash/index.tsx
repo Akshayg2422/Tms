@@ -11,6 +11,7 @@ function Splash() {
 
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
 
+
   useEffect(() => {
     setTimeout(() => {
       if (loginDetails?.isLoggedIn) {

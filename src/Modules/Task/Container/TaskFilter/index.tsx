@@ -1,99 +1,98 @@
 import React, { useEffect, useState } from 'react'
 import { TaskFilterProps } from './interfaces'
-import { DropDown, Checkbox, SearchInput } from '@Components'
+import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
 import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, } from '@Utils'
-import { useInput, useDropDown } from '@Hooks'
-import { getAssociatedCompanyBranch } from '@Redux'
+import { useDropDown } from '@Hooks'
+import { getAssociatedCompaniesL } from '@Redux'
 import { useDispatch } from 'react-redux'
-import { log } from 'console'
+import { icons } from '@Assets'
 
 
-function TaskFilter({ }: TaskFilterProps) {
+const FILTER_MENU = [
+    {
+        id: 0, name: 'Basic', icon: icons.Equalizer,
+    },
+    {
+        id: 1, name: 'Advance', icon: icons.Equalizer,
+    }
+]
 
-    const search = useInput('');
+
+function TaskFilter({ onParams }: TaskFilterProps) {
+
+    const dispatch = useDispatch()
     const filteredTask = useDropDown(TASK_FILTER_LIST[2]);
     const taskStatus = useDropDown(TASK_STATUS_LIST[2]);
-    const taskPriority = useDropDown({});
+    const taskPriority = useDropDown(TASK_PRIORITY_LIST[0]);
     const company = useDropDown({})
-    const dispatch = useDispatch()
     const [companies, setCompanies] = useState([])
+    const [includeSubTask, setIncludeSubTask] = useState(false)
+    const [params, setParams] = useState({})
+    const [advanceFilter, setAdvanceFilter] = useState(false)
 
 
     useEffect(() => {
-        console.log('came');
-
         const params = { q: '' };
-        dispatch(
-            getAssociatedCompanyBranch({
-                params,
-                onSuccess: (response) => () => {
-                    console.log(JSON.stringify(response));
-                    let modifiedCompany = []
-                    modifiedCompany = [...modifiedCompany,]
+        if (advanceFilter) {
+            dispatch(
+                getAssociatedCompaniesL({
+                    params,
+                    onSuccess: (response) => () => {
 
-                    // const modi
-                    // response.details.map
-                },
-                onError: () => () => {
-                },
-            })
-        );
+                        const companies = response.details
+
+                        let modifiedCompanies = []
+                        modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
+                        if (companies && companies.length > 0) {
+                            modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
+                                return {
+                                    id: each.id,
+                                    text: each.display_name,
+                                    name: each.display_name,
+                                }
+                            }) as never]
+                        }
+                        setCompanies(modifiedCompanies)
+                    },
+                    onError: () => () => {
+                    },
+                })
+            );
+        }
     }, []);
+
+
+    function proceedParams(object: any) {
+        const updatedParams = { ...params, ...object }
+        if (onParams) {
+            onParams(updatedParams)
+        }
+        setParams(updatedParams)
+    }
 
 
     return (
         < >
-            {/* <div className="row">
-                <div className="pl-4">
-                    <UncontrolledDropdown>
-                        <DropdownToggle
-                            color=""
-                            size="sm"
-                            className="text-light"
-                        >
-                            <Image src={icons.Equalizer} className="bg-white" variant={'avatar'} size={'xs'} />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                                href="#pablo"
-                                onClick={() => {
-
-                                    setBasicTag(true)
-                                    setAdvanceTag(false)
-                                }
-
-                                }
-                            >
-                                <div className={basicTag ? 'text-primary' : 'text-black'}>
-                                    {translate('auth.basic')}
-                                </div>
-                            </DropdownItem>
-
-                            <DropdownItem
-                                href="#pablo"
-                                onClick={() => {
-                                    setAdvanceTag(true)
-                                    setBasicTag(false)
-                                }
-                                }
-                            >
-                                <div className={advanceTag ? 'text-primary' : 'text-black'}>
-                                    {translate('auth.advance')}
-                                </div>
-                            </DropdownItem>
-
-                        </DropdownMenu>
-                    </UncontrolledDropdown>
+            <div className="row">
+                <div className="col text-right">
+                    <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
+                        if (el.id === FILTER_MENU[1].id) {
+                            setAdvanceFilter(true)
+                        } else {
+                            setAdvanceFilter(false)
+                        }
+                    }} />
                 </div>
-            </div> */}
-
+            </div>
 
             <div className="row mt-3 mb--3">
                 <div className="col-lg-3  col-md-3 col-sm-12">
-                    <SearchInput heading={'Code/Title'} onSearch={(text) => {
-                        console.log(text);
-                    }} />
+                    <SearchInput heading={'Code/Title'} onSearch={
+                        (text) => {
+                            proceedParams({ q_many: text })
+                        }
+                    } />
                 </div>
                 <div className="col-lg-3 col-md-3 col-sm-12 ">
                     <DropDown
@@ -103,6 +102,7 @@ function TaskFilter({ }: TaskFilterProps) {
                         data={TASK_FILTER_LIST}
                         onChange={(item) => {
                             filteredTask.onChange(item)
+                            proceedParams({ tasks_by: item.id })
                         }}
                     />
                 </div>
@@ -115,6 +115,7 @@ function TaskFilter({ }: TaskFilterProps) {
                         selected={taskStatus.value}
                         onChange={(item) => {
                             taskStatus.onChange(item)
+                            proceedParams({ task_status: item.id })
                         }}
                     />
                 </div>
@@ -126,13 +127,14 @@ function TaskFilter({ }: TaskFilterProps) {
                         selected={taskPriority.value}
                         onChange={(item) => {
                             taskPriority.onChange(item)
+                            proceedParams({ priority: item.id })
                         }}
                     />
                 </div>
 
-                <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+                {advanceFilter && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
-                        className="form-control-sm   "
+                        className="form-control-sm"
                         heading={translate("common.company")}
                         data={companies}
                         selected={company.value}
@@ -141,9 +143,13 @@ function TaskFilter({ }: TaskFilterProps) {
                         }}
                     />
                 </div>
+                }
 
                 <div className="col pt-3">
-                    <Checkbox id={'0'} onClick={() => { }} text={'Include Subtask'} />
+                    <Checkbox text={'Include Subtask'} checked={includeSubTask} onCheckChange={(checked) => {
+                        proceedParams({ include_subtask: checked })
+                        setIncludeSubTask(checked)
+                    }} />
                 </div>
 
             </div>

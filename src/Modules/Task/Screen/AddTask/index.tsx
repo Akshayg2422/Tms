@@ -161,9 +161,10 @@ function AddTask() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
+                 
                     let companiesDashboard: any = [];
                     response?.details?.forEach((item) => {
-                        companiesDashboard = [...companiesDashboard, {...item, designation:item?.designation?.name}];
+                        companiesDashboard = [...companiesDashboard, {...item, designation:item?.designation?.name,department:item?.designation?.name}];
                     });
                     setCompanyUserDashboard(companiesDashboard);
                 },
@@ -288,16 +289,6 @@ function AddTask() {
                         />
                      }
 
-
-
-                    {/* <DropDown
-                        heading={translate("common.user")!}
-                        selected={selectedUser.value}
-                        placeHolder={'please select a user...'}
-                        data={companyUserDashboard}
-                        onChange={selectedUser.onChange}
-                    /> */}
-
         {companyUserDashboard && companyUserDashboard.length>0&&  
          <AutoCompleteDropDownImage
          heading={translate("common.user")!}
@@ -311,6 +302,7 @@ function AddTask() {
                 setSelectedUserId(item)
             }}
           />}
+
                  <div className="mt--3"> <DropDown
                         heading={translate("common.taskPriority")!}
                         selected={selectedTicketPriority.value}

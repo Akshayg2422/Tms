@@ -75,6 +75,9 @@
     "addNew": "ADD NEW",
     "assignedTo": "AssignedTo",
     "codeTitle": "Code/Title",
+    "Priority" : "Priority",
+    "selectGroup": "Select Group",
+    "subTask":"Sub Task",
     "Priority": "Priority",
     "selectGroup": "Select Group",
     "reason": "Reason"

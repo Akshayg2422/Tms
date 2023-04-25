@@ -1,66 +1,33 @@
 import { takeLatest, put, call } from "redux-saga/effects";
 import {
-  getAssociatedCompaniesApi,
   getDashboardApi,
-  postAddDepartmentApi,
-  postAddDesignationApi,
-  fetchDepartmentDataApi,
-  getAssociatedCompanieslApi,
-  fetchDesignationDataApi,
-  getTicketTagApi,
-  getBrandSectorsApi,
-  addBrandSectorApi,
-  addTicketTagApi,
+  getAssociatedCompaniesLApi,
   getTaskApi,
   addTaskApi,
   getSubTaskApi,
   getReferenceTasksApi,
   getTaskUsersApi,
   getTicketUsersApi,
-  getTaskGroupApi,
-  addTaskGroupApi,
+
+  getTaskSubGroupApi,
   getTaskHistoryApi
 
 } from "@Services";
 import {
-  GET_ASSOCIATED_BRANCH,
+
   GET_ASSOCIATED_COMPANY_BRANCH,
   GET_DASHBOARD,
-  show,
-  hide,
-  getAssociatedBranchSuccess,
-  getAssociatedBranchFailure,
+
+  showLoader,
+  hideLoader,
+
   getAssociatedCompanyBranchSuccess,
   getAssociatedCompanyBranchFailure,
   getDashboardSuccess,
   getDashboardFailure,
-  ADD_DEPARTMENT,
-  addDepartmentSuccess,
-  addDepartmentFailure,
-  ADD_BRAND_SECTOR,
-  addBrandSectorSuccess,
-  addBrandSectorFailure,
-  ADD_DESIGNATION,
-  addDesignationSuccess,
-  addDesignationFailure,
-  ADD_TICKET_TAG,
-  addTicketTagSuccess,
-  addTicketTagFailure,
-  FETCH_DEPARTMENT,
-  getDepartmentDataSuccess,
-  getDepartmentDataFailure,
-  GET_BRAND_SECTOR,
-  getBrandSectorSuccess,
-  getBrandSectorFailure,
-  FETCH_DESIGNATION,
-  getDesignationDataSuccess,
-  getDesignationDataFailure,
-  GET_TICKET_TAG,
-  getTicketTagSuccess,
-  getTicketTagFailure,
-  GET_TASKS,
-  getTasksSuccess,
-  getTasksFailure,
+  GET_TASK_SUB_GROUP,
+  getTaskSubGroupSuccess,
+  getTaskSubGroupFailure,
   ADD_TASK,
   addTaskSuccess,
   addTaskFailure,
@@ -70,55 +37,25 @@ import {
   GET_TASK_USERS,
   getTaskUsersSuccess,
   getTaskUsersFailure,
-  getTicketTags,
   GET_REFERENCE_TASKS,
   getReferenceTasksSuccess,
   getReferenceTasksFailure,
   GET_TICKET_USERS,
   getTicketUsersSuccess,
   getTicketUsersFailure,
-  GET_TASK_GROUP,
-  getTaskGroupSuccess,
-  getTaskGroupFailure,
-  ADD_TASK_GROUP,
-  addTaskGroupSuccess,
-  addTaskGroupFailure,
   GET_TASK_HISTORY,
   getTaskHistorySuccess,
   getTaskHistoryFailure
 
 } from "@Redux";
 
-function* getAssociatedCompaniesSaga(action) {
-  try {
-
-    const response = yield call(
-      getAssociatedCompaniesApi,
-      action.payload.params
-    );
-
-    if (response.success) {
-
-      yield put(getAssociatedBranchSuccess({ ...response }));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getAssociatedBranchFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(getAssociatedBranchFailure(error));
-    yield call(action.payload.onError(error));
-  }
-}
 
 //
 function* getAssociatedCompanieslSaga(action) {
   try {
 
     const response = yield call(
-      getAssociatedCompanieslApi,
+      getAssociatedCompaniesLApi,
       action.payload.params
     );
 
@@ -156,152 +93,6 @@ function* getDashboardSaga(action) {
     yield call(action.payload.onError(error));
   }
 }
-/**
- * add Department
- */
-
-function* addDepartment(action) {
-  try {
-
-
-    const response = yield call(postAddDepartmentApi, action.payload.params);
-
-    if (response.success) {
-
-      yield put(addDepartmentSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(addDepartmentFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(addDepartmentFailure("Invalid Request"));
-    yield call(action.payload.onError);
-  }
-}
-/**add brand sector */
-function* addBrandSector(action) {
-  try {
-
-
-    const response = yield call(addBrandSectorApi, action.payload.params);
-
-    if (response.success) {
-
-      yield put(addBrandSectorSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(addBrandSectorFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(addBrandSectorFailure("Invalid Request"));
-    yield call(action.payload.onError);
-  }
-}
-
-/**
- * add Designation
- */
-
-function* addDesignation(action) {
-  try {
-
-
-    const response = yield call(postAddDesignationApi, action.payload.params);
-
-    if (response.success) {
-
-      yield put(addDesignationSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(addDesignationFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(addDesignationFailure("Invalid Request"));
-    yield call(action.payload.onError);
-  }
-}
-/**
- * add ticket tag
- */
-function* addTicketTag(action) {
-  try {
-
-
-    const response = yield call(addTicketTagApi, action.payload.params);
-
-    if (response.success) {
-
-      yield put(addTicketTagSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(addTicketTagFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(addTicketTagFailure("Invalid Request"));
-    yield call(action.payload.onError);
-  }
-}
-/**
- * get designation
- */
-
-function* getDesignation(action) {
-  try {
-
-    const response = yield call(fetchDesignationDataApi, action.payload.params);
-
-    if (response.success) {
-
-
-      yield put(getDesignationDataSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getDesignationDataFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(getDesignationDataFailure("Invalid Request"));
-    yield call(action.payload.onError(error));
-  }
-}
-/**get ticket tag */
-function* getTicketTag(action) {
-
-  try {
-
-    const response = yield call(getTicketTagApi, action.payload.params);
-
-    if (response.success) {
-
-
-      yield put(getTicketTagSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getTicketTagFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-
-    yield put(getTicketTagFailure("Invalid Request"));
-    yield call(action.payload.onError(error));
-  }
-}
 
 /**get reference tasks */
 function* getReferenceTasksSaga(action) {
@@ -328,85 +119,8 @@ function* getReferenceTasksSaga(action) {
   }
 }
 
-/**
- * get Departments
- */
-
-function* getDepartments(action) {
-  try {
 
 
-
-    const response = yield call(fetchDepartmentDataApi, action.payload.params);
-
-    if (response.success) {
-
-
-      yield put(getDepartmentDataSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getDepartmentDataFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(getDepartmentDataFailure("Invalid Request"));
-    yield call(action.payload.onError(error));
-  }
-}
-/**
- * get brand sector
- */
-
-function* getBrandSector(action) {
-  try {
-
-
-
-    const response = yield call(getBrandSectorsApi, action.payload.params);
-
-    if (response.success) {
-
-
-      yield put(getBrandSectorSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getBrandSectorFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(getBrandSectorFailure("Invalid Request"));
-    yield call(action.payload.onError(error));
-  }
-}
-
-/**
- * get Tasks
- */
-
-function* getTasksSaga(action) {
-  try {
-
-    const response = yield call(getTaskApi, action.payload.params);
-    // console.log("------------++++",JSON.stringify(response))
-    if (response.success) {
-
-      yield put(getTasksSuccess(response));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getTasksFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(getTasksFailure("Invalid Request"));
-    yield call(action.payload.onError(error));
-  }
-}
 
 /* ADD TASK */
 
@@ -496,46 +210,28 @@ function* getTicketUsersSaga(action) {
   }
 }
 
-function* getTaskGroupSaga(action) {
+
+
+
+function* getTaskSubGroupSaga(action) {
   try {
 
-    const response = yield call(getTaskGroupApi, action.payload.params);
+    const response = yield call(getTaskSubGroupApi, action.payload.params);
 
     if (response.success) {
 
 
-      yield put(getTaskGroupSuccess(response));
+      yield put(getTaskSubGroupSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
 
-      yield put(getTaskGroupFailure(response.error_message));
-      yield call(action.payload.onError(response));
+      yield put(getTaskSubGroupFailure(response.error_message));
     }
-  } catch (error) {
-
-    yield put(getTaskGroupFailure("Invalid Request"));
-    yield call(action.payload.onError(error));
   }
-}
+  catch
+  (error) {
 
-function* addTaskGroupSaga(action) {
-  try {
-
-    const response = yield call(addTaskGroupApi, action.payload.params);
-
-    if (response.success) {
-
-
-      yield put(addTaskGroupSuccess(response));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(addTaskGroupFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(addTaskGroupFailure("Invalid Request"));
+    yield put(getTaskSubGroupFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }
@@ -549,8 +245,6 @@ function* getTaskHistorySaga(action) {
 
 
     const response = yield call(getTaskHistoryApi, action.payload.params);
-    console.log(JSON.stringify(response) + '========response');
-
 
     if (response.success) {
 
@@ -562,7 +256,6 @@ function* getTaskHistorySaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-
     yield put(getTaskHistoryFailure("Invalid Request"));
     yield call(action.payload.onError);
   }
@@ -571,25 +264,17 @@ function* getTaskHistorySaga(action) {
 ///watcher///
 
 function* AdminSaga() {
-  yield takeLatest(GET_ASSOCIATED_BRANCH, getAssociatedCompaniesSaga);
+
   yield takeLatest(GET_ASSOCIATED_COMPANY_BRANCH, getAssociatedCompanieslSaga);
   yield takeLatest(GET_DASHBOARD, getDashboardSaga);
-  yield takeLatest(ADD_DEPARTMENT, addDepartment);
-  yield takeLatest(ADD_DESIGNATION, addDesignation);
-  yield takeLatest(FETCH_DESIGNATION, getDesignation);
-  yield takeLatest(FETCH_DEPARTMENT, getDepartments);
-  yield takeLatest(GET_TASKS, getTasksSaga)
   yield takeLatest(ADD_TASK, getAddTaskSaga);
   yield takeLatest(GET_SUB_TASKS, getSubTasksSaga);
-  yield takeLatest(ADD_BRAND_SECTOR, addBrandSector);
-  yield takeLatest(ADD_TICKET_TAG, addTicketTag);
-  yield takeLatest(GET_BRAND_SECTOR, getBrandSector);
-  yield takeLatest(GET_TICKET_TAG, getTicketTag);
+
   yield takeLatest(GET_REFERENCE_TASKS, getReferenceTasksSaga);
   yield takeLatest(GET_TASK_USERS, getTaskUsersSaga)
   yield takeLatest(GET_TICKET_USERS, getTicketUsersSaga)
-  yield takeLatest(GET_TASK_GROUP, getTaskGroupSaga)
-  yield takeLatest(ADD_TASK_GROUP, addTaskGroupSaga)
+
+  yield takeLatest(GET_TASK_SUB_GROUP, getTaskSubGroupSaga)
   yield takeLatest(GET_TASK_HISTORY, getTaskHistorySaga)
 
 }

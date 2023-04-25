@@ -19,3 +19,65 @@ export const getTaskGroupLFailure = (error: any) => {
         payload: error,
     };
 };
+
+
+/**
+ * get Tasks
+ */
+
+export const getTasks = (params: any) => {
+    return {
+        type: ActionTypes.GET_TASKS,
+        payload: params
+    }
+}
+export const getTasksSuccess = (response: any) => {
+
+    return {
+
+        type: ActionTypes.GET_TASKS_SUCCESS,
+        payload: response
+    }
+}
+
+export const getTasksFailure = (error: any) => {
+    return {
+        type: ActionTypes.GET_TASKS_FAILURE,
+        payload: error
+    }
+}
+
+/**
+ * store selected Task 
+ */
+
+export const setSelectedTask = (task: any) => {
+    return {
+        type: ActionTypes.SELECTED_TASK_IEM,
+        payload: task
+    }
+}
+
+
+/*ADD TASK EVENTS*/
+
+export const addTaskEvent = (params: any) => {
+    return {
+        type: ActionTypes.ADD_TASK_EVENT,
+        payload: params,
+    };
+};
+
+export const addTaskEventSuccess = (response: any) => {
+    return {
+        type: ActionTypes.ADD_TASK_EVENT_SUCCESS,
+        payload: response,
+    };
+};
+
+export const addTaskEventFailure = (error: any) => {
+    return {
+        type: ActionTypes.ADD_TASK_EVENT_FAILURE,
+        payload: error,
+    };
+};

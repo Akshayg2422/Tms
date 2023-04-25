@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectSubTaskId, getSubTasks } from "@Redux";
 import { useNavigation } from "@Hooks";
-import { CommonTable, Priority, } from "@Components";
+import { CommonTable, NoDataFound, Priority, Image, Button } from "@Components";
+import { icons } from "@Assets";
+import { HOME_PATH } from "@Routes";
+import { translate } from "@I18n";
 
 function SubTaskListing() {
     const dispatch = useDispatch();
@@ -54,7 +57,30 @@ function SubTaskListing() {
                     />
                 </div>
                 :
-                null
+                <div className={''}><NoDataFound text="No SubTask found" />
+                    <Image
+                        className={'border'}
+                        variant={'rounded'}
+                        src={icons.subTask}
+                        size={'xl'}
+                        style={{
+                            position: 'absolute',
+                            top: '72%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: '#D3D3D3'
+                        }}
+                    />
+                    <div className="text-center">
+                        <Button
+                            size={'md'}
+                            text={translate("common.addSubTask")}
+                            onClick={() => {
+                                goTo(HOME_PATH.CREATE_COMPANY);
+                            }}
+                        />
+                    </div>
+                </div>
             }
         </div>
     )

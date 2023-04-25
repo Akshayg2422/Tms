@@ -1,143 +1,142 @@
 import React, { useEffect, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId, getTaskGroup, getTaskGroupl } from "@Redux";
-import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoDataFound, Badge, PageNation, Checkbox, Card } from "@Components";
-import { useInput } from "@Hooks";
-import { useNavigation, useDropDown } from "@Hooks";
-import { HOME_PATH } from "@Routes";
-import { translate } from "@I18n";
-import { getPhoto, paginationHandler, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment, INITIAL_PAGE } from "@Utils";
-import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
-import { icons } from "@Assets";
+import { HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
+import { CommonTable, Image, Priority, Status } from '@Components'
+import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer } from '@Utils'
+import { getTasks, setSelectedTask } from '@Redux'
+import { useNavigation } from '@Hooks'
+import { ROUTES } from '@Routes'
 
+
+const DEFAULT_PARAMS = { q_many: "", "tasks_by": "ALL", "task_status": "INP", "priority": "ALL", page_number: 1 }
 function Tasks() {
-
-
-
-  const [selectedTaskGroup, setSelectedTaskGroup] = useState({})
+  const dispatch = useDispatch()
+  const [params, setParams] = useState(DEFAULT_PARAMS)
+  const { tasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
   const date = new Date();
   const time = date.getHours()
 
   const { goTo } = useNavigation();
-  const { tasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.AdminReducer);
-  const dispatch = useDispatch();
-  const { getTaskGrouplDetails } = useSelector((state: any) => state.CompanyReducer);
-  const search = useInput("");
-  const [subCheckBox, setSubCheckBox] = useState(false)
-  // const filteredTasks = useDropDown(FILTERED_LIST[2])
-  const taskStatus = useDropDown(STATUS_LIST[2])
-  const taskPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
-  const companyType = useDropDown(COMPANY_TYPE[0])
-  const { isSync } = useSelector((state: any) => state.AppReducer);
-  const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
-  const [basicTag, setBasicTag] = useState(true)
-  const [advanceTag, setAdvanceTag] = useState(false)
-  const [selectTag, setSelectTag] = useState<any>([0])
-
-  const getCompanyBranchDropdown = (details: any) => {
-
-    let companies: any = [];
-    companies.push({ id: '', text: '𝗦𝗘𝗟𝗙' })
-
-    if (details && details.length > 0) {
-      details.forEach(({ id, display_name }) => {
-        companies = [
-          ...companies,
-          { id: id, text: display_name, name: display_name },
-        ];
-      });
-      setModifiedCompanyDropDownData(companies);
-    }
-  };
-
-
-
 
 
   useEffect(() => {
-    const params = {}
+    getTaskHandler(taskCurrentPages)
+  }, [params])
+
+  const getTaskHandler = (page_number: number) => {
+    const updatedParams = { ...params, page_number }
+
+    console.log(JSON.stringify(updatedParams) + '==');
+
     dispatch(
-      getTaskGroupl({
-        params,
-        onSuccess: (response: any) => () => {
-
+      getTasks({
+        params: updatedParams,
+        onSuccess: () => () => {
         },
-        onError: () => () => {
-        },
-      })
-    )
-  }, [])
-
-  useEffect(() => {
-    const params = { q: "" };
-    dispatch(
-      getAssociatedCompanyBranch({
-        params,
-        onSuccess: (response: any) => () => {
-          dispatch(
-            setIsSync({
-              ...isSync,
-              companies: false,
-            })
-          );
-          getCompanyBranchDropdown(response.details);
-
-        },
-        onError: () => () => {
-        },
+        onError: () => () => { },
       })
     );
-  }, []);
-
-  useEffect(() => {
-    if (!isSync.tasks) {
-      getTaskHandler(taskCurrentPages)
-      // getTaskGroupPage(INITIAL_PAGE)
-    }
-
-  }, [isSync, subCheckBox])
-
-
-  const getTaskHandler = (pageNumber: number) => {
-    // const params = {
-    //   q_many: search.value,
-    //   tasks_by: filteredTasks?.value.id,
-    //   task_status: taskStatus?.value.id,
-    //   company: companyType.value.id,
-    //   priority: taskPriority.value.id,
-    //   page_number: pageNumber,
-    //   group: selectTag?.id ? selectTag?.id : 'ALL',
-    //   include_subtask: subCheckBox,
-    // };
-
-    // dispatch(
-    //   getTasks({
-    //     params,
-    //     onSuccess: (response) => () => {
-    //       setSyncTickets(true)
-
-    //     },
-    //     onError: () => () => { },
-    //   })
-    // );
   };
 
 
 
+  const normalizedTableData = (data: any) => {
+    return data.map((el: any) => {
+      const etaDate = new Date(el.eta_time)
+      let etaTime = etaDate.getHours()
+      return {
+        "task":
+          <>
+            <div className="row">
+              <Priority priority={el?.priority} />
+              <div>
+                <span>{el?.title}</span>
+                <div className="col pt-2">
+                  {el.parent && el.parent?.name && <div>{el.parent?.name}
+                  </div>}
+                </div>
+              </div>
+            </div>
+          </>,
+        "attachments":
+          <div className="row avatar-group">
+            {
+              el?.task_attachments &&
+              el?.task_attachments.length > 0 && el?.task_attachments.map((item) => {
+                return (
+                  <Image
+                    variant={'avatar'}
+                    src={getPhoto(item?.attachment_file)} />
+                )
+              })
+            }
 
+          </div >,
+        "raised by":
+          <div className="h5 m-0"> {el?.by_user?.name} </div>,
+        "raised to":
+          <div className="row">
+            {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />}
+            <div className="ml-2">
+              <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
+              <div className="h5 mb-0 text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
+              <small className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place}</small>
+            </div>
+          </div >,
+        'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
+        status: <div><Status status={el?.task_status} />
+          <small>{time > etaTime ? 'ABOVE ETA' : ""}</small>
+        </div>
+      };
+    });
+  };
 
 
 
 
   return (
-    <>
-      <HomeContainer>
-        <TaskGroups onClick={setSelectedTaskGroup} />
-        <TaskFilter />
+    <div className="m-3">
+      <div className="mx-2 mb--3">
+        <TaskGroups onClick={(code) => {
+          setParams({ ...params, group: code } as any)
+        }} />
+      </div>
+
+      <HomeContainer type={'card'}>
+        <TaskFilter onParams={(filteredParams) => {
+          setParams({ ...params, ...filteredParams })
+        }} />
+        {tasks && tasks.length > 0 ?
+          <CommonTable
+            isPagination
+            tableDataSet={tasks}
+            displayDataSet={normalizedTableData(tasks)}
+            noOfPage={taskNumOfPages}
+            currentPage={taskCurrentPages}
+            paginationNumberClick={(currentPage) => {
+              getTaskHandler(paginationHandler("current", currentPage));
+            }}
+            previousClick={() => {
+              getTaskHandler(paginationHandler("prev", taskCurrentPages))
+            }
+            }
+            nextClick={() => {
+              getTaskHandler(paginationHandler("next", taskCurrentPages));
+            }
+            }
+            tableOnClick={(idx, index, item) => {
+              dispatch(setSelectedTask(item));
+              goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id);
+            }
+            }
+          />
+          :
+          <NoDataFound type={'action'} buttonText={'Create Task'} />
+        }
       </HomeContainer>
-    </>
+    </div>
+
   );
 }
 

@@ -8,9 +8,10 @@ const TICKET = '/ticket/';
 const AUTH = '/authentication/';
 const EMPLOYEE = '/employee/'
 const TASK = '/task/'
+const AUTHENTICATION = '/authentication/'
 
 export const GET_ASSOCIATED_COMPANIES = COMPANY + 'getAssociatedCompanies';
-export const GET_ASSOCIATED_COMPANIESL = COMPANY + 'getAssociatedCompaniesl';
+export const GET_ASSOCIATED_COMPANIES_L = COMPANY + 'getAssociatedCompaniesl';
 export const URL_GET_DASHBOARD = AUTH + 'dashboard';
 
 export const RAISE_NEW_TICKET = TICKET + 'raiseNewTicket';
@@ -34,11 +35,11 @@ export const REGISTER_COMPANY = AUTH + 'registerCompany';
 export const REGISTER_ADMIN = AUTH + 'registerAdmin';
 export const GET_EMPLOYEES = EMPLOYEE + 'getEmployees';
 export const ADD_EMPLOYEE = EMPLOYEE + 'addEmployee';
-export const GET_TASKS = TASK + 'getTasks';
+export const URL_GET_TASKS = TASK + 'getTasks';
 export const FETCH_TASK_USERS = TASK + 'getTaskUsers';
 export const FETCH_TASK_EVENTS = TASK + 'getTaskEvents';
 export const GET_TICKET_USERS = TICKET + 'getTicketUsers';
-export const FETCH_ADD_TASK_EVENTS = TASK + 'addTaskEvent'
+export const URL_ADD_TASK_EVENTS = TASK + 'addTaskEvent'
 
 /**
  *  Company
@@ -46,6 +47,7 @@ export const FETCH_ADD_TASK_EVENTS = TASK + 'addTaskEvent'
 
 export const BRAND_SECTORS = COMPANY + 'getBrandSectors';
 export const UPDATE_EMPLOYEE_PROFILE_PHOTO = EMPLOYEE + 'updateEmployeeProfilePhoto';
+
 
 /**
  * SETTING
@@ -67,6 +69,7 @@ const SERVICE = '/service/';
 
 export const SECTOR_SERVICE_TYPES = SERVICE + 'getSectorServiceTypes';
 
+
 /* ADD TASK */
 
 export const FETCH_ADD_TASK = TASK + 'raiseNewTask'
@@ -83,3 +86,6 @@ export const URL_GET_TASK_GROUP_L = TASK + 'getTaskGroupl'
 
 export const GET_TASK_HISTORY_LIST = TASK + 'getTaskHistory'
 
+export const GET_TASK_SUB_GROUP = TASK + 'getTaskSubGroup'
+
+export const ADD_PUSH_NOTIFICATION = AUTHENTICATION + 'webAppConfig'

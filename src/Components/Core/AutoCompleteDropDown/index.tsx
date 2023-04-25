@@ -7,6 +7,7 @@ import {
   
     matchStateToTerm,
   } from "@Utils";
+import { useSelector } from "react-redux";
 
 function AutoCompleteDropDown({
   value,
@@ -17,6 +18,9 @@ function AutoCompleteDropDown({
   getItemValue,
   heading,
 }: AutoCompleteProps) {
+  const {autoCompleteInputSize} = useSelector(
+    (state: any) => state.CompanyReducer
+  );
   return (
     <div>
       <Autocomplete
@@ -24,7 +28,7 @@ function AutoCompleteDropDown({
           <FormGroup>
             <InputHeading heading={heading} />
             <input
-              className={"designation-input form-control col"}
+              className={ `${autoCompleteInputSize===true?"designation-input form-control col":'designation-auto-input form-control col'} `}
               {...props}
             />
           </FormGroup>
@@ -37,7 +41,7 @@ function AutoCompleteDropDown({
         onChange={onChange}
         onSelect={onSelect}
         renderMenu={(children) => (
-          <div className="menu designation-scroll-bar">{children}</div>
+          <div className={ `${autoCompleteInputSize===true?"menu designation-scroll-bar":'menu designation-auto-scroll-bar'} `}>{children}</div>
         )}
         renderItem={(item, isHighlighted) => (
           <div

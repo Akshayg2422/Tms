@@ -1,3 +1,22 @@
 export const GET_TASK_GROUPS_L = 'GET_TASK_GROUPS_L'
 export const GET_TASK_GROUPS_L_SUCCESS = 'GET_TASK_GROUPS_L_SUCCESS'
 export const GET_TASK_GROUPS_L_FAILURE = 'GET_TASK_GROUPS_L_FAILURE'
+
+
+
+/* Task */
+export const GET_TASKS = 'GET_TASKS';
+export const GET_TASKS_SUCCESS = 'GET_TASKS_SUCCESS';
+export const GET_TASKS_FAILURE = 'GET_TASKS_FAILURE';
+
+
+/* Task Itme */
+export const SELECTED_TASK_IEM = 'SELECTED_TASK_IEM';
+
+/**
+ * Add Task Event
+ */
+
+export const ADD_TASK_EVENT = 'ADD_TASK_EVENT';
+export const ADD_TASK_EVENT_SUCCESS = 'ADD_TASK_EVENT_SUCCESS';
+export const ADD_TASK_EVENT_FAILURE = 'ADD_TASK_EVENT_FAILURE';

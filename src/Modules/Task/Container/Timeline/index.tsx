@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Card } from '@Components'
+import { Card, Divider } from '@Components'
 import { CardBody, CardHeader } from 'reactstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getTaskHistory } from '@Redux';
@@ -23,21 +23,22 @@ function Timeline() {
         dispatch(
             getTaskHistory({
                 params,
-                onSuccess: (response: any) => () => { console.log('getTaskGroupTimeline---------->', response) },
-                onError: (error) => () => { console.log('getTaskGroupTimeline---------->', error) },
+                onSuccess: (response: any) => () => {  },
+                onError: (error) => () => {  },
             })
         );
     }
 
-
-
-    console.log('dad');
 
     return (
         <>
             <CardHeader className={'mt--5'}>
                 <h5 className="h3 mb-0">Latest Events</h5>
             </CardHeader>
+            {/* <div className={''}>
+                <h5 className="h3 mt--6 col-6 mb-0">Latest Events</h5>
+                <div className=' text-muted'>{<Divider space={'1'} />}</div>
+            </div> */}
             {
                 taskHistoryList && taskHistoryList.data?.length > 0 && taskHistoryList.data?.map((el: any) => {
                     return (

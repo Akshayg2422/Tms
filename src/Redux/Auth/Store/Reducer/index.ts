@@ -17,18 +17,18 @@ import {
   GET_USER_BUSINESS_PLACES,
   GET_USER_BUSINESS_PLACES_SUCCESS,
   GET_USER_BUSINESS_PLACES_FAILURE,
-  REGISTER_ADMIN,
-  REGISTER_ADMIN_SUCCESS,
-  REGISTER_ADMIN_FAILURE,
+  // REGISTER_ADMIN,
+  // REGISTER_ADMIN_SUCCESS,
+  // REGISTER_ADMIN_FAILURE,
   BRAND_SECTOR,
   BRAND_SECTOR_SUCCESS,
   BRAND_SECTOR_FAILURE,
   BUSINESS_PLACES_DETAILS,
   BUSINESS_PLACES_DETAILS_SUCCESS,
   BUSINESS_PLACES_DETAILS_FAILURE,
-  REGISTER_COMPANY,
-  REGISTER_COMPANY_SUCCESS,
-  REGISTER_COMPANY_FAILURE,
+  // REGISTER_COMPANY,
+  // REGISTER_COMPANY_SUCCESS,
+  // REGISTER_COMPANY_FAILURE,
   SECTOR_SERVICE_TYPES,
   SECTOR_SERVICE_TYPES_SUCCESS,
   SECTOR_SERVICE_TYPES_FAILURE,
@@ -36,7 +36,10 @@ import {
   OTP_LOGIN,
   OTP_LOGIN_FAILURE,
   OTP_LOGIN_SUCCESS,
-  RESTORE_AUTH
+  RESTORE_AUTH,
+  PUSH_NOTIFICATION,
+  PUSH_NOTIFICATION_SUCCESS,
+  PUSH_NOTIFICATION_FAILURE,
 } from '../ActionTypes';
 import { AuthSliceStateProp } from '../../Interfaces';
 import { DEFAULT_LANGUAGE } from '@Utils';
@@ -44,22 +47,23 @@ import { DEFAULT_LANGUAGE } from '@Utils';
 const initialState: AuthSliceStateProp = {
   loading: false,
   error: '',
-  response: undefined,
+   response: undefined,
   userDetails: undefined,
   registeredMobileNumber: undefined,
-  language:  { id: '1', text: 'English', value: 'en' },
+  language: { id: '1', text: 'English', value: 'en' },
   registerUserResponse: undefined,
   otpRegisterResponse: undefined,
   userBusinessPlaces: undefined,
   validateUserNumber: undefined,
   validateUserBusinessResponse: undefined,
   userSelectedLanguage: undefined,
-  registerAdminResponse: undefined,
+  // registerAdminResponse: undefined,
   selectedGoogleBusinessPlaceId: undefined,
   selectedGoogleBusinessPlaceDetails: undefined,
   businessSectorDropdownData: undefined,
   businessServiceTypesDropdownData: undefined,
   alternativeNumber: undefined,
+  notification: undefined,
 };
 
 const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
@@ -141,15 +145,15 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
     case VALIDATE_USER_BUSINESS_FAILURE:
       state = { ...state, validateUserBusinessResponse: action.payload };
       break;
-    case REGISTER_ADMIN:
-      state = { ...state };
-      break;
-    case REGISTER_ADMIN_SUCCESS:
-      state = { ...state, loading: false, registerAdminResponse: action.payload };
-      break;
-    case REGISTER_ADMIN_FAILURE:
-      state = { ...state };
-      break;
+    // case REGISTER_ADMIN:
+    //   state = { ...state };
+    //   break;
+    // case REGISTER_ADMIN_SUCCESS:
+    //   state = { ...state, loading: false, registerAdminResponse: action.payload };
+    //   break;
+    // case REGISTER_ADMIN_FAILURE:
+    //   state = { ...state };
+    //   break;
     case BRAND_SECTOR:
       state = { ...state, businessSectorDropdownData: undefined };
       break;
@@ -174,15 +178,15 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
     case SET_ALTERNATIVE_MOBILE_NUMBER:
       state = { ...state, alternativeNumber: action.payload };
       break;
-    case REGISTER_COMPANY:
-      state = { ...state };
-      break;
-    case REGISTER_COMPANY_SUCCESS:
-      state = { ...state, response: action.payload };
-      break;
-    case REGISTER_COMPANY_FAILURE:
-      state = { ...state, response: action.payload };
-      break;
+    // case REGISTER_COMPANY:
+    //   state = { ...state };
+    //   break;
+    // case REGISTER_COMPANY_SUCCESS:
+    //   state = { ...state, response: action.payload };
+    //   break;
+    // case REGISTER_COMPANY_FAILURE:
+    //   state = { ...state, response: action.payload };
+    //   break;
     case SECTOR_SERVICE_TYPES:
       state = { ...state };
       break;
@@ -204,6 +208,19 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
     case SET_LANGUAGE:
       state = { ...state, language: action.payload };
       break;
+
+    /*PUSH NOTIFICATION */
+
+    case PUSH_NOTIFICATION:
+      state = { ...state };
+      break;
+    case PUSH_NOTIFICATION_SUCCESS:
+      state = { ...state, notification: action.payload.details };
+      break;
+    case PUSH_NOTIFICATION_FAILURE:
+      state = { ...state, notification: action.payload };
+      break;
+
     default:
       state = state;
       break;

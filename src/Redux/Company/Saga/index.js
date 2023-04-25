@@ -5,15 +5,14 @@ import {
   getTicketEventsApi,
   addTicketEventApi,
   getTicketTagsApi,
-  getEmployeesApi,
-  addEmployeeApi,
+
   getReferenceTicketsApi,
   addBroadCastMessagesApi,
   getBroadCastMessagesApi,
   getTaskEventsApi,
   addTaskEventApi,
-  updateEmployeeProfilePhotoApi,
-  getTaskGroupLApi
+
+  getTaskGrouplApi
 } from '@Services';
 import {
   show,
@@ -36,15 +35,10 @@ import {
   raiseNewTicketSuccess,
   raiseNewTicketFailure,
   getTicketTagsSuccess,
-  getTicketsEvents,
+
   getTicketsEventsFailure,
   getTicketsEventsSuccess,
-  GET_EMPLOYEES,
-  getEmployeesSuccess,
-  getEmployeesFailure,
-  ADD_EMPLOYEE,
-  addEmployeeSuccess,
-  addEmployeeFailure,
+
   GET_REFERENCE_TICKETS,
   getReferenceTicketsSuccess,
   getReferenceTicketsFailure,
@@ -58,9 +52,6 @@ import {
   ADD_TASK_EVENT,
   addTaskEventSuccess,
   addTaskEventFailure,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO,
-  addUpdateEmployeePhotoSuccess,
-  addUpdateEmployeePhotoFailure,
   GET_TASK_GROUPL,
   getTaskGrouplSuccess,
   getTaskGrouplFailure,
@@ -91,7 +82,7 @@ function* getTicketsSaga(action) {
   try {
 
     const response = yield call(getTicketsApi, action.payload.params);
-    console.log("==========>", JSON.stringify(response))
+
     if (response.success) {
 
       yield put(getTicketsSuccess({ ...response }));
@@ -170,47 +161,7 @@ function* getTicketTagsSaga(action) {
 }
 
 
-function* getEmployeesSaga(action) {
 
-  try {
-
-    const response = yield call(getEmployeesApi, action.payload.params);
-    if (response.success) {
-
-      yield put(getEmployeesSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getEmployeesFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-
-    yield put(getEmployeesFailure(error));
-    yield call(action.payload.onError(error));
-  }
-}
-
-function* addEmployeeSaga(action) {
-  try {
-
-    const response = yield call(addEmployeeApi, action.payload.params);
-    if (response.success) {
-
-      yield put(addEmployeeSuccess({ ...response }));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(addEmployeeFailure(response));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(addEmployeeFailure(error));
-    yield call(action.payload.onError(error));
-  }
-}
 
 function* getReferenceTicketsSaga(action) {
   try {
@@ -233,27 +184,6 @@ function* getReferenceTicketsSaga(action) {
   }
 }
 
-//taskgroupl
-function* getTaskGrouplSaga(action) {
-  try {
-
-    const response = yield call(getTaskGroupLApi, action.payload.params);
-    if (response.success) {
-
-
-      yield put(getTaskGrouplSuccess({ ...response }));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getTaskGrouplFailure(response));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(getTaskGrouplFailure(error));
-    yield call(action.payload.onError(error));
-  }
-}
 
 function* addBroadCastMessagesSaga(action) {
   try {
@@ -305,7 +235,7 @@ function* getTaskEventsSaga(action) {
   try {
 
     const response = yield call(getTaskEventsApi, action.payload.params);
-    // console.log("==========>",JSON.stringify(response))
+
     if (response.success) {
 
       yield put(getTaskEventsSuccess(response));
@@ -348,28 +278,28 @@ function* addTaskEventSaga(action) {
 }
 
 
-function* addUpdateEmployeePhotoSaga(action) {
-  try {
+// function* addUpdateEmployeePhotoSaga(action) {
+//   try {
+//     yield put(showLoader());
+//     const response = yield call(updateEmployeeProfilePhotoApi, action.payload.params);
 
-    const response = yield call(updateEmployeeProfilePhotoApi, action.payload.params);
+//     if (response.success) {
+//       yield put(hideLoader());
+//       yield put(addUpdateEmployeePhotoSuccess(response));
+//       yield call(action.payload.onSuccess(response));
+//     } else {
+//       yield put(hideLoader());
+//       yield put(addUpdateEmployeePhotoFailure(response.error_message));
+//       yield call(action.payload.onError(response));
+//     }
+//   } catch (error) {
 
-    if (response.success) {
+//     yield put(hideLoader());
+//     yield put(addUpdateEmployeePhotoFailure(error));
+//     yield call(action.payload.onError(error));
 
-      yield put(addUpdateEmployeePhotoSuccess(response));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(addUpdateEmployeePhotoFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-
-    yield put(addUpdateEmployeePhotoFailure(error));
-    yield call(action.payload.onError(error));
-
-  }
-}
+//   }
+// }
 
 function* CompanySaga() {
   console.log("Watcher")
@@ -378,14 +308,10 @@ function* CompanySaga() {
   yield takeLatest(GET_TICKET_EVENTS, getTicketEventsSaga);
   yield takeLatest(GET_TICKET_TAGS, getTicketTagsSaga);
   yield takeLatest(ADD_TICKET_EVENT, addTicketEventSaga);
-  yield takeLatest(GET_EMPLOYEES, getEmployeesSaga);
-  yield takeLatest(ADD_EMPLOYEE, addEmployeeSaga);
   yield takeLatest(GET_REFERENCE_TICKETS, getReferenceTicketsSaga)
   yield takeLatest(ADD_BROADCAST_MESSAGES, addBroadCastMessagesSaga)
   yield takeLatest(GET_BROADCAST_MESSAGES, getBroadCastMessagesSaga)
   yield takeLatest(GET_TASK_EVENTS, getTaskEventsSaga)
-  yield takeLatest(ADD_TASK_EVENT, addTaskEventSaga)
-  yield takeLatest(UPDATE_EMPLOYEE_PROFILE_PHOTO, addUpdateEmployeePhotoSaga)
-  yield takeLatest(GET_TASK_GROUPL, getTaskGrouplSaga)
+
 }
 export default CompanySaga;

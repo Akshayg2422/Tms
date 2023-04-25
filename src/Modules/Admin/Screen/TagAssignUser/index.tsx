@@ -35,7 +35,7 @@ function TagAssignUser() {
     const [openModalReassignUser, setOpenModalReassignUser] = useState(false)
     const dispatch = useDispatch()
     const { selectedIssues, selectedReferenceIssues } = useSelector((state: any) => state.AdminReducer);
-    const { employees } = useSelector((state: any) => state.CompanyReducer);
+    const { employees } = useSelector((state: any) => state.UserCompanyReducer);
     const { goTo } = useNavigation()
     const [selectTagUser, setSelectTagUser] = useState([])
     const [selectReassignUser, setSelectReassignUser] = useState<any>('')

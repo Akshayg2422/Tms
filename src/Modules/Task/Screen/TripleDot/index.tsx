@@ -19,21 +19,21 @@ function TripleDot({ onClickTagUser, onClickReassignUser, onClickAttachReference
                         href="#pablo"
                         onClick={onClickTagUser}
                     >
-                        {translate('common.tagUser')}
+                        <h5>{translate('common.tagUser')}</h5>
                     </DropdownItem>
 
                     <DropdownItem
                         href="#pablo"
                         onClick={onClickReassignUser}
                     >
-                        {translate('common.reassignUser')}
+                        <h5>{translate('common.reassignUser')}</h5>
                     </DropdownItem>
 
                     <DropdownItem
                         href="#pablo"
                         onClick={onClickAttachReference}
                     >
-                        {translate('common.attachReference')}
+                        <h5>{translate('common.attachReference')}</h5>
                     </DropdownItem>
 
                 </DropdownMenu>

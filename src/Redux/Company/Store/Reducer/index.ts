@@ -14,12 +14,6 @@ import {
   RAISE_NEW_TICKET,
   RAISE_NEW_TICKET_SUCCESS,
   RAISE_NEW_TICKET_FAILURE,
-  GET_EMPLOYEES,
-  GET_EMPLOYEES_SUCCESS,
-  GET_EMPLOYEES_FAILURE,
-  ADD_EMPLOYEE,
-  ADD_EMPLOYEE_SUCCESS,
-  ADD_EMPLOYEE_FAILURE,
   GET_REFERENCE_TICKETS,
   GET_REFERENCE_TICKETS_SUCCESS,
   GET_REFERENCE_TICKETS_FAILURE,
@@ -33,12 +27,6 @@ import {
   GET_TASK_EVENTS,
   GET_TASK_EVENTS_SUCCESS,
   GET_TASK_EVENTS_FAILURE,
-  ADD_TASK_EVENT,
-  ADD_TASK_EVENT_SUCCESS,
-  ADD_TASK_EVENT_FAILURE,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE,
   AUTO_COMPLETE_DROPDOWN,
   GET_TASK_GROUPL,
   GET_TASK_GROUPL_FAILURE,
@@ -53,8 +41,6 @@ const initialState: CompanyStateProp = {
   getTicketTags: undefined,
   ticketEvents: undefined,
   addTicketEvent: undefined,
-  employees: undefined,
-  addEmployeeDetails: undefined,
   issueReferenceDetails: undefined,
   referenceTicketNoOfPages: undefined,
   referenceTicketCurrentPages: 1,
@@ -63,9 +49,8 @@ const initialState: CompanyStateProp = {
   broadCastNumOfPages: undefined,
   taskEvents: undefined,
   addTaskEvents: undefined,
-  updateEmployeeProfile:undefined,
-  autoCompleteInputSize:false,
-  getTaskGrouplDetails:undefined,
+  autoCompleteInputSize: false,
+  getTaskGrouplDetails: undefined,
 };
 
 const CompanyReducer = (
@@ -202,36 +187,7 @@ const CompanyReducer = (
       state = { ...state, addTicketEvent: undefined };
       break;
 
-    case GET_EMPLOYEES:
-      state = {
-        ...state
-      };
 
-      break;
-    case GET_EMPLOYEES_SUCCESS:
-      state = {
-        ...state,
-        employees: action.payload,
-      };
-      break;
-    case GET_EMPLOYEES_FAILURE:
-      state = { ...state, employees: undefined };
-      break;
-    case ADD_EMPLOYEE:
-      state = {
-        ...state,
-        addEmployeeDetails: undefined,
-      };
-      break;
-    case ADD_EMPLOYEE_SUCCESS:
-      state = {
-        ...state,
-        addEmployeeDetails: action.payload.details,
-      };
-      break;
-    case ADD_EMPLOYEE_FAILURE:
-      state = { ...state, addEmployeeDetails: undefined };
-      break;
     case GET_REFERENCE_TICKETS:
       state = {
         ...state,
@@ -275,60 +231,46 @@ const CompanyReducer = (
       state = { ...state, taskEvents: undefined };
       break;
 
-      case ADD_TASK_EVENT:
-        state = {
-          ...state,
-          addTaskEvents: undefined,
-        };
-        break;
-      case ADD_TASK_EVENT_SUCCESS:
-        state = {
-          ...state,
-          addTaskEvents: action.payload.details,
-        };
-        break;
-      case ADD_TASK_EVENT_FAILURE:
-        state = { ...state, addTaskEvents: undefined };
-        break;
 
-        //get task group
-        
-      case GET_TASK_GROUPL:
-        state = {
-          ...state,
-          getTaskGrouplDetails: undefined,
-        };
-        break;
-      case GET_TASK_GROUPL_SUCCESS:
-        state = {
-          ...state,
-          getTaskGrouplDetails: action.payload.details,
-        };
-        break;
-      case GET_TASK_GROUPL_FAILURE:
-        state = { ...state,  getTaskGrouplDetails: undefined };
-        break;
-        
 
-        case UPDATE_EMPLOYEE_PROFILE_PHOTO:
-          state = {
-            ...state,
-            updateEmployeeProfile: undefined,
-          };
-          break;
-        case UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS:
-          state = {
-            ...state,
-            updateEmployeeProfile: action.payload.details,
-          };
-          break;
-        case UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE:
-          state = { ...state,  updateEmployeeProfile: undefined };
-          break;
+    //get task group
 
-          case AUTO_COMPLETE_DROPDOWN:
-            state = { ...state, autoCompleteInputSize: action.payload }
-            break;
+    case GET_TASK_GROUPL:
+      state = {
+        ...state,
+        getTaskGrouplDetails: undefined,
+      };
+      break;
+    case GET_TASK_GROUPL_SUCCESS:
+      state = {
+        ...state,
+        getTaskGrouplDetails: action.payload.details,
+      };
+      break;
+    case GET_TASK_GROUPL_FAILURE:
+      state = { ...state, getTaskGrouplDetails: undefined };
+      break;
+
+
+    // case UPDATE_EMPLOYEE_PROFILE_PHOTO:
+    //   state = {
+    //     ...state,
+    //     updateEmployeeProfile: undefined,
+    //   };
+    //   break;
+    // case UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS:
+    //   state = {
+    //     ...state,
+    //     updateEmployeeProfile: action.payload.details,
+    //   };
+    //   break;
+    // case UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE:
+    //   state = { ...state,  updateEmployeeProfile: undefined };
+    //   break;
+
+    case AUTO_COMPLETE_DROPDOWN:
+      state = { ...state, autoCompleteInputSize: action.payload }
+      break;
 
     default:
       state = state;

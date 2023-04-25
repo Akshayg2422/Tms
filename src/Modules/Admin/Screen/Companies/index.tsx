@@ -13,7 +13,7 @@ function Companies() {
   const { goTo } = useNavigation();
 
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages } = useSelector(
-    (state: any) => state.AdminReducer
+    (state: any) => state.UserCompanyReducer
   );
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
