@@ -1,23 +1,48 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Table, Button, CommonTable,Image, MenuBar } from '@Components'
-import { getEmployees } from '@Redux'
-import { useNavigation } from '@Hooks'
+import {  Button, CommonTable,Image, MenuBar, Dropzone, Modal } from '@Components'
+import { getEmployees,addUpdateEmployeePhoto } from '@Redux'
+import { useModal, useNavigation } from '@Hooks'
 import { HOME_PATH } from '@Routes'
 import { translate } from "@I18n";
-import { getPhoto, paginationHandler } from "@Utils";
+import { getPhoto,  } from "@Utils";
 function CompanyUsers() {
 
     const { goTo } = useNavigation()
     const dispatch = useDispatch()
     const { employees } = useSelector((state: any) => state.CompanyReducer);
-
+    const editProfileModal = useModal(false);
+    const [editPhoto, setEditPhoto] = useState("");
+    const [photo, setPhoto] = useState("");
+    let attach = [photo]
+    let UserProfile = attach.slice(-1, 4)
     const { companyDetailsSelected } = useSelector(
         (state: any) => state.AdminReducer
     );
     const UserProfileEditor=[
         {id:'0',name:"Edit",icon:'bi bi-pencil'},
       ]
+
+
+      const userProfileEdit=()=>{
+
+        const params={
+            attachment:UserProfile[0]
+
+        };
+
+        dispatch(
+            addUpdateEmployeePhoto({
+                params,
+                onSuccess: () => () => { },
+                onError: () => () => { }
+
+            })
+
+        )
+
+
+      }
    
     
     useEffect(() => {
@@ -42,7 +67,8 @@ function CompanyUsers() {
                     // setSubTaskItem(el)
                    if(index===0)
                    {
-                   
+                    editProfileModal.show()
+                    setEditPhoto(el?.profile_image)
                    }
                   }}  />
             };
@@ -57,6 +83,42 @@ function CompanyUsers() {
             <div className='mx--3 mt-3'>
                 <CommonTable title='User' tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
             </div>
+
+            <Modal
+          isOpen={editProfileModal.visible}
+          onClose={() => {
+            editProfileModal.hide()
+          }}
+          title={translate("auth.task")!}
+        >
+ 
+          <div className="pb-3">
+            <Dropzone
+              variant="ICON"
+               icon={getPhoto(editPhoto)}
+              size="xl"
+              onSelect={(image) => {
+                let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                 setPhoto(encoded);
+
+              }}
+            />
+          </div>
+          <div className="text-right">
+            <Button
+              color={"secondary"}
+              text={translate("common.cancel")}
+              onClick={() => {
+              }}
+            />
+            <Button
+              text={translate("common.submit")}
+              onClick={() => {
+                
+              }}
+            />
+          </div>
+        </Modal>
         </div>
     )
 }

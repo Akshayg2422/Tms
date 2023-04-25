@@ -1559,7 +1559,6 @@ const handleEndTimeEtaChange = (value: any) => {
          */}
 
         <Modal
-
           isOpen={addTaskGroupModal.visible}
           onClose={() => {
             addTaskGroupModal.hide()

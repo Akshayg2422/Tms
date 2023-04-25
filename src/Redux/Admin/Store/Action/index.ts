@@ -294,7 +294,7 @@ export const loginUser = (params: any) => {
   }
 }
 export const getTasks = (params: any) => {
-  console.log(params,"pppp")
+
 
   return {
     type: GET_TASKS,
@@ -302,7 +302,7 @@ export const getTasks = (params: any) => {
   }
 }
 export const getTasksSuccess = (response: any) => {
-  console.log(response,"rrrrrrrr")
+
   return {
 
     type: GET_TASKS_SUCCESS,
@@ -362,7 +362,7 @@ export const getSubTasksFailure = (error: any) => {
 }
 
 export const getTaskItem = (params: any) => {
-  console.log(params,"p=============>")
+
   return {
     type: GET_TASKS_ITEM,
     payload: params
@@ -648,8 +648,7 @@ export const autoCompleteDropDown = (params: any) => {
 //GET TASK HISTORY
 
 export const getTaskHistory = (params) => {
-  console.log("getTaskHistory===action");
-  
+
   return {
     type: GET_TASK_HISTORY,
     payload: params,
@@ -657,8 +656,6 @@ export const getTaskHistory = (params) => {
 };
 
 export const getTaskHistorySuccess = (response) => {
-  console.log("getTaskHistorySuccess===action");
-
 
   return {
     type: GET_TASK_HISTORY_SUCCESS,
@@ -667,7 +664,7 @@ export const getTaskHistorySuccess = (response) => {
 };
 
 export const getTaskHistoryFailure = (error) => {
-  console.log("getTaskHistoryFailure===action");
+
 
   return {
     type: GET_TASK_HISTORY_FAILURE,
