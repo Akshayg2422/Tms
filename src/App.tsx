@@ -1,4 +1,4 @@
-import { AppLoader, PageNotFound, ScreenWrapper, Sidebar } from "@Components";
+import { AppLoader, ScreenWrapper, Sidebar } from "@Components";
 import { Route, Routes } from "react-router-dom";
 import { ADMIN_ROUTES, AUTH_ROUTES, HOME_PATH } from "@Routes";
 import { AddReferenceTask, AddReferenceTicket, AddSubTask, AddTask, AddUser, AdminDashboard, CompanyDetails, CreateBroadCast, CreateCompany, IssueCreate, IssueDetails, PushNotification, TaskDetails } from "@Modules";
@@ -18,7 +18,6 @@ import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { changeLanguage } from "@I18n";
 import { FCM_TOKEN } from "./Utils";
-import DeviceInfo from "./Modules/Auth/Screen/DeviceInfo";
 
 
 function App() {

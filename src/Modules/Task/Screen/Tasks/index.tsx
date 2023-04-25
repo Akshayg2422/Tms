@@ -28,22 +28,17 @@ function Tasks() {
   const taskStatus = useDropDown(STATUS_LIST[2])
   const designationDropDown = useDropDown([0])
   const departmentDropDown = useDropDown([0])
-
   const subTaskGroupList = useDropDown([0])
   const [departmentDatalist, setDepartmentDatalist] = useState<any>()
   const [designationDatalist, setDesignationDatalist] = useState<any>()
-  console.log('=============>', departmentDatalist)
-
   const taskPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
   const companyType = useDropDown(COMPANY_TYPE[0])
-  console.log('==++',companyType?.value?.id)
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [subGroupDropDownData, setSubGroupDropDownData] = useState<any>();
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
   const [selectTag, setSelectTag] = useState<any>([0])
-  // console.log('====>MMMMMMMMMm',subGroupDropDownData)
   const getCompanyBranchDropdown = (details: any) => {
 
     let companies: any = [];
@@ -76,51 +71,51 @@ function Tasks() {
   }
 
 
-  const getDepartmentDataList=(items:any)=>{
-      const params = {
-        branch_id: items?.id
-      };
-      dispatch(
-        getDepartmentData({
-          params,
-          onSuccess: (response: any) => () => {
-            let departmentDetails: any = [];
-            response?.details?.data?.forEach((item) => {
-              departmentDetails = [...departmentDetails, { ...item, text: item.name }]
-            })
-          
-            setDepartmentDatalist(departmentDetails)
-          },
-          onError: (error) => () => {
-            setDepartmentDatalist([])
+  const getDepartmentDataList = (items: any) => {
+    const params = {
+      branch_id: items?.id
+    };
+    dispatch(
+      getDepartmentData({
+        params,
+        onSuccess: (response: any) => () => {
+          let departmentDetails: any = [];
+          response?.details?.data?.forEach((item) => {
+            departmentDetails = [...departmentDetails, { ...item, text: item.name }]
+          })
 
-          },
-        })
-      );
+          setDepartmentDatalist(departmentDetails)
+        },
+        onError: (error) => () => {
+          setDepartmentDatalist([])
 
-    
+        },
+      })
+    );
+
+
   }
-  const getDesignationList=(items:any)=>{
-  const params = {
-    branch_id:items?.id
-  };
- 
-  dispatch(
-    getDesignationData({
-      params,
-      onSuccess: (response) => () => { 
-        let designationDataList: any = [];
-        console.log(response)
-        response?.details?.data?.forEach((item) => {
-          designationDataList = [...designationDataList, { ...item, text: item.name }]
-        })
-        setDesignationDatalist(designationDataList)
-      },
-      onError: () => () => { 
-        setDesignationDatalist([])
-      },
-    })
-  );
+  const getDesignationList = (items: any) => {
+    const params = {
+      branch_id: items?.id
+    };
+
+    dispatch(
+      getDesignationData({
+        params,
+        onSuccess: (response) => () => {
+          let designationDataList: any = [];
+          console.log(response)
+          response?.details?.data?.forEach((item) => {
+            designationDataList = [...designationDataList, { ...item, text: item.name }]
+          })
+          setDesignationDatalist(designationDataList)
+        },
+        onError: () => () => {
+          setDesignationDatalist([])
+        },
+      })
+    );
   }
 
 
@@ -161,7 +156,7 @@ function Tasks() {
       getTaskSubGroup({
         params,
         onSuccess: (response: any) => () => {
-         
+
         },
         onError: () => () => {
         },
@@ -212,7 +207,7 @@ function Tasks() {
       group: subTaskGroupList.value?.id ? subTaskGroupList?.value?.id : 'ALL',
       include_subtask: subCheckBox,
       department_id: departmentDropDown?.value.id,
-      designation_id:designationDropDown?.value.id
+      designation_id: designationDropDown?.value.id
     };
 
     dispatch(
@@ -339,7 +334,7 @@ function Tasks() {
                 setSelectTag(' ALL ')
                 setSyncTickets()
                 getSubTaskGroup()
-                
+
               }}
             />
           </div>
@@ -495,37 +490,37 @@ function Tasks() {
                   setSyncTickets()
                   getDepartmentDataList(item)
                   getDesignationList(item)
-                  
-          if(designationDropDown?.value){
-            designationDropDown.onChange({})
-            departmentDropDown.onChange({})
-            }
+
+                  if (designationDropDown?.value) {
+                    designationDropDown.onChange({})
+                    departmentDropDown.onChange({})
+                  }
                 }}
               />
             </div>
           }
-       
-          { departmentDatalist&&departmentDatalist.length>0 &&<div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+
+          {departmentDatalist && departmentDatalist.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
             <DropDown
               className="form-control-sm"
               heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.department")}</h4>}
-               data={departmentDatalist}
-               selected={departmentDropDown.value}
-               value={departmentDropDown.value}
+              data={departmentDatalist}
+              selected={departmentDropDown.value}
+              value={departmentDropDown.value}
               onChange={(item) => {
                 departmentDropDown.onChange(item)
                 setSyncTickets()
               }}
             />
           </div>
-}
-         
-         {designationDatalist&&designationDatalist.length>0 &&<div className="col-lg-3 col-md-3 col-sm-12 mt--2">
-           <DropDown
+          }
+
+          {designationDatalist && designationDatalist.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+            <DropDown
               className="form-control-sm"
               heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("auth.designation")!}</h4>}
-               data={designationDatalist}
-               selected={designationDropDown.value}
+              data={designationDatalist}
+              selected={designationDropDown.value}
               value={designationDropDown.value}
               onChange={(item) => {
                 designationDropDown.onChange(item)
@@ -534,8 +529,8 @@ function Tasks() {
             />
 
           </div>
-}
-{subGroupDropDownData && subGroupDropDownData?.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+          }
+          {subGroupDropDownData && subGroupDropDownData?.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
             <DropDown
               className="form-control-sm"
               heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.subTask")}</h4>}
@@ -549,7 +544,7 @@ function Tasks() {
             />
           </div>
           }
-         
+
           <div className="col pt-3">
             <Checkbox id={'0'} onClick={() => {
               setSyncTickets()
