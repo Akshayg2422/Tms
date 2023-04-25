@@ -3,8 +3,8 @@ export interface CompanyStateProp {
   getTicketTags: any;
   ticketEvents: any;
   addTicketEvent: any;
-  employees: any;
-  addEmployeeDetails: any;
+  // employees: any;
+  // addEmployeeDetails: any;
   issueReferenceDetails: any;
   broadCastDetails: any;
   ticketNumOfPages: any
@@ -15,7 +15,7 @@ export interface CompanyStateProp {
   broadCastNumOfPages: any;
   taskEvents: any;
   addTaskEvents: any;
-  updateEmployeeProfile:any,
+  // updateEmployeeProfile:any,
   autoCompleteInputSize:any,
   getTaskGrouplDetails:any,
 }

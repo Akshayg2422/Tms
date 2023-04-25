@@ -60,7 +60,7 @@ function Department() {
   const [addSubDepartmentIsSuperAdmin, setAddSubDepartmentIsSuperAdmin] = useState(false);
   const addSubDepartmentModal=useModal(false)
 
-  console.log(editIsSuperAdmin,"uuuuuuuuuu")
+
   const dispatch = useDispatch();
 
   const getDepartmentList = (pageNumber: number) => {
@@ -213,7 +213,7 @@ function Department() {
   }
   const normalizedDepartmentData = (data: any) => {
     return data.map((el: any, index: any) => {
-      console.log('...>>>',el)
+     
       return {
         name: el?.name,
         ... (dashboardDetails?.permission_details.is_admin && {
@@ -355,7 +355,12 @@ function Department() {
   <Modal
 
           isOpen={addDepartMentModal.visible}
-          onClose={() => addDepartMentModal.hide()}
+          onClose={() =>{
+             addDepartMentModal.hide()
+            setIsAdmin(false)
+            setIsSuperAdmin(false)
+          }
+          }
           title={translate("common.department")!}
         >
           <div className="">
@@ -380,6 +385,8 @@ function Department() {
               onClick={() => {
                 addDepartMentModal.hide()
                 setDepartment('')
+                setIsAdmin(false)
+                setIsSuperAdmin(false)
               }}
             />
             <Button

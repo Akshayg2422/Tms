@@ -23,7 +23,7 @@ export interface AuthSliceStateProp {
   userBusinessPlaces?: UserBusinessPlace;
   validateUserBusinessResponse?: ValidateUserBusiness;
   userSelectedLanguage?: string;
-  registerAdminResponse?: GenericStatusCode;
+  // registerAdminResponse?: GenericStatusCode;
   validateUserNumber?: string;
   selectedGoogleBusinessPlaceId?: string;
   businessSectorDropdownData?: BrandSectorDetailsItem;

@@ -1,5 +1,7 @@
 import{ 
-  
+  GET_ASSOCIATED_BRANCH,
+  GET_ASSOCIATED_BRANCH_FAILURE,
+  GET_ASSOCIATED_BRANCH_SUCCESS,
     GET_TASK_GROUP,
     GET_TASK_GROUP_FAILURE,
     GET_TASK_GROUP_SUCCESS,
@@ -33,6 +35,24 @@ import{
     GET_BRAND_SECTOR,
     ADD_BRAND_SECTOR,
     ADD_TICKET_TAG,
+    ADD_EMPLOYEE,
+    ADD_EMPLOYEE_SUCCESS,
+    ADD_EMPLOYEE_FAILURE,
+    UPDATE_EMPLOYEE_PROFILE_PHOTO,
+  UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
+  UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE,
+  GET_EMPLOYEES,
+  GET_EMPLOYEES_SUCCESS,
+  GET_EMPLOYEES_FAILURE,
+
+  REGISTER_ADMIN,
+  REGISTER_ADMIN_SUCCESS,
+  REGISTER_ADMIN_FAILURE,
+
+  REGISTER_COMPANY,
+  REGISTER_COMPANY_SUCCESS,
+  REGISTER_COMPANY_FAILURE,
+
   
     RESTORE_USER_COMPANY,} from '../ActionTypes';
 import {UserCompanyStateProp} from '../../Interfaces';
@@ -47,12 +67,13 @@ const initialState: UserCompanyStateProp = {
     designationNumOfPages: undefined,
     departmentCurrentPages: undefined,
     departmentNumOfPages: undefined,
-  
+    employees: undefined,
     brandSector: undefined,
     ticketTag: undefined,
     brandSectorCurrentPages: undefined,
     brandSectorNumOfPages: undefined,
-
+    addEmployeeDetails: undefined,
+    updateEmployeeProfile:undefined,
     ticketTagCurrentPages: undefined,
     ticketTagNumOfPages: undefined,
     getTaskGroupDetails: undefined,
@@ -61,6 +82,11 @@ const initialState: UserCompanyStateProp = {
     taskGroupCurrentPages: undefined,
     taskGroupNumOfPages: undefined,
     addTaskGroup: undefined,
+    associatedCompanies: undefined,
+    associatedCompaniesNumOfPages: undefined,
+    associatedCompaniesCurrentPages: 1,
+    response: undefined,
+     registerAdminResponse: undefined,
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -324,7 +350,98 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     state = { ...state, addTaskGroup: action.payload };
     break;
-  
+
+    case GET_ASSOCIATED_BRANCH:
+      state = {
+        ...state,
+        associatedCompanies: undefined,
+        associatedCompaniesNumOfPages: 0,
+        associatedCompaniesCurrentPages: 1
+      };
+      break;
+    case GET_ASSOCIATED_BRANCH_SUCCESS:
+      const { data, next_page, num_pages } = action.payload?.details;
+      state = {
+        ...state,
+        associatedCompanies: data,
+        associatedCompaniesNumOfPages: num_pages,
+        associatedCompaniesCurrentPages:
+          next_page === -1
+            ? num_pages
+            : next_page - 1,
+      };
+      break;
+    case GET_ASSOCIATED_BRANCH_FAILURE:
+      state = { ...state };
+      break;
+
+      case ADD_EMPLOYEE:
+      state = {
+        ...state,
+        addEmployeeDetails: undefined,
+      };
+      break;
+    case ADD_EMPLOYEE_SUCCESS:
+      state = {
+        ...state,
+        addEmployeeDetails: action.payload.details,
+      };
+      break;
+    case ADD_EMPLOYEE_FAILURE:
+      state = { ...state, addEmployeeDetails: undefined };
+      break;
+
+      case UPDATE_EMPLOYEE_PROFILE_PHOTO:
+          state = {
+            ...state,
+            updateEmployeeProfile: undefined,
+          };
+          break;
+        case UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS:
+          state = {
+            ...state,
+            updateEmployeeProfile: action.payload.details,
+          };
+          break;
+        case UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE:
+          state = { ...state,  updateEmployeeProfile: undefined };
+          break;
+
+
+          case GET_EMPLOYEES:
+      state = {
+        ...state
+      };
+
+      break;
+    case GET_EMPLOYEES_SUCCESS:
+      state = {
+        ...state,
+        employees: action.payload,
+      };
+      break;
+    case GET_EMPLOYEES_FAILURE:
+      state = { ...state, employees: undefined };
+      break;
+
+      case REGISTER_COMPANY:
+        state = { ...state };
+        break;
+      case REGISTER_COMPANY_SUCCESS:
+        state = { ...state, response: action.payload };
+        break;
+      case REGISTER_COMPANY_FAILURE:
+        state = { ...state, response: action.payload };
+        break;
+    case REGISTER_ADMIN:
+      state = { ...state };
+      break;
+    case REGISTER_ADMIN_SUCCESS:
+      state = { ...state, loading: false, registerAdminResponse: action.payload };
+      break;
+    case REGISTER_ADMIN_FAILURE:
+      state = { ...state };
+      break;
 
      default:
       state = state;

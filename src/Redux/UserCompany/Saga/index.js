@@ -10,12 +10,20 @@ import {
     postAddDesignationApi,
     fetchDepartmentDataApi,
     getTaskGroupApi,
+    getAssociatedCompaniesApi,
     addTaskGroupApi,
-   
+    addEmployeeApi,
+    updateEmployeeProfilePhotoApi,
+    getEmployeesApi,
+    registerAdminApi,
+    registerCompanyApi,
   } from "@Services";
   import{
     
     ADD_DEPARTMENT,
+    getAssociatedBranchSuccess,
+    getAssociatedBranchFailure,
+    GET_ASSOCIATED_BRANCH,
     showLoader,
     hideLoader,
     addDepartmentSuccess,
@@ -47,8 +55,21 @@ import {
     ADD_TASK_GROUP,
     addTaskGroupSuccess,
     addTaskGroupFailure,
-   
-
+    UPDATE_EMPLOYEE_PROFILE_PHOTO,
+    addUpdateEmployeePhotoSuccess,
+    addUpdateEmployeePhotoFailure,
+    ADD_EMPLOYEE,
+    addEmployeeSuccess,
+    addEmployeeFailure,
+    GET_EMPLOYEES,
+    getEmployeesSuccess,
+    getEmployeesFailure,
+    registerCompanySuccess,
+    registerCompanyFailure,
+    registerAdminSuccess,
+    registerAdminFailure,
+    REGISTER_ADMIN,
+    REGISTER_COMPANY,
   }from '@Redux'
 
     function* addDepartment(action) {
@@ -294,11 +315,142 @@ function* getBrandSector(action) {
       yield call(action.payload.onError(error));
     }
   }
+  function* getAssociatedCompaniesSaga(action) {
+    try {
+      yield put(showLoader());
+      const response = yield call(
+        getAssociatedCompaniesApi,
+        action.payload.params
+      );
+  
+      if (response.success) {
+        yield put(hideLoader());
+        yield put(getAssociatedBranchSuccess({ ...response }));
+        yield call(action.payload.onSuccess(response));
+      } else {
+        yield put(hideLoader());
+        yield put(getAssociatedBranchFailure(response.error_message));
+        yield call(action.payload.onError(response));
+      }
+    } catch (error) {
+      yield put(hideLoader());
+      yield put(getAssociatedBranchFailure(error));
+      yield call(action.payload.onError(error));
+    }
+  }
 
+  function* addUpdateEmployeePhotoSaga(action) {
+    try {
+      yield put(showLoader());
+      const response = yield call(updateEmployeeProfilePhotoApi, action.payload.params);
+     
+      if (response.success) {
+        yield put(hideLoader());
+        yield put(addUpdateEmployeePhotoSuccess(response));
+        yield call(action.payload.onSuccess(response));
+      } else {
+        yield put(hideLoader());
+        yield put(addUpdateEmployeePhotoFailure(response.error_message));
+        yield call(action.payload.onError(response));
+      }
+    } catch (error) {
+  
+      yield put(hideLoader());
+      yield put(addUpdateEmployeePhotoFailure(error));
+      yield call(action.payload.onError(error));
+  
+    }
+  }
+  function* addEmployeeSaga(action) {
+    try {
+      yield put(showLoader());
+      const response = yield call(addEmployeeApi, action.payload.params);
+      if (response.success) {
+        yield put(hideLoader());
+        yield put(addEmployeeSuccess({ ...response }));
+        yield call(action.payload.onSuccess(response));
+      } else {
+        yield put(hideLoader());
+        yield put(addEmployeeFailure(response));
+        yield call(action.payload.onError(response));
+      }
+    } catch (error) {
+      yield put(hideLoader());
+      yield put(addEmployeeFailure(error));
+      yield call(action.payload.onError(error));
+    }
+  }
 
+  
+function* getEmployeesSaga(action) {
+
+  try {
+    yield put(showLoader());
+    const response = yield call(getEmployeesApi, action.payload.params);
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(getEmployeesSuccess(response.details));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(getEmployeesFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+
+    yield put(hideLoader());
+    yield put(getEmployeesFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+function* registerCompanySaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(registerCompanyApi, action.payload.params);
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(registerCompanySuccess({ ...response }));
+      yield call(action.payload.onSuccess(response));
+
+    } else {
+      yield put(hideLoader());
+      yield put(registerCompanyFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(registerCompanyFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+/**
+ * register admin
+ */
+
+function* registerAdminSaga(action) {
+  try {
+    yield put(showLoader());
+    const response = yield call(registerAdminApi, action.payload.params);
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(registerAdminSuccess({ ...response }));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(registerAdminFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(registerAdminFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
   function* UserCompanySaga() {
 
-
+    yield takeLatest(GET_EMPLOYEES, getEmployeesSaga);
     yield takeLatest(GET_TASK_GROUP, getTaskGroupSaga)
     yield takeLatest(ADD_TASK_GROUP, addTaskGroupSaga)
     yield takeLatest(ADD_BRAND_SECTOR, addBrandSector);
@@ -309,6 +461,11 @@ function* getBrandSector(action) {
     yield takeLatest(ADD_DESIGNATION, addDesignation);
     yield takeLatest(FETCH_DESIGNATION, getDesignation);
     yield takeLatest(FETCH_DEPARTMENT, getDepartmentsSaga);
+    yield takeLatest(GET_ASSOCIATED_BRANCH, getAssociatedCompaniesSaga);
+    yield takeLatest(ADD_EMPLOYEE, addEmployeeSaga);
+    yield takeLatest(UPDATE_EMPLOYEE_PROFILE_PHOTO, addUpdateEmployeePhotoSaga);
+    yield takeLatest(REGISTER_ADMIN, registerAdminSaga);
+    yield takeLatest(REGISTER_COMPANY, registerCompanySaga);
 
   }
 

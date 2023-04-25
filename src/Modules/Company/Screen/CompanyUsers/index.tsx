@@ -10,7 +10,7 @@ function CompanyUsers() {
 
     const { goTo } = useNavigation()
     const dispatch = useDispatch()
-    const { employees } = useSelector((state: any) => state.CompanyReducer);
+    const { employees } = useSelector((state: any) => state.UserCompanyReducer);
     const editProfileModal = useModal(false);
     const [editPhoto, setEditPhoto] = useState("");
     const [photo, setPhoto] = useState("");

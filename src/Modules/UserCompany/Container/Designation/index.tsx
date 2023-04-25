@@ -260,7 +260,9 @@ function Designation() {
     </Card>
     <Modal
           isOpen={addDesignationModal.visible}
-          onClose={() => addDesignationModal.hide()}
+          onClose={() => {addDesignationModal.hide()
+            setIsAdmin(false)
+                setIsSuperAdmin(false)}}
           title={translate("auth.designation")!}
         >
           <div className="">
@@ -285,6 +287,8 @@ function Designation() {
               onClick={() => {
                 addDesignationModal.hide()
                 setDesignation('')
+                setIsAdmin(false)
+                setIsSuperAdmin(false)
               }}
             />
             <Button

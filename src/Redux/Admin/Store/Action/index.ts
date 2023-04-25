@@ -1,9 +1,9 @@
 
 import { AUTO_COMPLETE_DROPDOWN } from '@Redux//Company';
 import {
-  GET_ASSOCIATED_BRANCH,
-  GET_ASSOCIATED_BRANCH_SUCCESS,
-  GET_ASSOCIATED_BRANCH_FAILURE,
+  // GET_ASSOCIATED_BRANCH,
+  // GET_ASSOCIATED_BRANCH_SUCCESS,
+  // GET_ASSOCIATED_BRANCH_FAILURE,
   GET_ASSOCIATED_COMPANY_BRANCH,
   GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
   GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
@@ -96,26 +96,26 @@ export const RestoreAdmin = () => {
   };
 };
 
-export const getAssociatedBranch = (params: any) => {
+// export const getAssociatedBranch = (params: any) => {
 
 
-  return {
-    type: GET_ASSOCIATED_BRANCH,
-    payload: params,
-  };
-};
-export const getAssociatedBranchSuccess = (response: any) => {
-  return {
-    type: GET_ASSOCIATED_BRANCH_SUCCESS,
-    payload: response,
-  };
-};
-export const getAssociatedBranchFailure = (error: any) => {
-  return {
-    type: GET_ASSOCIATED_BRANCH_FAILURE,
-    payload: error,
-  };
-};
+//   return {
+//     type: GET_ASSOCIATED_BRANCH,
+//     payload: params,
+//   };
+// };
+// export const getAssociatedBranchSuccess = (response: any) => {
+//   return {
+//     type: GET_ASSOCIATED_BRANCH_SUCCESS,
+//     payload: response,
+//   };
+// };
+// export const getAssociatedBranchFailure = (error: any) => {
+//   return {
+//     type: GET_ASSOCIATED_BRANCH_FAILURE,
+//     payload: error,
+//   };
+// };
 
 export const getAssociatedCompanyBranch = (params: any) => {
 

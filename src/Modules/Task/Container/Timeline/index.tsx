@@ -23,15 +23,12 @@ function Timeline() {
         dispatch(
             getTaskHistory({
                 params,
-                onSuccess: (response: any) => () => { console.log('getTaskGroupTimeline---------->', response) },
-                onError: (error) => () => { console.log('getTaskGroupTimeline---------->', error) },
+                onSuccess: (response: any) => () => {  },
+                onError: (error) => () => {  },
             })
         );
     }
 
-
-
-    console.log('dad');
 
     return (
         <>

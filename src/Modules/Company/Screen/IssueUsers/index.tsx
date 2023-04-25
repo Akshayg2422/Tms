@@ -7,7 +7,7 @@ import { getEmployees,getTicketUsers} from "@Redux";
 
 function IssueUsers() {
   const dispatch = useDispatch();
-  const { employees } = useSelector((state: any) => state.CompanyReducer);
+  const { employees } = useSelector((state: any) => state.UserCompanyReducer);
 
   const { selectedIssues, selectedReferenceIssues ,ticketEmployees} = useSelector(
     (state: any) => state.AdminReducer

@@ -161,9 +161,10 @@ function AddTask() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
+                 
                     let companiesDashboard: any = [];
                     response?.details?.forEach((item) => {
-                        companiesDashboard = [...companiesDashboard, {...item, designation:item?.designation?.name}];
+                        companiesDashboard = [...companiesDashboard, {...item, designation:item?.designation?.name,department:item?.designation?.name}];
                     });
                     setCompanyUserDashboard(companiesDashboard);
                 },
@@ -301,6 +302,7 @@ function AddTask() {
                 setSelectedUserId(item)
             }}
           />}
+
                  <div className="mt--3"> <DropDown
                         heading={translate("common.taskPriority")!}
                         selected={selectedTicketPriority.value}

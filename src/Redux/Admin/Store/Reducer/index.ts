@@ -1,7 +1,5 @@
 import {
-  GET_ASSOCIATED_BRANCH,
-  GET_ASSOCIATED_BRANCH_FAILURE,
-  GET_ASSOCIATED_BRANCH_SUCCESS,
+
   GET_ASSOCIATED_COMPANY_BRANCH,
   GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
   GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
@@ -10,23 +8,6 @@ import {
   GET_DASHBOARD_SUCCESS,
   SET_SELECTED_ISSUES,
   SET_REFERENCE_SELECTED_ISSUES,
-
-  // ADD_DEPARTMENT,
-  // ADD_DEPARTMENT_SUCCESS,
-  // ADD_DEPARTMENT_FAILURE,
-
-  // ADD_DESIGNATION,
-  // ADD_DESIGNATION_SUCCESS,
-  // ADD_DESIGNATION_FAILURE,
-
-
-  // FETCH_DEPARTMENT,
-  // FETCH_DEPARTMENT_SUCCESS,
-  // FETCH_DEPARTMENT_FAILURE,
-
-  // FETCH_DESIGNATION,
-  // FETCH_DESIGNATION_SUCCESS,
-  // FETCH_DESIGNATION_FAILURE,
 
   COMPANY_SELECTED_DETAILS,
   REFERENCE_ISSUE_DETAILS,
@@ -45,18 +26,7 @@ import {
   GET_SUB_TASKS_FAILURE,
 
   GET_TASKS_ITEM,
-  // ADD_BRAND_SECTOR_SUCCESS,
-  // ADD_BRAND_SECTOR_FAILURE,
-  // ADD_TICKET_TAG_SUCCESS,
-  // ADD_TICKET_TAG_FAILURE,
-  // GET_BRAND_SECTOR_SUCCESS,
-  // GET_BRAND_SECTOR_FAILURE,
-  // GET_TICKET_TAG_SUCCESS,
-  // GET_TICKET_TAG_FAILURE,
-  // GET_TICKET_TAG,
-  // GET_BRAND_SECTOR,
-  // ADD_BRAND_SECTOR,
-  // ADD_TICKET_TAG,
+
   GET_REFERENCE_TASKS,
   GET_REFERENCE_TASKS_SUCCESS,
   GET_REFERENCE_TASKS_FAILURE,
@@ -68,12 +38,7 @@ import {
   GET_TICKET_USERS_FAILURE,
   GET_CURRENT_PAGE,
 
-  // GET_TASK_GROUP,
-  // GET_TASK_GROUP_FAILURE,
-  // GET_TASK_GROUP_SUCCESS,
-  // ADD_TASK_GROUP,
-  // ADD_TASK_GROUP_SUCCESS,
-  // ADD_TASK_GROUP_FAILURE,
+
   GET_REFERENCE_ID,
   GET_SUBTASK_ID,
   LOGIN_USER,
@@ -91,27 +56,11 @@ import { AdminStateProp } from '../../Interfaces';
 
 
 const initialState: AdminStateProp = {
-  associatedCompanies: undefined,
-  associatedCompaniesNumOfPages: undefined,
-  associatedCompaniesCurrentPages: 1,
+ 
   dashboardDetails: undefined,
   selectedIssues: undefined,
   loading: false,
   error: '',
-
-  // designationData: undefined,
-  // departmentData: undefined,
-  // designationCurrentPages: undefined,
-  // designationNumOfPages: undefined,
-  // departmentCurrentPages: undefined,
-  // departmentNumOfPages: undefined,
-
-  // brandSector: undefined,
-  // ticketTag: undefined,
-  // brandSectorCurrentPages: undefined,
-  // brandSectorNumOfPages: undefined,
-  // ticketTagCurrentPages: undefined,
-  // ticketTagNumOfPages: undefined,
   companyDetailsSelected: undefined,
   referenceIssueSelectedDetails: undefined,
   selectedReferenceIssues: undefined,
@@ -130,13 +79,6 @@ const initialState: AdminStateProp = {
   taskUsers: undefined,
   showSubTaskGroup:undefined,
   ticketEmployees:undefined,
-
-  // getTaskGroupDetails: undefined,
-  // getTaskGroupCurrentPages: undefined,
-  // taskGroupDetails: undefined,
-  // taskGroupCurrentPages: undefined,
-  // taskGroupNumOfPages: undefined,
-  // addTaskGroup: undefined,
   getReferenceId: undefined,
   getSubTaskId: undefined,
   loginUserSuccess: false,
@@ -151,29 +93,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = initialState;
       break;
 
-    case GET_ASSOCIATED_BRANCH:
-      state = {
-        ...state,
-        associatedCompanies: undefined,
-        associatedCompaniesNumOfPages: 0,
-        associatedCompaniesCurrentPages: 1
-      };
-      break;
-    case GET_ASSOCIATED_BRANCH_SUCCESS:
-      const { data, next_page, num_pages } = action.payload?.details;
-      state = {
-        ...state,
-        associatedCompanies: data,
-        associatedCompaniesNumOfPages: num_pages,
-        associatedCompaniesCurrentPages:
-          next_page === -1
-            ? num_pages
-            : next_page - 1,
-      };
-      break;
-    case GET_ASSOCIATED_BRANCH_FAILURE:
-      state = { ...state };
-      break;
+ 
 
     case GET_ASSOCIATED_COMPANY_BRANCH:
       state = { ...state };
@@ -214,77 +134,6 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     case GET_DASHBOARD_FAILURE:
       state = { ...state, dashboardDetails: action.payload };
       break;
-
-    /**
-     * add department
-     */
-    // case ADD_DEPARTMENT:
-    //   state = { ...state, loading: true };
-    //   break;
-    // case ADD_DEPARTMENT_SUCCESS:
-    //   state = {
-    //     ...state,
-    //     loading: false,
-    //   };
-    //   break;
-    // case ADD_DEPARTMENT_FAILURE:
-    //   state = {
-    //     ...state,
-    //     error: action.payload,
-    //     loading: false,
-    //   };
-    //   break;
-
-    /**
-     * add designation
-     */
-    // case ADD_DESIGNATION:
-    //   state = { ...state, loading: true };
-    //   break;
-    // case ADD_DESIGNATION_SUCCESS:
-    //   state = {
-    //     ...state,
-    //     loading: false,
-    //   };
-    //   break;
-    // case ADD_DESIGNATION_FAILURE:
-    //   state = {
-    //     ...state,
-    //     error: action.payload,
-    //     loading: false,
-    //   };
-    //   break;
-
-    //get departments
-
-    // case FETCH_DEPARTMENT:
-    //   state = {
-    //     ...state,
-    //     departmentData: undefined,
-    //     departmentNumOfPages: 0,
-    //     departmentCurrentPages: 1,
-    //     loading: true
-    //   };
-    //   break;
-    // case FETCH_DEPARTMENT_SUCCESS:
-    //   state = {
-    //     ...state,
-    //     loading: false,
-    //     departmentData: action?.payload?.data,
-    //     departmentNumOfPages: action?.payload?.num_pages,
-    //     departmentCurrentPages:
-    //       action?.payload?.next_page === -1
-    //         ? action?.payload?.num_pages
-    //         : action?.payload?.next_page - 1,
-    //   };
-    //   break;
-    // case FETCH_DEPARTMENT_FAILURE:
-    //   state = {
-    //     ...state,
-    //     error: action.payload,
-    //     loading: false,
-    //   };
-    //   break;
 
     //GET REFERENCE TASKS
     case GET_REFERENCE_TASKS:
@@ -656,8 +505,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
 
       break;
     case GET_TASK_HISTORY_SUCCESS:
-      console.log(JSON.stringify(action.payload?.details) + "=======GET_TASK_HISTORY_SUCCESS");
-
+  
       state = {
         ...state, taskHistoryList: action.payload?.details,
       };

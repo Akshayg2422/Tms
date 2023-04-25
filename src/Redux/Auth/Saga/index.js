@@ -7,9 +7,9 @@ import {
   validateUserBusinessApi,
   getBrandSectorsApi,
   getBusinessPlaceDetailsApi,
-  registerCompanyApi,
+
   SectorServiceTypesApi,
-  registerAdminApi,
+ 
   otpLoginApi,
   addPushNotificationApi
 
@@ -33,20 +33,18 @@ import {
   brandSectorsFailure,
   businessPlaceDetailsSuccess,
   businessPlaceDetailsFailure,
-  registerCompanySuccess,
-  registerCompanyFailure,
+
   sectorServiceTypesSuccess,
   sectorServiceTypesFailure,
-  registerAdminSuccess,
-  registerAdminFailure,
+ 
   VALIDATE_USER,
   VALIDATE_USER_BUSINESS,
   GET_USER_BUSINESS_PLACES,
   BRAND_SECTOR,
   BUSINESS_PLACES_DETAILS,
-  REGISTER_COMPANY,
+
   SECTOR_SERVICE_TYPES,
-  REGISTER_ADMIN,
+
   otpLoginFailure,
   otpLoginSuccess,
   OTP_LOGIN,
@@ -105,29 +103,7 @@ function* validateUserSaga(action) {
 
 
 
-/**
- * register admin
- */
 
-function* registerAdminSaga(action) {
-  try {
-    yield put(showLoader());
-    const response = yield call(registerAdminApi, action.payload.params);
-    if (response.success) {
-      yield put(hideLoader());
-      yield put(registerAdminSuccess({ ...response }));
-      yield call(action.payload.onSuccess(response));
-    } else {
-      yield put(hideLoader());
-      yield put(registerAdminFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-    yield put(hideLoader());
-    yield put(registerAdminFailure(error));
-    yield call(action.payload.onError(error));
-  }
-}
 
 /**
  * get user business places
@@ -262,26 +238,7 @@ function* businessPlaceDetailsSaga(action) {
   }
 }
 
-function* registerCompanySaga(action) {
-  try {
-    yield put(showLoader());
-    const response = yield call(registerCompanyApi, action.payload.params);
-    if (response.success) {
-      yield put(hideLoader());
-      yield put(registerCompanySuccess({ ...response }));
-      yield call(action.payload.onSuccess(response));
 
-    } else {
-      yield put(hideLoader());
-      yield put(registerCompanyFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-    yield put(hideLoader());
-    yield put(registerCompanyFailure(error));
-    yield call(action.payload.onError(error));
-  }
-}
 
 function* sectorServiceTypesSaga(action) {
   try {
@@ -337,9 +294,9 @@ function* AuthSaga() {
   yield takeLatest(GET_USER_BUSINESS_PLACES, getUserBusinessPlacesSaga);
   yield takeLatest(BRAND_SECTOR, brandSectorsSaga);
   yield takeLatest(BUSINESS_PLACES_DETAILS, businessPlaceDetailsSaga);
-  yield takeLatest(REGISTER_COMPANY, registerCompanySaga);
+
   yield takeLatest(SECTOR_SERVICE_TYPES, sectorServiceTypesSaga);
-  yield takeLatest(REGISTER_ADMIN, registerAdminSaga);
+
   yield takeLatest(PUSH_NOTIFICATION, pushNotificationSaga);
 }
 
