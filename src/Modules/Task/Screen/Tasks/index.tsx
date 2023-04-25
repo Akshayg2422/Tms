@@ -2,19 +2,21 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, getTaskItem, setIsSync, getSelectReferenceId, getAssociatedCompanyBranch, getSelectSubTaskId, getTaskGroup, getTaskGroupl } from "@Redux";
-import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound, Badge, PageNation, Checkbox, Card } from "@Components";
+import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoDataFound, Badge, PageNation, Checkbox, Card } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment, INITIAL_PAGE } from "@Utils";
+import { getPhoto, paginationHandler, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, getMomentObjFromServer, COMPANY_TYPE, getDisplayDateTimeFromMoment, INITIAL_PAGE } from "@Utils";
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
 import { icons } from "@Assets";
-
+import { TaskGroups, TaskFilter } from '@Modules'
 
 function Tasks() {
 
 
+
+  const [selectedTaskGroup, setSelectedTaskGroup] = useState({})
   const date = new Date();
   const time = date.getHours()
 
@@ -24,7 +26,7 @@ function Tasks() {
   const { getTaskGrouplDetails } = useSelector((state: any) => state.CompanyReducer);
   const search = useInput("");
   const [subCheckBox, setSubCheckBox] = useState(false)
-  const filteredTasks = useDropDown(FILTERED_LIST[2])
+  // const filteredTasks = useDropDown(FILTERED_LIST[2])
   const taskStatus = useDropDown(STATUS_LIST[2])
   const taskPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
   const companyType = useDropDown(COMPANY_TYPE[0])
@@ -50,11 +52,7 @@ function Tasks() {
     }
   };
 
-  useEffect(() => {
 
-    setSyncTickets()
-
-  }, [])
 
 
 
@@ -64,7 +62,6 @@ function Tasks() {
       getTaskGroupl({
         params,
         onSuccess: (response: any) => () => {
-          // console.log('=======>sssss',JSON.stringify(response),'hghhh')
 
         },
         onError: () => () => {
@@ -104,113 +101,32 @@ function Tasks() {
 
 
   const getTaskHandler = (pageNumber: number) => {
-    const params = {
-      q_many: search.value,
-      tasks_by: filteredTasks?.value.id,
-      task_status: taskStatus?.value.id,
-      company: companyType.value.id,
-      priority: taskPriority.value.id,
-      page_number: pageNumber,
-      group: selectTag?.id ? selectTag?.id : 'ALL',
-      include_subtask: subCheckBox,
-    };
+    // const params = {
+    //   q_many: search.value,
+    //   tasks_by: filteredTasks?.value.id,
+    //   task_status: taskStatus?.value.id,
+    //   company: companyType.value.id,
+    //   priority: taskPriority.value.id,
+    //   page_number: pageNumber,
+    //   group: selectTag?.id ? selectTag?.id : 'ALL',
+    //   include_subtask: subCheckBox,
+    // };
 
-    dispatch(
-      getTasks({
-        params,
-        onSuccess: (response) => () => {
-          setSyncTickets(true)
+    // dispatch(
+    //   getTasks({
+    //     params,
+    //     onSuccess: (response) => () => {
+    //       setSyncTickets(true)
 
-        },
-        onError: () => () => { },
-      })
-    );
+    //     },
+    //     onError: () => () => { },
+    //   })
+    // );
   };
 
-  function setSyncTickets(sync = false) {
-    dispatch(
-      setIsSync({
-        ...isSync,
-        tasks: sync,
-      })
-    );
-  }
-
-  function proceedTaskSearch() {
-    setSyncTickets()
-    getTaskHandler(SEARCH_PAGE)
-  }
-
-  const normalizedTableData = (data: any) => {
-    return data.map((el: any) => {
-      const etaDate = new Date(el.eta_time)
-      let etaTime = etaDate.getHours()
-      return {
-        "task":
-          <>
-
-            <div className="row">
-              <Priority priority={el?.priority} />
-              <div>
-                <div>
-                  <span className="col">{el?.title}</span></div>
-                <div className="col pt-2">
-                  {el.parent && el.parent?.name && <div>{el.parent?.name}
-                  </div>} </div>
-              </div>
 
 
-            </div>
 
-            {/* <div>
-          {el.parent&&el.parent?.name &&<div>{el.parent?.name}</div> }
-          </div> */}
-          </>,
-        "attachments":
-          <div className="row avatar-group" style={{
-            width: '205px'
-          }}>
-            {
-              el?.task_attachments &&
-              el?.task_attachments.length > 0 && el?.task_attachments.map((item) => {
-                return <a
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}>
-                  <Image
-                    variant={'avatar'}
-                    src={getPhoto(item?.attachment_file)} /></a>
-              })
-            }
-
-          </div>,
-        "raised by":
-          <div className="h5 m-0"> {el?.by_user?.name} </div>,
-        "raised to":
-          <>
-            <div className="row">
-              <div className="col-3 p-0 align-self-center">
-                <div className="col p-0 d-flex justify-content-center"> {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />} </div>
-              </div>
-
-              <div className="col-9 text-truncate">
-                <h6>
-                  <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
-                  <div className="h5 mb-0 d-inline-block text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
-                  <div className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place || "Gummidipoondi"}</div>
-                </h6>
-              </div>
-              <div className="col"></div>
-            </div>
-
-          </>,
-        'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
-        status: <div><Status status={el?.task_status} />
-          {time > etaTime ? 'ABOVE ETA' : ""}
-
-        </div>
-      };
-    });
-  };
 
 
 
@@ -218,244 +134,9 @@ function Tasks() {
   return (
     <>
       <HomeContainer>
-        {tasks && tasks.data.length > 0 ?
-          <div className="text-right">
-            <Button
-              size={"sm"}
-              text={translate('common.createTask')}
-              onClick={() => {
-                goTo(HOME_PATH.ADD_TASK);
-              }}
-            />
-          </div> : null}
-
-
-        <div className="row col mt-3">
-          <div className="pt-1 pl-2" >
-            <Badge text={' # ALL'}
-              className="bg-white pt-2 pr-4 pl-4 pb-2 mr-3"
-              style={{ borderRadius: "50px" }}
-              onClick={() => {
-                setSelectTag(' ALL ')
-                setSyncTickets()
-              }}
-            />
-          </div>
-          {getTaskGrouplDetails?.map((el: any) => {
-            return (
-              <div className="card mx-4 my-1">
-                <div className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}  row`} style={{ paddingTop: "4px", paddingBottom: "4px", paddingLeft: "10px", paddingRight: "5px", borderRadius: "16px" }}>
-                  <div className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`} >
-                    {el?.photo ?
-                      <Image variant={'rounded'} src={getPhoto(el?.photo)} size={'xs'} /> : <Image variant={'rounded'} src={icons.profile} size={'xs'} />}
-                  </div>
-                  <div className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}>
-                    <Badge text={'#' + el.code} className={`bg-${el?.id === selectTag?.id ? "primary" : "white"}`}
-                      onClick={() => {
-                        setSelectTag(el)
-                        setSyncTickets()
-                      }}
-                    />
-                  </div>
-
-                </div>
-              </div>
-
-            )
-
-          })
-
-          }
-        </div>
-
-
-
-
+        <TaskGroups onClick={setSelectedTaskGroup} />
+        <TaskFilter />
       </HomeContainer>
-      <HomeContainer isCard className={'mb--5'} >
-        <div className="row mb--3">
-          <h3 className={'col-11'}>Tasks</h3>
-          <div className="pl-4">
-            <UncontrolledDropdown>
-              <DropdownToggle
-                color=""
-                size="sm"
-                className="text-light"
-              >
-                <Image src={icons.Equalizer} className="bg-white" variant={'avatar'} size={'xs'} />
-              </DropdownToggle>
-              <DropdownMenu className="dropdown-menu-arrow" right>
-                <DropdownItem
-                  href="#pablo"
-                  onClick={() => {
-
-                    setBasicTag(true)
-                    setAdvanceTag(false)
-                  }
-
-                  }
-                >
-                  <div className={basicTag ? 'text-primary' : 'text-black'}>
-                    {translate('auth.basic')}
-                  </div>
-                </DropdownItem>
-
-                <DropdownItem
-                  href="#pablo"
-                  onClick={() => {
-                    setAdvanceTag(true)
-                    setBasicTag(false)
-                  }
-                  }
-                >
-                  <div className={advanceTag ? 'text-primary' : 'text-black'}>
-                    {translate('auth.advance')}
-                  </div>
-                </DropdownItem>
-
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </div>
-        </div>
-
-
-        <div className="row mt-3 mb--3">
-          <div className="col-lg-3  col-md-3 col-sm-12">
-            <InputHeading heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.codeTitle")}</h4>} />
-            <div className="input-group bg-white border">
-              <input
-                type="text"
-                className="form-control bg-transparent border border-0  form-control-sm"
-                placeholder={translate("auth.search")!}
-                value={search.value}
-                onChange={search.onChange}
-              />
-              <span
-                className="input-group-text pointer border border-0"
-                onClick={proceedTaskSearch}
-              >
-                <i className="fas fa-search" />
-              </span>
-            </div>
-          </div>
-          <div className="col-lg-3 col-md-3 col-sm-12 ">
-            <DropDown
-              className="form-control-sm"
-              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.assignedTo")}</h4>}
-              selected={filteredTasks.value}
-              data={FILTERED_LIST}
-              value={filteredTasks.value}
-              onChange={(item) => {
-                filteredTasks.onChange(item)
-                setSyncTickets()
-              }}
-            />
-          </div>
-
-          <div className="col-lg-3 col-md-3 col-sm-12">
-            <DropDown
-              className="form-control-sm"
-              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.ticketStatus")}</h4>}
-              data={STATUS_LIST}
-              selected={taskStatus.value}
-              value={taskStatus.value}
-              onChange={(item) => {
-                taskStatus.onChange(item)
-                setSyncTickets()
-
-              }}
-            />
-          </div>
-          <div className="col-lg-3 col-md-3 col-sm-12">
-            <DropDown
-              className="form-control-sm"
-              heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.Priority")}</h4>}
-              data={PRIORITY_DROPDOWN_LIST}
-              selected={taskPriority.value}
-              value={taskPriority.value}
-              onChange={(item) => {
-                taskPriority.onChange(item)
-                setSyncTickets()
-              }}
-            />
-          </div>
-          {advanceTag &&
-            <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
-              <DropDown
-                className="form-control-sm   "
-                heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.company")}</h4>}
-                data={modifiedCompanyDropDownData}
-                selected={companyType.value}
-                value={companyType.value}
-                onChange={(item) => {
-                  companyType.onChange(item)
-                  setSyncTickets()
-                }}
-              />
-            </div>
-          }
-          <div className="col pt-3">
-            <Checkbox id={'0'} onClick={() => {
-              setSyncTickets()
-
-              if (subCheckBox === false) {
-                setSubCheckBox(true)
-              }
-              else {
-                setSubCheckBox(false)
-              }
-            }} text={'Include Subtask'} />
-
-          </div>
-
-        </div>
-
-      </HomeContainer>
-      {tasks && tasks.data.length > 0 ?
-        <>
-          <CommonTable
-            isPagination
-            tableDataSet={tasks.data}
-            displayDataSet={normalizedTableData(tasks.data)}
-            noOfPage={taskNumOfPages}
-            currentPage={taskCurrentPages}
-            paginationNumberClick={(currentPage) => {
-              getTaskHandler(paginationHandler("current", currentPage));
-            }}
-            previousClick={() => {
-              getTaskHandler(paginationHandler("prev", taskCurrentPages))
-            }
-            }
-            nextClick={() => {
-              getTaskHandler(paginationHandler("next", taskCurrentPages));
-            }
-            }
-            tableOnClick={(idx, index, item) => {
-              dispatch(getTaskItem(item));
-              dispatch(getSelectReferenceId(undefined))
-              dispatch(getSelectSubTaskId(undefined))
-              goTo(HOME_PATH.TASK_DETAILS + '/' + item?.id);
-            }
-            }
-          />
-        </>
-
-        :
-        <div ><NoTaskFound src={icons.issuesProblem} />
-
-          <div className="text-center">
-            <Button
-              size={"md"}
-              text={translate('common.createTask')}
-              onClick={() => {
-                goTo(HOME_PATH.ADD_TASK);
-              }}
-            />
-          </div>
-
-        </div>
-      }
-
     </>
   );
 }

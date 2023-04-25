@@ -19,8 +19,6 @@ import {
   OTP_REGISTER,
   validateUserSuccess,
   validateUserFailure,
-  hideLoader,
-  showLoader,
   validateRegisterUserSuccess,
   otpRegisterSuccess,
   otpRegisterFailure,
@@ -55,20 +53,20 @@ import {
 function* validateUserBusinessSaga(action) {
   try {
 
-    yield put(showLoader());
+
 
     const response = yield call(validateUserBusinessApi, action.payload.params);
     if (response.success) {
-      yield put(hideLoader());
+
       yield put(validateUserBusinessSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(hideLoader());
+
       yield put(validateUserBusinessFailure(response));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
+
     yield put(validateUserBusinessFailure(error));
     yield call(action.payload.onError(error));
   }
@@ -82,17 +80,17 @@ function* validateUserBusinessSaga(action) {
 
 function* validateUserSaga(action) {
   try {
-    yield put(showLoader());
+
     const response = yield call(validateUserApi, action.payload);
     if (response.success) {
-      yield put(hideLoader());
+
       yield put(validateUserSuccess({ ...response }));
     } else {
-      yield put(hideLoader());
+
       yield put(validateUserFailure(response.error_message));
     }
   } catch (error) {
-    yield put(hideLoader());
+
     yield put(validateUserFailure(error));
     yield call(action.payload.onError(error));
 
@@ -107,19 +105,19 @@ function* validateUserSaga(action) {
 
 function* registerAdminSaga(action) {
   try {
-    yield put(showLoader());
+
     const response = yield call(registerAdminApi, action.payload.params);
     if (response.success) {
-      yield put(hideLoader());
+
       yield put(registerAdminSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(hideLoader());
+
       yield put(registerAdminFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
+
     yield put(registerAdminFailure(error));
     yield call(action.payload.onError(error));
   }
@@ -131,19 +129,16 @@ function* registerAdminSaga(action) {
 
 function* getUserBusinessPlacesSaga(action) {
   try {
-    yield put(showLoader());
+
     const response = yield call(getBusinessPlacesApi, action.payload.params);
     if (response.success) {
-      yield put(hideLoader());
       yield put(getUserBusinessPlacesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(hideLoader());
       yield put(getUserBusinessPlacesFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
     yield put(getUserBusinessPlacesFailure(error));
     yield call(action.payload.onError(error));
   }
@@ -152,20 +147,20 @@ function* getUserBusinessPlacesSaga(action) {
 
 function* validateRegisterUserSaga(action) {
   try {
-    yield put(showLoader());
+
     const response = yield call(validateRegisterUserApi, action.payload.params);
 
     if (response.success) {
-      yield put(hideLoader());
+
       yield put(validateRegisterUserSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(hideLoader());
+
       yield put(validateUserFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
+
     yield put(validateUserFailure(error));
     yield call(action.payload.onError(error));
   }
@@ -173,19 +168,19 @@ function* validateRegisterUserSaga(action) {
 
 function* otpRegisterSaga(action) {
   try {
-    yield put(showLoader());
+
     const response = yield call(otpRegisterApi, action.payload.params);
     if (response.success) {
-      yield put(hideLoader());
+
       yield put(otpRegisterSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(hideLoader());
+
       yield put(otpRegisterFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
+
     yield put(otpRegisterFailure(error));
     yield call(action.payload.onError(error));
   }
@@ -200,19 +195,16 @@ function* otpRegisterSaga(action) {
 
 function* otpLoginSaga(action) {
   try {
-    yield put(showLoader());
+
     const response = yield call(otpLoginApi, action.payload.params);
     if (response.success) {
-      yield put(hideLoader());
       yield put(otpLoginSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(hideLoader());
       yield put(otpLoginFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
     yield put(otpLoginFailure(error));
     yield call(action.payload.onError(error));
   }
@@ -220,39 +212,36 @@ function* otpLoginSaga(action) {
 
 function* brandSectorsSaga(action) {
   try {
-    yield put(showLoader());
+
     const response = yield call(getBrandSectorsApi, action.payload);
     if (response.success) {
-      yield put(hideLoader());
       yield put(brandSectorsSuccess({ ...response }));
     } else {
-      yield put(hideLoader());
       yield put(brandSectorsFailure(response.error_message));
     }
   } catch (error) {
-    yield put(hideLoader());
     yield put(brandSectorsFailure(error));
     yield call(action.payload.onError(error));
   }
 }
 function* businessPlaceDetailsSaga(action) {
   try {
-    yield put(showLoader());
+
     const response = yield call(
       getBusinessPlaceDetailsApi,
       action.payload.params,
     );
     if (response.success) {
-      yield put(hideLoader());
+
       yield put(businessPlaceDetailsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(hideLoader());
+
       yield put(businessPlaceDetailsFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
+
     yield put(businessPlaceDetailsFailure(error));
     yield call(action.payload.onError(error));
   }
@@ -260,20 +249,20 @@ function* businessPlaceDetailsSaga(action) {
 
 function* registerCompanySaga(action) {
   try {
-    yield put(showLoader());
+
     const response = yield call(registerCompanyApi, action.payload.params);
     if (response.success) {
-      yield put(hideLoader());
+
       yield put(registerCompanySuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
 
     } else {
-      yield put(hideLoader());
+
       yield put(registerCompanyFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
+
     yield put(registerCompanyFailure(error));
     yield call(action.payload.onError(error));
   }
@@ -281,17 +270,14 @@ function* registerCompanySaga(action) {
 
 function* sectorServiceTypesSaga(action) {
   try {
-    yield put(showLoader());
+
     const response = yield call(SectorServiceTypesApi, action.payload);
     if (response.success) {
-      yield put(hideLoader());
       yield put(sectorServiceTypesSuccess({ ...response }));
     } else {
-      yield put(hideLoader());
       yield put(sectorServiceTypesFailure(response.error_message));
     }
   } catch (error) {
-    yield put(hideLoader());
     yield put(sectorServiceTypesFailure(error));
     yield call(action.payload.onError(error));
   }

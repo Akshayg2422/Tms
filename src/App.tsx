@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { AppLoader, PageNotFound, ScreenWrapper, Sidebar } from "@Components";
+import { PageNotFound, ScreenWrapper, Sidebar, ComponentLoader, Button } from "@Components";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { HOME_ROUTES, AUTH_ROUTES, ROUTES, RequireAuth, RequireHome } from "@Routes";
 import { Tasks } from "@Modules";
@@ -45,13 +45,16 @@ function App() {
   };
 
   return (
-    <ScreenWrapper>
-      <Routes>
-        {getRoutes(AUTH_ROUTES, AUTH)}
-        {getRoutes(HOME_ROUTES, HOME)}
-        <Route path={"*"} element={<PageNotFound />} />
-      </Routes>
-    </ScreenWrapper>
+
+    <>
+      <ScreenWrapper>
+        <Routes>
+          {getRoutes(AUTH_ROUTES, AUTH)}
+          {getRoutes(HOME_ROUTES, HOME)}
+          <Route path={"*"} element={<PageNotFound />} />
+        </Routes>
+      </ScreenWrapper>
+    </>
   );
 }
 

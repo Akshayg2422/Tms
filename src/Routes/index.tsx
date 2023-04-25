@@ -34,11 +34,10 @@ export const ROUTES = {
   'issue-module': {
     issues: '/issues',
   },
-  'company-module': {
+  'user-company-module': {
     companies: '/companies',
     profile: '/profile',
     setting: '/setting'
-
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -89,7 +88,7 @@ export const HOME_ROUTES = [
     component: <Issues />
   },
   {
-    path: ROUTES['company-module'].companies,
+    path: ROUTES['user-company-module'].companies,
     name: "Companies",
     icon: "bi bi-geo-alt text-primary",
     layout: "",
@@ -103,14 +102,14 @@ export const HOME_ROUTES = [
     component: <Broadcast />
   },
   {
-    path: ROUTES['company-module'].profile,
+    path: ROUTES['user-company-module'].profile,
     name: "Profile",
     icon: "bi bi-person-circle text-primary",
     layout: "",
     component: <Profile />
   },
   {
-    path: ROUTES['company-module'].setting,
+    path: ROUTES['user-company-module'].setting,
     name: "Settings",
     icon: "bi bi-gear text-primary",
     layout: "",

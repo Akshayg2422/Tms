@@ -6,7 +6,7 @@ function HomeContainer({ children, title, isCard = false, className }: HomeConta
     <>
       {!isCard ? <div className={`m-3 ${className}`}>{children}</div> : <div className={`m-3 ${className}`} >
         <Card
-         title={title}
+          title={title}
         >{children}</Card></div>}
     </>
   );

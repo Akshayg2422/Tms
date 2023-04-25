@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAssociatedCompanyBranch, getTickets, setIsSync } from "@Redux";
-import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoTaskFound } from "@Components";
+import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoDataFound } from "@Components";
 import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
-import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, PRIORITY_DROPDOWNICON_LIST, SEARCH_PAGE, COMPANY_TYPE, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
+import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
 import { icons } from "@Assets";
@@ -273,7 +273,7 @@ function Issues() {
             <DropDown
               className="form-control-sm"
               heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.Priority")}</h4>}
-              data={PRIORITY_DROPDOWNICON_LIST}
+              data={PRIORITY_DROPDOWN_LIST}
               selected={ticketPriority.value}
               value={ticketPriority.value}
               onChange={(item) => {
@@ -328,7 +328,7 @@ function Issues() {
             }
             }
           />
-        </> : <div ><NoTaskFound text={'No Ticket Found'} src={icons.bellIcon} />
+        </> : <div ><NoDataFound text={'No Ticket Found'} />
           {/* <Image
             className={'border'}
             variant={'rounded'}

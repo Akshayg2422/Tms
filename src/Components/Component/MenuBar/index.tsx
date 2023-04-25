@@ -3,7 +3,7 @@ import { TripleDotProps } from './interfaces'
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 
-function MenuBar({ ListedData,onClickTagUser,dataIndex, onClick}: TripleDotProps) {
+function MenuBar({ ListedData, onClickTagUser, dataIndex, onClick }: TripleDotProps) {
 
 
     return (
@@ -18,31 +18,29 @@ function MenuBar({ ListedData,onClickTagUser,dataIndex, onClick}: TripleDotProps
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-arrow" right>
 
-                 { ListedData && ListedData.length>0 && ListedData.map((el:any,index:number)=> { 
-                   
-                 return(
-                 <>
-                 
-                 <DropdownItem
-                        href="#pablo"
-                        onClick={()=>onClick(index)}
-                    >
-                        <i className={el.icon} ></i>
-                        
-                        {el.name}
-                      
-        
-                    </DropdownItem>
-                    </>
-                 )})
-}
+                    {ListedData && ListedData.length > 0 && ListedData.map((el: any, index: number) => {
 
-                  
+                        return (
+                            <>
 
+                                <DropdownItem
+                                    href="#pablo"
+                                    onClick={() => onClick(index)}
+                                >
+                                    <i className={el.icon} ></i>
+
+                                    {el.name}
+
+
+                                </DropdownItem>
+                            </>
+                        )
+                    })
+                    }
                 </DropdownMenu>
             </UncontrolledDropdown>
         </div>
     )
 }
 
-export {MenuBar}
+export { MenuBar }

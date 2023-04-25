@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { companySelectedDetails, getAssociatedBranch, setIsSync } from "@Redux";
-import { Button, HomeContainer, Image, CommonTable, NoDataFound, NoTaskFound } from "@Components";
+import { Button, HomeContainer, Image, CommonTable, NoDataFound } from "@Components";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
@@ -102,7 +102,7 @@ function Companies() {
             goTo(HOME_PATH.COMPANY_INFO);
 
           }} /> :
-        <div className={''}><NoTaskFound text="No Companies found" />
+        <div className={''}><NoDataFound text="No Companies found" />
           <Image
             className={'border'}
             variant={'rounded'}

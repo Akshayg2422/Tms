@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { Logo } from "@Components";
-import { ROUTES, HOME_PATH, } from "@Routes";
+import { ROUTES } from "@Routes";
 import { useNavigation } from "@Hooks";
-import { useSelector, useDispatch } from 'react-redux'
-import { loginUser } from '@Redux'
+import { useSelector } from 'react-redux'
 
 function Splash() {
 
@@ -14,7 +13,7 @@ function Splash() {
 
   useEffect(() => {
     setTimeout(() => {
-      if (loginDetails.isLoggedIn) {
+      if (loginDetails?.isLoggedIn) {
         goTo(ROUTES["task-module"].tasks, true)
       }
       else {

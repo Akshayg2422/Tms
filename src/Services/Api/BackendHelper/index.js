@@ -48,8 +48,8 @@ import {
   FETCH_ADD_TASK_EVENTS,
   UPDATE_EMPLOYEE_PROFILE_PHOTO,
   GET_TASK_HISTORY_LIST,
-  GET_TASK_GROUPL
-
+  GET_TASK_GROUPL,
+  URL_GET_TASK_GROUP_L
 } from '../UrlHelper';
 
 export const getAssociatedCompaniesApi = payload =>
@@ -127,4 +127,4 @@ export const getTaskGroupApi = (payload) => post(GET_TASK_GROUP, payload, {})
 export const addTaskGroupApi = (payload) => post(ADD_TASK_GROUP, payload, {})
 export const updateEmployeeProfilePhotoApi = (payload) => post(UPDATE_EMPLOYEE_PROFILE_PHOTO, payload, {})
 export const getTaskHistoryApi = (payload) => post(GET_TASK_HISTORY_LIST, payload, {})
-export const getTaskGrouplApi = (payload)=>post(GET_TASK_GROUPL,payload,{})
+export const getTaskGroupLApi = (payload) => post(URL_GET_TASK_GROUP_L, payload, {})

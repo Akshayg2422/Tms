@@ -617,7 +617,7 @@ export const autoCompleteDropDown = (params: any) => {
 
 export const getTaskHistory = (params) => {
   console.log("getTaskHistory===action");
-  
+
   return {
     type: GET_TASK_HISTORY,
     payload: params,
