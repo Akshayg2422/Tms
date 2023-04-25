@@ -26894,6 +26894,15 @@ td.rdtYear:hover {
     height: 120px;
     overflow-y: scroll;
   }
+  .designations-input {
+    width: 208px;
+    height: 43px;
+  }
+  .designations-scroll-bar {
+    width: 208px;
+    height: 120px;
+    overflow-y: scroll;
+  }
 }
 @media only screen and (max-width: 380px) and (min-width: 350px) {
   .designation-input {
@@ -26905,9 +26914,27 @@ td.rdtYear:hover {
     height: 120px;
     overflow-y: scroll;
   }
+  .designations-input {
+    width: 268px;
+    height: 43px;
+  }
+  .designations-scroll-bar {
+    width: 268px;
+    height: 120px;
+    overflow-y: scroll;
+  }
 }
 @media only screen and (max-width: 400px) and (min-width: 380px) {
   .designation-input {
+    width: 283px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 283px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+  .designations-input {
     width: 283px;
     height: 43px;
   }
@@ -26927,6 +26954,15 @@ td.rdtYear:hover {
     height: 120px;
     overflow-y: scroll;
   }
+  .designations-input {
+    width: 504px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 504px;
+    height: 120px;
+    overflow-y: scroll;
+  }
 }
 @media only screen and (max-width: 550px) and (min-width: 450px) {
   .designation-input {
@@ -26935,6 +26971,15 @@ td.rdtYear:hover {
   }
   .designation-scroll-bar {
     width: 430px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+  .designations-input {
+    width: 530px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 530px;
     height: 120px;
     overflow-y: scroll;
   }
@@ -26949,6 +26994,15 @@ td.rdtYear:hover {
     height: 120px;
     overflow-y: scroll;
   }
+  .designations-input {
+    width: 515px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 515px;
+    height: 120px;
+    overflow-y: scroll;
+  }
 }
 @media only screen and (max-width: 992px) and (min-width: 780px) {
   .designation-input {
@@ -26957,6 +27011,15 @@ td.rdtYear:hover {
   }
   .designation-scroll-bar {
     width: 343px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+  .designations-input {
+    width: 543px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 543px;
     height: 120px;
     overflow-y: scroll;
   }
@@ -26971,6 +27034,15 @@ td.rdtYear:hover {
     height: 120px;
     overflow-y: scroll;
   }
+  .designations-input {
+    width: 530px;
+    height: 43px;
+  }
+  .designations-scroll-bar {
+    width: 530px;
+    height: 120px;
+    overflow-y: scroll;
+  }
 }
 @media only screen and (max-width: 1280px) and (min-width: 1200px) {
   .designation-input {
@@ -26982,135 +27054,50 @@ td.rdtYear:hover {
     height: 120px;
     overflow-y: scroll;
   }
-}
-@media only screen and (max-width: 1780px) and (min-width: 1290px) {
-  .designation-input {
-    width: 376px;
+  .designation-auto-input {
+    width: 530px;
     height: 43px;
   }
-  .designation-scroll-bar {
-    width: 376px;
+  .designation-auto-scroll-bar {
+    width: 530px;
     height: 120px;
     overflow-y: scroll;
   }
-}
-@media only screen and (max-width: 350px) and (min-width: 300px) {
   .designations-input {
-    width: 208px;
+    width: 515px;
     height: 43px;
   }
   .designations-scroll-bar {
-    width: 208px;
-    height: 120px;
-    overflow-y: scroll;
-  }
-}
-@media only screen and (max-width: 380px) and (min-width: 350px) {
-  .designations-input {
-    width: 268px;
-    height: 43px;
-  }
-  .designations-scroll-bar {
-    width: 268px;
-    height: 120px;
-    overflow-y: scroll;
-  }
-}
-@media only screen and (max-width: 400px) and (min-width: 380px) {
-  .designations-input {
-    width: 283px;
-    height: 43px;
-  }
-  .designation-scroll-bar {
-    width: 283px;
-    height: 120px;
-    overflow-y: scroll;
-  }
-}
-@media only screen and (max-width: 450px) and (min-width: 400px) {
-  .designations-input {
-    width: 504px;
-    height: 43px;
-  }
-  .designation-scroll-bar {
-    width: 504px;
-    height: 120px;
-    overflow-y: scroll;
-  }
-}
-@media only screen and (max-width: 550px) and (min-width: 450px) {
-  .designations-input {
-    width: 530px;
-    height: 43px;
-  }
-  .designation-scroll-bar {
-    width: 530px;
-    height: 120px;
-    overflow-y: scroll;
-  }
-}
-@media only screen and (max-width: 780px) and (min-width: 550px) {
-  .designations-input {
-    width: 515px;
-    height: 43px;
-  }
-  .designation-scroll-bar {
     width: 515px;
     height: 120px;
     overflow-y: scroll;
   }
-}
-@media only screen and (max-width: 992px) and (min-width: 780px) {
-  .designations-input {
-    width: 543px;
-    height: 43px;
-  }
-  .designation-scroll-bar {
-    width: 543px;
-    height: 120px;
-    overflow-y: scroll;
-  }
-}
-@media only screen and (max-width: 1200px) and (min-width: 992px) {
-  .designations-input {
-    width: 530px;
-    height: 43px;
-  }
-  .designations-scroll-bar {
-    width: 530px;
-    height: 120px;
-    overflow-y: scroll;
-  }
-}
-@media only screen and (max-width: 1280px) and (min-width: 1200px) {
-  .designations-input {
-    width: 515px;
-    height: 43px;
-  }
-  .designation-scroll-bar {
-    width: 515px;
-    height: 120px;
-    overflow-y: scroll;
-  }
-}
-@media only screen and (max-width: 1780px) and (min-width: 1290px) {
-  .designations-input {
-    width: 500px;
-    height: 43px;
-  }
-  .designation-scroll-bar {
-    width: 500px;
-    height: 120px;
-    overflow-y: scroll;
-  }
-}
-@media only screen and (max-width: 1280px) and (min-width: 1200px) {
   .designations-auto-input {
     width: 623px;
     height: 43px;
   }
-  .designation-auto-scroll-bar {
+  .designations-auto-scroll-bar {
     width: 623px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-width: 1780px) and (min-width: 1290px) {
+  .designation-input {
+    width: 376px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 376px;
+    height: 120px;
+    overflow-y: scroll;
+  }
+  .designations-input {
+    width: 500px;
+    height: 43px;
+  }
+  .designation-scroll-bar {
+    width: 500px;
     height: 120px;
     overflow-y: scroll;
   }

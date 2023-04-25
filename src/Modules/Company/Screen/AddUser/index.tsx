@@ -94,7 +94,8 @@ function AddUser() {
       })
     );
   }, []);
-  
+  console.log(departmentDropDown[0]?.id,"pppppppp")
+  console.log(departmentDropDown?.value?.id,"ooooooooooo")
 
   const submitAddUserHandler = () => {
     if (designationData[0]?.name !== designationValue) {
@@ -105,9 +106,10 @@ function AddUser() {
         email: email.value,
         gender: gender.value?.id,
         designation_name: designationValue,
+        department_id:departmentDropDown?.value?.id,
         profile_image:photoAttach[0],
       };
-
+console.log(params,"pppppppp")
       const validation = validate(ADD_USER_RULES, {
         branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
@@ -115,6 +117,7 @@ function AddUser() {
         ...(email.value && { email: email.value }),
         gender: gender.value?.id,
         designation_name: designationValue,
+        department_id:departmentDropDown?.value?.id,
         profile_image:photoAttach[0],
       });
       if (ifObjectExist(validation)) {
@@ -125,6 +128,7 @@ function AddUser() {
               if (response.success) {
                 showToast(response.message, "success");
                 goBack();
+                console.log('ooooooooo')
               }
               dispatch(
                 setIsSync({
@@ -149,12 +153,10 @@ function AddUser() {
         email: email.value,
         gender: gender.value.id,
         designation_name: designationData[0]?.id,
-        department_id:departmentDropDown[0]?.id,
+        department_id:departmentDropDown?.value?.id,
         profile_image:photoAttach[0]
       };
-     
-    
-      
+   
       const validation = validate(ADD_USER_RULES, {
         branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
@@ -162,7 +164,7 @@ function AddUser() {
         ...(email.value && { email: email.value }),
         gender: gender.value.id,
         designation_name: designationData[0]?.id,
-        department_id:departmentDropDown[0]?.id,
+        department_id:departmentDropDown?.value?.id,
         profile_image:photoAttach[0],
       });
    
@@ -175,6 +177,7 @@ function AddUser() {
               if (response.success) {
                 showToast(response.message, "success");
                 goBack();
+                
               }
               dispatch(
                 setIsSync({

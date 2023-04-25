@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Table, Button, CommonTable,Image } from '@Components'
+import { Card, Table, Button, CommonTable,Image, MenuBar } from '@Components'
 import { getEmployees } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { HOME_PATH } from '@Routes'
@@ -15,6 +15,9 @@ function CompanyUsers() {
     const { companyDetailsSelected } = useSelector(
         (state: any) => state.AdminReducer
     );
+    const UserProfileEditor=[
+        {id:'0',name:"Edit",icon:'bi bi-pencil'},
+      ]
    
     
     useEffect(() => {
@@ -34,7 +37,14 @@ function CompanyUsers() {
                 name: el.name,
                 profile:  el?.profile_image && <Image variant={'rounded'} src={getPhoto(el?.profile_image)} />,
                 phone: el?.mobile_number,
-                email: el?.email
+                email: el?.email,
+                "":   <MenuBar ListedData={UserProfileEditor} onClick={(index)=>{
+                    // setSubTaskItem(el)
+                   if(index===0)
+                   {
+                   
+                   }
+                  }}  />
             };
         });
     };
