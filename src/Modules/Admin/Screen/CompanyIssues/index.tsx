@@ -5,7 +5,7 @@ import { getTickets } from '@Redux';
 import { CommonTable, NoDataFound } from '@Components';
 import { setIsSync } from '@Redux'
 import { getStatusFromCode } from '@Utils';
-import { t } from 'i18n-js';
+
 function CompanyIssues() {
 
   const dispatch = useDispatch();

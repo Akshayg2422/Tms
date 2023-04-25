@@ -15,12 +15,7 @@ import {
   GET_TICKET_EVENTS,
   GET_TICKET_EVENTS_SUCCESS,
   GET_TICKET_EVENTS_FAILURE,
-  GET_EMPLOYEES,
-  GET_EMPLOYEES_SUCCESS,
-  GET_EMPLOYEES_FAILURE,
-  ADD_EMPLOYEE,
-  ADD_EMPLOYEE_SUCCESS,
-  ADD_EMPLOYEE_FAILURE,
+ 
   GET_REFERENCE_TICKETS,
   GET_REFERENCE_TICKETS_SUCCESS,
   GET_REFERENCE_TICKETS_FAILURE,
@@ -40,9 +35,6 @@ import {
   ADD_TASK_EVENT_SUCCESS,
   ADD_TASK_EVENT_FAILURE,
 
-  UPDATE_EMPLOYEE_PROFILE_PHOTO,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE,
 
   GET_TASK_GROUPL_FAILURE,
   GET_TASK_GROUPL,
@@ -212,65 +204,6 @@ export const getReferenceTicketsFailure = (error: any) => {
 };
 
 
-
-/**
- *get Employee tags
- * @param params
- * @returns
- */
-
-export const getEmployees = (params: any) => {
-
-  return {
-    type: GET_EMPLOYEES,
-    payload: params,
-  };
-};
-
-export const getEmployeesSuccess = (response: any) => {
-
-  return {
-    type: GET_EMPLOYEES_SUCCESS,
-    payload: response,
-  };
-};
-
-export const getEmployeesFailure = (error: any) => {
-  return {
-    type: GET_EMPLOYEES_FAILURE,
-    payload: error,
-  };
-};
-
-/**
- *add Employee tags
- * @param params
- * @returns
- */
-
-export const addEmployee = (params: any) => {
-  return {
-    type: ADD_EMPLOYEE,
-    payload: params,
-  };
-};
-
-export const addEmployeeSuccess = (response: any) => {
-
-  return {
-    type: ADD_EMPLOYEE_SUCCESS,
-    payload: response,
-
-  };
-};
-
-export const addEmployeeFailure = (error: any) => {
-
-  return {
-    type: ADD_EMPLOYEE_FAILURE,
-    payload: error,
-  };
-};
 export const restoreCompany = () => {
 
   return {
@@ -377,30 +310,9 @@ export const addTaskEventFailure = (error: any) => {
   };
 };
 
-export const addUpdateEmployeePhoto = (params: any) => {
- 
-  return {
-    type:UPDATE_EMPLOYEE_PROFILE_PHOTO,
-    payload: params,
-  };
-};
 
-export const addUpdateEmployeePhotoSuccess = (response: any) => {
-  return {
-    type:UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
-    payload: response,
-  };
-};
 
-export const addUpdateEmployeePhotoFailure = (error: any) => {
-
-  return {
-    type:UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE,
-    payload: error,
-  };
-};
-
-//GET 6TASK GROUP
+//GET TASK GROUP
 export const getTaskGroupl = (params: any) => {
   return {
     type: GET_TASK_GROUPL,

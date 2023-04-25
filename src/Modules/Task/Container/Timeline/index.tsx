@@ -29,9 +29,6 @@ function Timeline() {
     }
 
 
-
-    console.log('dad');
-
     return (
         <>
             <CardHeader className={'mt--5'}>

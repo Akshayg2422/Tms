@@ -349,7 +349,7 @@ useEffect(() => {
           : (el?.is_parent ?
             <MenuBar ListedData={menuItemClose} onClick={(index)=>{
               setSubTaskItem(el)
-              // console.log(el,"=======>")
+            
              if(index===0)
              {
               editTaskGroupModal.show()

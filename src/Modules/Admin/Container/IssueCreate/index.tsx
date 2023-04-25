@@ -49,7 +49,7 @@ function IssueCreate() {
     (state: any) => state.AdminReducer
   );
   const { isSync } = useSelector((state: any) => state.AppReducer);
-  const { employees } = useSelector((state: any) => state.CompanyReducer);
+  const { employees } = useSelector((state: any) => state.UserCompanyReducer);
  
 
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =

@@ -158,7 +158,7 @@ const subDepartment=[
 const subChildDepartments=[
   {id:'0',name:"Edit",icon:'bi bi-pencil'},
 ]
-// console.log(departmentDataList,"-------dddddddddddddddddeee")
+
   const getDepartmentList = (pageNumber: number) => {
 
     const params = {
@@ -918,7 +918,7 @@ const handleEndTimeEtaChange = (value: any) => {
         : (el?.is_parent ?
           <MenuBar ListedData={menuItemClose} onClick={(index)=>{
             setSubTaskItem(el)
-            // console.log(el,"=======>")
+        
            if(index===0)
            {
             editTaskGroupModal.show()

@@ -64,8 +64,10 @@ function AutoCompleteDropDownImage({
                 size={'sm'}
                     src={getPhoto(item?.profile_image)}/>}
                     </div>
+                    
             <div>
-              {item?.name}|{item?.designation}
+             <div> {item?.name}</div>
+              {item?.designation} / {item?.department}
                 </div>
                
           </div>

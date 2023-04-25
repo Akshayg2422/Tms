@@ -21,6 +21,14 @@ export interface UserCompanyStateProp {
     addTaskGroup:  any,
     loading?:boolean;
     error?:string;
+    associatedCompanies:any,
+    associatedCompaniesNumOfPages:any,
+    associatedCompaniesCurrentPages:any,
+    addEmployeeDetails:any,
+    updateEmployeeProfile:any,
+    employees:any,
+    response:any,
+    registerAdminResponse:any,
 
 
 }

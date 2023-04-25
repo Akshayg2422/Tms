@@ -49,9 +49,6 @@ function AddUser() {
   const { goBack } = useNavigation();
   let attach=[photo]
   let photoAttach=attach.slice(-1,4)
-
-
-  console.log(departmentData,"==========>")
   useEffect(() => {
     const params = {
       branch_id: companyDetailsSelected?.branch_id,
@@ -94,8 +91,7 @@ function AddUser() {
       })
     );
   }, []);
-  console.log(departmentDropDown[0]?.id,"pppppppp")
-  console.log(departmentDropDown?.value?.id,"ooooooooooo")
+
 
   const submitAddUserHandler = () => {
     if (designationData[0]?.name !== designationValue) {
@@ -109,7 +105,7 @@ function AddUser() {
         department_id:departmentDropDown?.value?.id,
         profile_image:photoAttach[0],
       };
-console.log(params,"pppppppp")
+
       const validation = validate(ADD_USER_RULES, {
         branch_id: companyDetailsSelected?.branch_id,
         first_name: firstName.value,
@@ -128,7 +124,7 @@ console.log(params,"pppppppp")
               if (response.success) {
                 showToast(response.message, "success");
                 goBack();
-                console.log('ooooooooo')
+               
               }
               dispatch(
                 setIsSync({
