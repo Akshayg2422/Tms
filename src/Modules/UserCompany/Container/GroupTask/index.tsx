@@ -15,14 +15,7 @@ import {
 } from "@Components";
 import { translate } from "@I18n";
 import {
-  addDepartment,
-  addDesignation,
-  getDepartmentData,
-  getDesignationData,
-  addBrandSector,
-  addTicketTag,
-  getBrandSector,
-  getTicketTag,
+
   getTaskGroup,
   addTaskGroup
 } from "@Redux";
@@ -68,8 +61,7 @@ function GroupTask() {
     const [addSubPhoto, setAddSubPhoto] = useState("");
   
     const [subCheckBox,setSubCheckBox]=useState(false)
-    
-    const [tagPhoto, setTagPhoto] = useState("");
+ 
     const [editId,setEditId]=useState('')
 
     
@@ -160,7 +152,7 @@ function GroupTask() {
     const params = {
       name: editTask ? convertToUpperCase(editTask) : convertToUpperCase(task),
       description: editDescription ? convertToUpperCase(editDescription) : convertToUpperCase(taskDescription),
-      code: editCode ? editCode : codeFill,
+      code: editCode ? editCode.trim() : codeFill.trim(),
       photo: editPhoto ? editPhotoAttach[0] : PhotoAttach[0],
       ...(editId && { id: editId })
 
@@ -206,7 +198,7 @@ function GroupTask() {
     const params = {
       name: convertToUpperCase(addSubTask),
       description: convertToUpperCase(addSubTaskDescription),
-      code: addSubTaskCode,
+      code: addSubTaskCode.trim(),
       photo: addSubPhotoAttach[0],
       parent_id: addSubTaskItem?.id,
       start_time:startTimeEta,
@@ -278,8 +270,6 @@ useEffect(() => {
 
     if(showClosedTaskGroup===true||showClosedTaskGroup===false){
       CloseTaskGroup()
-    
-  
     }
      },[showClosedTaskGroup])
   
@@ -636,13 +626,16 @@ title={translate("auth.task")!}
 isOpen={addSubTaskModal.visible}
 onClose={() => {
   addSubTaskModal.hide()
+  setAddSubTask('')
+  setAddSubTaskCode('')
+  setAddSubTaskDescription('')
 
 }}
 title={translate("auth.task")!}
 >
 <div className="mt--4">
 <div className='row'> 
-<div className="col-6"> 
+<div className="col"> 
 <Input
     placeholder={translate("auth.task")}
     value={addSubTask}
@@ -705,6 +698,9 @@ title={translate("auth.task")!}
     text={translate("common.cancel")}
     onClick={() => {
       addSubTaskModal.hide()
+      setAddSubTask('')
+      setAddSubTaskCode('')
+      setAddSubTaskDescription('')
 
     }}
   />

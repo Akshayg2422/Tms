@@ -213,6 +213,7 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
       },
       code:{
         presence: { allowEmpty: false, message: "code name cannot be empty" },
+        length: { minimum: 3, message: "Code minimum 3 chars" },
 
       },
       description:{
@@ -231,6 +232,7 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
       },
       code:{
         presence: { allowEmpty: false, message: "code name cannot be empty" },
+        length: { minimum: 3, message: "Code minimum 3 chars" },
 
       },
       description:{
