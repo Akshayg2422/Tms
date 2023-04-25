@@ -83,7 +83,9 @@ function Timeline() {
                                                 {el.assigned_to?.name}
                                             </h6>
                                             <h6 className="text-sm mt-1 mb-0">
-                                                {el.event_type}
+                                                {el.event_type === 'TGU' ? <small className={'text-muted'}>TAGGED USERS</small> :
+                                                    el.event_type === 'RGU' ? <small className={'text-muted'}>REASSIGNED USER</small> : null}
+
                                             </h6>
                                         </div>
                                     </div>
