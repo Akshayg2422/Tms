@@ -1,7 +1,7 @@
-import { AppLoader, PageNotFound, ScreenWrapper, Sidebar } from "@Components";
+import { AppLoader, ScreenWrapper, Sidebar } from "@Components";
 import { Route, Routes } from "react-router-dom";
 import { ADMIN_ROUTES, AUTH_ROUTES, HOME_PATH } from "@Routes";
-import { AddReferenceTask, AddReferenceTicket, AddSubTask, AddTask, AddUser, AdminDashboard, CompanyDashBoard, CompanyDetails, CreateBroadCast, CreateCompany, IssueCreate, IssueDetails, PushNotification, TaskDetails } from "@Modules";
+import { AddReferenceTask, AddReferenceTicket, AddSubTask, AddTask, AddUser, AdminDashboard, CompanyDetails, CreateBroadCast, CreateCompany, IssueCreate, IssueDetails, PushNotification, TaskDetails } from "@Modules";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -26,8 +26,8 @@ function App() {
   const { loginUserSuccess } = useSelector((state: any) => state.AdminReducer);
 
   const fcmToken = localStorage.getItem(FCM_TOKEN)
-  console.log("FCM TOKEN======>", fcmToken)
- 
+  console.log("FCM TOKEN APP.TSX======>", fcmToken)
+
 
   const getRoutes = (routes: any) => {
     return routes.map((prop: any, key: any) => {
@@ -46,16 +46,17 @@ function App() {
     <ScreenWrapper>
       <PushNotification />
       <AppLoader />
-   {loginUserSuccess &&
-   
-    <AdminDashboard/>
-      
+      {loginUserSuccess &&
+
+        <AdminDashboard />
+
       }
-      
-   <div className={"main-content"} >
-      <Routes>
-        {getRoutes(AUTH_ROUTES)}
-        {getRoutes(ADMIN_ROUTES)}
+      <div className={"main-content"} >
+
+
+        <Routes>
+          {getRoutes(AUTH_ROUTES)}
+          {getRoutes(ADMIN_ROUTES)}
           <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany />} />
           <Route path={HOME_PATH.COMPANY_INFO} element={<CompanyDetails />} />
           <Route path={HOME_PATH.ADD_USER} element={<AddUser />} />
@@ -65,16 +66,17 @@ function App() {
           <Route path={HOME_PATH.CREATE_BROAD_CAST} element={<CreateBroadCast />} />
           <Route path={HOME_PATH.ISSUE_TICKET} element={<IssueCreate />} />
           <Route path={HOME_PATH.ADD_TASK} element={<AddTask />} />
-          <Route path={HOME_PATH.TASK_DETAILS+'/:id'} element={<TaskDetails />} />
+          <Route path={HOME_PATH.TASK_DETAILS + '/:id'} element={<TaskDetails />} />
           <Route path={HOME_PATH.ADD_SUB_TASK} element={<AddSubTask />} />
-        {/* <Route path={HOME_PATH.DASHBOARD } element={<AdminDashboard />} /> */}
-        {/* <Route path={HOME_PATH.COMPANY + "/*"} element={<CompanyDashBoard />} /> */}
-        {/* <Route path={"*"} element={<PageNotFound />} /> */}
-      </Routes>
+          {/* <Route path={HOME_PATH.DASHBOARD } element={<AdminDashboard />} /> */}
+          {/* <Route path={HOME_PATH.COMPANY + "/*"} element={<CompanyDashBoard />} /> */}
+          {/* <Route path={"*"} element={<PageNotFound />} /> */}
+        </Routes>
       </div>
-      
-      
-    
+
+      {/* <DeviceInfo/> */}
+
+
       <ToastContainer />
 
     </ScreenWrapper>

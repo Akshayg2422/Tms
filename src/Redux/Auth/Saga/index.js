@@ -10,7 +10,8 @@ import {
   registerCompanyApi,
   SectorServiceTypesApi,
   registerAdminApi,
-  otpLoginApi
+  otpLoginApi,
+  addPushNotificationApi
 
 } from '@Services';
 
@@ -48,7 +49,10 @@ import {
   REGISTER_ADMIN,
   otpLoginFailure,
   otpLoginSuccess,
-  OTP_LOGIN
+  OTP_LOGIN,
+  addPushNotificationSuccess,
+  addPushNotificationFailure,
+  PUSH_NOTIFICATION
 } from '@Redux';
 
 
@@ -297,6 +301,29 @@ function* sectorServiceTypesSaga(action) {
   }
 }
 
+function* pushNotificationSaga(action) {
+  console.log('called');
+  try {
+    yield put(showLoader());
+    const response = yield call(addPushNotificationApi, action.payload.params);
+    console.log("responseeeeeesagaa==>",response)
+    if (response.success) {
+      yield put(hideLoader());
+      yield put(addPushNotificationSuccess( ...response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(hideLoader());
+      yield put(addPushNotificationFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(hideLoader());
+    yield put(addPushNotificationFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
 
 
 ///watcher///
@@ -313,6 +340,7 @@ function* AuthSaga() {
   yield takeLatest(REGISTER_COMPANY, registerCompanySaga);
   yield takeLatest(SECTOR_SERVICE_TYPES, sectorServiceTypesSaga);
   yield takeLatest(REGISTER_ADMIN, registerAdminSaga);
+  yield takeLatest(PUSH_NOTIFICATION, pushNotificationSaga);
 }
 
 export default AuthSaga;

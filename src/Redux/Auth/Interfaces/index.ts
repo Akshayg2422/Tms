@@ -29,4 +29,5 @@ export interface AuthSliceStateProp {
   businessSectorDropdownData?: BrandSectorDetailsItem;
   businessServiceTypesDropdownData?: SectorServiceTypes;
   selectedGoogleBusinessPlaceDetails?: BusinessPlaceDetailsDetailsItem;
+  notification?: any;
 }
