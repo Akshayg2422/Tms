@@ -247,24 +247,19 @@ function GroupTask() {
 
     }
   };
-  const CloseTaskGroup = () => {
+  const CloseTaskGroup = (item) => {
 
    const  params ={
-    id:addSubTaskItem.id,
-    marked_as_closed:showClosedTaskGroup
+    id:item?.id,
+    marked_as_closed:item?.marked_as_closed?false:true,
+
 }
 dispatch(
   addTaskGroup({
     params,
     onSuccess: (success: any) => () => {
-   
-      dispatch(
-        getTaskGroup({
-          params,
-          onSuccess: (success: any) => () => { },
-          onError: (error: string) => () => { },
-        })
-      );
+      getTaskGroupList(taskGroupCurrentPages)
+  
       showToast(success.message, "success");
     },
     onError: (error: string) => () => {
@@ -272,16 +267,6 @@ dispatch(
     },
   })
 );}
-
-useEffect(() => {
-
-
-    if(showClosedTaskGroup===true||showClosedTaskGroup===false){
-      CloseTaskGroup()
-    
-  
-    }
-     },[showClosedTaskGroup])
   
      useEffect(()=>{
       if(showTaskGroup===true){
@@ -322,9 +307,9 @@ useEffect(() => {
            }
            if(index===2)
            {
-            setClosedTaskGroup(false)
-           
         
+              CloseTaskGroup(el)
+         
            }
           }}  />:
           <MenuBar ListedData={subGroupMenuItemOpen} onClick={(index)=>{
@@ -341,7 +326,11 @@ useEffect(() => {
           
            if(index===1)
            {
-            setClosedTaskGroup(false)
+          
+              CloseTaskGroup(el)
+            
+        
+           
            }
           }}  />
   
@@ -365,12 +354,17 @@ useEffect(() => {
              }
              if(index===2)
              {
-              setClosedTaskGroup(true)
+           
+                CloseTaskGroup(el)
+              
+          
+             
              }
             }}  />
             : 
             <MenuBar ListedData={subGroupMenuItemClose} onClick={(index)=>{
               setSubTaskItem(el)
+             
              if(index===0)
              {
               editTaskGroupModal.show()
@@ -383,7 +377,11 @@ useEffect(() => {
           
              if(index===1)
              {
-              setClosedTaskGroup(true)
+           
+                CloseTaskGroup(el)
+              
+          
+          
              
         
              }
