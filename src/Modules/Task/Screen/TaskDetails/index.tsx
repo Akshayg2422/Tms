@@ -19,9 +19,9 @@ function TaskDetails() {
 
     const TABS = [
         { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>COMMENTS</span></div>, component: <Comments /> },
-        { id: "2", title: <div className="bi bi-paperclip">ATTACH</div>, component: <TaskAttachments /> },
-        { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCE</span></div>, component: <ReferenceTasks /> },
-        { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USER</span></div>, component: <TaskUsers /> },
+        { id: "2", title: <div className="bi bi-paperclip">ATTACHMENTS</div>, component: <TaskAttachments /> },
+        { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCES</span></div>, component: <ReferenceTasks /> },
+        { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USERS</span></div>, component: <TaskUsers /> },
     ];
 
     const [selectedTab, setSelectedTab] = useState(TABS[0]);
@@ -46,6 +46,7 @@ function TaskDetails() {
 
                                 <div className={'col text-right mt--2 m-o p-0'}>
                                     <Button
+                                    style={{ padding: '3px 3px' }}
                                         size={"sm"}
                                         text={translate('common.addNew')}
                                         onClick={() => {
@@ -55,7 +56,7 @@ function TaskDetails() {
                                 </div>
                             </div>
 
-                            <div className={'container'}><SubTaskListing /></div>
+                            <Card className={'overflow-auto overflow-hide container shadow-none'} style={{ height: '50vh' }}><SubTaskListing /></Card>
 
                         </Card>
                     </div>

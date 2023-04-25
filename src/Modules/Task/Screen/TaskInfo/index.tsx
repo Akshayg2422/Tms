@@ -120,9 +120,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
             })
         )
     }
-    // console.log('taskstaskstaskstaskstaskstaskstaskstaskstasks', JSON.stringify(tasks));
-
-
+   
     return (
         <HomeContainer>
 
@@ -225,8 +223,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
 
                     <div className="row">
                         {tasks && tasks.data.length > 0 && tasks.data.map((task: any) => {
-                            // console.log('11',task.assigned_to?.id);
-                            // console.log('22',dashboardDetails.user_details?.id);
+                          
                             return (
                                 task.assigned_to?.id === dashboardDetails.user_details?.id ?
                                     <>

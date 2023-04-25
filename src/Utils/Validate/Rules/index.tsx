@@ -30,6 +30,10 @@ export const ADD_USER_RULES = {
   designation_name: {
     presence: { allowEmpty: false, message: "Designation cannot be empty" },
   },
+
+  department_id:{
+    presence: { allowEmpty: false, message: "Department cannot be empty" },
+  },
   profile_image:{
     presence: { allowEmpty: false, message: "profile image cannot be empty" }
   }

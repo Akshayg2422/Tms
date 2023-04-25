@@ -25,7 +25,7 @@ import { translate } from "@I18n";
 import { useInput, useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { icons } from "@Assets";
-import { TGU, RGU } from '@Utils';
+import { TGU, RGU, getPhoto } from '@Utils';
 
 
 function TagAndAssignUser() {
@@ -34,7 +34,7 @@ function TagAndAssignUser() {
     const [openModalReassignUser, setOpenModalReassignUser] = useState(false)
     const dispatch = useDispatch()
     const { taskItem } = useSelector((state: any) => state.AdminReducer);
-    const { employees } = useSelector((state: any) => state.CompanyReducer);
+    const { employees } = useSelector((state: any) => state.UserCompanyReducer);
     const { goTo } = useNavigation()
     const [selectTagUser, setSelectTagUser] = useState([])
     const [selectReassignUser, setSelectReassignUser] = useState<any>('')
@@ -162,7 +162,7 @@ function TagAndAssignUser() {
                 onClose={() => {
                     setOpenModalTagUser(!openModalTagUser)
                 }}>
-                <div className="input-group bg-white border mt--6 mb-2 col-lg-6 col-md-6 ">
+                <div className="input-group bg-white border p-0 mt--6 mb-3 col-lg-4 col-md-4">
                     <input
                         type="text"
                         className="form-control bg-transparent border border-0"
@@ -179,8 +179,7 @@ function TagAndAssignUser() {
                     }}>
                     {
                         employees && employees.length > 0 && employees.map((tagUser: any, index: number) => {
-                            // console.log('tagUsertagUser',JSON.stringify(tagUser));
-                            
+
                             const selected = selectTagUser.some(
                                 (selectUserEl: any) => selectUserEl === tagUser?.id
                             );
@@ -189,19 +188,33 @@ function TagAndAssignUser() {
                             return (
                                 <>
 
-                                    <div className="row">
-                                        <H
-                                            className="py-2 m-0 col-10 pointer"
-                                            tag={'h5'}
-                                            text={capitalizedTagUserName}
-                                            onClick={() => { (onSelectedTagUser(tagUser)) }}
-                                        />
-                                        {
-                                            selected &&
-                                            <span className="pt-2">
-                                                <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
-                                            </span>
-                                        }
+                                    <div className="container">
+                                        <div className="row">
+                                            <div className="col-1 p-0 d-flex justify-content-start"> {tagUser.profile_image ? <Image variant={'rounded'} src={getPhoto(tagUser.profile_image)} /> : <Image variant={'rounded'} src='https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png' />} </div>
+                                            <div className={'col-10'}>
+                                                <H
+                                                    className="py-1 m-0 pointer"
+                                                    tag={'h5'}
+                                                    text={capitalizedTagUserName}
+                                                    onClick={() => { (onSelectedTagUser(tagUser)) }}
+                                                />
+                                                <div className={'row'}>
+                                                    <div className={' col-2 h6 mb-0 text-uppercase text-muted '} >{tagUser?.department?.name || "Akshay"}</div>
+                                                    <div className={'col-1 mx--4 h6 text-uppercase text-muted'}>|</div>
+                                                    <div className={'col-2 h6 mb-0 text-uppercase text-muted'}>{tagUser?.designation?.name || "Naveen"}</div>
+                                                </div>
+                                            </div>
+
+                                            <div className={'col-1 d-flex align-items-center'}>
+                                                {
+                                                    selected &&
+                                                    <span className="pt-2">
+                                                        <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
+                                                    </span>
+                                                }
+                                            </div>
+
+                                        </div>
                                     </div>
                                     <div className=''>{index !== employees.length && <Divider space={'1'} />}</div>
                                 </>
@@ -211,6 +224,7 @@ function TagAndAssignUser() {
                 </div>
                 <div className="pt-3 text-right">
                     <Button
+                        size={'sm'}
                         text={translate("common.submit")}
                         onClick={() => { ProceedTagUser() }} />
                 </div>
@@ -225,7 +239,7 @@ function TagAndAssignUser() {
                 onClose={() => {
                     setOpenModalReassignUser(!openModalReassignUser)
                 }}>
-                <div className="input-group bg-white border mt--6 mb-2 col-lg-6 col-md-6 ">
+                <div className="input-group bg-white border mt--6 mb-3 col-lg-4 col-md-4 ">
                     <input
                         type="text"
                         className="form-control bg-transparent border border-0"
@@ -247,20 +261,35 @@ function TagAndAssignUser() {
                             const capitalizedReassignUserName = ReassignUser.name.slice(0, 1).toUpperCase() + ReassignUser.name.slice(1)
                             return (
                                 <>
-                                    <div className="row">
-                                        <H
-                                            className="col-11 py-2 m-0 pointer"
-                                            tag={'h5'}
-                                            text={capitalizedReassignUserName}
-                                            onClick={() => { setSelectReassignUser(ReassignUser) }} />
-                                        {
-                                            selected &&
-                                            <span className="pt-2">
-                                                <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
-                                            </span>
-                                        }
+                                    <div className="container">
+                                        <div className="row">
+                                            <div className="col-1 p-0 d-flex justify-content-start"> {ReassignUser.profile_image ? <Image variant={'rounded'} src={getPhoto(ReassignUser.profile_image)} /> : <Image variant={'rounded'} src='https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png' />} </div>
+                                            <div className={'col-10'}>
+                                                <H
+                                                    className="py-1 m-0 pointer"
+                                                    tag={'h5'}
+                                                    text={capitalizedReassignUserName}
+                                                    onClick={() => { (setSelectReassignUser(ReassignUser)) }}
+                                                />
+                                                <div className={'row'}>
+                                                    <div className={' col-2 h6 mb-0 text-uppercase text-muted '} >{ReassignUser?.department?.name || "Akshay"}</div>
+                                                    <div className={'col-1 mx--4 h6 text-uppercase text-muted'}>|</div>
+                                                    <div className={'col-2 h6 mb-0 text-uppercase text-muted'}>{ReassignUser?.designation?.name || "Naveen"}</div>
+                                                </div>
+                                            </div>
+
+                                            <div className={'col-1 d-flex align-items-center'}>
+                                                {
+                                                    selected &&
+                                                    <span className="pt-2">
+                                                        <Image className="bg-white" variant={'avatar'} size={'xs'} src={icons.tickGreen} />
+                                                    </span>
+                                                }
+                                            </div>
+
+                                        </div>
                                     </div>
-                                    <div className='mx--4'>{index !== employees.length && <Divider space={'1'} />}</div>
+                                    <div className=''>{index !== employees.length && <Divider space={'1'} />}</div>
                                 </>
                             )
                         })
@@ -268,6 +297,7 @@ function TagAndAssignUser() {
                 </div>
                 <div className="pt-3 text-right">
                     <Button
+                        size={'sm'}
                         text={translate("common.submit")}
                         onClick={() => { ProceedReassignUser() }} />
                 </div>

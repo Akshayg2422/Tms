@@ -1,7 +1,7 @@
 import {GetAssociatedCompanies} from '@Services';
 
 export interface AdminStateProp {
-  associatedCompanies?: GetAssociatedCompanies;
+  // associatedCompanies?: GetAssociatedCompanies;
   dashboardDetails?: any;
   selectedIssues?: any;
   loading?:boolean;
@@ -13,8 +13,8 @@ export interface AdminStateProp {
   referenceIssueSelectedDetails:any;
   selectedReferenceIssues:any;
   companyBranchNames:any;
-  associatedCompaniesNumOfPages:any,
-  associatedCompaniesCurrentPages:any,
+  // associatedCompaniesNumOfPages:any,
+  // associatedCompaniesCurrentPages:any,
   tasks:any,
    showSubTaskGroup:any,
   taskNumOfPages:any,

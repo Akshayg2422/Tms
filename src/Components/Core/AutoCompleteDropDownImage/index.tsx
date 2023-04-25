@@ -15,7 +15,6 @@ function AutoCompleteDropDownImage({
   value,
   item,
   onSelect,
-  shouldItemRender,
   onChange,
   getItemValue,
   heading,
@@ -38,7 +37,6 @@ function AutoCompleteDropDownImage({
             placeholder={placeholder}
               className={ `${autoCompleteInputSize===true?"designations-input form-control col":'designations-auto-input form-control col'} `}
               {...props}
-              
             />
           </FormGroup>
         )}
@@ -51,7 +49,7 @@ function AutoCompleteDropDownImage({
         onSelect={onSelect}
         
         renderMenu={(children) => (
-          <div className="menu designation-scroll-bar">{children}</div>
+          <div className={ `${autoCompleteInputSize===true?"menu designation-scroll-bar":'menu designations-auto-scroll-bar'} `}>{children}</div>
         )}
         renderItem={(item, isHighlighted) => (
           <div
@@ -66,8 +64,10 @@ function AutoCompleteDropDownImage({
                 size={'sm'}
                     src={getPhoto(item?.profile_image)}/>}
                     </div>
+                    
             <div>
-              {item?.name}|{item?.designation}
+             <div> {item?.name}</div>
+              {item?.designation} / {item?.department}
                 </div>
                
           </div>
