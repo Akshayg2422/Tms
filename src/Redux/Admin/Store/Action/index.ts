@@ -294,6 +294,7 @@ export const loginUser = (params: any) => {
   }
 }
 export const getTasks = (params: any) => {
+  console.log(params,"pppp")
 
   return {
     type: GET_TASKS,
@@ -301,6 +302,7 @@ export const getTasks = (params: any) => {
   }
 }
 export const getTasksSuccess = (response: any) => {
+  console.log(response,"rrrrrrrr")
   return {
 
     type: GET_TASKS_SUCCESS,
@@ -360,6 +362,7 @@ export const getSubTasksFailure = (error: any) => {
 }
 
 export const getTaskItem = (params: any) => {
+  console.log(params,"p=============>")
   return {
     type: GET_TASKS_ITEM,
     payload: params

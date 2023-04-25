@@ -40,12 +40,13 @@ function ReferenceTasks() {
 
 
   const normalizedTableData = (data: any) => {
+   
     return data.map((el: any) => {
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
         status: getStatusFromCode(dashboardDetails, el.task_status),
-        "assigned to": el?.assigned_to.name,
+        "assigned to": el?.assigned_to?.name,
         phone: el?.by_user.phone,
         email: el?.by_user.email
       };

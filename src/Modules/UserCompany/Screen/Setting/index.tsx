@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { BrandSector, Department, Designation, GroupTask, Tag } from '@Modules'
 
 function Setting() {

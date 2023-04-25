@@ -22,7 +22,7 @@ import {
 } from "@Utils";
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
-import { addEmployee, getDesignationData, setIsSync } from "@Redux";
+import { addEmployee, getDepartmentData, getDesignationData, setIsSync } from "@Redux";
 import { icons } from "@Assets";
 
 // import Autocomplete from "react-autocomplete";
@@ -31,14 +31,15 @@ function AddUser() {
   const { companyDetailsSelected,  } = useSelector(
     (state: any) => state.AdminReducer
   );
-  const { designationData,  } = useSelector(
+  const { designationData,departmentData } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
 
   
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const [photo, setPhoto] = useState("");
-
+  const departmentDropDown = useDropDown([0])
+  const [departmentDatalist, setDepartmentDatalist] = useState<any>()
   const dispatch = useDispatch();
   const firstName = useInput("");
   const contactNumber = useInput("");
@@ -50,6 +51,7 @@ function AddUser() {
   let photoAttach=attach.slice(-1,4)
 
 
+  console.log(departmentData,"==========>")
   useEffect(() => {
     const params = {
       branch_id: companyDetailsSelected?.branch_id,
@@ -58,8 +60,37 @@ function AddUser() {
     dispatch(
       getDesignationData({
         params,
-        onSuccess: () => () => { },
-        onError: () => () => { },
+        onSuccess: (response:any) => () => { 
+
+         
+        },
+        onError: () => () => { 
+          setDepartmentDatalist([])
+        },
+      })
+    );
+  }, []);
+
+
+  useEffect(() => {
+    const params = {
+      branch_id: companyDetailsSelected?.branch_id,
+    };
+   
+    dispatch(
+      getDepartmentData({
+        params,
+        onSuccess: (response:any) => () => {
+          let departmentDetails: any = [];
+          response?.details?.data?.forEach((item) => {
+            departmentDetails = [...departmentDetails, { ...item, text: item.name }]
+          })
+        
+          setDepartmentDatalist(departmentDetails)
+         },
+        onError: () => () => {
+          setDepartmentDatalist([])
+         },
       })
     );
   }, []);
@@ -118,6 +149,7 @@ function AddUser() {
         email: email.value,
         gender: gender.value.id,
         designation_name: designationData[0]?.id,
+        department_id:departmentDropDown[0]?.id,
         profile_image:photoAttach[0]
       };
      
@@ -130,6 +162,7 @@ function AddUser() {
         ...(email.value && { email: email.value }),
         gender: gender.value.id,
         designation_name: designationData[0]?.id,
+        department_id:departmentDropDown[0]?.id,
         profile_image:photoAttach[0],
       });
    
@@ -214,6 +247,18 @@ function AddUser() {
               />
             )}
           </div>
+        
+            <DropDown
+              heading={translate("common.department")}
+               data={departmentDatalist}
+               selected={departmentDropDown.value}
+               value={departmentDropDown.value}
+              onChange={(item) => {
+                departmentDropDown.onChange(item)
+               
+              }}
+            />
+         
           <div >
           <label className={`form-control-label`}>
           {translate("auth.attach")}

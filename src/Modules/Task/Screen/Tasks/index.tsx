@@ -14,7 +14,6 @@ import { icons } from "@Assets";
 
 function Tasks() {
 
-
   const date = new Date();
   const time = date.getHours()
 
@@ -32,18 +31,18 @@ function Tasks() {
   const subTaskGroupList = useDropDown([0])
   const [departmentDatalist, setDepartmentDatalist] = useState<any>()
   const [designationDatalist, setDesignationDatalist] = useState<any>()
-  console.log('=============>', departmentDatalist)
+
 
   const taskPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
   const companyType = useDropDown(COMPANY_TYPE[0])
-  console.log('==++',companyType?.value?.id)
+
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [subGroupDropDownData, setSubGroupDropDownData] = useState<any>();
   const [basicTag, setBasicTag] = useState(true)
   const [advanceTag, setAdvanceTag] = useState(false)
   const [selectTag, setSelectTag] = useState<any>([0])
-  // console.log('====>MMMMMMMMMm',subGroupDropDownData)
+
   const getCompanyBranchDropdown = (details: any) => {
 
     let companies: any = [];
@@ -505,7 +504,8 @@ function Tasks() {
             </div>
           }
        
-          { departmentDatalist&&departmentDatalist.length>0 &&<div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+          { departmentDatalist&&departmentDatalist.length>0 &&
+          <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
             <DropDown
               className="form-control-sm"
               heading={<h4 className={'mb--2'} style={{ fontSize: "12px" }}>{translate("common.department")}</h4>}
@@ -588,6 +588,7 @@ function Tasks() {
             }
             }
             tableOnClick={(idx, index, item) => {
+             
               dispatch(getTaskItem(item));
               dispatch(getSelectReferenceId(undefined))
               dispatch(getSelectSubTaskId(undefined))
