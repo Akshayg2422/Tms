@@ -161,10 +161,9 @@ function AddTask() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
-                 
                     let companiesDashboard: any = [];
                     response?.details?.forEach((item) => {
-                        companiesDashboard = [...companiesDashboard, {...item, designation:item?.designation?.name,department:item?.designation?.name}];
+                        companiesDashboard = [...companiesDashboard, {...item, designation:item?.designation?.name,department:item?.department?.name}];
                     });
                     setCompanyUserDashboard(companiesDashboard);
                 },
@@ -205,10 +204,6 @@ function AddTask() {
         }
     }, [typeSelect, selectedCompany]);
     
-
-
-
-
     const handleEtaChange = (value: any) => {
         setEta(value);
     };
