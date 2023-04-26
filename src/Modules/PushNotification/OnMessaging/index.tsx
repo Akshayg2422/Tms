@@ -1,4 +1,4 @@
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { getMessaging, onMessage } from 'firebase/messaging'; /**It calls getMessaging to retrieve a messaging instance */
 
 const messaging = getMessaging();
 

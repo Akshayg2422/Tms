@@ -13,7 +13,6 @@ function TaskInfo({ onClick }: TaskInfoProps) {
     const { goBack } = useNavigation();
 
     const { taskItem, getSubTaskId, tasks, dashboardDetails } = useSelector((state: any) => state.AdminReducer);
-    const { taskEvents } = useSelector((state: any) => state.CompanyReducer);
     const dispatch = useDispatch();
     const { title, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time } = getSubTaskId ? getSubTaskId : taskItem;
     const [editEta, setEditEta] = useState(false)
@@ -67,8 +66,6 @@ function TaskInfo({ onClick }: TaskInfoProps) {
 
     useEffect(() => {
 
-        // submitCurrentStartTime();
-
         const interval = setInterval(() => {
             setCurrentStartTime(new Date());
         }, 1000);
@@ -96,7 +93,6 @@ function TaskInfo({ onClick }: TaskInfoProps) {
 
     useEffect(() => {
 
-        // submitCurrentEndTime()
         const interval = setInterval(() => {
             setCurrentEndTime(new Date());
         }, 1000);
@@ -120,7 +116,8 @@ function TaskInfo({ onClick }: TaskInfoProps) {
             })
         )
     }
-   
+
+
     return (
         <HomeContainer>
 
@@ -242,10 +239,6 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                                     </> : null
                             )
                         })}
-
-
-
-
                     </div>
                 </div>
             </Card >
