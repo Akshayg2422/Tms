@@ -1,8 +1,8 @@
 import { takeLatest, put, call } from "redux-saga/effects";
 import {
- 
+
   getDashboardApi,
- 
+
   getAssociatedCompanieslApi,
 
   getTaskApi,
@@ -11,19 +11,17 @@ import {
   getReferenceTasksApi,
   getTaskUsersApi,
   getTicketUsersApi,
- 
+
   getTaskSubGroupApi,
   getTaskHistoryApi
 
 } from "@Services";
 import {
- 
+
   GET_ASSOCIATED_COMPANY_BRANCH,
   GET_DASHBOARD,
-  
   showLoader,
   hideLoader,
-
   getAssociatedCompanyBranchSuccess,
   getAssociatedCompanyBranchFailure,
   getDashboardSuccess,
@@ -136,7 +134,7 @@ function* getTasksSaga(action) {
   try {
     yield put(showLoader());
     const response = yield call(getTaskApi, action.payload.params);
-   
+
     if (response.success) {
       yield put(hideLoader());
       yield put(getTasksSuccess(response));
@@ -259,14 +257,14 @@ function* getTaskSubGroupSaga(action) {
       yield put(getTaskSubGroupFailure(response.error_message));
     }
   }
-    catch 
-    (error) {
+  catch
+  (error) {
     yield put(hideLoader());
     yield put(getTaskSubGroupFailure("Invalid Request"));
     yield call(action.payload.onError(error));
-    }
   }
-  
+}
+
 /**
  * GET TASK HISTORY
  */
@@ -276,7 +274,7 @@ function* getTaskHistorySaga(action) {
     yield put(showLoader());
 
     const response = yield call(getTaskHistoryApi, action.payload.params);
-  
+
     if (response.success) {
       yield put(hideLoader());
       yield put(getTaskHistorySuccess(response));

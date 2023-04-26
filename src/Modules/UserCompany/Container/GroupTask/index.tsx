@@ -15,14 +15,7 @@ import {
 } from "@Components";
 import { translate } from "@I18n";
 import {
-  addDepartment,
-  addDesignation,
-  getDepartmentData,
-  getDesignationData,
-  addBrandSector,
-  addTicketTag,
-  getBrandSector,
-  getTicketTag,
+
   getTaskGroup,
   addTaskGroup
 } from "@Redux";
@@ -68,8 +61,7 @@ function GroupTask() {
     const [addSubPhoto, setAddSubPhoto] = useState("");
   
     const [subCheckBox,setSubCheckBox]=useState(false)
-    
-    const [tagPhoto, setTagPhoto] = useState("");
+ 
     const [editId,setEditId]=useState('')
 
     
@@ -160,7 +152,7 @@ function GroupTask() {
     const params = {
       name: editTask ? convertToUpperCase(editTask) : convertToUpperCase(task),
       description: editDescription ? convertToUpperCase(editDescription) : convertToUpperCase(taskDescription),
-      code: editCode ? editCode : codeFill,
+      code: editCode ? editCode.trim() : codeFill.trim(),
       photo: editPhoto ? editPhotoAttach[0] : PhotoAttach[0],
       ...(editId && { id: editId })
 
@@ -206,7 +198,7 @@ function GroupTask() {
     const params = {
       name: convertToUpperCase(addSubTask),
       description: convertToUpperCase(addSubTaskDescription),
-      code: addSubTaskCode,
+      code: addSubTaskCode.trim(),
       photo: addSubPhotoAttach[0],
       parent_id: addSubTaskItem?.id,
       start_time:startTimeEta,
@@ -247,24 +239,19 @@ function GroupTask() {
 
     }
   };
-  const CloseTaskGroup = () => {
+  const CloseTaskGroup = (item) => {
 
    const  params ={
-    id:addSubTaskItem.id,
-    marked_as_closed:showClosedTaskGroup
+    id:item?.id,
+    marked_as_closed:item?.marked_as_closed?false:true,
+
 }
 dispatch(
   addTaskGroup({
     params,
     onSuccess: (success: any) => () => {
-   
-      dispatch(
-        getTaskGroup({
-          params,
-          onSuccess: (success: any) => () => { },
-          onError: (error: string) => () => { },
-        })
-      );
+      getTaskGroupList(taskGroupCurrentPages)
+  
       showToast(success.message, "success");
     },
     onError: (error: string) => () => {
@@ -272,16 +259,6 @@ dispatch(
     },
   })
 );}
-
-useEffect(() => {
-
-
-    if(showClosedTaskGroup===true||showClosedTaskGroup===false){
-      CloseTaskGroup()
-    
-  
-    }
-     },[showClosedTaskGroup])
   
      useEffect(()=>{
       if(showTaskGroup===true){
@@ -322,9 +299,9 @@ useEffect(() => {
            }
            if(index===2)
            {
-            setClosedTaskGroup(false)
-           
         
+              CloseTaskGroup(el)
+         
            }
           }}  />:
           <MenuBar ListedData={subGroupMenuItemOpen} onClick={(index)=>{
@@ -341,7 +318,11 @@ useEffect(() => {
           
            if(index===1)
            {
-            setClosedTaskGroup(false)
+          
+              CloseTaskGroup(el)
+            
+        
+           
            }
           }}  />
   
@@ -365,12 +346,17 @@ useEffect(() => {
              }
              if(index===2)
              {
-              setClosedTaskGroup(true)
+           
+                CloseTaskGroup(el)
+              
+          
+             
              }
             }}  />
             : 
             <MenuBar ListedData={subGroupMenuItemClose} onClick={(index)=>{
               setSubTaskItem(el)
+             
              if(index===0)
              {
               editTaskGroupModal.show()
@@ -383,7 +369,11 @@ useEffect(() => {
           
              if(index===1)
              {
-              setClosedTaskGroup(true)
+           
+                CloseTaskGroup(el)
+              
+          
+          
              
         
              }
@@ -636,13 +626,16 @@ title={translate("auth.task")!}
 isOpen={addSubTaskModal.visible}
 onClose={() => {
   addSubTaskModal.hide()
+  setAddSubTask('')
+  setAddSubTaskCode('')
+  setAddSubTaskDescription('')
 
 }}
 title={translate("auth.task")!}
 >
 <div className="mt--4">
 <div className='row'> 
-<div className="col-6"> 
+<div className="col"> 
 <Input
     placeholder={translate("auth.task")}
     value={addSubTask}
@@ -705,6 +698,9 @@ title={translate("auth.task")!}
     text={translate("common.cancel")}
     onClick={() => {
       addSubTaskModal.hide()
+      setAddSubTask('')
+      setAddSubTaskCode('')
+      setAddSubTaskDescription('')
 
     }}
   />
