@@ -81,3 +81,31 @@ export const addTaskEventFailure = (error: any) => {
         payload: error,
     };
 };
+
+/** 
+ * Task Event History
+ */
+
+
+export const getTaskEventHistory = (params: any) => {
+    return {
+        type: ActionTypes.GET_TASK_EVENT_HISTORY,
+        payload: params,
+    };
+};
+
+export const getTaskEventHistorySuccess = (response: any) => {
+
+    return {
+        type: ActionTypes.GET_TASK_EVENT_HISTORY_SUCCESS,
+        payload: response,
+    };
+};
+
+export const getTaskEventHistoryFailure = (error: any) => {
+
+    return {
+        type: ActionTypes.GET_TASK_EVENT_HISTORY_FAILURE,
+        payload: error,
+    };
+};

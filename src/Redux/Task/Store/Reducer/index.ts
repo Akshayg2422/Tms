@@ -7,7 +7,8 @@ const initialState: TaskStateProp = {
   taskNumOfPages: undefined,
   taskCurrentPages: 1,
   selectedTask: undefined,
-  addTaskEvents: undefined
+  addTaskEvents: undefined,
+  taskEventHistories: undefined
 
 };
 
@@ -85,6 +86,25 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
     case ActionTypes.ADD_TASK_EVENT_FAILURE:
       state = { ...state, addTaskEvents: undefined };
+      break;
+
+    /**
+     * get Task Event History
+     */
+
+    case ActionTypes.GET_TASK_EVENT_HISTORY:
+      state = {
+        ...state
+      };
+
+      break;
+    case ActionTypes.GET_TASK_EVENT_HISTORY_SUCCESS:
+      state = {
+        ...state, taskEventHistories: action.payload?.details.data,
+      };
+      break;
+    case ActionTypes.GET_TASK_EVENT_HISTORY_FAILURE:
+      state = { ...state, taskEventHistories: action.payload };
       break;
 
     default:

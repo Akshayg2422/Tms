@@ -236,30 +236,6 @@ function* getTaskSubGroupSaga(action) {
   }
 }
 
-/**
- * GET TASK HISTORY
- */
-
-function* getTaskHistorySaga(action) {
-  try {
-
-
-    const response = yield call(getTaskHistoryApi, action.payload.params);
-
-    if (response.success) {
-
-      yield put(getTaskHistorySuccess(response));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getTaskHistoryFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-    yield put(getTaskHistoryFailure("Invalid Request"));
-    yield call(action.payload.onError);
-  }
-}
 
 ///watcher///
 
@@ -275,7 +251,6 @@ function* AdminSaga() {
   yield takeLatest(GET_TICKET_USERS, getTicketUsersSaga)
 
   yield takeLatest(GET_TASK_SUB_GROUP, getTaskSubGroupSaga)
-  yield takeLatest(GET_TASK_HISTORY, getTaskHistorySaga)
 
 }
 

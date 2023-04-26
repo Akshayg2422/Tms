@@ -45,7 +45,6 @@ function* getTasksSaga(action) {
 
 function* addTaskEventSaga(action) {
     try {
-
         const response = yield call(Services.addTaskEventApi, action.payload.params);
 
         if (response.success) {
@@ -65,13 +64,33 @@ function* addTaskEventSaga(action) {
 }
 
 
+/**
+ * GET TASK EVENT HISTORY
+ */
+
+function* getTaskEventHistorySaga(action) {
+    try {
+        const response = yield call(Services.getTaskEventHistoryApi, action.payload.params);
+        if (response.success) {
+            yield put(Action.getTaskEventHistorySuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            yield put(Action.getTaskEventHistoryFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+        yield put(Action.getTaskEventHistoryFailure("Invalid Request"));
+        yield call(action.payload.onError);
+    }
+}
+
+
 
 function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_GROUPS_L, getTaskGroupLSaga)
     yield takeLatest(Action.GET_TASKS, getTasksSaga)
     yield takeLatest(Action.ADD_TASK_EVENT, addTaskEventSaga)
-
-
+    yield takeLatest(Action.GET_TASK_EVENT_HISTORY, getTaskEventHistorySaga)
 }
 
 export default TaskSaga;

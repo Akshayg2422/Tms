@@ -4,7 +4,7 @@ import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, } from "@Co
 import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
-import { TagAndAssignUser } from "@Modules";
+import { TagAndAssignUser, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput } from '@Hooks'
 import { addTaskEvent } from '@Redux'
@@ -18,28 +18,8 @@ function TaskInfo({ onClick }: TaskInfoProps) {
     const [updatedEta, setUpdatedEta] = useState(eta_time)
     const editEtaModal = useModal(false)
     const editEtaReason = useInput('')
+    const taskEventModal = useModal(false)
 
-
-
-
-    // useEffect(() => {
-    //     ProceedGetTaskEvents()
-    // }, [getSubTaskId])
-
-
-    // const ProceedGetTaskEvents = () => {
-    //     const params = {
-    //         task_id: getSubTaskId ? getSubTaskId.id : taskItem?.id
-    //     }
-
-    //     dispatch(
-    //         getTasks({
-    //             params,
-    //             onSuccess: (response) => () => { },
-    //             onError: () => () => { },
-    //         })
-    //     );
-    // };
 
     const editEtaSubmitApiHandler = () => {
         const params = {
@@ -145,7 +125,7 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                                     <div className="pointer" onClick={editEtaModal.show}>
                                         <Image src={icons.edit} height={18} width={18} />
                                     </div>
-                                    <div className="ml-2 pointer">
+                                    <div className="ml-2 pointer" onClick={taskEventModal.show}>
                                         <Image src={icons.calender} height={18} width={18} />
                                     </div>
                                 </div>
@@ -176,6 +156,9 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                     </div>
                 </div>
             </Card >
+            {/**
+             * Edit Eta Modal
+             */}
             <Modal isOpen={editEtaModal.visible} onClose={editEtaModal.hide}>
                 <DateTimePicker
                     heading={'ETA'}
@@ -193,7 +176,12 @@ function TaskInfo({ onClick }: TaskInfoProps) {
                     <Button text={'Submit'} onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
-
+            {/**
+             * show Event Time Line
+             */}
+            <Modal title={"Latest Events"} size={'lg'} isOpen={taskEventModal.visible} onClose={taskEventModal.hide}>
+                <TaskEventHistory />
+            </Modal>
         </>
     );
 }

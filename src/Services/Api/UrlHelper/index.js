@@ -84,7 +84,7 @@ export const URL_GET_TASK_GROUP_L = TASK + 'getTaskGroupl'
 
 /* GET TASK HISTORY */
 
-export const GET_TASK_HISTORY_LIST = TASK + 'getTaskHistory'
+export const URL_GET_TASK_EVENT_HISTORY = TASK + 'getTaskHistory'
 
 export const GET_TASK_SUB_GROUP = TASK + 'getTaskSubGroup'
 

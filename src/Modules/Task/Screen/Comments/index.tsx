@@ -72,7 +72,6 @@ function Comments() {
         params,
         onSuccess: (response) => () => {
           ProceedGetTaskEvents();
-
         },
         onError: (error) => () => { },
       }),

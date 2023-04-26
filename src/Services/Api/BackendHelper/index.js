@@ -73,7 +73,7 @@ export const getTicketUsersApi = (payload) => post(URL.GET_TICKET_USERS, payload
 export const getTaskGroupApi = (payload) => post(URL.GET_TASK_GROUP, payload, {})
 export const addTaskGroupApi = (payload) => post(URL.ADD_TASK_GROUP, payload, {})
 export const updateEmployeeProfilePhotoApi = (payload) => post(URL.UPDATE_EMPLOYEE_PROFILE_PHOTO, payload, {})
-export const getTaskHistoryApi = (payload) => post(URL.GET_TASK_HISTORY_LIST, payload, {})
+export const getTaskEventHistoryApi = (payload) => post(URL.URL_GET_TASK_EVENT_HISTORY, payload, {})
 export const getTaskGroupLApi = (payload) => post(URL.URL_GET_TASK_GROUP_L, payload, {})
 export const getTaskSubGroupApi = (payload) => post(URL.GET_TASK_SUB_GROUP, payload, {})
 

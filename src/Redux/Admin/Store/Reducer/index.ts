@@ -466,26 +466,6 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = { ...state, taskUsers: undefined }
       break;
 
-
-    /* GET TASK HISTORY */
-
-    case GET_TASK_HISTORY:
-      state = {
-        ...state
-      };
-
-      break;
-    case GET_TASK_HISTORY_SUCCESS:
-
-      state = {
-        ...state, taskHistoryList: action.payload?.details,
-      };
-      break;
-    case GET_TASK_HISTORY_FAILURE:
-      state = { ...state, taskHistoryList: undefined };
-      break;
-
-
     default:
       state = state;
       break;

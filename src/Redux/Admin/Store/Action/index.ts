@@ -384,29 +384,3 @@ export const autoCompleteDropDown = (params: any) => {
   }
 }
 
-//GET TASK HISTORY
-
-export const getTaskHistory = (params) => {
-
-  return {
-    type: GET_TASK_HISTORY,
-    payload: params,
-  };
-};
-
-export const getTaskHistorySuccess = (response) => {
-
-  return {
-    type: GET_TASK_HISTORY_SUCCESS,
-    payload: response,
-  };
-};
-
-export const getTaskHistoryFailure = (error) => {
-
-
-  return {
-    type: GET_TASK_HISTORY_FAILURE,
-    payload: error,
-  };
-};
