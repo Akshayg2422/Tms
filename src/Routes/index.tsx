@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails } from '@Modules'
+import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -31,6 +31,7 @@ export const ROUTES = {
   'task-module': {
     tasks: '/tasks',
     'tasks-details': '/tasks-details',
+    'reference-task': '/reference-task',
   },
   'issue-module': {
     issues: '/issues',
@@ -127,13 +128,10 @@ export const TASK_ROUTES = [
   },
   {
     key: 2,
-    path: ROUTES['user-company-module']['company-details'],
-    component: <CompanyDetails />
+    path: ROUTES['task-module']['reference-task'],
+    component: <AddReferenceTask />
   },
 ];
-
-
-
 
 
 export const ADMIN_ROUTES = [

@@ -9,23 +9,14 @@ import {
   COMPANY_SELECTED_DETAILS,
   REFERENCE_ISSUE_DETAILS,
   RESTORE_ADMIN,
-
-
   ADD_TASK,
   ADD_TASK_SUCCESS,
   ADD_TASK_FAILURE,
-
-
   GET_TASKS_ITEM,
-  GET_TASK_USERS,
-  GET_TASK_USERS_SUCCESS,
-  GET_TASK_USERS_FAILURE,
   GET_TICKET_USERS,
   GET_TICKET_USERS_SUCCESS,
   GET_TICKET_USERS_FAILURE,
   GET_CURRENT_PAGE,
-
-
   GET_REFERENCE_ID,
   GET_SUBTASK_ID,
   LOGIN_USER,
@@ -386,17 +377,6 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       break;
     case GET_TASK_SUB_GROUP_FAILURE:
       state = { ...state, showSubTaskGroup: undefined }
-      break;
-
-
-    case GET_TASK_USERS:
-      state = { ...state, taskUsers: undefined }
-      break;
-    case GET_TASK_USERS_SUCCESS:
-      state = { ...state, taskUsers: action.payload?.details }
-      break;
-    case GET_TASK_USERS_FAILURE:
-      state = { ...state, taskUsers: undefined }
       break;
 
     default:
