@@ -83,13 +83,13 @@ export const HOME_ROUTES = [
     component: <Tasks />
   },
 
-  {
-    path: ROUTES['issue-module'].issues,
-    name: "Tickets",
-    icon: "bi bi-bell text-primary",
-    layout: "",
-    component: <Issues />
-  },
+  // {
+  //   path: ROUTES['issue-module'].issues,
+  //   name: "Tickets",
+  //   icon: "bi bi-bell text-primary",
+  //   layout: "",
+  //   component: <Issues />
+  // },
   {
     path: ROUTES['user-company-module'].companies,
     name: "Companies",
