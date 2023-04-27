@@ -1,34 +1,34 @@
 
 export interface UserCompanyStateProp {
- 
+
     designationData: any,
-    departmentData:any,
+    departmentData: any,
     designationCurrentPages: any,
     designationNumOfPages: any,
-    departmentCurrentPages:  any,
-    departmentNumOfPages:  any,
+    departmentCurrentPages: any,
+    departmentNumOfPages: any,
     brandSector: any,
     ticketTag: any,
     brandSectorCurrentPages: any,
-    brandSectorNumOfPages:any,
+    brandSectorNumOfPages: any,
     ticketTagCurrentPages: any,
     ticketTagNumOfPages: any,
-    getTaskGroupDetails:  any,
-    getTaskGroupCurrentPages:  any,
-    taskGroupDetails:  any,
-    taskGroupCurrentPages:  any,
-    taskGroupNumOfPages:  any,
-    addTaskGroup:  any,
-    loading?:boolean;
-    error?:string;
-    associatedCompanies:any,
-    associatedCompaniesNumOfPages:any,
-    associatedCompaniesCurrentPages:any,
-    addEmployeeDetails:any,
-    updateEmployeeProfile:any,
-    employees:any,
-    response:any,
-    registerAdminResponse:any,
-
-
+    getTaskGroupDetails: any,
+    getTaskGroupCurrentPages: any,
+    taskGroupDetails: any,
+    taskGroupCurrentPages: any,
+    taskGroupNumOfPages: any,
+    addTaskGroup: any,
+    loading?: boolean;
+    error?: string;
+    associatedCompanies: any,
+    associatedCompaniesNumOfPages: any,
+    associatedCompaniesCurrentPages: any,
+    addEmployeeDetails: any,
+    updateEmployeeProfile: any,
+    employees: any,
+    response: any,
+    registerAdminResponse: any,
+    associatedCompaniesL: any,
+    dashboardDetails: any
 }

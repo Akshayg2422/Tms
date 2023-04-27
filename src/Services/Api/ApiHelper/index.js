@@ -9,14 +9,14 @@ export const BUILD_TYPE = BUILD_TYPE_STAGING;
 export const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
     ? 'http://api.quantatms.in'
-    : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO 
+    : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_local'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
         ? 'http://192.168.23.5:8004'
         : BUILD_TYPE === BUILD_TYPE_STAGING
-          ? 'http://103.118.188.135:8007'
+          ? 'http://103.118.188.135:8006'
           : BUILD_TYPE === BUILD_TYPE_LOCAL
-            ? 'http://103.118.188.135:8001'
+            ? 'http://192.168.23.5:8004'
             : 'http://localhost:8000'
 
 

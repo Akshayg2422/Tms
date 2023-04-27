@@ -32,9 +32,6 @@ function RegisterUser() {
   const designation = useDropDown({})
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    getUserBusinessPlacesApiHandler(contactNumber.value)
-  }, [])
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -46,47 +43,10 @@ function RegisterUser() {
       designation: designation.value.id,
     };
 
-    const validation = validate(USER_FORM_RULES, params);
 
-    if (ifObjectExist(validation)) {
-      dispatch(
-        registerAdmin({
-          params,
-          onSuccess: (response: any) => () => {
-          },
-          onError: (error: any) => () => {
-
-          },
-        }),
-      );
-    } else {
-      showToast(getValidateError(validation));
-    }
   };
 
 
-  function getUserBusinessPlacesApiHandler(mobileNumber: string) {
-    const params = {
-      q: mobileNumber,
-      type: 'phone',
-    };
-
-    dispatch(
-      getUserBusinessPlaces({
-        params,
-        onSuccess: (success: UserBusinessPlace) => () => {
-          if (success.details.length > 0) {
-            goTo(ROUTES.AUTH.VIEW_GOOGLE_BUSINESS)
-          } else {
-
-          }
-        },
-        onError: () => () => {
-
-        },
-      }),
-    );
-  }
 
 
   return (

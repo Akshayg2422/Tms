@@ -3,7 +3,7 @@ import { Table, NoRecordsFound, Heading } from "@Components";
 
 
 interface CommonTableProps {
-  title?:any;
+  title?: any;
   displayDataSet: any
   tableDataSet?: Array<{}>;
   isPagination?: boolean
@@ -13,7 +13,8 @@ interface CommonTableProps {
   nextClick?: () => void;
   paginationNumberClick?: (text: number) => void;
   tableOnClick?: (event: any, index: number, item: any) => void;
-  heading?:any;
+  heading?: any;
+  card?: boolean
 }
 
 interface ChildComponentProps {
@@ -29,25 +30,29 @@ interface GetPaginatorSetProps {
 
 
 
-function CommonTable({ title, displayDataSet, tableDataSet, isPagination, currentPage, noOfPage,heading,previousClick, nextClick, paginationNumberClick, tableOnClick }: CommonTableProps) {
+function CommonTable({ card = false, title, displayDataSet, tableDataSet, isPagination, currentPage, noOfPage, heading, previousClick, nextClick, paginationNumberClick, tableOnClick }: CommonTableProps) {
 
   const CommonHeader = ({ children }) => {
     return (
-      <div className='col'>
-        <div className='card shadow-none'>
-          {title && <div className="card-header border-0">
-            <div className="row align-items-center">
-              <div className="col" >
-                <h3 className="mb-0" >{title}</h3>
-                 {heading}
+      <>
+        {card ? <div className='col' >
+          <div className='card shadow-none'>
+            {title && <div className="card-header border-0">
+              <div className="row align-items-center">
+                <div className="col" >
+                  <h3 className="mb-0" >{title}</h3>
+                  {heading}
+                </div>
               </div>
-            </div>
 
-          </div>}
+            </div>}
+            <div className='mt-2'>{children}</div>
+          </div>
+        </div > :
           <div className='mt-2'>{children}</div>
-        </div>
-      </div>
-    );
+        }
+      </>
+    )
   }
 
   const GetPaginatorSet = ({ currentPage, totalPages }: GetPaginatorSetProps) => {

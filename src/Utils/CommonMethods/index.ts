@@ -1,3 +1,5 @@
+import { log } from "console";
+
 export function ifObjectExist(value: object) {
   let is_valid = true;
 
@@ -44,8 +46,14 @@ export function paginationHandler(type: 'next' | 'prev' | 'current', position: n
   return page;
 }
 
-export function getArrayFromArrayOfObject(data: Array<any>, key: string)
- {   console.log('get Array======>', data, 'key', key); let modifiedArr: any = [];   
- if (data && data.length > 0)
-  {     data.forEach((el: any) => {       modifiedArr = [...modifiedArr, el[key]]; });  
-     console.log('modified======>', modifiedArr);   }   return modifiedArr; }
+export function getArrayFromArrayOfObject(data: Array<any>, key: string) {
+  console.log('get Array======>', data, 'key', key); let modifiedArr: any = [];
+  if (data && data.length > 0) {
+    data.forEach((el: any) => { modifiedArr = [...modifiedArr, el[key]]; });
+    console.log('modified======>', modifiedArr);
+  } return modifiedArr;
+}
+
+export function capitalizeFirstLetter(string: any) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

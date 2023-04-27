@@ -1,10 +1,12 @@
-import { AppLoader, ScreenWrapper, Sidebar } from "@Components";
-import { Route, Routes } from "react-router-dom";
-import { ADMIN_ROUTES, AUTH_ROUTES, HOME_PATH } from "@Routes";
-import { AddReferenceTask, AddReferenceTicket, AddSubTask, AddTask, AddUser, AdminDashboard, CompanyDetails, CreateBroadCast, CreateCompany, IssueCreate, IssueDetails, PushNotification, TaskDetails } from "@Modules";
+import React, { useState, useEffect } from 'react'
+import { PageNotFound, ScreenWrapper, Sidebar, ComponentLoader, Button } from "@Components";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { HOME_ROUTES, AUTH_ROUTES, TASK_ROUTES, RequireAuth, RequireHome } from "@Routes";
+import { Tasks } from "@Modules";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
-
+import { icons } from '@Assets'
+import { changeLanguage } from "@I18n";
 /**
  *  select-react  - important need to add this app.js
  */
@@ -16,70 +18,44 @@ import "@fullcalendar/daygrid/main.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { changeLanguage } from "@I18n";
-import { FCM_TOKEN } from "./Utils";
+
+
 
 
 function App() {
+
+
   const { language } = useSelector((state: any) => state.AuthReducer);
   changeLanguage(language?.value);
-  const { loginUserSuccess } = useSelector((state: any) => state.AdminReducer);
-
-  const fcmToken = localStorage.getItem(FCM_TOKEN)
-  console.log("FCM TOKEN APP.TSX======>", fcmToken)
 
 
-  const getRoutes = (routes: any) => {
+  const AUTH = 1
+  const HOME = 2
+
+  const getRoutes = (routes: any, type: number) => {
     return routes.map((prop: any, key: any) => {
       return (
         <Route
           path={prop.path}
-          element={prop.component}
+          element={type === AUTH ? <RequireHome>{prop.component}</RequireHome> : <RequireAuth>{prop.component}</RequireAuth>}
           key={key}
         />
       );
     });
   };
 
-
   return (
-    <ScreenWrapper>
-      <PushNotification />
-      <AppLoader />
-      {loginUserSuccess &&
 
-        <AdminDashboard />
-
-      }
-      <div className={"main-content"} >
-
-
+    <>
+      <ScreenWrapper>
         <Routes>
-          {getRoutes(AUTH_ROUTES)}
-          {getRoutes(ADMIN_ROUTES)}
-          <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany />} />
-          <Route path={HOME_PATH.COMPANY_INFO} element={<CompanyDetails />} />
-          <Route path={HOME_PATH.ADD_USER} element={<AddUser />} />
-          <Route path={HOME_PATH.ISSUE_DETAILS} element={<IssueDetails />} />
-          <Route path={HOME_PATH.ADD_REFERENCE_TICKET} element={<AddReferenceTicket />} />
-          <Route path={HOME_PATH.ADD_REFERENCE_TASK} element={<AddReferenceTask />} />
-          <Route path={HOME_PATH.CREATE_BROAD_CAST} element={<CreateBroadCast />} />
-          <Route path={HOME_PATH.ISSUE_TICKET} element={<IssueCreate />} />
-          <Route path={HOME_PATH.ADD_TASK} element={<AddTask />} />
-          <Route path={HOME_PATH.TASK_DETAILS + '/:id'} element={<TaskDetails />} />
-          <Route path={HOME_PATH.ADD_SUB_TASK} element={<AddSubTask />} />
-          {/* <Route path={HOME_PATH.DASHBOARD } element={<AdminDashboard />} /> */}
-          {/* <Route path={HOME_PATH.COMPANY + "/*"} element={<CompanyDashBoard />} /> */}
-          {/* <Route path={"*"} element={<PageNotFound />} /> */}
+          {getRoutes(AUTH_ROUTES, AUTH)}
+          {getRoutes(HOME_ROUTES, HOME)}
+          {getRoutes(TASK_ROUTES, HOME)}
+          <Route path={"*"} element={<PageNotFound />} />
         </Routes>
-      </div>
-
-      {/* <DeviceInfo/> */}
-
-
-      <ToastContainer />
-
-    </ScreenWrapper>
+      </ScreenWrapper>
+    </>
   );
 }
 

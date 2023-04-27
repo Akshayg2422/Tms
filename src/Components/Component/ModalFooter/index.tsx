@@ -2,25 +2,24 @@ import React from "react";
 import { ModalFooterProps } from "./interfaces";
 import { Button } from "@Components";
 function ModalFooter({
-  primary,
-  secondary,
+  primary = 'Proceed',
+  secondary = 'Cancel',
   primaryOnClick,
   secondaryOnClick,
 }: ModalFooterProps) {
   return (
-    <div className={"row mt-3 justify-content-center"}>
-      <div className="col-sm-6">
+    <div className={"row justify-content-end px-3"}>
+      <div>
         {secondary && (
           <Button
             color={"black"}
-            block
             text={secondary}
             onClick={secondaryOnClick}
           />
         )}
       </div>
-      <div className="col-sm-6 mt-2 mt-sm-0">
-        {primary && <Button block text={primary} onClick={primaryOnClick} />}
+      <div className="ml-3">
+        {primary && <Button text={primary} onClick={primaryOnClick} />}
       </div>
     </div>
   );

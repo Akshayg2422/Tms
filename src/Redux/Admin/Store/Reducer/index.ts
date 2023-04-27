@@ -3,9 +3,6 @@ import {
   GET_ASSOCIATED_COMPANY_BRANCH,
   GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
   GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
-  GET_DASHBOARD,
-  GET_DASHBOARD_FAILURE,
-  GET_DASHBOARD_SUCCESS,
   SET_SELECTED_ISSUES,
   SET_REFERENCE_SELECTED_ISSUES,
 
@@ -13,23 +10,13 @@ import {
   REFERENCE_ISSUE_DETAILS,
   RESTORE_ADMIN,
 
-  GET_TASKS,
-  GET_TASKS_SUCCESS,
-  GET_TASKS_FAILURE,
 
   ADD_TASK,
   ADD_TASK_SUCCESS,
   ADD_TASK_FAILURE,
 
-  GET_SUB_TASKS,
-  GET_SUB_TASKS_SUCCESS,
-  GET_SUB_TASKS_FAILURE,
 
   GET_TASKS_ITEM,
-
-  GET_REFERENCE_TASKS,
-  GET_REFERENCE_TASKS_SUCCESS,
-  GET_REFERENCE_TASKS_FAILURE,
   GET_TASK_USERS,
   GET_TASK_USERS_SUCCESS,
   GET_TASK_USERS_FAILURE,
@@ -45,10 +32,6 @@ import {
   GET_TASK_SUB_GROUP,
   GET_TASK_SUB_GROUP_SUCCESS,
   GET_TASK_SUB_GROUP_FAILURE,
-  
-  GET_TASK_HISTORY,
-  GET_TASK_HISTORY_SUCCESS,
-  GET_TASK_HISTORY_FAILURE,
 
 } from '../ActionTypes';
 
@@ -56,7 +39,7 @@ import { AdminStateProp } from '../../Interfaces';
 
 
 const initialState: AdminStateProp = {
- 
+
   dashboardDetails: undefined,
   selectedIssues: undefined,
   loading: false,
@@ -77,8 +60,8 @@ const initialState: AdminStateProp = {
   referencesTasksNumOfPages: undefined,
   referencesTasksCurrentPages: undefined,
   taskUsers: undefined,
-  showSubTaskGroup:undefined,
-  ticketEmployees:undefined,
+  showSubTaskGroup: undefined,
+  ticketEmployees: undefined,
   getReferenceId: undefined,
   getSubTaskId: undefined,
   loginUserSuccess: false,
@@ -93,7 +76,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = initialState;
       break;
 
- 
+
 
     case GET_ASSOCIATED_COMPANY_BRANCH:
       state = { ...state };
@@ -122,48 +105,6 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = { ...state, ticketEmployees: undefined };
       break;
 
-    /**
-     * Dashboard
-     */
-    case GET_DASHBOARD:
-      state = { ...state, dashboardDetails: undefined };
-      break;
-    case GET_DASHBOARD_SUCCESS:
-      state = { ...state, dashboardDetails: action.payload.details };
-      break;
-    case GET_DASHBOARD_FAILURE:
-      state = { ...state, dashboardDetails: action.payload };
-      break;
-
-    //GET REFERENCE TASKS
-    case GET_REFERENCE_TASKS:
-      state = {
-        ...state,
-        referencesTasks: undefined,
-        referencesTasksNumOfPages: 0,
-        referencesTasksCurrentPages: 1,
-        loading: true
-      };
-      break;
-    case GET_REFERENCE_TASKS_SUCCESS:
-      state = {
-        ...state,
-        loading: false,
-        referencesTasks: action?.payload?.data,
-        referencesTasksNumOfPages: action?.payload?.num_pages,
-        referencesTasksCurrentPages:
-          action?.payload?.next_page === -1
-            ? action?.payload?.num_pages
-            : action?.payload?.next_page - 1,
-      };
-      break;
-    case GET_REFERENCE_TASKS_FAILURE:
-      state = {
-        ...state,
-        error: action.payload,
-        loading: false,
-      };
-      break;
     //get designations
 
     // case FETCH_DESIGNATION:
@@ -230,32 +171,6 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = { ...state, selectedReferenceIssues: action.payload };
       break;
 
-    /**
-     * Get Tasks
-     */
-    case GET_TASKS:
-      state = {
-        ...state,
-        tasks: undefined,
-        taskNumOfPages: 0,
-        taskCurrentPages: 1,
-      }
-      break;
-    case GET_TASKS_SUCCESS:
-      // const { data, next_page, num_pages } = action.payload?.details; 
-      state = {
-        ...state,
-        tasks: action.payload?.details,
-        taskNumOfPages: action.payload?.details.num_pages,
-        taskCurrentPages:
-          action.payload?.details.next_page === -1
-            ? action.payload?.details.num_pages
-            : action.payload?.details.next_page - 1
-      }
-      break;
-    case GET_TASKS_FAILURE:
-      state = { ...state, tasks: undefined }
-      break;
 
     /**
  * add BRAND SECTOR
@@ -446,18 +361,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     //   state = { ...state, addTaskGroup: action.payload };
     //   break;
 
-    /* GET SUB TASK*/
 
-    case GET_SUB_TASKS:
-
-      state = { ...state, subTasks: undefined }
-      break;
-    case GET_SUB_TASKS_SUCCESS:
-      state = { ...state, subTasks: action.payload?.details }
-      break;
-    case GET_SUB_TASKS_FAILURE:
-      state = { ...state, subTasks: action.payload }
-      break;
 
     case GET_CURRENT_PAGE:
       state = { ...state, current: action.payload }
@@ -471,18 +375,18 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
 
       state = { ...state, loginUserSuccess: action.payload };
       break;
-      
-      case GET_TASK_SUB_GROUP:
-        state = { ...state, showSubTaskGroup: undefined }
-        break;
-      case GET_TASK_SUB_GROUP_SUCCESS:
-      
-        state = { ...state, showSubTaskGroup: action.payload?.details }
 
-        break;
-      case GET_TASK_SUB_GROUP_FAILURE:
-        state = { ...state, showSubTaskGroup: undefined }
-        break;
+    case GET_TASK_SUB_GROUP:
+      state = { ...state, showSubTaskGroup: undefined }
+      break;
+    case GET_TASK_SUB_GROUP_SUCCESS:
+
+      state = { ...state, showSubTaskGroup: action.payload?.details }
+
+      break;
+    case GET_TASK_SUB_GROUP_FAILURE:
+      state = { ...state, showSubTaskGroup: undefined }
+      break;
 
 
     case GET_TASK_USERS:
@@ -494,26 +398,6 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     case GET_TASK_USERS_FAILURE:
       state = { ...state, taskUsers: undefined }
       break;
-
-
-    /* GET TASK HISTORY */
-
-    case GET_TASK_HISTORY:
-      state = {
-        ...state
-      };
-
-      break;
-    case GET_TASK_HISTORY_SUCCESS:
-  
-      state = {
-        ...state, taskHistoryList: action.payload?.details,
-      };
-      break;
-    case GET_TASK_HISTORY_FAILURE:
-      state = { ...state, taskHistoryList: undefined };
-      break;
-
 
     default:
       state = state;

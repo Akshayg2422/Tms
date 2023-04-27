@@ -7,6 +7,8 @@ export const HH_MM = 'HH:mm';
 export const HH_MM_A_DD_MMMM_YYYY = 'hh:mm A, DD MMMM YYYY';
 export const YYYY_MM_DD = 'YYYY-MM-DD';
 export const YYYY_MM_DD_HH_MM_SS = 'YYYY-MM-DD HH:mm:ss';
+export const HDD_MMMM_YYYY_HH_MM_A = 'DD MMMM YYYY , hh:mm A';
+
 
 export const getMomentObjFromServer = (date: Date) => {
   return moment(date);
@@ -42,3 +44,4 @@ export const getDisplayDateFromMomentByType = (
 ) => {
   return momentObj.format(type);
 };
+

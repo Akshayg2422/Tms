@@ -3,19 +3,19 @@ import { useState } from "react";
 const useLoader = (initialValue: boolean) => {
 
   const [loader, setLoader] = useState(initialValue);
-  
-  const hideLoader = () => {
+
+  const hide = () => {
     setLoader(false);
   };
 
-  const showLoader = () => {
+  const show = () => {
     setLoader(true);
   };
 
   return {
     loader,
-    showLoader,
-    hideLoader,
+    show,
+    hide,
   };
 };
 

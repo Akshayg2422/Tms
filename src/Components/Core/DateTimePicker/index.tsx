@@ -12,6 +12,7 @@ function DateTimePicker({ id, heading, placeholder, type = 'date', onChange, ...
 
             <ReactDatetime
                 {...rest}
+
                 inputProps={
                     {
                         placeholder: placeholder
@@ -21,11 +22,14 @@ function DateTimePicker({ id, heading, placeholder, type = 'date', onChange, ...
                 dateFormat={type !== 'time' && true}
                 onChange={
                     (date: Moment | string) => {
-                        if (onChange)
-                            if (isMoment(date))
+                        if (onChange) {
+                            if (isMoment(date)) {
                                 onChange(date.format().toString())
-                            else
+                            }
+                            else {
                                 onChange(date)
+                            }
+                        }
                     }
                 }
             />

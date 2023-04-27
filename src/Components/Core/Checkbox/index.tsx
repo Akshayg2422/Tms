@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { CheckboxProps } from './interfaces'
 import { FormGroup } from 'reactstrap'
 
-function Checkbox({ id, text, defaultChecked, variant = 'primary', onCheckChange, ...rest }: CheckboxProps) {
+function Checkbox({ id = '0', text, defaultChecked, variant = 'primary', onCheckChange, ...rest }: CheckboxProps) {
 
     const [checked, setChecked] = useState(defaultChecked);
 

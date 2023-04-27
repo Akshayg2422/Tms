@@ -1,10 +1,10 @@
 import React from "react";
-import { Card, Input, Button, H, Logo, Radio, showToast } from "@Components";
+import { Input, Button, H, Logo, Radio, showToast, ComponentLoader } from "@Components";
 import { translate } from "@I18n";
 import { LANGUAGES, BUSINESS, validate, MOBILE_NUMBER_RULES, ifObjectExist, getValidateError } from "@Utils";
-import { useInput, useNavigation } from "@Hooks";
+import { useInput, useNavigation, useLoader } from "@Hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { AUTH_PATH } from '@Routes'
+import { ROUTES } from '@Routes'
 
 import {
   validateUserBusiness,
@@ -23,6 +23,8 @@ function Login() {
     (state: any) => state.AuthReducer
   );
 
+  const validateLoader = useLoader(false);
+
   const validateUserBusinessApiHandler = () => {
     const params = {
       mobile_number: mobileNumber.value,
@@ -33,15 +35,18 @@ function Login() {
     const validation = validate(MOBILE_NUMBER_RULES, params);
 
     if (ifObjectExist(validation)) {
+      validateLoader.show()
       dispatch(
         validateUserBusiness({
           params,
           onSuccess: (response) => () => {
+            validateLoader.hide()
             dispatch(setRegisteredMobileNumber(mobileNumber.value));
-            goTo(AUTH_PATH.OTP)
+            goTo(ROUTES["auth-module"].otp)
           },
           onError: (error) => () => {
-             showToast(error.error_message,'error');
+            validateLoader.hide()
+            showToast(error.error_message, 'error');
           },
         })
       );
@@ -75,17 +80,16 @@ function Login() {
             }}
           />
         </div>
+        <ComponentLoader loading={validateLoader.loader}>
+          <Button
+            block
+            text={translate("common.submit")}
+            onClick={() => {
+              validateUserBusinessApiHandler();
+            }}
+          />
+        </ComponentLoader>
 
-        <Button
-          block
-          text={translate("common.submit")}
-          onClick={() => {
-            validateUserBusinessApiHandler();
-          }}
-        />
-        {/* <div className="text-center">
-          <small className="pointer p-1">{translate("common.register")}</small>
-        </div> */}
       </div>
     </div>
   );

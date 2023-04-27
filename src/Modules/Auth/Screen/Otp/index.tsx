@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
-import { Button, AuthContainer, showToast } from "@Components";
-import { useInput, useTimer, useNavigation } from "@Hooks";
+import React, { } from "react";
+import { Button, AuthContainer, showToast, ComponentLoader } from "@Components";
+import { useInput, useTimer, useNavigation, useLoader } from "@Hooks";
 import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, OTP_RULES, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
 import { useSelector, useDispatch } from "react-redux";
 import { validateRegisterUser, otpLogin, userLoginDetails } from "@Redux";
-import { AUTH_PATH } from '@Routes'
+import { ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
 
 function Otp() {
@@ -12,6 +12,7 @@ function Otp() {
   const { registeredMobileNumber, language } = useSelector(
     (state: any) => state.AuthReducer
   );
+  const otpLoader = useLoader(false);
 
   const { goTo } = useNavigation()
 
@@ -29,7 +30,7 @@ function Otp() {
     };
     dispatch(validateRegisterUser({
       params,
-      onSuccess: response => () => { },
+      onSuccess: () => () => { },
       onError: () => () => { }
     }));
   };
@@ -44,10 +45,13 @@ function Otp() {
     const validation = validate(OTP_RULES, params);
 
     if (ifObjectExist(validation)) {
+      otpLoader.show()
       dispatch(
         otpLogin({
           params,
           onSuccess: response => () => {
+            otpLoader.hide()
+
             dispatch(
               userLoginDetails({
                 ...loginDetails,
@@ -56,11 +60,12 @@ function Otp() {
               }),
             );
             localStorage.setItem(USER_TOKEN, response.details.token);
-            goTo(AUTH_PATH.SPLASH)
+            goTo(ROUTES["auth-module"].splash)
           },
           onError: (error) => () => {
-            showToast(error.error_message,'error')
-           },
+            otpLoader.hide()
+            showToast(error.error_message, 'error')
+          },
         }),
       );
     } else {
@@ -95,17 +100,22 @@ function Otp() {
             </span>
           )}
         </div>
+
         <div className="d-flex justify-content-center">
           <div className="col-sm-8">
-            <Button
-              block
-              text={"VERIFY"}
-              onClick={proceedOtpValidationApiHandler}
-            />
+            <ComponentLoader loading={otpLoader.loader}>
+              <Button
+                block
+                text={"VERIFY"}
+                onClick={proceedOtpValidationApiHandler}
+              />
+            </ComponentLoader>
           </div>
         </div>
+
       </div>
-    </AuthContainer>
+
+    </AuthContainer >
   );
 }
 export { Otp };

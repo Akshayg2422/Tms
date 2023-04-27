@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Card, Divider, HomeContainer, NoTaskFound, Spinner, Image } from "@Components";
+import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image } from "@Components";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
@@ -49,7 +49,7 @@ function Broadcast() {
       })
     );
   }
-  
+
   return (
     <HomeContainer>
       {broadCastDetails && broadCastDetails.length > 0 ?
@@ -95,7 +95,7 @@ function Broadcast() {
 
         </InfiniteScroll>
         :
-        <div className={'py-5'}><NoTaskFound text={'No Broadcast Found'} />
+        <div className={'py-5'}><NoDataFound text={'No Broadcast Found'} />
           <Image
             className={'border'}
             variant={'rounded'}

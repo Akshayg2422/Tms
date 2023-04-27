@@ -22,9 +22,10 @@ export * from './MultiSelectDropDown'
 export * from './RadioGroup'
 export * from './AutoCompleteDropDown'
 export * from './DropdownIcon'
-export * from './ImageFullScreen'
 export * from './AutoCompleteDropDownImage'
 export * from './PageNation'
+export * from './Back'
+
 
 
 

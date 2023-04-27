@@ -8,17 +8,17 @@ type AppProviderProps = {
 
 export const useApp = () =>
   useContext<{
-    showLoader?: boolean;
+    show?: boolean;
     setShowLoader?: (loader: boolean) => void;
   }>(AppContext);
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  const [showLoader, setShowLoader] = useState(false);
+  const [show, setShowLoader] = useState(false);
 
   return (
     <AppContext.Provider
       value={{
-        showLoader,
+        show,
         setShowLoader,
       }}>
       {children}

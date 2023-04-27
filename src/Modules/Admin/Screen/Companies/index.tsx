@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { companySelectedDetails, getAssociatedBranch, setIsSync } from "@Redux";
-import { Button, HomeContainer, Image, CommonTable, NoDataFound, NoTaskFound } from "@Components";
+import { Button, HomeContainer, Image, CommonTable, NoDataFound } from "@Components";
 import { useNavigation } from "@Hooks";
-import { HOME_PATH } from "@Routes";
+import { HOME_PATH, ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler } from "@Utils";
 import { icons } from "@Assets";
@@ -65,7 +65,7 @@ function Companies() {
 
   return (
     <>
-      <HomeContainer>
+      <HomeContainer type={'card'}>
         {associatedCompanies && associatedCompanies?.length > 0 ?
           <div className="text-right">
             <Button
@@ -76,59 +76,61 @@ function Companies() {
               }}
             />
           </div> : null}
-      </HomeContainer>
 
-      {associatedCompanies && associatedCompanies?.length > 0 ?
-        <CommonTable
-          isPagination
-          title={'Companies'}
-          tableDataSet={associatedCompanies}
-          currentPage={associatedCompaniesCurrentPages}
-          noOfPage={associatedCompaniesNumOfPages}
-          displayDataSet={normalizedTableData(associatedCompanies)}
-          paginationNumberClick={(currentPage) => {
-            getAssociatedCompaniesHandler(paginationHandler("current", currentPage));
-          }}
-          previousClick={() => {
-            getAssociatedCompaniesHandler(paginationHandler("prev", associatedCompaniesCurrentPages))
-          }
-          }
-          nextClick={() => {
-            getAssociatedCompaniesHandler(paginationHandler("next", associatedCompaniesCurrentPages));
-          }
-          }
-          tableOnClick={(idx, index, item) => {
-            dispatch(companySelectedDetails(item));
-            goTo(HOME_PATH.COMPANY_INFO);
-
-          }} /> :
-        <div className={''}><NoTaskFound text="No Companies found" />
-          <Image
-            className={'border'}
-            variant={'rounded'}
-            src={icons.location}
-            size={'xl'}
-            alt="..."
-            style={{
-              position: 'absolute',
-              top: '32%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              backgroundColor: '#D3D3D3'
+        {associatedCompanies && associatedCompanies?.length > 0 ?
+          <CommonTable
+            isPagination
+            title={'Companies'}
+            tableDataSet={associatedCompanies}
+            currentPage={associatedCompaniesCurrentPages}
+            noOfPage={associatedCompaniesNumOfPages}
+            displayDataSet={normalizedTableData(associatedCompanies)}
+            paginationNumberClick={(currentPage) => {
+              getAssociatedCompaniesHandler(paginationHandler("current", currentPage));
             }}
-          />
-          <div className="text-center">
-            <Button
-              size={'md'}
-              text={translate("common.addCompany")}
-              onClick={() => {
-                goTo(HOME_PATH.CREATE_COMPANY);
+            previousClick={() => {
+              getAssociatedCompaniesHandler(paginationHandler("prev", associatedCompaniesCurrentPages))
+            }
+            }
+            nextClick={() => {
+              getAssociatedCompaniesHandler(paginationHandler("next", associatedCompaniesCurrentPages));
+            }
+            }
+            tableOnClick={(idx, index, item) => {
+              dispatch(companySelectedDetails(item));
+              goTo(ROUTES["user-company-module"]["company-details"]);
+
+            }} /> :
+          <div className={''}><NoDataFound text="No Companies found" />
+            <Image
+              className={'border'}
+              variant={'rounded'}
+              src={icons.location}
+              size={'xl'}
+              alt="..."
+              style={{
+                position: 'absolute',
+                top: '32%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                backgroundColor: '#D3D3D3'
               }}
             />
+            <div className="text-center">
+              <Button
+                size={'md'}
+                text={translate("common.addCompany")}
+                onClick={() => {
+                  goTo(HOME_PATH.CREATE_COMPANY);
+                }}
+              />
+            </div>
           </div>
-        </div>
 
-      }
+        }
+      </HomeContainer>
+
+
     </>
 
   );

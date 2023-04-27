@@ -1,37 +1,33 @@
 import React, { useEffect } from "react";
 import { Logo } from "@Components";
-import { ROUTES, HOME_PATH, } from "@Routes";
+import { ROUTES } from "@Routes";
 import { useNavigation } from "@Hooks";
 import { useSelector, useDispatch } from 'react-redux'
-import { loginUser } from '@Redux'
-
-import DeviceInfo from "../DeviceInfo";
+import { getDashboard } from '@Redux'
 
 function Splash() {
+
   const SPLASH_STAY_TIME_MILE_SECONDS = 1500;
   const { goTo } = useNavigation();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
+
 
   useEffect(() => {
     setTimeout(() => {
       if (loginDetails?.isLoggedIn) {
-        goTo(HOME_PATH.DASHBOARD, true)
-        dispatch(
-          loginUser(true)
-        )
+        goTo(ROUTES["task-module"].tasks, true)
       }
       else {
-        goTo(ROUTES.AUTH.LOGIN, true);
+        goTo(ROUTES["auth-module"].login, true);
       }
     }, SPLASH_STAY_TIME_MILE_SECONDS);
   }, []);
 
-
   return (
     <div className={"d-flex vh-100 custom-gradient justify-content-center align-items-center"}>
       <Logo />
-      <DeviceInfo />
     </div>
   );
 }

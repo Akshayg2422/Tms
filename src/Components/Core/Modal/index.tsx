@@ -2,8 +2,8 @@ import React from "react";
 import { ModalProps } from "./interfaces";
 import { Modal as RsModal } from "reactstrap";
 
-function Modal({isOpen,children,title,size = "md",onClose,...rest}: ModalProps) {
-  
+function Modal({ isOpen, children, title, size = "lg", onClose, ...rest }: ModalProps) {
+
   return (
     <RsModal
       fade={false}

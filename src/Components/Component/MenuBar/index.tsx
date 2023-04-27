@@ -1,48 +1,45 @@
 import { useState } from 'react'
 import { TripleDotProps } from './interfaces'
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { Image } from '@Components'
 
 
-function MenuBar({ ListedData,onClickTagUser,dataIndex, onClick}: TripleDotProps) {
-
-
+function MenuBar({ toggleIcon, menuData, onClick }: TripleDotProps) {
     return (
         <div>
             <UncontrolledDropdown>
                 <DropdownToggle
                     color=""
                     size="sm"
-                    className="text-light"
-                >
-                    <i className="fas fa-ellipsis-v" />
+                    className="text-light">
+                    {toggleIcon ? <Image src={toggleIcon} width={20} height={20} /> : <i className="fas fa-ellipsis-v" />}
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-arrow" right>
+                    {menuData && menuData.length > 0 && menuData.map((el: any, index: number) => {
+                        const { id, icon, name } = el
 
-                 { ListedData && ListedData.length>0 && ListedData.map((el:any,index:number)=> { 
-                   
-                 return(
-                 <>
-                 
-                 <DropdownItem
-                        href="#pablo"
-                        onClick={()=>onClick(index)}
-                    >
-                        <i className={el.icon} ></i>
-                        
-                        {el.name}
-                      
-        
-                    </DropdownItem>
-                    </>
-                 )})
-}
 
-                  
 
+                        return (
+                            <>
+                                <DropdownItem onClick={() => {
+                                    if (onClick)
+                                        onClick(el)
+                                }
+                                }>
+                                    <div className='d-inline-flex justify-content-center align-items-center'>
+                                        {icon && <Image src={icon} width={15} height={15} />}
+                                        {name}
+                                    </div>
+                                </DropdownItem>
+                            </>
+                        )
+                    })
+                    }
                 </DropdownMenu>
             </UncontrolledDropdown>
         </div>
     )
 }
 
-export {MenuBar}
+export { MenuBar }

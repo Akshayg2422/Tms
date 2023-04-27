@@ -3,7 +3,7 @@ import { TabPanel } from "react-headless-tabs";
 import type { TabsProps, TabItem } from "./interfaces";
 
 export function Tabs({ tabs, selected, onChange }: TabsProps) {
- 
+
 
   const changeTab = (item: TabItem) => {
     if (onChange) {

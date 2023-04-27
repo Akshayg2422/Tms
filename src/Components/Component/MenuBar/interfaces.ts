@@ -1,7 +1,5 @@
 export type TripleDotProps = {
-    onClickTagUser?: ()=> void;
-    ListedData?:any;
-    onClick?: any;
-    dataIndex?:number;
-    
+    menuData?: any;
+    onClick?: (element: any) => void;
+    toggleIcon?: any
 }

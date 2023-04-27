@@ -50,7 +50,7 @@ function IssueCreate() {
   );
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const { employees } = useSelector((state: any) => state.UserCompanyReducer);
- 
+
 
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
     useState();
@@ -59,8 +59,8 @@ function IssueCreate() {
   const [selectedCompany, setSelectedCompany] = useState<any>({});
   const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
   const [image, setImage] = useState("");
-  const [departmentDataList,setDepartmentDatalist]=useState<any>();
-  const[selectDepartment,setSelectDepartment]=useState<any>({})
+  const [departmentDataList, setDepartmentDatalist] = useState<any>();
+  const [selectDepartment, setSelectDepartment] = useState<any>({})
 
   const referenceNo = useInput("");
   const title = useInput("");
@@ -160,62 +160,62 @@ function IssueCreate() {
   }, []);
   useEffect(() => {
 
-    if(selectDepartment?.id){
+    if (selectDepartment?.id) {
 
-    const params = {
-      branch_id:
-        typeSelect?.id === "2" ? dashboardDetails?.permission_details?.branch_id : selectedCompany?.id || "",
-        department_id:selectDepartment?.id,
-    };
-  
-    dispatch(
-      getEmployees({
-        params,
-        onSuccess: (response: any) => () => {
-          response?.details?.forEach((item) => {
-            companiesDashboard = [...companiesDashboard,{...item, designation: item.designation?.name}]
-          }
-          );
-          setCompanyUserDashboard(companiesDashboard)
-        },
-        onError: (error) => () => {
-          setCompanyUserDashboard([]);
-        },
-      })
-    );
+      const params = {
+        branch_id:
+          typeSelect?.id === "2" ? dashboardDetails?.permission_details?.branch_id : selectedCompany?.id || "",
+        department_id: selectDepartment?.id,
+      };
+
+      dispatch(
+        getEmployees({
+          params,
+          onSuccess: (response: any) => () => {
+            response?.details?.forEach((item) => {
+              companiesDashboard = [...companiesDashboard, { ...item, designation: item.designation?.name }]
+            }
+            );
+            setCompanyUserDashboard(companiesDashboard)
+          },
+          onError: (error) => () => {
+            setCompanyUserDashboard([]);
+          },
+        })
+      );
     }
   }, [typeSelect, selectDepartment]);
   useEffect(() => {
-    if(selectedCompany?.id|| typeSelect?.id === "2"){
-    const params = {
+    if (selectedCompany?.id || typeSelect?.id === "2") {
+      const params = {
         branch_id:
-            typeSelect?.id === "2"
-                ? dashboardDetails?.permission_details?.branch_id
-                : selectedCompany?.id || "",
-    };
-    dispatch(
+          typeSelect?.id === "2"
+            ? dashboardDetails?.permission_details?.branch_id
+            : selectedCompany?.id || "",
+      };
+      dispatch(
         getDepartmentData({
-            params,
-            onSuccess: (response: any) => () => {
-                let departmentDetails:any =[];
-                response?.details?.data?.forEach((item)=>{
-                    departmentDetails=[...departmentDetails,{...item,text:item.name}]
-                })
-                setDepartmentDatalist(departmentDetails)
-            },
-            onError: (error) => () => {
-                setDepartmentDatalist([])
-             
-            },
+          params,
+          onSuccess: (response: any) => () => {
+            let departmentDetails: any = [];
+            response?.details?.data?.forEach((item) => {
+              departmentDetails = [...departmentDetails, { ...item, text: item.name }]
+            })
+            setDepartmentDatalist(departmentDetails)
+          },
+          onError: (error) => () => {
+            setDepartmentDatalist([])
+
+          },
         })
-    );
+      );
 
     }
-}, [typeSelect, selectedCompany]);
+  }, [typeSelect, selectedCompany]);
 
   return (
     <div>
-      <HomeContainer isCard >
+      <HomeContainer>
         <div className='row col '>
           <div
             onClick={() => goBack()}
@@ -278,17 +278,17 @@ function IssueCreate() {
               selected={selectedCompany}
             />
           )}
-   {departmentDataList  && departmentDataList.length>0 && <DropDown     
-                            heading={'Department'}
-                            data={departmentDataList}
-                            onChange={setSelectDepartment}
-                            selected={selectDepartment}
-                        />
-                     }
-  
+          {departmentDataList && departmentDataList.length > 0 && <DropDown
+            heading={'Department'}
+            data={departmentDataList}
+            onChange={setSelectDepartment}
+            selected={selectDepartment}
+          />
+          }
 
 
-          {companyUserDashboard && companyUserDashboard.length > 0 &&<AutoCompleteDropDownImage
+
+          {companyUserDashboard && companyUserDashboard.length > 0 && <AutoCompleteDropDownImage
             heading={translate("common.user")!}
             value={selectedUser}
             getItemValue={(item) => item?.name}

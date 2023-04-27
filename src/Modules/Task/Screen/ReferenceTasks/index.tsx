@@ -1,32 +1,31 @@
-import { NoDataFound, Card, CommonTable } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsSync, getReferenceTasks, getSelectReferenceId } from "@Redux";
+import { getReferenceTasks } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
+import { NoDataFound, Card, CommonTable } from "@Components";
+
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
-  const { dashboardDetails, referencesTasks,
+
+  const { referencesTasks,
     referencesTasksNumOfPages,
-    referencesTasksCurrentPages, taskItem, getReferenceId, getSubTaskId } = useSelector(
-      (state: any) => state.AdminReducer
+    referencesTasksCurrentPages, selectedTask } = useSelector(
+      (state: any) => state.TaskReducer
     );
 
-  const { isSync } = useSelector((state: any) => state.AppReducer);
+  const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+
 
   useEffect(() => {
-    if (!isSync.referenceTickets) {
-      proceedgetReferenceTasks(referencesTasksCurrentPages);
-    }
-  }, [isSync, getReferenceId, getSubTaskId]);
+    proceedgetReferenceTasks(referencesTasksCurrentPages);
+  }, []);
 
 
-  const proceedgetReferenceTasks = (pageNumber: number) => {
+  const proceedgetReferenceTasks = (page_number: number) => {
     const params = {
-      page_number: pageNumber,
-      task_id: getReferenceId ? getReferenceId.id : getSubTaskId ? getSubTaskId.id : taskItem.id,
-      q: ""
-
+      page_number,
+      task_id: selectedTask.id,
     };
 
     dispatch(
@@ -40,31 +39,23 @@ function ReferenceTasks() {
 
 
   const normalizedTableData = (data: any) => {
-   
+
     return data.map((el: any) => {
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
         status: getStatusFromCode(dashboardDetails, el.task_status),
-        "raised by company":el?.raised_by_company?.name
+        "raised by company": el?.raised_by_company?.name
       };
     });
   };
 
-  function setSyncCompany(sync = false) {
-    dispatch(
-      setIsSync({
-        ...isSync,
-        referenceTickets: sync,
-      })
-    );
-  }
+
 
   return (
 
-
     <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: '89vh' }}>
-      {referencesTasks && referencesTasks?.length > 0 ?
+      {/* {referencesTasks && referencesTasks?.length > 0 ?
         <CommonTable
           isPagination
           tableDataSet={referencesTasks}
@@ -83,14 +74,13 @@ function ReferenceTasks() {
           }
           }
           tableOnClick={(e, index, item) => {
-            dispatch(getSelectReferenceId(item))
+            // dispatch(getSelectReferenceId(item))
           }}
 
-        /> : <NoDataFound />}
+        /> : <NoDataFound />} */}
     </Card>
 
 
   );
 }
-
 export { ReferenceTasks };
