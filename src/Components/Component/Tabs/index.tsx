@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { TabPanel } from "react-headless-tabs";
 import type { TabsProps, TabItem } from "./interfaces";
+import { useWindowDimensions } from '@Hooks'
+import { Card } from '@Components'
 
 export function Tabs({ tabs, selected, onChange }: TabsProps) {
-
+  const { height } = useWindowDimensions()
 
   const changeTab = (item: TabItem) => {
     if (onChange) {
@@ -15,7 +17,9 @@ export function Tabs({ tabs, selected, onChange }: TabsProps) {
     tabs.findIndex((item) => item.id === selected?.id);
 
   return (
-    <div>
+    <div className="my-3" style={{
+      height: height
+    }}>
       <nav
         style={{
           position: "relative",
@@ -59,7 +63,7 @@ export function Tabs({ tabs, selected, onChange }: TabsProps) {
           })}
         </div>
       </nav>
-      <div>
+      <div className="h-100">
         {tabs.map((item: TabItem) => {
           return (
             <TabPanel key={item.id} hidden={selected?.id !== item.id}>
@@ -68,6 +72,6 @@ export function Tabs({ tabs, selected, onChange }: TabsProps) {
           );
         })}
       </div>
-    </div>
+    </div >
   );
 }

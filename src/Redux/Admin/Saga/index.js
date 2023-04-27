@@ -106,25 +106,6 @@ function* getAddTaskSaga(action) {
 
 
 
-function* getTaskUsersSaga(action) {
-  try {
-
-    const response = yield call(getTaskUsersApi, action.payload.params);
-    if (response.success) {
-
-      yield put(getTaskUsersSuccess(response));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getTaskUsersFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(getTaskUsersFailure("Invalid Request"));
-    yield call(action.payload.onError(error));
-  }
-}
 
 function* getTicketUsersSaga(action) {
   try {
@@ -180,7 +161,6 @@ function* AdminSaga() {
 
   yield takeLatest(GET_ASSOCIATED_COMPANY_BRANCH, getAssociatedCompanieslSaga);
   yield takeLatest(ADD_TASK, getAddTaskSaga);
-  yield takeLatest(GET_TASK_USERS, getTaskUsersSaga)
   yield takeLatest(GET_TICKET_USERS, getTicketUsersSaga)
 
   yield takeLatest(GET_TASK_SUB_GROUP, getTaskSubGroupSaga)

@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react'
 import { SubTasksProps } from './interfaces'
 import { Card, H, Button, CommonTable, Priority, NoDataFound } from '@Components'
-import { getSubTasks } from '@Redux'
+import { getSubTasks, setSelectedTask } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation } from '@Hooks'
+import { ROUTES } from '@Routes'
 
 function SubTasks({ cardHeight }: SubTasksProps) {
-
+    const { goTo } = useNavigation();
     const { subTasks, selectedTask } = useSelector((state: any) => state.TaskReducer);
     const dispatch = useDispatch()
 
     useEffect(() => {
         getSubTasksApi()
-    }, [])
+    }, [selectedTask])
 
     function getSubTasksApi() {
         const params = {
@@ -30,7 +32,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         return data.map((el: any) => {
             return {
                 "Sub task":
-                    <div>
+                    <div className='row'>
                         <Priority priority={el?.priority} />
                         <span className="ml-2">{el?.title}</span>
                     </div>
@@ -39,7 +41,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     };
 
     return (
-        <Card style={{
+        <Card className="overflow-auto" style={{
             height: cardHeight
         }} >
             <div className='row justify-content-between px-3'>
@@ -51,12 +53,15 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                 />
             </div>
 
-            <div className='h-100'>
+            <div className='h-100 mt-2'>
                 {subTasks && subTasks.length > 0 ?
                     <CommonTable
                         tableDataSet={subTasks}
                         displayDataSet={normalizedTableData(subTasks)}
                         tableOnClick={(e, index, item) => {
+                            dispatch(setSelectedTask(item))
+                            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id)
+
                         }}
                     /> :
                     <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={'Add Task'} text="No SubTask found" /></div>
