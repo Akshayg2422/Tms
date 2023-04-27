@@ -73,7 +73,7 @@ const PushNotification = () => {
         const route_type = 'HOME_PATH.CREATE_COMPANY'
 
         if (route_type === 'HOME_PATH.CREATE_COMPANY') {
-            goTo(HOME_PATH.ISSUE_TICKET);
+            goTo(HOME_PATH.ADD_TASK);
         }
 
         //     if (route_type === NOTI_TYPE_BROADCAST_MESSAGE) {
@@ -114,9 +114,9 @@ const PushNotification = () => {
         .then((payload: any) => {
             console.log("foreground message", payload);
             setNotification(payload)
-            const title = payload?.notification?.title;
+            const title = payload?.data?.title;
             const options = {
-                body: payload?.notification?.body,
+                body: payload?.data?.message,
                 icon: icons.quantaTms
             };
             new Notification(title, options).addEventListener('click', function () {

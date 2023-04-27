@@ -15,14 +15,7 @@ import {
 } from "@Components";
 import { translate } from "@I18n";
 import {
-  addDepartment,
-  addDesignation,
-  getDepartmentData,
-  getDesignationData,
-  addBrandSector,
-  addTicketTag,
-  getBrandSector,
-  getTicketTag,
+
   getTaskGroup,
   addTaskGroup
 } from "@Redux";
@@ -160,7 +153,7 @@ function GroupTask() {
     const params = {
       name: editTask ? convertToUpperCase(editTask) : convertToUpperCase(task),
       description: editDescription ? convertToUpperCase(editDescription) : convertToUpperCase(taskDescription),
-      code: editCode ? editCode : codeFill,
+      code: editCode ? editCode.trim() : codeFill.trim(),
       photo: editPhoto ? editPhotoAttach[0] : PhotoAttach[0],
       ...(editId && { id: editId })
 
@@ -206,7 +199,7 @@ function GroupTask() {
     const params = {
       name: convertToUpperCase(addSubTask),
       description: convertToUpperCase(addSubTaskDescription),
-      code: addSubTaskCode,
+      code: addSubTaskCode.trim(),
       photo: addSubPhotoAttach[0],
       parent_id: addSubTaskItem?.id,
       start_time: startTimeEta,
@@ -247,7 +240,7 @@ function GroupTask() {
 
     }
   };
-  const CloseTaskGroup = () => {
+  const CloseTaskGroup = (item) => {
 
     const params = {
       id: addSubTaskItem.id,
@@ -278,7 +271,7 @@ function GroupTask() {
 
 
     if (showClosedTaskGroup === true || showClosedTaskGroup === false) {
-      CloseTaskGroup()
+      // CloseTaskGroup()
 
 
     }

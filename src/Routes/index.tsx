@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails } from '@Modules'
+import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -37,6 +37,7 @@ export const ROUTES = {
   },
   'user-company-module': {
     companies: '/companies',
+    "company-details": '/company-details',
     profile: '/profile',
     setting: '/setting'
   },
@@ -123,6 +124,11 @@ export const TASK_ROUTES = [
     key: 1,
     path: ROUTES['task-module']['tasks-details'] + '/:id',
     component: <TaskDetails />
+  },
+  {
+    key: 2,
+    path: ROUTES['user-company-module']['company-details'],
+    component: <CompanyDetails />
   },
 ];
 

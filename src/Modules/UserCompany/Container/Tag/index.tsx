@@ -7,22 +7,17 @@ import {
   Modal,
   NoRecordsFound,
   showToast,
-  Checkbox,
   Dropzone,
   Image,
-  MenuBar,
-  DateTimePicker
 } from "@Components";
 import { translate } from "@I18n";
 import {
-
   addTicketTag,
-
   getTicketTag,
 
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP } from "@Utils";
+import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
 
 
@@ -46,9 +41,7 @@ function Tag() {
   );
 
 
-  const [photo, setPhoto] = useState("");
-  const [editPhoto, setEditPhoto] = useState("");
-  const [addSubPhoto, setAddSubPhoto] = useState("");
+
   const [tagPhoto, setTagPhoto] = useState("");
 
   const [showTags, setShowTags] = useState(false);
@@ -63,9 +56,6 @@ function Tag() {
   const [TagCodeFill, setTagCodeFill] = useState(tags.slice(0, 3).toUpperCase());
 
   const [startTimeEta, setStatTimeEta] = useState("")
-  const [endTimeEta, setEndTimeEta] = useState("")
-  const startDate = new Date(startTimeEta)
-  const startTime = startDate.getHours()
 
   const dynamicHeight: any = useDynamicHeight()
 
@@ -99,7 +89,7 @@ function Tag() {
     const params = {
       name: convertToUpperCase(tags),
       description: convertToUpperCase(description),
-      code: TagCodeFill,
+      code: TagCodeFill.trim(),
       photo: tagPhotoAttach[0]
     };
     const validation = validate(ADD_TASK_GROUP, params)

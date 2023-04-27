@@ -226,52 +226,6 @@ export const getCurrentPage = (params: any) => {
 }
 
 
-// export const getTaskGroup = (params: any) => {
-//   return {
-//     type: GET_TASK_GROUP,
-//     payload: params
-//   }
-// }
-// export const getTaskGroupSuccess = (response: any) => {
-
-//   return {
-//     type: GET_TASK_GROUP_SUCCESS,
-//     payload: response
-//   }
-// }
-// export const getTaskGroupFailure = (error: any) => {
-
-//   return {
-//     type: GET_TASK_GROUP_FAILURE,
-//     payload: error
-//   }
-// }
-
-// export const addTaskGroup = (params: any) => {
-//   return {
-//     type: ADD_TASK_GROUP,
-//     payload: params
-//   }
-// }
-
-// export const addTaskGroupSuccess = (response: any) => {
-
-
-//   return {
-//     type: ADD_TASK_GROUP_SUCCESS,
-//     payload: response
-//   }
-// }
-
-// export const addTaskGroupFailure = (error: any) => {
-
-
-//   return {
-//     type: ADD_TASK_GROUP_FAILURE,
-//     payload: error
-//   }
-// }
-
 
 export const getTaskSubGroup = (params: any) => {
   return {

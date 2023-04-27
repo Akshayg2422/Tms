@@ -12,7 +12,11 @@ const firebaseConfig = {
   measurementId: "G-QVT58EMGY6"
 };
 
+// initializeApp takes the firebaseConfig object as a parameter and returns a Firebase app instance. This app instance is stored in the config constant.
+
 
 export const config = initializeApp(firebaseConfig)
+
+// getMessaging takes the config constant as a parameter and returns a Firebase messaging instance. This messaging instance is stored in the messaging constant, and can be used to send and receive push notifications.
 
 export const messaging = getMessaging(config)

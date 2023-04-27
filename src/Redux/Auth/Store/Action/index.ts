@@ -18,9 +18,7 @@ import {
   VALIDATE_USER_BUSINESS_SUCCESS,
   VALIDATE_USER_BUSINESS_FAILURE,
   CLEAR_VALIDATE_USER_BUSINESS,
-  // REGISTER_ADMIN,
-  // REGISTER_ADMIN_SUCCESS,
-  // REGISTER_ADMIN_FAILURE,
+  
   BRAND_SECTOR,
   BRAND_SECTOR_SUCCESS,
   BRAND_SECTOR_FAILURE,
@@ -28,9 +26,7 @@ import {
   BUSINESS_PLACES_DETAILS_SUCCESS,
   BUSINESS_PLACES_DETAILS_FAILURE,
   SET_ALTERNATIVE_MOBILE_NUMBER,
-  // REGISTER_COMPANY,
-  // REGISTER_COMPANY_SUCCESS,
-  // REGISTER_COMPANY_FAILURE,
+ 
   SECTOR_SERVICE_TYPES,
   SECTOR_SERVICE_TYPES_SUCCESS,
   SECTOR_SERVICE_TYPES_FAILURE,
@@ -220,30 +216,6 @@ export const clearValidateUserBusiness = () => {
   };
 };
 
-/**
- * Register admin
- */
-
-// export const registerAdmin = (params: any) => {
-//   return {
-//     type: REGISTER_ADMIN,
-//     payload: params,
-//   };
-// };
-
-// export const registerAdminSuccess = (response: any) => {
-//   return {
-//     type: REGISTER_ADMIN_SUCCESS,
-//     payload: response,
-//   };
-// };
-
-// export const registerAdminFailure = (error: any) => {
-//   return {
-//     type: REGISTER_ADMIN_FAILURE,
-//     payload: error,
-//   };
-// };
 
 /**
  * Brand Sectors
@@ -305,31 +277,9 @@ export const setAlternativeMobileNumber = (params: any) => {
   };
 };
 
-/**
- * register company
- */
 
-// export const registerCompany = (params: any) => {
 
-//   return {
-//     type: REGISTER_COMPANY,
-//     payload: params,
-//   };
-// };
 
-// export const registerCompanySuccess = (response: any) => {
-//   return {
-//     type: REGISTER_COMPANY_SUCCESS,
-//     payload: response,
-//   };
-// };
-
-// export const registerCompanyFailure = (error: any) => {
-//   return {
-//     type: REGISTER_COMPANY_FAILURE,
-//     payload: error,
-//   };
-// };
 
 /**
  * Sector Service Types
