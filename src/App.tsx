@@ -45,17 +45,15 @@ function App() {
   };
 
   return (
+    <ScreenWrapper>
+      <Routes>
+        {getRoutes(AUTH_ROUTES, AUTH)}
+        {getRoutes(HOME_ROUTES, HOME)}
+        {getRoutes(TASK_ROUTES, HOME)}
+        <Route path={"*"} element={<PageNotFound />} />
+      </Routes>
+    </ScreenWrapper>
 
-    <>
-      <ScreenWrapper>
-        <Routes>
-          {getRoutes(AUTH_ROUTES, AUTH)}
-          {getRoutes(HOME_ROUTES, HOME)}
-          {getRoutes(TASK_ROUTES, HOME)}
-          <Route path={"*"} element={<PageNotFound />} />
-        </Routes>
-      </ScreenWrapper>
-    </>
   );
 }
 

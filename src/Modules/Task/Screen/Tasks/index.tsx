@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
-import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer } from '@Utils'
+import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter } from '@Utils'
 import { getTasks, setSelectedTask, getDashboard } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
-import { log } from "console";
 
 
 const DEFAULT_PARAMS = { q_many: "", "tasks_by": "ALL", "task_status": "INP", "priority": "ALL", page_number: 1 }
@@ -15,7 +14,7 @@ const DEFAULT_PARAMS = { q_many: "", "tasks_by": "ALL", "task_status": "INP", "p
 function Tasks() {
   const dispatch = useDispatch()
   const [params, setParams] = useState(DEFAULT_PARAMS)
-  const { tasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, selectedTask } = useSelector((state: any) => state.TaskReducer);
   const date = new Date();
   const time = date.getHours()
 
@@ -29,7 +28,7 @@ function Tasks() {
 
   useEffect(() => {
     getDashboardDetails()
-  }, [])
+  }, [selectedTask])
 
 
   function getDashboardDetails() {
@@ -53,63 +52,73 @@ function Tasks() {
     dispatch(
       getTasks({
         params: updatedParams,
-        onSuccess: () => () => {
+        onSuccess: (responx) => () => {
+          console.log(JSON.stringify(responx));
+
         },
         onError: () => () => { },
       })
     );
   };
 
+  console.log(JSON.stringify(tasks) + '====tasks');
+
+
   const normalizedTableData = (data: any) => {
-    return data.map((el: any) => {
-      const etaDate = new Date(el.eta_time)
-      let etaTime = etaDate.getHours()
-      return {
-        "task":
-          <>
-            <div className="row">
-              <Priority priority={el?.priority} />
-              <div>
-                <span>{el?.title}</span>
-                <div className="col pt-2">
-                  {el.parent && el.parent?.name && <div>{el.parent?.name}
-                  </div>}
+    if (data && data.length > 0)
+      return data.map((el: any) => {
+        const etaDate = new Date(el.eta_time)
+        let etaTime = etaDate.getHours()
+        return {
+          "task":
+            <>
+              <div className="row">
+                <Priority priority={el?.priority} />
+                <div>
+                  <span>{capitalizeFirstLetter(el?.title)}</span>
+                  <div className="col pt-2">
+                    {el.parent && el.parent?.name && <div>{el.parent?.name}
+                    </div>}
+                  </div>
                 </div>
               </div>
-            </div>
-          </>,
-        "attachments":
-          <div className="row avatar-group">
-            {
-              el?.task_attachments &&
-              el?.task_attachments.length > 0 && el?.task_attachments.map((item) => {
-                return (
-                  <Image
-                    variant={'avatar'}
-                    src={getPhoto(item?.attachment_file)} />
-                )
-              })
-            }
+            </>,
+          "attachments":
+            <div className="row avatar-group">
+              {
+                el?.task_attachments &&
+                el?.task_attachments.length > 0 && el?.task_attachments.map((item) => {
+                  return (
+                    <Image
+                      variant={'avatar'}
+                      src={getPhoto(item?.attachment_file)} />
+                  )
+                })
+              }
 
-          </div >,
-        "raised by":
-          <div className="h5 m-0"> {el?.by_user?.name} </div>,
-        "raised to":
-          <div className="row">
-            {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />}
-            <div className="ml-2">
-              <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
-              <div className="h5 mb-0 text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
-              <small className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place}</small>
-            </div>
-          </div >,
-        'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
-        status: <div><Status status={el?.task_status} />
-          <small>{time > etaTime ? 'ABOVE ETA' : ""}</small>
-        </div>
-      };
-    });
+            </div >,
+          "raised by":
+            <div className="h5 m-0"> {el?.by_user?.name} </div>,
+          "raised to":
+            <div className="row">
+              {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />}
+              <div className="ml-2">
+                <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
+                <div className="h5 mb-0 text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
+                <small className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place}</small>
+              </div>
+            </div >,
+          'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
+          status: <div><Status status={el?.task_status} />
+            <small>{time > etaTime ? 'ABOVE ETA' : ""}</small>
+          </div>
+        };
+      });
   };
+
+
+
+
 
   return (
     <div className="m-3">

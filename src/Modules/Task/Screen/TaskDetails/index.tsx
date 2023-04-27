@@ -15,7 +15,7 @@ function TaskDetails() {
         { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>COMMENTS</span></div>, component: <Comments /> },
         { id: "2", title: <div className="bi bi-paperclip">ATTACHMENTS</div>, component: <TaskAttachments /> },
         { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCES</span></div>, component: <ReferenceTasks /> },
-        // { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USERS</span></div>, component: <TaskUsers /> },
+        { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USERS</span></div>, component: <TaskUsers /> },
     ];
     const [selectedTab, setSelectedTab] = useState(TABS[0]);
 

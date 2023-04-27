@@ -192,3 +192,36 @@ export const getReferenceTasksFailure = (error) => {
         payload: error,
     };
 };
+
+
+/**
+ * 
+ * get Task User
+ */
+
+
+/* Task Users */
+
+export const getTaskUsers = (params: any) => {
+    return {
+        type: ActionTypes.GET_TASK_USERS,
+        payload: params
+    }
+}
+
+export const getTaskUsersSuccess = (response: any) => {
+
+    return {
+
+        type: ActionTypes.GET_TASK_USERS_SUCCESS,
+        payload: response
+    }
+}
+
+export const getTaskUsersFailure = (error: any) => {
+    return {
+        type: ActionTypes.GET_TASK_USERS_FAILURE,
+        payload: error
+    }
+}
+

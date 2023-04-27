@@ -6,7 +6,7 @@ import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
-import { useModal, useInput } from '@Hooks'
+import { useModal, useInput, useWindowDimensions } from '@Hooks'
 import { addTaskEvent } from '@Redux'
 
 const START_TASK = 1
@@ -26,7 +26,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const taskEventModal = useModal(false)
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
-
+    const { height } = useWindowDimensions()
 
     const editEtaSubmitApiHandler = () => {
         const params = {
@@ -70,8 +70,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     }
 
     return (
-        <div ref={ref}>
-            <Card >
+        <div ref={ref} >
+            <Card style={{
+                height: height / 2
+            }}>
                 <div className="col">
                     <div className="row justify-content-between">
                         <Back />
@@ -84,12 +86,13 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                             <div className="mt-3">
                                 {description && <H tag={'h5'} text={capitalizeFirstLetter(description)} />}
-                                <div>
+                                <div className="row">
                                     {
                                         task_attachments &&
                                         task_attachments?.length > 0 &&
                                         task_attachments?.map((item) => {
                                             return <div
+                                                className="ml-3"
                                                 onClick={(e) => e.preventDefault()}>
                                                 <Image
                                                     variant={'avatar'}
@@ -121,7 +124,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             </div>
                         </div>
                     </div>
-                    <div className="row justify-content-between mt-3 mr-3">
+                    <div className="row justify-content-between mt-4 mr-3">
                         <div>
                             <div className="h5 mb-0"> {by_user.name} </div>
                             <div className="mt--1"><small > {by_user.phone} </small></div>
@@ -134,7 +137,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 <div className="ml-2">
                                     <h4 className="mb-0">{raised_by_company.display_name} </h4>
                                     <div className="mt--2">
-                                        <small className="text-xs"> {`@ ${assigned_to.name}`}</small>
+                                        <small className="text-xs"> {`@ ${assigned_to?.name}`}</small>
                                     </div>
                                     <div className="mt--2">
                                         <small className={'text-xs'}>{raised_by_company.address}</small>

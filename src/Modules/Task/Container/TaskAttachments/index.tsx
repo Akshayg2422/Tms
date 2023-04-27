@@ -1,20 +1,21 @@
 import React, { useEffect, useState, } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput } from "@Hooks";
-import { Card, Image, NoDataFound, SearchInput } from "@Components";
+import { useInput, useWindowDimensions } from "@Hooks";
+import { Card, Image, NoDataFound, SearchInput, Divider } from "@Components";
 import { translate } from "@I18n";
 import { getTaskEvents } from "@Redux";
-import { getPhoto, MEA } from "@Utils";
+import { getPhoto, MEA, capitalizeFirstLetter } from "@Utils";
 
 function TaskAttachments() {
 
   const dispatch = useDispatch();
   const search = useInput("");
   const { selectedTask, taskEvents } = useSelector((state: any) => state.TaskReducer);
+  const { height } = useWindowDimensions()
 
   useEffect(() => {
     getTaskEventsApiHandler(search.value)
-  }, [search.value]);
+  }, [search.value, selectedTask]);
 
 
   function getTaskEventsApiHandler(q_many: string) {
@@ -23,6 +24,7 @@ function TaskAttachments() {
       event_type: MEA,
       q_many
     };
+
 
     console.log(JSON.stringify(params));
     dispatch(
@@ -35,41 +37,41 @@ function TaskAttachments() {
   }
 
   return (
-    <Card>
+    <Card className="overflow-auto" style={{
+      height: height - 60
+    }}>
       <div className="row text-right">
-        <div className="col-5">
+        <div className="col-5" >
           <SearchInput onSearch={search.set} />
         </div>
-      </div>
+      </div >
 
-      <div className='mt-4'>
+      <div className='mt-4 h-100'>
         {
           taskEvents && taskEvents?.length > 0 ? taskEvents?.map((item: any, index: number) => {
+            const { attachments } = item
             return (
               <>
-                {item?.attachments?.attachments && <div>
-                  <h4 className='my-2'> {item?.attachments?.name} </h4>
+                {attachments?.attachments && <div>
+                  <h4 className="mb-0"> {capitalizeFirstLetter(attachments?.name)} </h4>
                   {
-                    item?.attachments?.attachments?.map((image: any) => {
+                    attachments?.attachments?.map((image: any) => {
                       return (
-                        <span className='mx-2'>
-                          <Image className={'mb-3'} src={getPhoto(image?.attachment_file)} style={{ height: "280px", width: "295px" }} />
-                        </span>
+                        <Image className={'mb-3'} src={getPhoto(image?.attachment_file)} style={{ height: "100px", width: "100px" }} />
                       )
                     })
                   }
                 </div>
                 }
+                {index !== taskEvents.length - 1 && <Divider space={'3'} />}
               </>
             )
-          }) : <NoDataFound type={'text'} />
+          }) : <div className="d-flex align-items-center justify-content-center h-100"><NoDataFound type={'text'} /></div>
 
         }
       </div>
 
-
-
-    </Card>
+    </Card >
 
   )
 }

@@ -15,7 +15,8 @@ const initialState: TaskStateProp = {
   taskEventsCurrentPages: 1,
   referencesTasks: undefined,
   referencesTasksNumOfPages: undefined,
-  referencesTasksCurrentPages: 1
+  referencesTasksCurrentPages: 1,
+  taskUsers: undefined
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -170,14 +171,17 @@ const TaskReducer = (state = initialState, action: any) => {
       };
       break;
     case ActionTypes.GET_REFERENCE_TASKS_SUCCESS:
+
+      console.log(JSON.stringify(action.payload) + '====GET_REFERENCE_TASKS_SUCCESS');
+
       state = {
         ...state,
-        referencesTasks: action?.payload?.data,
-        referencesTasksNumOfPages: action?.payload?.num_pages,
+        referencesTasks: action.payload.details.data,
+        referencesTasksNumOfPages: action?.payload?.details.num_pages,
         referencesTasksCurrentPages:
-          action?.payload?.next_page === -1
-            ? action?.payload?.num_pages
-            : action?.payload?.next_page - 1,
+          action?.payload?.details.next_page === -1
+            ? action?.payload?.details.num_pages
+            : action?.payload?.details.next_page - 1,
       };
       break;
     case ActionTypes.GET_REFERENCE_TASKS_FAILURE:
@@ -185,6 +189,21 @@ const TaskReducer = (state = initialState, action: any) => {
         ...state,
         referencesTasks: action.payload,
       };
+      break;
+
+
+    /**
+     * get Task User
+     */
+
+    case ActionTypes.GET_TASK_USERS:
+      state = { ...state, taskUsers: undefined }
+      break;
+    case ActionTypes.GET_TASK_USERS_SUCCESS:
+      state = { ...state, taskUsers: action.payload?.details }
+      break;
+    case ActionTypes.GET_TASK_USERS_FAILURE:
+      state = { ...state, taskUsers: undefined }
       break;
 
     default:
