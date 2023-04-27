@@ -9,6 +9,8 @@ export * from './Comments'
 export * from './TaskAttachments'
 export * from './ReferenceTasks'
 export * from './TaskUsers'
+export * from './CompanyTasks'
+
 
 
 

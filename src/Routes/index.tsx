@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask } from '@Modules'
+import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, CreateBroadCast } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -44,6 +44,7 @@ export const ROUTES = {
   },
   'message-module': {
     broadcast: '/broadcast',
+    'create-broadcast': '/create-broadcast',
   }
 }
 
@@ -131,6 +132,23 @@ export const TASK_ROUTES = [
     path: ROUTES['task-module']['reference-task'],
     component: <AddReferenceTask />
   },
+];
+
+export const MESSAGE_ROUTES = [
+  {
+    key: 1,
+    path: ROUTES['message-module']['create-broadcast'],
+    component: <CreateBroadCast />
+  },
+];
+
+export const USER_COMPANY_ROTES = [
+  {
+    key: 1,
+    path: ROUTES['user-company-module']['company-details'],
+    component: <CompanyDetails />
+  },
+
 ];
 
 

@@ -30,5 +30,6 @@ export interface UserCompanyStateProp {
     response: any,
     registerAdminResponse: any,
     associatedCompaniesL: any,
-    dashboardDetails: any
+    dashboardDetails: any,
+    selectedCompany: any
 }

@@ -41,8 +41,8 @@ function TaskDetails() {
                     <SubTasks cardHeight={height} />
                 </div>
             </div>
-            <div className="row">
-                <div className="col mt--3">
+            <div className="row mt--3">
+                <div className="col">
                     <Tabs tabs={TABS} selected={selectedTab} onChange={setSelectedTab} />
                 </div>
             </div>

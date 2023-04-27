@@ -2,18 +2,19 @@ import React from "react";
 import { HomeContainerProps } from "./interfaces";
 import { Card } from '@Components'
 
-function HomeContainer({ children, title, className, type = 'default' }: HomeContainerProps) {
+function HomeContainer({ children, title, className, type = 'default', style }: HomeContainerProps) {
   return (
-    <div>
-      {type === 'default' && <div className={`${className}`}>{children}</div>}
+    <>
+      {type === 'default' && <div className={`${className}`} style={style}>{children}</div>}
       {type === 'card' &&
-        <div className={`${className}`} >
-          <Card
-            title={title}
-          >{children}
-          </Card>
-        </div>}
-    </div>
+        <Card
+          className={`${className}`}
+          style={style}
+          title={title}
+        >{children}
+        </Card>
+      }
+    </>
   );
 }
 export { HomeContainer };
