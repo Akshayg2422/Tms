@@ -6,6 +6,7 @@ import { getTaskEvents } from '@Redux'
 import { TimeLine, Spinner } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { log } from 'console';
 
 
 function Send({ item, showDotLine }: any) {
@@ -51,7 +52,7 @@ function TaskChat({ }: TaskChatProps) {
         dispatch(
             getTaskEvents({
                 params,
-                onSuccess: (response) => () => { },
+                onSuccess: () => () => { },
                 onError: () => () => { },
             })
         );
@@ -67,8 +68,7 @@ function TaskChat({ }: TaskChatProps) {
                         <Spinner />
                     </h4>}
                     next={() => {
-                        console.log(taskEventsCurrentPages);
-
+                        console.log('came' + taskEventsCurrentPages)
                         if (taskEventsCurrentPages !== -1) {
                             getTaskEventsApi(taskEventsCurrentPages)
                         }

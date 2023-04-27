@@ -14,7 +14,7 @@ function ReferenceTasks() {
       (state: any) => state.TaskReducer
     );
 
-  const { dashboardDetails } = useSelector((state: any) => state.UserCompanyR);
+  const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
 
 
   useEffect(() => {
@@ -55,7 +55,7 @@ function ReferenceTasks() {
   return (
 
     <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: '89vh' }}>
-      {referencesTasks && referencesTasks?.length > 0 ?
+      {/* {referencesTasks && referencesTasks?.length > 0 ?
         <CommonTable
           isPagination
           tableDataSet={referencesTasks}
@@ -77,7 +77,7 @@ function ReferenceTasks() {
             // dispatch(getSelectReferenceId(item))
           }}
 
-        /> : <NoDataFound />}
+        /> : <NoDataFound />} */}
     </Card>
 
 
