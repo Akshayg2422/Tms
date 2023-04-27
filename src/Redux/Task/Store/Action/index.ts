@@ -109,3 +109,86 @@ export const getTaskEventHistoryFailure = (error: any) => {
         payload: error,
     };
 };
+
+
+/**
+ * get Sub Tasks
+ */
+
+/* GET SUB TASK*/
+
+export const getSubTasks = (params: any) => {
+    return {
+        type: ActionTypes.GET_SUB_TASKS,
+        payload: params
+    }
+}
+
+export const getSubTasksSuccess = (response: any) => {
+    return {
+        type: ActionTypes.GET_SUB_TASKS_SUCCESS,
+        payload: response
+    }
+}
+
+export const getSubTasksFailure = (error: any) => {
+    return {
+        type: ActionTypes.GET_SUB_TASKS_FAILURE,
+        payload: error
+    }
+}
+
+
+/**
+ * get Task Events
+ * @param
+ * @returns
+ */
+export const getTaskEvents = (params: any) => {
+    return {
+        type: ActionTypes.GET_TASK_EVENTS,
+        payload: params,
+    };
+};
+
+export const getTaskEventsSuccess = (response: any) => {
+    return {
+        type: ActionTypes.GET_TASK_EVENTS_SUCCESS,
+        payload: response,
+    };
+};
+
+export const getTaskEventsFailure = (error: any) => {
+
+    return {
+        type: ActionTypes.GET_TASK_EVENTS_FAILURE,
+        payload: error,
+    };
+};
+
+
+/**
+ * get reference Task
+ */
+
+
+export const getReferenceTasks = (params) => {
+    return {
+        type: ActionTypes.GET_REFERENCE_TASKS,
+        payload: params,
+    };
+};
+
+export const getReferenceTasksSuccess = (response) => {
+    return {
+        type: ActionTypes.GET_REFERENCE_TASKS_SUCCESS,
+        payload: response,
+    };
+};
+
+export const getReferenceTasksFailure = (error) => {
+    return {
+        type: ActionTypes.GET_REFERENCE_TASKS_FAILURE,
+        payload: error,
+    };
+};

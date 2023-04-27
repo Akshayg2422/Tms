@@ -24,9 +24,6 @@ import {
   GET_BROADCAST_MESSAGES,
   GET_BROADCAST_MESSAGES_SUCCESS,
   GET_BROADCAST_MESSAGES_FAILURE,
-  GET_TASK_EVENTS,
-  GET_TASK_EVENTS_SUCCESS,
-  GET_TASK_EVENTS_FAILURE,
   AUTO_COMPLETE_DROPDOWN,
   GET_TASK_GROUPL,
   GET_TASK_GROUPL_FAILURE,
@@ -215,23 +212,6 @@ const CompanyReducer = (
         issueReferenceDetails: undefined,
       };
       break;
-    case GET_TASK_EVENTS:
-      state = {
-        ...state,
-        taskEvents: undefined,
-      };
-      break;
-    case GET_TASK_EVENTS_SUCCESS:
-      state = {
-        ...state,
-        taskEvents: action.payload.details,
-      };
-      break;
-    case GET_TASK_EVENTS_FAILURE:
-      state = { ...state, taskEvents: undefined };
-      break;
-
-
 
     //get task group
 

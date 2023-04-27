@@ -26,10 +26,6 @@ import {
   GET_BROADCAST_MESSAGES_SUCCESS,
   GET_BROADCAST_MESSAGES_FAILURE,
   RESTORE_COMPANY,
-
-  GET_TASK_EVENTS,
-  GET_TASK_EVENTS_SUCCESS,
-  GET_TASK_EVENTS_FAILURE,
   GET_TASK_GROUPL_FAILURE,
   GET_TASK_GROUPL,
   GET_TASK_GROUPL_SUCCESS,
@@ -248,33 +244,6 @@ export const getBroadCastMessagesSuccess = (response: any) => {
 export const getBroadCastMessagesFailure = (error: any) => {
   return {
     type: GET_BROADCAST_MESSAGES_FAILURE,
-    payload: error,
-  };
-};
-
-/**
- *get Task Events
- * @param
- * @returns
- */
-export const getTaskEvents = (params: any) => {
-  return {
-    type: GET_TASK_EVENTS,
-    payload: params,
-  };
-};
-
-export const getTaskEventsSuccess = (response: any) => {
-  return {
-    type: GET_TASK_EVENTS_SUCCESS,
-    payload: response,
-  };
-};
-
-export const getTaskEventsFailure = (error: any) => {
-
-  return {
-    type: GET_TASK_EVENTS_FAILURE,
     payload: error,
   };
 };

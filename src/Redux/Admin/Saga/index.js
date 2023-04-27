@@ -74,50 +74,8 @@ function* getAssociatedCompanieslSaga(action) {
   }
 }
 
-function* getDashboardSaga(action) {
-  try {
-
-    const response = yield call(getDashboardApi, action.payload.params);
-    if (response.success) {
-
-      yield put(getDashboardSuccess({ ...response }));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getDashboardFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(getDashboardFailure(error));
-    yield call(action.payload.onError(error));
-  }
-}
-
-/**get reference tasks */
-function* getReferenceTasksSaga(action) {
-
-  try {
-
-    const response = yield call(getReferenceTasksApi, action.payload.params);
-
-    if (response.success) {
 
 
-      yield put(getReferenceTasksSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getReferenceTasksFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-
-    yield put(getReferenceTasksFailure("Invalid Request"));
-    yield call(action.payload.onError(error));
-  }
-}
 
 
 
@@ -145,29 +103,7 @@ function* getAddTaskSaga(action) {
   }
 }
 
-/*GET SUB TASK*/
 
-function* getSubTasksSaga(action) {
-
-  try {
-
-    const response = yield call(getSubTaskApi, action.payload.params);
-
-    if (response.success) {
-
-      yield put(getSubTasksSuccess(response));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getSubTasksFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(getSubTasksFailure("Invalid Request"));
-    yield call(action.payload.onError(error));
-  }
-}
 
 function* getTaskUsersSaga(action) {
   try {
@@ -242,11 +178,7 @@ function* getTaskSubGroupSaga(action) {
 function* AdminSaga() {
 
   yield takeLatest(GET_ASSOCIATED_COMPANY_BRANCH, getAssociatedCompanieslSaga);
-  yield takeLatest(GET_DASHBOARD, getDashboardSaga);
   yield takeLatest(ADD_TASK, getAddTaskSaga);
-  yield takeLatest(GET_SUB_TASKS, getSubTasksSaga);
-
-  yield takeLatest(GET_REFERENCE_TASKS, getReferenceTasksSaga);
   yield takeLatest(GET_TASK_USERS, getTaskUsersSaga)
   yield takeLatest(GET_TICKET_USERS, getTicketUsersSaga)
 

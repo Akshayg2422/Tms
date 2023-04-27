@@ -29,5 +29,6 @@ export interface UserCompanyStateProp {
     employees: any,
     response: any,
     registerAdminResponse: any,
-    associatedCompaniesL: any
+    associatedCompaniesL: any,
+    dashboardDetails: any
 }

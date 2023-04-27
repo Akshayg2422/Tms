@@ -8,8 +8,14 @@ const initialState: TaskStateProp = {
   taskCurrentPages: 1,
   selectedTask: undefined,
   addTaskEvents: undefined,
-  taskEventHistories: undefined
-
+  taskEventHistories: undefined,
+  subTasks: undefined,
+  taskEvents: undefined,
+  taskEventsNumOfPages: undefined,
+  taskEventsCurrentPages: 1,
+  referencesTasks: undefined,
+  referencesTasksNumOfPages: undefined,
+  referencesTasksCurrentPages: 1
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -47,7 +53,6 @@ const TaskReducer = (state = initialState, action: any) => {
       }
       break;
     case ActionTypes.GET_TASKS_SUCCESS:
-
       state = {
         ...state,
         tasks: action.payload?.details.data,
@@ -105,6 +110,81 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
     case ActionTypes.GET_TASK_EVENT_HISTORY_FAILURE:
       state = { ...state, taskEventHistories: action.payload };
+      break;
+
+    /**
+     * sub tasks
+     */
+
+    /* GET SUB TASK*/
+
+    case ActionTypes.GET_SUB_TASKS:
+      state = { ...state, subTasks: undefined }
+      break;
+    case ActionTypes.GET_SUB_TASKS_SUCCESS:
+      state = { ...state, subTasks: action.payload?.details.data }
+      break;
+    case ActionTypes.GET_SUB_TASKS_FAILURE:
+      state = { ...state, subTasks: action.payload }
+      break;
+
+
+    /**
+     * get Task Events
+     */
+
+    case ActionTypes.GET_TASK_EVENTS:
+
+      const { page_number } = action.payload.params
+      state = {
+        ...state,
+        taskEvents: page_number === 1 ? [] : state.taskEvents
+      };
+      break;
+    case ActionTypes.GET_TASK_EVENTS_SUCCESS:
+
+
+      state = {
+        ...state,
+        taskEvents: [...state.taskEvents, ...action.payload.details.data],
+        taskEventsCurrentPages:
+          action.payload.details.next_page
+      };
+      break;
+
+    case ActionTypes.GET_TASK_EVENTS_FAILURE:
+      state = { ...state, taskEvents: action.payload };
+      break;
+
+    /**
+     * get Reference task
+     */
+
+    //GET REFERENCE TASKS
+    case ActionTypes.GET_REFERENCE_TASKS:
+      state = {
+        ...state,
+        referencesTasks: undefined,
+        referencesTasksNumOfPages: 0,
+        referencesTasksCurrentPages: 1,
+      };
+      break;
+    case ActionTypes.GET_REFERENCE_TASKS_SUCCESS:
+      state = {
+        ...state,
+        referencesTasks: action?.payload?.data,
+        referencesTasksNumOfPages: action?.payload?.num_pages,
+        referencesTasksCurrentPages:
+          action?.payload?.next_page === -1
+            ? action?.payload?.num_pages
+            : action?.payload?.next_page - 1,
+      };
+      break;
+    case ActionTypes.GET_REFERENCE_TASKS_FAILURE:
+      state = {
+        ...state,
+        referencesTasks: action.payload,
+      };
       break;
 
     default:

@@ -5,8 +5,6 @@ import * as ActionTypes from '../ActionTypes'
 export const RestoreUserCompany = () => {
   return {
     type: ActionTypes.RESTORE_USER_COMPANY,
-
-
   };
 };
 
@@ -409,5 +407,26 @@ export const getAssociatedCompaniesLFailure = (error: any) => {
   };
 };
 
+/**
+ * get Dashboard Details
+ */
 
 
+export const getDashboard = (params: any) => {
+  return {
+    type: ActionTypes.GET_DASHBOARD,
+    payload: params,
+  };
+};
+export const getDashboardSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_DASHBOARD_SUCCESS,
+    payload: response,
+  };
+};
+export const getDashboardFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_DASHBOARD_FAILURE,
+    payload: error,
+  };
+};

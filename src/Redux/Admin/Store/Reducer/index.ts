@@ -3,9 +3,6 @@ import {
   GET_ASSOCIATED_COMPANY_BRANCH,
   GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
   GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
-  GET_DASHBOARD,
-  GET_DASHBOARD_FAILURE,
-  GET_DASHBOARD_SUCCESS,
   SET_SELECTED_ISSUES,
   SET_REFERENCE_SELECTED_ISSUES,
 
@@ -18,15 +15,8 @@ import {
   ADD_TASK_SUCCESS,
   ADD_TASK_FAILURE,
 
-  GET_SUB_TASKS,
-  GET_SUB_TASKS_SUCCESS,
-  GET_SUB_TASKS_FAILURE,
 
   GET_TASKS_ITEM,
-
-  GET_REFERENCE_TASKS,
-  GET_REFERENCE_TASKS_SUCCESS,
-  GET_REFERENCE_TASKS_FAILURE,
   GET_TASK_USERS,
   GET_TASK_USERS_SUCCESS,
   GET_TASK_USERS_FAILURE,
@@ -42,10 +32,6 @@ import {
   GET_TASK_SUB_GROUP,
   GET_TASK_SUB_GROUP_SUCCESS,
   GET_TASK_SUB_GROUP_FAILURE,
-
-  GET_TASK_HISTORY,
-  GET_TASK_HISTORY_SUCCESS,
-  GET_TASK_HISTORY_FAILURE,
 
 } from '../ActionTypes';
 
@@ -119,48 +105,6 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = { ...state, ticketEmployees: undefined };
       break;
 
-    /**
-     * Dashboard
-     */
-    case GET_DASHBOARD:
-      state = { ...state, dashboardDetails: undefined };
-      break;
-    case GET_DASHBOARD_SUCCESS:
-      state = { ...state, dashboardDetails: action.payload.details };
-      break;
-    case GET_DASHBOARD_FAILURE:
-      state = { ...state, dashboardDetails: action.payload };
-      break;
-
-    //GET REFERENCE TASKS
-    case GET_REFERENCE_TASKS:
-      state = {
-        ...state,
-        referencesTasks: undefined,
-        referencesTasksNumOfPages: 0,
-        referencesTasksCurrentPages: 1,
-        loading: true
-      };
-      break;
-    case GET_REFERENCE_TASKS_SUCCESS:
-      state = {
-        ...state,
-        loading: false,
-        referencesTasks: action?.payload?.data,
-        referencesTasksNumOfPages: action?.payload?.num_pages,
-        referencesTasksCurrentPages:
-          action?.payload?.next_page === -1
-            ? action?.payload?.num_pages
-            : action?.payload?.next_page - 1,
-      };
-      break;
-    case GET_REFERENCE_TASKS_FAILURE:
-      state = {
-        ...state,
-        error: action.payload,
-        loading: false,
-      };
-      break;
     //get designations
 
     // case FETCH_DESIGNATION:
@@ -417,18 +361,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     //   state = { ...state, addTaskGroup: action.payload };
     //   break;
 
-    /* GET SUB TASK*/
 
-    case GET_SUB_TASKS:
-
-      state = { ...state, subTasks: undefined }
-      break;
-    case GET_SUB_TASKS_SUCCESS:
-      state = { ...state, subTasks: action.payload?.details }
-      break;
-    case GET_SUB_TASKS_FAILURE:
-      state = { ...state, subTasks: action.payload }
-      break;
 
     case GET_CURRENT_PAGE:
       state = { ...state, current: action.payload }

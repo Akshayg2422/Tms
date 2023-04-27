@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import { Logo } from "@Components";
 import { ROUTES } from "@Routes";
 import { useNavigation } from "@Hooks";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { getDashboard } from '@Redux'
 
 function Splash() {
 
   const SPLASH_STAY_TIME_MILE_SECONDS = 1500;
   const { goTo } = useNavigation();
+  const dispatch = useDispatch()
 
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
 

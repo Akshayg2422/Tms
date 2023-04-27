@@ -2,18 +2,12 @@ import React, { useState } from 'react';
 import { ChatProps } from './interfaces';
 import { useSelector } from 'react-redux'
 import { getDataAndTime, getPhoto } from '@Utils';
-import { H, Image, ImageFullScreen } from '@Components'
-import { FullScreenHandle } from 'react-full-screen'
+import { H, Image } from '@Components'
 
 function Receive({ item }: any) {
     const [isFullScreen, setIsFullScreen] = useState(false);
 
-    const handleFullScreenChange = (state: boolean, handle: FullScreenHandle) => {
-        setIsFullScreen(state);
-        if (!state) {
-            handle.exit();
-        }
-    };
+
 
     return (
 
@@ -42,9 +36,9 @@ function Receive({ item }: any) {
                                             className={'alert fade show text-white d-flex justify-content-center'}
                                             role={'alert'}
                                         >
-                                            <ImageFullScreen onChange={handleFullScreenChange}>
+                                            {/* <ImageFullScreen onChange={handleFullScreenChange}>
                                                 <Image src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
-                                            </ImageFullScreen>
+                                            </ImageFullScreen> */}
                                         </div>
                                     )
                                 })}
@@ -77,12 +71,7 @@ function Receive({ item }: any) {
 function Sent({ item }: any) {
     const [isFullScreen, setIsFullScreen] = useState(false);
 
-    const handleFullScreenChange = (state: boolean, handle: FullScreenHandle) => {
-        setIsFullScreen(state);
-        if (!state) {
-            handle.exit();
-        }
-    };
+
 
     return (
         <>
@@ -110,9 +99,9 @@ function Sent({ item }: any) {
                                             className={'alert fade show text-white d-flex justify-content-center'}
                                             role={'alert'}
                                         >
-                                            <ImageFullScreen onChange={handleFullScreenChange}>
+                                            {/* <ImageFullScreen onChange={handleFullScreenChange}>
                                                 <Image src={getPhoto(attach.attachment_file)} style={{ height: "200px", width: "200px" }} />
-                                            </ImageFullScreen>
+                                            </ImageFullScreen> */}
                                         </div>
                                     )
                                 })}

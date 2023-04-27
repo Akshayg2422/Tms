@@ -5,31 +5,16 @@ import {
   GET_ASSOCIATED_COMPANY_BRANCH,
   GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
   GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
-  GET_DASHBOARD,
-  GET_DASHBOARD_FAILURE,
-  GET_DASHBOARD_SUCCESS,
   SET_SELECTED_ISSUES,
   SET_REFERENCE_SELECTED_ISSUES,
-
-
-  GET_REFERENCE_TASKS,
-  GET_REFERENCE_TASKS_SUCCESS,
-  GET_REFERENCE_TASKS_FAILURE,
-
   COMPANY_SELECTED_DETAILS,
   REFERENCE_ISSUE_DETAILS,
   RESTORE_ADMIN,
-
   ADD_TASK,
   ADD_TASK_SUCCESS,
   ADD_TASK_FAILURE,
 
-  GET_SUB_TASKS,
-  GET_SUB_TASKS_SUCCESS,
-  GET_SUB_TASKS_FAILURE,
-
   GET_TASKS_ITEM,
-
   GET_TASK_USERS,
   GET_TASK_USERS_SUCCESS,
   GET_TASK_USERS_FAILURE,
@@ -82,24 +67,7 @@ export const getAssociatedCompanyBranchFailure = (error: any) => {
   };
 };
 
-export const getDashboard = (params: any) => {
-  return {
-    type: GET_DASHBOARD,
-    payload: params,
-  };
-};
-export const getDashboardSuccess = (response: any) => {
-  return {
-    type: GET_DASHBOARD_SUCCESS,
-    payload: response,
-  };
-};
-export const getDashboardFailure = (error: any) => {
-  return {
-    type: GET_DASHBOARD_FAILURE,
-    payload: error,
-  };
-};
+
 
 /**
  *
@@ -167,29 +135,6 @@ export const addTaskFailure = (error: any) => {
   }
 }
 
-/* GET SUB TASK*/
-
-export const getSubTasks = (params: any) => {
-  return {
-    type: GET_SUB_TASKS,
-    payload: params
-  }
-}
-
-export const getSubTasksSuccess = (response: any) => {
-  return {
-
-    type: GET_SUB_TASKS_SUCCESS,
-    payload: response
-  }
-}
-
-export const getSubTasksFailure = (error: any) => {
-  return {
-    type: GET_SUB_TASKS_FAILURE,
-    payload: error
-  }
-}
 
 export const getTaskItem = (params: any) => {
 
@@ -202,30 +147,6 @@ export const getTaskItem = (params: any) => {
 
 
 
-export const getReferenceTasks = (params) => {
-
-  return {
-    type: GET_REFERENCE_TASKS,
-    payload: params,
-  };
-};
-
-export const getReferenceTasksSuccess = (response) => {
-
-
-
-  return {
-    type: GET_REFERENCE_TASKS_SUCCESS,
-    payload: response,
-  };
-};
-
-export const getReferenceTasksFailure = (error) => {
-  return {
-    type: GET_REFERENCE_TASKS_FAILURE,
-    payload: error,
-  };
-};
 
 
 export const getSelectReferenceId = (response) => {

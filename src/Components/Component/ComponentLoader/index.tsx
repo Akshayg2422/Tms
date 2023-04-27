@@ -21,12 +21,12 @@ const ComponentLoader = ({ children, loading }: ComponentLoaderProps): JSX.Eleme
 
     return (
         <div>
-            {
+            {/* {
                 loading && <div className='d-flex align-items-center justify-content-center position-absolute' style={{ ...(height && { height: height }), ...(width && { width: width }) }} > < Spinner /></div >
             }
             {
                 (!loading || !isFirst) && <div ref={ref}>{children}</div>
-            }
+            } */}
         </div >
     )
 }

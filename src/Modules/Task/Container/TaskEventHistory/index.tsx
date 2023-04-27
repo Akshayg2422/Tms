@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getTaskEventHistory } from '@Redux';
-import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer } from '@Utils';
+import { getDisplayDateFromMoment, getMomentObjFromServer } from '@Utils';
 import { TaskEventHistoryProps } from './interfaces'
 import { TimeLine } from '@Components'
 
@@ -29,7 +29,6 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
         );
     }
 
-
     return (
         <div>
             {
@@ -53,7 +52,6 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
                             </h6>
                         </TimeLine >
                     )
-
                 })
             }
         </div >

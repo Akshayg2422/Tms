@@ -5,5 +5,12 @@ export interface TaskStateProp {
     taskCurrentPages: number,
     selectedTask: any,
     addTaskEvents: any,
-    taskEventHistories: any
+    taskEventHistories: any,
+    subTasks: any,
+    taskEvents: any,
+    taskEventsNumOfPages: any,
+    taskEventsCurrentPages: number,
+    referencesTasks: any,
+    referencesTasksNumOfPages: any,
+    referencesTasksCurrentPages: number
 }

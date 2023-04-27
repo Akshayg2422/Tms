@@ -4,12 +4,14 @@ import { HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer } from '@Utils'
-import { getTasks, setSelectedTask } from '@Redux'
+import { getTasks, setSelectedTask, getDashboard } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
+import { log } from "console";
 
 
 const DEFAULT_PARAMS = { q_many: "", "tasks_by": "ALL", "task_status": "INP", "priority": "ALL", page_number: 1 }
+
 function Tasks() {
   const dispatch = useDispatch()
   const [params, setParams] = useState(DEFAULT_PARAMS)
@@ -19,10 +21,29 @@ function Tasks() {
 
   const { goTo } = useNavigation();
 
-
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [params])
+
+
+
+  useEffect(() => {
+    getDashboardDetails()
+  }, [])
+
+
+  function getDashboardDetails() {
+    const params = {}
+    dispatch(getDashboard({
+      params,
+      onSuccess: (response) => () => {
+
+        console.log(JSON.stringify(response) + '=====');
+
+      },
+      onError: () => () => { }
+    }));
+  }
 
   const getTaskHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
@@ -38,8 +59,6 @@ function Tasks() {
       })
     );
   };
-
-
 
   const normalizedTableData = (data: any) => {
     return data.map((el: any) => {
@@ -91,9 +110,6 @@ function Tasks() {
       };
     });
   };
-
-
-
 
   return (
     <div className="m-3">

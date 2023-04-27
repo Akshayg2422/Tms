@@ -7,4 +7,5 @@ export interface TimeLineProps {
     icon?: any,
     color?: Color,
     showDotterLine: boolean
+    rtl?: boolean
 }

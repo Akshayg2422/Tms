@@ -12,7 +12,7 @@ function NoDataFound({ text = 'No Data Found', type = 'action', buttonText }: No
                     <div>
                         <div className='text-center'>
                             <p className='mb-1'><u>{text}</u></p>
-                            <Button text={buttonText} />
+                            <Button size={'sm'} text={buttonText} />
                         </div>
                     </div >
 

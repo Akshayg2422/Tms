@@ -340,6 +340,28 @@ function* getAssociatedCompaniesLSaga(action) {
 }
 
 
+/**
+ * Dashboard Saga
+ */
+
+function* getDashboardSaga(action) {
+  try {
+    const response = yield call(Api.getDashboardApi, action.payload.params);
+    console.log(JSON.stringify(response) + "===");
+    if (response.success) {
+      yield put(Action.getDashboardSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getDashboardFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getDashboardFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
 function* UserCompanySaga() {
 
   yield takeLatest(Action.GET_EMPLOYEES, getEmployeesSaga);
@@ -359,8 +381,7 @@ function* UserCompanySaga() {
   yield takeLatest(Action.REGISTER_ADMIN, registerAdminSaga);
   yield takeLatest(Action.REGISTER_COMPANY, registerCompanySaga);
   yield takeLatest(Action.GET_ASSOCIATED_COMPANIES_L, getAssociatedCompaniesLSaga);
-
-
+  yield takeLatest(Action.GET_DASHBOARD, getDashboardSaga);
 }
 
 export default UserCompanySaga;

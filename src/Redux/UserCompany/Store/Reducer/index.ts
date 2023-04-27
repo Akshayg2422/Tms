@@ -90,6 +90,7 @@ const initialState: UserCompanyStateProp = {
   response: undefined,
   registerAdminResponse: undefined,
   associatedCompaniesL: undefined,
+  dashboardDetails: undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -420,11 +421,11 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case GET_EMPLOYEES_SUCCESS:
       state = {
         ...state,
-        employees: action.payload,
+        employees: action.payload.details,
       };
       break;
     case GET_EMPLOYEES_FAILURE:
-      state = { ...state, employees: undefined };
+      state = { ...state, employees: action.payload };
       break;
 
     case REGISTER_COMPANY:
@@ -459,6 +460,20 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
     case ActionTypes.GET_ASSOCIATED_COMPANIES_L_FAILURE:
       state = { ...state, loading: false, associatedCompaniesL: action.payload };
+      break;
+
+
+    /**
+ * Dashboard
+ */
+    case ActionTypes.GET_DASHBOARD:
+      state = { ...state, dashboardDetails: undefined };
+      break;
+    case ActionTypes.GET_DASHBOARD_SUCCESS:
+      state = { ...state, dashboardDetails: action.payload.details };
+      break;
+    case ActionTypes.GET_DASHBOARD_FAILURE:
+      state = { ...state, dashboardDetails: action.payload };
       break;
 
     default:
