@@ -18,8 +18,6 @@ function MenuBar({ toggleIcon, menuData, onClick }: TripleDotProps) {
                     {menuData && menuData.length > 0 && menuData.map((el: any, index: number) => {
                         const { id, icon, name } = el
 
-
-
                         return (
                             <>
                                 <DropdownItem onClick={() => {
