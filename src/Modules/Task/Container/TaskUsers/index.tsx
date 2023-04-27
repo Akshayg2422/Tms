@@ -6,12 +6,16 @@ import { getTaskUsers } from "@Redux";
 
 function TaskUsers() {
   const dispatch = useDispatch();
-  const { taskUsers, taskItem, getReferenceId, getSubTaskId } = useSelector((state: any) => state.AdminReducer);
+  const { selectedTask, taskUsers } = useSelector((state: any) => state.TaskReducer);
 
   useEffect(() => {
+    getTaskUserApi();
+  }, [selectedTask]);
 
+
+  function getTaskUserApi() {
     const params = {
-      task_id: getReferenceId ? getReferenceId.id : getSubTaskId ? getSubTaskId.id : taskItem.id,
+      task_id: selectedTask.id,
     };
 
     dispatch(
@@ -21,7 +25,9 @@ function TaskUsers() {
         onError: () => () => { },
       })
     );
-  }, [, getReferenceId, taskItem, getSubTaskId]);
+  }
+
+
 
 
 
@@ -43,8 +49,6 @@ function TaskUsers() {
           <Card className={"mt-1 py-2 shadow-none"} >
             <UserItem item={taskUsers[0].created_by} />
           </Card></>}
-
-
 
         {taskUsers && taskUsers[0].tagged_to.length > 0 && <> <div>
           <h5 className="text-muted">INVOLVED USER</h5>

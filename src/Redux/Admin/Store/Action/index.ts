@@ -15,9 +15,6 @@ import {
   ADD_TASK_FAILURE,
 
   GET_TASKS_ITEM,
-  GET_TASK_USERS,
-  GET_TASK_USERS_SUCCESS,
-  GET_TASK_USERS_FAILURE,
   GET_TICKET_USERS,
   GET_TICKET_USERS_SUCCESS,
   GET_TICKET_USERS_FAILURE,
@@ -162,31 +159,6 @@ export const getSelectSubTaskId = (response) => {
     type: GET_SUBTASK_ID,
     payload: response,
 
-  }
-}
-
-/* Task Users */
-
-export const getTaskUsers = (params: any) => {
-  return {
-    type: GET_TASK_USERS,
-    payload: params
-  }
-}
-
-export const getTaskUsersSuccess = (response: any) => {
-
-  return {
-
-    type: GET_TASK_USERS_SUCCESS,
-    payload: response
-  }
-}
-
-export const getTaskUsersFailure = (error: any) => {
-  return {
-    type: GET_TASK_USERS_FAILURE,
-    payload: error
   }
 }
 

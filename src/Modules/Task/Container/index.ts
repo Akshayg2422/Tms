@@ -5,6 +5,10 @@ export * from './TaskInfo'
 export * from './TasKItemMenu'
 export * from './SubTasks'
 export * from './TaskChat'
+export * from './Comments'
+export * from './TaskAttachments'
+export * from './ReferenceTasks'
+export * from './TaskUsers'
 
 
 

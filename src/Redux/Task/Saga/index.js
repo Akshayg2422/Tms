@@ -140,7 +140,7 @@ function* getReferenceTasksSaga(action) {
         const response = yield call(Services.getReferenceTasksApi, action.payload.params);
 
         if (response.success) {
-            yield put(Action.getReferenceTasksSuccess(response.details));
+            yield put(Action.getReferenceTasksSuccess(response));
             yield call(action.payload.onSuccess(response));
         } else {
             yield put(Action.getReferenceTasksFailure(response.error_message));
@@ -152,6 +152,30 @@ function* getReferenceTasksSaga(action) {
     }
 }
 
+
+/**
+ * get Task User
+ */
+
+function* getTaskUsersSaga(action) {
+    try {
+        const response = yield call(Services.getTaskUsersApi, action.payload.params);
+        if (response.success) {
+
+            yield put(Action.getTaskUsersSuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            yield put(Action.getTaskUsersFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+
+        yield put(Action.getTaskUsersFailure("Invalid Request"));
+        yield call(action.payload.onError(error));
+    }
+}
+
+
 function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_GROUPS_L, getTaskGroupLSaga)
     yield takeLatest(Action.GET_TASKS, getTasksSaga)
@@ -160,7 +184,7 @@ function* TaskSaga() {
     yield takeLatest(Action.GET_SUB_TASKS, getSubTasksSaga)
     yield takeLatest(Action.GET_TASK_EVENTS, getTaskEventsSaga)
     yield takeLatest(Action.GET_REFERENCE_TASKS, getReferenceTasksSaga);
-
+    yield takeLatest(Action.GET_TASK_USERS, getTaskUsersSaga);
 }
 
 export default TaskSaga;

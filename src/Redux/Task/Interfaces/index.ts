@@ -12,5 +12,6 @@ export interface TaskStateProp {
     taskEventsCurrentPages: number,
     referencesTasks: any,
     referencesTasksNumOfPages: any,
-    referencesTasksCurrentPages: number
+    referencesTasksCurrentPages: number,
+    taskUsers: any
 }

@@ -40,11 +40,11 @@ function TaskChat({ }: TaskChatProps) {
 
     useEffect(() => {
         getTaskEventsApi(INITIAL_PAGE)
-    }, [])
+    }, [selectedTask])
 
 
 
-    const getTaskEventsApi = (page_number) => {
+    const getTaskEventsApi = (page_number: number) => {
         const params = {
             task_id: selectedTask.id,
             page_number
