@@ -9,7 +9,7 @@ function Setting() {
       <div>
 <Department/>
       </div>
-      <div>
+      {/* <div>
 <BrandSector/>
 </div>
 <div>
@@ -23,7 +23,7 @@ function Setting() {
 
 <div>
 <Tag/>
-</div>
+</div> */}
 </div>
 
 </div>

@@ -115,7 +115,7 @@ export const HOME_ROUTES = [
     name: "Settings",
     icon: "bi bi-gear text-primary",
     layout: "",
-    component: <Settings />
+    component: <Setting />
   }
 ];
 

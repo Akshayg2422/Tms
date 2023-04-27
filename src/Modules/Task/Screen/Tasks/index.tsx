@@ -7,7 +7,7 @@ import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObj
 import { getTasks, setSelectedTask, getDashboard } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
-import { log } from "console";
+
 
 
 const DEFAULT_PARAMS = { q_many: "", "tasks_by": "ALL", "task_status": "INP", "priority": "ALL", page_number: 1 }

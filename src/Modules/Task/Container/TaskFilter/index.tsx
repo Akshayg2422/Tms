@@ -19,7 +19,8 @@ const FILTER_MENU = [
 ]
 
 
-function TaskFilter({ onParams }: TaskFilterProps) {
+function 
+TaskFilter({ onParams }: TaskFilterProps) {
 
     const dispatch = useDispatch()
     const filteredTask = useDropDown(TASK_FILTER_LIST[2]);

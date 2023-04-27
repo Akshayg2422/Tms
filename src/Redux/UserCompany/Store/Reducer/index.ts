@@ -67,7 +67,7 @@ const initialState: UserCompanyStateProp = {
   departmentData: undefined,
   designationCurrentPages: undefined,
   designationNumOfPages: undefined,
-  departmentCurrentPages: undefined,
+  departmentCurrentPages:undefined,
   departmentNumOfPages: undefined,
   employees: undefined,
   brandSector: undefined,
@@ -154,12 +154,12 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = {
         ...state,
         loading: false,
-        departmentData: action?.payload?.data,
-        departmentNumOfPages: action?.payload?.num_pages,
+        departmentData: action?.payload?.details?.data,
+        departmentNumOfPages: action?.payload?.details?.num_pages,
         departmentCurrentPages:
-          action?.payload?.next_page === -1
-            ? action?.payload?.num_pages
-            : action?.payload?.next_page - 1,
+          action?.payload?.details?.next_page === -1
+            ? action?.payload?.details?.num_pages
+            : action?.payload?.details?.next_page - 1,
       };
       break;
     case FETCH_DEPARTMENT_FAILURE:

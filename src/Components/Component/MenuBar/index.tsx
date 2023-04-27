@@ -23,8 +23,9 @@ function MenuBar({ toggleIcon, menuData, onClick }: TripleDotProps) {
                         return (
                             <>
                                 <DropdownItem onClick={() => {
-                                    if (onClick)
+                                    if (onClick){
                                         onClick(el)
+                                    }
                                 }
                                 }>
                                     <div className='d-inline-flex justify-content-center align-items-center'>
