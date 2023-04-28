@@ -4,7 +4,7 @@ import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
 import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, } from '@Utils'
 import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartmentData, getDesignationData } from '@Redux'
+//import { getAssociatedCompaniesL, getDepartmentsData, getDesignationData } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { icons } from '@Assets'
 
@@ -36,91 +36,91 @@ function TicketFilter({ onParams }: TicketFilterProps) {
     const [advanceFilter, setAdvanceFilter] = useState(false)
 
 
-    useEffect(() => {
-        const params = { q: '' };
-        if (advanceFilter) {
-            dispatch(
-                getAssociatedCompaniesL({
-                    params,
-                    onSuccess: (response) => () => {
+    // useEffect(() => {
+    //     const params = { q: '' };
+    //     if (advanceFilter) {
+    //         dispatch(
+    //             getAssociatedCompaniesL({
+    //                 params,
+    //                 onSuccess: (response) => () => {
 
-                        const companies = response.details
+    //                     const companies = response.details
 
-                        let modifiedCompanies = []
-                        modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
-                        if (companies && companies.length > 0) {
-                            modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
-                                return {
-                                    id: each.id,
-                                    text: each.display_name,
-                                    name: each.display_name,
-                                }
-                            }) as never]
-                        }
-                        setCompanies(modifiedCompanies)
-                    },
-                    onError: () => () => {
-                    },
-                })
-            );
-        }
-    }, [advanceFilter]);
-
-
-    const getDesignation = (items: any) => {
-
-        if (items?.id) {
-            const params = {
-                branch_id: items.id
-            };
-
-            dispatch(
-                getDesignationData({
-                    params,
-                    onSuccess: (response) => () => {
-                        let designations: any = [];
-                        const designation = response.details.data
-                        designation.forEach((item) => {
-                            designations = [...designations, { ...item, text: item.name }]
-                        })
-                        setDesignations(designations)
-                    },
-                    onError: () => () => {
-                        setDesignations([])
-                    },
-                })
-            );
-        }
-    }
-    const getDepartment = (items: any) => {
-
-        if (items?.id) {
-            const params = {
-                branch_id: items.id
-            };
-            dispatch(
-                getDepartmentData({
-                    params,
-                    onSuccess: (response: any) => () => {
-
-                        let departments: any = [];
-                        const department = response.details.data
-                        department.forEach((item) => {
-                            departments = [...departments, { ...item, text: item.name }]
-                        })
-
-                        setDepartments(departments)
-                    },
-                    onError: (error) => () => {
-                        setDepartments([])
-
-                    },
-                })
-            );
-        }
+    //                     let modifiedCompanies = []
+    //                     modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
+    //                     if (companies && companies.length > 0) {
+    //                         modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
+    //                             return {
+    //                                 id: each.id,
+    //                                 text: each.display_name,
+    //                                 name: each.display_name,
+    //                             }
+    //                         }) as never]
+    //                     }
+    //                     setCompanies(modifiedCompanies)
+    //                 },
+    //                 onError: () => () => {
+    //                 },
+    //             })
+    //         );
+    //     }
+    // }, [advanceFilter]);
 
 
-    }
+    // const getDesignation = (items: any) => {
+
+    //     if (items?.id) {
+    //         const params = {
+    //             branch_id: items.id
+    //         };
+
+    //         dispatch(
+    //             getDesignationData({
+    //                 params,
+    //                 onSuccess: (response) => () => {
+    //                     let designations: any = [];
+    //                     const designation = response.details.data
+    //                     designation.forEach((item) => {
+    //                         designations = [...designations, { ...item, text: item.name }]
+    //                     })
+    //                     setDesignations(designations)
+    //                 },
+    //                 onError: () => () => {
+    //                     setDesignations([])
+    //                 },
+    //             })
+    //         );
+    //     }
+    // }
+    // const getDepartment = (items: any) => {
+
+    //     if (items?.id) {
+    //         const params = {
+    //             branch_id: items.id
+    //         };
+    //         dispatch(
+    //             getDepartmentsData({
+    //                 params,
+    //                 onSuccess: (response: any) => () => {
+
+    //                     let departments: any = [];
+    //                     const department = response.details.data
+    //                     department.forEach((item) => {
+    //                         departments = [...departments, { ...item, text: item.name }]
+    //                     })
+
+    //                     setDepartments(departments)
+    //                 },
+    //                 onError: (error) => () => {
+    //                     setDepartments([])
+
+    //                 },
+    //             })
+    //         );
+    //     }
+
+
+    // }
 
 
 
@@ -212,8 +212,8 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                         selected={company.value}
                         onChange={(item) => {
                             company.onChange(item)
-                            getDesignation(item)
-                            getDepartment(item)
+                            //getDesignation(item)
+                            //getDepartment(item)
                         }}
                     />
                 </div>
