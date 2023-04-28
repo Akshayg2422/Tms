@@ -1,8 +1,9 @@
 import React from "react";
 import { ModalProps } from "./interfaces";
 import { Modal as RsModal } from "reactstrap";
+import { useDynamicHeight } from "@Hooks";
 
-function Modal({ isOpen, children, title, size = "lg", onClose, ...rest }: ModalProps) {
+function Modal({ isOpen, children, title, size = "lg",style, onClose, ...rest }: ModalProps) {
 
   return (
     <RsModal
@@ -27,7 +28,9 @@ function Modal({ isOpen, children, title, size = "lg", onClose, ...rest }: Modal
           <span aria-hidden={true}>×</span>
         </button>
       </div>
-      <div className="modal-body">{children}</div>
+      <div className="modal-body scroll-hidden" style={style}>
+        {children}
+        </div>
     </RsModal>
   );
 }

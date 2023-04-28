@@ -25,9 +25,9 @@ const AppReducer = (state = initialState, action: any) => {
         isSync: action.payload,
       };
       break;
+      default:
       state = state;
       break;
-    default:
 
   }
 
