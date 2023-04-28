@@ -9,7 +9,7 @@ function IssueUsers() {
   const dispatch = useDispatch();
   const { employees } = useSelector((state: any) => state.UserCompanyReducer);
 
-  const { selectedIssues, selectedReferenceIssues ,ticketEmployees} = useSelector(
+  const { selectedTicket, selectedReferenceTickets ,ticketEmployees} = useSelector(
     (state: any) => state.AdminReducer
   );
 
@@ -18,9 +18,9 @@ function IssueUsers() {
 
     const params = {
       ticket_id:
-        selectedReferenceIssues
-          ? selectedReferenceIssues?.id:
-        selectedIssues?.id,
+        selectedReferenceTickets
+          ? selectedReferenceTickets?.id:
+        selectedTicket?.id,
     };
 
     dispatch(
@@ -34,7 +34,7 @@ function IssueUsers() {
         },
       })
     );
-  }, [selectedIssues, selectedReferenceIssues]);
+  }, [selectedTicket, selectedReferenceTickets]);
 
   return (
 

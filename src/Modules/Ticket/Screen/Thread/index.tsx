@@ -20,7 +20,7 @@ import { useInput } from '@Hooks';
 function Thread() {
 
     const dispatch = useDispatch();
-    const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
+    const { selectedTicket } = useSelector((state: any) => state.AdminReducer);
     const { ticketEvents } = useSelector((state: any) => state.CompanyReducer);
     const textMessage = useInput('')
 
@@ -30,9 +30,9 @@ function Thread() {
 
     function ProceedGetTicketEvents() {
 
-        if (selectedIssues) {
+        if (selectedTicket) {
             const params = {
-                ticket_id: selectedIssues.id,
+                ticket_id: selectedTicket.id,
             };
 
             dispatch(
@@ -53,7 +53,7 @@ function Thread() {
 
         if (textMessage) {
             const params = {
-                id: selectedIssues.id,
+                id: selectedTicket.id,
                 message: textMessage.value,
                 event_type: TEM
             }

@@ -9,10 +9,10 @@ import { icons } from "@Assets";
 
 function AddReferenceTicket() {
   const dispatch = useDispatch();
-  const { tickets, ticketNumOfPages, ticketCurrentPages, issueReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
-  const { dashboardDetails, selectedIssues } = useSelector((state: any) => state.AdminReducer);
+  const { tickets, ticketNumOfPages, ticketCurrentPages, ticketReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
+  const { dashboardDetails, selectedTicket } = useSelector((state: any) => state.AdminReducer);
   const { isSync } = useSelector((state: any) => state.AppReducer);
-  const [selectedReferenceTickets, setSelectedReferenceTickets] = useState([...issueReferenceDetails])
+  const [selectedReferenceTickets, setSelectedReferenceTickets] = useState([...ticketReferenceDetails])
   const Search = useInput("");
   const{goBack}=useNavigation();
   useEffect(() => {
@@ -23,7 +23,7 @@ function AddReferenceTicket() {
   const submitHandler = () => {
 
     const params = {
-      id: selectedIssues?.id,
+      id: selectedTicket?.id,
       event_type: RTS,
       reference_ticket: getArrayFromArrayOfObject(selectedReferenceTickets, 'id'),
     };

@@ -5,6 +5,9 @@ export * from './Company';
 export * from './UserCompany';
 export * from './Task';
 export * from './Communication';
+export * from './Ticket'
+
+
 
 
 

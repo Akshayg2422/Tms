@@ -10,7 +10,7 @@ import { addTicketEvent, getTicketsEvents } from '@Redux'
 function Send({ onClick, value,onKeyDown, onChange }: SendProps) {
 
     const dispatch = useDispatch()
-    const { selectedIssues } = useSelector((state: any) => state.AdminReducer);
+    const { selectedTicket } = useSelector((state: any) => state.AdminReducer);
     const [selectAttachments, setSelectAttachments] = useState(false)
     const modalName = useInput('')
     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
@@ -23,9 +23,9 @@ function Send({ onClick, value,onKeyDown, onChange }: SendProps) {
 
     function ProceedGetTicketEvents() {
 
-        if (selectedIssues) {
+        if (selectedTicket) {
             const params = {
-                ticket_id: selectedIssues.id,
+                ticket_id: selectedTicket.id,
             };
             dispatch(
                 getTicketsEvents({
@@ -42,7 +42,7 @@ function Send({ onClick, value,onKeyDown, onChange }: SendProps) {
     const onModalSubmitHandler = () => {
         const params = {
             event_type: MEA,
-            id: selectedIssues.id,
+            id: selectedTicket.id,
             attachments: [{ attachment: photo }],
             name: modalName.value
         };
