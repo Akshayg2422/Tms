@@ -30,7 +30,7 @@ function TaskItemMenu() {
             id: 1, name: 'Reassign User', icon: icons.Equalizer,
         },
         {
-            id: 2, name: 'Add Attachments', icon: icons.Equalizer,
+            id: 2, name: 'Change Task Status', icon: icons.Equalizer,
         }
     ]
 
@@ -71,6 +71,22 @@ function TaskItemMenu() {
             onFailure: () => () => { }
         }))
     }
+
+
+    function proceedTaskStatusChangeHandler() {
+        const params = {
+            event_type: EVS,
+            taskstatus_changeto: status.value?.id,
+            reason: taskStatusReason.value,
+        }
+
+        console.log(JSON.stringify(params) + '=====params');
+
+
+        proceedAddTaskEvents(params)
+
+    }
+
 
     return (
         <>
@@ -133,33 +149,29 @@ function TaskItemMenu() {
 
             <Modal fade={false} isOpen={taskCloseModal.visible} onClose={taskCloseModal.hide}>
 
+                <div className="col-6">
+                    <DropDown
+                        className="form-control-md"
+                        heading={translate("common.ticketStatus")}
+                        data={TASK_STATUS_LIST}
+                        selected={status.value}
+                        onChange={status.onChange}
+                    />
 
-                <DropDown
-                    className="form-control-md"
-                    heading={translate("common.ticketStatus")}
-                    data={TASK_STATUS_LIST}
-                    selected={status.value}
-                    onChange={(item) => {
-                        status.onChange(item)
-                    }}
-                />
-
-                <Input
-                    type={"text"}
-                    heading={translate("common.reason")}
-                    value={taskStatusReason.value}
-                    onChange={taskStatusReason.onChange}
-                />
+                    <Input
+                        type={"text"}
+                        heading={translate("common.reason")}
+                        value={taskStatusReason.value}
+                        onChange={taskStatusReason.onChange}
+                    />
+                </div>
 
                 <div className="pt-3 text-right">
                     <Button
                         size={'sm'}
                         text={translate("common.submit")}
                         onClick={() => {
-                            proceedAddTaskEvents({
-                                id: selectedTask.id, event_type: EVS, taskstatus_changeto: status.value,
-                                reason: taskStatusReason.value,
-                            })
+                            proceedTaskStatusChangeHandler()
                         }} />
                 </div>
             </Modal>

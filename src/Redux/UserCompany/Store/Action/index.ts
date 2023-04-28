@@ -430,3 +430,15 @@ export const getDashboardFailure = (error: any) => {
     payload: error,
   };
 };
+
+
+/**
+ * get selected company
+ */
+
+export const setSelectedCompany = (response: any) => {
+  return {
+    type: ActionTypes.SET_SELECTED_COMPANY,
+    payload: response,
+  }
+}

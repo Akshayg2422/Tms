@@ -56,6 +56,8 @@ import {
 
   RESTORE_USER_COMPANY,
 } from '../ActionTypes';
+
+
 import { UserCompanyStateProp } from '../../Interfaces';
 
 import * as ActionTypes from '../ActionTypes'
@@ -90,7 +92,8 @@ const initialState: UserCompanyStateProp = {
   response: undefined,
   registerAdminResponse: undefined,
   associatedCompaniesL: undefined,
-  dashboardDetails: undefined
+  dashboardDetails: undefined,
+  selectedCompany: undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -474,6 +477,13 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
     case ActionTypes.GET_DASHBOARD_FAILURE:
       state = { ...state, dashboardDetails: action.payload };
+      break;
+
+    /**
+     * set selected company
+     */
+    case ActionTypes.SET_SELECTED_COMPANY:
+      state = { ...state, selectedCompany: action.payload };
       break;
 
     default:

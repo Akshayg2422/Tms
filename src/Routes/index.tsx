@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask } from '@Modules'
+import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, CreateBroadCast, CreateCompany } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -39,11 +39,13 @@ export const ROUTES = {
   'user-company-module': {
     companies: '/companies',
     "company-details": '/company-details',
+    "add-company": '/add-company',
     profile: '/profile',
     setting: '/setting'
   },
   'message-module': {
     broadcast: '/broadcast',
+    'create-broadcast': '/create-broadcast',
   }
 }
 
@@ -83,13 +85,13 @@ export const HOME_ROUTES = [
     component: <Tasks />
   },
 
-  {
-    path: ROUTES['issue-module'].issues,
-    name: "Tickets",
-    icon: "bi bi-bell text-primary",
-    layout: "",
-    component: <Issues />
-  },
+  // {
+  //   path: ROUTES['issue-module'].issues,
+  //   name: "Tickets",
+  //   icon: "bi bi-bell text-primary",
+  //   layout: "",
+  //   component: <Issues />
+  // },
   {
     path: ROUTES['user-company-module'].companies,
     name: "Companies",
@@ -130,6 +132,27 @@ export const TASK_ROUTES = [
     key: 2,
     path: ROUTES['task-module']['reference-task'],
     component: <AddReferenceTask />
+  },
+];
+
+export const MESSAGE_ROUTES = [
+  {
+    key: 1,
+    path: ROUTES['message-module']['create-broadcast'],
+    component: <CreateBroadCast />
+  },
+];
+
+export const USER_COMPANY_ROTES = [
+  {
+    key: 1,
+    path: ROUTES['user-company-module']['company-details'],
+    component: <CompanyDetails />
+  },
+  {
+    key: 2,
+    path: ROUTES['user-company-module']['add-company'],
+    component: <CreateCompany />
   },
 ];
 

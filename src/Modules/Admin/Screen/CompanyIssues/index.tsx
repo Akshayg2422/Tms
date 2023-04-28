@@ -3,34 +3,28 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
 import { CommonTable, NoDataFound } from '@Components';
-import { setIsSync } from '@Redux'
 import { getStatusFromCode } from '@Utils';
 
 function CompanyIssues() {
 
   const dispatch = useDispatch();
   const { tickets } = useSelector((state: any) => state.CompanyReducer);
-  const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
-  const { isSync } = useSelector((state: any) => state.AppReducer);
-  const { dashboardDetails } = useSelector((state: any) => state.AdminReducer)
-
-  
+  const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
 
   useEffect(() => {
-    const params = { branch_id: companyDetailsSelected.branch_id }
-    
+    getCompanyTasksApi()
+  }, []);
+
+
+  function getCompanyTasksApi() {
+    const params = { branch_id: selectedCompany.branch_id }
     dispatch(getTickets({
       params,
       onSuccess: () => () => {
-        dispatch(setIsSync({
-          ...isSync, issues: false
-        }))
-
       },
       onError: () => () => { }
     }))
-  }, []);
-
+  }
 
   const normalizedTableData = (data: any) => {
     if (data && data.length > 0)
@@ -48,7 +42,7 @@ function CompanyIssues() {
 
   return (
     <div className='my-3'>
-    {tickets&&tickets.length>0?<CommonTable title={'Issue'} displayDataSet={normalizedTableData(tickets)} />: <NoDataFound/>}
+      {tickets && tickets.length > 0 ? <CommonTable card title={'Issue'} displayDataSet={normalizedTableData(tickets)} /> : <NoDataFound type={'text'} />}
     </div>
 
   )

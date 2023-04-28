@@ -135,12 +135,12 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             <div className="row">
                                 {raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}
                                 <div className="ml-2">
-                                    <h4 className="mb-0">{raised_by_company.display_name} </h4>
+                                    <h4 className="mb-0">{raised_by_company?.display_name} </h4>
                                     <div className="mt--2">
                                         <small className="text-xs"> {`@ ${assigned_to?.name}`}</small>
                                     </div>
                                     <div className="mt--2">
-                                        <small className={'text-xs'}>{raised_by_company.address}</small>
+                                        <small className={'text-xs'}>{raised_by_company?.address}</small>
                                     </div>
                                 </div>
                             </div>
@@ -164,18 +164,21 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
              * Edit Eta Modal
              */}
             <Modal isOpen={editEtaModal.visible} onClose={() => { editEtaModal.hide() }} >
-                <DateTimePicker
-                    heading={'ETA'}
-                    initialValue={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
-                    type="both"
-                    onChange={setEta}
-                />
-                <Input
-                    type={"text"}
-                    heading={translate("common.reason")}
-                    value={editEtaReason.value}
-                    onChange={editEtaReason.onChange}
-                />
+                <div className="col-6">
+                    <DateTimePicker
+                        heading={'ETA'}
+                        initialValue={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
+                        type="both"
+                        onChange={setEta}
+                    />
+                    <Input
+                        type={"text"}
+                        heading={translate("common.reason")}
+                        value={editEtaReason.value}
+                        onChange={editEtaReason.onChange}
+                    />
+
+                </div>
                 <div className="col text-right">
                     <Button text={'Submit'} onClick={editEtaSubmitApiHandler} />
                 </div>

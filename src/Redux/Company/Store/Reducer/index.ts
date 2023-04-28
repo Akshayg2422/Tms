@@ -21,9 +21,6 @@ import {
   ADD_BROADCAST_MESSAGES,
   ADD_BROADCAST_MESSAGES_SUCCESS,
   ADD_BROADCAST_MESSAGES_FAILURE,
-  GET_BROADCAST_MESSAGES,
-  GET_BROADCAST_MESSAGES_SUCCESS,
-  GET_BROADCAST_MESSAGES_FAILURE,
   AUTO_COMPLETE_DROPDOWN,
   GET_TASK_GROUPL,
   GET_TASK_GROUPL_FAILURE,
@@ -41,9 +38,6 @@ const initialState: CompanyStateProp = {
   issueReferenceDetails: undefined,
   referenceTicketNoOfPages: undefined,
   referenceTicketCurrentPages: 1,
-  broadCastDetails: [],
-  broadCastCurrentPage: 1,
-  broadCastNumOfPages: undefined,
   taskEvents: undefined,
   addTaskEvents: undefined,
   autoCompleteInputSize: false,
@@ -92,27 +86,8 @@ const CompanyReducer = (
       state = { ...state };
       break;
 
-    case GET_BROADCAST_MESSAGES:
 
-      const { page_number } = action.payload.params
-      state = {
-        ...state,
-        broadCastDetails: page_number === 1 ? [] : state.broadCastDetails
-      };
-      break;
 
-    case GET_BROADCAST_MESSAGES_SUCCESS:
-      state = {
-        ...state,
-        broadCastDetails: [...state.broadCastDetails, ...action.payload?.details?.data],
-        broadCastCurrentPage:
-          action.payload?.details?.next_page
-      };
-      break;
-
-    case GET_BROADCAST_MESSAGES_FAILURE:
-      state = { ...state };
-      break;
     case GET_TICKETS:
       state = {
         ...state,
