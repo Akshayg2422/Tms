@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { CompanyUsers } from "@Modules";
+import { CompanyUsers } from '@Modules'
 import { CompanyInfoProps } from "./interfaces";
 import { H, Image, Badge, Card, HomeContainer } from "@Components";
 import { getPhoto, handleEmailClick } from '@Utils'
@@ -9,11 +9,14 @@ import { translate } from "@I18n";
 
 function CompanyInfo({ item }: CompanyInfoProps) {
 
-  const { companyDetailsSelected } = useSelector((state: any) => state.AdminReducer);
-  const { display_name, attachment_logo, address, phone, email } = companyDetailsSelected;
+  const { selectedCompany } = useSelector((state: any) => state.UserCompanyReducer);
+  const { display_name, attachment_logo, address, phone, email } = selectedCompany;
+
+
+
 
   return (
-    <HomeContainer>
+    <HomeContainer className="mt-3">
       <Card >
         <div className="mx-sm-0 mx--4">
           <div className="text-center">
@@ -36,7 +39,7 @@ function CompanyInfo({ item }: CompanyInfoProps) {
                     <h5>{phone}</h5>
                   </div>
                   <div className="col-lg-3 col-sm-0 col-3 text-right">
-                    <Badge  className={'pointer'}  pill color={"info"} text={"Call"} />
+                    <Badge className={'pointer'} pill color={"info"} text={"Call"} />
                   </div>
                 </div>
 
@@ -57,7 +60,6 @@ function CompanyInfo({ item }: CompanyInfoProps) {
       </Card>
       <CompanyUsers />
     </HomeContainer>
-
   );
 }
 

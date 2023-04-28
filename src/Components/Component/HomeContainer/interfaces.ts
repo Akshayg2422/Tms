@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 
 export interface HomeContainerProps {
   children?: React.ReactNode;
@@ -6,4 +6,5 @@ export interface HomeContainerProps {
   isCard?: boolean;
   className?: string;
   type?: 'default' | 'card'
+  style?: CSSProperties | undefined;
 }

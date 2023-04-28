@@ -56,6 +56,8 @@ import {
 
   RESTORE_USER_COMPANY,
 } from '../ActionTypes';
+
+
 import { UserCompanyStateProp } from '../../Interfaces';
 
 import * as ActionTypes from '../ActionTypes'
@@ -63,12 +65,12 @@ const initialState: UserCompanyStateProp = {
 
   loading: false,
   error: '',
-  designationData: undefined,
-  departmentData: undefined,
+  designations: undefined,
+  departments: undefined,
   designationCurrentPages: undefined,
   designationNumOfPages: undefined,
-  departmentCurrentPages:undefined,
-  departmentNumOfPages: undefined,
+  departmentsCurrentPages: undefined,
+  departmentsNumOfPages: undefined,
   employees: undefined,
   brandSector: undefined,
   ticketTag: undefined,
@@ -90,7 +92,8 @@ const initialState: UserCompanyStateProp = {
   response: undefined,
   registerAdminResponse: undefined,
   associatedCompaniesL: undefined,
-  dashboardDetails: undefined
+  dashboardDetails: undefined,
+  selectedCompany: undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -144,22 +147,23 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case FETCH_DEPARTMENT:
       state = {
         ...state,
-        departmentData: undefined,
-        departmentNumOfPages: 0,
-        departmentCurrentPages: 1,
+        departments: undefined,
+        departmentsNumOfPages: 0,
+        departmentsCurrentPages: 1,
         loading: true
       };
       break;
     case FETCH_DEPARTMENT_SUCCESS:
+
       state = {
         ...state,
         loading: false,
-        departmentData: action?.payload?.details?.data,
-        departmentNumOfPages: action?.payload?.details?.num_pages,
-        departmentCurrentPages:
-          action?.payload?.details?.next_page === -1
-            ? action?.payload?.details?.num_pages
-            : action?.payload?.details?.next_page - 1,
+        departments: action.payload?.details.data,
+        departmentsNumOfPages: action.payload?.details.num_pages,
+        departmentsCurrentPages:
+          action.payload?.details.next_page === -1
+            ? action?.payload?.details.num_pages
+            : action?.payload?.details.next_page - 1,
       };
       break;
     case FETCH_DEPARTMENT_FAILURE:
@@ -174,7 +178,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       state = {
         ...state,
-        designationData: undefined,
+        designations: undefined,
         designationNumOfPages: 0,
         designationCurrentPages: 1,
         loading: true
@@ -185,7 +189,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = {
         ...state,
         loading: false,
-        designationData: action?.payload?.data,
+        designations: action?.payload?.data,
         designationNumOfPages: action?.payload?.num_pages,
         designationCurrentPages:
           action?.payload?.next_page === -1
@@ -386,6 +390,8 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ADD_EMPLOYEE_SUCCESS:
+      console.log(JSON.stringify(action.payload) + "======");
+
       state = {
         ...state,
         addEmployeeDetails: action.payload.details,
@@ -474,6 +480,13 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
     case ActionTypes.GET_DASHBOARD_FAILURE:
       state = { ...state, dashboardDetails: action.payload };
+      break;
+
+    /**
+     * set selected company
+     */
+    case ActionTypes.SET_SELECTED_COMPANY:
+      state = { ...state, selectedCompany: action.payload };
       break;
 
     default:

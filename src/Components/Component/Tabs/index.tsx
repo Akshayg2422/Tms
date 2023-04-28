@@ -17,7 +17,7 @@ export function Tabs({ tabs, selected, onChange }: TabsProps) {
     tabs.findIndex((item) => item.id === selected?.id);
 
   return (
-    <div className="my-3" style={{
+    <div style={{
       height: height
     }}>
       <nav

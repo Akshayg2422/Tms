@@ -3,6 +3,8 @@ import {
     Modal,
     Button,
     MenuBar,
+    Input,
+    DropDown,
 } from "@Components";
 import {
     useDispatch,
@@ -12,9 +14,9 @@ import {
     addTaskEvent,
 } from "@Redux";
 import { Employees } from '@Modules'
-import { useModal, useNavigation } from "@Hooks";
+import { useDropDown, useInput, useModal, useNavigation } from "@Hooks";
 import { icons } from "@Assets";
-import { TGU, RGU, getArrayFromArrayOfObject } from '@Utils';
+import { TGU, RGU, getArrayFromArrayOfObject, EVS, TASK_STATUS_LIST } from '@Utils';
 import { translate } from '@I18n'
 
 
@@ -28,7 +30,7 @@ function TaskItemMenu() {
             id: 1, name: 'Reassign User', icon: icons.Equalizer,
         },
         {
-            id: 2, name: 'Add Attachments', icon: icons.Equalizer,
+            id: 2, name: 'Change Task Status', icon: icons.Equalizer,
         }
     ]
 
@@ -37,6 +39,9 @@ function TaskItemMenu() {
 
     const tagUserModal = useModal(false);
     const reassignUserModal = useModal(false);
+    const taskCloseModal = useModal(false);
+    const taskStatusReason = useInput('')
+    const status = useDropDown(TASK_STATUS_LIST[0]);
 
     const [taggedUsers, setTaggedUsers] = useState([])
     const [reassignUser, setReassignUser] = useState<any>({})
@@ -59,12 +64,29 @@ function TaskItemMenu() {
                 try {
                     tagUserModal.hide()
                     reassignUserModal.hide()
+                    taskCloseModal.hide()
                 } catch (e) {
                 }
             },
             onFailure: () => () => { }
         }))
     }
+
+
+    function proceedTaskStatusChangeHandler() {
+        const params = {
+            event_type: EVS,
+            taskstatus_changeto: status.value?.id,
+            reason: taskStatusReason.value,
+        }
+
+        console.log(JSON.stringify(params) + '=====params');
+
+
+        proceedAddTaskEvents(params)
+
+    }
+
 
     return (
         <>
@@ -75,7 +97,7 @@ function TaskItemMenu() {
                     } else if (element.id === TASK_STATUS_MENU[1].id) {
                         reassignUserModal.show()
                     } else if (element.id === TASK_STATUS_MENU[2].id) {
-                        console.log('came');
+                        taskCloseModal.show()
                     }
                 }} />
             </div>
@@ -118,6 +140,42 @@ function TaskItemMenu() {
                         }} />
                 </div>
             </Modal>
+
+            {
+                /**
+                 * taskCloseModal
+                 */
+            }
+
+            <Modal fade={false} isOpen={taskCloseModal.visible} onClose={taskCloseModal.hide}>
+
+                <div className="col-6">
+                    <DropDown
+                        className="form-control-md"
+                        heading={translate("common.ticketStatus")}
+                        data={TASK_STATUS_LIST}
+                        selected={status.value}
+                        onChange={status.onChange}
+                    />
+
+                    <Input
+                        type={"text"}
+                        heading={translate("common.reason")}
+                        value={taskStatusReason.value}
+                        onChange={taskStatusReason.onChange}
+                    />
+                </div>
+
+                <div className="pt-3 text-right">
+                    <Button
+                        size={'sm'}
+                        text={translate("common.submit")}
+                        onClick={() => {
+                            proceedTaskStatusChangeHandler()
+                        }} />
+                </div>
+            </Modal>
+
         </>
     )
 }

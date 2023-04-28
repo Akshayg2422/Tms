@@ -16,7 +16,7 @@ import {
     addTask,
     setIsSync,
     getAssociatedCompanyBranch,
-    getDepartmentData,
+    getDepartments,
     getDesignationData,
     getTaskGroupsL,
 } from "@Redux";
@@ -203,7 +203,7 @@ function AddTask() {
                         : company?.value?.id || "",
             };
             dispatch(
-                getDepartmentData({
+                getDepartments({
                     params,
                     onSuccess: (response: any) => () => {
                         let departmentDetails: any = [];

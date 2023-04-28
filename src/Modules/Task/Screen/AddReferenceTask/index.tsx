@@ -1,36 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
-import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput } from "@Components";
-import { useInput, useNavigation, useWindowDimensions } from "@Hooks";
-import { translate } from "@I18n";
-import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE } from "@Utils";
-import { icons } from "@Assets";
+import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back } from "@Components";
+import { useInput, useNavigation } from "@Hooks";
+import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE, INITIAL_PAGE } from "@Utils";
 
 
 function AddReferenceTask() {
 
   const dispatch = useDispatch();
 
-  const { tasks, dashboardDetails, taskItem, referencesTasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, dashboardDetails, selectedTask, referencesTasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
   const { goBack } = useNavigation();
 
-  const Search = useInput("");
-  const { height, width } = useWindowDimensions()
+  const search = useInput("");
+
   useEffect(() => {
-    getSearchHandler(taskCurrentPages)
+    getTasksApiHandler(taskCurrentPages)
   }, [])
 
 
-  const submitHandler = () => {
+  const addReferenceTaskHandler = () => {
 
     const params = {
-      id: taskItem?.id,
+      id: selectedTask?.id,
       event_type: RTS,
       reference_task: getArrayFromArrayOfObject(selectedReferenceTask, 'id'),
     };
-
 
     const validation = validate(ADD_REFERENCE_TASK, params)
     if (ifObjectExist(validation)) {
@@ -74,11 +71,14 @@ function AddReferenceTask() {
     setSelectedReferenceTask(updatedSelectedReferenceTask);
   };
 
-  const getSearchHandler = (pageNumber: any) => {
+
+
+  const getTasksApiHandler = (page_number: number, q_many: string = search.value) => {
     const params = {
-      q_many: Search.value,
-      page_number: pageNumber,
+      q_many,
+      page_number
     };
+
 
     dispatch(
       getTasks({
@@ -90,9 +90,6 @@ function AddReferenceTask() {
     );
   };
 
-  function proceedTaskSearch() {
-    getSearchHandler(SEARCH_PAGE)
-  }
 
 
   const normalizedTableData = (data: any) => {
@@ -102,6 +99,7 @@ function AddReferenceTask() {
       const isReference = selectedReferenceTask.some(
         (element: any) => element.id === el?.id
       );
+
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
@@ -109,21 +107,26 @@ function AddReferenceTask() {
         "assigned to": el?.assigned_to.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
-        '': <Checkbox id={el.id} onCheckChange={() => onSelectedTask(el)}
-          defaultChecked={isReference} />,
-
+        '': <Checkbox id={el.id} onCheckChange={() => onSelectedTask(el)} defaultChecked={isReference} />,
       };
     });
   };
 
   return (
     <HomeContainer type={'card'} className="h-100 m-3">
-      <div >
-        <div className="row justify-content-end">
-          <div className="col-4 mb-3">
-            <SearchInput onSearch={() => { }} />
+      <div  >
+
+        <div className="row justify-content-between m-3">
+          <Back />
+          <div className="row ">
+            <SearchInput onSearch={(text) => {
+              getTasksApiHandler(INITIAL_PAGE, text)
+            }} />
+
+            <Button className="ml-3" size={'sm'} text={'Submit'} onClick={addReferenceTaskHandler} />
           </div>
         </div>
+
         <div>
           {tasks && tasks.length > 0 ? <CommonTable title={'Tasks'}
             isPagination
@@ -132,14 +135,14 @@ function AddReferenceTask() {
             noOfPage={taskNumOfPages}
             displayDataSet={normalizedTableData(tasks)}
             paginationNumberClick={(currentPage) => {
-              getSearchHandler(paginationHandler("current", currentPage));
+              getTasksApiHandler(paginationHandler("current", currentPage));
             }}
             previousClick={() => {
-              getSearchHandler(paginationHandler("prev", taskCurrentPages))
+              getTasksApiHandler(paginationHandler("prev", taskCurrentPages))
             }
             }
             nextClick={() => {
-              getSearchHandler(paginationHandler("next", taskCurrentPages));
+              getTasksApiHandler(paginationHandler("next", taskCurrentPages));
             }
             }
           /> : <NoDataFound />}

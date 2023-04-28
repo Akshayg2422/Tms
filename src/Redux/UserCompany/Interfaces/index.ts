@@ -1,12 +1,12 @@
 
 export interface UserCompanyStateProp {
 
-    designationData: any,
-    departmentData: any,
+    designations: any,
+    departments: any,
     designationCurrentPages: any,
     designationNumOfPages: any,
-    departmentCurrentPages: any,
-    departmentNumOfPages: any,
+    departmentsCurrentPages: any,
+    departmentsNumOfPages: any,
     brandSector: any,
     ticketTag: any,
     brandSectorCurrentPages: any,
@@ -30,5 +30,6 @@ export interface UserCompanyStateProp {
     response: any,
     registerAdminResponse: any,
     associatedCompaniesL: any,
-    dashboardDetails: any
+    dashboardDetails: any,
+    selectedCompany: any
 }

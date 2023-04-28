@@ -22,9 +22,7 @@ import {
   ADD_BROADCAST_MESSAGES,
   ADD_BROADCAST_MESSAGES_SUCCESS,
   ADD_BROADCAST_MESSAGES_FAILURE,
-  GET_BROADCAST_MESSAGES,
-  GET_BROADCAST_MESSAGES_SUCCESS,
-  GET_BROADCAST_MESSAGES_FAILURE,
+
   RESTORE_COMPANY,
   GET_TASK_GROUPL_FAILURE,
   GET_TASK_GROUPL,
@@ -223,30 +221,6 @@ export const addBroadCastMessagesFailure = (error: any) => {
   };
 };
 
-/**
- * GET
- */
-export const getBroadCastMessages = (params: any) => {
-  return {
-    type: GET_BROADCAST_MESSAGES,
-    payload: params,
-  };
-};
-
-export const getBroadCastMessagesSuccess = (response: any) => {
-
-  return {
-    type: GET_BROADCAST_MESSAGES_SUCCESS,
-    payload: response,
-  };
-};
-
-export const getBroadCastMessagesFailure = (error: any) => {
-  return {
-    type: GET_BROADCAST_MESSAGES_FAILURE,
-    payload: error,
-  };
-};
 
 
 

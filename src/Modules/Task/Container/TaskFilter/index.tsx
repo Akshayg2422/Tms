@@ -4,7 +4,7 @@ import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
 import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, } from '@Utils'
 import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartmentData, getDesignationData } from '@Redux'
+import { getAssociatedCompaniesL, getDepartments, getDesignationData } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { icons } from '@Assets'
 
@@ -27,14 +27,15 @@ TaskFilter({ onParams }: TaskFilterProps) {
     const taskStatus = useDropDown(TASK_STATUS_LIST[2]);
     const taskPriority = useDropDown(TASK_PRIORITY_LIST[0]);
     const company = useDropDown({})
+    const department = useDropDown({})
+    const designation = useDropDown({})
+    const [departments, setDepartments] = useState([])
+    const [designations, setDesignations] = useState([])
     const [companies, setCompanies] = useState([])
     const [includeSubTask, setIncludeSubTask] = useState(false)
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
-    const department=useDropDown({})
-    const designation=useDropDown({})
-    const [departments,setDepartments]=useState([])
-    const [designations,setDesignations]=useState([])
+  
 
 
     useEffect(() => {
@@ -103,7 +104,7 @@ TaskFilter({ onParams }: TaskFilterProps) {
           branch_id: items.id
         };
         dispatch(
-          getDepartmentData({
+            getDepartments({
             params,
             onSuccess: (response: any) => () => {
               
@@ -133,6 +134,10 @@ TaskFilter({ onParams }: TaskFilterProps) {
         }
         setParams(updatedParams)
     }
+
+
+
+
 
 
     return (

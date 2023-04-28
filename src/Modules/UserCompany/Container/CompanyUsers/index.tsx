@@ -6,39 +6,45 @@ import { useModal, useNavigation } from '@Hooks'
 import { HOME_PATH } from '@Routes'
 import { translate } from "@I18n";
 import { getPhoto, } from "@Utils";
+import { icons } from '@Assets'
+
+
 function CompanyUsers() {
 
   const { goTo } = useNavigation()
   const dispatch = useDispatch()
-  const { employees } = useSelector((state: any) => state.UserCompanyReducer);
+
+  const { employees, selectedCompany } = useSelector((state: any) => state.UserCompanyReducer);
+
+
   const editProfileModal = useModal(false);
   const [editPhoto, setEditPhoto] = useState("");
   const [photo, setPhoto] = useState("");
   let attach = [photo]
-  let UserProfile = attach.slice(-1, 4)
-  const { companyDetailsSelected } = useSelector(
-    (state: any) => state.AdminReducer
-  );
-  const UserProfileEditor = [
-    { id: '0', name: "Edit", icon: 'bi bi-pencil' },
+  let userProfile = attach.slice(-1, 4)
+
+  const USER_MENU = [
+    { id: '0', name: "Edit", icon: icons.edit },
   ]
 
 
   const userProfileEdit = () => {
 
     const params = {
-      attachment: UserProfile[0]
-
+      attachment: userProfile[0]
     };
 
     dispatch(
       addUpdateEmployeePhoto({
         params,
-        onSuccess: () => () => { },
-        onError: () => () => { }
-
+        onSuccess: () => () => {
+          getCompanyEmployeesApi()
+          editProfileModal.hide()
+        },
+        onError: () => () => {
+          editProfileModal.hide()
+        }
       })
-
     )
 
 
@@ -46,15 +52,21 @@ function CompanyUsers() {
 
 
   useEffect(() => {
+    getCompanyEmployeesApi()
+  }, []);
 
-    const params = { branch_id: companyDetailsSelected.branch_id };
 
+
+  function getCompanyEmployeesApi() {
+
+    const params = { branch_id: selectedCompany.branch_id };
     dispatch(getEmployees({
       params,
-      onSuccess: () => () => { },
+      onSuccess: () => () => {
+      },
       onError: () => () => { }
     }));
-  }, []);
+  }
 
   const normalizedTableData = (data: any) => {
     return data?.map((el: any) => {
@@ -63,9 +75,8 @@ function CompanyUsers() {
         profile: el?.profile_image && <Image variant={'rounded'} src={getPhoto(el?.profile_image)} />,
         phone: el?.mobile_number,
         email: el?.email,
-        "": <MenuBar menuData={UserProfileEditor} onClick={(index) => {
-          // setSubTaskItem(el)
-          if (index === 0) {
+        "": <MenuBar menuData={USER_MENU} onClick={(el) => {
+          if (el.id === USER_MENU[0].id) {
             editProfileModal.show()
             setEditPhoto(el?.profile_image)
           }
@@ -80,7 +91,7 @@ function CompanyUsers() {
         <Button text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.ADD_USER) }} />
       </div>
       <div className='mx--3 mt-3'>
-        <CommonTable title='User' tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
+        <CommonTable card title='User' tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
       </div>
 
       <Modal
@@ -99,7 +110,6 @@ function CompanyUsers() {
             onSelect={(image) => {
               let encoded = image.toString().replace(/^data:(.*,)?/, "");
               setPhoto(encoded);
-
             }}
           />
         </div>
@@ -113,7 +123,7 @@ function CompanyUsers() {
           <Button
             text={translate("common.submit")}
             onClick={() => {
-
+              userProfileEdit();
             }}
           />
         </div>

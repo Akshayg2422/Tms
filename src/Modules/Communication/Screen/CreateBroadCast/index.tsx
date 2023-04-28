@@ -6,10 +6,10 @@ import {
   Dropzone,
   showToast,
   MultiSelectDropDown,
-  Image
+  Back
 } from "@Components";
 import { translate } from "@I18n";
-import {addBroadCastMessages ,setIsSync,getAssociatedCompanyBranch} from "@Redux";
+import { addBroadCastMessages, setIsSync, getAssociatedCompanyBranch } from "@Redux";
 import {
   CREATE_BROAD_CAST_EXTERNAL,
   CREATE_BROAD_CAST_INTERNAL,
@@ -17,54 +17,57 @@ import {
   ifObjectExist,
   type,
   validate,
+  getArrayFromArrayOfObject
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation } from "@Hooks";
-import { icons } from "@Assets";
 
 
 function CreateBroadCast() {
+
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
-  const [typeSelect, setTypeSelect] = useState(type[0]);
-  const [isSelect, setIsSelect] = useState(false);
-  const { isSync } = useSelector((state: any) => state.AppReducer);
+
+
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
-  const [selectedCompanyId, setSelectedCompanyId] = useState<any>([]);
-  const [ selectedCompany, setSelectedCompany] = useState<any>("");
+  const [selectedCompanies, setSelectedCompanies] = useState<any>([]);
   const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
   const [image, setImage] = useState("");
   const title = useInput("");
   const description = useInput("");
 
-  const[internalCheck, setInternalCheck] = useState(true)
-  const[externalCheck, setExternalCheck] = useState(false)
-  let attach=photo.slice(-2,4)
+  const [internalCheck, setInternalCheck] = useState(true)
+  const [externalCheck, setExternalCheck] = useState(false)
+  const [isExternalDisable, setExternalDisable] = useState(false)
+
+
+  let attach = photo.slice(-2, 4)
 
   const handleImagePicker = (index: number, file: any) => {
     let newUpdatedPhoto = [...photo, file];
-
     setPhoto(newUpdatedPhoto);
-
   };
-    
+
 
   const submitTicketHandler = () => {
+
     const params = {
       title: title?.value,
       description: description?.value,
-      ...(selectedCompanyId.length > 0 && {
-        applicable_branches: selectedCompanyId ,
+      ...(selectedCompanies.length > 0 && {
+        applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
       }),
-      ...(internalCheck&&{for_internal_company:true }),
-      ...(externalCheck&& {for_external_company:true }),
-      broadcast_attachments: [{ attachments:  attach}],
+      ...(internalCheck && { for_internal_company: true }),
+      ...(externalCheck && { for_external_company: true }),
+      broadcast_attachments: [{ attachments: attach }],
     };
-   
 
-    const validation = validate(externalCheck?CREATE_BROAD_CAST_EXTERNAL:CREATE_BROAD_CAST_INTERNAL, params);
+
+    console.log(JSON.stringify(params));
+
+    const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
 
     if (ifObjectExist(validation)) {
       dispatch(
@@ -72,12 +75,11 @@ function CreateBroadCast() {
           params,
           onSuccess: (response: any) => () => {
             if (response.success) {
+              console.log('came');
+
               showToast(response.message, 'success')
               goBack()
             }
-            dispatch(setIsSync({
-              ...isSync, broadcast: false
-          }))
           },
           onError: (error) => () => {
             showToast(error.error_message)
@@ -95,71 +97,43 @@ function CreateBroadCast() {
       getAssociatedCompanyBranch({
         params,
         onSuccess: (response: any) => () => {
-          dispatch(
-            setIsSync({
-              ...isSync,
-              companies: false,
-            })
-          );
           getCompanyBranchDropdown(response.details);
-         
         },
         onError: () => () => {
-         
+
         },
       })
     );
   }, []);
 
 
-  useEffect(() => {
-    let companies: any = [];
-    if (selectedCompany && selectedCompany?.length > 0) {
-      selectedCompany?.forEach(({ key, name }) => {
-        companies = [...companies, key];
-      });
-      setSelectedCompanyId(companies);
-    }
-  }, [selectedCompany]);
-
- 
   const getCompanyBranchDropdown = (details: any) => {
     let companies: any = [];
 
     if (details && details.length > 0) {
-      
-      
       details.forEach(({ id, display_name }) => {
         companies = [
           ...companies,
           { key: id, value: display_name, name: display_name },
         ];
       });
-
       setModifiedCompanyDropDownData(companies);
+      setExternalDisable(false)
+
+    } else {
+      setExternalDisable(true)
     }
-    
-    else{
-      setIsSelect(true)
-    }
+
   }
-  
- 
+
+
 
   return (
     <div>
-      <HomeContainer isCard >
-
-      <div className='row col '>
-          <div
-          onClick={()=>goBack()} 
-          ><Image  
-                    size={'sm'}
-                    variant='rounded'
-                    className='bg-white mt--1  pl-2'
-                    src={icons.backArrow}   /></div>
-      <div className='pl-2'>  <h3>{translate("auth.addBroadCast")!}</h3>
-      </div>
+      <HomeContainer type={'card'} className="m-3">
+        <div className='row mx-3 d-inline-flex justify-content-center'>
+          <Back />
+          <div className='ml-2 text-center'><h3>{translate("auth.addBroadCast")!}</h3></div>
         </div>
         <hr className='mt-3'></hr>
         <div className="col-md-9 col-lg-7">
@@ -173,64 +147,36 @@ function CreateBroadCast() {
             value={description.value}
             onChange={description.onChange}
           />
-{/* <div   onClick={() => {
-              isSelect &&
-                showToast("there is no associatedBranches in this company");
-            }}> */}
-          {/* <Radio
-            selected={typeSelect}
-            data={type}
-            disableId={isSelect ? type[1] : ""}
-            selectItem={typeSelect}
-            onRadioChange={(selected) => {
-              setTypeSelect(selected);
-              setSelectedCompanyId([]);
-            }}
-
-          /> */}
-        <div className="row col ">
-          <div className="pr-3"><Checkbox defaultChecked={externalCheck} text={'External'} id={'1'} 
-          onCheckChange={
-            setExternalCheck
-          }
-         />
-         
-          </div>
-          <div  >
-            <Checkbox text={'Internal'} id={'2'}
-          defaultChecked={internalCheck}
-          onCheckChange={setInternalCheck}
-          
-           />
-          </div>
-          
-          {/* </div>  */}
-      
-          </div>
-          {/* {typeSelect && typeSelect?.id === "1" && (
-            <MultiSelectDropDown
-              heading={translate("common.company")!}
-              options={modifiedCompanyDropDownData!}
-              displayValue={"value"}
-              onSelect={(item) => {
-                setSelectedCompany(item);
-              }}
-              onRemove={(item) => {
-                setSelectedCompany(item);
-              }}
+          <div className="row col ">
+            <div className="pr-3">
+              <Checkbox
+                id={'1'}
+                disabled={isExternalDisable}
+                defaultChecked={externalCheck}
+                text={'External'}
+                onCheckChange={
+                  setExternalCheck
+                }
+              />
+            </div>
+            <Checkbox
+              id={'2'}
+              text={'Internal'}
+              defaultChecked={internalCheck}
+              onCheckChange={setInternalCheck}
             />
-          )} */}
+          </div>
 
-{ externalCheck && (
+          {externalCheck && (
             <MultiSelectDropDown
               heading={translate("common.company")!}
               options={modifiedCompanyDropDownData!}
               displayValue={"value"}
               onSelect={(item) => {
-                setSelectedCompany(item);
+                setSelectedCompanies(item);
               }}
               onRemove={(item) => {
-                setSelectedCompany(item);
+                setSelectedCompanies(item);
               }}
             />
           )}
@@ -238,13 +184,13 @@ function CreateBroadCast() {
 
         <div className="col">
           <label className={`form-control-label`}>
-          {translate("auth.attach")}
+            {translate("auth.attach")}
           </label>
         </div>
 
         <div className="col-md-9 col-lg-7 pb-4 ">
           {selectDropzone &&
-            selectDropzone.map((el, index) => {
+            selectDropzone.map((el: any, index: number) => {
               return (
                 <Dropzone
                   variant="ICON"
@@ -253,7 +199,6 @@ function CreateBroadCast() {
                   onSelect={(image) => {
                     let file = image.toString().replace(/^data:(.*,)?/, "");
                     handleImagePicker(index, file);
-                    
                     setSelectDropzone([{ id: "1" }, { id: "2" }]);
                   }}
                 />
