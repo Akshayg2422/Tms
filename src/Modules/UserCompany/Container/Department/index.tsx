@@ -1,7 +1,7 @@
 import { addDepartment, getDepartments } from "@Redux";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ifObjectExist, validate, getValidateError, } from "@Utils";
 import { useDynamicHeight, useModal } from "@Hooks";
 import {
   Button,
@@ -12,11 +12,11 @@ import {
   NoRecordsFound,
   showToast,
   Checkbox,
-
   MenuBar,
-  DateTimePicker
+
 } from "@Components";
 import { translate } from "@I18n";
+import { icons } from "@Assets";
 
 function Department() {
   const {
@@ -25,7 +25,7 @@ function Department() {
 
 
   } = useSelector(
-    (state: any) => state.AdminReducer
+    (state: any) => state.UserCompanyReducer
   );
 
   const {
@@ -35,13 +35,14 @@ function Department() {
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+
   const subDepartment = [
-    { id: '0', name: "Edit", icon: 'bi bi-pencil' },
+    { id: '0', name: "Edit", icon: icons.edit },
     { id: '1', name: "Create SubDepartment", icon: 'bi bi-file-earmark-plus' }
   ]
 
   const subChildDepartments = [
-    { id: '0', name: "Edit", icon: 'bi bi-pencil' },
+    { id: '0', name: "Edit", icon: icons.edit },
   ]
   const dynamicHeight: any = useDynamicHeight()
   const [showDepartments, setShowDepartments] = useState(false);
@@ -212,60 +213,57 @@ function Department() {
 
   }
   const normalizedDepartmentData = (data: any) => {
-    return data.map((el: any, index: any) => {
+    return data.map((item: any, index: any) => {
 
       return {
-        name: el?.name,
+        name: item?.name,
         ... (dashboardDetails?.permission_details.is_admin && {
           Admin:
             <div className=" d-flex justify-content-center align-items-center ">
-              <Input type={'checkbox'} checked={el?.is_admin} onChange={() => {
-                handleDepartmentAdminProcess(el)
+              <input type={'checkbox'} checked={item?.is_admin} onChange={() => {
+                handleDepartmentAdminProcess(item)
               }} />
             </div>,
 
 
         }),
-
         ...(dashboardDetails?.permission_details.is_super_admin && {
           superAdmin:
             <div className=" d-flex justify-content-center align-items-center">
-              <Input type={'checkbox'} checked={el?.is_super_admin} onChange={() => {
-                handleDepartmentSuperAdminProcess(el)
+              <input type={'checkbox'} checked={item?.is_super_admin} onChange={() => {
+                handleDepartmentSuperAdminProcess(item)
               }} />
             </div>,
 
-          '': (el?.is_parent ?
-            <MenuBar menuData={subDepartment} onClick={(index) => {
-              setAddSubDepartmentItem(el)
-
-              if (index === 0) {
-                editDepartmentModal.show()
-                setEditDepartment(el?.name)
-                setEditIsAdmin(el?.is_admin)
-                setEditIsSuperAdmin(el?.is_super_admin)
-              }
-              if (index === 1) {
-                addSubDepartmentModal.show()
-              }
-
-            }} /> :
-            <MenuBar menuData={subChildDepartments} onClick={(index) => {
-              setAddSubDepartmentItem(el)
-
-              if (index === 0) {
-                editDepartmentModal.show()
-                setEditDepartment(el?.name)
-                setEditIsAdmin(el?.is_admin)
-                setEditIsSuperAdmin(el?.is_super_admin)
-
-
-              }
-
-
-            }} />
-          )
+          
         }),
+
+        '': (item?.is_parent ?
+          <MenuBar menuData={subDepartment} onClick={(el) => {
+            setAddSubDepartmentItem(item)
+
+            if (el.id === '0') {
+              editDepartmentModal.show()
+              setEditDepartment(item?.name)
+              setEditIsAdmin(item?.is_admin)
+              setEditIsSuperAdmin(item?.is_super_admin)
+            }
+            if (el.id === '1') {
+              addSubDepartmentModal.show()
+            }
+
+          }} /> :
+          <MenuBar menuData={subChildDepartments} onClick={(el) => {
+            setAddSubDepartmentItem(item)
+            if (el.id === '0') {
+              editDepartmentModal.show()
+              setEditDepartment(item?.name)
+              setEditIsAdmin(item?.is_admin)
+              setEditIsSuperAdmin(item?.is_super_admin)
+
+            }
+          }} />
+        )
 
       };
     });
@@ -310,7 +308,7 @@ function Department() {
           className="overflow-auto overflow-hide"
           style={{
             height: showDepartments ? dynamicHeight.dynamicHeight - 100 : '0px',
-            margin: '0px -39px 0px -39px'
+            margin: '0px -20px 0px -20px'
           }}
         >
           {departmentDataList && departmentDataList?.length > 0 ? (
@@ -350,6 +348,7 @@ function Department() {
     </>
 
       <Modal
+        size={'md'}
 
         isOpen={addDepartMentModal.visible}
         onClose={() => {
@@ -396,7 +395,7 @@ function Department() {
       </Modal>
 
       <Modal
-
+        size={'md'}
         isOpen={editDepartmentModal.visible}
         onClose={() => {
           editDepartmentModal.hide()
@@ -404,8 +403,9 @@ function Department() {
           setEditIsAdmin(false)
           setEditIsSuperAdmin(false)
           setEditDepartment('')
+
         }}
-        title={translate("auth.task")!}
+        title={translate("common.department")!}
       >
         <div className="">
           <Input
@@ -418,14 +418,12 @@ function Department() {
           <span className="col-2">
             <Checkbox id={'Admin'} text={'Admin'} defaultChecked={editIsAdmin} onCheckChange={() => {
 
-
-              if (editIsAdmin === true) {
+              if (editIsAdmin) {
 
                 setEditIsAdmin(false)
 
               }
-              if (editIsAdmin === false) {
-
+              else {
                 setEditIsAdmin(true)
               }
 
@@ -435,16 +433,16 @@ function Department() {
           <span className="col-2">
             <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={editIsSuperAdmin} onCheckChange={() => {
 
-              if (editIsSuperAdmin === true) {
+              if (editIsSuperAdmin) {
 
                 setEditIsSuperAdmin(false)
 
               }
-              if (editIsSuperAdmin === false) {
-
+              else {
                 setEditIsSuperAdmin(true)
 
               }
+
             }} />
           </span>
         </div>
@@ -469,6 +467,7 @@ function Department() {
       </Modal>
 
       <Modal
+        size={'md'}
         isOpen={addSubDepartmentModal.visible}
         onClose={() => {
           addSubDepartmentModal.hide()

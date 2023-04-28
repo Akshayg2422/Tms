@@ -19,7 +19,8 @@ const FILTER_MENU = [
 ]
 
 
-function TaskFilter({ onParams }: TaskFilterProps) {
+function 
+TaskFilter({ onParams }: TaskFilterProps) {
 
     const dispatch = useDispatch()
     const filteredTask = useDropDown(TASK_FILTER_LIST[2]);
@@ -34,6 +35,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const [includeSubTask, setIncludeSubTask] = useState(false)
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
+  
 
 
     useEffect(() => {
@@ -66,63 +68,64 @@ function TaskFilter({ onParams }: TaskFilterProps) {
         }
     }, [advanceFilter]);
 
-
     const getDesignation = (items: any) => {
 
-        if (items?.id) {
-            const params = {
-                branch_id: items.id
-            };
+        if(items?.id){
+        const params = {
+          branch_id: items.id
+        };
+    
+        dispatch(
+          getDesignationData({
+            params,
+            onSuccess: (response) => () => {
+              let designations: any = [];
+              const designation=response.details.data
+              designation.forEach((item) => {
+                designations = [...designations, { ...item, text: item.name }]
+              })
+              setDesignations(designations)
+            },
+            onError: () => () => {
+                setDesignations([])
+            },
+          })
 
-            dispatch(
-                getDesignationData({
-                    params,
-                    onSuccess: (response) => () => {
-                        let designations: any = [];
-                        const designation = response.details.data
-                        designation.forEach((item) => {
-                            designations = [...designations, { ...item, text: item.name }]
-                        })
-                        setDesignations(designations)
-                    },
-                    onError: () => () => {
-                        setDesignations([])
-                    },
-                })
-            );
+        );
+
+        
         }
-    }
-    const getDepartment = (items: any) => {
+      }
 
-        if (items?.id) {
-            const params = {
-                branch_id: items.id
-            };
-            dispatch(
-                getDepartments({
-                    params,
-                    onSuccess: (response: any) => () => {
+      const getDepartment = (items: any) => {
 
-                        let departments: any = [];
-                        const department = response.details.data
-                        department.forEach((item) => {
-                            departments = [...departments, { ...item, text: item.name }]
-                        })
-
-                        setDepartments(departments)
-                    },
-                    onError: (error) => () => {
-                        setDepartments([])
-
-                    },
-                })
-            );
+        if(items?.id){
+        const params = {
+          branch_id: items.id
+        };
+        dispatch(
+            getDepartments({
+            params,
+            onSuccess: (response: any) => () => {
+              
+              let departments: any = [];
+              const department=response.details.data
+              department.forEach((item) => {
+                departments = [...departments, { ...item, text: item.name }]
+              })
+    
+              setDepartments(departments)
+            },
+            onError: (error) => () => {
+              setDepartments([])
+    
+            },
+          })
+        );
         }
-
-
-    }
-
-
+    
+    
+      }
 
     function proceedParams(object: any) {
         const updatedParams = { ...params, ...object }
@@ -147,12 +150,11 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                             setDepartments([])
                             setDesignations([])
                             company.onChange({})
-
                         } else {
                             setAdvanceFilter(false)
-                            company.onChange({})
-                            setDepartments([])
+                              setDepartments([])
                             setDesignations([])
+                            company.onChange({})
                         }
                     }} />
                 </div>
@@ -212,6 +214,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                         selected={company.value}
                         onChange={(item) => {
                             company.onChange(item)
+                            proceedParams({company: item.id })
                             getDesignation(item)
                             getDepartment(item)
                         }}
@@ -219,7 +222,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                 </div>
                 }
 
-                {departments.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+     {departments.length>0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
@@ -227,13 +230,14 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
-
+                            proceedParams({department_id: item.id })
+                          
                         }}
                     />
                 </div>
                 }
 
-                {designations.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+    {designations.length>0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("auth.designation")}
@@ -241,11 +245,13 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                         selected={designation.value}
                         onChange={(item) => {
                             designation.onChange(item)
-
+                            proceedParams({ designation_id: item.id })
+                        
                         }}
                     />
                 </div>
                 }
+
 
                 <div className="col pt-3">
                     <Checkbox text={'Include Subtask'} checked={includeSubTask} onCheckChange={(checked) => {

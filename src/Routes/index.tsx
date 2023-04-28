@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, CreateBroadCast, CreateCompany, AddUser } from '@Modules'
+import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask ,CreateBroadCast, CreateCompany, AddUser } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -32,6 +32,8 @@ export const ROUTES = {
     tasks: '/tasks',
     'tasks-details': '/tasks-details',
     'reference-task': '/reference-task',
+    'add-task':'/add-task',
+    'add-sub-task':'/add-sub-task',
   },
   'issue-module': {
     issues: '/issues',
@@ -118,7 +120,7 @@ export const HOME_ROUTES = [
     name: "Settings",
     icon: "bi bi-gear text-primary",
     layout: "",
-    component: <Settings />
+    component: <Setting />
   }
 ];
 
@@ -133,6 +135,20 @@ export const TASK_ROUTES = [
     path: ROUTES['task-module']['reference-task'],
     component: <AddReferenceTask />
   },
+
+
+  {
+    key: 3,
+    path: ROUTES['task-module']['add-task'],
+    component: <AddTask />
+  },
+
+  {
+    key: 4,
+    path: ROUTES['task-module']['add-sub-task'],
+    component: <AddSubTask/>
+  },
+  
 ];
 
 export const MESSAGE_ROUTES = [

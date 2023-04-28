@@ -16,6 +16,7 @@ export const addDepartment = (params) => {
 };
 
 export const addDepartmentSuccess = (response) => {
+  console.log('jjj==',JSON.stringify(response))
   return {
     type: ActionTypes.ADD_DEPARTMENT_SUCCESS,
     payload: response,
