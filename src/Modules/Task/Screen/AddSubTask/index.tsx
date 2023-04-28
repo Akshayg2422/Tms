@@ -15,8 +15,6 @@ import {
     addTask,
     setIsSync,
     getAssociatedCompanyBranch,
-    getTasks,
-    getTaskGroup,
 } from "@Redux";
 import {
     CREATE_INTERNAL,
@@ -39,10 +37,13 @@ function AddSubTask() {
     const [typeSelect, setTypeSelect] = useState(type[0]);
     const [isSelect, setIsSelect] = useState(false);
 
-    const { dashboardDetails, taskItem, getSubTaskId, getTaskGroupDetails } = useSelector(
+    const { dashboardDetails } = useSelector(
         (state: any) => state.AdminReducer
     );
     const { isSync } = useSelector((state: any) => state.AppReducer);
+    const { selectedTask } = useSelector(
+        (state: any) => state.TaskReducer
+    );
 
     const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
         useState();
@@ -51,23 +52,16 @@ function AddSubTask() {
     const [selectedCompany, setSelectedCompany] = useState<any>({});
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
-
     const referenceNo = useInput("");
     const title = useInput("");
     const description = useInput("");
     const selectedUser = useDropDown("");
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
-    const [selectGroup, setSelectGroup] = useState<any>('')
-    const [showTaskGroup, setShowTaskGroup] = useState<any>([]);
-
-
     const handleImagePicker = (index: number, file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
-
-
 
     const submitTaskHandler = () => {
         const params = {
@@ -80,11 +74,10 @@ function AddSubTask() {
             task_attachments: [{ attachments: photo }],
             is_parent: false,
             eta_time: eta,
-            parent_id: getSubTaskId ? getSubTaskId.id : taskItem?.id,
-            group_id: selectGroup?.id
+            parent_id:selectedTask?.id,
         };
 
-
+console.log(params)
         const validation = validate(typeSelect?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
 
         if (ifObjectExist(validation)) {
@@ -170,8 +163,9 @@ function AddSubTask() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
+                    const userDetails=response?.details
                     let companiesDashboard: any = [];
-                    response?.details?.forEach(({ id, name }) => {
+                    userDetails.forEach(({ id, name }) => {
                         companiesDashboard = [...companiesDashboard, { id, text: name }];
                     });
                     setCompanyUserDashboard(companiesDashboard);
@@ -187,28 +181,6 @@ function AddSubTask() {
         setEta(value);
     };
 
-    useEffect(() => {
-        getTaskGroupList()
-    }, [])
-
-
-    const getTaskGroupList = () => {
-        const params = {};
-
-        dispatch(
-            getTaskGroup({
-                params,
-                onSuccess: (response: any) => () => {
-                    let subTaskGroupLists: any = [];
-                    response?.details?.data?.forEach((item) => {
-                        subTaskGroupLists = [...subTaskGroupLists, { ...item, text: item.name }]
-                    })
-                    setShowTaskGroup(subTaskGroupLists)
-                },
-                onError: (error: string) => () => { },
-            })
-        );
-    };
 
     return (
         <div>
@@ -269,26 +241,22 @@ function AddSubTask() {
                             onChange={setSelectedCompany}
                             selected={selectedCompany}
                         />
-                    )}
-
-                    <DropDown
+                    )} 
+                  {companyUserDashboard&&companyUserDashboard.length>0 &&  <DropDown
                         selected={selectedUser.value}
                         heading={translate("common.user")}
                         data={companyUserDashboard}
                         onChange={selectedUser.onChange}
                     />
+                  }
+
                     <DropDown
                         selected={selectedTicketPriority.value}
                         heading={translate("common.ticketPriority")}
                         data={PRIORITY}
                         onChange={selectedTicketPriority.onChange}
                     />
-                    <DropDown
-                        selected={selectGroup}
-                        heading={translate("common.selectGroup")}
-                        data={showTaskGroup}
-                        onChange={setSelectGroup}
-                    />
+                  
                     <DateTimePicker
                         id="eta-picker"
                         heading="ETA"

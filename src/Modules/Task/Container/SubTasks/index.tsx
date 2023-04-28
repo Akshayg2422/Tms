@@ -15,14 +15,15 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         getSubTasksApi()
     }, [selectedTask])
 
-    function getSubTasksApi() {
+    function getSubTasksApi () {
         const params = {
             task_id: selectedTask.id
         }
 
         dispatch(getSubTasks({
             params,
-            onSuccess: () => () => {
+            onSuccess: (response) => () => {
+           
             },
             onError: () => () => {
             },
@@ -49,7 +50,9 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                 <Button
                     size={"sm"}
                     text={'Add Task'}
-                    onClick={() => { }}
+                    onClick={() => {
+                        goTo(ROUTES["task-module"]["add-sub-task"])
+                     }}
                 />
             </div>
 

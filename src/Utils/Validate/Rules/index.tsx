@@ -133,6 +133,7 @@ export const CREATE_INTERNAL = {
   assigned_to_id: {
     presence: { allowEmpty: false, message: "please select User" },
   },
+
   priority:{
     presence: { allowEmpty: false, message: "please select priority" },
   

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { HomeContainer, NoDataFound } from "@Components";
+import { Button, HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter } from '@Utils'
 import { getTasks, setSelectedTask, getDashboard } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
+import { translate } from '@I18n'
 
 
-const DEFAULT_PARAMS = { q_many: "", "tasks_by": "ALL", "task_status": "INP", "priority": "ALL", page_number: 1 }
+const DEFAULT_PARAMS = { q_many: "","tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL","group":"ALL", "include_subtask":false, page_number: 1 }
 
 function Tasks() {
   const dispatch = useDispatch()
@@ -65,8 +66,8 @@ function Tasks() {
 
 
   const normalizedTableData = (data: any) => {
-    if (data && data.length > 0)
-      return data.map((el: any) => {
+    if (data && data?.length > 0)
+      return data?.map((el: any) => {
         const etaDate = new Date(el.eta_time)
         let etaTime = etaDate.getHours()
         return {
@@ -117,15 +118,26 @@ function Tasks() {
   };
 
 
-
-
-
   return (
     <div className="m-3">
-      <div className="mx-2 mb--3">
-        <TaskGroups onClick={(code) => {
-          setParams({ ...params, group: code } as any)
-        }} />
+      <div className="row">
+        <div className="mx-2 mb--3 col">
+          <TaskGroups onClick={(code) => {
+            setParams({ ...params, group: code } as any)
+          }} />
+        </div>
+
+        <div className="col-auto ">
+          <Button
+            text={translate("common.createTask")}
+            onClick={()=>{
+              goTo(ROUTES["task-module"]["add-task"])
+            }
+            }
+
+          />
+
+        </div>
       </div>
 
       <HomeContainer type={'card'}>

@@ -25,7 +25,7 @@ function Department() {
 
 
   } = useSelector(
-    (state: any) => state.AdminReducer
+    (state: any) => state.UserCompanyReducer
   );
 
   const {
@@ -227,7 +227,6 @@ function Department() {
 
 
         }),
-
         ...(dashboardDetails?.permission_details.is_super_admin && {
           superAdmin:
             <div className=" d-flex justify-content-center align-items-center">
@@ -236,33 +235,35 @@ function Department() {
               }} />
             </div>,
 
-          '': (item?.is_parent ?
-            <MenuBar menuData={subDepartment} onClick={(el) => {
-              setAddSubDepartmentItem(item)
-
-              if (el.id === '0') {
-                editDepartmentModal.show()
-                setEditDepartment(item?.name)
-                setEditIsAdmin(item?.is_admin)
-                setEditIsSuperAdmin(item?.is_super_admin)
-              }
-              if (el.id === '1') {
-                addSubDepartmentModal.show()
-              }
-
-            }} /> :
-            <MenuBar menuData={subChildDepartments} onClick={(el) => {
-              setAddSubDepartmentItem(item)
-              if (el.id === '0') {
-                editDepartmentModal.show()
-                setEditDepartment(item?.name)
-                setEditIsAdmin(item?.is_admin)
-                setEditIsSuperAdmin(item?.is_super_admin)
-
-              }
-            }} />
-          )
+          
         }),
+
+        '': (item?.is_parent ?
+          <MenuBar menuData={subDepartment} onClick={(el) => {
+            setAddSubDepartmentItem(item)
+
+            if (el.id === '0') {
+              editDepartmentModal.show()
+              setEditDepartment(item?.name)
+              setEditIsAdmin(item?.is_admin)
+              setEditIsSuperAdmin(item?.is_super_admin)
+            }
+            if (el.id === '1') {
+              addSubDepartmentModal.show()
+            }
+
+          }} /> :
+          <MenuBar menuData={subChildDepartments} onClick={(el) => {
+            setAddSubDepartmentItem(item)
+            if (el.id === '0') {
+              editDepartmentModal.show()
+              setEditDepartment(item?.name)
+              setEditIsAdmin(item?.is_admin)
+              setEditIsSuperAdmin(item?.is_super_admin)
+
+            }
+          }} />
+        )
 
       };
     });

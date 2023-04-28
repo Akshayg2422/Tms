@@ -307,7 +307,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       const { page_number } = action.payload.params
       state = {
         ...state,
-        taskGroupDetails: page_number === 1 ? [] : state.taskGroupDetails,
+        // taskGroupDetails: page_number === 1 ? [] : state.taskGroupDetails,
         getTaskGroupDetails: undefined,
         taskGroupNumOfPages: 0,
         taskGroupCurrentPages: 1,
@@ -319,7 +319,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = {
         ...state,
         loading: false,
-        taskGroupDetails: [...state.taskGroupDetails, ...action.payload?.details?.data],
+        // taskGroupDetails: [...state.taskGroupDetails, ...action.payload?.details?.data],
         getTaskGroupCurrentPages:
           action.payload?.details?.next_page,
 
