@@ -1,7 +1,6 @@
 export * from './Issues'
 export * from './Settings'
 export * from './AdminDashboard'
-export * from './CreateCompany'
 export * from './ReferenceTickets'
 export * from './CompanyIssues'
 export * from './IssueDetails'

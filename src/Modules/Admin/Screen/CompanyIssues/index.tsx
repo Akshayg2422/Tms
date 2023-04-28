@@ -42,7 +42,7 @@ function CompanyIssues() {
 
   return (
     <div className='my-3'>
-      {tickets && tickets.length > 0 ? <CommonTable card title={'Issue'} displayDataSet={normalizedTableData(tickets)} /> : <NoDataFound />}
+      {tickets && tickets.length > 0 ? <CommonTable card title={'Issue'} displayDataSet={normalizedTableData(tickets)} /> : <NoDataFound type={'text'} />}
     </div>
 
   )

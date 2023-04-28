@@ -287,7 +287,6 @@ function* registerCompanySaga(action) {
     if (response.success) {
       yield put(Action.registerCompanySuccess(response));
       yield call(action.payload.onSuccess(response));
-
     } else {
       yield put(Action.registerCompanyFailure(response.error_message));
       yield call(action.payload.onError(response));

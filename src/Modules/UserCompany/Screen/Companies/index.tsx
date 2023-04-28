@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { companySelectedDetails, getAssociatedBranch, setSelectedCompany } from "@Redux";
+import { getAssociatedBranch, setSelectedCompany } from "@Redux";
 import { Button, Card, Image, CommonTable, NoDataFound } from "@Components";
 import { useNavigation } from "@Hooks";
-import { HOME_PATH, ROUTES } from "@Routes";
+import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler } from "@Utils";
 
@@ -61,7 +61,7 @@ function Companies() {
             size={'sm'}
             text={translate("common.addCompany")}
             onClick={() => {
-              goTo(HOME_PATH.CREATE_COMPANY);
+              goTo(ROUTES["user-company-module"]["add-company"]);
             }}
           />
         </div> : null}
@@ -90,7 +90,9 @@ function Companies() {
             goTo(ROUTES["user-company-module"]["company-details"]);
 
           }} /> :
-        <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={'Add Company'} /></div>
+        <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={'Add Company'} onClick={() => {
+          goTo(ROUTES["user-company-module"]["add-company"]);
+        }} /></div>
       }
     </Card>
   );

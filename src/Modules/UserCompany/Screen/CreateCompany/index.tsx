@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { translate } from "@I18n";
 import { CreateCompanyProps } from "./interfaces";
 import {
-  HomeContainer,
+  Card,
   Input,
   DropDown,
   H,
@@ -10,23 +10,22 @@ import {
   Button,
   showToast,
   Dropzone,
-  Image
+  Back
 } from "@Components";
 import {
   GENDER_LIST,
-  DESIGNATION_LIST,
   validate,
   BUSINESS_FORM_RULES,
   USER_FORM_RULES,
   getValidateError,
   ifObjectExist,
 } from "@Utils";
-import { useDispatch, useSelector } from "react-redux";
-import { registerCompany, registerAdmin, setIsSync ,addUpdateEmployeePhoto} from "@Redux";
-import { useInput, useDropDown, useNavigation } from "@Hooks";
-import { icons } from "@Assets";
 
-function CreateCompany({}: CreateCompanyProps) {
+import { useDispatch, useSelector } from "react-redux";
+import { registerCompany, registerAdmin } from "@Redux";
+import { useInput, useDropDown, useNavigation } from "@Hooks";
+
+function CreateCompany({ }: CreateCompanyProps) {
   const { isSync } = useSelector((state: any) => state.AppReducer);
 
   const [photo, setPhoto] = useState("");
@@ -41,9 +40,9 @@ function CreateCompany({}: CreateCompanyProps) {
   const city = useInput("");
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
-  let attach=[photo]
-  let PhotoAttach=attach.slice(-1,4)
- 
+  let attach = [photo]
+  let PhotoAttach = attach.slice(-1, 4)
+
   const submitRegisteredAdminHandler = () => {
     const params = {
       first_name: fullName.value,
@@ -52,6 +51,7 @@ function CreateCompany({}: CreateCompanyProps) {
       gender: gender.value?.id,
       designation: "Management",
     }
+
     const validation = validate(USER_FORM_RULES, {
       first_name: fullName.value,
       mobile_number: contactNumber.value,
@@ -83,14 +83,14 @@ function CreateCompany({}: CreateCompanyProps) {
   const onRegisterCompany = () => {
     const params = {
       registered_name: name.value,
-      city:city.value,
+      city: city.value,
       communication_address: address.value,
       pincode: pinCode.value,
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
-      attachment_logo:PhotoAttach[0],
+      attachment_logo: PhotoAttach[0],
     };
-  
+
     const validation = validate(BUSINESS_FORM_RULES, params);
 
     if (ifObjectExist(validation)) {
@@ -102,15 +102,9 @@ function CreateCompany({}: CreateCompanyProps) {
               showToast(response.message, "success");
               goBack();
             }
-            dispatch(
-              setIsSync({
-                ...isSync,
-                companies: false,
-              })
-            );
           },
           onError: (error: any) => () => {
-            showToast(error.message,"error");
+            showToast(error.message, "error");
           },
         })
       );
@@ -120,20 +114,15 @@ function CreateCompany({}: CreateCompanyProps) {
   };
 
   return (
-    <HomeContainer isCard >
-
-<div className='row col '>
-          <div
-          onClick={()=>goBack()} 
-          ><Image  
-                    size={'sm'}
-                    variant='rounded'
-                    className='bg-white mt--1  pl-2'
-                    src={icons.backArrow}   /></div>
-      <div className='pl-2'>  <h3>{translate("common.addCompany")!}</h3>
-      </div>
+    <Card className="m-3">
+      <div className='col'>
+        <div className="row">
+          <Back />
+          <h3 className="ml-3">{translate("common.addCompany")!}</h3>
         </div>
-        <hr className='mt-3'></hr>
+
+      </div>
+      <hr className='mt-3'></hr>
       <div className="col-md-9 col-lg-5">
         <H
           tag={"h3"}
@@ -150,7 +139,6 @@ function CreateCompany({}: CreateCompanyProps) {
           onSelect={(image) => {
             let encoded = image.toString().replace(/^data:(.*,)?/, "");
             setPhoto(encoded);
-          
           }}
         />
       </div>
@@ -160,8 +148,8 @@ function CreateCompany({}: CreateCompanyProps) {
           value={name.value}
           onChange={name.onChange}
         />
-         <Input
-         type={'text'}
+        <Input
+          type={'text'}
           heading={translate("auth.city")}
           value={city.value}
           onChange={city.onChange}
@@ -178,7 +166,7 @@ function CreateCompany({}: CreateCompanyProps) {
           value={pinCode.value}
           onChange={pinCode.onChange}
         />
-       
+
         <Input
           type={"number"}
           heading={translate("common.contactNumber")}
@@ -230,7 +218,7 @@ function CreateCompany({}: CreateCompanyProps) {
           }}
         />
       </div>
-    </HomeContainer>
+    </Card >
   );
 }
 

@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, CreateBroadCast } from '@Modules'
+import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, CreateBroadCast, CreateCompany } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -39,6 +39,7 @@ export const ROUTES = {
   'user-company-module': {
     companies: '/companies',
     "company-details": '/company-details',
+    "add-company": '/add-company',
     profile: '/profile',
     setting: '/setting'
   },
@@ -148,7 +149,11 @@ export const USER_COMPANY_ROTES = [
     path: ROUTES['user-company-module']['company-details'],
     component: <CompanyDetails />
   },
-
+  {
+    key: 2,
+    path: ROUTES['user-company-module']['add-company'],
+    component: <CreateCompany />
+  },
 ];
 
 
