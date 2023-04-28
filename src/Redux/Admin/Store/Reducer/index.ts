@@ -102,7 +102,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
 
     //   state = {
     //     ...state,
-    //     designationData: undefined,
+    //     designations: undefined,
     //     designationNumOfPages: 0,
     //     designationCurrentPages: 1,
     //     loading: true
@@ -113,7 +113,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     //   state = {
     //     ...state,
     //     loading: false,
-    //     designationData: action?.payload?.data,
+    //     designations: action?.payload?.data,
     //     designationNumOfPages: action?.payload?.num_pages,
     //     designationCurrentPages:
     //       action?.payload?.next_page === -1

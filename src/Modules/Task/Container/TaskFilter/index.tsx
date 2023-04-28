@@ -4,7 +4,7 @@ import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
 import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, } from '@Utils'
 import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartmentData, getDesignationData } from '@Redux'
+import { getAssociatedCompaniesL, getDepartments, getDesignationData } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { icons } from '@Assets'
 
@@ -99,7 +99,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                 branch_id: items.id
             };
             dispatch(
-                getDepartmentData({
+                getDepartments({
                     params,
                     onSuccess: (response: any) => () => {
 

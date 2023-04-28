@@ -16,7 +16,7 @@ import {
   raiseNewTicket,
   setIsSync,
   getAssociatedCompanyBranch,
-  getDepartmentData,
+  getDepartments,
 } from "@Redux";
 import {
   CREATE_EXTERNAL,
@@ -194,7 +194,7 @@ function IssueCreate() {
             : selectedCompany?.id || "",
       };
       dispatch(
-        getDepartmentData({
+        getDepartments({
           params,
           onSuccess: (response: any) => () => {
             let departmentDetails: any = [];

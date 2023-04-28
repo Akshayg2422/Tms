@@ -128,20 +128,19 @@ function* getTicketTag(action) {
 
 function* getDepartmentsSaga(action) {
   try {
-
     const response = yield call(Api.fetchDepartmentDataApi, action.payload.params);
 
     if (response.success) {
-      yield put(Action.getDepartmentDataSuccess(response));
+      yield put(Action.getDepartmentsSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
 
-      yield put(Action.getDepartmentDataFailure(response.error_message));
+      yield put(Action.getDepartmentsFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
 
-    yield put(Action.getDepartmentDataFailure("Invalid Request"));
+    yield put(Action.getDepartmentsFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }
@@ -245,9 +244,11 @@ function* addUpdateEmployeePhotoSaga(action) {
   }
 }
 function* addEmployeeSaga(action) {
-  try {
 
+  console.log('addEmployeeSaga');
+  try {
     const response = yield call(Api.addEmployeeApi, action.payload.params);
+    console.log(response);
     if (response.success) {
       yield put(Action.addEmployeeSuccess(response));
       yield call(action.payload.onSuccess(response));
