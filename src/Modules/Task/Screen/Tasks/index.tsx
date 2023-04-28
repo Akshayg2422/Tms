@@ -169,7 +169,8 @@ function Tasks() {
             }
           />
           :
-          <NoDataFound type={'action'} buttonText={'Create Task'} />
+          <NoDataFound type={'action'} buttonText={'Create Task'}
+           />
         }
       </HomeContainer>
     </div>
