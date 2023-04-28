@@ -6,6 +6,7 @@ import { useInput } from "@Hooks";
 import { useNavigation, useDropDown } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
+import { TicketFilter } from "../../Container";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
 import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
@@ -168,7 +169,7 @@ function Issues() {
 
   return (
     <>
-      <HomeContainer>
+      {/* <HomeContainer>
         {tickets && tickets.length > 0 ?
           <div className="text-right ">
             <Button
@@ -180,8 +181,8 @@ function Issues() {
             />
           </div> : null
         }
-      </HomeContainer>
-      <HomeContainer isCard className={'mb--5'} >
+      </HomeContainer> */}
+      {/* <HomeContainer isCard className={'mb--5'} >
         <div className={'row'}>
           <h3 className={'col-11'}>Issues</h3>
           <div className={'pl-4'}>
@@ -299,62 +300,42 @@ function Issues() {
             </div>
           }
         </div>
-      </HomeContainer>
+      </HomeContainer> */}
 
+    <div className="m-3">
+      <HomeContainer isCard>
 
-      {tickets && tickets.length > 0 ?
-        <>
-          <CommonTable
-            isPagination
-            tableDataSet={tickets}
-            displayDataSet={normalizedTableData(tickets)}
-            noOfPage={ticketNumOfPages}
-            currentPage={ticketCurrentPages}
-            paginationNumberClick={(currentPage) => {
-              getTicketHandler(paginationHandler("current", currentPage));
-            }}
-            previousClick={() => {
-              getTicketHandler(paginationHandler("prev", ticketCurrentPages))
-            }
-            }
-            nextClick={() => {
-              getTicketHandler(paginationHandler("next", ticketCurrentPages));
-            }
-            }
-            tableOnClick={(idx, index, item) => {
-              dispatch(setSelectedIssues(item));
-              dispatch(setSelectedReferenceIssues(undefined))
-              goTo(HOME_PATH.ISSUE_DETAILS);
-            }
-            }
-          />
-        </> : <div ><NoDataFound text={'No Ticket Found'} />
-          {/* <Image
-            className={'border'}
-            variant={'rounded'}
-            src={icons.bellIcon}
-            size={'xl'}
-            alt="..."
-            style={{
-              position: 'absolute',
-              top: '68%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              backgroundColor: '#D3D3D3'
-            }}
-          /> */}
-          <div className="text-center">
-            <Button
-              size={"md"}
-              text={translate("common.addTicket")}
-              onClick={() => {
-                goTo(HOME_PATH.ISSUE_TICKET);
+        {tickets && tickets.length > 0 ?
+          <>
+            <CommonTable
+              isPagination
+              tableDataSet={tickets}
+              displayDataSet={normalizedTableData(tickets)}
+              noOfPage={ticketNumOfPages}
+              currentPage={ticketCurrentPages}
+              paginationNumberClick={(currentPage) => {
+                getTicketHandler(paginationHandler("current", currentPage));
               }}
+              previousClick={() => {
+                getTicketHandler(paginationHandler("prev", ticketCurrentPages))
+              }
+              }
+              nextClick={() => {
+                getTicketHandler(paginationHandler("next", ticketCurrentPages));
+              }
+              }
+              tableOnClick={(idx, index, item) => {
+                dispatch(setSelectedIssues(item));
+                dispatch(setSelectedReferenceIssues(undefined))
+                goTo(HOME_PATH.ISSUE_DETAILS);
+              }
+              }
             />
-          </div>
+          </> : <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} />
+        }
 
-        </div>}
-
+      </HomeContainer>
+      </div>
     </>
   );
 }
