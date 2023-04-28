@@ -27,14 +27,14 @@ export const ADD_USER_RULES = {
   gender: {
     presence: { message: "Please Select Gender" },
   },
-  designation_name: {
+  designation_id: {
     presence: { allowEmpty: false, message: "Designation cannot be empty" },
   },
 
-  department_id:{
+  department_id: {
     presence: { allowEmpty: false, message: "Department cannot be empty" },
   },
-  profile_image:{
+  profile_image: {
     presence: { allowEmpty: false, message: "profile image cannot be empty" }
   }
 };
@@ -51,15 +51,15 @@ export const OTP_RULES = {
 };
 
 export const BUSINESS_FORM_RULES = {
-  
-  attachment_logo:{
+
+  attachment_logo: {
     presence: { allowEmpty: false, message: "Attach cannot be empty" }
   },
   registered_name: {
     presence: { message: "Name cannot be empty" },
     length: { minimum: 3, message: "Name minimum 3 chars" },
   },
-  city:{
+  city: {
     presence: { allowEmpty: false, message: "city cannot be empty" },
   },
   communication_address: {
@@ -69,7 +69,7 @@ export const BUSINESS_FORM_RULES = {
     presence: { allowEmpty: false, message: "PinCode cannot be empty" },
     length: { is: 6, message: "PinCode should be 6 number" },
   },
-  
+
   mobile_number2: MOBILE_NUMBER_RULES.mobile_number,
 
 };
@@ -112,11 +112,11 @@ export const CREATE_EXTERNAL = {
   assigned_to_id: {
     presence: { allowEmpty: false, message: "please select User" },
   },
-  priority:{
+  priority: {
     presence: { allowEmpty: false, message: "please select priority" },
-  
+
   },
-  
+
 
 };
 export const CREATE_INTERNAL = {
@@ -133,11 +133,11 @@ export const CREATE_INTERNAL = {
   assigned_to_id: {
     presence: { allowEmpty: false, message: "please select User" },
   },
-  priority:{
+  priority: {
     presence: { allowEmpty: false, message: "please select priority" },
-  
+
   },
-  
+
 
 };
 
@@ -149,112 +149,112 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  applicable_branches:{
+  applicable_branches: {
     presence: { allowEmpty: false, message: "Company cannot be empty" },
   },
   broadcast_attachments:
-  { 
+  {
     presence: { message: "attachments cannot be empty" },
-  
+
   }
+}
+
+
+export const CREATE_BROAD_CAST_INTERNAL = {
+
+  title: {
+    presence: { allowEmpty: false, message: "title cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+
+}
+
+export const ADD_REFERENCE_TICKET = {
+  reference_ticket: {
+    presence: { allowEmpty: false, message: " Reference Ticket cannot be empty" },
+  },
+
+}
+export const ADD_DEPARTMENT = {
+  name: {
+    presence: { allowEmpty: false, message: "department name cannot be empty" },
+  }
+}
+
+export const ADD_DESIGNATION = {
+  name: {
+    presence: { allowEmpty: false, message: "designation name cannot be empty" },
+  }
+}
+
+export const ADD_SECTOR = {
+  name: {
+    presence: { allowEmpty: false, message: "sector name cannot be empty" },
+  },
+  // description:{
+  //   presence: { allowEmpty: false, message: "description cannot be empty" },
+  // }
+}
+
+export const ADD_TAG = {
+  name: {
+    presence: { allowEmpty: false, message: "tag name cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  }
+}
+
+export const ADD_TASK_GROUP = {
+  name: {
+    presence: { allowEmpty: false, message: "tag name cannot be empty" },
+  },
+  code: {
+    presence: { allowEmpty: false, message: "code name cannot be empty" },
+    length: { minimum: 3, message: "Code minimum 3 chars" },
+
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  photo: {
+    presence: { allowEmpty: false, message: "Photo cannot be empty" }
+
   }
 
- 
-  export const CREATE_BROAD_CAST_INTERNAL= {
+}
 
-    title: {
-      presence: { allowEmpty: false, message: "title cannot be empty" },
-    },
-    description: {
-      presence: { allowEmpty: false, message: "description cannot be empty" },
-    },
+export const ADD_SUB_TASK_GROUP = {
+  name: {
+    presence: { allowEmpty: false, message: "tag name cannot be empty" },
+  },
+  code: {
+    presence: { allowEmpty: false, message: "code name cannot be empty" },
+    length: { minimum: 3, message: "Code minimum 3 chars" },
 
-    }
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  photo: {
+    presence: { allowEmpty: false, message: "Photo cannot be empty" }
 
-    export const ADD_REFERENCE_TICKET= {
-      reference_ticket: {
-        presence: { allowEmpty: false, message: " Reference Ticket cannot be empty" },
-      },
-  
-      }
-    export const ADD_DEPARTMENT={
-      name:{
-        presence: { allowEmpty: false, message: "department name cannot be empty" },
-      }
-    }
+  },
+  start_time: {
+    presence: { allowEmpty: false, message: " please select Stat Time  cannot be empty" },
+  },
 
-    export const ADD_DESIGNATION={
-      name:{
-        presence: { allowEmpty: false, message: "designation name cannot be empty" },
-      }
-    }
+  end_time: {
+    presence: { allowEmpty: false, message: " please select End Time cannot be empty" },
+  }
 
-    export const ADD_SECTOR={
-      name:{
-        presence: { allowEmpty: false, message: "sector name cannot be empty" },
-      },
-      // description:{
-      //   presence: { allowEmpty: false, message: "description cannot be empty" },
-      // }
-    }
+}
 
-    export const ADD_TAG={
-      name:{
-        presence: { allowEmpty: false, message: "tag name cannot be empty" },
-      },
-      description:{
-        presence: { allowEmpty: false, message: "description cannot be empty" },
-      }
-    }
 
-    export const ADD_TASK_GROUP={
-      name:{
-        presence: { allowEmpty: false, message: "tag name cannot be empty" },
-      },
-      code:{
-        presence: { allowEmpty: false, message: "code name cannot be empty" },
-        length: { minimum: 3, message: "Code minimum 3 chars" },
-
-      },
-      description:{
-        presence: { allowEmpty: false, message: "description cannot be empty" },
-      },
-      photo:{
-        presence: { allowEmpty: false, message: "Photo cannot be empty" }
-
-      }
-
-    }
-
-    export const ADD_SUB_TASK_GROUP={
-      name:{
-        presence: { allowEmpty: false, message: "tag name cannot be empty" },
-      },
-      code:{
-        presence: { allowEmpty: false, message: "code name cannot be empty" },
-        length: { minimum: 3, message: "Code minimum 3 chars" },
-
-      },
-      description:{
-        presence: { allowEmpty: false, message: "description cannot be empty" },
-      },
-      photo:{
-        presence: { allowEmpty: false, message: "Photo cannot be empty" }
-
-      },
-      start_time:{
-        presence: { allowEmpty: false, message: " please select Stat Time  cannot be empty" },
-      },
-
-      end_time:{
-        presence: { allowEmpty: false, message: " please select End Time cannot be empty" },
-      }
-   
-    }
-
-    
-    export const ADD_REFERENCE_TASK= {
-      reference_task: {
-        presence: { allowEmpty: false, message: " Reference Task cannot be empty" },
-      }
-    }
+export const ADD_REFERENCE_TASK = {
+  reference_task: {
+    presence: { allowEmpty: false, message: " Reference Task cannot be empty" },
+  }
+}

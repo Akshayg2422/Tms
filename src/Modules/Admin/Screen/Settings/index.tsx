@@ -17,7 +17,7 @@ import { translate } from "@I18n";
 import {
   addDepartment,
   addDesignation,
-  getDepartmentData,
+  getDepartments,
   getDesignationData,
   addBrandSector,
   addTicketTag,
@@ -42,10 +42,10 @@ function Settings() {
   );
 
   const {
-    departmentData,
-    designationData,
-    departmentCurrentPages,
-    departmentNumOfPages,
+    departments,
+    designations,
+    departmentsCurrentPages,
+    departmentsNumOfPages,
     designationCurrentPages,
     designationNumOfPages,
     brandSector,
@@ -88,8 +88,8 @@ function Settings() {
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [editIsAdmin, setEditIsAdmin] = useState<boolean>(false);
   const [editIsSuperAdmin, setEditIsSuperAdmin] = useState<boolean>(false);
-  const [departmentDataList, setDepartmentDataList] = useState(departmentData);
-  const [designationDataList, setDesignationDataList] = useState(designationData);
+  const [departmentDataList, setDepartmentDataList] = useState(departments);
+  const [designationDataList, setDesignationDataList] = useState(designations);
   const [showTaskGroup, setShowTaskGroup] = useState(false);
   const [showClosedTaskGroup, setClosedTaskGroup] = useState<Boolean>();
   const addTaskGroupModal = useModal(false);
@@ -165,7 +165,7 @@ function Settings() {
       page_number: pageNumber
     };
     dispatch(
-      getDepartmentData({
+      getDepartments({
         params,
         onSuccess: (response: any) => () => {
           if (!showDepartments) {
@@ -311,7 +311,7 @@ function Settings() {
           onSuccess: (success: any) => () => {
             addDepartMentModal.hide()
             editDepartmentModal.hide()
-            getDepartmentList(departmentCurrentPages)
+            getDepartmentList(departmentsCurrentPages)
             showToast(success.message, "success");
             setIsAdmin(false)
             setIsSuperAdmin(false)
@@ -348,7 +348,7 @@ function Settings() {
           onSuccess: (success: any) => () => {
             addDepartMentModal.hide()
             addSubDepartmentModal.hide()
-            getDepartmentList(departmentCurrentPages)
+            getDepartmentList(departmentsCurrentPages)
             setAddSubDepartment('')
             setAddSubDepartmentIsAdmin(false)
             setAddSubDepartmentIsSuperAdmin(false)
@@ -418,7 +418,7 @@ function Settings() {
           params,
           onSuccess: (success: any) => () => {
             addDesignationModal.hide()
-            getDesignationList(departmentCurrentPages)
+            getDesignationList(departmentsCurrentPages)
 
             setDesignation("");
             showToast(success.message, "success");
@@ -972,7 +972,7 @@ function Settings() {
                       onClick={() => {
                         if (!showDepartments) {
 
-                          getDepartmentList(departmentCurrentPages)
+                          getDepartmentList(departmentsCurrentPages)
                         } else {
                           setShowDepartments(!showDepartments)
                         }
@@ -1000,19 +1000,19 @@ function Settings() {
                       isPagination
                       tableDataSet={departmentDataList}
                       displayDataSet={normalizedDepartmentData(departmentDataList)}
-                      noOfPage={departmentNumOfPages}
-                      currentPage={departmentCurrentPages}
+                      noOfPage={departmentsNumOfPages}
+                      currentPage={departmentsCurrentPages}
                       paginationNumberClick={(currentPage) => {
 
                         getDepartmentList(paginationHandler("current", currentPage));
 
                       }}
                       previousClick={() => {
-                        getDepartmentList(paginationHandler("prev", departmentCurrentPages))
+                        getDepartmentList(paginationHandler("prev", departmentsCurrentPages))
                       }
                       }
                       nextClick={() => {
-                        getDepartmentList(paginationHandler("next", departmentCurrentPages));
+                        getDepartmentList(paginationHandler("next", departmentsCurrentPages));
                       }
                       }
 

@@ -16,6 +16,7 @@ export const addDepartment = (params) => {
 };
 
 export const addDepartmentSuccess = (response) => {
+  console.log('jjj==',JSON.stringify(response))
   return {
     type: ActionTypes.ADD_DEPARTMENT_SUCCESS,
     payload: response,
@@ -75,21 +76,21 @@ export const getDesignationDataFailure = (error) => {
 
 //get departments
 
-export const getDepartmentData = (params: any) => {
+export const getDepartments = (params: any) => {
   return {
     type: ActionTypes.FETCH_DEPARTMENT,
     payload: params,
   };
 };
 
-export const getDepartmentDataSuccess = (response) => {
+export const getDepartmentsSuccess = (response: any) => {
   return {
     type: ActionTypes.FETCH_DEPARTMENT_SUCCESS,
     payload: response,
   };
 };
 
-export const getDepartmentDataFailure = (error) => {
+export const getDepartmentsFailure = (error: any) => {
   return {
     type: ActionTypes.FETCH_DEPARTMENT_FAILURE,
     payload: error,

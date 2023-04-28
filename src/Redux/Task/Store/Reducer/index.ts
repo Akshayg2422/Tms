@@ -38,9 +38,7 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TASK_GROUPS_L_FAILURE:
       state = { ...state, taskGroups: action.payload };
       break;
-    /**
-     * get Taks
-     */
+   
 
     /**
   * Get Tasks

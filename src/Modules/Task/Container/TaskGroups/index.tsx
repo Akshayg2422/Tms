@@ -22,17 +22,19 @@ function TaskGroups({ onClick }: TaskGroupProps) {
                 },
             }))
     }, [])
+ 
 
     return (
         <div className='row'>
             {taskGroups && taskGroups.length > 0 &&
-                [{ id: 'ALL', Photo: null, code: "ALL" }, ...taskGroups].map((el: any) => {
+                [{id:'ALL',Photo:null,code:"ALL"},...taskGroups].map((el: any) => {
                     const bgColor = selectedTaskGroup === el.code ? "bg-primary" : "bg-white"
                     const textColor = selectedTaskGroup === el.code ? "text-white" : ""
                     return (
                         <div key={el.code} className='ml-2 pointer' onClick={() => {
                             setSelectedTaskGroup(el.code)
-                            onClick(el.code)
+                            onClick(el.id)
+                            console.log(el.id)
                         }}>
                             <div className={`card ${bgColor}`}>
                                 <div className='col py-1'>
