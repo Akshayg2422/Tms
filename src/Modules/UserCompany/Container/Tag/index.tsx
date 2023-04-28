@@ -28,8 +28,8 @@ function Tag() {
 
 
   const {
-    departmentData,
-    designationData,
+    departments,
+    designations,
 
     ticketTag,
 

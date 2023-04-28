@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, CreateBroadCast, CreateCompany } from '@Modules'
+import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, CreateBroadCast, CreateCompany, AddUser } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 
 
@@ -40,6 +40,7 @@ export const ROUTES = {
     companies: '/companies',
     "company-details": '/company-details',
     "add-company": '/add-company',
+    "add-user": '/add-user',
     profile: '/profile',
     setting: '/setting'
   },
@@ -84,14 +85,13 @@ export const HOME_ROUTES = [
     layout: "",
     component: <Tasks />
   },
-
-  // {
-  //   path: ROUTES['issue-module'].issues,
-  //   name: "Tickets",
-  //   icon: "bi bi-bell text-primary",
-  //   layout: "",
-  //   component: <Issues />
-  // },
+  {
+    path: ROUTES['issue-module'].issues,
+    name: "Tickets",
+    icon: "bi bi-bell text-primary",
+    layout: "",
+    component: <Issues />
+  },
   {
     path: ROUTES['user-company-module'].companies,
     name: "Companies",
@@ -153,6 +153,11 @@ export const USER_COMPANY_ROTES = [
     key: 2,
     path: ROUTES['user-company-module']['add-company'],
     component: <CreateCompany />
+  },
+  {
+    key: 3,
+    path: ROUTES['user-company-module']['add-user'],
+    component: <AddUser />
   },
 ];
 

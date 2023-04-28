@@ -16,7 +16,7 @@ import {
     addTask,
     setIsSync,
     getAssociatedCompanyBranch,
-    getDepartmentData,
+    getDepartments,
 } from "@Redux";
 import {
     CREATE_INTERNAL,
@@ -48,9 +48,9 @@ function AddTask() {
         useState();
     const [photo, setPhoto] = useState<any>([]);
     const [companyUserDashboard, setCompanyUserDashboard] = useState<any>();
-    const [departmentDataList,setDepartmentDatalist]=useState<any>();
+    const [departmentDataList, setDepartmentDatalist] = useState<any>();
     const [selectedCompany, setSelectedCompany] = useState<any>({});
-    const[selectDepartment,setSelectDepartment]=useState<any>({})
+    const [selectDepartment, setSelectDepartment] = useState<any>({})
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
@@ -80,7 +80,7 @@ function AddTask() {
             eta_time: eta,
         };
 
-        const validation = validate(  typeSelect?.id === "1"?CREATE_EXTERNAL: CREATE_INTERNAL, params);
+        const validation = validate(typeSelect?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
 
         if (ifObjectExist(validation)) {
             dispatch(
@@ -147,63 +147,63 @@ function AddTask() {
     }, []);
 
     useEffect(() => {
-        if(selectDepartment?.id){
-        const params = {
-            branch_id:
-                typeSelect?.id === "2"
-                    ? dashboardDetails?.permission_details?.branch_id
-                    : selectedCompany?.id || "",
-        department_id:selectDepartment?.id
-        
-        };
+        if (selectDepartment?.id) {
+            const params = {
+                branch_id:
+                    typeSelect?.id === "2"
+                        ? dashboardDetails?.permission_details?.branch_id
+                        : selectedCompany?.id || "",
+                department_id: selectDepartment?.id
 
-        dispatch(
-            getEmployees({
-                params,
-                onSuccess: (response: any) => () => {
-                    let companiesDashboard: any = [];
-                    response?.details?.forEach((item) => {
-                        companiesDashboard = [...companiesDashboard, {...item, designation:item?.designation?.name,department:item?.department?.name}];
-                    });
-                    setCompanyUserDashboard(companiesDashboard);
-                },
-                onError: (error) => () => {
-                    setCompanyUserDashboard([]);
-                },
-            })
-        );
+            };
+
+            dispatch(
+                getEmployees({
+                    params,
+                    onSuccess: (response: any) => () => {
+                        let companiesDashboard: any = [];
+                        response?.details?.forEach((item) => {
+                            companiesDashboard = [...companiesDashboard, { ...item, designation: item?.designation?.name, department: item?.department?.name }];
+                        });
+                        setCompanyUserDashboard(companiesDashboard);
+                    },
+                    onError: (error) => () => {
+                        setCompanyUserDashboard([]);
+                    },
+                })
+            );
         }
-    }, [typeSelect,selectDepartment]);
+    }, [typeSelect, selectDepartment]);
 
 
     useEffect(() => {
-        if(selectedCompany?.id|| typeSelect?.id === "2"){
-        const params = {
-            branch_id:
-                typeSelect?.id === "2"
-                    ? dashboardDetails?.permission_details?.branch_id
-                    : selectedCompany?.id || "",
-        };
-        dispatch(
-            getDepartmentData({
-                params,
-                onSuccess: (response: any) => () => {
-                    let departmentDetails:any =[];
-                    response?.details?.data?.forEach((item)=>{
-                        departmentDetails=[...departmentDetails,{...item,text:item.name}]
-                    })
-                    setDepartmentDatalist(departmentDetails)
-                },
-                onError: (error) => () => {
-                    setDepartmentDatalist([])
-                 
-                },
-            })
-        );
+        if (selectedCompany?.id || typeSelect?.id === "2") {
+            const params = {
+                branch_id:
+                    typeSelect?.id === "2"
+                        ? dashboardDetails?.permission_details?.branch_id
+                        : selectedCompany?.id || "",
+            };
+            dispatch(
+                getDepartments({
+                    params,
+                    onSuccess: (response: any) => () => {
+                        let departmentDetails: any = [];
+                        response?.details?.data?.forEach((item) => {
+                            departmentDetails = [...departmentDetails, { ...item, text: item.name }]
+                        })
+                        setDepartmentDatalist(departmentDetails)
+                    },
+                    onError: (error) => () => {
+                        setDepartmentDatalist([])
+
+                    },
+                })
+            );
 
         }
     }, [typeSelect, selectedCompany]);
-    
+
     const handleEtaChange = (value: any) => {
         setEta(value);
     };
@@ -212,18 +212,18 @@ function AddTask() {
         <div>
             <HomeContainer isCard >
 
-            <div className='row col '>
-          <div
-          onClick={()=>goBack()} 
-          ><Image  
-                    size={'sm'}
-                    variant='rounded'
-                    className='bg-white mt--1  pl-2'
-                    src={icons.backArrow}   /></div>
-      <div className='pl-2'>  <h3>{translate("common.addTask")!}</h3>
-      </div>
-        </div>
-        <hr className='mt-3'></hr>
+                <div className='row col '>
+                    <div
+                        onClick={() => goBack()}
+                    ><Image
+                            size={'sm'}
+                            variant='rounded'
+                            className='bg-white mt--1  pl-2'
+                            src={icons.backArrow} /></div>
+                    <div className='pl-2'>  <h3>{translate("common.addTask")!}</h3>
+                    </div>
+                </div>
+                <hr className='mt-3'></hr>
                 <div className="col-md-9 col-lg-7">
                     <Input
                         heading={translate("auth.title")}
@@ -275,36 +275,36 @@ function AddTask() {
                         />
                     )}
 
-                     {departmentDataList  && departmentDataList.length>0 &&<DropDown     
-                            heading={'Department'}
-                            placeHolder={'please select a Department...'}
-                            data={departmentDataList}
-                            onChange={setSelectDepartment}
-                            selected={selectDepartment}
-                        />
-                     }
+                    {departmentDataList && departmentDataList.length > 0 && <DropDown
+                        heading={'Department'}
+                        placeHolder={'please select a Department...'}
+                        data={departmentDataList}
+                        onChange={setSelectDepartment}
+                        selected={selectDepartment}
+                    />
+                    }
 
-        {companyUserDashboard && companyUserDashboard.length>0&&  
-         <AutoCompleteDropDownImage
-         heading={translate("common.user")!}
-         placeholder={'please select a user...'}
-            value={selectedUser}
-            getItemValue={(item)=>item.name}
-            item={companyUserDashboard}
-            onChange={(event,value) => setSelectedUser(value)}
-            onSelect={(value,item) => {
-                setSelectedUser(value);
-                setSelectedUserId(item)
-            }}
-          />}
+                    {companyUserDashboard && companyUserDashboard.length > 0 &&
+                        <AutoCompleteDropDownImage
+                            heading={translate("common.user")!}
+                            placeholder={'please select a user...'}
+                            value={selectedUser}
+                            getItemValue={(item) => item.name}
+                            item={companyUserDashboard}
+                            onChange={(event, value) => setSelectedUser(value)}
+                            onSelect={(value, item) => {
+                                setSelectedUser(value);
+                                setSelectedUserId(item)
+                            }}
+                        />}
 
-                 <div className="mt--3"> <DropDown
+                    <div className="mt--3"> <DropDown
                         heading={translate("common.taskPriority")!}
                         selected={selectedTicketPriority.value}
                         placeHolder={'please select a task priority...'}
                         data={PRIORITY}
                         onChange={selectedTicketPriority.onChange} />
-                        </div>  
+                    </div>
                     <DateTimePicker
                         heading={'Select ETA'}
                         id="eta-picker"
@@ -331,9 +331,9 @@ function AddTask() {
                                     onSelect={(image) => {
                                         let file = image.toString().replace(/^data:(.*,)?/, "");
                                         handleImagePicker(index, file);
-                                        {selectDropzone.length>0 && setSelectDropzone([{ id: "1" }, { id: "2" }]);}
-                                       { selectDropzone.length>1 && setSelectDropzone([{ id: "1" }, { id: "2" },{ id: "3" }]);}
-                                        { selectDropzone.length>2 && setSelectDropzone([{ id: "1" }, { id: "2" },{ id: "3" }, { id: "4" }]);}
+                                        { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
+                                        { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
+                                        { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
                                     }}
                                 />
                             );

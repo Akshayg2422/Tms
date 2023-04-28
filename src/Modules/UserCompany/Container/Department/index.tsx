@@ -1,4 +1,4 @@
-import { addDepartment, getDepartmentData } from "@Redux";
+import { addDepartment, getDepartments } from "@Redux";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP } from "@Utils";
@@ -29,9 +29,9 @@ function Department() {
   );
 
   const {
-    departmentData,
-    departmentCurrentPages,
-    departmentNumOfPages,
+    departments,
+    departmentsCurrentPages,
+    departmentsNumOfPages,
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
@@ -45,7 +45,7 @@ function Department() {
   ]
   const dynamicHeight: any = useDynamicHeight()
   const [showDepartments, setShowDepartments] = useState(false);
-  const [departmentDataList, setDepartmentDataList] = useState(departmentData);
+  const [departmentDataList, setDepartmentDataList] = useState(departments);
   const [department, setDepartment] = useState("");
   const [editDepartment, setEditDepartment] = useState("");
   const [editIsAdmin, setEditIsAdmin] = useState<boolean>();
@@ -69,7 +69,7 @@ function Department() {
       page_number: pageNumber
     };
     dispatch(
-      getDepartmentData({
+      getDepartments({
         params,
         onSuccess: (response: any) => () => {
           if (!showDepartments) {
@@ -104,7 +104,7 @@ function Department() {
           onSuccess: (success: any) => () => {
             addDepartMentModal.hide()
             editDepartmentModal.hide()
-            getDepartmentList(departmentCurrentPages)
+            getDepartmentList(departmentsCurrentPages)
             showToast(success.message, "success");
             setIsAdmin(false)
             setIsSuperAdmin(false)
@@ -139,7 +139,7 @@ function Department() {
           onSuccess: (success: any) => () => {
             addDepartMentModal.hide()
             addSubDepartmentModal.hide()
-            getDepartmentList(departmentCurrentPages)
+            getDepartmentList(departmentsCurrentPages)
             setAddSubDepartment('')
             setAddSubDepartmentIsAdmin(false)
             setAddSubDepartmentIsSuperAdmin(false)
@@ -290,7 +290,7 @@ function Department() {
               onClick={() => {
                 if (!showDepartments) {
 
-                  getDepartmentList(departmentCurrentPages)
+                  getDepartmentList(departmentsCurrentPages)
                 } else {
                   setShowDepartments(!showDepartments)
                 }
@@ -318,19 +318,19 @@ function Department() {
               isPagination
               tableDataSet={departmentDataList}
               displayDataSet={normalizedDepartmentData(departmentDataList)}
-              noOfPage={departmentNumOfPages}
-              currentPage={departmentCurrentPages}
+              noOfPage={departmentsNumOfPages}
+              currentPage={departmentsCurrentPages}
               paginationNumberClick={(currentPage) => {
 
                 getDepartmentList(paginationHandler("current", currentPage));
 
               }}
               previousClick={() => {
-                getDepartmentList(paginationHandler("prev", departmentCurrentPages))
+                getDepartmentList(paginationHandler("prev", departmentsCurrentPages))
               }
               }
               nextClick={() => {
-                getDepartmentList(paginationHandler("next", departmentCurrentPages));
+                getDepartmentList(paginationHandler("next", departmentsCurrentPages));
               }
               }
 
