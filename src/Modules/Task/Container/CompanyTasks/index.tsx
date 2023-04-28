@@ -7,7 +7,7 @@ import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObj
 import { getTasks, setSelectedTask } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
-import { log } from "console";
+
 
 function CompanyTasks() {
 
