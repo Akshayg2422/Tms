@@ -91,14 +91,14 @@ function* getDesignation(action) {
     const response = yield call(Api.fetchDesignationDataApi, action.payload.params);
 
     if (response.success) {
-      yield put(Action.getDesignationDataSuccess(response.details));
+      yield put(Action.getDesignationsSuccess(response.details));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(Action.getDesignationDataFailure(response.error_message));
+      yield put(Action.getDesignationsFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(Action.getDesignationDataFailure("Invalid Request"));
+    yield put(Action.getDesignationsFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }

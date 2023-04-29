@@ -186,6 +186,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       break;
     case FETCH_DESIGNATION_SUCCESS:
+
       state = {
         ...state,
         loading: false,
