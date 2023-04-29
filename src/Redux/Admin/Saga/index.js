@@ -7,7 +7,6 @@ import {
   getSubTaskApi,
   getReferenceTasksApi,
   getTaskUsersApi,
-  getTicketUsersApi,
 
 
   getTaskSubGroupApi,
@@ -41,9 +40,6 @@ import {
   GET_REFERENCE_TASKS,
   getReferenceTasksSuccess,
   getReferenceTasksFailure,
-  GET_TICKET_USERS,
-  getTicketUsersSuccess,
-  getTicketUsersFailure,
   GET_TASK_HISTORY,
   getTaskHistorySuccess,
   getTaskHistoryFailure
@@ -76,11 +72,6 @@ function* getAssociatedCompanieslSaga(action) {
 }
 
 
-
-
-
-
-
 /* ADD TASK */
 
 function* getAddTaskSaga(action) {
@@ -103,31 +94,6 @@ function* getAddTaskSaga(action) {
     yield call(action.payload.onError(error));
   }
 }
-
-
-
-
-function* getTicketUsersSaga(action) {
-  try {
-
-    const response = yield call(getTicketUsersApi, action.payload.params);
-
-    if (response.success) {
-
-      yield put(getTicketUsersSuccess(response));
-      yield call(action.payload.onSuccess(response));
-    } else {
-
-      yield put(getTicketUsersFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-
-    yield put(getTicketUsersFailure("Invalid Request"));
-    yield call(action.payload.onError(error));
-  }
-}
-
 
 
 
@@ -161,8 +127,6 @@ function* AdminSaga() {
 
   yield takeLatest(GET_ASSOCIATED_COMPANY_BRANCH, getAssociatedCompanieslSaga);
   yield takeLatest(ADD_TASK, getAddTaskSaga);
-  yield takeLatest(GET_TICKET_USERS, getTicketUsersSaga)
-
   yield takeLatest(GET_TASK_SUB_GROUP, getTaskSubGroupSaga)
 
 }

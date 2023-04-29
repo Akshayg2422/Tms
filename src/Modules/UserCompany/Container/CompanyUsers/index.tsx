@@ -16,41 +16,6 @@ function CompanyUsers() {
 
   const { employees, selectedCompany } = useSelector((state: any) => state.UserCompanyReducer);
 
-
-  const editProfileModal = useModal(false);
-  const [editPhoto, setEditPhoto] = useState("");
-  const [photo, setPhoto] = useState("");
-  let attach = [photo]
-  let userProfile = attach.slice(-1, 4)
-
-  const USER_MENU = [
-    { id: '0', name: "Edit", icon: icons.edit },
-  ]
-
-
-  const userProfileEdit = () => {
-
-    const params = {
-      attachment: userProfile[0]
-    };
-
-    dispatch(
-      addUpdateEmployeePhoto({
-        params,
-        onSuccess: () => () => {
-          getCompanyEmployeesApi()
-          editProfileModal.hide()
-        },
-        onError: () => () => {
-          editProfileModal.hide()
-        }
-      })
-    )
-
-
-  }
-
-
   useEffect(() => {
     getCompanyEmployeesApi()
   }, []);
@@ -75,12 +40,7 @@ function CompanyUsers() {
         profile: el?.profile_image && <Image variant={'rounded'} src={getPhoto(el?.profile_image)} />,
         phone: el?.mobile_number,
         email: el?.email,
-        "": <MenuBar menuData={USER_MENU} onClick={(el) => {
-          if (el.id === USER_MENU[0].id) {
-            editProfileModal.show()
-            setEditPhoto(el?.profile_image)
-          }
-        }} />
+    
       };
     });
   };
@@ -94,40 +54,7 @@ function CompanyUsers() {
         <CommonTable card title='User' tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
       </div>
 
-      <Modal
-        isOpen={editProfileModal.visible}
-        onClose={() => {
-          editProfileModal.hide()
-        }}
-        title={translate("auth.task")!}
-      >
-
-        <div className="pb-3">
-          <Dropzone
-            variant="ICON"
-            icon={getPhoto(editPhoto)}
-            size="xl"
-            onSelect={(image) => {
-              let encoded = image.toString().replace(/^data:(.*,)?/, "");
-              setPhoto(encoded);
-            }}
-          />
-        </div>
-        <div className="text-right">
-          <Button
-            color={"secondary"}
-            text={translate("common.cancel")}
-            onClick={() => {
-            }}
-          />
-          <Button
-            text={translate("common.submit")}
-            onClick={() => {
-              userProfileEdit();
-            }}
-          />
-        </div>
-      </Modal>
+    
     </div>
   )
 }

@@ -6,4 +6,5 @@ export interface ModalProps extends RsModalProps {
     title?: string;
     size?: 'lg' | 'sm' | 'xl' | 'md';
     onClose ?: () => void
+    style?:any;
 } 

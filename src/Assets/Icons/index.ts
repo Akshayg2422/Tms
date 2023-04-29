@@ -111,5 +111,6 @@ export const icons = {
   broadCast: require('./BroadCast/icon.png'),
   bellIcon: require('./BellIcon/icon.png'),
   editLineIcon: require('./EditLine/editing.png'),
-  subTask: require('./SubTask/icon.png')
+  subTask: require('./SubTask/icon.png'),
+  imageEdit: require('./ImageEdit/edit.png')
 };

@@ -1,31 +1,73 @@
-import { Image, Card, Modal, Button } from "@Components";
+import { Image, Card, Modal, Button, Dropzone } from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
 import { getObjectFromArrayByKey, GENDER_LIST, } from '@Utils'
-import { userLogout } from '@Redux'
+import { addUpdateEmployeePhoto, getDashboard,  userLogout } from '@Redux'
 import { ROUTES } from "@Routes"
+import { useState } from "react";
+import { translate } from "@I18n";
+import { icons } from "@Assets";
 
 function Profile() {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-  const { company_branch, user_details } = dashboardDetails;
+  const { company_branch, user_details,company } = dashboardDetails||''
   const { height } = useWindowDimensions()
   const logoutModal = useModal(false)
+  const editProfileModal = useModal(false);
+  const [editPhoto, setEditPhoto] = useState("");
+  const [photo, setPhoto] = useState("");
   const dispatch = useDispatch()
   const { goTo } = useNavigation()
+
+
+  const userProfileEdit = () => {
+
+    const params = {
+      attachment: photo
+    };
+
+    dispatch(
+      addUpdateEmployeePhoto({
+        params,
+        onSuccess: () => () => {
+         
+          const params = {}
+          dispatch(getDashboard({
+            params,
+            onSuccess: (response) => () => {
+   
+      
+            },
+            onError: () => () => { }
+          }));
+         editProfileModal.hide()
+        },
+        onError: () => () => {
+           editProfileModal.hide()
+        }
+      })
+    )
+
+
+  }
 
   return (
     <>
 
       <Card
         title={'Profile'}
-        className="m-3" style={{
-          height: height
-        }}>
+        className="m-3"
+        //  style={{
+        //   height: height
+        // }}
+        >
         <div>
           <div className="col text-right">
             <Button color={'white'} size={'sm'} text={'Logout'} onClick={logoutModal.show} />
           </div>
+         <div className="text-center mb--3 ml-7" onClick={()=>{editProfileModal.show()
+        setEditPhoto(user_details?.profile_photo)}}><Image size={'sm'}  src={icons.imageEdit} height={15} width={15}/></div> 
           <div className="text-center mb-5">
             {user_details && user_details?.profile_photo && <Image size={'xxl'} variant={'rounded'} src={getPhoto(user_details?.profile_photo)} />}
           </div>
@@ -39,7 +81,7 @@ function Profile() {
             </div>
             <div className="col-xl-6">
               <h5 className="ct-title text-muted mb-0">Gender</h5>
-              <h4 className="ct-title">{getObjectFromArrayByKey(GENDER_LIST, 'id', user_details?.gender).text}</h4>
+              <h4 className="ct-title">{getObjectFromArrayByKey(GENDER_LIST, 'id', user_details?.gender)?.text}</h4>
             </div>
           </div>
 
@@ -55,6 +97,9 @@ function Profile() {
           </div>
 
           <hr></hr>
+          <div className="text-center mb-5">
+            {user_details && user_details?.profile_photo && <Image size={'xxl'} variant={'rounded'} src={getPhoto(company?.attachment_logo)} />}
+          </div>
 
           <h3 className="ct-title undefined">Company Details</h3>
 
@@ -70,6 +115,44 @@ function Profile() {
           </div>
         </div>
       </Card>
+
+      <Modal
+        isOpen={editProfileModal.visible}
+        onClose={() => {
+          editProfileModal.hide()
+        }}
+        title={'Profile Edit'}
+        size={'sm'}
+      >
+
+        <div className="pb-3">
+          <Dropzone
+            variant="ICON"
+            icon={getPhoto(editPhoto)}
+            size="xl"
+            onSelect={(image) => {
+              let encoded = image.toString().replace(/^data:(.*,)?/, "");
+               setPhoto(encoded);
+            }}
+          />
+        </div>
+        <div className="text-right">
+          <Button
+          size={'sm'}
+            color={"secondary"}
+            text={translate("common.cancel")}
+            onClick={() => {
+            }}
+          />
+          <Button
+          size={'sm'}
+            text={translate("common.submit")}
+            onClick={() => {
+               userProfileEdit();
+            }}
+          />
+        </div>
+      </Modal>
 
       <Modal title={'Are you sure want to Logout?'} size={'md'} isOpen={logoutModal.visible} fade={false} onClose={logoutModal.hide}  >
         <div className='row'>

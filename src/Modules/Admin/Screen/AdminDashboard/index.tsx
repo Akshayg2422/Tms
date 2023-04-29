@@ -30,9 +30,6 @@ function AdminDashboard() {
           params: {},
           onSuccess: () => () => {
 
-            dispatch(setIsSync({
-              ...isSync, dashboardDetails: true,
-            }))
           },
           onError: () => () => { },
         })
