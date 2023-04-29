@@ -1,4 +1,4 @@
-import { addDesignation, getDesignationData } from '@Redux';
+import { addDesignation, getDesignations } from '@Redux';
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ADD_DESIGNATION, ADD_SECTOR, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP } from "@Utils";
@@ -49,7 +49,7 @@ function Designation() {
     };
 
     dispatch(
-      getDesignationData({
+      getDesignations({
         params,
         onSuccess: (response: any) => () => {
 
