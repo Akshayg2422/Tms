@@ -7,8 +7,8 @@ function ScreenWrapper({ children }: ScreenWrapperProps) {
   const { width, height } = useWindowDimensions()
 
   return <div style={{
-    height: height,
-    width: width
+    // height: height,
+    // width: width
   }}>{children}</div>;
 }
 
