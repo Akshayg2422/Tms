@@ -1,20 +1,23 @@
 import {
     Button,
     DropDown,
-    HomeContainer,
     Input,
     Radio,
     Dropzone,
     showToast,
     DateTimePicker,
-    Image
+    AutoCompleteDropDownImage,
+    Card,
+    Back
 } from "@Components";
 import { translate } from "@I18n";
 import {
     getEmployees,
     addTask,
-    setIsSync,
-    getAssociatedCompanyBranch,
+    getDepartments,
+    getDesignations,
+    getAssociatedCompaniesL
+
 } from "@Redux";
 import {
     CREATE_INTERNAL,
@@ -28,79 +31,127 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
-import { icons } from "@Assets";
 
 function AddSubTask() {
+
+
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
 
-    const [typeSelect, setTypeSelect] = useState(type[0]);
-    const [isSelect, setIsSelect] = useState(false);
 
-    const { dashboardDetails } = useSelector(
-        (state: any) => state.AdminReducer
+    const { dashboardDetails, departments, designations } = useSelector(
+        (state: any) => state.UserCompanyReducer
     );
-    const { isSync } = useSelector((state: any) => state.AppReducer);
     const { selectedTask } = useSelector(
         (state: any) => state.TaskReducer
     );
 
-    const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] =
-        useState();
-    const [photo, setPhoto] = useState<any>([]);
-    const [companyUserDashboard, setCompanyUserDashboard] = useState<any>();
-    const [selectedCompany, setSelectedCompany] = useState<any>({});
-    const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
-    const [image, setImage] = useState("");
-    const referenceNo = useInput("");
     const title = useInput("");
     const description = useInput("");
-    const selectedUser = useDropDown("");
+    const referenceNo = useInput("");
+    const [taskType, setTaskType] = useState(type[1]);
+    const [disableTaskType, setDisableTaskType] = useState([]);
+    const [companies, setCompanies] = useState([])
+    const [companyUsers, setCompanyUsers] = useState([])
+
+
+
+    const [photo, setPhoto] = useState<any>([]);
+    const department = useDropDown({})
+    const designation = useDropDown({})
+    const company = useDropDown({})
+    const taskGroup = useDropDown({})
+    const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
+    const [image, setImage] = useState("");
+    const [selectedUser, setSelectedUser] = useState("");
+    const [selectedUserId, setSelectedUserId] = useState<any>();
+    const [, setDesignations] = useState([])
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
+    let attach = photo.slice(-4, 9)
+
+
+    useEffect(() => {
+        getAssociatedCompaniesApi();
+
+    }, [])
+
+    useEffect(() => {
+        getCompanyEmployeeApi()
+    }, [designation.value, department.value])
+
+
+
+    const getBranchId = () =>
+        taskType?.id === type[1].id
+            ? dashboardDetails?.permission_details?.branch_id
+            : company?.value?.id
+
     const handleImagePicker = (index: number, file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
 
+    function getCompanyEmployeeApi() {
+
+        const params = {
+            branch_id: getBranchId(),
+            ...(department && { department_id: department?.value?.id }),
+            ...(designation && { designation_id: designation?.value?.id })
+        };
+
+
+        console.log(JSON.stringify(params) + '======getCompanyEmployeeApi');
+
+        dispatch(
+            getEmployees({
+                params,
+                onSuccess: (response: any) => () => {
+                    let companiesUser: any = [];
+                    const companyDetails = response?.details
+                    companiesUser = companyDetails.map((item: any) => {
+                        return { ...item, designation: item?.designation?.name, department: item?.department?.name }
+                    });
+                    setCompanyUsers(companiesUser);
+                },
+                onError: (error) => () => {
+                },
+            })
+        );
+    }
+
     const submitTaskHandler = () => {
         const params = {
+
             title: title?.value,
             description: description?.value,
             reference_number: referenceNo?.value,
-            brand_branch_id: selectedCompany?.id || "",
-            assigned_to_id: selectedUser?.value?.id,
+            brand_branch_id: company?.value ? company?.value?.id : '',
+            assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
-            task_attachments: [{ attachments: photo }],
+            task_attachments: [{ attachments: attach }],
             is_parent: false,
             eta_time: eta,
-            parent_id:selectedTask?.id,
+            parent_id: selectedTask?.id
         };
 
-console.log(params)
-        const validation = validate(typeSelect?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
 
+        console.log(JSON.stringify(params) + '=======params');
+
+
+        const validation = validate(taskType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
             dispatch(
                 addTask({
                     params,
                     onSuccess: (response: any) => () => {
-
                         if (response.success) {
                             goBack();
                             showToast(response.message, "success");
                         }
-                        dispatch(
-                            setIsSync({
-                                ...isSync,
-                                issues: false,
-                            })
-                        );
                     },
                     onError: (error) => () => {
-
                         showToast(error.error_message);
-
                     },
                 })
             );
@@ -109,170 +160,138 @@ console.log(params)
         }
     };
 
-    const getCompanyBranchDropdown = (details: any) => {
 
 
-        let companies: any = [];
-
-        if (details && details.length > 0) {
-            details.forEach(({ id, display_name }) => {
-                companies = [
-                    ...companies,
-                    { id: id, text: display_name, name: display_name },
-                ];
-            });
-
-            setModifiedCompanyDropDownData(companies);
-        } else {
-            setTypeSelect(type[1]);
-            setIsSelect(true);
-        }
-    };
-
-    useEffect(() => {
+    function getAssociatedCompaniesApi() {
         const params = { q: "" };
         dispatch(
-            getAssociatedCompanyBranch({
+            getAssociatedCompaniesL({
                 params,
                 onSuccess: (response: any) => () => {
-                    dispatch(
-                        setIsSync({
-                            ...isSync,
-                            companies: false,
+                    const companies = response.details
+                    if (companies && companies.length > 0) {
+                        const displayCompanyDropdown = companies.map(each => {
+                            const { id, display_name } = each
+                            return {
+                                id: id, text: display_name, name: display_name,
+                            }
                         })
-                    );
-                    getCompanyBranchDropdown(response.details);
+                        setCompanies(displayCompanyDropdown)
+                        setDisableTaskType([]);
 
+                    } else {
+                        setTaskType(type[1]);
+                        setDisableTaskType([type[0]] as never);
+                    }
                 },
                 onError: () => () => {
 
                 },
             })
         );
-    }, []);
-
-    useEffect(() => {
-        const params = {
-            branch_id:
-                typeSelect?.id === "2"
-                    ? dashboardDetails?.permission_details?.branch_id
-                    : selectedCompany?.id || "",
-        };
-
-        dispatch(
-            getEmployees({
-                params,
-                onSuccess: (response: any) => () => {
-                    const userDetails=response?.details
-                    let companiesDashboard: any = [];
-                    userDetails.forEach(({ id, name }) => {
-                        companiesDashboard = [...companiesDashboard, { id, text: name }];
-                    });
-                    setCompanyUserDashboard(companiesDashboard);
-                },
-                onError: (error) => () => {
-                    setCompanyUserDashboard([]);
-                },
-            })
-        );
-    }, [typeSelect, selectedCompany]);
+    }
 
     const handleEtaChange = (value: any) => {
         setEta(value);
     };
 
 
+    const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
+
+
     return (
-        <div>
-            <HomeContainer isCard >
-                <div className='row col '>
-                    <div
-                        onClick={() => goBack()}
-                    >
-                        <Image
-                            size={'sm'}
-                            variant='rounded'
-                            className='bg-white mt--1  pl-2'
-                            src={icons.backArrow} />
-                    </div>
-                    <div className='pl-2'>  <h3>{translate("common.addSubTask")!}</h3>
-                    </div>
+        <Card className="m-3">
+            <div className='col'>
+                <div className="row">
+                    <Back />
+                    <h3 className="ml-3">{translate("common.addSubTask")!}</h3>
                 </div>
-                <div className="col-md-9 col-lg-7">
-                    <Input
-                        heading={translate("auth.title")}
-                        value={title.value}
-                        onChange={title.onChange}
-                    />
-                    <Input
-                        heading={translate("auth.description")}
-                        value={description.value}
-                        onChange={description.onChange}
-                    />
-                    <Input
-                        type={"text"}
-                        heading={translate("auth.referenceNo")}
-                        value={referenceNo.value}
-                        onChange={referenceNo.onChange}
-                    />
-                    <div
-                        onClick={() => {
-                            isSelect &&
-                                showToast("there is no associatedBranches in this company");
+            </div>
+            <hr className='mt-3'></hr>
+
+            <div className="col-md-9 col-lg-5">
+                <Input
+                    heading={translate("auth.title")}
+                    value={title.value}
+                    onChange={title.onChange}
+                />
+                <Input
+                    heading={translate("auth.description")}
+                    value={description.value}
+                    onChange={description.onChange}
+                />
+                <Input
+                    type={"text"}
+                    heading={translate("auth.referenceNo")}
+                    value={referenceNo.value}
+                    onChange={referenceNo.onChange}
+                />
+                <div className="mb-2">
+                    <Radio
+                        data={type}
+                        selectItem={taskType}
+                        disableId={disableTaskType}
+                        onRadioChange={(selected) => {
+                            setSelectedUser('')
+                            company.onChange({})
+                            department.onChange({})
+                            designation.onChange({})
+                            if (selected) {
+                                setTaskType(selected);
+                            }
                         }}
-                    >
-                        <Radio
-                            data={type}
-                            selectItem={typeSelect}
-                            disableId={isSelect ? type[1] : ""}
-                            onRadioChange={(selected) => {
-                                setSelectedCompany({});
-                                if (selected) {
-                                    setTypeSelect(selected);
-                                }
-                            }}
-                        />
-                    </div>
-
-                    {typeSelect && typeSelect?.id === "1" && (
-                        <DropDown
-                            heading={translate("common.company")}
-                            data={modifiedCompanyDropDownData}
-                            onChange={setSelectedCompany}
-                            selected={selectedCompany}
-                        />
-                    )} 
-                  {companyUserDashboard&&companyUserDashboard.length>0 &&  <DropDown
-                        selected={selectedUser.value}
-                        heading={translate("common.user")}
-                        data={companyUserDashboard}
-                        onChange={selectedUser.onChange}
                     />
-                  }
+                </div>
 
+                {taskType && taskType?.id === "1" && (
                     <DropDown
-                        selected={selectedTicketPriority.value}
-                        heading={translate("common.ticketPriority")}
-                        data={PRIORITY}
-                        onChange={selectedTicketPriority.onChange}
+                        heading={translate("common.company")!}
+                        placeHolder={'Select a company'}
+                        data={companies}
+                        onChange={(item) => {
+                            company.onChange(item)
+                        }}
+                        selected={company.value}
                     />
-                  
-                    <DateTimePicker
-                        id="eta-picker"
-                        heading="ETA"
-                        placeholder="Select ETA"
-                        type="both"
-                        onChange={handleEtaChange}
-                    />
-                </div>
+                )}
 
-                <div className="pl-3">
-                    <label className={`form-control-label`}>
-                        {translate("auth.attach")}
-                    </label>
-                </div>
+                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
+                    <AutoCompleteDropDownImage
+                        heading={translate("common.user")!}
+                        placeholder={'please select a user...'}
+                        value={selectedUser}
+                        getItemValue={(item) => item.name}
+                        item={companyUsers}
+                        onChange={(event, value) => {
+                            setSelectedUser(value)
+                        }}
+                        onSelect={(value, item) => {
+                            setSelectedUser(value);
+                            setSelectedUserId(item)
+                        }}
+                    />}
 
-                <div className="col-md-9 col-lg-7 pb-4 ">
+                <DropDown
+                    heading={translate("common.taskPriority")!}
+                    selected={selectedTicketPriority.value}
+                    placeHolder={'please select a task priority...'}
+                    data={PRIORITY}
+                    onChange={selectedTicketPriority.onChange} />
+
+                <DateTimePicker
+                    heading={'ETA'}
+                    id="eta-picker"
+                    placeholder={'Select ETA'}
+                    type="both"
+                    onChange={handleEtaChange}
+                />
+            </div>
+
+            <div className="col-md-9 col-lg-5 mt-3">
+                <label className={`form-control-label`}>
+                    {'Add Attachment'}
+                </label>
+                <div>
                     {selectDropzone &&
                         selectDropzone.map((el, index) => {
                             return (
@@ -283,24 +302,27 @@ console.log(params)
                                     onSelect={(image) => {
                                         let file = image.toString().replace(/^data:(.*,)?/, "");
                                         handleImagePicker(index, file);
-                                        setSelectDropzone([{ id: "1" }, { id: "2" }]);
+                                        { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
+                                        { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
+                                        { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
                                     }}
                                 />
                             );
                         })}
                 </div>
+            </div>
 
-                <div className="row justify-content-end">
-                    <div className="col-md-6 col-lg-4  my-4">
-                        <Button
-                            block
-                            text={translate("common.submit")}
-                            onClick={submitTaskHandler}
-                        />
-                    </div>
-                </div>
-            </HomeContainer>
-        </div>
+
+
+            <div className="col mt-4">
+                <Button
+                    text={translate("common.submit")}
+                    onClick={submitTaskHandler}
+                />
+            </div>
+
+        </Card >
+
     );
 }
 

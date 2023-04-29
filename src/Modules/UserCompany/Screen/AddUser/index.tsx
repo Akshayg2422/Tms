@@ -13,7 +13,7 @@ import {
 
 import { useInput, useDropDown, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
-import { addEmployee, getDepartments, getDesignationData, } from "@Redux";
+import { addEmployee, getDepartments, getDesignations, } from "@Redux";
 import { log } from "util";
 
 
@@ -48,7 +48,7 @@ function AddUser() {
     };
 
     dispatch(
-      getDesignationData({
+      getDesignations({
         params,
         onSuccess: (response: any) => () => {
         },

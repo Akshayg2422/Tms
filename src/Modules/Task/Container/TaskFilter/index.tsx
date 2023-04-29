@@ -4,7 +4,7 @@ import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
 import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, } from '@Utils'
 import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartments, getDesignationData } from '@Redux'
+import { getAssociatedCompaniesL, getDepartments, getDesignations } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { icons } from '@Assets'
 
@@ -19,8 +19,8 @@ const FILTER_MENU = [
 ]
 
 
-function 
-TaskFilter({ onParams }: TaskFilterProps) {
+function
+    TaskFilter({ onParams }: TaskFilterProps) {
 
     const dispatch = useDispatch()
     const filteredTask = useDropDown(TASK_FILTER_LIST[2]);
@@ -35,7 +35,7 @@ TaskFilter({ onParams }: TaskFilterProps) {
     const [includeSubTask, setIncludeSubTask] = useState(false)
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
-  
+
 
 
     useEffect(() => {
@@ -70,62 +70,62 @@ TaskFilter({ onParams }: TaskFilterProps) {
 
     const getDesignation = (items: any) => {
 
-        if(items?.id){
-        const params = {
-          branch_id: items.id
-        };
-    
-        dispatch(
-          getDesignationData({
-            params,
-            onSuccess: (response) => () => {
-              let designations: any = [];
-              const designation=response.details.data
-              designation.forEach((item) => {
-                designations = [...designations, { ...item, text: item.name }]
-              })
-              setDesignations(designations)
-            },
-            onError: () => () => {
-                setDesignations([])
-            },
-          })
+        if (items?.id) {
+            const params = {
+                branch_id: items.id
+            };
 
-        );
+            dispatch(
+                getDesignations({
+                    params,
+                    onSuccess: (response) => () => {
+                        let designations: any = [];
+                        const designation = response.details.data
+                        designation.forEach((item) => {
+                            designations = [...designations, { ...item, text: item.name }]
+                        })
+                        setDesignations(designations)
+                    },
+                    onError: () => () => {
+                        setDesignations([])
+                    },
+                })
 
-        
+            );
+
+
         }
-      }
+    }
 
-      const getDepartment = (items: any) => {
+    const getDepartment = (items: any) => {
 
-        if(items?.id){
-        const params = {
-          branch_id: items.id
-        };
-        dispatch(
-            getDepartments({
-            params,
-            onSuccess: (response: any) => () => {
-              
-              let departments: any = [];
-              const department=response.details.data
-              department.forEach((item) => {
-                departments = [...departments, { ...item, text: item.name }]
-              })
-    
-              setDepartments(departments)
-            },
-            onError: (error) => () => {
-              setDepartments([])
-    
-            },
-          })
-        );
+        if (items?.id) {
+            const params = {
+                branch_id: items.id
+            };
+            dispatch(
+                getDepartments({
+                    params,
+                    onSuccess: (response: any) => () => {
+
+                        let departments: any = [];
+                        const department = response.details.data
+                        department.forEach((item) => {
+                            departments = [...departments, { ...item, text: item.name }]
+                        })
+
+                        setDepartments(departments)
+                    },
+                    onError: (error) => () => {
+                        setDepartments([])
+
+                    },
+                })
+            );
         }
-    
-    
-      }
+
+
+    }
 
     function proceedParams(object: any) {
         const updatedParams = { ...params, ...object }
@@ -152,7 +152,7 @@ TaskFilter({ onParams }: TaskFilterProps) {
                             company.onChange({})
                         } else {
                             setAdvanceFilter(false)
-                              setDepartments([])
+                            setDepartments([])
                             setDesignations([])
                             company.onChange({})
                         }
@@ -214,7 +214,7 @@ TaskFilter({ onParams }: TaskFilterProps) {
                         selected={company.value}
                         onChange={(item) => {
                             company.onChange(item)
-                            proceedParams({company: item.id })
+                            proceedParams({ company: item.id })
                             getDesignation(item)
                             getDepartment(item)
                         }}
@@ -222,7 +222,7 @@ TaskFilter({ onParams }: TaskFilterProps) {
                 </div>
                 }
 
-     {departments.length>0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+                {departments.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
@@ -230,14 +230,14 @@ TaskFilter({ onParams }: TaskFilterProps) {
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
-                            proceedParams({department_id: item.id })
-                          
+                            proceedParams({ department_id: item.id })
+
                         }}
                     />
                 </div>
                 }
 
-    {designations.length>0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+                {designations.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("auth.designation")}
@@ -246,7 +246,7 @@ TaskFilter({ onParams }: TaskFilterProps) {
                         onChange={(item) => {
                             designation.onChange(item)
                             proceedParams({ designation_id: item.id })
-                        
+
                         }}
                     />
                 </div>
