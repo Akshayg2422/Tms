@@ -42,7 +42,7 @@ function ReferenceTasks() {
 
   const normalizedTableData = (data: any) => {
 
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
       return {
         issue: el.title,
         "raised by": el?.by_user.name,

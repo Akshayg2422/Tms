@@ -213,7 +213,7 @@ function Department() {
 
   }
   const normalizedDepartmentData = (data: any) => {
-    return data.map((item: any, index: any) => {
+    return data?.map((item: any, index: any) => {
 
       return {
         name: item?.name,

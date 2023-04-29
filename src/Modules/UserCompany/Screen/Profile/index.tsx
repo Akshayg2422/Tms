@@ -1,4 +1,4 @@
-import { Image, Card, Modal, Button, Dropzone } from "@Components";
+import { Image, Card, Modal, Button, Dropzone, showToast } from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
@@ -14,23 +14,22 @@ function Profile() {
   const { company_branch, user_details,company } = dashboardDetails||''
   const { height } = useWindowDimensions()
   const logoutModal = useModal(false)
-  const editProfileModal = useModal(false);
-  const [editPhoto, setEditPhoto] = useState("");
-  const [photo, setPhoto] = useState("");
   const dispatch = useDispatch()
   const { goTo } = useNavigation()
 
 
-  const userProfileEdit = () => {
+  const userProfileEdit = (item) => {
+   
 
     const params = {
-      attachment: photo
+      attachment: item
     };
 
     dispatch(
       addUpdateEmployeePhoto({
         params,
         onSuccess: () => () => {
+          showToast('Updated photo successfully');
          
           const params = {}
           dispatch(getDashboard({
@@ -41,10 +40,11 @@ function Profile() {
             },
             onError: () => () => { }
           }));
-         editProfileModal.hide()
+       
         },
         onError: () => () => {
-           editProfileModal.hide()
+          showToast('Updated photo failure');
+          
         }
       })
     )
@@ -66,10 +66,23 @@ function Profile() {
           <div className="col text-right">
             <Button color={'white'} size={'sm'} text={'Logout'} onClick={logoutModal.show} />
           </div>
-         <div className="text-center mb--3 ml-7" onClick={()=>{editProfileModal.show()
-        setEditPhoto(user_details?.profile_photo)}}><Image size={'sm'}  src={icons.imageEdit} height={15} width={15}/></div> 
           <div className="text-center mb-5">
-            {user_details && user_details?.profile_photo && <Image size={'xxl'} variant={'rounded'} src={getPhoto(user_details?.profile_photo)} />}
+          
+            {user_details && user_details?.profile_photo && <div className="pb-3">
+          <Dropzone
+            variant="ICON"
+            imageVariant={'rounded'}
+            icon={getPhoto(user_details?.profile_photo)}
+            size='xxl'
+            onSelect={(image) => {
+              let encoded = image.toString().replace(/^data:(.*,)?/, "");
+              userProfileEdit(encoded)
+            }}
+            imagePicker={true}
+          />
+
+        </div>
+}
           </div>
 
           <h3 className="ct-title undefined">Basic Information</h3>
@@ -116,7 +129,7 @@ function Profile() {
         </div>
       </Card>
 
-      <Modal
+      {/* <Modal
         isOpen={editProfileModal.visible}
         onClose={() => {
           editProfileModal.hide()
@@ -152,7 +165,7 @@ function Profile() {
             }}
           />
         </div>
-      </Modal>
+      </Modal> */}
 
       <Modal title={'Are you sure want to Logout?'} size={'md'} isOpen={logoutModal.visible} fade={false} onClose={logoutModal.hide}  >
         <div className='row'>

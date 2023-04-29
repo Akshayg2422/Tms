@@ -161,7 +161,7 @@ function Designation() {
   }
 
   const normalizedDesignationData = (data: any) => {
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
       return {
         name: el.name,
         ... (dashboardDetails?.permission_details.is_admin && {

@@ -94,7 +94,7 @@ function AddReferenceTask() {
 
   const normalizedTableData = (data: any) => {
 
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
 
       const isReference = selectedReferenceTask.some(
         (element: any) => element.id === el?.id

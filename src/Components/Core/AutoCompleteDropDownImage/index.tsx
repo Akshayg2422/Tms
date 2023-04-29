@@ -49,7 +49,7 @@ function AutoCompleteDropDownImage({
         onSelect={onSelect}
         
         renderMenu={(children) => (
-          <div className={ `${autoCompleteInputSize===true?"menu designation-scroll-bar":'menu designations-auto-scroll-bar'} `}>{children}</div>
+          <div className={ `${autoCompleteInputSize===true?" designation-scroll-bar":' designations-auto-scroll-bar'} `}>{children}</div>
         )}
         renderItem={(item, isHighlighted) => (
           <div

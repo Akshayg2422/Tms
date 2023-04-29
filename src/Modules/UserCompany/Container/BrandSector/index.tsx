@@ -98,7 +98,7 @@ function BrandSector() {
         }
       };
       const normalizedBrandSectorData = (data: any) => {
-        return data.map((el: any) => {
+        return data?.map((el: any) => {
           return {
             name: el.name,
     

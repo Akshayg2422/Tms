@@ -112,5 +112,6 @@ export const icons = {
   bellIcon: require('./BellIcon/icon.png'),
   editLineIcon: require('./EditLine/editing.png'),
   subTask: require('./SubTask/icon.png'),
-  imageEdit: require('./ImageEdit/edit.png')
+  imageEdit: require('./ImageEdit/edit.png'),
+  updatedProfile: require('./UpdatedProfile/add-photo.png')
 };

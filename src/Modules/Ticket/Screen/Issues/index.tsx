@@ -116,7 +116,7 @@ function Issues() {
 
 
   const normalizedTableData = (data: any) => {
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
       return {
 
         "issue": <div className="row"> <Priority priority={el?.priority} /> <span className="col">{el?.title}</span></div>,

@@ -4,12 +4,15 @@ import { icons } from "@Assets";
 import { DropZoneProps } from "./interfaces";
 import Compressor from "compressorjs";
 
+
 const Dropzone = ({
   onSelect,
   variant = "BUTTON",
   text,
   icon,
   size = "lg",
+  imageVariant='avatar',
+  imagePicker=false,
 }: DropZoneProps) => {
   const fileInputRef = useRef<any>();
   const [image, setImage] = useState<any>(icon);
@@ -64,13 +67,23 @@ const Dropzone = ({
             onChange={handleChange}
             accept="image/*"
           />
-          
-          <Image
+
+
+         <div><Image
             src={image || icons.addFillSquare}
-            variant="avatar"
+            variant={imageVariant}
             onClick={handleRefClick}
             size={size}
           />
+          </div> 
+
+       { imagePicker &&  <div className="mt--4 ml-5  " ><Image size={'xs'} src={icons.updatedProfile}  
+       variant={'avatar'}
+            onClick={handleRefClick}height={14} width={14}
+            style={{position:'absolute',backgroundColor:"white"}}/>
+            </div>
+}
+           
         </>
       )}
     </>

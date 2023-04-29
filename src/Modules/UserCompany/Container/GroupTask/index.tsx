@@ -286,7 +286,7 @@ function GroupTask() {
   }, [subCheckBox])
 
   const normalizedTaskGroupData = (data: any) => {
-    return data.map((el: any,) => {
+    return data?.map((el: any,) => {
 
       return {
         name: <div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
@@ -538,8 +538,6 @@ function GroupTask() {
           />
         </div>
       </Modal>
-
-
       <Modal
 
         isOpen={editTaskGroupModal.visible}
