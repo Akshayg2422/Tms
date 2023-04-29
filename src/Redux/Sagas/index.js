@@ -7,6 +7,7 @@ import CompanySaga from '../Company/Saga';
 import UserCompanySaga from '../UserCompany/Saga';
 import TaskSaga from '../Task/Saga';
 import CommunicationSaga from '../Communication/Saga';
+import TicketSaga from '../Ticket/Saga';
 
 
 export default function* rootSaga() {
@@ -17,4 +18,5 @@ export default function* rootSaga() {
   yield all([fork(UserCompanySaga)]);
   yield all([fork(TaskSaga)]);
   yield all([fork(CommunicationSaga)]);
+  yield all([fork[TicketSaga]]);
 }

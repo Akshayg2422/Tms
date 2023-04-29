@@ -3,19 +3,13 @@ import {
   GET_ASSOCIATED_COMPANY_BRANCH,
   GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
   GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
-  SET_SELECTED_ISSUES,
-  SET_REFERENCE_SELECTED_ISSUES,
 
   COMPANY_SELECTED_DETAILS,
-  REFERENCE_ISSUE_DETAILS,
   RESTORE_ADMIN,
   ADD_TASK,
   ADD_TASK_SUCCESS,
   ADD_TASK_FAILURE,
   GET_TASKS_ITEM,
-  GET_TICKET_USERS,
-  GET_TICKET_USERS_SUCCESS,
-  GET_TICKET_USERS_FAILURE,
   GET_CURRENT_PAGE,
   GET_REFERENCE_ID,
   GET_SUBTASK_ID,
@@ -30,14 +24,10 @@ import { AdminStateProp } from '../../Interfaces';
 
 
 const initialState: AdminStateProp = {
-
   dashboardDetails: undefined,
-  selectedIssues: undefined,
   loading: false,
   error: '',
   companyDetailsSelected: undefined,
-  referenceIssueSelectedDetails: undefined,
-  selectedReferenceIssues: undefined,
   companyBranchNames: undefined,
   tasks: undefined,
   taskNumOfPages: undefined,
@@ -46,13 +36,11 @@ const initialState: AdminStateProp = {
   subTasks: undefined,
   taskItem: undefined,
   current: undefined,
-
   referencesTasks: undefined,
   referencesTasksNumOfPages: undefined,
   referencesTasksCurrentPages: undefined,
   taskUsers: undefined,
   showSubTaskGroup: undefined,
-  ticketEmployees: undefined,
   getReferenceId: undefined,
   getSubTaskId: undefined,
   loginUserSuccess: false,
@@ -77,23 +65,6 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       break;
     case GET_ASSOCIATED_COMPANY_BRANCH_FAILURE:
       state = { ...state };
-      break;
-
-    /**get_ticket_users */
-    case GET_TICKET_USERS:
-      state = {
-        ...state
-      };
-
-      break;
-    case GET_TICKET_USERS_SUCCESS:
-      state = {
-        ...state,
-        ticketEmployees: action.payload,
-      };
-      break;
-    case GET_TICKET_USERS_FAILURE:
-      state = { ...state, ticketEmployees: undefined };
       break;
 
     //get designations
@@ -137,32 +108,6 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
         companyDetailsSelected: action.payload
       };
       break;
-
-    /**
-     * REFERENCE ISSUE DETAILS
-     */
-    case REFERENCE_ISSUE_DETAILS:
-      state = {
-        ...state,
-        referenceIssueSelectedDetails: action.payload,
-      };
-      break;
-
-    /**
-     * Issue Item
-     */
-
-    case SET_SELECTED_ISSUES:
-
-      state = { ...state, selectedIssues: action.payload };
-      break;
-
-    case SET_REFERENCE_SELECTED_ISSUES:
-
-      state = { ...state, selectedReferenceIssues: action.payload };
-      break;
-
-
     /**
  * add BRAND SECTOR
  */

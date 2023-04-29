@@ -3,15 +3,12 @@ import { GetAssociatedCompanies } from '@Services';
 export interface AdminStateProp {
   // associatedCompanies?: GetAssociatedCompanies;
   dashboardDetails?: any;
-  selectedIssues?: any;
   loading?: boolean;
   error?: string;
   // departments?:any;
   // taskGroupDetails:any,
   // designations?:any;
   companyDetailsSelected?: any;
-  referenceIssueSelectedDetails: any;
-  selectedReferenceIssues: any;
   companyBranchNames: any;
   // associatedCompaniesNumOfPages:any,
   // associatedCompaniesCurrentPages:any,
@@ -38,7 +35,6 @@ export interface AdminStateProp {
   referencesTasksNumOfPages: any,
   referencesTasksCurrentPages: any,
   taskUsers: any,
-  ticketEmployees: any;
   current: any;
   // getTaskGroupDetails:any,
   // taskGroupCurrentPages:any,

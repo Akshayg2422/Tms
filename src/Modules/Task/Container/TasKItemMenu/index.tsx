@@ -18,10 +18,12 @@ import { useDropDown, useInput, useModal, useNavigation } from "@Hooks";
 import { icons } from "@Assets";
 import { TGU, RGU, getArrayFromArrayOfObject, EVS, TASK_STATUS_LIST } from '@Utils';
 import { translate } from '@I18n'
+import { useDynamicHeight } from "@Hooks";
 
 
 function TaskItemMenu() {
 
+    const dynamicHeight: any = useDynamicHeight()
     const TASK_STATUS_MENU = [
         {
             id: 0, name: 'Tag User', icon: icons.Equalizer,
@@ -108,7 +110,7 @@ function TaskItemMenu() {
                  */
             }
 
-            <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide}>
+            <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ overflowY: 'auto', maxHeight:  dynamicHeight.dynamicHeight }}>
                 <Employees selection={'multiple'} onSelected={(users) => {
                     const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
                     setTaggedUsers(taggedUserIds)
@@ -129,7 +131,7 @@ function TaskItemMenu() {
                  */
             }
 
-            <Modal fade={false} isOpen={reassignUserModal.visible} onClose={reassignUserModal.hide}>
+            <Modal fade={false} isOpen={reassignUserModal.visible}  style={{ overflowY: 'auto', maxHeight:  dynamicHeight.dynamicHeight }}  onClose={reassignUserModal.hide}>
                 <Employees selection={'single'} onSelected={setReassignUser} />
                 <div className="pt-3 text-right">
                     <Button
