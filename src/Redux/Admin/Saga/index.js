@@ -72,11 +72,6 @@ function* getAssociatedCompanieslSaga(action) {
 }
 
 
-
-
-
-
-
 /* ADD TASK */
 
 function* getAddTaskSaga(action) {

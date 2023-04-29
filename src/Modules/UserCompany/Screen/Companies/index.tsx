@@ -38,7 +38,7 @@ function Companies() {
   };
 
   const normalizedTableData = (data: any) => {
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
       return {
         Company: <div className="row"> <div>
           <Image variant={'rounded'} src={getPhoto(el?.attachment_logo)} /></div>
