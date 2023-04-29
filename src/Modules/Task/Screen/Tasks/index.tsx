@@ -38,7 +38,7 @@ function Tasks() {
       params,
       onSuccess: (response) => () => {
 
-        console.log(JSON.stringify(response) + '=====');
+        // console.log(JSON.stringify(response) + '=====');
 
       },
       onError: () => () => { }
@@ -169,7 +169,7 @@ function Tasks() {
             }
           />
           :
-          <NoDataFound type={'action'} buttonText={'Create Task'}
+          <NoDataFound type={'action'} buttonText={'Create Task'} onClick={()=> goTo(ROUTES["task-module"]["add-task"])}
            />
         }
       </HomeContainer>

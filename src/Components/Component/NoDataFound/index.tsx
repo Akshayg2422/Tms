@@ -3,7 +3,7 @@ import { NoDataFoundProps } from './interfaces'
 import { Image, Button } from '@Components'
 import { icons } from '@Assets'
 
-function NoDataFound({ text = 'No Data Found', type = 'action', buttonText }: NoDataFoundProps) {
+function NoDataFound({ text = 'No Data Found', type = 'action', buttonText ,onClick}: NoDataFoundProps) {
     return (
         <>
             {type === 'text' && <div className="text-muted text-center" >{text}</div>}
@@ -12,7 +12,7 @@ function NoDataFound({ text = 'No Data Found', type = 'action', buttonText }: No
                     <div>
                         <div className='text-center'>
                             <p className='mb-1'><u>{text}</u></p>
-                            <Button size={'sm'} text={buttonText} />
+                            <Button size={'sm'} text={buttonText} onClick={onClick}/>
                         </div>
                     </div >
 
