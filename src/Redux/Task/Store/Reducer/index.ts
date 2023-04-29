@@ -63,7 +63,7 @@ const TaskReducer = (state = initialState, action: any) => {
       }
       break;
     case ActionTypes.GET_TASKS_FAILURE:
-      state = { ...state, tasks: action.payload }
+      state = { ...state, tasks: undefined }
       break;
 
     /**
