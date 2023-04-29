@@ -18,7 +18,7 @@ import {
   addDepartment,
   addDesignation,
   getDepartments,
-  getDesignationData,
+  getDesignations,
   addBrandSector,
   addTicketTag,
   getBrandSector,
@@ -219,7 +219,7 @@ function Settings() {
     };
 
     dispatch(
-      getDesignationData({
+      getDesignations({
         params,
         onSuccess: (response: any) => () => {
 

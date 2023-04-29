@@ -19,7 +19,7 @@ function Radio({
       onRadioChange(selected);
     }
   }
-  
+
 
   function renderContent() {
     return (
@@ -27,24 +27,23 @@ function Radio({
         {data?.map((item: RadioItem, index: number) => {
           const { id, text } = item;
           let isSelected: boolean = false;
-          let isDisable: boolean = false;
-          isDisable = disableId;
+          const disable = disableId?.some(each => each.id === item.id)
 
           if (selectItem) {
             isSelected = item.id === selectItem.id;
           }
+
           return (
             <div
               key={id}
-              className={`custom-control custom-radio  mb-2 ${
-                variant === "row" && index !== 0 && "ml-4"
-              }`}
+              className={`custom-control custom-radio  mb-2 ${variant === "row" && index !== 0 && "ml-4"
+                }`}
             >
               <input
                 className={"custom-control-input"}
                 id={id}
                 name={id}
-                disabled={isDisable}
+                disabled={disable}
                 type={"radio"}
                 onChange={() => onChangeHandler(item)}
                 checked={isSelected}
