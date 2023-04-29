@@ -5,19 +5,13 @@ import {
   GET_ASSOCIATED_COMPANY_BRANCH,
   GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
   GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
-  SET_SELECTED_ISSUES,
-  SET_REFERENCE_SELECTED_ISSUES,
   COMPANY_SELECTED_DETAILS,
-  REFERENCE_ISSUE_DETAILS,
   RESTORE_ADMIN,
   ADD_TASK,
   ADD_TASK_SUCCESS,
   ADD_TASK_FAILURE,
 
   GET_TASKS_ITEM,
-  GET_TICKET_USERS,
-  GET_TICKET_USERS_SUCCESS,
-  GET_TICKET_USERS_FAILURE,
   GET_CURRENT_PAGE,
 
   GET_REFERENCE_ID,
@@ -65,25 +59,6 @@ export const getAssociatedCompanyBranchFailure = (error: any) => {
 };
 
 
-
-/**
- *
- */
-
-export const setSelectedIssues = (response: any) => {
-  return {
-    type: SET_SELECTED_ISSUES,
-    payload: response,
-  };
-};
-export const setSelectedReferenceIssues = (response: any) => {
-
-  return {
-    type: SET_REFERENCE_SELECTED_ISSUES,
-    payload: response,
-  };
-};
-
 /**
  * COMPANY SELECTED DETAILS
  */
@@ -91,12 +66,6 @@ export const companySelectedDetails = (response) => {
   return {
     type: COMPANY_SELECTED_DETAILS,
     payload: response,
-  }
-}
-export const referenceIssueDetails = (params) => {
-  return {
-    type: REFERENCE_ISSUE_DETAILS,
-    payload: params,
   }
 }
 
@@ -159,32 +128,6 @@ export const getSelectSubTaskId = (response) => {
     type: GET_SUBTASK_ID,
     payload: response,
 
-  }
-}
-
-
-export const getTicketUsers = (params: any) => {
-
-  return {
-    type: GET_TICKET_USERS,
-    payload: params
-  }
-}
-
-export const getTicketUsersSuccess = (response: any) => {
-
-
-  return {
-
-    type: GET_TICKET_USERS_SUCCESS,
-    payload: response
-  }
-}
-
-export const getTicketUsersFailure = (error: any) => {
-  return {
-    type: GET_TICKET_USERS_FAILURE,
-    payload: error
   }
 }
 

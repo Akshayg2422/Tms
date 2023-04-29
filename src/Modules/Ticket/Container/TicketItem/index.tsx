@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TicketItemProps } from "./interfaces";
 import { H, Image, Badge, Divider } from "@Components";
 import { useDispatch } from "react-redux";
-import { setSelectedIssues, setSelectedReferenceIssues } from "@Redux";
+import { setselectedTicket, setselectedReferenceTickets } from "@Redux";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { getPhoto } from "@Utils";
@@ -27,7 +27,7 @@ function TicketItem({ item, divider }: TicketItemProps) {
   const [showPriorityColor, setShowPriorityColor] = useState("");
   const [showPriority, setShowPriority] = useState("");
 
-  const { selectedReferenceIssues } = useSelector(
+  const { selectedReferenceTickets } = useSelector(
     (state: any) => state.AdminReducer
   );
 
@@ -74,8 +74,8 @@ function TicketItem({ item, divider }: TicketItemProps) {
     <div
       className="row d-flex justify-content-center"
       onClick={() => {
-        dispatch(setSelectedIssues(item));
-        dispatch(setSelectedReferenceIssues(undefined))
+        dispatch(setselectedTicket(item));
+        dispatch(setselectedReferenceTickets(undefined))
         goTo( HOME_PATH.ISSUE_DETAILS);
       }}
     >

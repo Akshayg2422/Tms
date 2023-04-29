@@ -8,7 +8,7 @@ import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { TicketFilter } from "../../Container";
 import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
-import { setSelectedReferenceIssues, setSelectedIssues } from "@Redux";
+import { setselectedReferenceTickets, setselectedTicket } from "@Redux";
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
 import { icons } from "@Assets";
 
@@ -325,8 +325,8 @@ function Issues() {
               }
               }
               tableOnClick={(idx, index, item) => {
-                dispatch(setSelectedIssues(item));
-                dispatch(setSelectedReferenceIssues(undefined))
+                dispatch(setselectedTicket(item));
+                dispatch(setselectedReferenceTickets(undefined))
                 goTo(HOME_PATH.ISSUE_DETAILS);
               }
               }

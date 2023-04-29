@@ -10,15 +10,15 @@ function Attachments() {
   const dispatch = useDispatch();
   const search = useInput("");
   const { ticketEvents } = useSelector((state: any) => state.CompanyReducer);
-  const { selectedIssues, selectedReferenceIssues } = useSelector(
+  const { selectedTicket, selectedReferenceTickets } = useSelector(
     (state: any) => state.AdminReducer
   );
 
   useEffect(() => {
     const params = {
-      ticket_id: selectedReferenceIssues
-        ? selectedReferenceIssues?.id
-        : selectedIssues?.id,
+      ticket_id: selectedReferenceTickets
+        ? selectedReferenceTickets?.id
+        : selectedTicket?.id,
       event_type: MEA,
     };
 
@@ -29,13 +29,13 @@ function Attachments() {
         onFailure: () => () => { },
       })
     );
-  }, [selectedIssues, selectedReferenceIssues]);
+  }, [selectedTicket, selectedReferenceTickets]);
 
   const getSearchHandler = () => {
     const params = {
-      ticket_id: selectedReferenceIssues
-        ? selectedReferenceIssues?.id
-        : selectedIssues?.id,
+      ticket_id: selectedReferenceTickets
+        ? selectedReferenceTickets?.id
+        : selectedTicket?.id,
       q_many: search.value,
       event_type: MEA,
     };

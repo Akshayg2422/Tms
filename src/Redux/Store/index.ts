@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { AppReducer, AuthReducer, CompanyReducer, AdminReducer, UserCompanyReducer, TaskReducer, CommunicationReducer } from '@Redux';
+import { AppReducer, AuthReducer, CompanyReducer, AdminReducer, UserCompanyReducer, TaskReducer, CommunicationReducer,TicketReducer } from '@Redux';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -19,7 +19,8 @@ const reducer = combineReducers({
   AdminReducer,
   UserCompanyReducer,
   TaskReducer,
-  CommunicationReducer
+  CommunicationReducer,
+  TicketReducer
 });
 
 const rootReducer = (state: any, action: any) => {

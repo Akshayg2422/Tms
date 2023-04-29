@@ -1,7 +1,7 @@
 import { HomeContainer, NoDataFound, CommonTable } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTickets, setIsSync, setSelectedReferenceIssues } from "@Redux";
+import { getReferenceTickets, setIsSync, setselectedReferenceTickets } from "@Redux";
 import {  getStatusFromCode, paginationHandler } from "@Utils";
 import { HOME_PATH } from "@Routes";
 import { useNavigation } from "@Hooks";
@@ -9,10 +9,10 @@ import { useNavigation } from "@Hooks";
 function ReferenceTickets() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
-  const { issueReferenceDetails, referenceTicketNoOfPages, referenceTicketCurrentPages } = useSelector(
+  const { ticketReferenceDetails, referenceTicketNoOfPages, referenceTicketCurrentPages } = useSelector(
     (state: any) => state.CompanyReducer
   );
-  const { selectedIssues, selectedReferenceIssues, dashboardDetails } = useSelector(
+  const { selectedTicket, selectedReferenceTickets, dashboardDetails } = useSelector(
     (state: any) => state.AdminReducer
   );
 
@@ -22,15 +22,15 @@ function ReferenceTickets() {
     if (!isSync.referenceTickets) {
       proceedgetReferenceTickets(referenceTicketCurrentPages);
     }
-  }, [isSync,selectedReferenceIssues]);
+  }, [isSync,selectedReferenceTickets]);
 
 
   const proceedgetReferenceTickets = (pageNumber: number) => {
     const params = {
       pageNumber: pageNumber,
-      id: selectedReferenceIssues
-        ? selectedReferenceIssues?.id
-        : selectedIssues?.id,
+      id: selectedReferenceTickets
+        ? selectedReferenceTickets?.id
+        : selectedTicket?.id,
       q: "",
     };
 
@@ -70,14 +70,14 @@ function ReferenceTickets() {
 
 
     <div className="my-3">
-      {issueReferenceDetails && issueReferenceDetails?.length > 0 ?
+      {ticketReferenceDetails && ticketReferenceDetails?.length > 0 ?
         <CommonTable
           isPagination
-          tableDataSet={issueReferenceDetails}
+          tableDataSet={ticketReferenceDetails}
           currentPage={referenceTicketCurrentPages}
           noOfPage={referenceTicketNoOfPages}
           title={"Reference Details"}
-          displayDataSet={normalizedTableData(issueReferenceDetails)}
+          displayDataSet={normalizedTableData(ticketReferenceDetails)}
           paginationNumberClick={(currentPage) => {
             proceedgetReferenceTickets(paginationHandler("current", currentPage));
           }}
@@ -90,11 +90,11 @@ function ReferenceTickets() {
           }
           }
           // tableOnClick={(e, index, item) => {
-          //   const selectedItem = issueReferenceDetails.data?.[index]
+          //   const selectedItem = ticketReferenceDetails.data?.[index]
           // }
           tableOnClick={(idx, index, item) => {
-            // dispatch(setSelectedIssues(item));
-            dispatch(setSelectedReferenceIssues(item))
+            // dispatch(setselectedTicket(item));
+            dispatch(setselectedReferenceTickets(item))
             goTo(HOME_PATH.ISSUE_DETAILS);
           }
         
