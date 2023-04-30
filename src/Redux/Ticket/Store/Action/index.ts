@@ -191,14 +191,14 @@ export const getTicketUsersFailure = (error: any) => {
   }
 }
 
-  export const setselectedTicket = (response: any) => {
+  export const setSelectedTicket = (response: any) => {
     return {
       type: ActionTypes.SET_SELECTED_TICKET,
       payload: response,
     };
   };
 
-  export const setselectedReferenceTickets = (response: any) => {
+  export const setSelectedReferenceTickets = (response: any) => {
   
     return {
       type: ActionTypes.SET_REFERENCE_SELECTED_TICKETS,
