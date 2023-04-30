@@ -251,26 +251,23 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         brandSector: undefined,
         brandSectorNumOfPages: 0,
         brandSectorCurrentPages: 1,
-        loading: true
       };
       break;
     case GET_BRAND_SECTOR_SUCCESS:
       state = {
         ...state,
-        loading: false,
-        brandSector: action?.payload?.data,
-        brandSectorNumOfPages: action?.payload?.num_pages,
+        brandSector: action.payload.details.data,
+        brandSectorNumOfPages: action.payload.details.num_pages,
         brandSectorCurrentPages:
-          action?.payload?.next_page === -1
-            ? action?.payload?.num_pages
-            : action?.payload?.next_page - 1,
+          action.payload.details.next_page === -1
+            ? action.payload.details.num_pages
+            : action.payload.details.next_page - 1,
       };
       break;
     case GET_BRAND_SECTOR_FAILURE:
       state = {
         ...state,
         error: action.payload,
-        loading: false,
       };
       break;
 
@@ -283,20 +280,18 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         ticketTag: undefined,
         ticketTagNumOfPages: 0,
         ticketTagCurrentPages: 1,
-        loading: true
       };
 
       break;
     case GET_TICKET_TAG_SUCCESS:
       state = {
         ...state,
-        loading: false,
-        ticketTag: action?.payload?.data,
-        ticketTagNumOfPages: action?.payload?.num_pages,
+        ticketTag: action.payload.details.data,
+        ticketTagNumOfPages: action.payload.details.num_pages,
         ticketTagCurrentPages:
-          action?.payload?.next_page === -1
-            ? action?.payload?.num_pages
-            : action?.payload?.next_page - 1,
+          action.payload.details.next_page === -1
+            ? action.payload.details.num_pages
+            : action.payload.details.next_page - 1,
       };
       break;
     case GET_TICKET_TAG_FAILURE:
