@@ -64,11 +64,11 @@ function Thread() {
                     textMessage.set('')
                     ProceedGetTicketEvents()
                 },
-                onFailure: () => () => { }
+                onError: () => () => { }
             }))
         }
     }
-    
+
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             sendMessageHandler();

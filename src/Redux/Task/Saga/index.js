@@ -1,4 +1,4 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
+import { takeLatest, put, call, takeEvery } from 'redux-saga/effects';
 import * as Action from '../Store'
 import * as Services from '@Services'
 
@@ -91,10 +91,9 @@ function* getTaskEventHistorySaga(action) {
 
 function* getSubTasksSaga(action) {
 
-    console.log(JSON.stringify(action.payload.params) + "====response");
     try {
         const response = yield call(Services.getSubTaskApi, action.payload.params);
-        console.log(JSON.stringify(response));
+
         if (response.success) {
             yield put(Action.getSubTasksSuccess(response));
             yield call(action.payload.onSuccess(response));
@@ -114,16 +113,24 @@ function* getSubTasksSaga(action) {
  */
 
 function* getTaskEventsSaga(action) {
+    console.log('getTaskEventsSaga' + JSON.stringify(action));
     try {
         const response = yield call(Services.getTaskEventsApi, action.payload.params);
+        console.log(JSON.stringify(response) + 'getTaskEventsSaga-----');
         if (response.success) {
+            console.log('sycees');
+
             yield put(Action.getTaskEventsSuccess(response));
             yield call(action.payload.onSuccess(response));
         } else {
+            console.log('sy1111cees');
+
             yield put(Action.getTaskEventsFailure(response.error_message));
             yield call(action.payload.onError(response));
         }
     } catch (error) {
+        console.log('333333' + error);
+
         yield put(Action.getTaskEventsFailure(error));
         yield call(action.payload.onError(error));
     }
@@ -176,6 +183,27 @@ function* getTaskUsersSaga(action) {
 }
 
 
+/**
+ * get Task Event Attachments
+ */
+
+function* getTaskEventAttachmentsSaga(action) {
+    try {
+        const response = yield call(Services.getTaskEventsApi, action.payload.params);
+        if (response.success) {
+            yield put(Action.getTaskEventAttachmentsSuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            yield put(Action.getTaskEventAttachmentsFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+        yield put(Action.getTaskEventAttachmentsFailure(error));
+        yield call(action.payload.onError(error));
+    }
+}
+
+
 function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_GROUPS_L, getTaskGroupLSaga)
     yield takeLatest(Action.GET_TASKS, getTasksSaga)
@@ -185,6 +213,8 @@ function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_EVENTS, getTaskEventsSaga)
     yield takeLatest(Action.GET_REFERENCE_TASKS, getReferenceTasksSaga);
     yield takeLatest(Action.GET_TASK_USERS, getTaskUsersSaga);
+    yield takeLatest(Action.GET_TASK_EVENT_ATTACHMENTS, getTaskEventAttachmentsSaga)
+
 }
 
 export default TaskSaga;

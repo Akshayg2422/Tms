@@ -16,7 +16,10 @@ const initialState: TaskStateProp = {
   referencesTasks: undefined,
   referencesTasksNumOfPages: undefined,
   referencesTasksCurrentPages: 1,
-  taskUsers: undefined
+  taskUsers: undefined,
+  refreshTaskEvents: false,
+  taskEventAttachments: [],
+  taskEventAttachmentsCurrentPage: 1
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -38,7 +41,7 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TASK_GROUPS_L_FAILURE:
       state = { ...state, taskGroups: action.payload };
       break;
-   
+
 
     /**
   * Get Tasks
@@ -63,7 +66,7 @@ const TaskReducer = (state = initialState, action: any) => {
       }
       break;
     case ActionTypes.GET_TASKS_FAILURE:
-      state = { ...state, tasks: action.payload }
+      state = { ...state, tasks: undefined }
       break;
 
     /**
@@ -170,7 +173,6 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
     case ActionTypes.GET_REFERENCE_TASKS_SUCCESS:
 
-      console.log(JSON.stringify(action.payload) + '====GET_REFERENCE_TASKS_SUCCESS');
 
       state = {
         ...state,
@@ -202,6 +204,39 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
     case ActionTypes.GET_TASK_USERS_FAILURE:
       state = { ...state, taskUsers: undefined }
+      break;
+
+
+    /**
+     * refresh Tasks 
+     */
+
+    case ActionTypes.REFRESH_TASK_EVENTS:
+      state = { ...state, refreshTaskEvents: !state.refreshTaskEvents }
+      break;
+
+    /**
+     * get Task Event Attachments
+     */
+
+
+    case ActionTypes.GET_TASK_EVENT_ATTACHMENTS:
+      state = {
+        ...state,
+        taskEventAttachments: action.payload.params.page_number === 1 ? [] : state.taskEventAttachments
+      };
+      break;
+    case ActionTypes.GET_TASK_EVENT_ATTACHMENTS_SUCCESS:
+      state = {
+        ...state,
+        taskEventAttachments: [...state.taskEventAttachments, ...action.payload.details.data],
+        taskEventAttachmentsCurrentPage:
+          action.payload.details.next_page
+      };
+      break;
+
+    case ActionTypes.GET_TASK_EVENT_ATTACHMENTS_FAILURE:
+      state = { ...state, taskEventAttachments: undefined };
       break;
 
     default:

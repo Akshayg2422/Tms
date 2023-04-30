@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button as RSButton } from 'reactstrap';
 import { ButtonProps } from './interfaces';
+import { Image } from '@Components'
 
 function Button({
-  text, color = 'primary', variant = 'default', size = 'md', ...rest
+  text, color = 'primary', variant = 'default', size = 'md', icon, ...rest
 }: ButtonProps) {
   return (
     <>
@@ -24,10 +25,11 @@ function Button({
       }
 
       {variant === 'icon-rounded' &&
-        <RSButton type={'button'} size={size} className={'btn-icon-only rounded-circle'} color={color} {...rest} >
-          <span className={'btn-inner--icon'}>
+        <RSButton type={'button'} size={size} className={'btn-icon-only rounded-circle d-flex align-items-center justify-content-center'} color={color} {...rest} >
+          {/* <span className={'btn-inner--icon'}>
             <i className='ni ni-atom' />
-          </span>
+          </span> */}
+          <Image src={icon} height={15} width={15} />
         </RSButton>
       }
     </>
