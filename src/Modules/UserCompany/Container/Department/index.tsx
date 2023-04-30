@@ -33,13 +33,15 @@ function Department() {
   const [showDepartments, setShowDepartments] = useState(false);
   const isUserAdmin = dashboardDetails.permission_details.is_admin
   const isUserSuperAdmin = dashboardDetails.permission_details.is_super_admin
-  // 
+
 
   const addDepartmentModal = useModal(false)
   const departmentName = useInput('')
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState<any>(undefined);
+  const [isSubTask, setIsSubTask] = useState(false);
+
 
 
 
@@ -124,12 +126,19 @@ function Department() {
 
           if (el?.id === '0') {
             setSelectedDepartment(item)
-            addDepartmentModal.show()
             const { name, is_admin, is_super_admin } = item
             departmentName.set(name)
             setIsAdmin(is_admin)
             setIsSuperAdmin(is_super_admin)
+            setIsSubTask(false)
+          } else if (el?.id === '1') {
+            setIsSubTask(true)
+            setSelectedDepartment(item)
+            resetValues()
           }
+
+          addDepartmentModal.show()
+
 
 
         }} />
@@ -173,6 +182,8 @@ function Department() {
               onClick={() => {
                 addDepartmentModal.show()
                 setSelectedDepartment(undefined)
+                setIsSubTask(false)
+
 
               }
               }
@@ -232,10 +243,10 @@ function Department() {
         <div className="col">
           <div className="row">
             <span className="col-2">
-              {isUserAdmin && <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />}
+              {(isUserAdmin && isSubTask ? selectedDepartment?.is_admin : true) && <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />}
             </span>
             <span className="col-2">
-              {isUserSuperAdmin && <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />}
+              {(isUserSuperAdmin && isSubTask ? selectedDepartment?.is_super_admin : true) && <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />}
             </span>
           </div>
         </div>
@@ -250,18 +261,15 @@ function Department() {
             onClick={() => {
 
 
-              console.log(JSON.stringify(selectedDepartment));
+              console.log(JSON.stringify(selectedDepartment) + "++++++" + isSubTask);
 
               const params = {
-                ...(selectedDepartment && { id: selectedDepartment?.id }),
+                ...((!isSubTask && selectedDepartment) && { id: selectedDepartment?.id }),
+                ...((isSubTask && selectedDepartment) && { parent_id: selectedDepartment?.id }),
                 name: departmentName.value,
                 is_admin: isAdmin,
                 is_super_admin: isSuperAdmin,
               }
-
-              console.log(JSON.stringify(params) + '====');
-
-
               addDepartmentApiHandler(params);
             }}
           />

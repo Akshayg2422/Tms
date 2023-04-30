@@ -55,7 +55,7 @@ function Settings() {
     ticketTagCurrentPages,
     ticketTagNumOfPages,
     // dashboardDetails,
-    getTaskGroupDetails,
+    taskGroups,
     taskGroupCurrentPages,
     taskGroupNumOfPages
   } = useSelector(
@@ -1158,11 +1158,11 @@ function Settings() {
                     margin: '0px -39px 0px -39px'
                   }}
                 >
-                  {getTaskGroupDetails && getTaskGroupDetails?.length > 0 ? (
+                  {taskGroups && taskGroups?.length > 0 ? (
                     <CommonTable
                       isPagination
-                      tableDataSet={getTaskGroupDetails}
-                      displayDataSet={normalizedTaskGroupData(getTaskGroupDetails)}
+                      tableDataSet={taskGroups}
+                      displayDataSet={normalizedTaskGroupData(taskGroups)}
                       noOfPage={taskGroupNumOfPages}
                       currentPage={taskGroupCurrentPages}
                       paginationNumberClick={(currentPage) => {

@@ -106,7 +106,6 @@ function Tag() {
   }
 
 
-  console.log(JSON.stringify(ticketTag) + "=====");
 
 
   return (

@@ -80,7 +80,7 @@ const initialState: UserCompanyStateProp = {
   updateEmployeeProfile: undefined,
   ticketTagCurrentPages: undefined,
   ticketTagNumOfPages: undefined,
-  getTaskGroupDetails: undefined,
+  taskGroups: undefined,
   getTaskGroupCurrentPages: undefined,
   taskGroupDetails: undefined,
   taskGroupCurrentPages: undefined,
@@ -308,7 +308,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = {
         ...state,
         // taskGroupDetails: page_number === 1 ? [] : state.taskGroupDetails,
-        getTaskGroupDetails: undefined,
+        taskGroups: undefined,
         taskGroupNumOfPages: 0,
         taskGroupCurrentPages: 1,
         loading: true
@@ -323,7 +323,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         getTaskGroupCurrentPages:
           action.payload?.details?.next_page,
 
-        getTaskGroupDetails: action?.payload?.details?.data,
+        taskGroups: action?.payload?.details?.data,
         taskGroupNumOfPages: action?.payload?.details?.num_pages,
         taskGroupCurrentPages:
           action?.payload?.details?.next_page === -1
