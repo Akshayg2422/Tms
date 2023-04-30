@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState, useLayoutEffect, RefObject } from "react";
 import {
   Button,
   Card,
@@ -14,32 +14,18 @@ import { translate } from "@I18n";
 import {
   addTicketTag,
   getTicketTag,
-
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
 
 
+
 function Tag() {
 
 
   const dispatch = useDispatch();
-
-
-  const {
-    departments,
-    designations,
-
-    ticketTag,
-
-    ticketTagCurrentPages,
-    ticketTagNumOfPages,
-
-  } = useSelector(
-    (state: any) => state.UserCompanyReducer
-  );
-
+  const { ticketTag, ticketTagCurrentPages, ticketTagNumOfPages, } = useSelector((state: any) => state.UserCompanyReducer);
 
 
   const [tagPhoto, setTagPhoto] = useState("");
@@ -59,9 +45,12 @@ function Tag() {
 
   const dynamicHeight: any = useDynamicHeight()
 
-
   let tagAttach = [tagPhoto]
   let tagPhotoAttach = tagAttach.slice(-1, 4)
+
+
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
 
   const getTicketTagList = (pageNumber: number) => {
 
@@ -143,156 +132,154 @@ function Tag() {
   };
 
 
+  console.log(width + "====" + height);
+
+
   return (
-    <div>
-      <>
-        <Card style={{ height: showTags ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
-          <div className="row">
-            <div className="col">
-              <h3>{translate("auth.tags")}</h3>
-            </div>
-            <div className="text-right mr-3 ">
-              <Button
-                text={
-                  showTags
-                    ? translate("course.hide")
-                    : translate("course.view")
-                }
-                size={"sm"}
-                onClick={() => {
-                  if (!showTags) {
-                    getTicketTagList(ticketTagCurrentPages);
-                  } else {
-                    setShowTags(!showTags)
-                  }
-
-                }}
-              />
-              <Button
-                text={translate("product.addItem")}
-                size={"sm"}
-                onClick={() => { addTagsModal.show() }}
-              />
-            </div>
+    <>
+      <Card style={{ height: showTags ? dynamicHeight.dynamicHeight - 35 : '2em' }}>
+        <div className="row">
+          <div className="col">
+            <h3>{translate("auth.tags")}</h3>
           </div>
-
-
-          <div
-            className="overflow-auto overflow-hide"
-            style={{
-              height: showTags ? dynamicHeight.dynamicHeight - 100 : '0px',
-              margin: '0px -39px 0px -39px'
-            }}
-          >
-            {ticketTag && ticketTag?.length > 0 ? (
-              <CommonTable
-                isPagination
-                tableDataSet={ticketTag}
-                displayDataSet={normalizedTicketTagData(ticketTag)}
-                noOfPage={ticketTagNumOfPages}
-                currentPage={ticketTagCurrentPages}
-                paginationNumberClick={(currentPage) => {
-
-                  getTicketTagList(paginationHandler("current", currentPage));
-
-                }}
-                previousClick={() => {
-                  getTicketTagList(paginationHandler("prev", ticketTagCurrentPages))
+          <div className="text-right mr-3 ">
+            <Button
+              text={
+                showTags
+                  ? translate("course.hide")
+                  : translate("course.view")
+              }
+              size={"sm"}
+              onClick={() => {
+                if (!showTags) {
+                  getTicketTagList(ticketTagCurrentPages);
+                } else {
+                  setShowTags(!showTags)
                 }
-                }
-                nextClick={() => {
-                  getTicketTagList(paginationHandler("next", ticketTagCurrentPages));
-                }
-                }
-              />
-            ) : (
-              <div
-                className=" d-flex justify-content-center align-items-center"
-                style={{
-                  height: "30.5rem",
-                }}
-              >
-                <NoRecordsFound />
-              </div>
-            )}
+
+              }}
+            />
+            <Button
+              text={translate("product.addItem")}
+              size={"sm"}
+              onClick={() => { addTagsModal.show() }}
+            />
           </div>
-        </Card>
+        </div>
 
-        <Modal
-          isOpen={addTagsModal.visible}
-          onClose={() => {
-            addTagsModal.hide()
-            setTags("")
-            setDescription('')
-            setTagPhoto('')
-            setTagCodeFill('')
-          }
-          }
-          title={translate("auth.tags")!}
+
+        <div
+          className="overflow-auto overflow-hide"
+          style={{
+            height: showTags ? dynamicHeight.dynamicHeight - 100 : '0px',
+            margin: '0px -39px 0px -39px'
+          }}
         >
+          {ticketTag && ticketTag?.length > 0 ? (
+            <CommonTable
+              isPagination
+              tableDataSet={ticketTag}
+              displayDataSet={normalizedTicketTagData(ticketTag)}
+              noOfPage={ticketTagNumOfPages}
+              currentPage={ticketTagCurrentPages}
+              paginationNumberClick={(currentPage) => {
+                getTicketTagList(paginationHandler("current", currentPage));
 
-          <div className="row">
-            <div className="col-6">
-              <Input
-                placeholder={translate("auth.tags")}
-                value={tags}
-                onChange={(e) => {
-                  setTags(e.target.value)
-                  setTagCodeFill(e.target.value.slice(0, 3).toUpperCase())
-                }}
-              />
-            </div>
-            <div className="col-6">  <Input
-              placeholder={translate("auth.code")}
-              value={TagCodeFill}
-              onChange={(e) => { setTagCodeFill(e.target.value.slice(0, 3).toUpperCase()) }}
+              }}
+              previousClick={() => {
+                getTicketTagList(paginationHandler("prev", ticketTagCurrentPages))
+              }
+              }
+              nextClick={() => {
+                getTicketTagList(paginationHandler("next", ticketTagCurrentPages));
+              }
+              }
             />
+          ) : (
+            <div
+              className=" d-flex justify-content-center align-items-center"
+              style={{
+                height: "30.5rem",
+              }}
+            >
+              <NoRecordsFound />
             </div>
-          </div>
-          <div>
+          )}
+        </div>
+      </Card>
+
+      <Modal
+        isOpen={addTagsModal.visible}
+        onClose={() => {
+          addTagsModal.hide()
+          setTags("")
+          setDescription('')
+          setTagPhoto('')
+          setTagCodeFill('')
+        }
+        }
+        title={translate("auth.tags")!}
+      >
+
+        <div className="row">
+          <div className="col-6">
             <Input
-              placeholder={translate("auth.description")}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <div className="pb-3">
-            <Dropzone
-              variant="ICON"
-              icon={tagPhoto}
-              size="xl"
-              onSelect={(image) => {
-                let encoded = image.toString().replace(/^data:(.*,)?/, "");
-                setTagPhoto(encoded);
-
+              placeholder={translate("auth.tags")}
+              value={tags}
+              onChange={(e) => {
+                setTags(e.target.value)
+                setTagCodeFill(e.target.value.slice(0, 3).toUpperCase())
               }}
             />
           </div>
-          <div className="text-right">
-            <Button
-              color={"secondary"}
-              text={translate("common.cancel")}
-              onClick={() => {
-                addTagsModal.hide()
-                setTags("")
-                setDescription('')
-                setTagPhoto('')
-                setTagCodeFill('')
-              }
-              }
-            />
-            <Button
-              text={translate("common.submit")}
-              onClick={() => {
-                addTicketTagAdding();
-              }}
-            />
+          <div className="col-6">  <Input
+            placeholder={translate("auth.code")}
+            value={TagCodeFill}
+            onChange={(e) => { setTagCodeFill(e.target.value.slice(0, 3).toUpperCase()) }}
+          />
           </div>
-        </Modal>
-      </>
+        </div>
+        <div>
+          <Input
+            placeholder={translate("auth.description")}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className="pb-3">
+          <Dropzone
+            variant="ICON"
+            icon={tagPhoto}
+            size="xl"
+            onSelect={(image) => {
+              let encoded = image.toString().replace(/^data:(.*,)?/, "");
+              setTagPhoto(encoded);
 
-
-    </div>
+            }}
+          />
+        </div>
+        <div className="text-right">
+          <Button
+            color={"secondary"}
+            text={translate("common.cancel")}
+            onClick={() => {
+              addTagsModal.hide()
+              setTags("")
+              setDescription('')
+              setTagPhoto('')
+              setTagCodeFill('')
+            }
+            }
+          />
+          <Button
+            text={translate("common.submit")}
+            onClick={() => {
+              addTicketTagAdding();
+            }}
+          />
+        </div>
+      </Modal>
+    </>
   )
 }
 

@@ -45,7 +45,6 @@ export const icons = {
   eye: require('./Eye/icon.png'),
   faceBook: require('./Facebook/icon.png'),
   feed: require('./Feed/icon.png'),
-
   greenProfile: require('./GreenProfile/icon.png'),
   home: require('./Home/icon.png'),
   homeBg: require('./HomeBg/icon.png'),
@@ -112,5 +111,6 @@ export const icons = {
   bellIcon: require('./BellIcon/icon.png'),
   editLineIcon: require('./EditLine/editing.png'),
   subTask: require('./SubTask/icon.png'),
-  imageEdit: require('./ImageEdit/edit.png')
+  imageEdit: require('./ImageEdit/edit.png'),
+  message: require('./Message/icon.png'),
 };

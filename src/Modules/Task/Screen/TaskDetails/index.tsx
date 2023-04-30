@@ -7,7 +7,7 @@ import {
     TaskInfo,
     SubTasks
 } from "@Modules";
-import { Button, Card, H, HomeContainer, Tabs } from "@Components";
+import { HomeContainer, Tabs } from "@Components";
 
 function TaskDetails() {
 

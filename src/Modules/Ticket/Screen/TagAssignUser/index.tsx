@@ -48,13 +48,13 @@ function TagAssignUser() {
                 ? selectedReferenceTickets?.raised_by_company?.branch_id
                 : selectedTicket?.id,
         };
-        
+
         dispatch(
             getEmployees({
                 params,
                 onSuccess: (response) => () => {
                 },
-                onFailure: () => () => { }
+                onError: () => () => { }
             })
         )
     }, [selectedTicket, selectedReferenceTickets])
@@ -70,7 +70,7 @@ function TagAssignUser() {
                 params,
                 onSuccess: (response) => () => {
                 },
-                onFailure: () => () => { }
+                onError: () => () => { }
             })
         )
     }
@@ -111,7 +111,7 @@ function TagAssignUser() {
                 getApiHandler()
                 setOpenModalTagUser(!openModalTagUser)
             },
-            onFailure: (failure) => () => { }
+            onError: (failure) => () => { }
         }))
     }
 
@@ -130,7 +130,7 @@ function TagAssignUser() {
                 setOpenModalReassignUser(!openModalReassignUser)
                 getApiHandler()
             },
-            onFailure: () => () => { }
+            onError: () => () => { }
         }))
     }
 
