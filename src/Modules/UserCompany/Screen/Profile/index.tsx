@@ -68,11 +68,11 @@ function Profile() {
           </div>
           <div className="text-center mb-5">
           
-            {user_details && user_details?.profile_photo && <div className="pb-3">
+            {user_details && <div className="pb-3">
           <Dropzone
             variant="ICON"
             imageVariant={'rounded'}
-            icon={getPhoto(user_details?.profile_photo)}
+            icon={user_details?.profile_photo?getPhoto(user_details?.profile_photo):icons.profilePick}
             size='xxl'
             onSelect={(image) => {
               let encoded = image.toString().replace(/^data:(.*,)?/, "");
@@ -111,7 +111,7 @@ function Profile() {
 
           <hr></hr>
           <div className="text-center mb-5">
-            {user_details && user_details?.profile_photo && <Image size={'xxl'} variant={'rounded'} src={getPhoto(company?.attachment_logo)} />}
+            {company && company?.attachment_logo && <Image size={'xxl'} variant={'rounded'} src={getPhoto(company?.attachment_logo)} />}
           </div>
 
           <h3 className="ct-title undefined">Company Details</h3>

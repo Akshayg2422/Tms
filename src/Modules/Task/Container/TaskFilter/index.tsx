@@ -11,10 +11,10 @@ import { icons } from '@Assets'
 
 const FILTER_MENU = [
     {
-        id: 0, name: 'Basic', icon: icons.Equalizer,
+        id: 0, name: 'Basic', icon: icons.basic,
     },
     {
-        id: 1, name: 'Advance', icon: icons.Equalizer,
+        id: 1, name: 'Advance', icon: icons.advance,
     }
 ]
 
@@ -142,7 +142,7 @@ function
 
     return (
         < >
-            <div className="row">
+            {/* <div className="row">
                 <div className="col text-right">
                     <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
                         if (el.id === FILTER_MENU[1].id) {
@@ -158,7 +158,7 @@ function
                         }
                     }} />
                 </div>
-            </div>
+            </div> */}
 
             <div className="row mt-3 mb--3">
                 <div className="col-lg-3  col-md-3 col-sm-12">
@@ -193,7 +193,7 @@ function
                         }}
                     />
                 </div>
-                <div className="col-lg-3 col-md-3 col-sm-12">
+                <div className="col">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.Priority")}
@@ -204,6 +204,21 @@ function
                             proceedParams({ priority: item.id })
                         }}
                     />
+                </div>
+                <div className="col-auto mt-4 ml-0 mr--3">
+                    <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
+                        if (el.id === FILTER_MENU[1].id) {
+                            setAdvanceFilter(true)
+                            setDepartments([])
+                            setDesignations([])
+                            company.onChange({})
+                        } else {
+                            setAdvanceFilter(false)
+                            setDepartments([])
+                            setDesignations([])
+                            company.onChange({})
+                        }
+                    }} />
                 </div>
 
                 {advanceFilter && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">

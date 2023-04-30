@@ -74,13 +74,14 @@ const Dropzone = ({
             variant={imageVariant}
             onClick={handleRefClick}
             size={size}
+            style={{backgroundColor:"#e3e5e8"}}
           />
           </div> 
 
-       { imagePicker &&  <div className="mt--4 ml-5  " ><Image size={'xs'} src={icons.updatedProfile}  
+       { imagePicker &&  <div className="mt--4 ml-5 " ><Image size={'xs'} src={icons.updatedProfile}  
        variant={'avatar'}
             onClick={handleRefClick}height={14} width={14}
-            style={{position:'absolute',backgroundColor:"white"}}/>
+            style={{position:'absolute',backgroundColor:"white",}}/>
             </div>
 }
            

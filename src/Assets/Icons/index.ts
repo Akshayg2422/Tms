@@ -113,5 +113,10 @@ export const icons = {
   editLineIcon: require('./EditLine/editing.png'),
   subTask: require('./SubTask/icon.png'),
   imageEdit: require('./ImageEdit/edit.png'),
-  updatedProfile: require('./UpdatedProfile/add-photo.png')
+  updatedProfile: require('./UpdatedProfile/add-photo.png'),
+  profilePick: require('./ProfilePick/user.png'),
+  basic: require('./Basic/layers.png'),
+  advance: require('./Advance/interactivity.png'),
+  ticket: require('./Ticket/planning.png'),
+  issue: require('./Issue/issue.png')
 };
