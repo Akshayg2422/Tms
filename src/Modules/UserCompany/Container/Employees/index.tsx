@@ -29,7 +29,7 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                 params,
                 onSuccess: () => () => {
                 },
-                onFailure: () => () => { }
+                onError: () => () => { }
             })
         )
 

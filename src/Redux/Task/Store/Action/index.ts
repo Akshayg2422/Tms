@@ -225,3 +225,41 @@ export const getTaskUsersFailure = (error: any) => {
     }
 }
 
+
+
+/**
+ * refresh task Events
+ */
+
+
+export const refreshTaskEvents = () => {
+    return {
+        type: ActionTypes.REFRESH_TASK_EVENTS,
+    }
+}
+
+/**
+ * get Task Event Attachments
+ */
+
+export const getTaskEventAttachments = (params: any) => {
+    return {
+        type: ActionTypes.GET_TASK_EVENT_ATTACHMENTS,
+        payload: params,
+    };
+};
+
+export const getTaskEventAttachmentsSuccess = (response: any) => {
+    return {
+        type: ActionTypes.GET_TASK_EVENT_ATTACHMENTS_SUCCESS,
+        payload: response,
+    };
+};
+
+export const getTaskEventAttachmentsFailure = (error: any) => {
+
+    return {
+        type: ActionTypes.GET_TASK_EVENT_ATTACHMENTS_FAILURE,
+        payload: error,
+    };
+};

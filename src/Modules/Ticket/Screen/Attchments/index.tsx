@@ -26,7 +26,7 @@ function Attachments() {
       getTicketsEvents({
         params,
         onSuccess: () => () => { },
-        onFailure: () => () => { },
+        onError: () => () => { },
       })
     );
   }, [selectedTicket, selectedReferenceTickets]);

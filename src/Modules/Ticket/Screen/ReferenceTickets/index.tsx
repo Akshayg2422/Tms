@@ -2,7 +2,7 @@ import { HomeContainer, NoDataFound, CommonTable } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getReferenceTickets, setIsSync, setselectedReferenceTickets } from "@Redux";
-import {  getStatusFromCode, paginationHandler } from "@Utils";
+import { getStatusFromCode, paginationHandler } from "@Utils";
 import { HOME_PATH } from "@Routes";
 import { useNavigation } from "@Hooks";
 
@@ -22,7 +22,7 @@ function ReferenceTickets() {
     if (!isSync.referenceTickets) {
       proceedgetReferenceTickets(referenceTicketCurrentPages);
     }
-  }, [isSync,selectedReferenceTickets]);
+  }, [isSync, selectedReferenceTickets]);
 
 
   const proceedgetReferenceTickets = (pageNumber: number) => {
@@ -38,7 +38,7 @@ function ReferenceTickets() {
       getReferenceTickets({
         params,
         onSuccess: () => () => { },
-        onFailure: () => () => { },
+        onError: () => () => { },
       })
     );
   }
@@ -97,9 +97,9 @@ function ReferenceTickets() {
             dispatch(setselectedReferenceTickets(item))
             goTo(HOME_PATH.ISSUE_DETAILS);
           }
-        
-        
-        }
+
+
+          }
 
         /> : <NoDataFound />}
     </div>
