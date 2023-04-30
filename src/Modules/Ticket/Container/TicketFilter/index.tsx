@@ -4,7 +4,7 @@ import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
 import { TICKET_FILTER_LIST, TICKET_STATUS_LIST, TICKET_PRIORITY_LIST, } from '@Utils'
 import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartments, getDesignationData } from '@Redux'
+import { getAssociatedCompaniesL, getDepartments, getDesignations } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { icons } from '@Assets'
 
@@ -75,7 +75,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
             };
 
             dispatch(
-                getDesignationData({
+                getDesignations({
                     params,
                     onSuccess: (response) => () => {
                         let designations: any = [];
@@ -251,7 +251,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
 
                 {/* <div className="col pt-3">
                     <Checkbox text={'Include Subtask'} checked={includeSubTicket} onCheckChange={(checked) => {
-                        proceedParams({ include_subtask: checked })
+                        // proceedParams({ include_subtask: checked })
                         setIncludeSubTicket(checked)
                     }} />
                 </div> */}

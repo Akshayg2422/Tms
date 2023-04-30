@@ -48,21 +48,20 @@ function Tasks() {
   const getTaskHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
 
-    console.log(JSON.stringify(updatedParams) + '==');
+    console.log( 'taskHandler======>',JSON.stringify(updatedParams) );
 
     dispatch(
       getTasks({
-        params: updatedParams,
-        onSuccess: (responx) => () => {
-          console.log(JSON.stringify(responx));
+        params,
+        onSuccess: (response) => () => {
+
+          console.log('get Task======>',JSON.stringify(response));
 
         },
         onError: () => () => { },
       })
     );
   };
-
-
 
   const normalizedTableData = (data: any) => {
     if (data && data.length > 0)
@@ -119,7 +118,7 @@ function Tasks() {
   };
 
 
-  console.log(JSON.stringify(tasks) + "======");
+  
 
 
   return (

@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAssociatedCompanyBranch, setIsSync, setSelectedTask, getDashboard, getTickets } from "@Redux";
-import { HomeContainer, Button, DropDown, InputHeading, Image, CommonTable, Priority, Status, NoDataFound } from "@Components";
-import { useInput } from "@Hooks";
+import {  getDashboard, getTickets,setSelectedTicket  } from "@Redux";
+import { HomeContainer, Button,Image, CommonTable, Priority, Status, NoDataFound } from "@Components";
 import { useNavigation, useDropDown } from "@Hooks";
-import { HOME_PATH } from "@Routes";
+import { ROUTES } from '@Routes'
 import { translate } from "@I18n";
-import { TicketFilter } from "@Modules";
-import { getPhoto, paginationHandler, FILTERED_LIST, STATUS_LIST, PRIORITY_DROPDOWN_LIST, SEARCH_PAGE, COMPANY_TYPE, getMomentObjFromServer, getDisplayDateTimeFromMoment } from "@Utils";
-import { setselectedReferenceTickets, setselectedTicket } from "@Redux";
-// import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import { TicketFilter} from "@Modules";
+import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter} from "@Utils";
 import { icons } from "@Assets";
 import { log } from "console";
+import { json } from "stream/consumers";
 
 const DEFAULT_PARAMS = { q_many: "","tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL","group":"ALL", "include_subticket":false, page_number: 1 }
 
@@ -27,12 +25,14 @@ function Ticket() {
 
   useEffect(() => {
     getTicketHandler(ticketCurrentPages)
+    // console.log('getTicketHandler ======>',JSON.stringify(getTicketHandler))
   }, [params])
 
 
 
   useEffect(() => {
     getDashboardDetails()
+    // console.log('getDash ======>',JSON.stringify(getTicketHandler))
   }, [selectedTicket])
 
 
@@ -56,9 +56,10 @@ function Ticket() {
 
     dispatch(
       getTickets({
-        params: updatedParams,
+        params,
         onSuccess: (response) => () => {
-          console.log(JSON.stringify(response));
+          console.log('get Tickets======>',JSON.stringify(response));
+          
 
         },
         onError: () => () => { },
@@ -67,61 +68,95 @@ function Ticket() {
   };
 
 
-console.log('tickets======>',JSON.stringify(tickets));
-
   const normalizedTableData = (data: any) => {
-    
+    if (data && data.length > 0)
     return data?.map((el: any) => {
+      
+      const etaDate = new Date(el.eta_time)
+      let etaTime = etaDate.getHours()
 
       console.log('======>',data)
       return {
 
         "tickets": 
-                 <div className="row"> 
-                 <Priority priority={el?.priority} /> 
-                 <span className="col">{el?.title}</span>
-                 </div>,
+            <>
+              <div className="row">
+                <Priority priority={el?.priority} />
+                <div>
+                  <span>{capitalizeFirstLetter(el?.title)}</span>
+                  <div className="pt-1">
+                    {el.parent && el.parent?.name && <div>{el.parent?.name}
+                    </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </>,
         "attachments":
-          <div className="avatar-group" style={{
-            // width: '87px'
-          }}>
-            {
-              el?.tickets_attachments &&
-              el?.ticket_attachments.length > 0 && el?.ticket_attachments.map((item) => {
+          // <div className="avatar-group" style={{
+          //   // width: '87px'
+          // }}>
+          //   {
+          //     el?.tickets_attachments &&
+          //     el?.ticket_attachments.length > 0 && el?.ticket_attachments.map((item) => {
 
-                return <a
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}>
-                  <Image
-                    variant={'avatar'}
-                    src={getPhoto(item?.attachment_file)} /></a>
-              })
-            }
+          //       return <a
+          //         href="#pablo"
+          //         onClick={(e) => e.preventDefault()}>
+          //         <Image
+          //           variant={'avatar'}
+          //           src={getPhoto(item?.attachment_file)} /></a>
+          //     })
+          //   }
 
-          </div>,
+          // </div>,
+
+          <div className="row avatar-group">
+              {
+                el?.ticket_attachments &&
+                el?.ticket_attachments.length > 0 && el?.task_attachments.map((item) => {
+                  return (
+                    <Image
+                      variant={'avatar'}
+                      src={getPhoto(item?.attachment_file)} />
+                  )
+                })
+              }
+
+            </div >,
 
         "raised by":
           <div className="h5"> {el?.by_user?.name} </div>,
         "raised to":
-          <>
-            <div className="row">
-              <div className="col-3 p-0 align-self-center">
-                <div className="col p-0 d-flex justify-content-center"> {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />} </div>
-              </div>
+          // <>
+          //   <div className="row">
+          //     <div className="col-3 p-0 align-self-center">
+          //       <div className="col p-0 d-flex justify-content-center"> {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />} </div>
+          //     </div>
 
-              <div className="col-9 text-truncate">
-                <h6>
-                  <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
-                  <div className="h5 mb-0 d-inline-block text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
-                  <div className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place || "Gummidipoondi"}</div>
-                </h6>
-              </div>
-              <div className="col"></div>
-            </div>
+          //     <div className="col-9 text-truncate">
+          //       <h6>
+          //         <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
+          //         <div className="h5 mb-0 d-inline-block text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
+          //         <div className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place || "Gummidipoondi"}</div>
+          //       </h6>
+          //     </div>
+          //     <div className="col"></div>
+          //   </div>
 
-          </>,
+          // </>,
+          <div className="row">
+              {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />}
+              <div className="ml-2">
+                <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
+                <div className="h5 mb-0 text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
+                <small className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place}</small>
+              </div>
+            </div >,
         'Assigned At': getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at)),
-        status: <div> <Status status={el?.ticket_status} /> </div>
+        status: <div> <Status status={el?.ticket_status} /> 
+        <small>{time > etaTime ? 'ABOVE ETA' : ""}</small>
+        </div>
       };
     });
   };
@@ -143,6 +178,22 @@ console.log('tickets======>',JSON.stringify(tickets));
           </div> : null
         }
       </HomeContainer>   */}
+      {/* <div className="row"> */}
+         
+
+        <div className="col-auto text-right">
+          <Button
+            size={'sm'}
+            text={translate('common.addTicket')}
+            onClick={() => {
+              goTo(ROUTES["ticket-module"]["add-ticket"])
+            }
+            }
+
+          />
+
+        </div>
+      {/* </div> */}
 
        <HomeContainer type={'card'} className={'m-3 p-2'} >
         <TicketFilter  onParams={(filteredParams) => {
@@ -171,14 +222,14 @@ console.log('tickets======>',JSON.stringify(tickets));
               }
               }
               tableOnClick={(idx, index, item) => {
-                dispatch(selectedTicket(item));
-                dispatch(setselectedReferenceTickets(undefined))
-                goTo(HOME_PATH.TICKET_DETAILS);
+                dispatch(setSelectedTicket(item));
+                // dispatch(setSelectedReferenceTickets(undefined))
+                goTo((ROUTES["ticket-module"]["ticket-details"] + '/' + item?.id));
               }
               }
             />
           </> : 
-          <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} />
+          <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} onClick={() => { goTo(ROUTES["ticket-module"]["add-ticket"]) }}/>
         }
         
       </HomeContainer>

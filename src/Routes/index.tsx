@@ -1,7 +1,5 @@
-import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask ,CreateBroadCast, CreateCompany, AddUser, Ticket } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask ,CreateBroadCast, CreateCompany, AddUser, Ticket,AddTicket} from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
-
-
 
 
 export const HOME_PATH = {
@@ -19,6 +17,7 @@ export const HOME_PATH = {
   ADD_SUB_TASK: '/add-sub-task',
   TASK_DETAILS: '/task-details',
   TICKET_DETAILS:'/ticket-details',
+  ADD_TICKET:'./add-ticket'
 }
 
 export const ROUTES = {
@@ -38,7 +37,8 @@ export const ROUTES = {
   },
   'ticket-module': {
     ticket: '/ticket',
-    'ticket-details':'/ticket-details'
+    'ticket-details':'/ticket-details',
+    'add-ticket':'/add-ticket',
   },
   'user-company-module': {
     companies: '/companies',
@@ -152,6 +152,23 @@ export const TASK_ROUTES = [
   },
   
 ];
+
+export const TICKET_ROUTES = [
+  // {
+  //   key:1,
+  //   path:ROUTES['ticket-module']['ticket-details'] +'/id',
+  //   component:<TicketDtails/>
+  // }
+
+  {
+    key:2,
+    path:ROUTES['ticket-module']['add-ticket'],
+    component:<AddTicket/>
+  }
+  
+  
+];
+
 
 export const MESSAGE_ROUTES = [
   {

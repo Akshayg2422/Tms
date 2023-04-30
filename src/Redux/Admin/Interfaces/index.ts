@@ -16,6 +16,13 @@ export interface AdminStateProp {
   showSubTaskGroup: any,
   taskNumOfPages: any,
   taskCurrentPages: any
+
+  tickets: any,
+  // showSubTicketGroup: any,
+  // ticketNumOfPages: any,
+  // ticketCurrentPages: any
+  addingTicket: any,
+  
   // designationCurrentPages:any,
   // designationNumOfPages:any,
   // departmentsCurrentPages:any,
