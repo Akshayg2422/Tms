@@ -44,6 +44,7 @@
     "primaryContactPerson": "PRIMARY CONTACT PERSON",
     "addUser": "ADD USER",
     "addTicket": "ADD TICKET",
+    "CreateTicket":"CREATE TICKET",
     "addCompany": "ADD COMPANY",
     "company": "Company",
     "user": "User",

@@ -21,16 +21,17 @@ function* raiseNewTicketSaga(action) {
 
 function* getTicketsSaga(action) {
   try {
-    const response = yield call(Services.getTicketsApi, action.payload.params);
+    const response = yield call(Services.getTicketsApi,action.payload.params);
+    console.log('getTicketSaga======>',JSON.stringify(response))
     if (response.success) {
-      yield put(Action.getTicketsSuccess({ ...response }));
+      yield put(Action.getTicketsSuccess({ response }));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(Action.getTicketsFailure({ ...response }));
+      yield put(Action.getTicketsFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(Action.getTicketsFailure(error));
+    yield put(Action.getTicketsFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
 }

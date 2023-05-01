@@ -15,7 +15,7 @@ export const GET_ASSOCIATED_COMPANIES_L = COMPANY + 'getAssociatedCompaniesl';
 export const URL_GET_DASHBOARD = AUTH + 'dashboard';
 
 export const RAISE_NEW_TICKET = TICKET + 'raiseNewTicket';
-export const GET_TICKETS = TICKET + 'getTickets';
+export const URL_GET_TICKETS = TICKET + 'getTickets';
 export const GET_TICKET_TAGS = TICKET + 'getTicketTags';
 export const ADD_TICKET_EVENT = TICKET + 'addTicketEvent';
 export const GET_TICKET_EVENTS = TICKET + 'getTicketEvents';

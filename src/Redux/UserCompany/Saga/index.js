@@ -347,7 +347,9 @@ function* getAssociatedCompaniesLSaga(action) {
 function* getDashboardSaga(action) {
   try {
     const response = yield call(Api.getDashboardApi, action.payload.params);
-    console.log(JSON.stringify(response) + "===");
+
+    console.log('getDashboard saga=====>',JSON.stringify(response));
+
     if (response.success) {
       yield put(Action.getDashboardSuccess(response));
       yield call(action.payload.onSuccess(response));

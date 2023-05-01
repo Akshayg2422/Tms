@@ -24,6 +24,7 @@ function* getTaskGroupLSaga(action) {
 function* getTasksSaga(action) {
     try {
         const response = yield call(Services.getTaskApi, action.payload.params);
+        console.log('getTaskSaga=======>',JSON.stringify(response))
         if (response.success) {
             yield put(Action.getTasksSuccess(response));
             yield call(action.payload.onSuccess(response));

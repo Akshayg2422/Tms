@@ -38,6 +38,7 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.RAISE_NEW_TICKET_FAILURE:
       state = { ...state };
       break;
+      
     case ActionTypes.GET_TICKETS:
       state = {
         ...state,

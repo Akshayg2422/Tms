@@ -9,7 +9,7 @@ export const getAssociatedCompaniesLApi = payload =>
 export const getDashboardApi = payload => post(URL.URL_GET_DASHBOARD, payload, {});
 export const raiseNewTicketApi = payload => post(URL.RAISE_NEW_TICKET, payload, {});
 
-export const getTicketsApi = payload => post(URL.GET_TICKETS, payload, {});
+export const getTicketsApi = payload => post(URL.URL_GET_TICKETS, payload, {});
 export const getTicketEventsApi = payload =>
   post(URL.GET_TICKET_EVENTS, payload, {});
 export const getTicketTagsApi = payload => post(URL.GET_TICKET_TAGS, payload, {});

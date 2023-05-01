@@ -11,9 +11,10 @@ import { icons } from "@Assets";
 import { log } from "console";
 import { json } from "stream/consumers";
 
-const DEFAULT_PARAMS = { q_many: "","tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL","group":"ALL", "include_subticket":false, page_number: 1 }
+const DEFAULT_PARAMS = { q_many: "","tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL", page_number: 1 }
 
 function Ticket() {
+  
 
   const dispatch = useDispatch()
   const [params, setParams] = useState(DEFAULT_PARAMS)
@@ -25,14 +26,14 @@ function Ticket() {
 
   useEffect(() => {
     getTicketHandler(ticketCurrentPages)
-    // console.log('getTicketHandler ======>',JSON.stringify(getTicketHandler))
+    console.log('ticketCurrentPage========>',ticketCurrentPages)
   }, [params])
 
 
 
   useEffect(() => {
     getDashboardDetails()
-    // console.log('getDash ======>',JSON.stringify(getTicketHandler))
+    console.log('=======>>>',(getTicketHandler))
   }, [selectedTicket])
 
 
@@ -42,7 +43,7 @@ function Ticket() {
       params,
       onSuccess: (response) => () => {
 
-        console.log( 'Response=====>', JSON.stringify(response) );
+        console.log( 'getDashboard========>', JSON.stringify(response) );
 
       },
       onError: () => () => { }
@@ -52,17 +53,19 @@ function Ticket() {
   const getTicketHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
 
-    console.log('UpdateParams=====>'+ JSON.stringify(updatedParams) );
+    console.log('getTicketHandler=====>'+ JSON.stringify(updatedParams) );
 
     dispatch(
       getTickets({
         params,
         onSuccess: (response) => () => {
           console.log('get Tickets======>',JSON.stringify(response));
-          
 
         },
-        onError: () => () => { },
+        onError: () => () => {
+          console.log('Error=====>')
+         },
+        
       })
     );
   };
@@ -75,7 +78,7 @@ function Ticket() {
       const etaDate = new Date(el.eta_time)
       let etaTime = etaDate.getHours()
 
-      console.log('======>',data)
+      // console.log('======>',data)
       return {
 
         "tickets": 
@@ -184,7 +187,7 @@ function Ticket() {
         <div className="col-auto text-right">
           <Button
             size={'sm'}
-            text={translate('common.addTicket')}
+            text={translate('common.CreateTicket')}
             onClick={() => {
               goTo(ROUTES["ticket-module"]["add-ticket"])
             }
@@ -210,11 +213,10 @@ function Ticket() {
               currentPage={ticketCurrentPages}
               paginationNumberClick={(currentPage) => {
                 getTicketHandler(paginationHandler("current", currentPage));
-                console.log('Currentpage=========>', currentPage)
+                // console.log('Currentpage=========>', currentPage)
               }}
               previousClick={() => {
                 getTicketHandler(paginationHandler("prev", ticketCurrentPages))
-                // console.log('priv=======>',ticketCurrentPages)
               }
               }
               nextClick={() => {
@@ -223,7 +225,6 @@ function Ticket() {
               }
               tableOnClick={(idx, index, item) => {
                 dispatch(setSelectedTicket(item));
-                // dispatch(setSelectedReferenceTickets(undefined))
                 goTo((ROUTES["ticket-module"]["ticket-details"] + '/' + item?.id));
               }
               }
@@ -240,107 +241,118 @@ function Ticket() {
 export { Ticket };
 
 
+// import React, { useEffect, useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import {  getAssociatedCompanyBranch, getDashboard, getTickets,setIsSync,setSelectedTicket  } from "@Redux";
+// import { HomeContainer, Button,Image, CommonTable, Priority, Status, NoDataFound } from "@Components";
+// import { useNavigation, useDropDown, useInput } from "@Hooks";
+// import { ROUTES } from '@Routes'
+// import { translate } from "@I18n";
+// import { TicketFilter} from "@Modules";
+// import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, STATUS_LIST, FILTERED_LIST, PRIORITY_DROPDOWN_LIST, COMPANY_TYPE, SEARCH_PAGE} from "@Utils";
+// import { icons } from "@Assets";
+// import { log, time } from "console";
+// import { json } from "stream/consumers";
 
-  // const { goTo } = useNavigation();
-  // const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.TicketReducer);
-  // const dispatch = useDispatch();
-  // const search = useInput("");
-  // const [params, setParams] = useState(DEFAULT_PARAMS)
-  // const filteredTickets = useDropDown(FILTERED_LIST[2])
-  // const ticketStatus = useDropDown(STATUS_LIST[2])
-  // const ticketPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
-  // const companyType = useDropDown(COMPANY_TYPE[0])
-  // const { isSync } = useSelector((state: any) => state.AppReducer);
-  // const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
-  // const [basicTag, setBasicTag] = useState(true)
-  // const [advanceTag, setAdvanceTag] = useState(false)
+// const DEFAULT_PARAMS = { q_many: "","tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL", page_number: 1 }
 
-  // // const getCompanyBranchDropdown = (details: any) => {
-  // //   let companies: any = [];
-  // //   companies.push({ id: '', text: "Self" })
+// function Ticket() {
+  
+//   const { goTo } = useNavigation();
+//   const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.TicketReducer);
+//   const dispatch = useDispatch();
+//   const search = useInput("");
+//   const [params, setParams] = useState(DEFAULT_PARAMS)
+//   const filteredTickets = useDropDown(FILTERED_LIST[2])
+//   const ticketStatus = useDropDown(STATUS_LIST[2])
+//   const ticketPriority = useDropDown(PRIORITY_DROPDOWN_LIST[0])
+//   const companyType = useDropDown(COMPANY_TYPE[0])
+//   const { isSync } = useSelector((state: any) => state.AppReducer);
+//   const [ModifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
 
-  // //   if (details && details.length > 0) {
-  // //     details.forEach(({ id, display_name }) => {
-  // //       companies = [
-  // //         ...companies,
-  // //         { id: id, text: display_name, name: display_name },
-  // //       ];
-  // //     });
-  // //     setModifiedCompanyDropDownData(companies);
-  // //   }
-  // // };
+//   const getCompanyBranchDropdown = (details: any) => {
+//     let companies: any = [];
+//     companies.push({ id: '', text: "Self" })
 
-  // //
+//     if (details && details.length > 0) {
+//       details.forEach(({ id, display_name }) => {
+//         companies = [
+//           ...companies,
+//           { id: id, text: display_name, name: display_name },
+//         ];
+//       });
+//       setModifiedCompanyDropDownData(companies);
+//     }
+//   };
+
+//   // //
 
   
-  // useEffect(() => {
-  //   // setSynctick testing
-  //   setSyncTickets()
-  //   const params = { q: "" };
-  //   dispatch(
-  //     getAssociatedCompanyBranch({
-  //       params,
-  //       onSuccess: (response: any) => () => {
-  //         console.log( 'Responsive========>' + JSON.stringify(response)  );
-  //         dispatch(
-  //           setIsSync({
-  //             ...isSync,
-  //             companies: false,
-  //           })
-  //         );
-  //         // getCompanyBranchDropdown(response.details);
+//   useEffect(() => {
+//     // setSynctick testing
+//     setSyncTickets()
+//     const params = { q: "" };
+//     dispatch(
+//       getAssociatedCompanyBranch({
+//         params,
+//         onSuccess: (response: any) => () => {
+//           console.log( 'getAssociatedCompanyBranch========>' + JSON.stringify(response)  );
+//           dispatch(
+//             setIsSync({
+//               ...isSync,
+//               companies: false,
+//             })
+//           );
+//           getCompanyBranchDropdown(response.details);
 
-  //       },
-  //       onError: () => () => {
+//         },
+//         onError: () => () => {
 
-  //       },
-  //     })
-  //   );
-  // }, []);
+//         },
+//       })
+//     );
+//   }, []);
 
-  // useEffect(() => {
-  //   if (!isSync.Tickets) {
-  //     getTicketHandler(ticketCurrentPages)
-  //   }
-  // }, [params])
-
-
-  // const getTicketHandler = (pageNumber: number) => {
-
-  //   const params = {
-  //     q_many: search.value,
-  //     tickets_by: filteredTickets?.value.id,
-  //     ticket_status: ticketStatus?.value.id,
-  //     company: companyType.value.id,
-  //     priority: ticketPriority.value.id,
-  //     page_number: pageNumber
-  //   };
-  //   console.log('PARAMS======>'+JSON.stringify(params));
-
-  //   dispatch(
-  //     getTickets({
-  //       params,
-  //       onSuccess: () => () => {
-  //         // console.log('params--------->',JSON.stringify(params));
-  //         setSyncTickets(true)
-  //       },
-  //       onError: () => () => { },
-  //     })
-  //   );
-
-  // };
-
-  // function setSyncTickets(sync = false) {
-  //   dispatch(
-  //     setIsSync({
-  //       ...isSync,
-  //       tickets: sync,
-  //     })
-  //   );
-  // }
+//   useEffect(() => {
+//     if (!isSync.Tickets) {
+//       getTicketHandler(ticketCurrentPages)
+//       console.log('ticketCurrentPages=======>',(ticketCurrentPages))
+//     }
+//   }, [params])
 
 
-  // function proceedTickerSearch() {
-  //   setSyncTickets()
-  //   getTicketHandler(SEARCH_PAGE)
-  // }
+//   const getTicketHandler = (pageNumber: number) => {
+
+//     const params = {
+//       q_many: search.value,
+//       tickets_by: filteredTickets?.value.id,
+//       ticket_status: ticketStatus?.value.id,
+//       company: companyType.value.id,
+//       priority: ticketPriority.value.id,
+//       page_number: pageNumber
+//     };
+//     console.log('getTicketHandler======>'+JSON.stringify(params));
+
+//     dispatch(
+//       getTickets({
+//         params,
+//         onSuccess: (response) => (response) => {
+//           console.log('getTickets--------->',JSON.stringify(response));
+//           setSyncTickets(true)
+//         },
+//         onError: () => () => {
+//           console.log('error======>')
+//          },
+//       })
+//     );
+
+//   };
+
+//   function setSyncTickets(sync = false) {
+//     dispatch(
+//       setIsSync({
+//         ...isSync,
+//         tickets: sync,
+//       })
+//     );
+//   }
