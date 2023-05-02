@@ -3,19 +3,22 @@ import { useSelector, useDispatch } from "react-redux";
 import { Card, HomeContainer, Divider, NoDataFound, } from "@Components";
 import { UserItem } from "@Modules";
 import { getTaskUsers } from "@Redux";
+import { useParams } from 'react-router-dom';
+
 
 function TaskUsers() {
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const { selectedTask, taskUsers } = useSelector((state: any) => state.TaskReducer);
+  const { taskUsers } = useSelector((state: any) => state.TaskReducer);
 
   useEffect(() => {
     getTaskUserApi();
-  }, [selectedTask]);
+  }, [id]);
 
 
   function getTaskUserApi() {
     const params = {
-      task_id: selectedTask.id,
+      task_id: id,
     };
 
     dispatch(
@@ -26,9 +29,6 @@ function TaskUsers() {
       })
     );
   }
-
-
-
 
 
   return (

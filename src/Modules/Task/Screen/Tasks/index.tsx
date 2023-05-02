@@ -7,10 +7,20 @@ import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObj
 import { getTasks, setSelectedTask, getDashboard } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
-import { translate } from '@I18n'
+import { translate } from "@I18n";
 
 
-const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, page_number: 1 }
+const DEFAULT_PARAMS = {
+  q_many: "",
+
+  "tasks_by": "assigned_to",
+
+  "task_status": "INP",
+  "priority": "ALL",
+  "group": "ALL",
+  "include_subtask": false,
+  page_number: 1
+}
 
 function Tasks() {
   const dispatch = useDispatch()
@@ -37,6 +47,8 @@ function Tasks() {
     dispatch(getDashboard({
       params,
       onSuccess: (response) => () => {
+
+
       },
       onError: () => () => { }
     }));
@@ -45,13 +57,14 @@ function Tasks() {
   const getTaskHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
 
-    console.log(JSON.stringify(updatedParams) + '==');
+    console.log('taskHandler======>', JSON.stringify(updatedParams));
 
     dispatch(
       getTasks({
-        params: updatedParams,
-        onSuccess: (responx) => () => {
-          console.log(JSON.stringify(responx));
+        params,
+        onSuccess: (response) => () => {
+
+          console.log('get Task======>', JSON.stringify(response));
 
         },
         onError: (error) => () => {
@@ -63,11 +76,9 @@ function Tasks() {
     );
   };
 
-
-
   const normalizedTableData = (data: any) => {
-    if (data && data?.length > 0)
-      return data?.map((el: any) => {
+    if (data && data.length > 0)
+      return data.map((el: any) => {
         const etaDate = new Date(el.eta_time)
         let etaTime = etaDate.getHours()
         return {
@@ -85,6 +96,7 @@ function Tasks() {
                 </div>
               </div>
             </>,
+
           "attachments":
             <div className="row avatar-group">
               {
@@ -93,7 +105,8 @@ function Tasks() {
                   return (
                     <Image
                       variant={'avatar'}
-                      src={getPhoto(item?.attachment_file)} />
+                      src={getPhoto(item?.attachment_file)}
+                    />
                   )
                 })
               }
@@ -117,6 +130,7 @@ function Tasks() {
         };
       });
   };
+
 
 
 
@@ -173,7 +187,7 @@ function Tasks() {
             }
           />
           :
-          <NoDataFound type={'action'} buttonText={'Create Task'} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} />
+          <NoDataFound type={'action'} buttonText={'Create Task'} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
         }
       </HomeContainer>
     </div>

@@ -3,17 +3,19 @@ import { TaskChatProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { getTaskEvents } from '@Redux'
 import { TimeLine, Spinner, Image } from '@Components'
-import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto } from '@Utils'
+import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TASK_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useWindowDimensions } from '@Hooks'
-
+import { useParams } from 'react-router-dom';
 
 
 function TaskChat({ }: TaskChatProps) {
 
+    const { id } = useParams();
+
     const dispatch = useDispatch()
-    const { selectedTask, refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
+    const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
     const [taskEvents, setTaskEvents] = useState([])
     const [taskEventsCurrentPage, setEventsTaskCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
@@ -21,7 +23,7 @@ function TaskChat({ }: TaskChatProps) {
 
     useEffect(() => {
         getTaskEventsApi(INITIAL_PAGE)
-    }, [selectedTask, refreshTaskEvents])
+    }, [refreshTaskEvents, id])
 
 
 
@@ -38,7 +40,7 @@ function TaskChat({ }: TaskChatProps) {
     }
     const getTaskEventsApi = (page_number: number) => {
         const params = {
-            task_id: selectedTask.id,
+            task_id: id,
             page_number
         }
 
@@ -67,7 +69,7 @@ function TaskChat({ }: TaskChatProps) {
     };
 
     function getIconsFromStatus(each: any) {
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status } = each
         let modifiedData = {}
         switch (event_type) {
             case 'TEM':
@@ -89,12 +91,16 @@ function TaskChat({ }: TaskChatProps) {
             case 'MEA':
                 modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: attachments.name }
                 break;
+            case 'RTS':
+                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'User Attached Reference Task' }
+                break;
+            case 'EVS':
+                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status).text }
+                break;
         }
         return modifiedData
     }
 
-
-    console.log(JSON.stringify(taskEvents) + '====taskEvents');
 
     return (
         <div

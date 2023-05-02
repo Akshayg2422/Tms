@@ -5,25 +5,28 @@ import { getSubTasks, setSelectedTask } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
+import { useParams } from 'react-router-dom';
+
 
 function SubTasks({ cardHeight }: SubTasksProps) {
+    const { id } = useParams()
     const { goTo } = useNavigation();
-    const { subTasks, selectedTask } = useSelector((state: any) => state.TaskReducer);
+    const { subTasks } = useSelector((state: any) => state.TaskReducer);
     const dispatch = useDispatch()
 
     useEffect(() => {
         getSubTasksApi()
-    }, [selectedTask])
+    }, [id])
 
-    function getSubTasksApi () {
+    function getSubTasksApi() {
         const params = {
-            task_id: selectedTask.id
+            task_id: id
         }
 
         dispatch(getSubTasks({
             params,
             onSuccess: (response) => () => {
-           
+
             },
             onError: () => () => {
             },
@@ -52,7 +55,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                     text={'Add Task'}
                     onClick={() => {
                         goTo(ROUTES["task-module"]["add-sub-task"])
-                     }}
+                    }}
                 />
             </div>
 
@@ -67,7 +70,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
                         }}
                     /> :
-                    <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={'Add Task'} text="No SubTask found" /></div>
+                    <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={'Add Task'} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton /></div>
                 }
             </div>
         </Card>

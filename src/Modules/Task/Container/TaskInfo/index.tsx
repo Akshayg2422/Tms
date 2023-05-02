@@ -89,8 +89,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 <div className="row">
                                     {
                                         task_attachments &&
-                                        task_attachments?.length > 0 &&
-                                        task_attachments?.map((item) => {
+                                        task_attachments?.length > 0 && task_attachments?.map((item) => {
                                             return <div
                                                 className="ml-3"
                                                 onClick={(e) => e.preventDefault()}>

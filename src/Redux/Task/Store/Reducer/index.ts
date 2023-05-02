@@ -19,7 +19,8 @@ const initialState: TaskStateProp = {
   taskUsers: undefined,
   refreshTaskEvents: false,
   taskEventAttachments: [],
-  taskEventAttachmentsCurrentPage: 1
+  taskEventAttachmentsCurrentPage: 1,
+  selectedTabPositions: { id: '1' },
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -215,6 +216,16 @@ const TaskReducer = (state = initialState, action: any) => {
       state = { ...state, refreshTaskEvents: !state.refreshTaskEvents }
       break;
 
+
+    // SELECTED TABS
+
+    case ActionTypes.SELECTED_TAB_POSITION:
+      console.log('---', action.payload,)
+      state = {
+        ...state,
+        selectedTabPositions: action.payload,
+      };
+      break;
     /**
      * get Task Event Attachments
      */

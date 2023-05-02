@@ -77,7 +77,7 @@ function AddUser() {
 
 
   function getDropDownDisplayData(data: any) {
-    return data && data.map((item: any) => {
+    return data && data?.map((item: any) => {
       return {
         ...item,
         text: item.name

@@ -76,7 +76,8 @@ function AddReferenceTask() {
   const getTasksApiHandler = (page_number: number, q_many: string = search.value) => {
     const params = {
       q_many,
-      page_number
+      page_number,
+      id: selectedTask.id,
     };
 
 
@@ -94,7 +95,7 @@ function AddReferenceTask() {
 
   const normalizedTableData = (data: any) => {
 
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
 
       const isReference = selectedReferenceTask.some(
         (element: any) => element.id === el?.id
@@ -112,10 +113,13 @@ function AddReferenceTask() {
     });
   };
 
+
+  // console.log(JSON.stringify(tasks) + "=====AddReferenceTask");
+
+
   return (
     <HomeContainer type={'card'} className="h-100 m-3">
       <div  >
-
         <div className="row justify-content-between m-3">
           <Back />
           <div className="row ">
@@ -145,7 +149,7 @@ function AddReferenceTask() {
               getTasksApiHandler(paginationHandler("next", taskCurrentPages));
             }
             }
-          /> : <NoDataFound />}
+          /> : <NoDataFound text={'No text found'} />}
         </div>
       </div>
     </HomeContainer >

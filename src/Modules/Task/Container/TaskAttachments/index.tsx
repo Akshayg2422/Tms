@@ -5,25 +5,26 @@ import { Card, Image, SearchInput, Divider, Spinner } from "@Components";
 import { getTaskEventAttachments } from "@Redux";
 import { getPhoto, MEA, capitalizeFirstLetter, INITIAL_PAGE } from "@Utils";
 import InfiniteScroll from 'react-infinite-scroll-component';
-
+import { useParams } from 'react-router-dom';
 
 function TaskAttachments() {
-
+  const { id } = useParams();
   const dispatch = useDispatch();
   const search = useInput("");
-  const { selectedTask, taskEventAttachments, taskEventAttachmentsCurrentPage } = useSelector((state: any) => state.TaskReducer);
+  const { taskEventAttachments, taskEventAttachmentsCurrentPage, refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
   const { height } = useWindowDimensions()
 
 
 
   useEffect(() => {
     getTaskEventsApiHandler(INITIAL_PAGE, search.value,)
-  }, [search.value, selectedTask]);
+  }, [search.value, refreshTaskEvents, id]);
 
 
   function getTaskEventsApiHandler(page_number: number, q_many?: string) {
+
     const params = {
-      task_id: selectedTask.id,
+      task_id: id,
       event_type: MEA,
       q_many,
       page_number

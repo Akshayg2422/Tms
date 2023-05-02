@@ -97,18 +97,26 @@ function AddChat() {
                 onClose={attachmentModal.hide}>
                 <div className='col-6'>
                     <Input heading={'Name'} value={attachmentName.value} onChange={attachmentName.onChange} />
-                    {selectDropzone && selectDropzone.map((el, index) => {
-                        return (
-                            <Dropzone variant='ICON'
-                                icon={image}
-                                size='xl'
-                                onSelect={(image) => {
-                                    let file = image.toString().replace(/^data:(.*,)?/, '');
-                                    handleImagePicker(index, file)
-                                }}
-                            />
-                        )
-                    })}
+                    <div className='col'>
+                        <div className='row'>
+                            {selectDropzone && selectDropzone.map((el, index) => {
+
+                                return (
+                                    <div className={`${index !== 0 && 'ml-2'}`}>
+                                        <Dropzone variant='ICON'
+
+                                            icon={image}
+                                            size='xl'
+                                            onSelect={(image) => {
+                                                let file = image.toString().replace(/^data:(.*,)?/, '');
+                                                handleImagePicker(index, file)
+                                            }}
+                                        />
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
                     <div className=' pt-4'>
                         <Button text={'Submit'} onClick={addTaskEventAttachment} />
                     </div>

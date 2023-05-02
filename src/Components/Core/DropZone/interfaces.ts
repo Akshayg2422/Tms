@@ -4,4 +4,6 @@ export interface DropZoneProps {
     text?: string
     icon?: string
     size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
+    imageVariant?:any,
+    imagePicker?:boolean,
 }

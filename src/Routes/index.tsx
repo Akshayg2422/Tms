@@ -1,8 +1,6 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser } from '@Modules'
+import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Ticket, AddTicket } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
-
-
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -17,7 +15,9 @@ export const HOME_PATH = {
   CREATE_BROAD_CAST: '/create-broad-cast',
   ADD_TASK: '/add-task',
   ADD_SUB_TASK: '/add-sub-task',
-  TASK_DETAILS: '/task-details'
+  TASK_DETAILS: '/task-details',
+  TICKET_DETAILS: '/ticket-details',
+  ADD_TICKET: './add-ticket'
 }
 
 export const ROUTES = {
@@ -35,8 +35,10 @@ export const ROUTES = {
     'add-task': '/add-task',
     'add-sub-task': '/add-sub-task',
   },
-  'issue-module': {
-    issues: '/issues',
+  'ticket-module': {
+    ticket: '/ticket',
+    'ticket-details': '/ticket-details',
+    'add-ticket': '/add-ticket',
   },
   'user-company-module': {
     companies: '/companies',
@@ -88,11 +90,11 @@ export const HOME_ROUTES = [
     component: <Tasks />
   },
   {
-    path: ROUTES['issue-module'].issues,
+    path: ROUTES['ticket-module'].ticket,
     name: "Tickets",
     icon: icons.issue,
     layout: "",
-    component: <Issues />
+    component: <Ticket />
   },
   {
     path: ROUTES['user-company-module'].companies,
@@ -151,6 +153,23 @@ export const TASK_ROUTES = [
 
 ];
 
+export const TICKET_ROUTES = [
+  // {
+  //   key:1,
+  //   path:ROUTES['ticket-module']['ticket-details'] +'/id',
+  //   component:<TicketDtails/>
+  // }
+
+  {
+    key: 2,
+    path: ROUTES['ticket-module']['add-ticket'],
+    component: <AddTicket />
+  }
+
+
+];
+
+
 export const MESSAGE_ROUTES = [
   {
     key: 1,
@@ -200,7 +219,7 @@ export const ADMIN_ROUTES = [
     name: "Tickets",
     icon: "bi bi-bell text-primary",
     layout: "",
-    component: <Issues />
+    component: <Ticket />
   },
   {
     path: "/companies",

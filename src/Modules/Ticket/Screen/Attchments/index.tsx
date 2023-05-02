@@ -64,7 +64,7 @@ function Attachments() {
         </div>
         <div className='mt-4'>
           {
-            ticketEvents && ticketEvents?.data.length > 0 ? ticketEvents?.data.map((item: any, index: number) => {
+            ticketEvents && ticketEvents?.data.length > 0 ? ticketEvents?.data?.map((item: any, index: number) => {
 
               return (
                 <>

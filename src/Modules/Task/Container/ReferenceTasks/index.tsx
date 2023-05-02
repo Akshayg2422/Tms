@@ -5,11 +5,13 @@ import { getStatusFromCode, paginationHandler } from "@Utils";
 import { NoDataFound, Card, CommonTable, Button } from "@Components";
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
+import { useParams } from 'react-router-dom';
+
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
-
-  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages, selectedTask } = useSelector(
+  const { id } = useParams();
+  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages } = useSelector(
     (state: any) => state.TaskReducer
   );
 
@@ -18,13 +20,13 @@ function ReferenceTasks() {
 
   useEffect(() => {
     proceedgetReferenceTasks(referencesTasksCurrentPages);
-  }, [selectedTask]);
+  }, [id]);
 
 
   const proceedgetReferenceTasks = (page_number: number) => {
     const params = {
       page_number,
-      task_id: selectedTask.id,
+      task_id: id,
       q: ""
     };
 
@@ -42,7 +44,7 @@ function ReferenceTasks() {
 
   const normalizedTableData = (data: any) => {
 
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
@@ -84,7 +86,7 @@ function ReferenceTasks() {
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item.id)
           }}
 
-        /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={'Add Reference Task'} /></div>}
+        /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={'Add Reference Task'} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} isButton /></div>}
     </Card>
 
 
