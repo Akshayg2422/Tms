@@ -87,7 +87,7 @@ function Tag() {
   };
 
   const normalizedTicketTagData = (data: any) => {
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
       return {
         name: <div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
           <div className="pt-3 pl-2">{el.name}</div>

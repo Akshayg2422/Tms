@@ -8,8 +8,14 @@ import {
     SubTasks
 } from "@Modules";
 import { HomeContainer, Tabs } from "@Components";
+import { useSelector } from "react-redux";
 
 function TaskDetails() {
+
+    const {selectedTabPositions} = useSelector(
+        (state: any) => state.TaskReducer
+      );
+      console.log(selectedTabPositions,"====>")
 
     const TABS = [
         { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>COMMENTS</span></div>, component: <Comments /> },
@@ -18,6 +24,8 @@ function TaskDetails() {
         { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USERS</span></div>, component: <TaskUsers /> },
     ];
     const [selectedTab, setSelectedTab] = useState(TABS[0]);
+
+  
 
     const ref = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState(0);

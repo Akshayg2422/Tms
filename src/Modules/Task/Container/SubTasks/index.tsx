@@ -68,7 +68,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
                         }}
                     /> :
-                    <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={'Add Task'} text="No SubTask found" /></div>
+                    <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={'Add Task'} text="No SubTask found" onClick={()=> goTo(ROUTES["task-module"]["add-sub-task"])} isButton/></div>
                 }
             </Card>
         </Card>

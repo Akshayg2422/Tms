@@ -70,10 +70,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     }
 
     return (
-        <div ref={ref} >
+        <div ref={ref}>
             <Card style={{
-                height: height / 2
-            }}>
+                height: height / 2,}}
+            className="overflow-auto">
                 <div className="col">
                     <div className="row justify-content-between">
                         <Back />
