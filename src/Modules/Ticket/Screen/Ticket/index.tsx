@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  getDashboard, getTickets,setSelectedTicket  } from "@Redux";
+import {  getDashboard, getTickets } from "@Redux";
 import { HomeContainer, Button,Image, CommonTable, Priority, Status, NoDataFound } from "@Components";
 import { useNavigation, useDropDown } from "@Hooks";
 import { ROUTES } from '@Routes'
 import { translate } from "@I18n";
 import { TicketFilter} from "@Modules";
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter} from "@Utils";
-import { icons } from "@Assets";
-import { log } from "console";
-import { json } from "stream/consumers";
+
 
 const DEFAULT_PARAMS = { q_many: "","tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL", page_number: 1 }
 
@@ -222,14 +220,14 @@ function Ticket() {
               }
               }
               tableOnClick={(idx, index, item) => {
-                dispatch(setSelectedTicket(item));
+                // dispatch(setSelectedTicket(item));
                 // dispatch(setSelectedReferenceTickets(undefined))
                 goTo((ROUTES["ticket-module"]["ticket-details"] + '/' + item?.id));
               }
               }
             />
           </> : 
-          <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} onClick={() => { goTo(ROUTES["ticket-module"]["add-ticket"]) }}/>
+          <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} onClick={() => { goTo(ROUTES["ticket-module"]["add-ticket"])}} isButton/>
         }
         
       </HomeContainer>

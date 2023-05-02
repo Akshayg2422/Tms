@@ -2,7 +2,7 @@ import { addDepartment, getDepartments } from "@Redux";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ifObjectExist, validate, getValidateError, } from "@Utils";
-import { useDynamicHeight, useModal } from "@Hooks";
+import { useDynamicHeight, useModal, useInput } from "@Hooks";
 import {
   Button,
   Card,
@@ -20,47 +20,49 @@ import { icons } from "@Assets";
 
 function Department() {
   const {
-
-    dashboardDetails,
-
-
-  } = useSelector(
-    (state: any) => state.UserCompanyReducer
-  );
-
-  const {
     departments,
     departmentsCurrentPages,
     departmentsNumOfPages,
+    dashboardDetails
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
 
-  const subDepartment = [
-    { id: '0', name: "Edit", icon: icons.edit },
-    { id: '1', name: "Create SubDepartment", icon: 'bi bi-file-earmark-plus' }
-  ]
 
-  const subChildDepartments = [
-    { id: '0', name: "Edit", icon: icons.edit },
-  ]
   const dynamicHeight: any = useDynamicHeight()
   const [showDepartments, setShowDepartments] = useState(false);
-  const [departmentDataList, setDepartmentDataList] = useState(departments);
-  const [department, setDepartment] = useState("");
-  const [editDepartment, setEditDepartment] = useState("");
-  const [editIsAdmin, setEditIsAdmin] = useState<boolean>();
+  const isUserAdmin = dashboardDetails.permission_details.is_admin
+  const isUserSuperAdmin = dashboardDetails.permission_details.is_super_admin
+
+
+  const addDepartmentModal = useModal(false)
+  const departmentName = useInput('')
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
-  const [editIsSuperAdmin, setEditIsSuperAdmin] = useState<boolean>();
-  const [addSubDepartmentItem, setAddSubDepartmentItem] = useState<any>('')
-  const addDepartMentModal = useModal(false);
-  const editDepartmentModal = useModal(false);
-  const [addSubDepartment, setAddSubDepartment] = useState("");
-  const [addSubDepartmentIsAdmin, setAddSubDepartmentIsAdmin] = useState(false);
-  const [addSubDepartmentIsSuperAdmin, setAddSubDepartmentIsSuperAdmin] = useState(false);
-  const addSubDepartmentModal = useModal(false)
+  const [selectedDepartment, setSelectedDepartment] = useState<any>(undefined);
+  const [isSubTask, setIsSubTask] = useState(false);
 
+
+
+
+  function addDepartmentApiHandler(params: object) {
+    dispatch(
+      addDepartment({
+        params,
+        onSuccess: (success: any) => () => {
+          getDepartmentList(departmentsCurrentPages)
+          addDepartmentModal.hide()
+          resetValues()
+        },
+        onError: (error: string) => () => { },
+      })
+    );
+
+  }
+  const getDepartmentMenu = (is_parent: boolean) => [
+    { id: '0', name: "Edit", icon: icons.edit },
+    ...(is_parent ? [{ id: '1', name: "Create Sub Department", icon: 'bi bi-file-earmark-plus' }] : [])
+  ]
 
   const dispatch = useDispatch();
 
@@ -73,13 +75,6 @@ function Department() {
       getDepartments({
         params,
         onSuccess: (response: any) => () => {
-          if (!showDepartments) {
-            setShowDepartments(!showDepartments)
-          }
-          if (response.success) {
-            setDepartmentDataList(response?.details?.data)
-          }
-
         },
         onError: (error: string) => () => {
 
@@ -89,189 +84,76 @@ function Department() {
 
   };
 
-
-  const postAddingDepartment = () => {
-    const params = {
-      name: editDepartment ? convertToUpperCase(editDepartment) : convertToUpperCase(department),
-      is_admin: editDepartment ? editIsAdmin : isAdmin,
-      ...(isSuperAdmin || addSubDepartmentItem.id && { is_super_admin: editDepartment ? editIsSuperAdmin : isSuperAdmin }),
-      ...(addSubDepartmentItem?.id && { id: addSubDepartmentItem.id })
-    };
-    const validation = validate(ADD_DEPARTMENT, params)
-    if (ifObjectExist(validation)) {
-      dispatch(
-        addDepartment({
-          params,
-          onSuccess: (success: any) => () => {
-            addDepartMentModal.hide()
-            editDepartmentModal.hide()
-            getDepartmentList(departmentsCurrentPages)
-            showToast(success.message, "success");
-            setIsAdmin(false)
-            setIsSuperAdmin(false)
-            setDepartment("");
-            setEditDepartment('')
-          },
-          onError: (error: string) => () => {
-            showToast('Department is already exists');
-          },
-        })
-      );
-    }
-    else {
-      showToast(getValidateError(validation));
-
-    }
-  };
-
-  const postAddingSubDepartment = () => {
-    const params = {
-      name: convertToUpperCase(addSubDepartment),
-      is_admin: addSubDepartmentIsAdmin,
-      ...(isSuperAdmin && { is_super_admin: addSubDepartmentIsSuperAdmin }),
-      parent_id: addSubDepartmentItem?.id,
-    };
-
-    const validation = validate(ADD_DEPARTMENT, params)
-    if (ifObjectExist(validation)) {
-      dispatch(
-        addDepartment({
-          params,
-          onSuccess: (success: any) => () => {
-            addDepartMentModal.hide()
-            addSubDepartmentModal.hide()
-            getDepartmentList(departmentsCurrentPages)
-            setAddSubDepartment('')
-            setAddSubDepartmentIsAdmin(false)
-            setAddSubDepartmentIsSuperAdmin(false)
-            showToast(success.message, "success");
-
-          },
-          onError: (error: string) => () => {
-            showToast('Department is already exists');
-          },
-        })
-      );
-    }
-    else {
-      showToast(getValidateError(validation));
-
-    }
-  };
-
-  const handleDepartmentAdminProcess = (item) => {
-
-    const updateData = departmentDataList.map((el: any) => {
-      if (el.id === item.id) {
-        return { ...el, is_admin: !el.is_admin }
-      }
-      return el
-    })
-
-    setDepartmentDataList(updateData)
-
-    const findElement = updateData.find((finditem) => finditem.id === item.id)
-
-    const params = {
-      id: findElement?.id,
-      is_admin: findElement?.is_admin
-    }
-
-    dispatch(
-      addDepartment({
-        params,
-        onSuccess: (success: any) => () => { },
-        onError: (error: string) => () => { },
-      })
-    );
-
-
-  }
-  const handleDepartmentSuperAdminProcess = (item) => {
-
-    const updateData = departmentDataList.map((el: any) => {
-      if (el.id === item.id) {
-        return { ...el, is_super_admin: !el.is_super_admin }
-      }
-      return el
-    })
-
-    setDepartmentDataList(updateData)
-
-    const findElement = updateData.find((finditem) => finditem.id === item.id)
-    const params = {
-      id: findElement?.id,
-      is_super_admin: findElement?.is_super_admin
-    }
-    dispatch(
-      addDepartment({
-        params,
-        onSuccess: (success: any) => () => { },
-        onError: (error: string) => () => { },
-      })
-    );
-
-  }
   const normalizedDepartmentData = (data: any) => {
-    return data?.map((item: any, index: any) => {
-
+    return data.map((item: any, index: any) => {
+      const { name, id, is_admin, is_super_admin, is_parent, parent } = item
       return {
-        name: item?.name,
-        ... (dashboardDetails?.permission_details.is_admin && {
+        name: <div >
+          <span>{name}</span><br></br>
+          {!is_parent && <small>{parent?.name}</small>
+          }
+        </div>,
+        ...(isUserAdmin ? {
           Admin:
-            <div className=" d-flex justify-content-center align-items-center ">
-              <input type={'checkbox'} checked={item?.is_admin} onChange={() => {
-                handleDepartmentAdminProcess(item)
+            <div className="mb--4">
+              <Checkbox id={id + "_admin"} defaultChecked={is_admin} checked={is_admin} onCheckChange={(checked) => {
+
+                const params = {
+                  is_admin: checked,
+                  id: id,
+                  name
+                };
+
+                addDepartmentApiHandler(params)
               }} />
-            </div>,
-
-
-        }),
-        ...(dashboardDetails?.permission_details.is_super_admin && {
-          superAdmin:
-            <div className=" d-flex justify-content-center align-items-center">
-              <input type={'checkbox'} checked={item?.is_super_admin} onChange={() => {
-                handleDepartmentSuperAdminProcess(item)
+            </div>
+        } : {}),
+        ...(isUserSuperAdmin ? {
+          'Super Admin':
+            <div className="mb--4">
+              <Checkbox id={id + "super_admin"} defaultChecked={is_super_admin} checked={is_super_admin} onCheckChange={(checked) => {
+                const params = {
+                  is_super_admin: checked,
+                  id: id,
+                  name
+                };
+                addDepartmentApiHandler(params)
               }} />
-            </div>,
+            </div>
+        } : {}),
+        '': <MenuBar menuData={getDepartmentMenu(is_parent)} onClick={(el) => {
 
-          
-        }),
 
-        '': (item?.is_parent ?
-          <MenuBar menuData={subDepartment} onClick={(el) => {
-            setAddSubDepartmentItem(item)
+          if (el?.id === '0') {
+            setSelectedDepartment(item)
+            const { name, is_admin, is_super_admin } = item
+            departmentName.set(name)
+            setIsAdmin(is_admin)
+            setIsSuperAdmin(is_super_admin)
+            setIsSubTask(false)
+          } else if (el?.id === '1') {
+            setIsSubTask(true)
+            setSelectedDepartment(item)
+            resetValues()
+          }
 
-            if (el.id === '0') {
-              editDepartmentModal.show()
-              setEditDepartment(item?.name)
-              setEditIsAdmin(item?.is_admin)
-              setEditIsSuperAdmin(item?.is_super_admin)
-            }
-            if (el.id === '1') {
-              addSubDepartmentModal.show()
-            }
+          addDepartmentModal.show()
 
-          }} /> :
-          <MenuBar menuData={subChildDepartments} onClick={(el) => {
-            setAddSubDepartmentItem(item)
-            if (el.id === '0') {
-              editDepartmentModal.show()
-              setEditDepartment(item?.name)
-              setEditIsAdmin(item?.is_admin)
-              setEditIsSuperAdmin(item?.is_super_admin)
 
-            }
-          }} />
-        )
 
+        }} />
       };
     });
   };
 
+  function resetValues() {
+    departmentName.set('')
+    setIsAdmin(false)
+    setIsSuperAdmin(false)
+  }
 
   return (
-    <div>  <>
+    <>
       <Card className={'mb-3'} style={{ height: showDepartments ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
         <div className="row">
           <div className="col">
@@ -286,20 +168,25 @@ function Department() {
               }
               size={"sm"}
               onClick={() => {
-                if (!showDepartments) {
+                setShowDepartments(!showDepartments)
 
+                if (!showDepartments) {
                   getDepartmentList(departmentsCurrentPages)
-                } else {
-                  setShowDepartments(!showDepartments)
                 }
+
               }}
             />
             <Button
               text={translate("product.addItem")}
               size={"sm"}
               onClick={() => {
-                addDepartMentModal.show();
-              }}
+                addDepartmentModal.show()
+                setSelectedDepartment(undefined)
+                setIsSubTask(false)
+
+
+              }
+              }
             />
           </div>
         </div>
@@ -308,14 +195,13 @@ function Department() {
           className="overflow-auto overflow-hide"
           style={{
             height: showDepartments ? dynamicHeight.dynamicHeight - 100 : '0px',
-            margin: '0px -20px 0px -20px'
           }}
         >
-          {departmentDataList && departmentDataList?.length > 0 ? (
+          {departments && departments?.length > 0 ? (
             <CommonTable
               isPagination
-              tableDataSet={departmentDataList}
-              displayDataSet={normalizedDepartmentData(departmentDataList)}
+              tableDataSet={departments}
+              displayDataSet={normalizedDepartmentData(departments)}
               noOfPage={departmentsNumOfPages}
               currentPage={departmentsCurrentPages}
               paginationNumberClick={(currentPage) => {
@@ -332,186 +218,64 @@ function Department() {
               }
               }
 
-
             />) : (
-            <div
-              className=" d-flex justify-content-center align-items-center"
-              style={{
-                height: "30.5rem",
-              }}
-            >
+            <div className="h-100 d-flex justify-content-center align-items-center">
               <NoRecordsFound />
             </div>
           )}
         </div>
       </Card>
+      <Modal
+        isOpen={addDepartmentModal.visible}
+        onClose={() => {
+          addDepartmentModal.hide()
+          resetValues()
+        }}
+        title={translate("common.department")!}
+      >
+        <div className="col-7">
+          <Input
+            placeholder={translate("common.department")!}
+            value={departmentName.value}
+            onChange={departmentName.onChange}
+          />
+        </div>
+        <div className="col">
+          <div className="row">
+            <span className="col-2">
+              {(isUserAdmin && isSubTask ? selectedDepartment?.is_admin : true) && <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />}
+            </span>
+            <span className="col-2">
+              {(isUserSuperAdmin && isSubTask ? selectedDepartment?.is_super_admin : true) && <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />}
+            </span>
+          </div>
+        </div>
+        <div className="text-right">
+          <Button
+            color={"secondary"}
+            text={translate("common.cancel")}
+            onClick={addDepartmentModal.hide}
+          />
+          <Button
+            text={translate("common.submit")}
+            onClick={() => {
+
+
+              console.log(JSON.stringify(selectedDepartment) + "++++++" + isSubTask);
+
+              const params = {
+                ...((!isSubTask && selectedDepartment) && { id: selectedDepartment?.id }),
+                ...((isSubTask && selectedDepartment) && { parent_id: selectedDepartment?.id }),
+                name: departmentName.value,
+                is_admin: isAdmin,
+                is_super_admin: isSuperAdmin,
+              }
+              addDepartmentApiHandler(params);
+            }}
+          />
+        </div>
+      </Modal>
     </>
-
-      <Modal
-        size={'md'}
-
-        isOpen={addDepartMentModal.visible}
-        onClose={() => {
-          addDepartMentModal.hide()
-          setIsAdmin(false)
-          setIsSuperAdmin(false)
-        }
-        }
-        title={translate("common.department")!}
-      >
-        <div className="">
-          <Input
-            placeholder={translate("common.department")!}
-            value={department}
-            onChange={(e) => setDepartment(e.target.value)}
-          />
-        </div>
-        <div className="row ">
-          <span className="col-2">
-            <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />
-          </span>
-          <span className="col-2">
-            <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />
-          </span>
-        </div>
-        <div className="text-right">
-          <Button
-            color={"secondary"}
-            text={translate("common.cancel")}
-            onClick={() => {
-              addDepartMentModal.hide()
-              setDepartment('')
-              setIsAdmin(false)
-              setIsSuperAdmin(false)
-            }}
-          />
-          <Button
-            text={translate("common.submit")}
-            onClick={() => {
-              postAddingDepartment();
-            }}
-          />
-        </div>
-      </Modal>
-
-      <Modal
-        size={'md'}
-        isOpen={editDepartmentModal.visible}
-        onClose={() => {
-          editDepartmentModal.hide()
-
-          setEditIsAdmin(false)
-          setEditIsSuperAdmin(false)
-          setEditDepartment('')
-
-        }}
-        title={translate("common.department")!}
-      >
-        <div className="">
-          <Input
-            placeholder={translate("common.department")!}
-            value={editDepartment}
-            onChange={(e) => setEditDepartment(e.target.value)}
-          />
-        </div>
-        <div className="row ">
-          <span className="col-2">
-            <Checkbox id={'Admin'} text={'Admin'} defaultChecked={editIsAdmin} onCheckChange={() => {
-
-              if (editIsAdmin) {
-
-                setEditIsAdmin(false)
-
-              }
-              else {
-                setEditIsAdmin(true)
-              }
-
-
-            }} />
-          </span>
-          <span className="col-2">
-            <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={editIsSuperAdmin} onCheckChange={() => {
-
-              if (editIsSuperAdmin) {
-
-                setEditIsSuperAdmin(false)
-
-              }
-              else {
-                setEditIsSuperAdmin(true)
-
-              }
-
-            }} />
-          </span>
-        </div>
-        <div className="text-right">
-          <Button
-            color={"secondary"}
-            text={translate("common.cancel")}
-            onClick={() => {
-              editDepartmentModal.hide()
-              setEditIsAdmin(false)
-              setEditIsSuperAdmin(false)
-              setEditDepartment('')
-            }}
-          />
-          <Button
-            text={translate("common.submit")}
-            onClick={() => {
-              postAddingDepartment();
-            }}
-          />
-        </div>
-      </Modal>
-
-      <Modal
-        size={'md'}
-        isOpen={addSubDepartmentModal.visible}
-        onClose={() => {
-          addSubDepartmentModal.hide()
-          setAddSubDepartment('')
-          setAddSubDepartmentIsAdmin(false)
-          setAddSubDepartmentIsSuperAdmin(false)
-        }}
-        title={translate("common.department")!}
-      >
-        <div className="">
-          <Input
-            placeholder={translate("common.department")!}
-            value={addSubDepartment}
-            onChange={(e) => setAddSubDepartment(e.target.value)}
-          />
-        </div>
-        <div className="row ">
-          <span className="col-2">
-            <Checkbox id={'Admin'} text={'Admin'} defaultChecked={addSubDepartmentIsAdmin} onCheckChange={() => { setAddSubDepartmentIsAdmin(!addSubDepartmentIsAdmin) }} />
-          </span>
-          <span className="col-2">
-            <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={addSubDepartmentIsSuperAdmin} onCheckChange={() => { setAddSubDepartmentIsSuperAdmin(!addSubDepartmentIsSuperAdmin) }} />
-          </span>
-        </div>
-        <div className="text-right">
-          <Button
-            color={"secondary"}
-            text={translate("common.cancel")}
-            onClick={() => {
-              addSubDepartmentModal.hide()
-              setAddSubDepartment('')
-              setAddSubDepartmentIsAdmin(false)
-              setAddSubDepartmentIsSuperAdmin(false)
-
-            }}
-          />
-          <Button
-            text={translate("common.submit")}
-            onClick={() => {
-              postAddingSubDepartment();
-            }}
-          />
-        </div>
-      </Modal></div>
   )
 }
 

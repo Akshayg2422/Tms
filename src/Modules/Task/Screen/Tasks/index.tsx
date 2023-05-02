@@ -188,7 +188,7 @@ function Tasks() {
             }
           />
           :
-          <NoDataFound type={'action'} buttonText={'Create Task'} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} />
+          <NoDataFound type={'action'} buttonText={'Create Task'} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
         }
       </HomeContainer>
     </div>

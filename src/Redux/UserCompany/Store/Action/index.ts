@@ -140,14 +140,14 @@ export const getBrandSectorFailure = (error) => {
   };
 };
 
-export const getTicketTag = (params) => {
+export const getTicketTag = (params: any) => {
   return {
     type: ActionTypes.GET_TICKET_TAG,
     payload: params,
   };
 };
 
-export const getTicketTagSuccess = (response) => {
+export const getTicketTagSuccess = (response: any) => {
 
   return {
     type: ActionTypes.GET_TICKET_TAG_SUCCESS,
@@ -155,7 +155,7 @@ export const getTicketTagSuccess = (response) => {
   };
 };
 
-export const getTicketTagFailure = (error) => {
+export const getTicketTagFailure = (error: any) => {
   return {
     type: ActionTypes.GET_TICKET_TAG_FAILURE,
     payload: error,

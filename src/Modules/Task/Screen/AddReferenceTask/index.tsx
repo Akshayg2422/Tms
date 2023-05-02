@@ -145,7 +145,7 @@ function AddReferenceTask() {
               getTasksApiHandler(paginationHandler("next", taskCurrentPages));
             }
             }
-          /> : <NoDataFound />}
+          /> : <NoDataFound text={'No text found'} />}
         </div>
       </div>
     </HomeContainer >

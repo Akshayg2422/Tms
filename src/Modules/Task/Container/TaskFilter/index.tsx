@@ -142,8 +142,54 @@ function
 
     return (
         < >
-            {/* <div className="row">
-                <div className="col text-right">
+            <div className="row">
+                <div className='row col'>
+                    <div className="col-lg-3  col-md-3 col-sm-12">
+                        <SearchInput heading={'Code/Title'} onSearch={
+                            (text) => {
+                                proceedParams({ q_many: text })
+                            }
+                        } />
+                    </div>
+                    <div className="col-lg-3 col-md-3 col-sm-12 ">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("common.assignedTo")}
+                            selected={filteredTask.value}
+                            data={TASK_FILTER_LIST}
+                            onChange={(item) => {
+                                filteredTask.onChange(item)
+                                proceedParams({ tasks_by: item.id })
+                            }}
+                        />
+                    </div>
+
+                    <div className="col-lg-3 col-md-3 col-sm-12">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("common.ticketStatus")}
+                            data={TASK_STATUS_LIST}
+                            selected={taskStatus.value}
+                            onChange={(item) => {
+                                taskStatus.onChange(item)
+                                proceedParams({ task_status: item.id })
+                            }}
+                        />
+                    </div>
+                    <div className="col-lg-3 col-md-3 col-sm-12">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("common.Priority")}
+                            data={TASK_PRIORITY_LIST}
+                            selected={taskPriority.value}
+                            onChange={(item) => {
+                                taskPriority.onChange(item)
+                                proceedParams({ priority: item.id })
+                            }}
+                        />
+                    </div>
+                </div>
+                <div className="d-flex align-items-center justify-content-center">
                     <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
                         if (el.id === FILTER_MENU[1].id) {
                             setAdvanceFilter(true)
@@ -158,70 +204,15 @@ function
                         }
                     }} />
                 </div>
-            </div> */}
-
-            <div className="row mt-3 mb--3">
-                <div className="col-lg-3  col-md-3 col-sm-12">
-                    <SearchInput heading={'Code/Title'} onSearch={
-                        (text) => {
-                            proceedParams({ q_many: text })
-                        }
-                    } />
-                </div>
-                <div className="col-lg-3 col-md-3 col-sm-12 ">
-                    <DropDown
-                        className="form-control-sm"
-                        heading={translate("common.assignedTo")}
-                        selected={filteredTask.value}
-                        data={TASK_FILTER_LIST}
-                        onChange={(item) => {
-                            filteredTask.onChange(item)
-                            proceedParams({ tasks_by: item.id })
-                        }}
-                    />
-                </div>
-
-                <div className="col-lg-3 col-md-3 col-sm-12">
-                    <DropDown
-                        className="form-control-sm"
-                        heading={translate("common.ticketStatus")}
-                        data={TASK_STATUS_LIST}
-                        selected={taskStatus.value}
-                        onChange={(item) => {
-                            taskStatus.onChange(item)
-                            proceedParams({ task_status: item.id })
-                        }}
-                    />
-                </div>
-                <div className="col">
-                    <DropDown
-                        className="form-control-sm"
-                        heading={translate("common.Priority")}
-                        data={TASK_PRIORITY_LIST}
-                        selected={taskPriority.value}
-                        onChange={(item) => {
-                            taskPriority.onChange(item)
-                            proceedParams({ priority: item.id })
-                        }}
-                    />
-                </div>
-                <div className="col-auto mt-4 ml-0 mr--3">
-                    <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
-                        if (el.id === FILTER_MENU[1].id) {
-                            setAdvanceFilter(true)
-                            setDepartments([])
-                            setDesignations([])
-                            company.onChange({})
-                        } else {
-                            setAdvanceFilter(false)
-                            setDepartments([])
-                            setDesignations([])
-                            company.onChange({})
-                        }
+            </div>
+            <div className='row mt-2'>
+                <div className='col-auto  d-flex align-items-center justify-content-center'>
+                    <Checkbox text={'Include Subtask'} checked={includeSubTask} onCheckChange={(checked) => {
+                        proceedParams({ include_subtask: checked })
+                        setIncludeSubTask(checked)
                     }} />
                 </div>
-
-                {advanceFilter && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+                {advanceFilter && <div className="col-lg-3 col-md-3 col-sm-12">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.company")}
@@ -237,7 +228,7 @@ function
                 </div>
                 }
 
-                {departments.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+                {departments.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
@@ -252,7 +243,7 @@ function
                 </div>
                 }
 
-                {designations.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+                {designations.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("auth.designation")}
@@ -266,16 +257,8 @@ function
                     />
                 </div>
                 }
-
-
-                <div className="col pt-3">
-                    <Checkbox text={'Include Subtask'} checked={includeSubTask} onCheckChange={(checked) => {
-                        proceedParams({ include_subtask: checked })
-                        setIncludeSubTask(checked)
-                    }} />
-                </div>
-
             </div>
+
         </>
     )
 }

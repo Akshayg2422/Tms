@@ -1,6 +1,6 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask ,CreateBroadCast, CreateCompany, AddUser, Ticket,AddTicket} from '@Modules'
+import {  Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Ticket, AddTicket } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
-
+import { icons } from '@Assets'
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -32,8 +32,8 @@ export const ROUTES = {
     tasks: '/tasks',
     'tasks-details': '/tasks-details',
     'reference-task': '/reference-task',
-    'add-task':'/add-task',
-    'add-sub-task':'/add-sub-task',
+    'add-task': '/add-task',
+    'add-sub-task': '/add-sub-task',
   },
   'ticket-module': {
     ticket: '/ticket',
@@ -85,42 +85,42 @@ export const HOME_ROUTES = [
   {
     path: ROUTES['task-module'].tasks,
     name: "Tasks",
-    icon: "bi bi-list-task text-primary",
+    icon: icons.task,
     layout: "",
     component: <Tasks />
   },
   {
     path: ROUTES['ticket-module'].ticket,
     name: "Tickets",
-    icon: "bi bi-bell text-primary",
+    icon: icons.issue,
     layout: "",
     component: <Ticket />
   },
   {
     path: ROUTES['user-company-module'].companies,
     name: "Companies",
-    icon: "bi bi-geo-alt text-primary",
+    icon: icons.company,
     layout: "",
     component: <Companies />
   },
   {
     path: ROUTES['message-module'].broadcast,
     name: "Broadcast",
-    icon: "bi bi-megaphone text-primary",
+    icon: icons.broadCast,
     layout: "",
     component: <Broadcast />
   },
   {
     path: ROUTES['user-company-module'].profile,
     name: "Profile",
-    icon: "bi bi-person-circle text-primary",
+    icon: icons.profile,
     layout: "",
     component: <Profile />
   },
   {
     path: ROUTES['user-company-module'].setting,
     name: "Settings",
-    icon: "bi bi-gear text-primary",
+    icon: icons.setting,
     layout: "",
     component: <Setting />
   }
@@ -148,9 +148,9 @@ export const TASK_ROUTES = [
   {
     key: 4,
     path: ROUTES['task-module']['add-sub-task'],
-    component: <AddSubTask/>
+    component: <AddSubTask />
   },
-  
+
 ];
 
 export const TICKET_ROUTES = [

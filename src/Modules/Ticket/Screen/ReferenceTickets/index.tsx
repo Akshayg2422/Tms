@@ -1,7 +1,7 @@
 import { HomeContainer, NoDataFound, CommonTable } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTickets, setIsSync, setSelectedReferenceTickets } from "@Redux";
+import { getReferenceTickets, setIsSync, } from "@Redux";
 import {  getStatusFromCode, paginationHandler } from "@Utils";
 import { HOME_PATH } from "@Routes";
 import { useNavigation } from "@Hooks";
@@ -94,7 +94,7 @@ function ReferenceTickets() {
           // }
           tableOnClick={(idx, index, item) => {
             // dispatch(setselectedTicket(item));
-            dispatch(setSelectedReferenceTickets(item))
+            // dispatch(setSelectedReferenceTickets(item))
             goTo(HOME_PATH.ISSUE_DETAILS);
           }
 
