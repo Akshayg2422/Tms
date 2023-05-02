@@ -118,7 +118,7 @@ function AddReferenceTask() {
 
 
   return (
-    <HomeContainer type={'card'} className="h-100 m-3">
+    <HomeContainer type={'card'} className="vh-100 m-3">
       <div  >
         <div className="row justify-content-between m-3">
           <Back />
@@ -149,7 +149,7 @@ function AddReferenceTask() {
               getTasksApiHandler(paginationHandler("next", taskCurrentPages));
             }
             }
-          /> : <NoDataFound text={'No text found'} />}
+          /> : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '70vh' }}><NoDataFound text={'No text found'} /></div>}
         </div>
       </div>
     </HomeContainer >

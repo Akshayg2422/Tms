@@ -45,7 +45,7 @@ function TaskAttachments() {
   return (
     <>
       <Card className="overflow-auto" style={{
-        height: height - 60
+        height: height - 15
       }}>
         <div className="row text-right">
           <div className="col-5" >

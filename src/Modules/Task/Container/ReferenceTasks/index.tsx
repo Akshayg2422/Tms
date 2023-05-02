@@ -3,15 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { getReferenceTasks, setSelectedTask } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 import { NoDataFound, Card, CommonTable, Button } from "@Components";
-import { useNavigation } from '@Hooks'
+import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
 
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
+<<<<<<< HEAD
   const { id } = useParams();
   const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages } = useSelector(
+=======
+  const { height } = useWindowDimensions()
+
+  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages, selectedTask } = useSelector(
+>>>>>>> ec8fdbca6b8ce709a8fb25abc1cc7f439d1f26d3
     (state: any) => state.TaskReducer
   );
 
@@ -57,7 +63,7 @@ function ReferenceTasks() {
 
   return (
 
-    <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: '89vh' }}>
+    <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
       <div className="col text-right">
         <Button size={'sm'} text={'Add Reference Task'} onClick={() => {
           goTo(ROUTES["task-module"]["reference-task"])

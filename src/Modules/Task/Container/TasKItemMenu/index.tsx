@@ -112,12 +112,12 @@ function TaskItemMenu() {
                  */
             }
 
-            <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }}>
+            <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ maxHeight: '80vh' }}>
                 <Employees selection={'multiple'} onSelected={(users) => {
                     const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
                     setTaggedUsers(taggedUserIds)
                 }} />
-                <div className="pt-3 text-right">
+                <div className="pt-3 mr-2 text-right">
                     <Button
                         size={'sm'}
                         text={translate("common.submit")}
@@ -135,7 +135,7 @@ function TaskItemMenu() {
 
             <Modal fade={false} isOpen={reassignUserModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={reassignUserModal.hide}>
                 <Employees selection={'single'} onSelected={setReassignUser} />
-                <div className="pt-3 text-right">
+                <div className="text-right">
                     <Button
                         size={'sm'}
                         text={translate("common.submit")}

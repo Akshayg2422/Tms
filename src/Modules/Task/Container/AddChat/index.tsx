@@ -122,7 +122,6 @@ function AddChat() {
                     </div>
                 </div>
 
-
             </Modal>
         </>
     )
