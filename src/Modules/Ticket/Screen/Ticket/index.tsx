@@ -11,7 +11,7 @@ import { icons } from "@Assets";
 import { log } from "console";
 import { json } from "stream/consumers";
 
-const DEFAULT_PARAMS = { q_many: "","tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL","group":"ALL", "include_subticket":false, page_number: 1 }
+const DEFAULT_PARAMS = { q_many: "","tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL", page_number: 1 }
 
 function Ticket() {
 

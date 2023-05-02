@@ -4,8 +4,8 @@ import { BrandSector, Department, Designation, GroupTask, Tag } from '@Modules'
 function Setting() {
   return (
     <div className='m-3'>
-      <Tag />
-      {/* <div className='row ml-2 mr-2 mt-3'>
+    
+       <div className='row ml-2 mr-2 mt-3'>
         <div className='col-sm-6'>
           <div>
             <Department />
@@ -22,12 +22,12 @@ function Setting() {
             <Designation />
           </div>
 
-          <div> */}
-      {/* <Tag /> */}
-      {/* </div>
+          <div> 
+       <Tag /> 
+      </div>
         </div>
 
-      </div> */}
+      </div> 
     </div>
   )
 }
