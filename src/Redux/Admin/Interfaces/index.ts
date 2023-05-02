@@ -18,9 +18,9 @@ export interface AdminStateProp {
   taskCurrentPages: any
 
   tickets: any,
-  // showSubTicketGroup: any,
-  // ticketNumOfPages: any,
-  // ticketCurrentPages: any
+  showSubTicketGroup: any,
+  ticketNumOfPages: any,
+  ticketCurrentPages: any
   addingTicket: any,
   
   // designationCurrentPages:any,
@@ -32,12 +32,12 @@ export interface AdminStateProp {
   taskItem: any,
   // brandSector: any,
   // getTaskGroupCurrentPages:any,
-  // ticketTag:any,
+  ticketTag:any,
   loginUserSuccess: any,
   // brandSectorCurrentPages:any,
   // brandSectorNumOfPages:any,
-  // ticketTagCurrentPages:any,
-  // ticketTagNumOfPages:any,
+  ticketTagCurrentPages:any,
+  ticketTagNumOfPages:any,
   referencesTasks: any,
   referencesTasksNumOfPages: any,
   referencesTasksCurrentPages: any,

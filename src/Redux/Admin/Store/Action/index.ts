@@ -11,9 +11,9 @@ import {
   ADD_TASK_SUCCESS,
   ADD_TASK_FAILURE,
 
-  ADD_TICKET,
-  ADD_TICKET_SUCCESS,
-  ADD_TICKET_FAILURE,
+  // ADD_TICKET,
+  // ADD_TICKET_SUCCESS,
+  // ADD_TICKET_FAILURE,
 
   GET_TASKS_ITEM,
   GET_CURRENT_PAGE,
@@ -193,25 +193,24 @@ export const autoCompleteDropDown = (params: any) => {
 
 
 /* CREATE TICKET */
-
- export const addTicket = (params: any) => {
- return {
-  type: ADD_TICKET,
-   payload: params
-   }
- }
- export const addTicketSuccess = (response: any) => {
-   return {
-     type: ADD_TICKET_SUCCESS,
-     payload: response
-   }
- }
- export const addTicketFailure = (error: any) => {
-   return {
-     type: ADD_TICKET_FAILURE,
-     payload: error
-   }
- }
+// export const addTicket = (params: any) => {
+//   return {
+//     type: ADD_TICKET,
+//     payload: params
+//   }
+// }
+// export const addTicketSuccess = (response: any) => {
+//   return {
+//     type: ADD_TICKET_SUCCESS,
+//     payload: response
+//   }
+// }
+// export const addTicketFailure = (error: any) => {
+//   return {
+//     type: ADD_TICKET_FAILURE,
+//     payload: error
+//   }
+// }
 
 
 // export const getTaskItem = (params: any) => {

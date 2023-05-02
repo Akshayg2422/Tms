@@ -112,23 +112,6 @@ function Ticket() {
         "raised by":
           <div className="h5"> {el?.by_user?.name} </div>,
         "raised to":
-          // <>
-          //   <div className="row">
-          //     <div className="col-3 p-0 align-self-center">
-          //       <div className="col p-0 d-flex justify-content-center"> {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />} </div>
-          //     </div>
-
-          //     <div className="col-9 text-truncate">
-          //       <h6>
-          //         <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
-          //         <div className="h5 mb-0 d-inline-block text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
-          //         <div className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place || "Gummidipoondi"}</div>
-          //       </h6>
-          //     </div>
-          //     <div className="col"></div>
-          //   </div>
-
-          // </>,
           <div className="row">
               {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />}
               <div className="ml-2">

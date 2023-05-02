@@ -139,6 +139,7 @@ function AddTask() {
         };
 
         const validation = validate(taskType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
+        
         if (ifObjectExist(validation)) {
             dispatch(
                 addTask({
@@ -243,7 +244,7 @@ function AddTask() {
 
     const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
-    console.log(JSON.stringify(company.value) + "======");
+    console.log("==========>>",JSON.stringify(company.value) );
 
     return (
         <Card className="m-3">

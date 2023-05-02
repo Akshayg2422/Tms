@@ -13,10 +13,10 @@ import {
 import { translate } from "@I18n";
 import {
     getEmployees,
-    addTicket,
     getDepartments,
     getDesignations,
-    getAssociatedCompaniesL
+    getAssociatedCompaniesL,
+    raiseNewTicket
 
 } from "@Redux";
 import {
@@ -58,7 +58,7 @@ function AddTicket() {
     const department = useDropDown({})
     const designation = useDropDown({})
     const company = useDropDown({})
-    const ticketGroup = useDropDown({})
+    // const ticketGroup = useDropDown({})
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
@@ -71,11 +71,12 @@ function AddTicket() {
 
     useEffect(() => {
         getAssociatedCompaniesApi();
-
+        // console.log('========>>>')
     }, [])
 
     useEffect(() => {
         getCompanyEmployeeApi()
+        // console.log('=======><><>')
     }, [designation.value, department.value])
 
 
@@ -103,7 +104,7 @@ function AddTicket() {
         };
 
 
-        console.log(JSON.stringify(params) + '======getCompanyEmployeeApi');
+        console.log('getCompanyEmployeeApi=====>' + JSON.stringify(params));
 
         dispatch(
             getEmployees({
@@ -122,7 +123,7 @@ function AddTicket() {
         );
     }
 
-    const submitTaskHandler = () => {
+    const submitTicketHandler = () => {
         const params = {
             title: title?.value,
             description: description?.value,
@@ -131,22 +132,25 @@ function AddTicket() {
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             ticket_attachments: [{ attachments: attach }],
-            is_parent: true,
-            eta_time: eta,
-            group_id: ticketGroup?.value?.id,
+            // is_parent: true,
+            // eta_time: eta,
+            // group_id: ticketGroup?.value?.id,
         };
+        console.log('==========>',params )
+
 
         const validation = validate(ticketType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
+            console.log('=======><')
             dispatch(
-                addTicket({
+                raiseNewTicket({
                     params,
                     onSuccess: (response: any) => () => {
                         if (response.success) {
                             goBack();
                             showToast(response.message, "success");
                         }
-
+                        console.log('+++++++++++')
                     },
                     onError: (error) => () => {
                         showToast(error.error_message);
@@ -188,6 +192,7 @@ function AddTicket() {
             })
         );
     }
+
     function getDepartmentsApiHandler() {
 
         const params = {
@@ -241,7 +246,7 @@ function AddTicket() {
 
     const getExternalCompanyStatus = () => ((ticketType && ticketType?.id === "2") || company.value?.id)
 
-    // console.log(JSON.stringify(company.value) + "======");
+    console.log("======>", JSON.stringify(company.value));
 
     return (
         <Card className="m-3">
@@ -337,14 +342,6 @@ function AddTicket() {
                         }}
                     />}
 
-                {/* {ticketGroups && ticketGroups.length > 0 && <DropDown
-                    heading={'Select Group'}
-                    placeHolder={'Select a Designation...'}
-                    data={getDropDownDisplayData(ticketGroups, 'code')}
-                    onChange={ticketGroup.onChange}
-                    selected={ticketGroup.value}
-                />
-                } */}
 
                 <DropDown
                     heading={translate("common.ticketPriority")!}
@@ -392,7 +389,7 @@ function AddTicket() {
             <div className="col mt-4">
                 <Button
                     text={translate("common.submit")}
-                    onClick={submitTaskHandler}
+                    onClick={submitTicketHandler}
                 />
             </div>
 

@@ -33,18 +33,12 @@ import * as ActionTypes from '../ActionTypes'
    * @returns
    */
   
-  // export const getTickets = (params: any) => {
-  //   return {
-  //     type: ActionTypes.GET_TICKETS,
-  //     payload: params,
-  //   };
-  // };
-  export const getTickets = (params:any) =>{
-    return{
-      type:ActionTypes.GET_TICKETS,
-      payload:params,
-    }
-  }
+  export const getTickets = (params: any) => {
+    return {
+      type: ActionTypes.GET_TICKETS,
+      payload: params,
+    };
+  };
   
   export const getTicketsSuccess = (response: any) => {
     return {

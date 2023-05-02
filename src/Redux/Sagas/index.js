@@ -18,5 +18,5 @@ export default function* rootSaga() {
   yield all([fork(UserCompanySaga)]);
   yield all([fork(TaskSaga)]);
   yield all([fork(CommunicationSaga)]);
-  yield all([fork[TicketSaga]]);
+  yield all([fork(TicketSaga)]);
 }

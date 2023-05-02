@@ -50,6 +50,14 @@ const initialState: AdminStateProp = {
   getSubTaskId: undefined,
   loginUserSuccess: false,
   taskHistoryList: undefined,
+  // tickets: undefined,
+  showSubTicketGroup: undefined,
+  ticketNumOfPages: undefined,
+  ticketCurrentPages: undefined,
+  // addingTicket: undefined,
+  ticketTag: undefined,
+  ticketTagCurrentPages: undefined,
+  ticketTagNumOfPages: undefined
 };
 
 
@@ -291,20 +299,21 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
 
     case ADD_TICKET:
 
-     state = { ...state, addingTicket: undefined };
-   break;
-
-   case ADD_TICKET_SUCCESS:
-
-     state = { ...state, addingTicket: action.payload.details };
+    state = { ...state, addingTicket: undefined };
     break;
 
-   case ADD_TICKET_FAILURE:
+  case ADD_TICKET_SUCCESS:
+
+    state = { ...state, addingTicket: action.payload.details };
+    break;
+
+  case ADD_TICKET_FAILURE:
 
     state = { ...state, addingTicket: action.payload };
     break;
+
+
     /**add task group */
-    
     // case ADD_TASK_GROUP:
 
     //   state = { ...state, addTaskGroup: undefined };
