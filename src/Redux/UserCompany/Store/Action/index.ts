@@ -31,6 +31,7 @@ export const addDepartmentFailure = (error) => {
 };
 
 export const addDesignation = (params) => {
+  console.log("designationparams--->",params)
   return {
     type: ActionTypes.ADD_DESIGNATION,
     payload: params,

@@ -11,7 +11,7 @@ export const GET_TASKS_FAILURE = 'GET_TASKS_FAILURE';
 
 
 /* Task Itme */
-export const SELECTED_TASK_IEM = 'SELECTED_TASK_IEM';
+export const SELECTED_TASK_ITEM = 'SELECTED_TASK_ITEM';
 
 /**
  * Add Task Event

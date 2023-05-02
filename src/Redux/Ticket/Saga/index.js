@@ -20,8 +20,10 @@ function* raiseNewTicketSaga(action) {
 }
 
 function* getTicketsSaga(action) {
+  console.log("saga--ddddddddddddddddddddddddd->",action)
   try {
     const response = yield call(Services.getTicketsApi, action.payload.params);
+    console.log("response--->",response)
     if (response.success) {
       yield put(Action.getTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
@@ -36,6 +38,7 @@ function* getTicketsSaga(action) {
 }
 
 function* getTicketEventsSaga(action) {
+
   try {
     const response = yield call(Services.getTicketEventsApi, action.payload.params);
     if (response.success) {
@@ -128,6 +131,7 @@ function* getTicketUsersSaga(action) {
 
 
 function* TicketSaga() {
+  console.log("Watcher---->")
   yield takeLatest(Action.RAISE_NEW_TICKET, raiseNewTicketSaga);
   yield takeLatest(Action.GET_TICKETS, getTicketsSaga);
   yield takeLatest(Action.GET_TICKET_EVENTS, getTicketEventsSaga);

@@ -1,3 +1,4 @@
+import { log } from 'console';
 import * as ActionTypes from '../ActionTypes'
 
 /**
@@ -34,6 +35,8 @@ export const raiseNewTicketFailure = (error: any) => {
  */
 
 export const getTickets = (params: any) => {
+  console.log('cation' +"====getTickets");
+  
   return {
     type: ActionTypes.GET_TICKETS,
     payload: params,
@@ -191,14 +194,14 @@ export const getTicketUsersFailure = (error: any) => {
   }
 }
 
-export const setselectedTicket = (response: any) => {
+export const setSelectedTicket = (response: any) => {
   return {
-    type: ActionTypes.SET_SELECTED_TICKET,
+    type: ActionTypes.SELECTED_TICKET_ITEM,
     payload: response,
   };
 };
 
-export const setselectedReferenceTickets = (response: any) => {
+export const setSelectedReferenceTickets = (response: any) => {
 
   return {
     type: ActionTypes.SET_REFERENCE_SELECTED_TICKETS,
