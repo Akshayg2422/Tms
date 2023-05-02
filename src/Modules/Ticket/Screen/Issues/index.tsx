@@ -109,7 +109,7 @@ function Issues() {
   }
 
 
-  function proceedTickerSearch() {
+  function proceedTicketSearch() {
     setSyncTickets()
     getTicketHandler(SEARCH_PAGE)
   }
@@ -302,42 +302,62 @@ function Issues() {
         </div>
       </HomeContainer> */}
 
-    <div className="m-3">
-      <HomeContainer isCard>
+    
+        <div className="row">
+          <div className="mx-2 mb--3 col">
 
-        {tickets && tickets.length > 0 ?
-          <>
-            <CommonTable
-              isPagination
-              tableDataSet={tickets}
-              displayDataSet={normalizedTableData(tickets)}
-              noOfPage={ticketNumOfPages}
-              currentPage={ticketCurrentPages}
-              paginationNumberClick={(currentPage) => {
-                getTicketHandler(paginationHandler("current", currentPage));
-              }}
-              previousClick={() => {
-                getTicketHandler(paginationHandler("prev", ticketCurrentPages))
-              }
-              }
-              nextClick={() => {
-                getTicketHandler(paginationHandler("next", ticketCurrentPages));
-              }
-              }
-              tableOnClick={(idx, index, item) => {
-                dispatch(setselectedTicket(item));
-                dispatch(setselectedReferenceTickets(undefined))
-                goTo(HOME_PATH.ISSUE_DETAILS);
-              }
-              }
-            />
-          </> : <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} />
-        }
 
-      </HomeContainer>
-      </div>
-    </>
-  );
+            <div className="col-auto ">
+              <Button
+                size={'sm'}
+                text={translate("common.createTask")}
+                onClick={() => {
+                  //goTo(ROUTES["task-module"]["add-task"])
+                }
+                }
+
+              />
+
+            </div>
+          </div>
+        </div>
+
+        <div className="m-3">
+          <HomeContainer isCard>
+
+            {tickets && tickets.length > 0 ?
+              <>
+                <CommonTable
+                  isPagination
+                  tableDataSet={tickets}
+                  displayDataSet={normalizedTableData(tickets)}
+                  noOfPage={ticketNumOfPages}
+                  currentPage={ticketCurrentPages}
+                  paginationNumberClick={(currentPage) => {
+                    getTicketHandler(paginationHandler("current", currentPage));
+                  }}
+                  previousClick={() => {
+                    getTicketHandler(paginationHandler("prev", ticketCurrentPages))
+                  }
+                  }
+                  nextClick={() => {
+                    getTicketHandler(paginationHandler("next", ticketCurrentPages));
+                  }
+                  }
+                  tableOnClick={(idx, index, item) => {
+                    dispatch(setselectedTicket(item));
+                    dispatch(setselectedReferenceTickets(undefined))
+                    goTo(HOME_PATH.ISSUE_DETAILS);
+                  }
+                  }
+                />
+              </> : <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} />
+            }
+
+          </HomeContainer>
+        </div>
+      </>
+      );
 }
 
-export { Issues };
+      export {Issues};
