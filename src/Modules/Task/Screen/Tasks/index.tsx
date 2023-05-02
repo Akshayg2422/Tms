@@ -38,7 +38,7 @@ function Tasks() {
       params,
       onSuccess: (response) => () => {
 
-        console.log(JSON.stringify(response) + '=====>');
+        console.log( 'getDashboardDetails=====>',JSON.stringify(response) );
 
       },
       onError: () => () => { }

@@ -78,7 +78,6 @@ function Ticket() {
       const etaDate = new Date(el.eta_time)
       let etaTime = etaDate.getHours()
 
-      // console.log('======>',data)
       return {
 
         "tickets": 
@@ -96,24 +95,6 @@ function Ticket() {
               </div>
             </>,
         "attachments":
-          // <div className="avatar-group" style={{
-          //   // width: '87px'
-          // }}>
-          //   {
-          //     el?.tickets_attachments &&
-          //     el?.ticket_attachments.length > 0 && el?.ticket_attachments.map((item) => {
-
-          //       return <a
-          //         href="#pablo"
-          //         onClick={(e) => e.preventDefault()}>
-          //         <Image
-          //           variant={'avatar'}
-          //           src={getPhoto(item?.attachment_file)} /></a>
-          //     })
-          //   }
-
-          // </div>,
-
           <div className="row avatar-group">
               {
                 el?.ticket_attachments &&
