@@ -218,7 +218,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     //   state = {
     //     ...state,
     //     taskGroupDetails: page_number === 1 ? [] : state.taskGroupDetails,
-    //     getTaskGroupDetails: undefined,
+    //     taskGroups: undefined,
     //     taskGroupNumOfPages: 0,
     //     taskGroupCurrentPages: 1,
     //     loading: true
@@ -233,7 +233,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     //     getTaskGroupCurrentPages:
     //       action.payload?.details?.next_page,
 
-    //     getTaskGroupDetails: action?.payload?.details?.data,
+    //     taskGroups: action?.payload?.details?.data,
     //     taskGroupNumOfPages: action?.payload?.details?.num_pages,
     //     taskGroupCurrentPages:
     //       action?.payload?.details?.next_page === -1

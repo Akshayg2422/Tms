@@ -12,6 +12,7 @@ import {
 } from "react-redux";
 import {
     addTaskEvent,
+    refreshTaskEvents
 } from "@Redux";
 import { Employees } from '@Modules'
 import { useDropDown, useInput, useModal, useNavigation } from "@Hooks";
@@ -62,15 +63,18 @@ function TaskItemMenu() {
 
         dispatch(addTaskEvent({
             params,
-            onSuccess: () => () => {
+            onSuccess: (response) => () => {
                 try {
                     tagUserModal.hide()
                     reassignUserModal.hide()
                     taskCloseModal.hide()
+                    dispatch(refreshTaskEvents())
                 } catch (e) {
                 }
             },
-            onFailure: () => () => { }
+            onError: (erroe) => () => {
+                console.log(JSON.stringify(erroe));
+            }
         }))
     }
 
@@ -81,12 +85,7 @@ function TaskItemMenu() {
             taskstatus_changeto: status.value?.id,
             reason: taskStatusReason.value,
         }
-
-        console.log(JSON.stringify(params) + '=====params');
-
-
         proceedAddTaskEvents(params)
-
     }
 
 
@@ -110,7 +109,7 @@ function TaskItemMenu() {
                  */
             }
 
-            <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ overflowY: 'auto', maxHeight:  dynamicHeight.dynamicHeight }}>
+            <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }}>
                 <Employees selection={'multiple'} onSelected={(users) => {
                     const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
                     setTaggedUsers(taggedUserIds)
@@ -131,7 +130,7 @@ function TaskItemMenu() {
                  */
             }
 
-            <Modal fade={false} isOpen={reassignUserModal.visible}  style={{ overflowY: 'auto', maxHeight:  dynamicHeight.dynamicHeight }}  onClose={reassignUserModal.hide}>
+            <Modal fade={false} isOpen={reassignUserModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={reassignUserModal.hide}>
                 <Employees selection={'single'} onSelected={setReassignUser} />
                 <div className="pt-3 text-right">
                     <Button

@@ -36,7 +36,7 @@ export interface AdminStateProp {
   referencesTasksCurrentPages: any,
   taskUsers: any,
   current: any;
-  // getTaskGroupDetails:any,
+  // taskGroups:any,
   // taskGroupCurrentPages:any,
   // taskGroupNumOfPages:any,
   // addTaskGroup:any,

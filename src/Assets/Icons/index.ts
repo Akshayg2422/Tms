@@ -45,7 +45,6 @@ export const icons = {
   eye: require('./Eye/icon.png'),
   faceBook: require('./Facebook/icon.png'),
   feed: require('./Feed/icon.png'),
-
   greenProfile: require('./GreenProfile/icon.png'),
   home: require('./Home/icon.png'),
   homeBg: require('./HomeBg/icon.png'),
@@ -108,9 +107,14 @@ export const icons = {
   backArrow: require('./BackArrow/icon.png'),
   questionMark: require('./RoundedQuestionMark/icon.png'),
   issuesProblem: require('./IssuesProblem/problem.png'),
-  broadCast: require('./BroadCast/icon.png'),
+  broadCast: require('./Broadcast/icon.png'),
   bellIcon: require('./BellIcon/icon.png'),
   editLineIcon: require('./EditLine/editing.png'),
   subTask: require('./SubTask/icon.png'),
-  imageEdit: require('./ImageEdit/edit.png')
+  imageEdit: require('./ImageEdit/edit.png'),
+  message: require('./Message/icon.png'),
+  task: require('./Task/icon.png'),
+  issue: require('./Issue/icon.png'),
+  company: require('./Company/icon.png'),
+  setting: require('./Setting/icon.png'),
 };

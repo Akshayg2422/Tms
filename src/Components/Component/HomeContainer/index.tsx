@@ -11,7 +11,8 @@ function HomeContainer({ children, title, className, type = 'default', style }: 
           className={`${className}`}
           style={style}
           title={title}
-        >{children}
+        >
+          {children}
         </Card>
       }
     </>

@@ -2,7 +2,7 @@ import React from 'react'
 import { TimeLineProps } from './interfaces'
 import { Image } from '@Components'
 
-function TimeLine({ showDotterLine, children, title, time, icon, color = 'info', rtl }: TimeLineProps) {
+function TimeLine({ showDotterLine, children, title, time, icon, color = 'info', rtl, subTitle }: TimeLineProps) {
     return (
         <div
             className={`${showDotterLine && 'timeline'} timeline-one-side `}
@@ -10,12 +10,13 @@ function TimeLine({ showDotterLine, children, title, time, icon, color = 'info',
             data-timeline-content="axis">
             <div className="timeline-block" dir={rtl ? "rtl" : undefined}>
                 <span className={`timeline-step badge-${color}`}>
-                    {icon ? <Image src={icon} width={20} height={20} /> : <i className="ni ni-bell-55" />}
+                    {icon ? <Image src={icon} width={15} height={15} /> : <i className="ni ni-bell-55" />}
                 </span>
 
                 <div className="timeline-content">
                     <div className='d-flex justify-content-between'>
                         <div>
+                            <h6 className="h5 mt-0 mb-0">{subTitle}</h6>
                             <span className="text-muted text-sm font-weight-bold">
                                 {title}
                             </span>

@@ -37,9 +37,6 @@ function Tasks() {
     dispatch(getDashboard({
       params,
       onSuccess: (response) => () => {
-
-        console.log(JSON.stringify(response) + '=====');
-
       },
       onError: () => () => { }
     }));
@@ -57,7 +54,11 @@ function Tasks() {
           console.log(JSON.stringify(responx));
 
         },
-        onError: () => () => { },
+        onError: (error) => () => {
+
+          console.log(JSON.stringify(error));
+
+        },
       })
     );
   };
@@ -118,7 +119,6 @@ function Tasks() {
   };
 
 
-  console.log(JSON.stringify(tasks) + "======");
 
 
   return (

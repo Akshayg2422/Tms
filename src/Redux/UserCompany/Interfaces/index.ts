@@ -13,7 +13,7 @@ export interface UserCompanyStateProp {
     brandSectorNumOfPages: any,
     ticketTagCurrentPages: any,
     ticketTagNumOfPages: any,
-    getTaskGroupDetails: any,
+    taskGroups: any,
     getTaskGroupCurrentPages: any,
     taskGroupDetails: any,
     taskGroupCurrentPages: any,

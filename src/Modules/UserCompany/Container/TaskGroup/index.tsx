@@ -20,23 +20,38 @@ import {
   addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP } from "@Utils";
-import { useModal, useDynamicHeight } from "@Hooks";
+import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE } from "@Utils";
+import { useModal, useDynamicHeight, useInput } from "@Hooks";
 
 
 
-function GroupTask() {
+function TaskGroup() {
 
   const dispatch = useDispatch();
-
-
   const {
-    getTaskGroupDetails,
+    taskGroups,
     taskGroupCurrentPages,
     taskGroupNumOfPages
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+
+  const [inCludeSubGroup, setIncludeSubGroup] = useState(false)
+  const addTaskGroupModal = useModal(false);
+
+  const taskGroupName = useInput("");
+  const taskGroupCode = useInput("");
+  const taskGroupDescription = useInput("");
+  const [photo, setPhoto] = useState("");
+  const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(undefined);
+
+
+
+
+
+
+
+
   const handleStartTimeEtaChange = (value: any) => {
     setStatTimeEta(value)
   };
@@ -50,17 +65,17 @@ function GroupTask() {
     }
     else {
       showToast('ETA END MORE THAN 1 HOUR !');
-
     }
 
   };
 
 
-  const [photo, setPhoto] = useState("");
+
+
   const [editPhoto, setEditPhoto] = useState("");
   const [addSubPhoto, setAddSubPhoto] = useState("");
 
-  const [subCheckBox, setSubCheckBox] = useState(false)
+  // const [subCheckBox, setSubCheckBox] = useState(false)
 
   const [tagPhoto, setTagPhoto] = useState("");
   const [editId, setEditId] = useState('')
@@ -68,19 +83,16 @@ function GroupTask() {
 
   const [showTaskGroup, setShowTaskGroup] = useState(false);
   const [showClosedTaskGroup, setClosedTaskGroup] = useState<Boolean>();
-  const addTaskGroupModal = useModal(false);
   const editTaskGroupModal = useModal(false);
 
   const addSubTaskModal = useModal(false);
 
-  const [task, setTask] = useState("");
 
   const [editTask, setEditTask] = useState("");
   const [editCode, setEditCode] = useState("");
   const [editDescription, setEditDescription] = useState("");
-  const [codeFill, setCodeFill] = useState(task.slice(0, 3).toUpperCase());
+  // const [codeFill, setCodeFill] = useState(task.slice(0, 3).toUpperCase());
 
-  const [taskDescription, setTaskDescription] = useState("");
   const [addSubTask, setAddSubTask] = useState("");
 
   const [addSubTaskCode, setAddSubTaskCode] = useState("");
@@ -103,44 +115,23 @@ function GroupTask() {
 
 
 
-  const menuItemClose = [{ id: '0', name: "Edit", icon: 'bi bi-pencil' },
-  { id: '1', name: "Create SubTask", icon: 'bi bi-file-earmark-plus' },
-  { id: '2', name: "Mark As Closed", icon: "bi bi-x" }
-
-  ]
-  const menuItemOpen = [{ id: '0', name: "Edit", icon: 'bi bi-pencil' },
-  { id: '1', name: "Create SubTask", icon: 'bi bi-file-earmark-plus' },
-  { id: '2', name: "Mark As Open", icon: "bi bi-x" }
-
+  const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
+    { id: '0', name: "Edit", icon: 'bi bi-pencil' },
+    ...(is_parent ? [{ id: '1', name: "Create Sub Task", icon: 'bi bi-file-earmark-plus' }] : []),
+    ...(marked_as_closed ? [{ id: '3', name: "Mark As Open", icon: "bi bi-x" }] : [{ id: '2', name: "Mark As Closed", icon: "bi bi-x" }]),
   ]
 
-  const subGroupMenuItemClose = [{ id: '0', name: "Edit", icon: 'bi bi-pencil' },
-  { id: '2', name: "Mark As Closed", icon: "bi bi-x" }
-
-  ]
-  const subGroupMenuItemOpen = [{ id: '0', name: "Edit", icon: 'bi bi-pencil' },
-  { id: '2', name: "Mark As Open", icon: "bi bi-x" }
-
-  ]
-
-  const getTaskGroupList = (pageNumber: number) => {
+  const getTaskGroupList = (page_number: number, include: boolean = inCludeSubGroup) => {
 
     const params = {
-      page_number: pageNumber,
-      include_closed_taskgroup: subCheckBox
+      page_number,
+      include_closed_taskgroup: include
     };
 
     dispatch(
       getTaskGroup({
         params,
         onSuccess: (success: any) => () => {
-
-
-          if (!showTaskGroup) {
-
-            setShowTaskGroup(!showTaskGroup)
-          }
-
         },
         onError: (error: string) => () => {
 
@@ -149,15 +140,17 @@ function GroupTask() {
     );
   };
 
-  const addTaskGroupAdding = () => {
+  const addTaskGroupApiHandler = () => {
     const params = {
-      name: editTask ? convertToUpperCase(editTask) : convertToUpperCase(task),
-      description: editDescription ? convertToUpperCase(editDescription) : convertToUpperCase(taskDescription),
-      code: editCode ? editCode.trim() : codeFill.trim(),
-      photo: editPhoto ? editPhotoAttach[0] : PhotoAttach[0],
-      ...(editId && { id: editId })
-
+      ...(selectedTaskGroup && { id: selectedTaskGroup.id }),
+      name: taskGroupName.value,
+      description: taskGroupDescription.value,
+      code: taskGroupCode.value.trim(),
+      photo: photo
     };
+
+
+    console.log(JSON.stringify(params) + "======params");
 
     const validation = validate(ADD_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
@@ -166,241 +159,170 @@ function GroupTask() {
           params,
           onSuccess: (success: any) => () => {
             addTaskGroupModal.hide()
-            editTaskGroupModal.hide()
-
-            dispatch(
-              getTaskGroup({
-                params,
-                onSuccess: (success: any) => () => { },
-                onError: (error: string) => () => { },
-              })
-            );
-            setTask("");
-            setCodeFill('')
-            setTaskDescription('')
-            setPhoto('')
+            resetValues()
+            getTaskGroupList(INITIAL_PAGE)
             showToast(success.message, "success");
           },
           onError: (error: string) => () => {
             showToast('Task is already exists');
-
-
           },
         })
       );
     }
     else {
       showToast(getValidateError(validation));
-
     }
   };
+
+
+
   // add sub task
-  const addSubTaskGroupAdding = () => {
-    const params = {
-      name: convertToUpperCase(addSubTask),
-      description: convertToUpperCase(addSubTaskDescription),
-      code: addSubTaskCode.trim(),
-      photo: addSubPhotoAttach[0],
-      parent_id: addSubTaskItem?.id,
-      start_time: startTimeEta,
-      end_time: endTimeEta,
-    };
+  // const addSubTaskGroupAdding = () => {
+  //   const params = {
+  //     name: convertToUpperCase(addSubTask),
+  //     description: convertToUpperCase(addSubTaskDescription),
+  //     code: addSubTaskCode.trim(),
+  //     photo: addSubPhotoAttach[0],
+  //     parent_id: addSubTaskItem?.id,
+  //     start_time: startTimeEta,
+  //     end_time: endTimeEta,
+  //   };
 
-    const validation = validate(ADD_SUB_TASK_GROUP, params)
-    if (ifObjectExist(validation)) {
-      dispatch(
-        addTaskGroup({
-          params,
-          onSuccess: (success: any) => () => {
-            addSubTaskModal.hide()
+  //   const validation = validate(ADD_SUB_TASK_GROUP, params)
+  //   if (ifObjectExist(validation)) {
+  //     dispatch(
+  //       addTaskGroup({
+  //         params,
+  //         onSuccess: (success: any) => () => {
+  //           addSubTaskModal.hide()
 
-            dispatch(
-              getTaskGroup({
-                params,
-                onSuccess: (success: any) => () => { },
-                onError: (error: string) => () => { },
-              })
-            );
-            setAddSubTask('')
-            setAddSubTaskCode('')
-            setAddSubPhoto('')
-            setAddSubTaskDescription('')
-            showToast(success.message, "success");
-          },
-          onError: (error: string) => () => {
-            showToast('Task is already exists');
-
-
-          },
-        })
-      );
-    }
-    else {
-      showToast(getValidateError(validation));
-
-    }
-  };
-  const CloseTaskGroup = (item) => {
-
-    const params = {
-      id: addSubTaskItem.id,
-      marked_as_closed: showClosedTaskGroup
-    }
-    dispatch(
-      addTaskGroup({
-        params,
-        onSuccess: (success: any) => () => {
-
-          dispatch(
-            getTaskGroup({
-              params,
-              onSuccess: (success: any) => () => { },
-              onError: (error: string) => () => { },
-            })
-          );
-          showToast(success.message, "success");
-        },
-        onError: (error: string) => () => {
-          showToast('Task is already exists');
-        },
-      })
-    );
-  }
-
-  useEffect(() => {
+  //           dispatch(
+  //             getTaskGroup({
+  //               params,
+  //               onSuccess: (success: any) => () => { },
+  //               onError: (error: string) => () => { },
+  //             })
+  //           );
+  //           setAddSubTask('')
+  //           setAddSubTaskCode('')
+  //           setAddSubPhoto('')
+  //           setAddSubTaskDescription('')
+  //           showToast(success.message, "success");
+  //         },
+  //         onError: (error: string) => () => {
+  //           showToast('Task is already exists');
 
 
-    if (showClosedTaskGroup === true || showClosedTaskGroup === false) {
-      // CloseTaskGroup()
+  //         },
+  //       })
+  //     );
+  //   }
+  //   else {
+  //     showToast(getValidateError(validation));
+
+  //   }
+  // };
+  // const CloseTaskGroup = (item) => {
+
+  //   const params = {
+  //     id: addSubTaskItem.id,
+  //     marked_as_closed: showClosedTaskGroup
+  //   }
+  //   dispatch(
+  //     addTaskGroup({
+  //       params,
+  //       onSuccess: (success: any) => () => {
+
+  //         dispatch(
+  //           getTaskGroup({
+  //             params,
+  //             onSuccess: (success: any) => () => { },
+  //             onError: (error: string) => () => { },
+  //           })
+  //         );
+  //         showToast(success.message, "success");
+  //       },
+  //       onError: (error: string) => () => {
+  //         showToast('Task is already exists');
+  //       },
+  //     })
+  //   );
+  // }
+
+  // useEffect(() => {
 
 
-    }
-  }, [showClosedTaskGroup])
+  //   if (showClosedTaskGroup === true || showClosedTaskGroup === false) {
 
-  useEffect(() => {
-    if (showTaskGroup === true) {
 
-      getTaskGroupList(taskGroupCurrentPages)
+  //   }
+  // }, [showClosedTaskGroup])
 
-    }
-  }, [subCheckBox])
+  // useEffect(() => {
+  //   if (showTaskGroup === true) {
+
+  //     getTaskGroupList(taskGroupCurrentPages)
+
+  //   }
+  // }, [subCheckBox])
 
   const normalizedTaskGroupData = (data: any) => {
-    return data.map((el: any,) => {
+    return data.map((taskGroup: any,) => {
+
+      const { photo, name, parent, is_parent, marked_as_closed, code } = taskGroup
 
       return {
-        name: <div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
-          <div className="pt-3 pl-2">
-            {el?.marked_as_closed === true ? <div className="text-primary">{el.name}</div> : <div>{el.name}</div>}
-            <div className="pt-1">
-              {el?.parent?.name}</div></div>
-        </div>,
-        tag: el?.code,
-        "": (el.marked_as_closed ?
-          (el?.is_parent ?
+        name: <div className="row  align-items-center">
+          <Image variant={'rounded'} src={getPhoto(photo)} />
+          <div className="pl-3">
+            <span className={`${marked_as_closed && 'text-primary'}`}>{name}</span>
+            <br></br>
+            {!is_parent && <small> {parent.name}</small>}
+          </div>
+        </div >,
+        tag: code,
+        "": <MenuBar menuData={getGroupMenuItem(marked_as_closed, is_parent)} onClick={(el) => {
 
-            <MenuBar menuData={menuItemOpen} onClick={(index) => {
-              setSubTaskItem(el)
-              if (index === 0) {
-                editTaskGroupModal.show()
-                setEditTask(el?.name)
-                setEditCode(el?.code)
-                setEditDescription(el?.description)
-                setEditPhoto(el?.photo)
-                setEditId(el?.id)
-              }
-              if (index === 1) {
-                addSubTaskModal.show()
-              }
-              if (index === 2) {
-                setClosedTaskGroup(false)
+          if (el.id === '0') {
+            addTaskGroupModal.show()
+            setSelectedTaskGroup(taskGroup)
+            const { name, description, code, photo } = taskGroup
+            taskGroupName.set(name)
+            taskGroupDescription.set(description)
+            taskGroupCode.set(code)
+            setPhoto(getPhoto(photo))
+
+          }
 
 
-              }
-            }} /> :
-            <MenuBar menuData={subGroupMenuItemOpen} onClick={(index) => {
-              setSubTaskItem(el)
-              if (index === 0) {
-                editTaskGroupModal.show()
-                setEditTask(el?.name)
-                setEditCode(el?.code)
-                setEditDescription(el?.description)
-                setEditPhoto(el?.photo)
-                setEditId(el?.id)
-              }
-
-              if (index === 1) {
-                setClosedTaskGroup(false)
-              }
-            }} />
-
-          )
-          : (el?.is_parent ?
-            <MenuBar menuData={menuItemClose} onClick={(index) => {
-              setSubTaskItem(el)
-
-              if (index === 0) {
-                editTaskGroupModal.show()
-                setEditTask(el?.name)
-                setEditCode(el?.code)
-                setEditDescription(el?.description)
-                setEditPhoto(el?.photo)
-                setEditId(el?.id)
-              }
-              if (index === 1) {
-                addSubTaskModal.show()
-              }
-              if (index === 2) {
-                setClosedTaskGroup(true)
-              }
-            }} />
-            :
-            <MenuBar menuData={subGroupMenuItemClose} onClick={(index) => {
-              setSubTaskItem(el)
-              if (index === 0) {
-                editTaskGroupModal.show()
-                setEditTask(el?.name)
-                setEditCode(el?.code)
-                setEditDescription(el?.description)
-                setEditPhoto(el?.photo)
-                setEditId(el?.id)
-              }
-
-              if (index === 1) {
-                setClosedTaskGroup(true)
-
-
-              }
-            }} />
-          ))
+        }} />
 
       };
     });
   };
 
 
+  function resetValues() {
+    taskGroupName.set('')
+    taskGroupCode.set('')
+    taskGroupDescription.set('')
+    setPhoto('')
+  }
+
   return (
     <div>
-      <Card className={'mb-3'} style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
-        <div className="row">
+      <Card className={'mb-3'} style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight : '5em' }}>
+        <div className="row justify-content-center align-items-center mb-3" >
           <div className="col">
             <h3>{translate("auth.group")}</h3>
           </div>
-          <div className="col ">
-            <Checkbox id={'0'} onClick={() => {
-
-              if (subCheckBox === false) {
-                setSubCheckBox(true)
-
-              }
-              else {
-                setSubCheckBox(false)
-
-              }
-            }} text={'Include Close'} />
+          <div className="col mb--4">
+            <Checkbox id={'group'} text={'Include Close'} onCheckChange={(checked) => {
+              getTaskGroupList(taskGroupCurrentPages, checked);
+            }} />
           </div>
 
-          <div className="text-right mr-3 ">
+          <div className="text-right mr-3">
             <Button
               text={
                 showTaskGroup
@@ -409,10 +331,9 @@ function GroupTask() {
               }
               size={"sm"}
               onClick={() => {
+                setShowTaskGroup(!showTaskGroup)
                 if (!showTaskGroup) {
                   getTaskGroupList(taskGroupCurrentPages);
-                } else {
-                  setShowTaskGroup(!showTaskGroup)
                 }
 
               }}
@@ -420,7 +341,10 @@ function GroupTask() {
             <Button
               text={translate("product.addItem")}
               size={"sm"}
-              onClick={() => { addTaskGroupModal.show() }}
+              onClick={() => {
+                setSelectedTaskGroup(undefined)
+                addTaskGroupModal.show()
+              }}
             />
           </div>
         </div>
@@ -430,14 +354,13 @@ function GroupTask() {
           className="overflow-auto overflow-hide"
           style={{
             height: showTaskGroup ? dynamicHeight.dynamicHeight - 100 : '0px',
-            margin: '0px -39px 0px -39px'
           }}
         >
-          {getTaskGroupDetails && getTaskGroupDetails?.length > 0 ? (
+          {taskGroups && taskGroups?.length > 0 ? (
             <CommonTable
               isPagination
-              tableDataSet={getTaskGroupDetails}
-              displayDataSet={normalizedTaskGroupData(getTaskGroupDetails)}
+              tableDataSet={taskGroups}
+              displayDataSet={normalizedTaskGroupData(taskGroups)}
               noOfPage={taskGroupNumOfPages}
               currentPage={taskGroupCurrentPages}
               paginationNumberClick={(currentPage) => {
@@ -455,12 +378,7 @@ function GroupTask() {
               }
             />
           ) : (
-            <div
-              className=" d-flex justify-content-center align-items-center"
-              style={{
-                height: "30.5rem",
-              }}
-            >
+            <div className="h-100 d-flex justify-content-center align-items-center">
               <NoRecordsFound />
             </div>
           )}
@@ -469,14 +387,10 @@ function GroupTask() {
       </Card>
 
       <Modal
-
         isOpen={addTaskGroupModal.visible}
         onClose={() => {
           addTaskGroupModal.hide()
-          setTask("");
-          setCodeFill('')
-          setTaskDescription('')
-          setPhoto('')
+          resetValues()
         }}
         title={translate("auth.task")!}
       >
@@ -485,25 +399,26 @@ function GroupTask() {
             <div className="col-6">
               <Input
                 placeholder={translate("auth.task")}
-                value={task}
+                value={taskGroupName.value}
                 onChange={(e) => {
-                  setTask(e.target.value)
-                  setCodeFill(e.target.value.slice(0, 3).toUpperCase())
+                  taskGroupName.onChange(e)
+                  taskGroupCode.set(stringToUpperCase(stringSlice(e.target.value)))
                 }}
               />
             </div>
-            <div className="col-6">  <Input
-              placeholder={translate("auth.code")}
-              value={codeFill}
-              onChange={(e) => { setCodeFill(e.target.value.slice(0, 3).toUpperCase()) }}
-            />
+            <div className="col-6">
+              <Input
+                placeholder={translate("auth.code")}
+                value={taskGroupCode.value}
+                onChange={(e) => { taskGroupCode.set(stringToUpperCase((stringSlice(e.target.value)))) }}
+              />
             </div>
           </div>
 
           <Input
             placeholder={translate("auth.description")}
-            value={taskDescription}
-            onChange={(e) => setTaskDescription(e.target.value)}
+            value={taskGroupDescription.value}
+            onChange={taskGroupDescription.onChange}
           />
         </div>
         <div className="pb-3">
@@ -524,23 +439,20 @@ function GroupTask() {
             text={translate("common.cancel")}
             onClick={() => {
               addTaskGroupModal.hide()
-              setTask("");
-              setCodeFill('')
-              setTaskDescription('')
-              setPhoto('')
+              resetValues()
             }}
           />
           <Button
             text={translate("common.submit")}
             onClick={() => {
-              addTaskGroupAdding();
+              addTaskGroupApiHandler()
             }}
           />
         </div>
       </Modal>
 
 
-      <Modal
+      {/* <Modal
 
         isOpen={editTaskGroupModal.visible}
         onClose={() => {
@@ -611,10 +523,10 @@ function GroupTask() {
             }}
           />
         </div>
-      </Modal>
+      </Modal> */}
 
 
-
+      {/* 
       <Modal
 
         isOpen={addSubTaskModal.visible}
@@ -645,8 +557,6 @@ function GroupTask() {
             </div>
           </div>
 
-
-          {/* </div> */}
           <div className="row">
             <div className="col-6">
               <DateTimePicker
@@ -700,9 +610,9 @@ function GroupTask() {
             }}
           />
         </div>
-      </Modal>
+      </Modal> */}
     </div>
   )
 }
 
-export { GroupTask }
+export { TaskGroup }

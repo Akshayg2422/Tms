@@ -13,6 +13,8 @@ import {
   Nav,
 } from "reactstrap";
 import { SidebarProps } from './interfaces'
+import { Image } from '@Components'
+import { url } from "inspector";
 function Sidebar({ toggleSideNav, sideNavOpen, routes, logo, rtlActive }: SidebarProps) {
   const [state, setState] = React.useState({});
   const location = useLocation();
@@ -126,8 +128,8 @@ function Sidebar({ toggleSideNav, sideNavOpen, routes, logo, rtlActive }: Sideba
           >
             {prop.icon !== undefined ? (
               <>
-                <i className={prop.icon} />
-                <span className="nav-link-text">{prop.name}</span>
+                <Image src={prop.icon} width={18} height={18} />
+                <span className="nav-link-text ml-3">{prop.name}</span>
               </>
             ) : prop.miniName !== undefined ? (
               <>
