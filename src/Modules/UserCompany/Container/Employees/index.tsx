@@ -77,7 +77,7 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                     }} />
                 </div>
             </div>
-            <Card className='m-3 shadow-none overflow-auto overflow-hide' style={{maxHeight: '55vh' }}>
+            <Card className='m-1 shadow-none overflow-auto overflow-hide' style={{ maxHeight: '55vh' }}>
                 {
                     employees && employees.length > 0 ? employees.map((employee: any, index: number) => {
                         const { profile_image, name, designation, department, id } = employee
@@ -112,7 +112,9 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                                     </div>
                                 </div>
 
-                                {index !== employees.length - 1 && <Divider space={'3'} />}
+                                <div className={'mx--4'}>
+                                    {index !== employees.length - 1 && <Divider space={'3'} />}
+                                </div>
                             </div>)
                     }) : <NoDataFound type={'text'} text={'No User Found'} />
                 }

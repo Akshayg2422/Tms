@@ -74,7 +74,7 @@ function TaskChat({ }: TaskChatProps) {
                 modifiedData = { ...each, icon: icons.message, subTitle: by_user?.name, title: message, }
                 break;
             case 'ETA':
-                modifiedData = { ...each, icon: icons.clock, subTitle: by_user?.name, title: "ETA Update on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
+                modifiedData = { ...each, icon: icons.clock, subTitle: by_user?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
                 break;
             case 'TGU':
                 let names = tagged_users.map(function (item) {

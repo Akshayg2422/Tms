@@ -15,7 +15,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         getSubTasksApi()
     }, [selectedTask])
 
-    function getSubTasksApi () {
+    function getSubTasksApi() {
         const params = {
             task_id: selectedTask.id
         }
@@ -23,7 +23,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         dispatch(getSubTasks({
             params,
             onSuccess: (response) => () => {
-           
+
             },
             onError: () => () => {
             },
@@ -42,21 +42,22 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     };
 
     return (
-        <Card className="overflow-auto" style={{
+        <Card style={{
             height: cardHeight
         }} >
             <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={'SUB TASKS'} />
                 <Button
+                className={'shadow-none'}
                     size={"sm"}
                     text={'Add Task'}
                     onClick={() => {
                         goTo(ROUTES["task-module"]["add-sub-task"])
-                     }}
+                    }}
                 />
             </div>
 
-            <div className='h-100 mt-2'>
+            <Card className='h-100 mt-1 mx--4 overflow-auto overflow-hide shadow-none' style={{ maxHeight: '39vh' }}>
                 {subTasks && subTasks.length > 0 ?
                     <CommonTable
                         tableDataSet={subTasks}
@@ -69,7 +70,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                     /> :
                     <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={'Add Task'} text="No SubTask found" /></div>
                 }
-            </div>
+            </Card>
         </Card>
     )
 }
