@@ -57,3 +57,12 @@ export function getArrayFromArrayOfObject(data: Array<any>, key: string) {
 export function capitalizeFirstLetter(string: any) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export function stringSlice(string: any, slice: number = 3) {
+  return string.slice(0, slice)
+}
+
+export function stringToUpperCase(string: any) {
+  return string.toUpperCase();
+}
+
