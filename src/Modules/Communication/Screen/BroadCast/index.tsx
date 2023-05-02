@@ -91,7 +91,7 @@ function Broadcast() {
 
           </InfiniteScroll>
           : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
-            <NoDataFound buttonText={'create broadcast'} onClick={proceedCreateBroadcast} />
+            <NoDataFound buttonText={'create broadcast'} onClick={proceedCreateBroadcast} isButton />
           </div>
         }
       </HomeContainer>

@@ -42,7 +42,7 @@ function ReferenceTasks() {
 
   const normalizedTableData = (data: any) => {
 
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
@@ -84,7 +84,7 @@ function ReferenceTasks() {
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item.id)
           }}
 
-        /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={'Add Reference Task'} /></div>}
+        /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={'Add Reference Task'} onClick={()=> goTo(ROUTES["task-module"]["reference-task"])} isButton/></div>}
     </Card>
 
 
