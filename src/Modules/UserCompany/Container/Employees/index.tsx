@@ -70,14 +70,14 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
 
     return (
         <div>
-            <div className='d-flex justify-content-end'>
+            <div className='d-flex justify-content-end mt--3'>
                 <div className='col-6'>
                     <SearchInput onSearch={(search) => {
                         getEmployeeApi(search)
                     }} />
                 </div>
             </div>
-            <Card className='m-1 shadow-none overflow-auto overflow-hide' style={{ maxHeight: '55vh' }}>
+            <Card className='m-1 mt-3 shadow-none overflow-auto overflow-hide' style={{ maxHeight: '58vh' }}>
                 {
                     employees && employees.length > 0 ? employees.map((employee: any, index: number) => {
                         const { profile_image, name, designation, department, id } = employee
@@ -91,7 +91,7 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                             <div className='container pointer' key={id} onClick={selection !== 'none' ? () => proceedSelectEmployee(employee) : undefined}>
                                 <div className='row d-flex align-items-center'>
                                     <div>
-                                        {profile_image ? <Image variant={'rounded'} src={getPhoto(profile_image)} /> : <Image variant={'rounded'} src={icons.profile} />}
+                                        {profile_image ? <Image variant={'rounded'} src={getPhoto(profile_image)} /> : <Image variant={'rounded'} src={icons.profilePick} />}
                                     </div>
                                     <div className='ml-3'>
                                         <H

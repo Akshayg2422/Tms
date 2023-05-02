@@ -132,7 +132,7 @@ function TaskItemMenu() {
 
             <Modal fade={false} isOpen={reassignUserModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={reassignUserModal.hide}>
                 <Employees selection={'single'} onSelected={setReassignUser} />
-                <div className="pt-3 text-right">
+                <div className="text-right">
                     <Button
                         size={'sm'}
                         text={translate("common.submit")}

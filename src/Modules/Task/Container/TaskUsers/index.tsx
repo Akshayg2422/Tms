@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { Card, HomeContainer, Divider, NoDataFound, } from "@Components";
 import { UserItem } from "@Modules";
 import { getTaskUsers } from "@Redux";
+import { useWindowDimensions } from "@Hooks";
 
 function TaskUsers() {
   const dispatch = useDispatch();
+  const { height } = useWindowDimensions()
   const { selectedTask, taskUsers } = useSelector((state: any) => state.TaskReducer);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ function TaskUsers() {
 
 
   return (
-    <div className={'overflow-auto overflow-hide'} style={{ height: '89vh' }}>
+    <div className={'overflow-auto overflow-hide'} style={{ height: height -15 }}>
       {taskUsers && taskUsers.length > 0 && <div>
         <div>
           <h5 className="text-muted mt-4">ASSIGNED TO </h5>
