@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
-import { CommonTable, NoDataFound } from '@Components';
+import { Card, CommonTable, NoDataFound } from '@Components';
 import { getStatusFromCode } from '@Utils';
 
 function CompanyIssues() {
@@ -41,9 +41,9 @@ function CompanyIssues() {
   };
 
   return (
-    <div className='my-3'>
-      {tickets && tickets.length > 0 ? <CommonTable card title={'Issue'} displayDataSet={normalizedTableData(tickets)} /> : <NoDataFound type={'text'} />}
-    </div>
+    <Card className='my-3 vh-100'>
+      {tickets && tickets.length > 0 ? <CommonTable card title={'Issue'} displayDataSet={normalizedTableData(tickets)} /> : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={'No Issues Found'} /></div>}
+    </Card>
 
   )
 }

@@ -96,7 +96,7 @@ function CompanyTasks() {
   };
 
   return (
-    <HomeContainer type={'card'} className="mt-3">
+    <HomeContainer type={'card'} className="mt-3 vh-100">
       {tasks && tasks.length > 0 ?
         <CommonTable
           isPagination
@@ -121,8 +121,7 @@ function CompanyTasks() {
           }
           }
         />
-        :
-        <NoDataFound type={'action'} buttonText={'Create Task'} />
+        : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={'No Tasks Found'} /></div>
       }
     </HomeContainer>
   );
