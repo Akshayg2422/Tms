@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HomeContainer, Button, Image, CommonTable, Priority, Status, NoDataFound } from "@Components";
 import { useNavigation } from "@Hooks";
-import { HOME_PATH } from "@Routes";
 import { translate } from "@I18n";
 import { TicketFilter } from '@Modules';
+import { ROUTES } from '@Routes'
 import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter } from "@Utils";
 import { getTickets, setSelectedTicket, getDashboard, setSelectedReferenceTickets } from "@Redux";
-import { log } from "console";
 
 
 
-function Issues() {
+
+function Ticket() {
 
   const DEFAULT_PARAMS = { q_many: "", "tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL", page_number: 1 }
   const { goTo } = useNavigation();
@@ -133,18 +133,18 @@ function Issues() {
   return (
     <>
       <div className="m-3">
-        <div className="row">
-          <div className="mx-2 mb--3 col">
-            <div className="col-auto text-right ">
+        <div className="row justify-content-end m-0 mb-3">
+          {/* <div className="mx-2 mb--3 col"> */}
+            <div className=" ">
               <Button
                 size={'sm'}
-                text={translate("common.addTicket")}
+                text={'Create Ticket'}
                 onClick={() => {
-                  //goTo(ROUTES["task-module"]["add-task"])
+                  goTo(ROUTES["ticket-module"]["add-ticket"])
                 }
                 }
               />
-            </div>
+            {/* </div> */}
           </div>
         </div>
 
@@ -175,7 +175,7 @@ function Issues() {
                 tableOnClick={(idx, index, item) => {
                   dispatch(setSelectedTicket(item));
                   dispatch(setSelectedReferenceTickets(undefined))
-                  goTo(HOME_PATH.ISSUE_DETAILS);
+                 // goTo(HOME_PATH.ISSUE_DETAILS);
                 }
                 }
               />
@@ -188,4 +188,4 @@ function Issues() {
   );
 }
 
-export { Issues };
+export { Ticket };

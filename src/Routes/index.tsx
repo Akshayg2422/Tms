@@ -1,4 +1,4 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser } from '@Modules'
+import { Ticket, Companies, Settings, Broadcast, Tasks, Profile, Setting, AddTicket, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 
@@ -35,8 +35,9 @@ export const ROUTES = {
     'add-task': '/add-task',
     'add-sub-task': '/add-sub-task',
   },
-  'issue-module': {
-    issues: '/issues',
+  'ticket-module': {
+    ticket: '/tickets',
+    'add-ticket': '/add-ticket'
   },
   'user-company-module': {
     companies: '/companies',
@@ -88,11 +89,11 @@ export const HOME_ROUTES = [
     component: <Tasks />
   },
   {
-    path: ROUTES['issue-module'].issues,
+    path: ROUTES['ticket-module'].ticket,
     name: "Tickets",
     icon: icons.issue,
     layout: "",
-    component: <Issues />
+    component: <Ticket />
   },
   {
     path: ROUTES['user-company-module'].companies,
@@ -151,6 +152,15 @@ export const TASK_ROUTES = [
 
 ];
 
+export const TICKET_ROUTES = [
+  {
+  key:1,
+  path:ROUTES['ticket-module']['add-ticket'],
+  component:<AddTicket/>
+  }
+
+]
+
 export const MESSAGE_ROUTES = [
   {
     key: 1,
@@ -200,7 +210,7 @@ export const ADMIN_ROUTES = [
     name: "Tickets",
     icon: "bi bi-bell text-primary",
     layout: "",
-    component: <Issues />
+    component: <Ticket />
   },
   {
     path: "/companies",
