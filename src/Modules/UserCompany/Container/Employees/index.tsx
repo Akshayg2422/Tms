@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { EmployeesProps } from './interfaces'
-import { SearchInput, H, Image, Divider, NoDataFound } from '@Components'
+import { SearchInput, H, Image, Divider, NoDataFound, Card } from '@Components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getEmployees } from '@Redux'
 import { capitalizeFirstLetter, getPhoto } from '@Utils'
@@ -77,7 +77,7 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                     }} />
                 </div>
             </div>
-            <div className='m-5'>
+            <Card className='m-3 shadow-none overflow-auto overflow-hide' style={{maxHeight: '55vh' }}>
                 {
                     employees && employees.length > 0 ? employees.map((employee: any, index: number) => {
                         const { profile_image, name, designation, department, id } = employee
@@ -116,7 +116,7 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                             </div>)
                     }) : <NoDataFound type={'text'} text={'No User Found'} />
                 }
-            </div >
+            </Card >
         </div >
     )
 }

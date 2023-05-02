@@ -111,7 +111,7 @@ export const icons = {
   bellIcon: require('./BellIcon/icon.png'),
   editLineIcon: require('./EditLine/editing.png'),
   subTask: require('./SubTask/icon.png'),
-  imageEdit: require('./ImageEdit/edit.png'),
+  imageEdit: require('./ImageEdit/icon.png'),
   message: require('./Message/icon.png'),
   task: require('./Task/icon.png'),
   issue: require('./Issue/icon.png'),

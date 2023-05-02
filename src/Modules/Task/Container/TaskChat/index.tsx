@@ -138,7 +138,7 @@ function TaskChat({ }: TaskChatProps) {
 
                                     {
                                         attachments?.attachments && attachments?.attachments.length > 0 && attachments?.attachments.map(each => {
-                                            return <Image className='ml-1' src={getPhoto(each.attachment_file)} width={120} height={120} />
+                                            return <Image className='ml-1 mb-1' src={getPhoto(each.attachment_file)} width={120} height={120} />
                                         })
                                     }
                                 </div>
