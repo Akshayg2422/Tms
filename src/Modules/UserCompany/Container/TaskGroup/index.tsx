@@ -20,8 +20,9 @@ import {
   addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE } from "@Utils";
+import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer } from "@Utils";
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
+import { log } from "console";
 
 
 
@@ -36,6 +37,16 @@ function TaskGroup() {
     (state: any) => state.UserCompanyReducer
   );
 
+  const dynamicHeight: any = useDynamicHeight()
+
+
+  const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
+    { id: '0', name: "Edit", icon: 'bi bi-pencil' },
+    ...(is_parent ? [{ id: '1', name: "Create Sub Task", icon: 'bi bi-file-earmark-plus' }] : []),
+    ...(marked_as_closed ? [{ id: '3', name: "Mark As Open", icon: "bi bi-x" }] : [{ id: '2', name: "Mark As Closed", icon: "bi bi-x" }]),
+  ]
+  const [showTaskGroup, setShowTaskGroup] = useState(false);
+
   const [inCludeSubGroup, setIncludeSubGroup] = useState(false)
   const addTaskGroupModal = useModal(false);
 
@@ -45,81 +56,38 @@ function TaskGroup() {
   const [photo, setPhoto] = useState("");
   const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(undefined);
 
+  /**
+   * add sub task State
+   */
+  const addSubTaskGroupModal = useModal(false);
+  const subTaskGroupName = useInput("");
+  const subTaskGroupCode = useInput("");
+  const subTaskGroupDescription = useInput("");
+  const [selectedSubTaskGroup, setSelectedSubTaskGroup] = useState<any>(undefined);
+  const [startTimeEta, setStatTimeEta] = useState("")
+  const [endTimeEta, setEndTimeEta] = useState("")
+  const [subTaskPhoto, setSubTaskPhoto] = useState("");
 
 
-
-
-
+  const startDate = new Date(startTimeEta)
+  const startTime = startDate.getHours()
 
 
   const handleStartTimeEtaChange = (value: any) => {
     setStatTimeEta(value)
   };
+
   const handleEndTimeEtaChange = (value: any) => {
-
-    let EndDate = new Date(value)
-    const EndTime = EndDate.getHours()
-    if (startTime < EndTime) {
-      setEndTimeEta(value)
-
-    }
-    else {
-      showToast('ETA END MORE THAN 1 HOUR !');
-    }
-
+    setEndTimeEta(value)
   };
 
 
 
 
-  const [editPhoto, setEditPhoto] = useState("");
-  const [addSubPhoto, setAddSubPhoto] = useState("");
-
-  // const [subCheckBox, setSubCheckBox] = useState(false)
-
-  const [tagPhoto, setTagPhoto] = useState("");
-  const [editId, setEditId] = useState('')
-
-
-  const [showTaskGroup, setShowTaskGroup] = useState(false);
-  const [showClosedTaskGroup, setClosedTaskGroup] = useState<Boolean>();
-  const editTaskGroupModal = useModal(false);
-
-  const addSubTaskModal = useModal(false);
-
-
-  const [editTask, setEditTask] = useState("");
-  const [editCode, setEditCode] = useState("");
-  const [editDescription, setEditDescription] = useState("");
-  // const [codeFill, setCodeFill] = useState(task.slice(0, 3).toUpperCase());
-
-  const [addSubTask, setAddSubTask] = useState("");
-
-  const [addSubTaskCode, setAddSubTaskCode] = useState("");
-  const [addSubTaskDescription, setAddSubTaskDescription] = useState("");
-  const [addSubTaskItem, setSubTaskItem] = useState<any>("");
-  const [startTimeEta, setStatTimeEta] = useState("")
-  const [endTimeEta, setEndTimeEta] = useState("")
-  const startDate = new Date(startTimeEta)
-  const startTime = startDate.getHours()
-
-  const dynamicHeight: any = useDynamicHeight()
-  let attach = [photo]
-  let PhotoAttach = attach.slice(-1, 4)
-
-  let editAttach = [editPhoto]
-  let editPhotoAttach = editAttach.slice(-1, 4)
-
-  let addSubAttach = [addSubPhoto]
-  let addSubPhotoAttach = addSubAttach.slice(-1, 4)
 
 
 
-  const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
-    { id: '0', name: "Edit", icon: 'bi bi-pencil' },
-    ...(is_parent ? [{ id: '1', name: "Create Sub Task", icon: 'bi bi-file-earmark-plus' }] : []),
-    ...(marked_as_closed ? [{ id: '3', name: "Mark As Open", icon: "bi bi-x" }] : [{ id: '2', name: "Mark As Closed", icon: "bi bi-x" }]),
-  ]
+
 
   const getTaskGroupList = (page_number: number, include: boolean = inCludeSubGroup) => {
 
@@ -162,6 +130,63 @@ function TaskGroup() {
             resetValues()
             getTaskGroupList(INITIAL_PAGE)
             showToast(success.message, "success");
+          },
+          onError: (error: string) => () => {
+            showToast('Task is already exists');
+          },
+        })
+      );
+    }
+    else {
+      showToast(getValidateError(validation));
+    }
+  };
+
+  const changeGroupStatusApiHandler = (id: number, marked_as_closed: boolean) => {
+
+    const params = {
+      id,
+      marked_as_closed
+    }
+
+    dispatch(
+      addTaskGroup({
+        params,
+        onSuccess: (success: any) => () => {
+          getTaskGroupList(taskGroupCurrentPages)
+        },
+        onError: (error: string) => () => {
+          showToast('Task is already exists');
+        },
+      })
+    );
+  }
+
+  // add sub task
+  const addSubTaskGroupApiHandler = () => {
+    const params = {
+      name: convertToUpperCase(subTaskGroupName.value),
+      description: convertToUpperCase(subTaskGroupDescription.value),
+      code: subTaskGroupCode.value.trim(),
+      photo: subTaskPhoto,
+      parent_id: selectedSubTaskGroup?.id,
+      start_time: startTimeEta,
+      end_time: endTimeEta,
+    };
+
+
+    console.log(JSON.stringify(params) + "======sub-params");
+
+
+    const validation = validate(ADD_SUB_TASK_GROUP, params)
+    if (ifObjectExist(validation)) {
+      dispatch(
+        addTaskGroup({
+          params,
+          onSuccess: (success: any) => () => {
+            addSubTaskGroupModal.hide();
+            resetSubTaskValues();
+            getTaskGroupList(INITIAL_PAGE)
           },
           onError: (error: string) => () => {
             showToast('Task is already exists');
@@ -282,16 +307,38 @@ function TaskGroup() {
         </div >,
         tag: code,
         "": <MenuBar menuData={getGroupMenuItem(marked_as_closed, is_parent)} onClick={(el) => {
-
           if (el.id === '0') {
-            addTaskGroupModal.show()
-            setSelectedTaskGroup(taskGroup)
-            const { name, description, code, photo } = taskGroup
-            taskGroupName.set(name)
-            taskGroupDescription.set(description)
-            taskGroupCode.set(code)
-            setPhoto(getPhoto(photo))
-
+            if (is_parent) {
+              addTaskGroupModal.show()
+              setSelectedTaskGroup(taskGroup)
+              const { name, description, code, photo } = taskGroup
+              taskGroupName.set(name)
+              taskGroupDescription.set(description)
+              taskGroupCode.set(code)
+              setPhoto(getPhoto(photo))
+            } else {
+              addSubTaskGroupModal.show()
+              setSelectedSubTaskGroup(taskGroup)
+              const { name, description, code, photo, start_time, end_time } = taskGroup
+              subTaskGroupName.set(name)
+              subTaskGroupCode.set(description)
+              subTaskGroupDescription.set(code)
+              setSubTaskPhoto(getPhoto(photo))
+              setStatTimeEta(start_time)
+              setEndTimeEta(end_time)
+            }
+          }
+          else if (el.id === '1') {
+            addSubTaskGroupModal.show();
+            setSelectedSubTaskGroup(taskGroup)
+          }
+          else if (el.id === '2') {
+            const { id } = taskGroup
+            changeGroupStatusApiHandler(id, true)
+          }
+          else if (el.id === '3') {
+            const { id } = taskGroup
+            changeGroupStatusApiHandler(id, false)
           }
 
 
@@ -309,6 +356,16 @@ function TaskGroup() {
     setPhoto('')
   }
 
+
+
+  function resetSubTaskValues() {
+    subTaskGroupName.set('')
+    subTaskGroupCode.set('')
+    subTaskGroupDescription.set('')
+    setSubTaskPhoto('')
+    setEndTimeEta('')
+    setStatTimeEta('')
+  }
   return (
     <div>
       <Card className={'mb-3'} style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight : '5em' }}>
@@ -364,9 +421,7 @@ function TaskGroup() {
               noOfPage={taskGroupNumOfPages}
               currentPage={taskGroupCurrentPages}
               paginationNumberClick={(currentPage) => {
-
                 getTaskGroupList(paginationHandler("current", currentPage));
-
               }}
               previousClick={() => {
                 getTaskGroupList(paginationHandler("prev", taskGroupCurrentPages))
@@ -429,7 +484,6 @@ function TaskGroup() {
             onSelect={(image) => {
               let encoded = image.toString().replace(/^data:(.*,)?/, "");
               setPhoto(encoded);
-
             }}
           />
         </div>
@@ -452,87 +506,12 @@ function TaskGroup() {
       </Modal>
 
 
-      {/* <Modal
 
-        isOpen={editTaskGroupModal.visible}
-        onClose={() => {
-          editTaskGroupModal.hide()
-          setEditTask("");
-          setEditCode('')
-          setEditDescription('')
-          setEditPhoto('')
-          setEditId('')
-        }}
-        title={translate("auth.task")!}
-      >
-        <div className="mt--4">
-          <div className='row'>
-            <div className="col-6">
-              <Input
-                placeholder={translate("auth.task")}
-                value={editTask}
-                onChange={(e) => {
-                  setEditTask(e.target.value)
-                  setEditCode(e.target.value.slice(0, 3).toUpperCase())
-                }}
-              />
-            </div>
-            <div className="col-6">  <Input
-              placeholder={translate("auth.code")}
-              value={editCode}
-              onChange={(e) => { setEditCode(e.target.value.slice(0, 3).toUpperCase()) }}
-            />
-            </div>
-          </div>
-
-          <Input
-            placeholder={translate("auth.description")}
-            value={editDescription}
-            onChange={(e) => setEditDescription(e.target.value)}
-          />
-        </div>
-        <div className="pb-3">
-          <Dropzone
-            variant="ICON"
-            icon={getPhoto(editPhoto)}
-            size="xl"
-            onSelect={(image) => {
-              let encoded = image.toString().replace(/^data:(.*,)?/, "");
-              setEditPhoto(encoded);
-            }}
-          />
-
-        </div>
-        <div className="text-right">
-          <Button
-            color={"secondary"}
-            text={translate("common.cancel")}
-            onClick={() => {
-              editTaskGroupModal.hide()
-              setEditTask("");
-              setEditCode('')
-              setEditDescription('')
-              setEditPhoto('')
-              setEditId('')
-            }}
-          />
-          <Button
-            text={translate("common.submit")}
-            onClick={() => {
-              addTaskGroupAdding();
-            }}
-          />
-        </div>
-      </Modal> */}
-
-
-      {/* 
       <Modal
-
-        isOpen={addSubTaskModal.visible}
+        isOpen={addSubTaskGroupModal.visible}
         onClose={() => {
-          addSubTaskModal.hide()
-
+          addSubTaskGroupModal.hide();
+          resetSubTaskValues();
         }}
         title={translate("auth.task")!}
       >
@@ -541,35 +520,38 @@ function TaskGroup() {
             <div className="col-6">
               <Input
                 placeholder={translate("auth.task")}
-                value={addSubTask}
+                value={subTaskGroupName.value}
                 onChange={(e) => {
-                  setAddSubTask(e.target.value)
-                  setAddSubTaskCode(e.target.value.slice(0, 3).toUpperCase())
+                  subTaskGroupName.onChange(e)
+                  subTaskGroupCode.set(stringToUpperCase(stringSlice(e.target.value)))
                 }}
               />
             </div>
-            <div className="pt-2 pr-2 text-sm"> {addSubTaskItem?.code}-</div>
-            <div className="col-5">  <Input
-              placeholder={translate("auth.code")}
-              value={addSubTaskCode}
-              onChange={(e) => { setAddSubTaskCode(e.target.value.slice(0, 3).toUpperCase()) }}
-            />
+            <div className="pt-2 pr-2 text-sm col-auto"> {selectedSubTaskGroup?.code}-</div>
+            <div className="col">
+              <Input
+                placeholder={translate("auth.code")}
+                value={subTaskGroupCode.value}
+                onChange={(e) => { subTaskGroupCode.set(stringToUpperCase((stringSlice(e.target.value)))) }}
+              />
             </div>
           </div>
 
           <div className="row">
             <div className="col-6">
               <DateTimePicker
-
                 id="eta-picker"
                 placeholder={'Start Time'}
                 type="both"
+                value={startTimeEta}
                 onChange={handleStartTimeEtaChange}
               />
             </div>
             <div className="col-6">
               <DateTimePicker
                 id="eta-picker"
+                type="both"
+                value={endTimeEta}
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
               />
@@ -578,18 +560,19 @@ function TaskGroup() {
 
           <Input
             placeholder={translate("auth.description")}
-            value={addSubTaskDescription}
-            onChange={(e) => setAddSubTaskDescription(e.target.value)}
+            value={subTaskGroupDescription.value}
+            onChange={(e) => subTaskGroupDescription.onChange(e)}
           />
+
         </div>
         <div className="pb-3">
           <Dropzone
             variant="ICON"
-            icon={addSubPhoto}
+            icon={subTaskPhoto}
             size="xl"
             onSelect={(image) => {
               let encoded = image.toString().replace(/^data:(.*,)?/, "");
-              setAddSubPhoto(encoded);
+              setSubTaskPhoto(encoded);
             }}
           />
 
@@ -599,18 +582,18 @@ function TaskGroup() {
             color={"secondary"}
             text={translate("common.cancel")}
             onClick={() => {
-              addSubTaskModal.hide()
-
+              addSubTaskGroupModal.hide();
+              resetSubTaskValues();
             }}
           />
           <Button
             text={translate("common.submit")}
             onClick={() => {
-              addSubTaskGroupAdding();
+              addSubTaskGroupApiHandler();
             }}
           />
         </div>
-      </Modal> */}
+      </Modal>
     </div>
   )
 }
