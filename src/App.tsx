@@ -46,7 +46,7 @@ function App() {
 
   return (
     <ScreenWrapper>
-      <ToastContainer/>
+      <ToastContainer />
       <Routes>
         {getRoutes(AUTH_ROUTES, AUTH)}
         {getRoutes(HOME_ROUTES, HOME)}

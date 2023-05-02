@@ -1,6 +1,6 @@
-import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask ,CreateBroadCast, CreateCompany, AddUser } from '@Modules'
+import { Issues, Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
-
+import { icons } from '@Assets'
 
 
 
@@ -32,8 +32,8 @@ export const ROUTES = {
     tasks: '/tasks',
     'tasks-details': '/tasks-details',
     'reference-task': '/reference-task',
-    'add-task':'/add-task',
-    'add-sub-task':'/add-sub-task',
+    'add-task': '/add-task',
+    'add-sub-task': '/add-sub-task',
   },
   'issue-module': {
     issues: '/issues',
@@ -83,42 +83,42 @@ export const HOME_ROUTES = [
   {
     path: ROUTES['task-module'].tasks,
     name: "Tasks",
-    icon: "bi bi-list-task text-primary",
+    icon: icons.task,
     layout: "",
     component: <Tasks />
   },
   {
     path: ROUTES['issue-module'].issues,
     name: "Tickets",
-    icon: "bi bi-bell text-primary",
+    icon: icons.issue,
     layout: "",
     component: <Issues />
   },
   {
     path: ROUTES['user-company-module'].companies,
     name: "Companies",
-    icon: "bi bi-geo-alt text-primary",
+    icon: icons.company,
     layout: "",
     component: <Companies />
   },
   {
     path: ROUTES['message-module'].broadcast,
     name: "Broadcast",
-    icon: "bi bi-megaphone text-primary",
+    icon: icons.broadCast,
     layout: "",
     component: <Broadcast />
   },
   {
     path: ROUTES['user-company-module'].profile,
     name: "Profile",
-    icon: "bi bi-person-circle text-primary",
+    icon: icons.profile,
     layout: "",
     component: <Profile />
   },
   {
     path: ROUTES['user-company-module'].setting,
     name: "Settings",
-    icon: "bi bi-gear text-primary",
+    icon: icons.setting,
     layout: "",
     component: <Setting />
   }
@@ -146,9 +146,9 @@ export const TASK_ROUTES = [
   {
     key: 4,
     path: ROUTES['task-module']['add-sub-task'],
-    component: <AddSubTask/>
+    component: <AddSubTask />
   },
-  
+
 ];
 
 export const MESSAGE_ROUTES = [

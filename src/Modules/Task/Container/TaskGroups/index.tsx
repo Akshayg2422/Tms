@@ -29,20 +29,26 @@ function TaskGroups({ onClick }: TaskGroupProps) {
     return (
         <div className='row'>
             {taskGroups && taskGroups.length > 0 &&
-                [DEFAULT_GROUP, ...taskGroups].map((el: any) => {
+                [DEFAULT_GROUP, ...taskGroups].map((el: any, index: number) => {
                     const bgColor = selectedTaskGroup === el.code ? "bg-primary" : "bg-white"
                     const textColor = selectedTaskGroup === el.code ? "text-white" : ""
                     return (
-                        <div key={el.code} className='ml-2 pointer' onClick={() => {
-                            setSelectedTaskGroup(el.code)
-                            onClick(el.id)
-                            console.log(el.id)
-                        }}>
-                            <div className={`card ${bgColor}`}>
-                                <div className='col py-1'>
-                                    <Image className='ml--1' variant={'rounded'} src={el.photo ? getPhoto(el.photo) : icons.profile} size={'xs'} />
-                                    <small className={`ml-2  ${textColor}`}>{'#' + el.code}</small>
-                                </div>
+                        <div
+                            className={`card ${bgColor} ml-2 pointer`}
+                            key={el.code}
+                            onClick={() => {
+                                setSelectedTaskGroup(el.code)
+                                onClick(el.id)
+                                console.log(el.id)
+                            }}
+                            style={{
+                                width: 100,
+                                height: 38,
+                            }}
+                        >
+                            <div className='col d-flex justify-content-center align-items-center'>
+                                {el.photo && <Image className='ml--1' variant={'rounded'} src={getPhoto(el.photo)} size={'xs'} />}
+                                <small className={` ml-2  ${textColor}`}>{'#' + el.code}</small>
                             </div>
                         </div>
                     )
