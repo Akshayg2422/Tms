@@ -71,7 +71,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     return (
         <div ref={ref} >
-            <Card style={{
+            <Card className={'overflow-auto'} style={{
                 height: height / 2
             }}>
                 <div className="col">
