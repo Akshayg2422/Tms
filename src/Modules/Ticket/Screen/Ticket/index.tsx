@@ -4,7 +4,7 @@ import { HomeContainer, Button, Image, CommonTable, Priority, Status, NoDataFoun
 import { useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { TicketFilter } from '@Modules';
-import { ROUTES } from '@Routes'
+import { ROUTES,HOME_PATH } from '@Routes'
 import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter } from "@Utils";
 import { getTickets, setSelectedTicket, getDashboard, setSelectedReferenceTickets } from "@Redux";
 
@@ -65,6 +65,8 @@ function Ticket() {
       })
     );
   };
+
+  console.log("selectedTicket",selectedTicket)
 
 
 
@@ -134,7 +136,6 @@ function Ticket() {
     <>
       <div className="m-3">
         <div className="row justify-content-end m-0 mb-3">
-          {/* <div className="mx-2 mb--3 col"> */}
             <div className=" ">
               <Button
                 size={'sm'}
@@ -144,7 +145,6 @@ function Ticket() {
                 }
                 }
               />
-            {/* </div> */}
           </div>
         </div>
 
@@ -174,8 +174,8 @@ function Ticket() {
                 }
                 tableOnClick={(idx, index, item) => {
                   dispatch(setSelectedTicket(item));
-                  dispatch(setSelectedReferenceTickets(undefined))
-                 // goTo(HOME_PATH.ISSUE_DETAILS);
+                 // dispatch(setSelectedReferenceTickets(undefined))
+                 goTo(HOME_PATH.ISSUE_DETAILS);
                 }
                 }
               />
