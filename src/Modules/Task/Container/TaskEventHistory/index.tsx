@@ -29,6 +29,9 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
         );
     }
 
+
+    console.log(JSON.stringify(taskEventHistories) + '====taskEventHistories');
+
     return (
         <div>
             {

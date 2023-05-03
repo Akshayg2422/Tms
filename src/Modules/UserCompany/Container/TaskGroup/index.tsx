@@ -315,7 +315,9 @@ function TaskGroup() {
               taskGroupName.set(name)
               taskGroupDescription.set(description)
               taskGroupCode.set(code)
-              setPhoto(getPhoto(photo))
+              toDataUrl(getPhoto(photo), function (myBase64) {
+                setPhoto(myBase64)
+              });
             } else {
               addSubTaskGroupModal.show()
               setSelectedSubTaskGroup(taskGroup)
@@ -366,6 +368,21 @@ function TaskGroup() {
     setEndTimeEta('')
     setStatTimeEta('')
   }
+
+  function toDataUrl(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      var reader = new FileReader();
+      reader.onloadend = function () {
+        callback(reader.result);
+      }
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
+
   return (
     <div>
       <Card className={'mb-3'} style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight : '5em' }}>
