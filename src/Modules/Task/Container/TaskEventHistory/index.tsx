@@ -75,13 +75,13 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
     console.log(JSON.stringify(taskEventHistories) + '====taskEventHistories');
 
     return (
-        <div>
+        <div className='m-1 mt-3 shadow-none overflow-auto overflow-hide' style={{ maxHeight: '58vh' }}>
             {
                 taskEventHistories && taskEventHistories?.length > 0 && taskEventHistories?.map((taskEvent: any, index: number) => {
                     const { icon, subTitle, title, created_at }: any = getIconsFromStatus(taskEvent)
                     const show = index !== taskEventHistories.length - 1
                     return (
-                        <TimeLine icon={icon} subTitle={subTitle} showDotterLine={show} title={title} time={getDisplayDateFromMoment(getMomentObjFromServer(created_at))}>            </TimeLine >
+                        <TimeLine icon={icon} subTitle={subTitle} showDotterLine={show} title={title} time={getDisplayDateFromMoment(getMomentObjFromServer(created_at))}> </TimeLine >
                     )
                 })
             }

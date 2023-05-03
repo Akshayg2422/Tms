@@ -118,7 +118,7 @@ function AddReferenceTask() {
 
 
   return (
-    <HomeContainer type={'card'} className="vh-100 m-3">
+    <HomeContainer type={'card'} className="m-3">
       <div  >
         <div className="row justify-content-between m-3">
           <Back />
