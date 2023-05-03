@@ -216,4 +216,48 @@ export const referenceIssueDetails = (params) => {
   }
 }
 
+/**
+ * refresh task Events
+ */
+
+
+ export const refreshTicketEvents = () => {
+  return {
+      type: ActionTypes.REFRESH_TICKET_EVENTS,
+  }
+}
+
+
+
+/** 
+ * Ticket Event History
+ */
+
+
+ export const getTicketEventHistory = (params: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_HISTORY,
+      payload: params,
+  };
+};
+
+export const getTicketEventHistorySuccess = (response: any) => {
+
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_HISTORY_SUCCESS,
+      payload: response,
+  };
+};
+
+export const getTicketEventHistoryFailure = (error: any) => {
+
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_HISTORY_FAILURE,
+      payload: error,
+  };
+};
+
+
+
+
 

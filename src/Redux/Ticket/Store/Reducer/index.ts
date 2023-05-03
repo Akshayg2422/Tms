@@ -16,6 +16,8 @@ const initialState: TicketStateProps = {
   referenceTicketSelectedDetails: undefined,
   selectedReferenceTickets: undefined,
   ticketEmployees: undefined,
+  refreshTicketEvents: false,
+  ticketEventHistories: undefined,
 
 
 
@@ -39,10 +41,7 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.RAISE_NEW_TICKET_FAILURE:
       state = { ...state };
       break;
-    case ActionTypes.GET_TICKETS:
-
-  console.log('case+"=====GET_TICKETSsas');
-  
+    case ActionTypes.GET_TICKETS:  
       state = {
         ...state,
         tickets: undefined,
@@ -173,6 +172,28 @@ const TicketReducer = (state = initialState, action: any) => {
     case  ActionTypes.GET_TICKET_USERS_FAILURE:
       state = { ...state, ticketEmployees: undefined };
       break;
+    case ActionTypes.REFRESH_TICKET_EVENTS:
+      state = {...state,refreshTicketEvents:!state.refreshTicketEvents}  
+      break;
+     
+     /**
+     * get Task Event History
+     */
+
+      case ActionTypes.GET_TICKET_EVENT_HISTORY:
+        state = {
+          ...state
+        };
+  
+        break;
+      case ActionTypes.GET_TICKET_EVENT_HISTORY_SUCCESS:
+        state = {
+          ...state, ticketEventHistories: action.payload?.details.data,
+        };
+        break;
+      case ActionTypes.GET_TICKET_EVENT_HISTORY_FAILURE:
+        state = { ...state, ticketEventHistories: action.payload };
+        break;  
 
 
 

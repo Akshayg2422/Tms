@@ -133,6 +133,27 @@ function* getTicketUsersSaga(action) {
 }
 
 
+/**
+ * GET TASK EVENT HISTORY
+ */
+
+ function* getTicketEventHistorySaga(action) {
+  try {
+      const response = yield call(Services.getTicketEventHistoryApi, action.payload.params);
+      if (response.success) {
+          yield put(Action.getTicketEventHistorySuccess(response));
+          yield call(action.payload.onSuccess(response));
+      } else {
+          yield put(Action.getTicketEventHistoryFailure(response.error_message));
+          yield call(action.payload.onError(response));
+      }
+  } catch (error) {
+      yield put(Action.getTicketEventHistoryFailure("Invalid Request"));
+      yield call(action.payload.onError);
+  }
+}
+
+
 
 function* TicketSaga() {
   console.log("Watcher---->")
@@ -143,6 +164,7 @@ function* TicketSaga() {
   yield takeLatest(Action.ADD_TICKET_EVENT, addTicketEventSaga);
   yield takeLatest(Action.GET_REFERENCE_TICKETS, getReferenceTicketsSaga)
   yield takeLatest(Action.GET_TICKET_USERS, getTicketUsersSaga)
+  yield takeLatest(Action.GET_TICKET_EVENT_HISTORY, getTicketEventHistorySaga)
 }
 
 export default TicketSaga;

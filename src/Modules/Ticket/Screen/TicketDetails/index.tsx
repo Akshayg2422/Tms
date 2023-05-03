@@ -5,7 +5,7 @@ import {
   Attachments,
   ReferenceTickets,
 } from "@Modules";
-import TicketInfo from "../../Container/TicketInfo";
+import { TicketInfo } from "@Modules";
 import { HomeContainer, Tabs } from "@Components";
 import { useSelector } from "react-redux";
 import { useParams } from 'react-router-dom'
@@ -44,8 +44,7 @@ function TicketDetails() {
       <HomeContainer className="m-3">
             <div className="row">
                 <div className="col-md-12" >
-                    <TicketInfo/>
-
+                    <TicketInfo ref={ref} />
                 </div>
               
             </div>

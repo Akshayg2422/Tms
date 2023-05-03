@@ -12,4 +12,6 @@ export interface TicketStateProps {
   selectedTicket?: any;
   referenceTicketSelectedDetails: any;
   selectedReferenceTickets: any;
+  refreshTicketEvents: boolean;
+  ticketEventHistories:any;
 }
