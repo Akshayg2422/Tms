@@ -53,7 +53,7 @@ export const getTasksFailure = (error: any) => {
 
 export const setSelectedTask = (task: any) => {
     return {
-        type: ActionTypes.SELECTED_TASK_IEM,
+        type: ActionTypes.SELECTED_TASK_ITEM,
         payload: task
     }
 }

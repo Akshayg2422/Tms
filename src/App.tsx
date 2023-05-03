@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { PageNotFound, ScreenWrapper, Sidebar, ComponentLoader, Button } from "@Components";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { HOME_ROUTES, AUTH_ROUTES, TASK_ROUTES, USER_COMPANY_ROTES, MESSAGE_ROUTES, RequireAuth, RequireHome, TICKET_ROUTES } from "@Routes";
+import { HOME_ROUTES, AUTH_ROUTES, TASK_ROUTES, TICKET_ROUTES, USER_COMPANY_ROTES, MESSAGE_ROUTES, RequireAuth, RequireHome } from "@Routes";
 import { Tasks } from "@Modules";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";

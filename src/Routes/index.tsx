@@ -1,6 +1,8 @@
-import {  Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Ticket, AddTicket } from '@Modules'
+import { Ticket, Companies, Settings, Broadcast, Tasks, Profile, Setting, AddTicket, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
+
+
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -15,9 +17,7 @@ export const HOME_PATH = {
   CREATE_BROAD_CAST: '/create-broad-cast',
   ADD_TASK: '/add-task',
   ADD_SUB_TASK: '/add-sub-task',
-  TASK_DETAILS: '/task-details',
-  TICKET_DETAILS:'/ticket-details',
-  ADD_TICKET:'./add-ticket'
+  TASK_DETAILS: '/task-details'
 }
 
 export const ROUTES = {
@@ -36,9 +36,8 @@ export const ROUTES = {
     'add-sub-task': '/add-sub-task',
   },
   'ticket-module': {
-    ticket: '/ticket',
-    'ticket-details':'/ticket-details',
-    'add-ticket':'/add-ticket',
+    ticket: '/tickets',
+    'add-ticket': '/add-ticket'
   },
   'user-company-module': {
     companies: '/companies',
@@ -154,21 +153,13 @@ export const TASK_ROUTES = [
 ];
 
 export const TICKET_ROUTES = [
-  // {
-  //   key:1,
-  //   path:ROUTES['ticket-module']['ticket-details'] +'/id',
-  //   component:<TicketDtails/>
-  // }
-
   {
-    key:2,
-    path:ROUTES['ticket-module']['add-ticket'],
-    component:<AddTicket/>
+  key:1,
+  path:ROUTES['ticket-module']['add-ticket'],
+  component:<AddTicket/>
   }
-  
-  
-];
 
+]
 
 export const MESSAGE_ROUTES = [
   {

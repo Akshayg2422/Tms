@@ -22,7 +22,7 @@ const FILTER_MENU = [
 function TicketFilter({ onParams }: TicketFilterProps) {
 
     const dispatch = useDispatch()
-    const filteredTickets = useDropDown(TICKET_FILTER_LIST[2]);
+    const filteredTicket = useDropDown(TICKET_FILTER_LIST[2]);
     const ticketStatus = useDropDown(TICKET_STATUS_LIST[2]);
     const ticketPriority = useDropDown(TICKET_PRIORITY_LIST[0]);
     const company = useDropDown({})
@@ -31,7 +31,6 @@ function TicketFilter({ onParams }: TicketFilterProps) {
     const [departments, setDepartments] = useState([])
     const [designations, setDesignations] = useState([])
     const [companies, setCompanies] = useState([])
-    const [includeSubTicket, setIncludeSubTicket] = useState(false)
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
 
@@ -45,7 +44,6 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                     onSuccess: (response) => () => {
 
                         const companies = response.details
-
                         let modifiedCompanies = []
                         modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
                         if (companies && companies.length > 0) {
@@ -126,6 +124,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
 
     function proceedParams(object: any) {
         const updatedParams = { ...params, ...object }
+        console.log("updatedParams",updatedParams)
         if (onParams) {
             onParams(updatedParams)
         }
@@ -140,7 +139,54 @@ function TicketFilter({ onParams }: TicketFilterProps) {
     return (
         < >
             <div className="row">
-                <div className="col text-right">
+                <div className="row col ">
+                    <div className="col-lg-3  col-md-3 col-sm-12">
+                        <SearchInput heading={'Code/Title'} onSearch={
+                            (text) => {
+                                proceedParams({ q_many: text })
+                            }
+                        } />
+                    </div>
+                    <div className="col-lg-3 col-md-3 col-sm-12 ">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("common.assignedTo")}
+                            selected={filteredTicket.value}
+                            data={TICKET_FILTER_LIST}
+                            onChange={(item) => {
+                                filteredTicket.onChange(item)
+                                proceedParams({ tickets_by: item.id })
+                            }}
+                        />
+                    </div>
+
+                    <div className="col-lg-3 col-md-3 col-sm-12">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("common.ticketStatus")}
+                            data={TICKET_STATUS_LIST}
+                            selected={ticketStatus.value}
+                            onChange={(item) => {
+                                ticketStatus.onChange(item)
+                                proceedParams({ ticket_status: item.id })
+                            }}
+                        />
+                    </div>
+                    <div className="col-lg-3 col-md-3 col-sm-12">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("common.Priority")}
+                            data={TICKET_PRIORITY_LIST}
+                            selected={ticketPriority.value}
+                            onChange={(item) => {
+                                ticketPriority.onChange(item)
+                                proceedParams({ priority: item.id })
+                            }}
+                        />
+                    </div>
+                </div>
+                <div className="d-flex align-items-center justify-content-center mt-2">
+
                     <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
                         if (el.id === FILTER_MENU[1].id) {
                             setAdvanceFilter(true)
@@ -155,54 +201,13 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                             setDesignations([])
                         }
                     }} />
+
                 </div>
+
             </div>
 
-            <div className="row mt-3 mb--3">
-                <div className="col-lg-3  col-md-3 col-sm-12">
-                    <SearchInput heading={'Code/Title'} onSearch={
-                        (text) => {
-                            proceedParams({ q_many: text })
-                        }
-                    } />
-                </div>
-                <div className="col-lg-3 col-md-3 col-sm-12 ">
-                    <DropDown
-                        className="form-control-sm"
-                        heading={translate("common.assignedTo")}
-                        selected={filteredTickets.value}
-                        data={TICKET_FILTER_LIST}
-                        onChange={(item) => {
-                            filteredTickets.onChange(item)
-                            proceedParams({ ticket_by: item.id })
-                        }}
-                    />
-                </div>
+            <div className="row mt-2">
 
-                <div className="col-lg-3 col-md-3 col-sm-12">
-                    <DropDown
-                        className="form-control-sm"
-                        heading={translate("common.ticketStatus")}
-                        data={TICKET_STATUS_LIST}
-                        selected={ticketStatus.value}
-                        onChange={(item) => {
-                            ticketStatus.onChange(item)
-                            proceedParams({ ticket_status: item.id })
-                        }}
-                    />
-                </div>
-                <div className="col-lg-3 col-md-3 col-sm-12">
-                    <DropDown
-                        className="form-control-sm"
-                        heading={translate("common.Priority")}
-                        data={TICKET_PRIORITY_LIST}
-                        selected={ticketPriority.value}
-                        onChange={(item) => {
-                            ticketPriority.onChange(item)
-                            proceedParams({ priority: item.id })
-                        }}
-                    />
-                </div>
 
                 {advanceFilter && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
@@ -248,14 +253,6 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                     />
                 </div>
                 }
-
-                {/* <div className="col pt-3">
-                    <Checkbox text={'Include Subtask'} checked={includeSubTicket} onCheckChange={(checked) => {
-                        // proceedParams({ include_subtask: checked })
-                        setIncludeSubTicket(checked)
-                    }} />
-                </div> */}
-
             </div>
         </>
     )

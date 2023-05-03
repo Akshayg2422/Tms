@@ -623,7 +623,6 @@ function Settings() {
 
 
   const handleDepartmentAdminProcess = (item) => {
-
     const updateData = departmentDataList.map((el: any) => {
       if (el.id === item.id) {
         return { ...el, is_admin: !el.is_admin }
@@ -653,7 +652,6 @@ function Settings() {
 
 
   const handleDepartmentSuperAdminProcess = (item) => {
-
     const updateData = departmentDataList.map((el: any) => {
       if (el.id === item.id) {
         return { ...el, is_super_admin: !el.is_super_admin }
@@ -679,7 +677,6 @@ function Settings() {
   }
 
   const handleDesignationAdminProcess = (item) => {
-
     const updateData = designationDataList.map((el: any) => {
       if (el.id === item.id) {
         return { ...el, is_admin: !el.is_admin }
@@ -755,7 +752,8 @@ function Settings() {
           superAdmin:
             <div className=" d-flex justify-content-center align-items-center">
               <Input type={'checkbox'} checked={el?.is_super_admin} onChange={() => {
-                handleDepartmentSuperAdminProcess(el)
+               // handleDepartmentSuperAdminProcess(el)
+               console.log("dept---->")
               }} />
             </div>,
 

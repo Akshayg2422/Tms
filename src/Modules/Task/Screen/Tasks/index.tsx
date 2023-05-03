@@ -7,7 +7,7 @@ import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObj
 import { getTasks, setSelectedTask, getDashboard } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
-import { translate } from "@I18n";
+import { translate } from '@I18n'
 
 
 const DEFAULT_PARAMS = {
@@ -23,12 +23,12 @@ const DEFAULT_PARAMS = {
 }
 
 function Tasks() {
+  const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL","group": "ALL","include_subtask" : false, page_number: 1 }
   const dispatch = useDispatch()
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask } = useSelector((state: any) => state.TaskReducer);
   const date = new Date();
   const time = date.getHours()
-
   const { goTo } = useNavigation();
 
   useEffect(() => {
@@ -58,14 +58,13 @@ function Tasks() {
   const getTaskHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
 
-    console.log( 'taskHandler======>',JSON.stringify(updatedParams) );
+    console.log( "params",JSON.stringify(updatedParams));
 
     dispatch(
       getTasks({
-        params,
-        onSuccess: (response) => () => {
-
-          console.log('get Task======>',JSON.stringify(response));
+        params: updatedParams,
+        onSuccess: (responx) => () => {
+          console.log(JSON.stringify(responx));
 
         },
         onError: (error) => () => {
@@ -77,9 +76,11 @@ function Tasks() {
     );
   };
 
+
+
   const normalizedTableData = (data: any) => {
-    if (data && data.length > 0)
-      return data.map((el: any) => {
+    if (data && data?.length > 0)
+      return data?.map((el: any) => {
         const etaDate = new Date(el.eta_time)
         let etaTime = etaDate.getHours()
         return {
@@ -97,7 +98,6 @@ function Tasks() {
                 </div>
               </div>
             </>,
-            
           "attachments":
             <div className="row avatar-group">
               {
