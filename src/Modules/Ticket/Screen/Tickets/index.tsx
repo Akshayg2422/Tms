@@ -11,9 +11,9 @@ import { getTickets, setSelectedTicket, getDashboard, setSelectedReferenceTicket
 
 
 
-function Ticket() {
+function Tickets() {
 
-  const DEFAULT_PARAMS = { q_many: "", "tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL", page_number: 1 }
+  const DEFAULT_PARAMS = { q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", page_number: 1 }
   const { goTo } = useNavigation();
   const { tickets, ticketNumOfPages, ticketCurrentPages,selectedTicket } = useSelector((state: any) => state.TicketReducer);
   const date = new Date();
@@ -175,7 +175,7 @@ function Ticket() {
                 tableOnClick={(idx, index, item) => {
                   dispatch(setSelectedTicket(item));
                  // dispatch(setSelectedReferenceTickets(undefined))
-                 goTo(HOME_PATH.ISSUE_DETAILS);
+                 goTo(ROUTES['ticket-module']['tickets-details']);
                 }
                 }
               />
@@ -188,4 +188,4 @@ function Ticket() {
   );
 }
 
-export { Ticket };
+export { Tickets };
