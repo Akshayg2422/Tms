@@ -10,19 +10,14 @@ import { useParams } from 'react-router-dom';
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
-<<<<<<< HEAD
   const { id } = useParams();
   const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages } = useSelector(
-=======
-  const { height } = useWindowDimensions()
-
-  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages, selectedTask } = useSelector(
->>>>>>> ec8fdbca6b8ce709a8fb25abc1cc7f439d1f26d3
     (state: any) => state.TaskReducer
   );
 
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { goTo } = useNavigation()
+  const { height } = useWindowDimensions()
 
   useEffect(() => {
     proceedgetReferenceTasks(referencesTasksCurrentPages);

@@ -10,14 +10,22 @@ import {
 import { HomeContainer, Tabs } from "@Components";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedTabPosition } from '@Redux'
+import { useParams } from 'react-router-dom'
 
 function TaskDetails() {
+    const { id } = useParams()
 
     const dispatch = useDispatch()
 
     const { selectedTabPositions } = useSelector(
         (state: any) => state.TaskReducer
     );
+
+    useEffect(() => {
+        console.log('useEffect=======');
+
+        setSelectedTabPosition({ id: '1' })
+    }, [id])
 
 
     const TABS = [

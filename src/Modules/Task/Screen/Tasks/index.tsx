@@ -4,7 +4,7 @@ import { Button, HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter } from '@Utils'
-import { getTasks, setSelectedTask, getDashboard } from '@Redux'
+import { getTasks, setSelectedTask, getDashboard, setSelectedTabPosition } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from "@I18n";
