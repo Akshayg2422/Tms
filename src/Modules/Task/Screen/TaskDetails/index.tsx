@@ -13,26 +13,18 @@ import { setSelectedTabPosition } from '@Redux'
 import { useParams } from 'react-router-dom'
 
 function TaskDetails() {
-    const { id } = useParams()
+
 
     const dispatch = useDispatch()
-
     const { selectedTabPositions } = useSelector(
         (state: any) => state.TaskReducer
     );
-
-    useEffect(() => {
-        console.log('useEffect=======');
-
-        setSelectedTabPosition({ id: '1' })
-    }, [id])
-
 
     const TABS = [
         { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>COMMENTS</span></div>, component: <Comments /> },
         { id: "2", title: <div className="bi bi-paperclip">ATTACHMENTS</div>, component: <TaskAttachments /> },
         { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCES</span></div>, component: <ReferenceTasks /> },
-        { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USERS</span></div>, component: <TaskUsers /> },
+        { id: "4", title: <div className="bi bi-person"><span className={'mx-1'}>USERS</span></div>, component: <TaskUsers /> },
     ];
 
 
@@ -45,9 +37,6 @@ function TaskDetails() {
             setHeight(ref.current.offsetHeight);
         }
     }, []);
-
-
-
 
     return (
         <HomeContainer className="m-3">

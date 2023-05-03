@@ -75,7 +75,6 @@ export const getDeviceInfo = () => {
   const match = regex.exec(userAgent);
   let brand
   let model
-  console.log("getDeviceInfo===>", userAgent, platform, match)
   if (match && match.length > 1) {
     const deviceInfo = match[1].split(';');
     brand = deviceInfo[0].trim();

@@ -21,13 +21,15 @@ function MenuBar({ toggleIcon, menuData, onClick }: TripleDotProps) {
                         return (
                             <>
                                 <DropdownItem onClick={() => {
-                                    if (onClick){
+                                    if (onClick) {
                                         onClick(el)
                                     }
                                 }
                                 }>
                                     <div className='d-inline-flex justify-content-center align-items-center'>
-                                        {icon && <Image src={icon} width={15} height={15} />}
+                                        {icon && <Image src={icon} width={18} height={18} style={{
+                                            objectFit: 'contain'
+                                        }} />}
                                         {name}
                                     </div>
                                 </DropdownItem>

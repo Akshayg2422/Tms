@@ -22,7 +22,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer } from "@Utils";
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
-import { log } from "console";
+import { icons } from "@Assets";
 
 
 
@@ -41,9 +41,9 @@ function TaskGroup() {
 
 
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
-    { id: '0', name: "Edit", icon: 'bi bi-pencil' },
-    ...(is_parent ? [{ id: '1', name: "Create Sub Task", icon: 'bi bi-file-earmark-plus' }] : []),
-    ...(marked_as_closed ? [{ id: '3', name: "Mark As Open", icon: "bi bi-x" }] : [{ id: '2', name: "Mark As Closed", icon: "bi bi-x" }]),
+    { id: '0', name: "Edit", icon: icons.edit },
+    ...(is_parent ? [{ id: '1', name: "Create Sub Task", icon: icons.addSub }] : []),
+    ...(marked_as_closed ? [{ id: '3', name: "Mark As Open", icon: icons.markAsOpen }] : [{ id: '2', name: "Mark As Closed", icon: icons.markAsClose }]),
   ]
   const [showTaskGroup, setShowTaskGroup] = useState(false);
 

@@ -74,8 +74,7 @@ function Tasks() {
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
       return data?.map((el: any) => {
-        const etaDate = new Date(el.eta_time)
-        let etaTime = etaDate.getHours()
+
         return {
           "task":
             <>
@@ -120,7 +119,7 @@ function Tasks() {
             </div >,
           'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
           status: <div><Status status={el?.task_status} />
-            <small>{getDates() > getDates() ? 'ABOVE ETA' : ""}</small>
+            <small>{getDates() > getDates(el.eta_time) ? 'ABOVE ETA' : ""}</small>
           </div>
         };
       });
@@ -153,7 +152,7 @@ function Tasks() {
         </div>
       </div>
 
-      <HomeContainer type={'card'}>
+      <HomeContainer type={'card'} className="mt-3">
         <TaskFilter onParams={(filteredParams) => {
           setParams({ ...params, ...filteredParams })
         }} />
@@ -177,6 +176,7 @@ function Tasks() {
             }
             tableOnClick={(idx, index, item) => {
               dispatch(setSelectedTask(item));
+              dispatch(setSelectedTabPosition({ id: '1' }))
               goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id);
             }
             }

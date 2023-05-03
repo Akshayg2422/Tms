@@ -200,12 +200,9 @@ function* getTaskEventAttachmentsSaga(action) {
 /* GET TASK DETAILS */
 
 function* getTaskDetailsSaga(action) {
-    console.log('getTaskDetailsSaga' + JSON.stringify(action));
     try {
         const response = yield call(Services.getTaskDetailsApi, action.payload.params);
-        console.log(JSON.stringify(response) + 'getTaskDetailsSaga-----');
         if (response.success) {
-            console.log('successss');
             yield put(Action.getTaskDetailsSuccess(response));
             yield call(action.payload.onSuccess(response));
         } else {
