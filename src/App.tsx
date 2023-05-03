@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { PageNotFound, ScreenWrapper, Sidebar, ComponentLoader, Button } from "@Components";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { HOME_ROUTES, AUTH_ROUTES, TASK_ROUTES, TICKET_ROUTES, USER_COMPANY_ROTES, MESSAGE_ROUTES, RequireAuth, RequireHome } from "@Routes";
-import { Tasks } from "@Modules";
+import { PushNotification, Tasks } from "@Modules";
 import { ToastContainer } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { icons } from '@Assets'
 import { changeLanguage } from "@I18n";
 /**
@@ -18,16 +18,30 @@ import "@fullcalendar/daygrid/main.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { FCM_TOKEN, getDeviceInfo } from './Utils';
+import { addPushNotification } from './Redux';
 
 
 
 
 function App() {
 
-
+  const { loginDetails } = useSelector((state: any) => state.AppReducer);
   const { language } = useSelector((state: any) => state.AuthReducer);
-  changeLanguage(language?.value);
 
+  const dispatch = useDispatch()
+  const fcmToken = localStorage.getItem(FCM_TOKEN)
+  console.log("FCM TOKEN APP.TSX======>", fcmToken)
+
+
+  useEffect(() => {
+
+    if (loginDetails && loginDetails?.isLoggedIn) {
+      getPushNotification()
+    }
+  }, [fcmToken])
+
+  changeLanguage(language?.value);
 
   const AUTH = 1
   const HOME = 2
@@ -44,8 +58,29 @@ function App() {
     });
   };
 
+  function getPushNotification() {
+    const params = {
+      device_model: getDeviceInfo()?.model,
+      device_platform: getDeviceInfo()?.platform,
+      device_brand: getDeviceInfo()?.brand,
+      device_token: fcmToken
+    }
+    console.log("getPushNotificationParamssss----------------->", params)
+
+    dispatch(addPushNotification({
+      params,
+      onSuccess: (success) => () => {
+        console.log("successsssss----->", success)
+      },
+      onError: (error) => () => {
+
+      }
+    }))
+  }
+
   return (
     <ScreenWrapper>
+      <PushNotification />
       <ToastContainer />
       <Routes>
         {getRoutes(AUTH_ROUTES, AUTH)}

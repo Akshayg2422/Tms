@@ -66,3 +66,20 @@ export function stringToUpperCase(string: any) {
   return string.toUpperCase();
 }
 
+export const getDeviceInfo = () => {
+  const userAgent = navigator.userAgent;
+  console.log('navigator', navigator);
+
+  const platform = navigator.platform;
+  const regex = /\(([^)]+)\)/;
+  const match = regex.exec(userAgent);
+  let brand
+  let model
+  console.log("getDeviceInfo===>", userAgent, platform, match)
+  if (match && match.length > 1) {
+    const deviceInfo = match[1].split(';');
+    brand = deviceInfo[0].trim();
+    model = deviceInfo[1].trim();
+  }
+  return { brand, model, platform }
+}
