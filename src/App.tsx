@@ -51,7 +51,7 @@ function App() {
         {getRoutes(AUTH_ROUTES, AUTH)}
         {getRoutes(HOME_ROUTES, HOME)}
         {getRoutes(TASK_ROUTES, HOME)}
-        {getRoutes(TICKET_ROUTES,HOME)}
+        {getRoutes(TICKET_ROUTES, HOME)}
         {getRoutes(MESSAGE_ROUTES, HOME)}
         {getRoutes(USER_COMPANY_ROTES, HOME)}
         <Route path={"*"} element={<PageNotFound />} />

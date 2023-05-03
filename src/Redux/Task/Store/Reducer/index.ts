@@ -22,6 +22,7 @@ const initialState: TaskStateProp = {
   taskEventAttachmentsCurrentPage: 1,
   selectedTabPositions: { id: '1' },
   taskDetails: {},
+  subTaskGroups: undefined
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -263,6 +264,21 @@ const TaskReducer = (state = initialState, action: any) => {
       state = { ...state, taskDetails: undefined }
       break;
 
+
+
+    /* GET TASK DETAILS */
+
+    case ActionTypes.GET_SUB_TASK_GROUPS:
+      state = { ...state, subTaskGroups: undefined }
+      break;
+    case ActionTypes.GET_SUB_TASK_GROUPS_SUCCESS:
+      console.log(JSON.stringify(action.payload));
+
+      state = { ...state, subTaskGroups: action.payload?.details }
+      break;
+    case ActionTypes.GET_SUB_TASK_GROUPS_FAILURE:
+      state = { ...state, subTaskGroups: undefined }
+      break;
 
     default:
       state = state;

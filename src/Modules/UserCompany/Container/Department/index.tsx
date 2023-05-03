@@ -182,8 +182,6 @@ function Department() {
                 addDepartmentModal.show()
                 setSelectedDepartment(undefined)
                 setIsSubTask(false)
-
-
               }
               }
             />

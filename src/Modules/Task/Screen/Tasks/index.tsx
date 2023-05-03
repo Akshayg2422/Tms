@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
-import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter } from '@Utils'
+import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
 import { getTasks, setSelectedTask, getDashboard, setSelectedTabPosition } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
@@ -27,13 +27,14 @@ function Tasks() {
   const dispatch = useDispatch()
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask } = useSelector((state: any) => state.TaskReducer);
-  const date = new Date();
-  const time = date.getHours()
   const { goTo } = useNavigation();
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [params])
+
+
+  console.log(new Date() + "+======" + new Date('2023-05-10T00:00:00+05:30'));
 
 
 
@@ -119,7 +120,7 @@ function Tasks() {
             </div >,
           'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
           status: <div><Status status={el?.task_status} />
-            <small>{time > etaTime ? 'ABOVE ETA' : ""}</small>
+            <small>{getDates() > getDates() ? 'ABOVE ETA' : ""}</small>
           </div>
         };
       });

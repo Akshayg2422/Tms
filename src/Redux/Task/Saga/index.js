@@ -221,6 +221,27 @@ function* getTaskDetailsSaga(action) {
 }
 
 
+/**
+ * sub task groups
+ */
+
+function* getSubTaskGroupSaga(action) {
+    try {
+        const response = yield call(Services.getSubTaskGroupsApi, action.payload.params);
+        if (response.success) {
+            yield put(Action.getSubTaskGroupsSuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            yield put(Action.getSubTaskGroupsFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+        yield put(Action.getSubTaskGroupsFailure("Invalid Request"));
+        yield call(action.payload.onError(error));
+    }
+}
+
+
 function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_GROUPS_L, getTaskGroupLSaga)
     yield takeLatest(Action.GET_TASKS, getTasksSaga)
@@ -232,6 +253,7 @@ function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_USERS, getTaskUsersSaga);
     yield takeLatest(Action.GET_TASK_EVENT_ATTACHMENTS, getTaskEventAttachmentsSaga)
     yield takeLatest(Action.GET_TASK_DETAILS, getTaskDetailsSaga)
+    yield takeLatest(Action.GET_SUB_TASK_GROUPS, getSubTaskGroupSaga)
 }
 
 export default TaskSaga;

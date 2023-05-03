@@ -93,3 +93,4 @@ export const ADD_PUSH_NOTIFICATION = AUTHENTICATION + 'webAppConfig'
 /* GET TASK DETAILS */
 
 export const FETCH_TASK_DETAILS = TASK + 'getTaskDetails';
+export const URL_SUB_TASK_GROUPS = TASK + 'getSubTaskGroup';

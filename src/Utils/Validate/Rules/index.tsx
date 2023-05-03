@@ -116,6 +116,10 @@ export const CREATE_EXTERNAL = {
     presence: { allowEmpty: false, message: "please select priority" },
 
   },
+  group_id: {
+    presence: { allowEmpty: false, message: "please select Group" },
+  },
+
 
 
 };
@@ -136,6 +140,9 @@ export const CREATE_INTERNAL = {
   priority: {
     presence: { allowEmpty: false, message: "please select priority" },
 
+  },
+  group_id: {
+    presence: { allowEmpty: false, message: "please select Group" },
   },
 
 

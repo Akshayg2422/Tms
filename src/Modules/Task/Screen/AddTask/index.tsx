@@ -16,8 +16,8 @@ import {
     addTask,
     getDepartments,
     getDesignations,
-    getAssociatedCompaniesL
-
+    getAssociatedCompaniesL,
+    getSubTaskGroups
 } from "@Redux";
 import {
     CREATE_INTERNAL,
@@ -34,7 +34,6 @@ import { useInput, useNavigation, useDropDown } from "@Hooks";
 
 function AddTask() {
 
-
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
 
@@ -42,7 +41,7 @@ function AddTask() {
     const { dashboardDetails, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-    const { taskGroups } = useSelector(
+    const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
 
@@ -65,15 +64,19 @@ function AddTask() {
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
-    const [, setDesignations] = useState([])
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
     let attach = photo.slice(-4, 9)
 
 
+
+    console.log(JSON.stringify(subTaskGroups) + '=====Heloo');
+
+
+
     useEffect(() => {
         getAssociatedCompaniesApi();
-
+        getSubTaskGroupsApi();
     }, [])
 
     useEffect(() => {
@@ -85,6 +88,8 @@ function AddTask() {
         getDepartmentsApiHandler();
         getDesignationApiHandler();
     }, [company.value, taskType])
+
+
 
     const getBranchId = () =>
         taskType?.id === type[1].id
@@ -160,8 +165,6 @@ function AddTask() {
         }
     };
 
-
-
     function getAssociatedCompaniesApi() {
         const params = { q: "" };
         dispatch(
@@ -190,6 +193,21 @@ function AddTask() {
             })
         );
     }
+
+
+    function getSubTaskGroupsApi() {
+        const params = {};
+        dispatch(
+            getSubTaskGroups({
+                params,
+                onSuccess: (response: any) => () => {
+                },
+                onError: () => () => {
+                },
+            })
+        );
+    }
+
     function getDepartmentsApiHandler() {
 
         const params = {
@@ -225,9 +243,6 @@ function AddTask() {
         }))
     }
 
-
-
-
     function getDropDownDisplayData(data: any, key: string = 'name') {
         if (data && data.length > 0) {
             return data.map(each => {
@@ -243,7 +258,6 @@ function AddTask() {
 
     const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
-    console.log(JSON.stringify(company.value) + "======");
 
     return (
         <Card className="m-3">
@@ -339,10 +353,10 @@ function AddTask() {
                         }}
                     />}
 
-                {taskGroups && taskGroups.length > 0 && <DropDown
+                {subTaskGroups && subTaskGroups.length > 0 && <DropDown
                     heading={'Select Group'}
-                    placeHolder={'Select a Designation...'}
-                    data={getDropDownDisplayData(taskGroups, 'code')}
+                    placeHolder={'Select a Group'}
+                    data={getDropDownDisplayData(subTaskGroups)}
                     onChange={taskGroup.onChange}
                     selected={taskGroup.value}
                 />
@@ -368,22 +382,24 @@ function AddTask() {
                 <label className={`form-control-label`}>
                     {'Add Attachment'}
                 </label>
-                <div>
+                <div className="row">
                     {selectDropzone &&
                         selectDropzone.map((el, index) => {
                             return (
-                                <Dropzone
-                                    variant="ICON"
-                                    icon={image}
-                                    size="xl"
-                                    onSelect={(image) => {
-                                        let file = image.toString().replace(/^data:(.*,)?/, "");
-                                        handleImagePicker(index, file);
-                                        { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
-                                        { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
-                                        { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
-                                    }}
-                                />
+                                <div className="ml-2">
+                                    <Dropzone
+                                        variant="ICON"
+                                        icon={image}
+                                        size="xl"
+                                        onSelect={(image) => {
+                                            let file = image.toString().replace(/^data:(.*,)?/, "");
+                                            handleImagePicker(index, file);
+                                            { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
+                                            { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
+                                            { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
+                                        }}
+                                    />
+                                </div>
                             );
                         })}
                 </div>
