@@ -265,11 +265,9 @@ export const getTaskEventAttachmentsFailure = (error: any) => {
 };
 
 
-export const selectedTabPosition = (params: any) => {
-    console.log(params,"ppppppppppp")
-
+export const setSelectedTabPosition = (params: any) => {
     return {
         type: ActionTypes.SELECTED_TAB_POSITION,
-        payload:params,
+        payload: params,
     };
 };

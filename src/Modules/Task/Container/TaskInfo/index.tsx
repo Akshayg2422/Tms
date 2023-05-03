@@ -70,10 +70,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     }
 
     return (
-        <div ref={ref}>
-            <Card style={{
-                height: height / 2,}}
-            className="overflow-auto">
+        <div ref={ref} >
+            <Card className={'overflow-auto'} style={{
+                height: height / 2
+            }}>
                 <div className="col">
                     <div className="row justify-content-between">
                         <Back />
@@ -89,8 +89,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 <div className="row">
                                     {
                                         task_attachments &&
-                                        task_attachments?.length > 0 &&
-                                        task_attachments?.map((item) => {
+                                        task_attachments?.length > 0 && task_attachments?.map((item) => {
                                             return <div
                                                 className="ml-3"
                                                 onClick={(e) => e.preventDefault()}>

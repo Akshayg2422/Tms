@@ -17,5 +17,5 @@ export interface TaskStateProp {
     refreshTaskEvents: boolean,
     taskEventAttachments: any,
     taskEventAttachmentsCurrentPage: number,
-    selectedTabPositions:number,
+    selectedTabPositions: any,
 }

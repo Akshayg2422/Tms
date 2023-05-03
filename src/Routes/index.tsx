@@ -1,4 +1,4 @@
-import { Ticket, Companies, Settings, Broadcast, Tasks, Profile, Setting, AddTicket, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser } from '@Modules'
+import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails,TicketDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Tickets, AddTicket } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 
@@ -17,7 +17,9 @@ export const HOME_PATH = {
   CREATE_BROAD_CAST: '/create-broad-cast',
   ADD_TASK: '/add-task',
   ADD_SUB_TASK: '/add-sub-task',
-  TASK_DETAILS: '/task-details'
+  TASK_DETAILS: '/task-details',
+  TICKET_DETAILS: '/ticket-details',
+  ADD_TICKET: './add-ticket'
 }
 
 export const ROUTES = {
@@ -36,10 +38,10 @@ export const ROUTES = {
     'add-sub-task': '/add-sub-task',
   },
   'ticket-module': {
-    ticket: '/tickets',
+    tickets: '/tickets',
     'tickets-details': '/tickets-details',
-    'reference-ticket': '/reference-ticket',
-    'add-ticket': '/add-ticket'
+    'add-ticket': '/add-ticket',
+    'reference-ticket': './reference-ticket'
   },
   'user-company-module': {
     companies: '/companies',
@@ -91,11 +93,11 @@ export const HOME_ROUTES = [
     component: <Tasks />
   },
   {
-    path: ROUTES['ticket-module'].ticket,
+    path: ROUTES['ticket-module'].tickets,
     name: "Tickets",
     icon: icons.issue,
     layout: "",
-    component: <Ticket />
+    component: <Tickets />
   },
   {
     path: ROUTES['user-company-module'].companies,
@@ -156,12 +158,19 @@ export const TASK_ROUTES = [
 
 export const TICKET_ROUTES = [
   {
-  key:1,
-  path:ROUTES['ticket-module']['add-ticket'],
-  component:<AddTicket/>
+    key: 1,
+    path: ROUTES['ticket-module']['tickets-details'],
+    component: <TicketDetails />
+  },
+  {
+    key: 2,
+    path: ROUTES['ticket-module']['add-ticket'],
+    component: <AddTicket />
   }
 
-]
+
+];
+
 
 export const MESSAGE_ROUTES = [
   {
@@ -212,7 +221,7 @@ export const ADMIN_ROUTES = [
     name: "Tickets",
     icon: "bi bi-bell text-primary",
     layout: "",
-    component: <Ticket />
+    component: <Tickets />
   },
   {
     path: "/companies",
