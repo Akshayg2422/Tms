@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TicketItemProps } from "./interfaces";
 import { H, Image, Badge, Divider } from "@Components";
 import { useDispatch } from "react-redux";
-import { setSelectedTicket, setSelectedReferenceTickets } from "@Redux";
+// import { setSelectedTicket, setSelectedReferenceTickets } from "@Redux";
 import { useNavigation } from "@Hooks";
 import { HOME_PATH } from "@Routes";
 import { getPhoto } from "@Utils";
@@ -74,8 +74,8 @@ function TicketItem({ item, divider }: TicketItemProps) {
     <div
       className="row d-flex justify-content-center"
       onClick={() => {
-        dispatch(setSelectedTicket(item));
-        dispatch(setSelectedReferenceTickets(undefined))
+        // dispatch(setSelectedTicket(item));
+        // dispatch(setSelectedReferenceTickets(undefined))
         goTo( HOME_PATH.ISSUE_DETAILS);
       }}
     >

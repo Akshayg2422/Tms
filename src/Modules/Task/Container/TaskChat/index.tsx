@@ -74,7 +74,7 @@ function TaskChat({ }: TaskChatProps) {
                 modifiedData = { ...each, icon: icons.message, subTitle: by_user?.name, title: message, }
                 break;
             case 'ETA':
-                modifiedData = { ...each, icon: icons.clock, subTitle: by_user?.name, title: "ETA Update on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
+                modifiedData = { ...each, icon: icons.clock, subTitle: by_user?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
                 break;
             case 'TGU':
                 let names = tagged_users.map(function (item) {
@@ -138,7 +138,7 @@ function TaskChat({ }: TaskChatProps) {
 
                                     {
                                         attachments?.attachments && attachments?.attachments.length > 0 && attachments?.attachments.map(each => {
-                                            return <Image className='ml-1' src={getPhoto(each.attachment_file)} width={120} height={120} />
+                                            return <Image className='ml-1 mb-1' src={getPhoto(each.attachment_file)} width={120} height={120} />
                                         })
                                     }
                                 </div>

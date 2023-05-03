@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { EmployeesProps } from './interfaces'
-import { SearchInput, H, Image, Divider, NoDataFound } from '@Components'
+import { SearchInput, H, Image, Divider, NoDataFound, Card } from '@Components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getEmployees } from '@Redux'
 import { capitalizeFirstLetter, getPhoto } from '@Utils'
@@ -70,14 +70,14 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
 
     return (
         <div>
-            <div className='d-flex justify-content-end'>
+            <div className='d-flex justify-content-end mt--3'>
                 <div className='col-6'>
                     <SearchInput onSearch={(search) => {
                         getEmployeeApi(search)
                     }} />
                 </div>
             </div>
-            <div className='m-5'>
+            <Card className='m-1 mt-3 shadow-none overflow-auto overflow-hide' style={{ maxHeight: '58vh' }}>
                 {
                     employees && employees.length > 0 ? employees.map((employee: any, index: number) => {
                         const { profile_image, name, designation, department, id } = employee
@@ -91,7 +91,7 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                             <div className='container pointer' key={id} onClick={selection !== 'none' ? () => proceedSelectEmployee(employee) : undefined}>
                                 <div className='row d-flex align-items-center'>
                                     <div>
-                                        {profile_image ? <Image variant={'rounded'} src={getPhoto(profile_image)} /> : <Image variant={'rounded'} src={icons.profile} />}
+                                        {profile_image ? <Image variant={'rounded'} src={getPhoto(profile_image)} /> : <Image variant={'rounded'} src={icons.profilePick} />}
                                     </div>
                                     <div className='ml-3'>
                                         <H
@@ -112,11 +112,13 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                                     </div>
                                 </div>
 
-                                {index !== employees.length - 1 && <Divider space={'3'} />}
+                                <div className={'mx--4'}>
+                                    {index !== employees.length - 1 && <Divider space={'3'} />}
+                                </div>
                             </div>)
                     }) : <NoDataFound type={'text'} text={'No User Found'} />
                 }
-            </div >
+            </Card >
         </div >
     )
 }

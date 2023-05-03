@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getReferenceTasks, setSelectedTask } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 import { NoDataFound, Card, CommonTable, Button } from "@Components";
-import { useNavigation } from '@Hooks'
+import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
+  const { height } = useWindowDimensions()
 
   const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages, selectedTask } = useSelector(
     (state: any) => state.TaskReducer
@@ -42,7 +43,7 @@ function ReferenceTasks() {
 
   const normalizedTableData = (data: any) => {
 
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
       return {
         issue: el.title,
         "raised by": el?.by_user.name,
@@ -55,7 +56,7 @@ function ReferenceTasks() {
 
   return (
 
-    <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: '89vh' }}>
+    <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
       <div className="col text-right">
         <Button size={'sm'} text={'Add Reference Task'} onClick={() => {
           goTo(ROUTES["task-module"]["reference-task"])
@@ -84,7 +85,7 @@ function ReferenceTasks() {
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item.id)
           }}
 
-        /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={'Add Reference Task'} /></div>}
+        /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={'Add Reference Task'} onClick={()=> goTo(ROUTES["task-module"]["reference-task"])} isButton/></div>}
     </Card>
 
 

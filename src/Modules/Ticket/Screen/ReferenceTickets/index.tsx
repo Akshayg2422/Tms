@@ -45,7 +45,7 @@ function ReferenceTickets() {
 
 
   const normalizedTableData = (data: any) => {
-    return data.map((el: any) => {
+    return data?.map((el: any) => {
       return {
         issue: el?.title,
         "raised by": el?.by_user?.name,
@@ -93,8 +93,8 @@ function ReferenceTickets() {
           //   const selectedItem = ticketReferenceDetails.data?.[index]
           // }
           tableOnClick={(idx, index, item) => {
-            // dispatch(selectedTicket(item));
-            dispatch(setSelectedReferenceTickets(item))
+            // dispatch(setselectedTicket(item));
+            // dispatch(setSelectedReferenceTickets(item))
             goTo(HOME_PATH.ISSUE_DETAILS);
           }
 

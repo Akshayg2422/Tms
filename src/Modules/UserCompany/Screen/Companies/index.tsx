@@ -92,7 +92,7 @@ function Companies() {
           }} /> :
         <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={'Add Company'} onClick={() => {
           goTo(ROUTES["user-company-module"]["add-company"]);
-        }} /></div>
+        }} isButton/></div>
       }
     </Card>
   );

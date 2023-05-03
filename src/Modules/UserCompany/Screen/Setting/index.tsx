@@ -10,7 +10,7 @@ function Setting() {
           <Tag />
         </div>
         <div className='col-6 ml--3'>
-          <BrandSector />
+          <BrandSector/>
         </div>
       </div>
       <div className='row mt--3'>

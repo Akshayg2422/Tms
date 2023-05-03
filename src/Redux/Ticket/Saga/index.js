@@ -25,6 +25,7 @@ function* getTicketsSaga(action) {
     const response = yield call(Services.getTicketsApi, action.payload.params);
     console.log("response--->",response)
     if (response.success) {
+      console.log('+++++++++',response)
       yield put(Action.getTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
@@ -72,9 +73,12 @@ function* addTicketEventSaga(action) {
 }
 
 function* getTicketTagsSaga(action) {
+ 
   try {
     const response = yield call(Services.getTicketTagsApi, action.payload.params);
+    
     if (response.success) {
+    
       yield put(Action.getTicketTagsSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {

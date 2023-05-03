@@ -10,6 +10,17 @@ import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
 
 
+const DEFAULT_PARAMS = {
+   q_many: "", 
+
+  "tasks_by": "assigned_to",
+ 
+  "task_status": "INP",
+ "priority": "ALL",
+ "group": "ALL",
+"include_subtask": false,
+ page_number: 1 
+}
 
 function Tasks() {
   const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL","group": "ALL","include_subtask" : false, page_number: 1 }
@@ -36,6 +47,9 @@ function Tasks() {
     dispatch(getDashboard({
       params,
       onSuccess: (response) => () => {
+
+        console.log(JSON.stringify(response) + '=====>');
+
       },
       onError: () => () => { }
     }));
@@ -92,7 +106,8 @@ function Tasks() {
                   return (
                     <Image
                       variant={'avatar'}
-                      src={getPhoto(item?.attachment_file)} />
+                      src={getPhoto(item?.attachment_file)}
+                       />
                   )
                 })
               }
@@ -102,7 +117,7 @@ function Tasks() {
             <div className="h5 m-0"> {el?.by_user?.name} </div>,
           "raised to":
             <div className="row">
-              {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />}
+              {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)}  />}
               <div className="ml-2">
                 <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
                 <div className="h5 mb-0 text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
@@ -118,6 +133,7 @@ function Tasks() {
   };
 
 
+  
 
 
   return (
@@ -172,7 +188,7 @@ function Tasks() {
             }
           />
           :
-          <NoDataFound type={'action'} buttonText={'Create Task'} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} />
+          <NoDataFound type={'action'} buttonText={'Create Task'} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
         }
       </HomeContainer>
     </div>

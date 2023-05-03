@@ -263,3 +263,13 @@ export const getTaskEventAttachmentsFailure = (error: any) => {
         payload: error,
     };
 };
+
+
+export const selectedTabPosition = (params: any) => {
+    console.log(params,"ppppppppppp")
+
+    return {
+        type: ActionTypes.SELECTED_TAB_POSITION,
+        payload:params,
+    };
+};
