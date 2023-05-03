@@ -6,7 +6,7 @@ import { NoDataFound, Card, CommonTable, Button } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 
-function ReferenceTasks() {
+function ReferenceTickets() {
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
 
@@ -91,4 +91,4 @@ console.log('referenceTicket======>',(getReferenceTickets))
 
   );
 }
-export { ReferenceTasks };
+export { ReferenceTickets };
