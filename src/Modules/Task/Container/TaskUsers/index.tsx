@@ -10,11 +10,11 @@ function TaskUsers() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
-  const { selectedTask, taskUsers } = useSelector((state: any) => state.TaskReducer);
+  const { taskUsers, refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
 
   useEffect(() => {
     getTaskUserApi();
-  }, [id]);
+  }, [id, refreshTaskEvents]);
 
 
   function getTaskUserApi() {
