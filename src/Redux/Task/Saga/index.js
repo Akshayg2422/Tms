@@ -113,24 +113,18 @@ function* getSubTasksSaga(action) {
  */
 
 function* getTaskEventsSaga(action) {
-    console.log('getTaskEventsSaga' + JSON.stringify(action));
+    // console.log('getTaskEventsSaga' + JSON.stringify(action));
     try {
         const response = yield call(Services.getTaskEventsApi, action.payload.params);
-        console.log(JSON.stringify(response) + 'getTaskEventsSaga-----');
+        // console.log(JSON.stringify(response) + 'getTaskEventsSaga-----');
         if (response.success) {
-            console.log('sycees');
-
             yield put(Action.getTaskEventsSuccess(response));
             yield call(action.payload.onSuccess(response));
         } else {
-            console.log('sy1111cees');
-
             yield put(Action.getTaskEventsFailure(response.error_message));
             yield call(action.payload.onError(response));
         }
     } catch (error) {
-        console.log('333333' + error);
-
         yield put(Action.getTaskEventsFailure(error));
         yield call(action.payload.onError(error));
     }
@@ -203,6 +197,29 @@ function* getTaskEventAttachmentsSaga(action) {
     }
 }
 
+/* GET TASK DETAILS */
+
+function* getTaskDetailsSaga(action) {
+    console.log('getTaskDetailsSaga' + JSON.stringify(action));
+    try {
+        const response = yield call(Services.getTaskDetailsApi, action.payload.params);
+        console.log(JSON.stringify(response) + 'getTaskDetailsSaga-----');
+        if (response.success) {
+            console.log('successss');
+            yield put(Action.getTaskDetailsSuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            yield put(Action.getTaskDetailsFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+        console.log('333333' + error);
+
+        yield put(Action.getTaskDetailsFailure("Invalid Request"));
+        yield call(action.payload.onError(error));
+    }
+}
+
 
 function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_GROUPS_L, getTaskGroupLSaga)
@@ -214,7 +231,7 @@ function* TaskSaga() {
     yield takeLatest(Action.GET_REFERENCE_TASKS, getReferenceTasksSaga);
     yield takeLatest(Action.GET_TASK_USERS, getTaskUsersSaga);
     yield takeLatest(Action.GET_TASK_EVENT_ATTACHMENTS, getTaskEventAttachmentsSaga)
-
+    yield takeLatest(Action.GET_TASK_DETAILS, getTaskDetailsSaga)
 }
 
 export default TaskSaga;

@@ -60,7 +60,7 @@ function Tasks() {
 
     dispatch(
       getTasks({
-        params,
+        params: updatedParams,
         onSuccess: () => () => {
         },
         onError: () => () => {
