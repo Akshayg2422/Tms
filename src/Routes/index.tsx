@@ -37,6 +37,8 @@ export const ROUTES = {
   },
   'ticket-module': {
     ticket: '/tickets',
+    'tickets-details': '/tickets-details',
+    'reference-ticket': '/reference-ticket',
     'add-ticket': '/add-ticket'
   },
   'user-company-module': {
