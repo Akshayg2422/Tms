@@ -275,6 +275,7 @@ export const setSelectedTabPosition = (params: any) => {
 /* GET TASK DETAILS */
 
 export const getTaskDetails = (params: any) => {
+    console.log('action called')
     return {
         type: ActionTypes.GET_TASK_DETAILS,
         payload: params

@@ -21,7 +21,7 @@ const initialState: TaskStateProp = {
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
   selectedTabPositions: { id: '1' },
-  taskDetails: undefined,
+  taskDetails: {},
 };
 
 const TaskReducer = (state = initialState, action: any) => {
