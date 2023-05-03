@@ -20,7 +20,8 @@ const initialState: TaskStateProp = {
   refreshTaskEvents: false,
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
-  selectedTabPositions:0,
+  selectedTabPositions: 0,
+  taskDetails: undefined,
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -217,15 +218,15 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
 
 
-      // SELECTED TABS
+    // SELECTED TABS
 
-      case ActionTypes.SELECTED_TAB_POSITION:
-        console.log('---',action.payload,)
-        state = {
-          ...state,
-          selectedTabPositions:action.payload,
-        };
-        break;
+    case ActionTypes.SELECTED_TAB_POSITION:
+      console.log('---', action.payload,)
+      state = {
+        ...state,
+        selectedTabPositions: action.payload,
+      };
+      break;
     /**
      * get Task Event Attachments
      */
@@ -249,6 +250,19 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TASK_EVENT_ATTACHMENTS_FAILURE:
       state = { ...state, taskEventAttachments: undefined };
       break;
+
+    /* GET TASK DETAILS */
+
+    case ActionTypes.GET_TASK_DETAILS:
+      state = { ...state, taskDetails: undefined }
+      break;
+    case ActionTypes.GET_TASK_DETAILS_SUCCESS:
+      state = { ...state, taskDetails: action.payload?.details }
+      break;
+    case ActionTypes.GET_TASK_DETAILS_FAILURE:
+      state = { ...state, taskDetails: undefined }
+      break;
+
 
     default:
       state = state;

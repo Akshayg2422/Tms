@@ -80,3 +80,7 @@ export const getTaskSubGroupApi = (payload) => post(URL.GET_TASK_SUB_GROUP, payl
 /* PUSH NOTIFICATION */
 
 export const addPushNotificationApi = payload => post(URL.ADD_PUSH_NOTIFICATION, payload, {});
+
+/* GET TASK DETAILS */
+
+export const getTaskDetailsApi = (payload) => post(URL.FETCH_TASK_DETAILS, payload, {})

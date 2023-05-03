@@ -89,3 +89,7 @@ export const URL_GET_TASK_EVENT_HISTORY = TASK + 'getTaskHistory'
 export const GET_TASK_SUB_GROUP = TASK + 'getTaskSubGroup'
 
 export const ADD_PUSH_NOTIFICATION = AUTHENTICATION + 'webAppConfig'
+
+/* GET TASK DETAILS */
+
+export const FETCH_TASK_DETAILS = TASK + 'getTaskDetails';

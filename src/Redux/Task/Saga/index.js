@@ -203,6 +203,26 @@ function* getTaskEventAttachmentsSaga(action) {
     }
 }
 
+/* GET TASK DETAILS */
+
+function* getTaskDetailsSaga(action) {
+    try {
+        const response = yield call(Services.getTaskDetailsApi, action.payload.params);
+        if (response.success) {
+
+            yield put(Action.getTaskDetailsSuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            yield put(Action.getTaskDetailsFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+
+        yield put(Action.getTaskDetailsFailure("Invalid Request"));
+        yield call(action.payload.onError(error));
+    }
+}
+
 
 function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_GROUPS_L, getTaskGroupLSaga)
@@ -214,7 +234,7 @@ function* TaskSaga() {
     yield takeLatest(Action.GET_REFERENCE_TASKS, getReferenceTasksSaga);
     yield takeLatest(Action.GET_TASK_USERS, getTaskUsersSaga);
     yield takeLatest(Action.GET_TASK_EVENT_ATTACHMENTS, getTaskEventAttachmentsSaga)
-
+    yield takeLatest(Action.GET_TASK_DETAILS, getTaskDetailsSaga)
 }
 
 export default TaskSaga;

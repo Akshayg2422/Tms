@@ -266,10 +266,34 @@ export const getTaskEventAttachmentsFailure = (error: any) => {
 
 
 export const selectedTabPosition = (params: any) => {
-    console.log(params,"ppppppppppp")
+    console.log(params, "ppppppppppp")
 
     return {
         type: ActionTypes.SELECTED_TAB_POSITION,
-        payload:params,
+        payload: params,
     };
 };
+
+/* GET TASK DETAILS */
+
+export const getTaskDetails = (params: any) => {
+    return {
+        type: ActionTypes.GET_TASK_DETAILS,
+        payload: params
+    }
+}
+export const getTaskDetailsSuccess = (response: any) => {
+
+    return {
+
+        type: ActionTypes.GET_TASK_DETAILS_SUCCESS,
+        payload: response
+    }
+}
+
+export const getTaskDetailsFailure = (error: any) => {
+    return {
+        type: ActionTypes.GET_TASK_DETAILS_FAILURE,
+        payload: error
+    }
+}

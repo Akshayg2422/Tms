@@ -27,6 +27,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
     const { height } = useWindowDimensions()
+    const [taskDetail, setTaskDetail] = useState('')
 
     const editEtaSubmitApiHandler = () => {
         const params = {
@@ -72,8 +73,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     return (
         <div ref={ref}>
             <Card style={{
-                height: height / 2,}}
-            className="overflow-auto">
+                height: height / 2,
+            }}
+                className="overflow-auto">
                 <div className="col">
                     <div className="row justify-content-between">
                         <Back />
