@@ -64,6 +64,7 @@ function TaskGroup() {
   const subTaskGroupCode = useInput("");
   const subTaskGroupDescription = useInput("");
   const [selectedSubTaskGroup, setSelectedSubTaskGroup] = useState<any>(undefined);
+  const [isEdit, setIsEdit] = useState<any>(false);
   const [startTimeEta, setStatTimeEta] = useState("")
   const [endTimeEta, setEndTimeEta] = useState("")
   const [subTaskPhoto, setSubTaskPhoto] = useState("");
@@ -108,38 +109,50 @@ function TaskGroup() {
     );
   };
 
-  const addTaskGroupApiHandler = () => {
-    const params = {
-      ...(selectedTaskGroup && { id: selectedTaskGroup.id }),
-      name: taskGroupName.value,
-      description: taskGroupDescription.value,
-      code: taskGroupCode.value.trim(),
-      photo: photo
-    };
+  const addTaskGroupApiHandler = async () => {
 
 
-    console.log(JSON.stringify(params) + "======params");
 
-    const validation = validate(ADD_TASK_GROUP, params)
-    if (ifObjectExist(validation)) {
-      dispatch(
-        addTaskGroup({
-          params,
-          onSuccess: (success: any) => () => {
-            addTaskGroupModal.hide()
-            resetValues()
-            getTaskGroupList(INITIAL_PAGE)
-            showToast(success.message, "success");
-          },
-          onError: (error: string) => () => {
-            showToast('Task is already exists');
-          },
-        })
-      );
-    }
-    else {
-      showToast(getValidateError(validation));
-    }
+
+
+    toDataUrl(photo, function (myBase64) {
+
+      let updatedPhoto = photo
+      if (photo.includes('http')) {
+        let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
+        updatedPhoto = encoded
+      }
+
+      const params = {
+        ...(selectedTaskGroup && { id: selectedTaskGroup.id }),
+        name: taskGroupName.value,
+        description: taskGroupDescription.value,
+        code: taskGroupCode.value.trim(),
+        photo: updatedPhoto
+      };
+      const validation = validate(ADD_TASK_GROUP, params)
+      if (ifObjectExist(validation)) {
+        dispatch(
+          addTaskGroup({
+            params,
+            onSuccess: (success: any) => () => {
+              addTaskGroupModal.hide()
+              resetValues()
+              getTaskGroupList(INITIAL_PAGE)
+              showToast(success.message, "success");
+            },
+            onError: (error: string) => () => {
+              showToast('Task is already exists');
+            },
+          })
+        );
+      }
+      else {
+        showToast(getValidateError(validation));
+      }
+    });
+
+
   };
 
   const changeGroupStatusApiHandler = (id: number, marked_as_closed: boolean) => {
@@ -164,132 +177,52 @@ function TaskGroup() {
 
   // add sub task
   const addSubTaskGroupApiHandler = () => {
-    const params = {
-      name: convertToUpperCase(subTaskGroupName.value),
-      description: convertToUpperCase(subTaskGroupDescription.value),
-      code: subTaskGroupCode.value.trim(),
-      photo: subTaskPhoto,
-      parent_id: selectedSubTaskGroup?.id,
-      start_time: startTimeEta,
-      end_time: endTimeEta,
-    };
+
+    toDataUrl(subTaskPhoto, function (myBase64) {
+
+      let updatedPhoto = subTaskPhoto
+      if (subTaskPhoto.includes('http')) {
+        let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
+        updatedPhoto = encoded
+      }
+      const params = {
+        name: convertToUpperCase(subTaskGroupName.value),
+        description: convertToUpperCase(subTaskGroupDescription.value),
+        code: subTaskGroupCode.value.trim(),
+        photo: updatedPhoto,
+        parent_id: selectedSubTaskGroup?.id,
+        start_time: startTimeEta,
+        end_time: endTimeEta,
+        ...(isEdit && { id: selectedSubTaskGroup.id }),
+      };
+
+      const validation = validate(ADD_SUB_TASK_GROUP, params)
 
 
-    console.log(JSON.stringify(params) + "======sub-params");
+      if (ifObjectExist(validation)) {
+        dispatch(
+          addTaskGroup({
+            params,
+            onSuccess: (success: any) => () => {
+              addSubTaskGroupModal.hide();
+              resetSubTaskValues();
+              getTaskGroupList(INITIAL_PAGE)
+            },
+            onError: (error: string) => () => {
+              showToast('Task is already exists');
+            },
+          })
+        );
+      }
+      else {
+        showToast(getValidateError(validation));
+      }
 
 
-    const validation = validate(ADD_SUB_TASK_GROUP, params)
-    if (ifObjectExist(validation)) {
-      dispatch(
-        addTaskGroup({
-          params,
-          onSuccess: (success: any) => () => {
-            addSubTaskGroupModal.hide();
-            resetSubTaskValues();
-            getTaskGroupList(INITIAL_PAGE)
-          },
-          onError: (error: string) => () => {
-            showToast('Task is already exists');
-          },
-        })
-      );
-    }
-    else {
-      showToast(getValidateError(validation));
-    }
+    })
+
+
   };
-
-
-
-  // add sub task
-  // const addSubTaskGroupAdding = () => {
-  //   const params = {
-  //     name: convertToUpperCase(addSubTask),
-  //     description: convertToUpperCase(addSubTaskDescription),
-  //     code: addSubTaskCode.trim(),
-  //     photo: addSubPhotoAttach[0],
-  //     parent_id: addSubTaskItem?.id,
-  //     start_time: startTimeEta,
-  //     end_time: endTimeEta,
-  //   };
-
-  //   const validation = validate(ADD_SUB_TASK_GROUP, params)
-  //   if (ifObjectExist(validation)) {
-  //     dispatch(
-  //       addTaskGroup({
-  //         params,
-  //         onSuccess: (success: any) => () => {
-  //           addSubTaskModal.hide()
-
-  //           dispatch(
-  //             getTaskGroup({
-  //               params,
-  //               onSuccess: (success: any) => () => { },
-  //               onError: (error: string) => () => { },
-  //             })
-  //           );
-  //           setAddSubTask('')
-  //           setAddSubTaskCode('')
-  //           setAddSubPhoto('')
-  //           setAddSubTaskDescription('')
-  //           showToast(success.message, "success");
-  //         },
-  //         onError: (error: string) => () => {
-  //           showToast('Task is already exists');
-
-
-  //         },
-  //       })
-  //     );
-  //   }
-  //   else {
-  //     showToast(getValidateError(validation));
-
-  //   }
-  // };
-  // const CloseTaskGroup = (item) => {
-
-  //   const params = {
-  //     id: addSubTaskItem.id,
-  //     marked_as_closed: showClosedTaskGroup
-  //   }
-  //   dispatch(
-  //     addTaskGroup({
-  //       params,
-  //       onSuccess: (success: any) => () => {
-
-  //         dispatch(
-  //           getTaskGroup({
-  //             params,
-  //             onSuccess: (success: any) => () => { },
-  //             onError: (error: string) => () => { },
-  //           })
-  //         );
-  //         showToast(success.message, "success");
-  //       },
-  //       onError: (error: string) => () => {
-  //         showToast('Task is already exists');
-  //       },
-  //     })
-  //   );
-  // }
-
-  // useEffect(() => {
-
-
-  //   if (showClosedTaskGroup === true || showClosedTaskGroup === false) {
-
-
-  //   }
-  // }, [showClosedTaskGroup])
-
-  // useEffect(() => {
-  //   if (showTaskGroup === true) {
-
-  //     getTaskGroupList(taskGroupCurrentPages)
-
-  //   }
-  // }, [subCheckBox])
 
   const normalizedTaskGroupData = (data: any) => {
     return data.map((taskGroup: any,) => {
@@ -315,23 +248,24 @@ function TaskGroup() {
               taskGroupName.set(name)
               taskGroupDescription.set(description)
               taskGroupCode.set(code)
-              toDataUrl(getPhoto(photo), function (myBase64) {
-                setPhoto(myBase64)
-              });
+              setPhoto(getPhoto(photo))
+
             } else {
               addSubTaskGroupModal.show()
               setSelectedSubTaskGroup(taskGroup)
               const { name, description, code, photo, start_time, end_time } = taskGroup
               subTaskGroupName.set(name)
-              subTaskGroupCode.set(description)
-              subTaskGroupDescription.set(code)
+              subTaskGroupDescription.set(description)
+              subTaskGroupCode.set(code)
               setSubTaskPhoto(getPhoto(photo))
               setStatTimeEta(start_time)
               setEndTimeEta(end_time)
+              setIsEdit(true)
             }
           }
           else if (el.id === '1') {
             addSubTaskGroupModal.show();
+            setIsEdit(false)
             setSelectedSubTaskGroup(taskGroup)
           }
           else if (el.id === '2') {
@@ -369,7 +303,7 @@ function TaskGroup() {
     setStatTimeEta('')
   }
 
-  function toDataUrl(url, callback) {
+  async function toDataUrl(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
       var reader = new FileReader();
@@ -544,7 +478,7 @@ function TaskGroup() {
                 }}
               />
             </div>
-            <div className="pt-2 pr-2 text-sm col-auto"> {selectedSubTaskGroup?.code}-</div>
+            <div className="pt-2 pr-2 text-sm col-auto"> {selectedSubTaskGroup?.parent?.code}-</div>
             <div className="col">
               <Input
                 placeholder={translate("auth.code")}

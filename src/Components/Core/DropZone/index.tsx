@@ -21,7 +21,6 @@ const Dropzone = ({
   };
 
 
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -70,7 +69,7 @@ const Dropzone = ({
 
           <div>
             <Image
-              src={icon || icons.addFillSquare}
+              src={image || icons.addFillSquare}
               variant={imageVariant}
               onClick={handleRefClick}
               size={size}

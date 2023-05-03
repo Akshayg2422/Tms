@@ -57,10 +57,9 @@ function Tasks() {
   const getTaskHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
 
-
     dispatch(
       getTasks({
-        params,
+        params: updatedParams,
         onSuccess: () => () => {
         },
         onError: () => () => {
