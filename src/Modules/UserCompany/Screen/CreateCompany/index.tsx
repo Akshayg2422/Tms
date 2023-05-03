@@ -129,7 +129,7 @@ function CreateCompany({ }: CreateCompanyProps) {
           className="heading mb-3"
           text={translate("common.companyDetails")}
         />
-        <label className={`form-control-label`}>{translate("auth.attach")}</label>
+        <label className={`form-control-label`}>{translate("auth.logo")}</label>
       </div>
       <div className="col-md-9 col-lg-7 pb-4 pt-3">
         <Dropzone
@@ -148,24 +148,6 @@ function CreateCompany({ }: CreateCompanyProps) {
           value={name.value}
           onChange={name.onChange}
         />
-        <Input
-          type={'text'}
-          heading={translate("auth.city")}
-          value={city.value}
-          onChange={city.onChange}
-        />
-        <Input
-          heading={translate("auth.address")}
-          value={address.value}
-          onChange={address.onChange}
-        />
-        <Input
-          type={"number"}
-          heading={translate("common.PinCode")}
-          maxLength={6}
-          value={pinCode.value}
-          onChange={pinCode.onChange}
-        />
 
         <Input
           type={"number"}
@@ -174,6 +156,28 @@ function CreateCompany({ }: CreateCompanyProps) {
           value={companyContactNumber.value}
           onChange={companyContactNumber.onChange}
         />
+
+        <Input
+          heading={translate("auth.address")}
+          value={address.value}
+          onChange={address.onChange}
+        />
+
+        <Input
+          type={'text'}
+          heading={translate("auth.city")}
+          value={city.value}
+          onChange={city.onChange}
+        />
+
+        <Input
+          type={"number"}
+          heading={translate("common.PinCode")}
+          maxLength={6}
+          value={pinCode.value}
+          onChange={pinCode.onChange}
+        />
+
       </div>
 
       <Divider />
