@@ -4,31 +4,31 @@ import { Button, HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter } from '@Utils'
-import { getTasks, setSelectedTask, getDashboard } from '@Redux'
+import { getTasks, setSelectedTask, getDashboard, setSelectedTabPosition } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
-import { translate } from "@I18n";
+import { translate } from '@I18n'
 
 
 const DEFAULT_PARAMS = {
-   q_many: "", 
+  q_many: "",
 
   "tasks_by": "assigned_to",
- 
+
   "task_status": "INP",
- "priority": "ALL",
- "group": "ALL",
-"include_subtask": false,
- page_number: 1 
+  "priority": "ALL",
+  "group": "ALL",
+  "include_subtask": false,
+  page_number: 1
 }
 
 function Tasks() {
+  const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, page_number: 1 }
   const dispatch = useDispatch()
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask } = useSelector((state: any) => state.TaskReducer);
   const date = new Date();
   const time = date.getHours()
-
   const { goTo } = useNavigation();
 
   useEffect(() => {
@@ -48,7 +48,6 @@ function Tasks() {
       params,
       onSuccess: (response) => () => {
 
-        console.log(JSON.stringify(response) + '=====>');
 
       },
       onError: () => () => { }
@@ -58,28 +57,23 @@ function Tasks() {
   const getTaskHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
 
-    console.log( 'taskHandler======>',JSON.stringify(updatedParams) );
 
     dispatch(
       getTasks({
-        params,
-        onSuccess: (response) => () => {
-
-          console.log('get Task======>',JSON.stringify(response));
-
+        params: updatedParams,
+        onSuccess: () => () => {
         },
-        onError: (error) => () => {
-
-          console.log(JSON.stringify(error));
-
+        onError: () => () => {
         },
       })
     );
   };
 
+
+
   const normalizedTableData = (data: any) => {
-    if (data && data.length > 0)
-      return data.map((el: any) => {
+    if (data && data?.length > 0)
+      return data?.map((el: any) => {
         const etaDate = new Date(el.eta_time)
         let etaTime = etaDate.getHours()
         return {
@@ -97,7 +91,7 @@ function Tasks() {
                 </div>
               </div>
             </>,
-            
+
           "attachments":
             <div className="row avatar-group">
               {
@@ -107,7 +101,7 @@ function Tasks() {
                     <Image
                       variant={'avatar'}
                       src={getPhoto(item?.attachment_file)}
-                       />
+                    />
                   )
                 })
               }
@@ -117,7 +111,7 @@ function Tasks() {
             <div className="h5 m-0"> {el?.by_user?.name} </div>,
           "raised to":
             <div className="row">
-              {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)}  />}
+              {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />}
               <div className="ml-2">
                 <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
                 <div className="h5 mb-0 text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
@@ -133,7 +127,7 @@ function Tasks() {
   };
 
 
-  
+
 
 
   return (

@@ -11,8 +11,8 @@ const Dropzone = ({
   text,
   icon,
   size = "lg",
-  imageVariant='avatar',
-  imagePicker=false,
+  imageVariant = 'avatar',
+  imagePicker = false,
 }: DropZoneProps) => {
   const fileInputRef = useRef<any>();
   const [image, setImage] = useState<any>(icon);
@@ -20,8 +20,8 @@ const Dropzone = ({
     fileInputRef.current.click();
   };
 
-    
-  
+
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -29,10 +29,10 @@ const Dropzone = ({
         quality: 0.7,
         success: (file) => {
           const reader = new FileReader();
-        
+
           reader.onload = (e) => {
             if (onSelect && e.target) {
-             
+
               onSelect(e.target?.result);
               setImage(e.target?.result);
             }
@@ -59,7 +59,6 @@ const Dropzone = ({
       )}
       {variant === "ICON" && (
         <>
-          {" "}
           <input
             type="file"
             ref={fileInputRef}
@@ -69,22 +68,23 @@ const Dropzone = ({
           />
 
 
-         <div><Image
-            src={image || icons.addFillSquare}
-            variant={imageVariant}
-            onClick={handleRefClick}
-            size={size}
-            style={{backgroundColor:"#e3e5e8"}}
-          />
-          </div> 
+          <div>
+            <Image
+              src={icon || icons.addFillSquare}
+              variant={imageVariant}
+              onClick={handleRefClick}
+              size={size}
+              style={{ backgroundColor: "#e3e5e8" }}
+            />
+          </div>
 
-       { imagePicker &&  <div className="mt--4 ml-5 " ><Image size={'xs'} src={icons.updatedProfile}  
-       variant={'avatar'}
-            onClick={handleRefClick}height={14} width={14}
-            style={{position:'absolute',backgroundColor:"white",}}/>
-            </div>
-}
-           
+          {imagePicker && <div className="mt--4 ml-5 " ><Image size={'xs'} src={icons.updatedProfile}
+            variant={'avatar'}
+            onClick={handleRefClick} height={14} width={14}
+            style={{ position: 'absolute', backgroundColor: "white", }} />
+          </div>
+          }
+
         </>
       )}
     </>

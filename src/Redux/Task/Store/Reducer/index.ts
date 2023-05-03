@@ -20,7 +20,7 @@ const initialState: TaskStateProp = {
   refreshTaskEvents: false,
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
-  selectedTabPositions: 0,
+  selectedTabPositions: { id: '1' },
   taskDetails: undefined,
 };
 
@@ -74,7 +74,7 @@ const TaskReducer = (state = initialState, action: any) => {
     /**
      * selected Task
      */
-    case ActionTypes.SELECTED_TASK_IEM:
+    case ActionTypes.SELECTED_TASK_ITEM:
       state = { ...state, selectedTask: action.payload }
       break;
 

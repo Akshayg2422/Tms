@@ -17,12 +17,14 @@ import {
 import { Employees } from '@Modules'
 import { useDropDown, useInput, useModal, useNavigation } from "@Hooks";
 import { icons } from "@Assets";
-import { TGU, RGU, getArrayFromArrayOfObject, EVS, TASK_STATUS_LIST } from '@Utils';
+import { TGU, RGU, getArrayFromArrayOfObject, EVS, TASK_STATUS_LIST, getObjectFromArrayByKey } from '@Utils';
 import { translate } from '@I18n'
 import { useDynamicHeight } from "@Hooks";
 
 
 function TaskItemMenu() {
+
+
 
     const dynamicHeight: any = useDynamicHeight()
     const TASK_STATUS_MENU = [
@@ -40,11 +42,13 @@ function TaskItemMenu() {
     const dispatch = useDispatch()
     const { selectedTask } = useSelector((state: any) => state.TaskReducer);
 
+
+
     const tagUserModal = useModal(false);
     const reassignUserModal = useModal(false);
     const taskCloseModal = useModal(false);
     const taskStatusReason = useInput('')
-    const status = useDropDown(TASK_STATUS_LIST[0]);
+    const status = useDropDown(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', selectedTask?.task_status));
 
     const [taggedUsers, setTaggedUsers] = useState([])
     const [reassignUser, setReassignUser] = useState<any>({})
@@ -58,7 +62,6 @@ function TaskItemMenu() {
             id: selectedTask.id
         };
 
-        console.log(JSON.stringify(params) + '====params');
 
 
         dispatch(addTaskEvent({

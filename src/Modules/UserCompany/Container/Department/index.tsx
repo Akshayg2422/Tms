@@ -97,7 +97,6 @@ function Department() {
           Admin:
             <div className="mb--4">
               <Checkbox id={id + "_admin"} defaultChecked={is_admin} checked={is_admin} onCheckChange={(checked) => {
-
                 const params = {
                   is_admin: checked,
                   id: id,

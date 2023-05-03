@@ -76,7 +76,8 @@ function AddReferenceTask() {
   const getTasksApiHandler = (page_number: number, q_many: string = search.value) => {
     const params = {
       q_many,
-      page_number
+      page_number,
+      id: selectedTask.id,
     };
 
 
@@ -112,10 +113,13 @@ function AddReferenceTask() {
     });
   };
 
+
+  // console.log(JSON.stringify(tasks) + "=====AddReferenceTask");
+
+
   return (
     <HomeContainer type={'card'} className="vh-100 m-3">
       <div  >
-
         <div className="row justify-content-between m-3">
           <Back />
           <div className="row ">

@@ -4,20 +4,22 @@ import { Card, HomeContainer, Divider, NoDataFound, } from "@Components";
 import { UserItem } from "@Modules";
 import { getTaskUsers } from "@Redux";
 import { useWindowDimensions } from "@Hooks";
+import { useParams } from 'react-router-dom'
 
 function TaskUsers() {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
   const { selectedTask, taskUsers } = useSelector((state: any) => state.TaskReducer);
 
   useEffect(() => {
     getTaskUserApi();
-  }, [selectedTask]);
+  }, [id]);
 
 
   function getTaskUserApi() {
     const params = {
-      task_id: selectedTask.id,
+      task_id: id,
     };
 
     dispatch(
@@ -30,11 +32,8 @@ function TaskUsers() {
   }
 
 
-
-
-
   return (
-    <div className={'overflow-auto overflow-hide'} style={{ height: height -15 }}>
+    <div className={'overflow-auto overflow-hide'} style={{ height: height - 15 }}>
       {taskUsers && taskUsers.length > 0 && <div>
         <div>
           <h5 className="text-muted mt-4">ASSIGNED TO </h5>
