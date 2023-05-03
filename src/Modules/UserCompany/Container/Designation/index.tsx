@@ -76,7 +76,6 @@ function Designation() {
           },
           onError: (error: string) => () => {
             showToast('Designation is already exists');
-
           },
         })
       );
