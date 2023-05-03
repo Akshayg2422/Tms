@@ -2,6 +2,8 @@ import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, C
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 
+
+
 export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
@@ -154,12 +156,6 @@ export const TASK_ROUTES = [
 ];
 
 export const TICKET_ROUTES = [
-  // {
-  //   key:1,
-  //   path:ROUTES['ticket-module']['ticket-details'] +'/id',
-  //   component:<TicketDtails/>
-  // }
-
   {
     key: 2,
     path: ROUTES['ticket-module']['add-ticket'],

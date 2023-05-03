@@ -13,10 +13,10 @@ import {
 import { translate } from "@I18n";
 import {
     getEmployees,
-    addTask,
     getDepartments,
     getDesignations,
-    getAssociatedCompaniesL
+    getAssociatedCompaniesL,
+    raiseNewTicket
 
 } from "@Redux";
 import {
@@ -42,25 +42,23 @@ function AddTicket() {
     const { dashboardDetails, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-    const { taskGroups } = useSelector(
-        (state: any) => state.TaskReducer
-    );
+    // const { ticketGroups } = useSelector(
+    //     (state: any) => state.TicketReducer
+    // );
 
     const title = useInput("");
     const description = useInput("");
     const referenceNo = useInput("");
     const [ticketType, setTicketType] = useState(type[1]);
-    const [disableTaskType, setDisableTaskType] = useState([]);
+    const [disableTicketType, setDisableTicketType] = useState([]);
     const [companies, setCompanies] = useState([])
     const [companyUsers, setCompanyUsers] = useState([])
-
-
 
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
     const company = useDropDown({})
-    const taskGroup = useDropDown({})
+    // const ticketGroup = useDropDown({})
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
@@ -73,11 +71,12 @@ function AddTicket() {
 
     useEffect(() => {
         getAssociatedCompaniesApi();
-
+        // console.log('========>>>')
     }, [])
 
     useEffect(() => {
         getCompanyEmployeeApi()
+        // console.log('=======><><>')
     }, [designation.value, department.value])
 
 
@@ -105,7 +104,7 @@ function AddTicket() {
         };
 
 
-        console.log(JSON.stringify(params) + '======getCompanyEmployeeApi');
+        console.log('getCompanyEmployeeApi=====>' + JSON.stringify(params));
 
         dispatch(
             getEmployees({
@@ -124,7 +123,7 @@ function AddTicket() {
         );
     }
 
-    const submitTaskHandler = () => {
+    const submitTicketHandler = () => {
         const params = {
             title: title?.value,
             description: description?.value,
@@ -132,23 +131,26 @@ function AddTicket() {
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
-            task_attachments: [{ attachments: attach }],
-            is_parent: true,
-            eta_time: eta,
-            group_id: taskGroup?.value?.id,
+            ticket_attachments: [{ attachments: attach }],
+            // is_parent: true,
+            // eta_time: eta,
+            // group_id: ticketGroup?.value?.id,
         };
+        console.log('==========>',params )
+
 
         const validation = validate(ticketType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
+            console.log('=======><')
             dispatch(
-                addTask({
+                raiseNewTicket({
                     params,
                     onSuccess: (response: any) => () => {
                         if (response.success) {
                             goBack();
                             showToast(response.message, "success");
                         }
-
+                        console.log('+++++++++++')
                     },
                     onError: (error) => () => {
                         showToast(error.error_message);
@@ -177,11 +179,11 @@ function AddTicket() {
                             }
                         })
                         setCompanies(displayCompanyDropdown)
-                        setDisableTaskType([]);
+                        setDisableTicketType([]);
 
                     } else {
                         setTicketType(type[1]);
-                        setDisableTaskType([type[0]] as never);
+                        setDisableTicketType([type[0]] as never);
                     }
                 },
                 onError: () => () => {
@@ -190,6 +192,7 @@ function AddTicket() {
             })
         );
     }
+
     function getDepartmentsApiHandler() {
 
         const params = {
@@ -243,7 +246,7 @@ function AddTicket() {
 
     const getExternalCompanyStatus = () => ((ticketType && ticketType?.id === "2") || company.value?.id)
 
-    console.log(JSON.stringify(company.value) + "======");
+    console.log("======>", JSON.stringify(company.value));
 
     return (
         <Card className="m-3">
@@ -276,7 +279,7 @@ function AddTicket() {
                     <Radio
                         data={type}
                         selectItem={ticketType}
-                        disableId={disableTaskType}
+                        disableId={disableTicketType}
                         onRadioChange={(selected) => {
                             setSelectedUser('')
                             company.onChange({})
@@ -339,14 +342,6 @@ function AddTicket() {
                         }}
                     />}
 
-                {taskGroups && taskGroups.length > 0 && <DropDown
-                    heading={'Select Group'}
-                    placeHolder={'Select a Designation...'}
-                    data={getDropDownDisplayData(taskGroups, 'code')}
-                    onChange={taskGroup.onChange}
-                    selected={taskGroup.value}
-                />
-                }
 
                 <DropDown
                     heading={translate("common.ticketPriority")!}
@@ -394,7 +389,7 @@ function AddTicket() {
             <div className="col mt-4">
                 <Button
                     text={translate("common.submit")}
-                    onClick={submitTaskHandler}
+                    onClick={submitTicketHandler}
                 />
             </div>
 

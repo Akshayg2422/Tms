@@ -15,7 +15,7 @@ const Dropzone = ({
   imagePicker = false,
 }: DropZoneProps) => {
   const fileInputRef = useRef<any>();
-  // const [image, setImage] = useState<any>(icon);
+  const [image, setImage] = useState<any>(icon);
   const handleRefClick = () => {
     fileInputRef.current.click();
   };
@@ -70,7 +70,7 @@ const Dropzone = ({
 
           <div>
             <Image
-              src={ic || icons.addFillSquare}
+              src={icon || icons.addFillSquare}
               variant={imageVariant}
               onClick={handleRefClick}
               size={size}

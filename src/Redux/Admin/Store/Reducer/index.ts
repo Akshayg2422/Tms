@@ -9,9 +9,6 @@ import {
   ADD_TASK,
   ADD_TASK_SUCCESS,
   ADD_TASK_FAILURE,
-  ADD_TICKET,
-  ADD_TICKET_SUCCESS,
-  ADD_TICKET_FAILURE,
   GET_TASKS_ITEM,
   GET_CURRENT_PAGE,
   GET_REFERENCE_ID,
@@ -33,8 +30,6 @@ const initialState: AdminStateProp = {
   companyDetailsSelected: undefined,
   companyBranchNames: undefined,
   tasks: undefined,
-  tickets:undefined,
-  addingTicket:undefined,
   taskNumOfPages: undefined,
   taskCurrentPages: 1,
   addingTask: undefined,
@@ -286,25 +281,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
 
       state = { ...state, addingTask: action.payload };
       break;
-
-  //       /* ADD TICKET */
-
-    case ADD_TICKET:
-
-     state = { ...state, addingTicket: undefined };
-   break;
-
-   case ADD_TICKET_SUCCESS:
-
-     state = { ...state, addingTicket: action.payload.details };
-    break;
-
-   case ADD_TICKET_FAILURE:
-
-    state = { ...state, addingTicket: action.payload };
-    break;
     /**add task group */
-    
     // case ADD_TASK_GROUP:
 
     //   state = { ...state, addTaskGroup: undefined };

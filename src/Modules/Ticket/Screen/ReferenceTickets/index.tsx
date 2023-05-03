@@ -1,8 +1,8 @@
 import { HomeContainer, NoDataFound, CommonTable } from "@Components";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTickets, setIsSync, } from "@Redux";
-import {  getStatusFromCode, paginationHandler } from "@Utils";
+import { getReferenceTickets, setIsSync, setSelectedReferenceTickets } from "@Redux";
+import { getStatusFromCode, paginationHandler } from "@Utils";
 import { HOME_PATH } from "@Routes";
 import { useNavigation } from "@Hooks";
 

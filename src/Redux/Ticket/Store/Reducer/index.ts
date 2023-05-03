@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { TicketStateProps } from '../../Interfaces';
 import * as ActionTypes from '../ActionTypes'
 
@@ -39,6 +40,9 @@ const TicketReducer = (state = initialState, action: any) => {
       state = { ...state };
       break;
     case ActionTypes.GET_TICKETS:
+
+  console.log('case+"=====GET_TICKETSsas');
+  
       state = {
         ...state,
         tickets: undefined,
@@ -138,7 +142,7 @@ const TicketReducer = (state = initialState, action: any) => {
       };
       break;
 
-    case ActionTypes.SET_SELECTED_TICKET:
+    case ActionTypes.SELECTED_TICKET_ITEM:
 
       state = { ...state, selectedTicket: action.payload };
       break;

@@ -73,7 +73,7 @@ const TaskReducer = (state = initialState, action: any) => {
     /**
      * selected Task
      */
-    case ActionTypes.SELECTED_TASK_IEM:
+    case ActionTypes.SELECTED_TASK_ITEM:
       state = { ...state, selectedTask: action.payload }
       break;
 
