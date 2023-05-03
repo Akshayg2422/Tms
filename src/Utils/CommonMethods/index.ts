@@ -17,7 +17,7 @@ export function changeDropDownDataKey(arr: any) {
 }
 
 export function convertToUpperCase(data: any) {
-  let toUpperCase = data.charAt(0).toUpperCase() + data.slice(1);
+  let toUpperCase = data && data.charAt(0).toUpperCase() + data.slice(1);
   return toUpperCase
 }
 
@@ -75,7 +75,6 @@ export const getDeviceInfo = () => {
   const match = regex.exec(userAgent);
   let brand
   let model
-  console.log("getDeviceInfo===>", userAgent, platform, match)
   if (match && match.length > 1) {
     const deviceInfo = match[1].split(';');
     brand = deviceInfo[0].trim();

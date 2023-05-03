@@ -61,7 +61,7 @@ function Department() {
   }
   const getDepartmentMenu = (is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
-    ...(is_parent ? [{ id: '1', name: "Create Sub Department", icon: 'bi bi-file-earmark-plus' }] : [])
+    ...(is_parent ? [{ id: '1', name: "Create Sub Department", icon: icons.addSub }] : [])
   ]
 
   const dispatch = useDispatch();
@@ -182,8 +182,6 @@ function Department() {
                 addDepartmentModal.show()
                 setSelectedDepartment(undefined)
                 setIsSubTask(false)
-
-
               }
               }
             />

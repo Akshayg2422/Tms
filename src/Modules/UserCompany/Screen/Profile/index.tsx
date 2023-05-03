@@ -3,7 +3,7 @@ import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
 import { getObjectFromArrayByKey, GENDER_LIST, } from '@Utils'
-import { addUpdateEmployeePhoto, getDashboard,  userLogout } from '@Redux'
+import { addUpdateEmployeePhoto, getDashboard, userLogout } from '@Redux'
 import { ROUTES } from "@Routes"
 import { useState } from "react";
 import { translate } from "@I18n";
@@ -11,15 +11,19 @@ import { icons } from "@Assets";
 
 function Profile() {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-  const { company_branch, user_details,company } = dashboardDetails||''
+  const { company_branch, user_details, company } = dashboardDetails || ''
   const { height } = useWindowDimensions()
   const logoutModal = useModal(false)
   const dispatch = useDispatch()
   const { goTo } = useNavigation()
 
 
+  console.log(JSON.stringify(dashboardDetails) + '====dashboardDetails');
+
+
+
   const userProfileEdit = (item) => {
-   
+
 
     const params = {
       attachment: item
@@ -30,21 +34,21 @@ function Profile() {
         params,
         onSuccess: () => () => {
           showToast('Updated photo successfully');
-         
+
           const params = {}
           dispatch(getDashboard({
             params,
             onSuccess: (response) => () => {
-   
-      
+
+
             },
             onError: () => () => { }
           }));
-       
+
         },
         onError: () => () => {
           showToast('Updated photo failure');
-          
+
         }
       })
     )
@@ -58,31 +62,31 @@ function Profile() {
       <Card
         title={'Profile'}
         className="m-3"
-        //  style={{
-        //   height: height
-        // }}
-        >
+      //  style={{
+      //   height: height
+      // }}
+      >
         <div>
           <div className="col text-right">
             <Button color={'white'} size={'sm'} text={'Logout'} onClick={logoutModal.show} />
           </div>
           <div className="text-center mb-5">
-          
-            {user_details && <div className="pb-3">
-          <Dropzone
-            variant="ICON"
-            imageVariant={'rounded'}
-            icon={user_details?.profile_photo?getPhoto(user_details?.profile_photo):icons.profilePick}
-            size='xxl'
-            onSelect={(image) => {
-              let encoded = image.toString().replace(/^data:(.*,)?/, "");
-              userProfileEdit(encoded)
-            }}
-            imagePicker={true}
-          />
 
-        </div>
-}
+            {user_details && <div className="pb-3">
+              <Dropzone
+                variant="ICON"
+                imageVariant={'rounded'}
+                icon={user_details?.profile_photo ? getPhoto(user_details?.profile_photo) : icons.profilePick}
+                size='xxl'
+                onSelect={(image) => {
+                  let encoded = image.toString().replace(/^data:(.*,)?/, "");
+                  userProfileEdit(encoded)
+                }}
+                imagePicker={true}
+              />
+
+            </div>
+            }
           </div>
 
           <h3 className="ct-title undefined">Basic Information</h3>

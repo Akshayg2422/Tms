@@ -100,8 +100,6 @@ function AddUser() {
     };
 
 
-    console.log(JSON.stringify(params) + '=====');
-
 
 
 

@@ -296,3 +296,31 @@ export const getTaskDetailsFailure = (error: any) => {
         payload: error
     }
 }
+
+
+
+/**
+ * 
+ */
+
+/* GET TASK DETAILS */
+
+export const getSubTaskGroups = (params: any) => {
+    return {
+        type: ActionTypes.GET_SUB_TASK_GROUPS,
+        payload: params
+    }
+}
+export const getSubTaskGroupsSuccess = (response: any) => {
+    return {
+        type: ActionTypes.GET_SUB_TASK_GROUPS_SUCCESS,
+        payload: response
+    }
+}
+
+export const getSubTaskGroupsFailure = (error: any) => {
+    return {
+        type: ActionTypes.GET_SUB_TASK_GROUPS_FAILURE,
+        payload: error
+    }
+}

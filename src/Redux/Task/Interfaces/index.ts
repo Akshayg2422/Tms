@@ -19,4 +19,5 @@ export interface TaskStateProp {
     taskEventAttachmentsCurrentPage: number,
     selectedTabPositions: any,
     taskDetails: any,
+    subTaskGroups: any
 }

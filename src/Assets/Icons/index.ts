@@ -122,4 +122,13 @@ export const icons = {
   issue: require('./Issue/icon.png'),
   company: require('./Company/icon.png'),
   setting: require('./Setting/icon.png'),
+  advanceFilter: require('./AdvanceFilter/icon.png'),
+  history: require('./History/icon.png'),
+  tagUser: require('./TagUser/icon.png'),
+  reassignUser: require('./ReassignUser/icon.png'),
+  taskStatus: require('./TaskStatus/icon.png'),
+  upload: require('./Upload/icon.png'),
+  addSub: require('./AddSub/icon.png'),
+  markAsClose: require('./MarkAsClose/icon.png'),
+  markAsOpen: require('./MarkAsOpen/icon.png'),
 };

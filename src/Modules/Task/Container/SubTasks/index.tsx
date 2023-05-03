@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { SubTasksProps } from './interfaces'
 import { Card, H, Button, CommonTable, Priority, NoDataFound } from '@Components'
-import { getSubTasks, setSelectedTask } from '@Redux'
+import { getSubTasks, setSelectedTask, setSelectedTabPosition } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
@@ -51,7 +51,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
             <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={'SUB TASKS'} />
                 <Button
-                className={'shadow-none'}
+                    className={'shadow-none'}
                     size={"sm"}
                     text={'Add Task'}
                     onClick={() => {
@@ -67,6 +67,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                         displayDataSet={normalizedTableData(subTasks)}
                         tableOnClick={(e, index, item) => {
                             dispatch(setSelectedTask(item))
+                            dispatch(setSelectedTabPosition({ id: '1' }))
                             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id)
 
                         }}

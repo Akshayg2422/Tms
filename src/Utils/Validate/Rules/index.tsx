@@ -116,7 +116,9 @@ export const CREATE_EXTERNAL = {
     presence: { allowEmpty: false, message: "please select priority" },
 
   },
-
+  group_id: {
+    presence: { allowEmpty: false, message: "please select Group" },
+  },
 
 };
 export const CREATE_INTERNAL = {
@@ -137,9 +139,61 @@ export const CREATE_INTERNAL = {
     presence: { allowEmpty: false, message: "please select priority" },
 
   },
+  group_id: {
+    presence: { allowEmpty: false, message: "please select Group" },
+  },
 
 
 };
+
+export const CREATE_SUB_TASK_EXTERNAL = {
+  title: {
+    presence: { allowEmpty: false, message: "title cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  reference_number: {
+    presence: { allowEmpty: false, message: "reference no cannot be empty" },
+  },
+  brand_branch_id: {
+    presence: { allowEmpty: false, message: "Please select company" },
+  },
+
+  assigned_to_id: {
+    presence: { allowEmpty: false, message: "please select User" },
+  },
+  priority: {
+    presence: { allowEmpty: false, message: "please select priority" },
+
+  },
+
+
+};
+
+export const CREATE_SUB_TASK_INTERNAL = {
+  title: {
+    presence: { allowEmpty: false, message: "title cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  reference_number: {
+    presence: { allowEmpty: false, message: "reference no cannot be empty" },
+  },
+
+  assigned_to_id: {
+    presence: { allowEmpty: false, message: "please select User" },
+  },
+  priority: {
+    presence: { allowEmpty: false, message: "please select priority" },
+
+  },
+
+
+
+};
+
 
 export const CREATE_BROAD_CAST_EXTERNAL = {
 
