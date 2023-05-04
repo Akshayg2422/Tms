@@ -216,4 +216,37 @@ export const referenceIssueDetails = (params) => {
   }
 }
 
+export const refreshTicketEvents = () => {
+  return {
+      type: ActionTypes.REFRESH_TICKET_EVENTS,
+  }
+}
+
+
+/**
+ * get Ticket Event Attachments
+ */
+
+export const getTicketEventAttachments = (params: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_ATTACHMENTS,
+      payload: params,
+  };
+};
+
+export const getTicketEventAttachmentsSuccess = (response: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_SUCCESS,
+      payload: response,
+  };
+};
+
+export const getTicketEventAttachmentsFailure = (error: any) => {
+
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_FAILURE,
+      payload: error,
+  };
+};
+
 

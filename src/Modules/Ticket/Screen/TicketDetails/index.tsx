@@ -1,7 +1,7 @@
 import { useRef,useEffect,useLayoutEffect, useState } from "react";
 import {
   Thread,
-  IssueUsers,
+  TicketUsers,
   Attachments,
   ReferenceTickets,
 } from "@Modules";
@@ -9,6 +9,7 @@ import TicketInfo from "../../Container/TicketInfo";
 import { HomeContainer, Tabs } from "@Components";
 import { useSelector } from "react-redux";
 import { useParams } from 'react-router-dom'
+// import { TicketUsers } from "../TaskUsers";
 
 function TicketDetails() {
 
@@ -20,7 +21,7 @@ function TicketDetails() {
     { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>Thread</span></div>, component: <Thread /> },
     { id: "2", title: <div className="bi bi-paperclip">ATTACH</div>, component: <Attachments /> },
     { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCE</span></div>, component: <ReferenceTickets /> },
-    { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USER</span></div>, component: <IssueUsers /> },
+    { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USER</span></div>, component: <TicketUsers/> },
   ];
 
   const [selectedTab, setSelectedTab] = useState(TABS[0]);

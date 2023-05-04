@@ -32,7 +32,8 @@ function Thread() {
 
         if (selectedTicket) {
             const params = {
-                ticket_id: selectedTicket.id,
+                "ticket_id":"414b6c1c-47a3-4674-80fd-be61bc6173de",
+                "event_type":"MEA",
             };
 
             dispatch(

@@ -1,7 +1,6 @@
-import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails,TicketDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Tickets, AddTicket } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails,TicketDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Tickets, AddTicket, AddReferenceTicket } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
-
 
 
 export const HOME_PATH = {
@@ -40,8 +39,9 @@ export const ROUTES = {
   'ticket-module': {
     tickets: '/tickets',
     'tickets-details': '/tickets-details',
+    'reference-ticket': '/reference-ticket',
     'add-ticket': '/add-ticket',
-    'reference-ticket': './reference-ticket'
+    
   },
   'user-company-module': {
     companies: '/companies',
@@ -163,7 +163,12 @@ export const TICKET_ROUTES = [
     component: <TicketDetails />
   },
   {
-    key: 2,
+    key:2,
+    path:ROUTES['ticket-module']['reference-ticket'],
+    component:<AddReferenceTicket/>
+  },
+  {
+    key: 3,
     path: ROUTES['ticket-module']['add-ticket'],
     component: <AddTicket />
   }

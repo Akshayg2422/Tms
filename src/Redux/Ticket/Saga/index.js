@@ -132,10 +132,26 @@ function* getTicketUsersSaga(action) {
   }
 }
 
+function* getTicketEventAttachmentsSaga(action) {
+  try {
+      const response = yield call(Services.getTicketEventsApi, action.payload.params);
+      if (response.success) {
+          yield put(Action.getTicketEventAttachmentsSuccess(response));
+          yield call(action.payload.onSuccess(response));
+      } else {
+          yield put(Action.getTicketEventAttachmentsFailure(response.error_message));
+          yield call(action.payload.onError(response));
+      }
+  } catch (error) {
+      yield put(Action.getTicketEventAttachmentsFailure(error));
+      yield call(action.payload.onError(error));
+  }
+}
+
 
 
 function* TicketSaga() {
-  console.log("Watcher---->")
+  console.log("TicketSaga======>")
   yield takeLatest(Action.RAISE_NEW_TICKET, raiseNewTicketSaga);
   yield takeLatest(Action.GET_TICKETS, getTicketsSaga);
   yield takeLatest(Action.GET_TICKET_EVENTS, getTicketEventsSaga);
@@ -143,6 +159,7 @@ function* TicketSaga() {
   yield takeLatest(Action.ADD_TICKET_EVENT, addTicketEventSaga);
   yield takeLatest(Action.GET_REFERENCE_TICKETS, getReferenceTicketsSaga)
   yield takeLatest(Action.GET_TICKET_USERS, getTicketUsersSaga)
+  yield takeLatest(Action.GET_TICKET_EVENT_ATTACHMENTS,getTicketEventsSaga)
 }
 
 export default TicketSaga;

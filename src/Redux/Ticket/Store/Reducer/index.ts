@@ -16,6 +16,9 @@ const initialState: TicketStateProps = {
   referenceTicketSelectedDetails: undefined,
   selectedReferenceTickets: undefined,
   ticketEmployees: undefined,
+  refreshTicketEvents: false,
+  ticketEventAttachments: [],
+  ticketEventAttachmentsCurrentPage: 1,
 
 
 
@@ -146,6 +149,7 @@ const TicketReducer = (state = initialState, action: any) => {
 
       state = { ...state, selectedTicket: action.payload };
       break;
+      
     case ActionTypes.REFERENCE_TICKET_DETAILS:
       state = {
         ...state,
@@ -173,6 +177,41 @@ const TicketReducer = (state = initialState, action: any) => {
     case  ActionTypes.GET_TICKET_USERS_FAILURE:
       state = { ...state, ticketEmployees: undefined };
       break;
+
+
+          /**
+     * refresh Tickets 
+     */
+
+    case ActionTypes.REFRESH_TICKET_EVENTS:
+      state = { ...state, refreshTicketEvents: !state.refreshTicketEvents }
+      break;
+
+      /**
+     * get Ticket Event Attachments
+     */
+
+
+    case ActionTypes.GET_TICKET_EVENT_ATTACHMENTS:
+      state = {
+        ...state,
+        ticketEventAttachments: action.payload.params.page_number === 1 ? [] : state.ticketEventAttachments
+      };
+      break;
+    case ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_SUCCESS:
+      state = {
+        ...state,
+        ticketEventAttachments: [...state.ticketEventAttachments, ...action.payload.details.data],
+        ticketEventAttachmentsCurrentPage:
+          action.payload.details.next_page
+      };
+      break;
+
+    case ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_FAILURE:
+      state = { ...state, ticketEventAttachments: undefined };
+      break;
+
+
 
 
 

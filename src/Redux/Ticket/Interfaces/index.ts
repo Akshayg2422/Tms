@@ -12,4 +12,7 @@ export interface TicketStateProps {
   selectedTicket?: any;
   referenceTicketSelectedDetails: any;
   selectedReferenceTickets: any;
+  refreshTicketEvents: boolean,
+  ticketEventAttachments: any,
+  ticketEventAttachmentsCurrentPage: number,
 }
