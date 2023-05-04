@@ -44,7 +44,6 @@ function TaskChat({ }: TaskChatProps) {
             page_number
         }
 
-        console.log(JSON.stringify(params) + '======');
 
 
         dispatch(

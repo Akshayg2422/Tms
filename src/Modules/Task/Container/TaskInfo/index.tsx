@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert } from "@Components";
 import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates } from '@Utils'
@@ -7,21 +7,22 @@ import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useWindowDimensions } from '@Hooks'
-import { addTaskEvent } from '@Redux'
+import { addTaskEvent, getTaskDetails } from '@Redux'
+import { useParams } from 'react-router-dom'
 
 const START_TASK = 1
 const END_TASK = 2
 
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
+    const { id } = useParams()
+
     const dispatch = useDispatch()
-    const { selectedTask } = useSelector((state: any) => state.TaskReducer);
+    const { taskDetails } = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
 
-
-    const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, } = selectedTask;
+    const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time } = taskDetails || {};
     const [eta, setEta] = useState(eta_time)
-    const [updatedEta, setUpdatedEta] = useState(eta_time)
     const editEtaModal = useModal(false)
     const editEtaReason = useInput('')
     const taskEventModal = useModal(false)
@@ -29,9 +30,20 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const [actionTask, setActionTask] = useState<number>()
     const { height } = useWindowDimensions()
 
+    useEffect(() => {
+        getTaskDetailsHandler()
+    }, [id])
+
+
+    useEffect(() => {
+        setEta(eta_time)
+    }, [taskDetails])
+
+
+
     const editEtaSubmitApiHandler = () => {
         const params = {
-            id: selectedTask.id,
+            id,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
@@ -41,11 +53,25 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             addTaskEvent({
                 params,
                 onSuccess: () => () => {
-                    setUpdatedEta(eta)
                     editEtaReason.set('')
                     editEtaModal.hide();
+                    getTaskDetailsHandler();
                 },
                 onError: () => () => { }
+            })
+        )
+    }
+
+
+    const getTaskDetailsHandler = () => {
+        const params = {
+            task_id: id,
+        }
+        dispatch(
+            getTaskDetails({
+                params,
+                onSuccess: (success) => () => { },
+                onError: (error) => () => { }
             })
         )
     }
@@ -55,7 +81,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
         const params = {
             ...(actionTask === START_TASK ? { event_type: 'ETS', start_time: currentTime } : { event_type: 'ETE', end_time: currentTime }),
-            id: selectedTask?.id,
+            id: taskDetails?.id,
         }
         dispatch(
             addTaskEvent({
@@ -111,14 +137,14 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             <div className="row mt-3">
                                 <div className="col">
                                     <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
-                                    <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(updatedEta))}</h5>
+                                    <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
                                 </div>
                                 <div className="row ml-1 mr-3">
                                     <div className="pointer" onClick={() => editEtaModal.show()}>
                                         <Image src={icons.edit} height={18} width={18} />
                                     </div>
                                     <div className="ml-2 pointer" onClick={() => { taskEventModal.show() }}>
-                                        <Image src={icons.calender} height={18} width={18} />
+                                        <Image src={icons.history} height={18} width={18} />
                                     </div>
                                 </div>
                             </div>
@@ -126,9 +152,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     </div>
                     <div className="row justify-content-between mt-4 mr-3">
                         <div>
-                            <div className="h5 mb-0"> {by_user.name} </div>
-                            <div className="mt--1"><small > {by_user.phone} </small></div>
-                            <div className="mt--2"><small > {by_user.email} </small></div>
+                            <div className="h5 mb-0"> {by_user?.name} </div>
+                            <div className="mt--1"><small > {by_user?.phone} </small></div>
+                            <div className="mt--2"><small > {by_user?.email} </small></div>
                         </div>
 
                         <div>
@@ -147,12 +173,12 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         </div>
                     </div>
                     <div className="col text-right mt-3">
-                        {assigned_to?.id === dashboardDetails?.user_details?.id && < Button size={'sm'} text={'Start'}
+                        {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button size={'sm'} text={'Start'}
                             onClick={() => {
                                 alertModal.show()
                                 setActionTask(START_TASK)
                             }} />}
-                        {assigned_to?.id === dashboardDetails?.user_details?.id && < Button size={'sm'} text={'End'} onClick={() => {
+                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button size={'sm'} text={'End'} onClick={() => {
                             alertModal.show()
                             setActionTask(END_TASK)
                         }} />}

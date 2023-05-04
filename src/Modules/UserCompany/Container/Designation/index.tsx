@@ -73,10 +73,10 @@ function Designation() {
           onSuccess: (success: any) => () => {
             addDesignationModal.hide()
             getDesignationApiHandler(designationCurrentPages)
+            resetValues()
           },
           onError: (error: string) => () => {
             showToast('Designation is already exists');
-
           },
         })
       );

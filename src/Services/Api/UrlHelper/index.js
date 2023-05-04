@@ -93,3 +93,7 @@ export const ADD_PUSH_NOTIFICATION = AUTHENTICATION + 'webAppConfig'
 /* GET TICKET  HISTORY */
 
 export const URL_GET_TICKET_EVENT_HISTORY = TICKET + 'getTicketHistory'
+/* GET TASK DETAILS */
+
+export const FETCH_TASK_DETAILS = TASK + 'getTaskDetails';
+export const URL_SUB_TASK_GROUPS = TASK + 'getSubTaskGroup';

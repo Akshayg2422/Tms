@@ -20,7 +20,8 @@ import {
 
 } from "@Redux";
 import {
-    CREATE_INTERNAL,
+    CREATE_SUB_TASK_EXTERNAL,
+    CREATE_SUB_TASK_INTERNAL,
     CREATE_EXTERNAL,
     getValidateError,
     ifObjectExist,
@@ -101,7 +102,6 @@ function AddSubTask() {
         };
 
 
-        console.log(JSON.stringify(params) + '======getCompanyEmployeeApi');
 
         dispatch(
             getEmployees({
@@ -122,7 +122,6 @@ function AddSubTask() {
 
     const submitTaskHandler = () => {
         const params = {
-
             title: title?.value,
             description: description?.value,
             reference_number: referenceNo?.value,
@@ -136,10 +135,8 @@ function AddSubTask() {
         };
 
 
-        console.log(JSON.stringify(params) + '=======params');
+        const validation = validate(taskType?.id === "1" ? CREATE_SUB_TASK_EXTERNAL : CREATE_SUB_TASK_INTERNAL, params);
 
-
-        const validation = validate(taskType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
             dispatch(
                 addTask({

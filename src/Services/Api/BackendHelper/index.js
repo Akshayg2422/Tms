@@ -82,3 +82,8 @@ export const getTicketEventHistoryApi = (payload) => post(URL.URL_GET_TICKET_EVE
 /* PUSH NOTIFICATION */
 
 export const addPushNotificationApi = payload => post(URL.ADD_PUSH_NOTIFICATION, payload, {});
+
+/* GET TASK DETAILS */
+
+export const getTaskDetailsApi = (payload) => post(URL.FETCH_TASK_DETAILS, payload, {})
+export const getSubTaskGroupsApi = (payload) => post(URL.URL_SUB_TASK_GROUPS, payload, {})

@@ -21,6 +21,8 @@ const initialState: TaskStateProp = {
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
   selectedTabPositions: { id: '1' },
+  taskDetails: {},
+  subTaskGroups: undefined
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -248,6 +250,34 @@ const TaskReducer = (state = initialState, action: any) => {
 
     case ActionTypes.GET_TASK_EVENT_ATTACHMENTS_FAILURE:
       state = { ...state, taskEventAttachments: undefined };
+      break;
+
+    /* GET TASK DETAILS */
+
+    case ActionTypes.GET_TASK_DETAILS:
+      state = { ...state, taskDetails: undefined }
+      break;
+    case ActionTypes.GET_TASK_DETAILS_SUCCESS:
+      state = { ...state, taskDetails: action.payload?.details }
+      break;
+    case ActionTypes.GET_TASK_DETAILS_FAILURE:
+      state = { ...state, taskDetails: undefined }
+      break;
+
+
+
+    /* GET TASK DETAILS */
+
+    case ActionTypes.GET_SUB_TASK_GROUPS:
+      state = { ...state, subTaskGroups: undefined }
+      break;
+    case ActionTypes.GET_SUB_TASK_GROUPS_SUCCESS:
+      console.log(JSON.stringify(action.payload));
+
+      state = { ...state, subTaskGroups: action.payload?.details }
+      break;
+    case ActionTypes.GET_SUB_TASK_GROUPS_FAILURE:
+      state = { ...state, subTaskGroups: undefined }
       break;
 
     default:

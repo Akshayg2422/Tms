@@ -1,5 +1,5 @@
 import moment from 'moment';
-export const getDates = () => new Date();
+export const getDates = (date?: string) => date ? new Date(date) : new Date();
 
 export const DD_MMMM_YYYY = 'DD MMMM YYYY';
 export const HH_MM_A = 'hh:mm A';

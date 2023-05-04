@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
-import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter } from '@Utils'
+import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
 import { getTasks, setSelectedTask, getDashboard, setSelectedTabPosition } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
@@ -27,13 +27,14 @@ function Tasks() {
   const dispatch = useDispatch()
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask } = useSelector((state: any) => state.TaskReducer);
-  const date = new Date();
-  const time = date.getHours()
   const { goTo } = useNavigation();
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [params])
+
+
+  console.log(new Date() + "+======" + new Date('2023-05-10T00:00:00+05:30'));
 
 
 
@@ -57,10 +58,9 @@ function Tasks() {
   const getTaskHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
 
-
     dispatch(
       getTasks({
-        params,
+        params: updatedParams,
         onSuccess: () => () => {
         },
         onError: () => () => {
@@ -74,8 +74,7 @@ function Tasks() {
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
       return data?.map((el: any) => {
-        const etaDate = new Date(el.eta_time)
-        let etaTime = etaDate.getHours()
+
         return {
           "task":
             <>
@@ -120,7 +119,7 @@ function Tasks() {
             </div >,
           'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
           status: <div><Status status={el?.task_status} />
-            <small>{time > etaTime ? 'ABOVE ETA' : ""}</small>
+            <small>{getDates() > getDates(el.eta_time) ? 'ABOVE ETA' : ""}</small>
           </div>
         };
       });
@@ -153,7 +152,7 @@ function Tasks() {
         </div>
       </div>
 
-      <HomeContainer type={'card'}>
+      <HomeContainer type={'card'} className="mt-3">
         <TaskFilter onParams={(filteredParams) => {
           setParams({ ...params, ...filteredParams })
         }} />
@@ -177,6 +176,7 @@ function Tasks() {
             }
             tableOnClick={(idx, index, item) => {
               dispatch(setSelectedTask(item));
+              dispatch(setSelectedTabPosition({ id: '1' }))
               goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id);
             }
             }

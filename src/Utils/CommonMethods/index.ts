@@ -17,7 +17,7 @@ export function changeDropDownDataKey(arr: any) {
 }
 
 export function convertToUpperCase(data: any) {
-  let toUpperCase = data.charAt(0).toUpperCase() + data.slice(1);
+  let toUpperCase = data && data.charAt(0).toUpperCase() + data.slice(1);
   return toUpperCase
 }
 
@@ -66,3 +66,19 @@ export function stringToUpperCase(string: any) {
   return string.toUpperCase();
 }
 
+export const getDeviceInfo = () => {
+  const userAgent = navigator.userAgent;
+  console.log('navigator', navigator);
+
+  const platform = navigator.platform;
+  const regex = /\(([^)]+)\)/;
+  const match = regex.exec(userAgent);
+  let brand
+  let model
+  if (match && match.length > 1) {
+    const deviceInfo = match[1].split(';');
+    brand = deviceInfo[0].trim();
+    model = deviceInfo[1].trim();
+  }
+  return { brand, model, platform }
+}

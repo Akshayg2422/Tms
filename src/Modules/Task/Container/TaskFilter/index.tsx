@@ -14,7 +14,7 @@ const FILTER_MENU = [
         id: 0, name: 'Basic', icon: icons.basic,
     },
     {
-        id: 1, name: 'Advance', icon: icons.advance,
+        id: 1, name: 'Advance', icon: icons.advanceFilter,
     }
 ]
 
