@@ -113,7 +113,7 @@
     "babel-plugin-module-resolver": "^4.1.0"
   },
   "peerDependencies": {
-    "react":"0.14.x || ^15.0.0 || ^16.0.0 || ^17.0.0"
+    "react": "0.14.x || ^15.0.0 || ^16.0.0 || ^17.0.0"
   },
   "engines": {
     "npm": ">=8.7.0"
@@ -121,6 +121,5 @@
   "overrides": {
     "react": "$react",
     "react-dom": "$react-dom"
-
   }
 }
