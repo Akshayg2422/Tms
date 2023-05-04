@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert } from "@Components";
 import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates } from '@Utils'
@@ -7,19 +7,23 @@ import { TicketInfoProps } from "./interface";
 import { TicketItemMenu, TicketEventHistory } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useWindowDimensions } from '@Hooks'
-import { addTicketEvent } from '@Redux'
+import { addTicketEvent, getTicketDetails } from '@Redux'
+import { useParams } from "react-router-dom";
 
 const START_TASK = 1
 const END_TASK = 2
 
 const TicketInfo = forwardRef(({ onClick }: TicketInfoProps, ref: any) => {
 
+    const { id } = useParams()
+
+
     const dispatch = useDispatch()
-    const { selectedTicket } = useSelector((state: any) => state.TicketReducer);
+    const { ticketDetails } = useSelector((state: any) => state.TicketReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    const { title, code, description, by_user, raised_by_company, ticket_attachments, assigned_to, created_at, eta_time, } = selectedTicket;
+    
+    const { title, code, description, by_user, raised_by_company, ticket_attachments, assigned_to, created_at, eta_time, start_time, end_time } = ticketDetails || {};
     const [eta, setEta] = useState(eta_time)
-    const [updatedEta, setUpdatedEta] = useState(eta_time)
     const editEtaModal = useModal(false)
     const editEtaReason = useInput('')
     const ticketEventModal = useModal(false)
@@ -27,9 +31,33 @@ const TicketInfo = forwardRef(({ onClick }: TicketInfoProps, ref: any) => {
     const [actionTask, setActionTask] = useState<number>()
     const { height } = useWindowDimensions()
 
+    useEffect(() => {
+        getTicketDetailsHandler()
+    }, [id])
+
+
+    useEffect(() => {
+        setEta(eta_time)
+    }, [ticketDetails])
+
+
+    const getTicketDetailsHandler = () => {
+        const params = {
+        ticket_id: id,
+        }
+        dispatch(
+            getTicketDetails({
+                params,
+                onSuccess: (success) => () => { },
+                onError: (error) => () => { }
+            })
+        )
+    }
+
+
     const editEtaSubmitApiHandler = () => {
         const params = {
-            id: selectedTicket.id,
+            id,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
@@ -39,9 +67,9 @@ const TicketInfo = forwardRef(({ onClick }: TicketInfoProps, ref: any) => {
           addTicketEvent({
                 params,
                 onSuccess: () => () => {
-                   setUpdatedEta(eta)
                     editEtaReason.set('')
                     editEtaModal.hide();
+                    getTicketDetailsHandler()
                 },
                 onError: () => () => { }
             })
@@ -53,7 +81,7 @@ const TicketInfo = forwardRef(({ onClick }: TicketInfoProps, ref: any) => {
 
         const params = {
             ...(actionTask === START_TASK ? { event_type: 'ETS', start_time: currentTime } : { event_type: 'ETE', end_time: currentTime }),
-            id: selectedTicket?.id,
+            id: ticketDetails?.id,
         }
         dispatch(
           addTicketEvent({
@@ -109,14 +137,14 @@ const TicketInfo = forwardRef(({ onClick }: TicketInfoProps, ref: any) => {
                             <div className="row mt-3">
                                 <div className="col">
                                     <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
-                                    <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(updatedEta))}</h5>
+                                    <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
                                 </div>
                                 <div className="row ml-1 mr-3">
                                     <div className="pointer" onClick={() => editEtaModal.show()}>
                                         <Image src={icons.edit} height={18} width={18} />
                                     </div>
                                     <div className="ml-2 pointer" onClick={() => { ticketEventModal.show() }}>
-                                        <Image src={icons.calender} height={18} width={18} />
+                                        <Image src={icons.history} height={18} width={18} />
                                     </div>
                                 </div>
                             </div>
@@ -124,9 +152,9 @@ const TicketInfo = forwardRef(({ onClick }: TicketInfoProps, ref: any) => {
                     </div>
                     <div className="row justify-content-between mt-4 mr-3">
                         <div>
-                            <div className="h5 mb-0"> {by_user.name} </div>
-                            <div className="mt--1"><small > {by_user.phone} </small></div>
-                            <div className="mt--2"><small > {by_user.email} </small></div>
+                            <div className="h5 mb-0"> {by_user?.name} </div>
+                            <div className="mt--1"><small > {by_user?.phone} </small></div>
+                            <div className="mt--2"><small > {by_user?.email} </small></div>
                         </div>
 
                         <div>

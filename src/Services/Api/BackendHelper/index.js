@@ -87,3 +87,9 @@ export const addPushNotificationApi = payload => post(URL.ADD_PUSH_NOTIFICATION,
 
 export const getTaskDetailsApi = (payload) => post(URL.FETCH_TASK_DETAILS, payload, {})
 export const getSubTaskGroupsApi = (payload) => post(URL.URL_SUB_TASK_GROUPS, payload, {})
+
+/* GET TICKET DETAILS */
+
+
+export const getTicketDetailsApi = (payload) => post(URL.URL_FETCH_TICKET_DETAILS, payload, {})
+

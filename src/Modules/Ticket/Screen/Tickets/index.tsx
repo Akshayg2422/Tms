@@ -6,7 +6,7 @@ import { translate } from "@I18n";
 import { TicketFilter } from '@Modules';
 import { ROUTES,HOME_PATH } from '@Routes'
 import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter } from "@Utils";
-import { getTickets, setSelectedTicket, getDashboard, setSelectedReferenceTickets } from "@Redux";
+import { getTickets, setSelectedTicket, getDashboard, setSelectedReferenceTickets, setSelectedTabPosition } from "@Redux";
 
 
 
@@ -174,8 +174,8 @@ function Tickets() {
                 }
                 tableOnClick={(idx, index, item) => {
                   dispatch(setSelectedTicket(item));
-                 // dispatch(setSelectedReferenceTickets(undefined))
-                 goTo(ROUTES['ticket-module']['tickets-details']);
+                 dispatch(setSelectedTabPosition({ id: '1' }))
+                 goTo(ROUTES['ticket-module']['tickets-details']+'/'+item?.id);
                 }
                 }
               />

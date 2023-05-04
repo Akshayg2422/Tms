@@ -258,6 +258,31 @@ export const getTicketEventHistoryFailure = (error: any) => {
 };
 
 
+/* GET TICKET DETAILS */
+
+export const getTicketDetails = (params: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_DETAILS,
+      payload: params
+  }
+}
+export const getTicketDetailsSuccess = (response: any) => {
+
+  return {
+
+      type: ActionTypes.GET_TICKET_DETAILS_SUCCESS,
+      payload: response
+  }
+}
+
+export const getTicketDetailsFailure = (error: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_DETAILS_FAILURE,
+      payload: error
+  }
+}
+
+
 
 
 

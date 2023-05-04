@@ -97,3 +97,9 @@ export const URL_GET_TICKET_EVENT_HISTORY = TICKET + 'getTicketHistory'
 
 export const FETCH_TASK_DETAILS = TASK + 'getTaskDetails';
 export const URL_SUB_TASK_GROUPS = TASK + 'getSubTaskGroup';
+
+/* GET TICKET DETAILS */
+
+export const URL_FETCH_TICKET_DETAILS = TICKET + 'getTicketDetails';
+
+

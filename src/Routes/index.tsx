@@ -141,7 +141,6 @@ export const TASK_ROUTES = [
     component: <AddReferenceTask />
   },
 
-
   {
     key: 3,
     path: ROUTES['task-module']['add-task'],
@@ -159,7 +158,7 @@ export const TASK_ROUTES = [
 export const TICKET_ROUTES = [
   {
     key: 1,
-    path: ROUTES['ticket-module']['tickets-details'],
+    path: ROUTES['ticket-module']['tickets-details']+ '/:id',
     component: <TicketDetails />
   },
   {

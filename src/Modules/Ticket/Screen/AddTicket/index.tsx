@@ -133,7 +133,7 @@ function AddTicket() {
             priority: selectedTicketPriority?.value?.id,
             ticket_attachments: [{ attachments: attach }],
             // is_parent: true,
-            // eta_time: eta,
+             eta_time: eta,
             // group_id: ticketGroup?.value?.id,
         };
         console.log('==========>',params )

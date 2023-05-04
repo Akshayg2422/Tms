@@ -30,13 +30,13 @@ function TicketItemMenu() {
     const dynamicHeight: any = useDynamicHeight()
     const TICKET_STATUS_MENU = [
         {
-            id: 0, name: 'Tag User', icon: icons.Equalizer,
+            id: 0, name: 'Tag User', icon: icons.tagUser,
         },
         {
-            id: 1, name: 'Reassign User', icon: icons.Equalizer,
+            id: 1, name: 'Reassign User', icon: icons.reassignUser,
         },
         {
-            id: 2, name: 'Change Ticket Status', icon: icons.Equalizer,
+            id: 2, name: 'Change Ticket Status', icon: icons.taskStatus,
         }
     ]
 
