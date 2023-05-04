@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 function ReferenceTickets() {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { ticketReferenceDetails, referenceTicketNoOfPages, referenceTicketCurrentPages } = useSelector(
+  const { ticketReferenceDetails, referenceTicketNoOfPages, referenceTicketCurrentPages,} = useSelector(
     (state: any) => state.TicketReducer
   );
 
@@ -26,7 +26,7 @@ function ReferenceTickets() {
 
   const proceedgetReferenceTickets = (page_number: number) => {
     const params = {
-      "ticket_id":"414b6c1c-47a3-4674-80fd-be61bc6173de",
+      ticket_id:id,
       page_number,
       q: ""
     };
@@ -35,7 +35,7 @@ function ReferenceTickets() {
       getReferenceTickets({
         params,
         onSuccess: (response) => () => {
-    console.log('getReferenceTickets=====>>>',getReferenceTickets)
+    console.log('getReferenceTickets=====>>>',response)
         },
         onError: () => () => { },
       })
@@ -47,8 +47,8 @@ function ReferenceTickets() {
 
     return data?.map((el: any) => {
       return {
-        issue: el.title,
-        "raised by": el?.by_user.name,
+        issue: el?.title,
+        "raised by": el?.by_user?.name,
         status: getStatusFromCode(dashboardDetails, el.ticket_status),
         "raised by company": el?.raised_by_company?.name
       };

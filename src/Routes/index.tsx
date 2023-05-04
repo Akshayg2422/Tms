@@ -159,7 +159,7 @@ export const TASK_ROUTES = [
 export const TICKET_ROUTES = [
   {
     key: 1,
-    path: ROUTES['ticket-module']['tickets-details'],
+    path: ROUTES['ticket-module']['tickets-details']+ '/:id',
     component: <TicketDetails />
   },
   {

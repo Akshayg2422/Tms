@@ -18,7 +18,7 @@ function AddReferenceTicket() {
 
   useEffect(() => {
     getTicketsApiHandler(referenceTicketCurrentPages)
-    console.log('getTicketsApiHandler=========>')
+    // console.log('getTicketsApiHandler=========>')
   }, [])
 
 
@@ -38,7 +38,7 @@ function AddReferenceTicket() {
           params,
           onSuccess: (response: any) => () => {
      
-            console.log(">>>>>>>>>>>")
+            console.log("==========>>>>",response)
             if (response.success) {
               goBack()
               showToast(response.message, "success");
@@ -80,15 +80,15 @@ function AddReferenceTicket() {
     const params = {
       q_many,
       page_number,
-      // id: selectedTicket.id,
+      
     };
 
 
     dispatch(
       getTickets({
         params,
-        onSuccess: () => () => {
-          console.log('====>getTickets')
+        onSuccess: (response) => () => {
+          console.log('====>getTickets',response)
         },
         onError: () => () => { },
       })

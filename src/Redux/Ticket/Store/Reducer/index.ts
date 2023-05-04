@@ -44,7 +44,7 @@ const TicketReducer = (state = initialState, action: any) => {
       break;
     case ActionTypes.GET_TICKETS:
 
-  console.log('case+"=====GET_TICKETSsas');
+  console.log('Reducer+"=====GET_TICKETS');
   
       state = {
         ...state,
@@ -116,6 +116,8 @@ const TicketReducer = (state = initialState, action: any) => {
       state = { ...state, addTicketEvent: undefined };
       break;
 
+
+//get reference tickets
 
     case ActionTypes.GET_REFERENCE_TICKETS:
       state = {

@@ -175,7 +175,7 @@ function Tickets() {
                 tableOnClick={(idx, index, item) => {
                   dispatch(setSelectedTicket(item));
                  // dispatch(setSelectedReferenceTickets(undefined))
-                 goTo(ROUTES['ticket-module']['tickets-details']);
+                 goTo(ROUTES['ticket-module']['tickets-details']+ '/' + item?.id);
                 }
                 }
               />
