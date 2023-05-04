@@ -77,7 +77,9 @@ function App() {
       }
     }))
   }
-
+  /**
+   * 
+   */
   return (
     <ScreenWrapper>
       <PushNotification />
