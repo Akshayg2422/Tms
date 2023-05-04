@@ -65,25 +65,20 @@ function App() {
       device_brand: getDeviceInfo()?.brand,
       device_token: fcmToken
     }
-    console.log("getPushNotificationParamssss----------------->", params)
 
     dispatch(addPushNotification({
       params,
       onSuccess: (success) => () => {
-        console.log("successsssss----->", success)
       },
       onError: (error) => () => {
 
       }
     }))
   }
-  /**
-   * 
-   */
+
   return (
     <ScreenWrapper>
       <PushNotification />
-      <ToastContainer />
       <Routes>
         {getRoutes(AUTH_ROUTES, AUTH)}
         {getRoutes(HOME_ROUTES, HOME)}
@@ -93,6 +88,7 @@ function App() {
         {getRoutes(USER_COMPANY_ROTES, HOME)}
         <Route path={"*"} element={<PageNotFound />} />
       </Routes>
+      <ToastContainer />
     </ScreenWrapper>
 
   );

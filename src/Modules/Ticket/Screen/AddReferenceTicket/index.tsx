@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets } from "@Redux";
-import { Button,  NoDataFound, CommonTable,  Checkbox, showToast,Image } from "@Components";
-import { useInput,useNavigation} from "@Hooks";
+import { Button, NoDataFound, CommonTable, Checkbox, showToast, Image } from "@Components";
+import { useInput, useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, ADD_REFERENCE_TICKET, getValidateError, paginationHandler, SEARCH_PAGE } from "@Utils";
 import { icons } from "@Assets";
@@ -14,7 +14,7 @@ function AddReferenceTicket() {
   const { isSync } = useSelector((state: any) => state.AppReducer);
   const [selectedReferenceTickets, setSelectedReferenceTickets] = useState([...ticketReferenceDetails])
   const Search = useInput("");
-  const{goBack}=useNavigation();
+  const { goBack } = useNavigation();
   useEffect(() => {
     if (!isSync.tasks) {
       getSearchHandler(ticketCurrentPages)
@@ -67,9 +67,11 @@ function AddReferenceTicket() {
     setSelectedReferenceTickets(updatedSelectedReferenceTickets);
   };
 
-  const getSearchHandler = (pageNumber:any) => {
-    const params = { q_many: Search.value,
-      page_number: pageNumber, };
+  const getSearchHandler = (pageNumber: any) => {
+    const params = {
+      q_many: Search.value,
+      page_number: pageNumber,
+    };
     dispatch(
       getTickets({
         params,
@@ -96,7 +98,7 @@ function AddReferenceTicket() {
         issue: el.title,
         "raised by": el?.by_user.name,
         status: getStatusFromCode(dashboardDetails, el.ticket_status),
-        "assigned to": el?.assigned_to.name,
+        "assigned to": el?.assigned_to?.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
         '': <Checkbox id={el.id} onCheckChange={() => onSelectedTickets(el)}
@@ -140,8 +142,10 @@ function AddReferenceTicket() {
             </div>
           </div>
           <div className="col-lg-2 col-md-12 mt-lg-1 mt-sm-0 mt-md-3 mt-3 col-sm-12  text-right">
-            <Button text={translate("common.submit")} onClick={()=>{submitHandler()
-            goBack()}} />
+            <Button text={translate("common.submit")} onClick={() => {
+              submitHandler()
+              goBack()
+            }} />
           </div>
         </div>
       </div>
@@ -151,34 +155,34 @@ function AddReferenceTicket() {
 
 
             {tickets && tickets?.length > 0 ? <CommonTable
-            title={    <div className='row col pt-2 '>
-            <div
-            onClick={()=>goBack()} 
-            ><Image  
-                      size={'sm'}
-                      variant='rounded'
-                      className='bg-white mt--1  pl-1'
-                      src={icons.backArrow}   /></div>
-        <div className='pl-2'>  <h3>{'Reference Tickets'}</h3>
-        </div>
-          </div>}
-        
-            isPagination
-            tableDataSet={tickets}
-             displayDataSet={normalizedTableData(tickets)}
-             currentPage={ticketCurrentPages}
-             noOfPage={ticketNumOfPages}
-             paginationNumberClick={(currentPage) => {
-              getSearchHandler(paginationHandler("current", currentPage));
-             }}
-             previousClick={() => {
-              getSearchHandler(paginationHandler("prev",ticketCurrentPages))
-             }
-             }
-             nextClick={() => {
-              getSearchHandler(paginationHandler("next", ticketCurrentPages));
-             }
-             }
+              title={<div className='row col pt-2 '>
+                <div
+                  onClick={() => goBack()}
+                ><Image
+                    size={'sm'}
+                    variant='rounded'
+                    className='bg-white mt--1  pl-1'
+                    src={icons.backArrow} /></div>
+                <div className='pl-2'>  <h3>{'Reference Tickets'}</h3>
+                </div>
+              </div>}
+
+              isPagination
+              tableDataSet={tickets}
+              displayDataSet={normalizedTableData(tickets)}
+              currentPage={ticketCurrentPages}
+              noOfPage={ticketNumOfPages}
+              paginationNumberClick={(currentPage) => {
+                getSearchHandler(paginationHandler("current", currentPage));
+              }}
+              previousClick={() => {
+                getSearchHandler(paginationHandler("prev", ticketCurrentPages))
+              }
+              }
+              nextClick={() => {
+                getSearchHandler(paginationHandler("next", ticketCurrentPages));
+              }
+              }
 
             /> : <NoDataFound />}
 
