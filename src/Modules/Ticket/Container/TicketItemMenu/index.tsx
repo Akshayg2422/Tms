@@ -12,11 +12,10 @@ import {
 } from "react-redux";
 import {
     addTicketEvent,
-    addTaskEvent,
     refreshTicketEvents
 } from "@Redux";
 import { Employees } from '@Modules'
-import { useDropDown, useInput, useModal, useNavigation } from "@Hooks";
+import { useDropDown, useInput, useModal } from "@Hooks";
 import { icons } from "@Assets";
 import { TGU, RGU, getArrayFromArrayOfObject, EVS, getObjectFromArrayByKey, TICKET_STATUS_LIST } from '@Utils';
 import { translate } from '@I18n'
@@ -50,6 +49,7 @@ function TicketItemMenu() {
     const ticketCloseModal = useModal(false);
     const ticketStatusReason = useInput('')
     const status = useDropDown(getObjectFromArrayByKey(TICKET_STATUS_LIST, 'id', selectedTicket?.task_status));
+
 
     const [taggedUsers, setTaggedUsers] = useState([])
     const [reassignUser, setReassignUser] = useState<any>({})

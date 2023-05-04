@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert } from "@Components";
 import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates } from '@Utils'
@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 const START_TASK = 1
 const END_TASK = 2
 
-const TicketInfo = forwardRef(({ onClick }: TicketInfoProps, ref: any) => {
+const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
     const { id } = useParams()
 
@@ -96,11 +96,14 @@ const TicketInfo = forwardRef(({ onClick }: TicketInfoProps, ref: any) => {
         )
     }
 
+
     return (
-        <div ref={ref} >
-            <Card className={'overflow-auto'} style={{
+        <div >
+            <Card className={'overflow-auto'} 
+            style={{
                 height: height / 2
-            }}>
+            }} 
+            >
                 <div className="col">
                     <div className="row justify-content-between">
                         <Back />
@@ -137,7 +140,7 @@ const TicketInfo = forwardRef(({ onClick }: TicketInfoProps, ref: any) => {
                             <div className="row mt-3">
                                 <div className="col">
                                     <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
-                                    <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
+                                    <h5 className="text-uppercase">{ eta_time?getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)):''}</h5>
                                 </div>
                                 <div className="row ml-1 mr-3">
                                     <div className="pointer" onClick={() => editEtaModal.show()}>
@@ -225,5 +228,5 @@ const TicketInfo = forwardRef(({ onClick }: TicketInfoProps, ref: any) => {
             />
         </div>
     );
-})
+}
 export { TicketInfo };
