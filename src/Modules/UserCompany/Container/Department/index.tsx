@@ -31,8 +31,8 @@ function Department() {
 
   const dynamicHeight: any = useDynamicHeight()
   const [showDepartments, setShowDepartments] = useState(false);
-  const isUserAdmin = dashboardDetails.permission_details.is_admin
-  const isUserSuperAdmin = dashboardDetails.permission_details.is_super_admin
+  const isUserAdmin = dashboardDetails?.permission_details?.is_admin
+  const isUserSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
 
 
   const addDepartmentModal = useModal(false)

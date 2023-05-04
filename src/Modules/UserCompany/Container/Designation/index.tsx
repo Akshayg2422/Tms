@@ -26,8 +26,8 @@ function Designation() {
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-  const isUserAdmin = dashboardDetails.permission_details.is_admin
-  const isUserSuperAdmin = dashboardDetails.permission_details.is_super_admin
+  const isUserAdmin = dashboardDetails?.permission_details?.is_admin
+  const isUserSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
 
 
   const dispatch = useDispatch();

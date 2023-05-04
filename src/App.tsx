@@ -36,7 +36,7 @@ function App() {
 
   useEffect(() => {
 
-    if (loginDetails && loginDetails?.isLoggedIn) {
+    if (loginDetails && loginDetails?.isLoggedIn && fcmToken) {
       getPushNotification()
     }
   }, [fcmToken])
