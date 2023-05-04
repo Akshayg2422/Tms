@@ -10,7 +10,6 @@ import {
 import { HomeContainer, Tabs } from "@Components";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedTabPosition } from '@Redux'
-import { useParams } from 'react-router-dom'
 
 function TaskDetails() {
 
