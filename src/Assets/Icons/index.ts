@@ -107,7 +107,7 @@ export const icons = {
   backArrow: require('./BackArrow/icon.png'),
   questionMark: require('./RoundedQuestionMark/icon.png'),
   issuesProblem: require('./IssuesProblem/problem.png'),
-  broadCast: require('./Broadcast/icon.png'),
+  broadCast: require('./BroadcastMessage/icon.png'),
   bellIcon: require('./BellIcon/icon.png'),
   editLineIcon: require('./EditLine/editing.png'),
   subTask: require('./SubTask/icon.png'),
