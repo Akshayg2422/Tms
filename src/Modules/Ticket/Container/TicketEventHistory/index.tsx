@@ -37,7 +37,7 @@ function TicketEventHistory({ }: TicketEventHistoryProps) {
     return (
         <div>
            
-             {
+             {/* {
                 ticketEventHistories && ticketEventHistories?.length > 0 && ticketEventHistories?.map((ticketEvent: any, index: number) => {
                     const { by_user, created_at, tagged_users, assigned_to, event_type } = ticketEvent
                     const show = index !== ticketEventHistories.length - 1
@@ -59,7 +59,7 @@ function TicketEventHistory({ }: TicketEventHistoryProps) {
                         </TimeLine >
                     )
                 })
-            } 
+            }  */}
         </div >
     )
 }
