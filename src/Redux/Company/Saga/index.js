@@ -1,181 +1,77 @@
-import {takeLatest, put, call} from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import {
-  raiseNewTicketApi,
-  getTicketsApi,
-  getTicketEventsApi,
-  addTicketEventApi,
-  getTicketTagsApi,
-  getEmployeeApi,
-  addEmployeeApi
+  addBroadCastMessagesApi,
+  getBroadCastMessagesApi,
 
 } from '@Services';
 import {
-  showLoader,
-  hideLoader,
-  RAISE_NEW_TICKET,
-  GET_TICKETS,
-  GET_TICKET_EVENTS,
-  GET_TICKET_TAGS,
-  ADD_TICKET_EVENT,
-  getTickets,
-  getTicketsSuccess,
-  getTicketsFailure,
-  addTicketEventFailure,
-  addTicketEvent,
-  addTicketEventSuccess,
-  getTicketTags,
-  getTicketTagsFailure,
-  raiseNewTicketSuccess,
-  raiseNewTicketFailure,
-  getTicketTagsSuccess,
-  getTicketsEvents,
-  getTicketsEventsFailure,
-  getTicketsEventsSuccess,
-  GET_EMPLOYEE,
-  getEmployeeSuccess,
-  getEmployeeFailure,
-  ADD_EMPLOYEE,
-  addEmployeeSuccess,
-  addEmployeeFailure
+  ADD_BROADCAST_MESSAGES,
+  GET_BROADCAST_MESSAGES,
+  addBroadCastMessagesSuccess,
+  addBroadCastMessagesFailure,
+  getBroadCastMessagesSuccess,
+  getBroadCastMessagesFailure,
 } from '@Redux';
 
-function* raiseNewTicketSaga(action) {
+function* addBroadCastMessagesSaga(action) {
   try {
-    yield put(showLoader());
-    const response = yield call(raiseNewTicketApi, action.payload.params);
+    const response = yield call(addBroadCastMessagesApi, action.payload.params);
     if (response.success) {
-      yield put(hideLoader());
-      yield put(raiseNewTicketSuccess(response));
+      yield put(addBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(hideLoader());
-      yield put(raiseNewTicketFailure(response));
+      yield put(addBroadCastMessagesFailure(response));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
+    yield put(addBroadCastMessagesFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
-function* getTicketsSaga(action) {
+function* getBroadCastMessagesSaga(action) {
+
   try {
-    yield put(showLoader());
-    const response = yield call(getTicketsApi, action.payload.params);
+    const response = yield call(getBroadCastMessagesApi, action.payload.params);
     if (response.success) {
-      yield put(hideLoader());
-      yield put(getTicketsSuccess({...response}));
+      yield put(getBroadCastMessagesSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(hideLoader());
-      yield put(getTicketsFailure({...response}));
+      yield put(getBroadCastMessagesFailure(response));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(hideLoader());
+    yield put(getBroadCastMessagesFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 
-function* getTicketEventsSaga(action) {
-  try {
-    // yield put(showLoader());
-    const response = yield call(getTicketEventsApi, action.payload.params);
+// function* addUpdateEmployeePhotoSaga(action) {
+//   try {
+//     yield put(showLoader());
+//     const response = yield call(updateEmployeeProfilePhotoApi, action.payload.params);
 
-    console.log(JSON.stringify());
-    if (response.success) {
-      // yield put(hideLoader());
-      yield put(getTicketsEventsSuccess({...response}));
-      yield call(action.payload.onSuccess(response));
-    } else {
-      // yield put(hideLoader());
-      yield put(getTicketsEventsFailure({...response}));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-    // yield put(hideLoader());
-  }
-}
+//     if (response.success) {
+//       yield put(hideLoader());
+//       yield put(addUpdateEmployeePhotoSuccess(response));
+//       yield call(action.payload.onSuccess(response));
+//     } else {
+//       yield put(hideLoader());
+//       yield put(addUpdateEmployeePhotoFailure(response.error_message));
+//       yield call(action.payload.onError(response));
+//     }
+//   } catch (error) {
 
-function* addTicketEventSaga(action) {
-  try {
-    // yield put(showLoader());
-    const response = yield call(addTicketEventApi, action.payload.params);
-    if (response.success) {
-      // yield put(hideLoader());
-      yield put(addTicketEventSuccess(response));
-      yield call(action.payload.onSuccess(response));
-    } else {
-      // yield put(hideLoader());
-      yield put(addTicketEventFailure(response));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-    // yield put(hideLoader());
-  }
-}
+//     yield put(hideLoader());
+//     yield put(addUpdateEmployeePhotoFailure(error));
+//     yield call(action.payload.onError(error));
 
-function* getTicketTagsSaga(action) {
-  try {
-    yield put(showLoader());
-    const response = yield call(getTicketTagsApi, action.payload.params);
-    if (response.success) {
-      yield put(hideLoader());
-      yield put(getTicketTagsSuccess(response));
-      yield call(action.payload.onSuccess(response));
-    } else {
-      yield put(hideLoader());
-      yield put(getTicketTagsFailure(response));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-    yield put(hideLoader());
-  }
-}
-
-
-function* getEmployeeSaga(action) {
-  try {
-    yield put(showLoader());
-    const response = yield call(getEmployeeApi, action.payload.params);
-    if (response.success) {
-      yield put(hideLoader());
-      yield put(getEmployeeSuccess(response.details));
-      yield call(action.payload.onSuccess(response));
-    } else {
-      yield put(hideLoader());
-      yield put(getEmployeeFailure(response.error_message));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-    yield put(hideLoader());
-  }
-}
-
-function* addEmployeeSaga(action) {
-  try {
-    yield put(showLoader());
-    const response = yield call(addEmployeeApi, action.payload.params);
-    if (response.success) {
-      yield put(hideLoader());
-      yield put(addEmployeeSuccess({...response}));
-      yield call(action.payload.onSuccess(response));
-    } else {
-      yield put(hideLoader());
-      yield put(addEmployeeFailure(response));
-      yield call(action.payload.onError(response));
-    }
-  } catch (error) {
-    yield put(hideLoader());
-  }
-}
+//   }
+// }
 
 function* CompanySaga() {
-  yield takeLatest(RAISE_NEW_TICKET, raiseNewTicketSaga);
-  yield takeLatest(GET_TICKETS, getTicketsSaga);
-  yield takeLatest(GET_TICKET_EVENTS, getTicketEventsSaga);
-  yield takeLatest(GET_TICKET_TAGS, getTicketTagsSaga);
-  yield takeLatest(ADD_TICKET_EVENT, addTicketEventSaga);
-  yield takeLatest(GET_EMPLOYEE,getEmployeeSaga);
-  yield takeLatest(ADD_EMPLOYEE,addEmployeeSaga);
-}
+  yield takeLatest(ADD_BROADCAST_MESSAGES, addBroadCastMessagesSaga)
+  yield takeLatest(GET_BROADCAST_MESSAGES, getBroadCastMessagesSaga)
 
+}
 export default CompanySaga;

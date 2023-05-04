@@ -1,128 +1,244 @@
-import {Issues, Companies, Settings, OpenTicket, ClosedTicket, OtherTicket,CompanyInfo} from '@Modules'
-import {Login, Otp, Splash, RegisterUser} from '@Modules'
+import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Ticket, AddTicket } from '@Modules'
+import { Login, Otp, Landing, Splash } from '@Modules'
+import { icons } from '@Assets'
 
-export const ROUTES = {
-  AUTH: {
-    LOGIN: "/login",
-    SPLASH: "/",
-    OTP: "/otp",
-    REGISTER: '/register',
-    VIEW_GOOGLE_BUSINESS: '/view-google-business'
-  },
-  HOME: {
-    Admin: "/admin/issues",
-    Company: "/company/open",
-    DASHBOARD: "/dashboard",
-  },
-};
-
-export const AUTH_PATH = {
-  SPLASH: "/",
-  LOGIN: "/login",
-  OTP: "/otp",
-  REGISTER: '/register',
-};
 
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
   CREATE_COMPANY: "/create-company",
- }
- 
- export const INFO ={
-  DASHBOARD: "/admin",
-  COMPANY: "/company",
-  COMPANY_INFO:"/CompanyInfo"
- }
+  COMPANY_INFO: "/company-info",
+  ADD_USER: "/add-user",
+  ISSUE_DETAILS: "/issue-details",
+  ADD_REFERENCE_TICKET: '/add-reference-ticket',
+  ADD_REFERENCE_TASK: '/add-reference-task',
+  ISSUE_TICKET: '/issue-ticket',
+  CREATE_BROAD_CAST: '/create-broad-cast',
+  ADD_TASK: '/add-task',
+  ADD_SUB_TASK: '/add-sub-task',
+  TASK_DETAILS: '/task-details',
+  TICKET_DETAILS: '/ticket-details',
+  ADD_TICKET: './add-ticket'
+}
 
-
+export const ROUTES = {
+  'auth-module': {
+    login: '/login',
+    otp: '/otp',
+    splash: '/splash',
+    register: '/register',
+    landing: '/'
+  },
+  'task-module': {
+    tasks: '/tasks',
+    'tasks-details': '/tasks-details',
+    'reference-task': '/reference-task',
+    'add-task': '/add-task',
+    'add-sub-task': '/add-sub-task',
+  },
+  'ticket-module': {
+    ticket: '/ticket',
+    'ticket-details': '/ticket-details',
+    'add-ticket': '/add-ticket',
+  },
+  'user-company-module': {
+    companies: '/companies',
+    "company-details": '/company-details',
+    "add-company": '/add-company',
+    "add-user": '/add-user',
+    profile: '/profile',
+    setting: '/setting'
+  },
+  'message-module': {
+    broadcast: '/broadcast',
+    'create-broadcast': '/create-broadcast',
+  }
+}
 
 export const AUTH_ROUTES = [
+
   {
     key: 1,
-    path: AUTH_PATH.SPLASH,
-    component: <Splash/>
+    path: ROUTES['auth-module'].landing,
+    component: <Landing />
   },
   {
     key: 2,
-    path: AUTH_PATH.LOGIN,
-    component: <Login/>
+    path: ROUTES['auth-module'].login,
+    component: <Login />
   },
   {
     key: 3,
-    path: AUTH_PATH.OTP,
-    component: <Otp/>
+    path: ROUTES['auth-module'].otp,
+    component: <Otp />
   },
+  {
+    key: 4,
+    path: ROUTES['auth-module'].splash,
+    component: <Splash />
+  },
+
 ];
 
 
 
+export const HOME_ROUTES = [
+  {
+    path: ROUTES['task-module'].tasks,
+    name: "Tasks",
+    icon: icons.task,
+    layout: "",
+    component: <Tasks />
+  },
+  {
+    path: ROUTES['ticket-module'].ticket,
+    name: "Tickets",
+    icon: icons.issue,
+    layout: "",
+    component: <Ticket />
+  },
+  {
+    path: ROUTES['user-company-module'].companies,
+    name: "Companies",
+    icon: icons.company,
+    layout: "",
+    component: <Companies />
+  },
+  {
+    path: ROUTES['message-module'].broadcast,
+    name: "Broadcast",
+    icon: icons.broadCast,
+    layout: "",
+    component: <Broadcast />
+  },
+  {
+    path: ROUTES['user-company-module'].profile,
+    name: "Profile",
+    icon: icons.profile,
+    layout: "",
+    component: <Profile />
+  },
+  {
+    path: ROUTES['user-company-module'].setting,
+    name: "Settings",
+    icon: icons.setting,
+    layout: "",
+    component: <Setting />
+  }
+];
+
+export const TASK_ROUTES = [
+  {
+    key: 1,
+    path: ROUTES['task-module']['tasks-details'] + '/:id',
+    component: <TaskDetails />
+  },
+  {
+    key: 2,
+    path: ROUTES['task-module']['reference-task'],
+    component: <AddReferenceTask />
+  },
+
+
+  {
+    key: 3,
+    path: ROUTES['task-module']['add-task'],
+    component: <AddTask />
+  },
+
+  {
+    key: 4,
+    path: ROUTES['task-module']['add-sub-task'],
+    component: <AddSubTask />
+  },
+
+];
+
+export const TICKET_ROUTES = [
+  {
+    key: 2,
+    path: ROUTES['ticket-module']['add-ticket'],
+    component: <AddTicket />
+  }
+
+
+];
+
+
+export const MESSAGE_ROUTES = [
+  {
+    key: 1,
+    path: ROUTES['message-module']['create-broadcast'],
+    component: <CreateBroadCast />
+  },
+];
+
+export const USER_COMPANY_ROTES = [
+  {
+    key: 1,
+    path: ROUTES['user-company-module']['company-details'],
+    component: <CompanyDetails />
+  },
+  {
+    key: 2,
+    path: ROUTES['user-company-module']['add-company'],
+    component: <CreateCompany />
+  },
+  {
+    key: 3,
+    path: ROUTES['user-company-module']['add-user'],
+    component: <AddUser />
+  },
+];
+
+
 export const ADMIN_ROUTES = [
-  
+
+  {
+    path: "/profile",
+    name: "Profile",
+    icon: "bi bi-person-circle text-primary",
+    layout: "",
+    component: <Profile />
+  },
+  {
+    path: "/tasks",
+    name: "Tasks",
+    icon: "bi bi-list-task text-primary",
+    layout: "",
+    component: <Tasks />
+  },
+
   {
     path: "/issues",
-    name: "Issues",
-    icon: "ni ni-bell-55 text-red",
-    layout: "/admin",
-    component: <Issues/>
+    name: "Tickets",
+    icon: "bi bi-bell text-primary",
+    layout: "",
+    component: <Ticket />
   },
   {
     path: "/companies",
     name: "Companies",
-    icon: "ni ni-square-pin text-primary",
-    layout: "/admin",
-    component: <Companies/>
-  }, {
+    icon: "bi bi-geo-alt text-primary",
+    layout: "",
+    component: <Companies />
+  },
+  {
+    path: "/broadCast",
+    name: "Broadcast",
+    icon: "bi bi-megaphone text-primary",
+    layout: "",
+    component: <Broadcast />
+  },
+
+  {
     path: "/settings",
     name: "Settings",
-    icon: "ni ni-settings-gear-65 text-gray",
-    layout: "/admin",
-    component: <Settings/>
-  },
-];
-
-export const COMPANY_ROUTES = [
-  {
-    collapse: true,
-    name: "Tickets",
-    icon: "ni ni-single-copy-04 text-pink",
-    state: "dashboardsCollapse",
-    views: [
-      {
-        path: "/opened",
-        name: "Opened",
-        miniName: "OP",
-        component: <OpenTicket />,
-        layout: "/company",
-
-      },
-      {
-        path: "/closed",
-        name: "Closed",
-        miniName: "CL",
-        component: <ClosedTicket />,
-        layout: "/company",
-      },
-      {
-        path: "/others",
-        name: "Others",
-        miniName: "OT",
-        component: <OtherTicket />,
-        layout: "/company",
-      },
-    ],
-  },
-  {
-    path: "/setting",
-    name: "Settings",
-    icon: "ni ni-settings-gear-65 text-gray",
-    layout: "/company",
-    component: <Settings />
-  },
-
-  
-
+    icon: "bi bi-gear text-primary",
+    layout: "",
+    component: <Setting />
+  }
 ];
 
 export * from "./RequireAuth";

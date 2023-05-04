@@ -1,0 +1,291 @@
+import { TaskStateProp } from '../../Interfaces';
+import * as ActionTypes from '../ActionTypes'
+
+const initialState: TaskStateProp = {
+  taskGroups: undefined,
+  tasks: undefined,
+  taskNumOfPages: undefined,
+  taskCurrentPages: 1,
+  selectedTask: undefined,
+  addTaskEvents: undefined,
+  taskEventHistories: undefined,
+  subTasks: undefined,
+  taskEvents: undefined,
+  taskEventsNumOfPages: undefined,
+  taskEventsCurrentPages: 1,
+  referencesTasks: undefined,
+  referencesTasksNumOfPages: undefined,
+  referencesTasksCurrentPages: 1,
+  taskUsers: undefined,
+  refreshTaskEvents: false,
+  taskEventAttachments: [],
+  taskEventAttachmentsCurrentPage: 1,
+  selectedTabPositions: { id: '1' },
+  taskDetails: {},
+  subTaskGroups: undefined
+};
+
+const TaskReducer = (state = initialState, action: any) => {
+  switch (action.type) {
+    //get task groups
+
+    case ActionTypes.GET_TASK_GROUPS_L:
+      state = {
+        ...state,
+        taskGroups: undefined,
+      };
+      break;
+    case ActionTypes.GET_TASK_GROUPS_L_SUCCESS:
+      state = {
+        ...state,
+        taskGroups: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_TASK_GROUPS_L_FAILURE:
+      state = { ...state, taskGroups: action.payload };
+      break;
+
+
+    /**
+  * Get Tasks
+  */
+    case ActionTypes.GET_TASKS:
+      state = {
+        ...state,
+        tasks: undefined,
+        taskNumOfPages: 0,
+        taskCurrentPages: 1,
+      }
+      break;
+    case ActionTypes.GET_TASKS_SUCCESS:
+      state = {
+        ...state,
+        tasks: action.payload?.details.data,
+        taskNumOfPages: action.payload?.details.num_pages,
+        taskCurrentPages:
+          action.payload?.details.next_page === -1
+            ? action.payload?.details.num_pages
+            : action.payload?.details.next_page - 1
+      }
+      break;
+    case ActionTypes.GET_TASKS_FAILURE:
+      state = { ...state, tasks: undefined }
+      break;
+
+    /**
+     * selected Task
+     */
+    case ActionTypes.SELECTED_TASK_ITEM:
+      state = { ...state, selectedTask: action.payload }
+      break;
+
+    /** 
+     * Add Task Event
+     */
+    case ActionTypes.ADD_TASK_EVENT:
+      state = {
+        ...state,
+        addTaskEvents: undefined,
+      };
+      break;
+    case ActionTypes.ADD_TASK_EVENT_SUCCESS:
+      state = {
+        ...state,
+        addTaskEvents: action.payload.details,
+      };
+      break;
+    case ActionTypes.ADD_TASK_EVENT_FAILURE:
+      state = { ...state, addTaskEvents: undefined };
+      break;
+
+    /**
+     * get Task Event History
+     */
+
+    case ActionTypes.GET_TASK_EVENT_HISTORY:
+      state = {
+        ...state
+      };
+
+      break;
+    case ActionTypes.GET_TASK_EVENT_HISTORY_SUCCESS:
+      state = {
+        ...state, taskEventHistories: action.payload?.details.data,
+      };
+      break;
+    case ActionTypes.GET_TASK_EVENT_HISTORY_FAILURE:
+      state = { ...state, taskEventHistories: action.payload };
+      break;
+
+    /**
+     * sub tasks
+     */
+
+    /* GET SUB TASK*/
+
+    case ActionTypes.GET_SUB_TASKS:
+      state = { ...state, subTasks: undefined }
+      break;
+    case ActionTypes.GET_SUB_TASKS_SUCCESS:
+      state = { ...state, subTasks: action.payload?.details.data }
+      break;
+    case ActionTypes.GET_SUB_TASKS_FAILURE:
+      state = { ...state, subTasks: action.payload }
+      break;
+
+
+    /**
+     * get Task Events
+     */
+
+    case ActionTypes.GET_TASK_EVENTS:
+
+      const { page_number } = action.payload.params
+      state = {
+        ...state,
+        taskEvents: page_number === 1 ? [] : state.taskEvents
+      };
+      break;
+    case ActionTypes.GET_TASK_EVENTS_SUCCESS:
+
+
+      state = {
+        ...state,
+        taskEvents: [...state.taskEvents, ...action.payload.details.data],
+        taskEventsCurrentPages:
+          action.payload.details.next_page
+      };
+      break;
+
+    case ActionTypes.GET_TASK_EVENTS_FAILURE:
+      state = { ...state, taskEvents: action.payload };
+      break;
+
+    /**
+     * get Reference task
+     */
+
+    //GET REFERENCE TASKS
+    case ActionTypes.GET_REFERENCE_TASKS:
+      state = {
+        ...state,
+        referencesTasks: undefined,
+        referencesTasksNumOfPages: 0,
+        referencesTasksCurrentPages: 1,
+      };
+      break;
+    case ActionTypes.GET_REFERENCE_TASKS_SUCCESS:
+
+
+      state = {
+        ...state,
+        referencesTasks: action.payload.details.data,
+        referencesTasksNumOfPages: action?.payload?.details.num_pages,
+        referencesTasksCurrentPages:
+          action?.payload?.details.next_page === -1
+            ? action?.payload?.details.num_pages
+            : action?.payload?.details.next_page - 1,
+      };
+      break;
+    case ActionTypes.GET_REFERENCE_TASKS_FAILURE:
+      state = {
+        ...state,
+        referencesTasks: action.payload,
+      };
+      break;
+
+
+    /**
+     * get Task User
+     */
+
+    case ActionTypes.GET_TASK_USERS:
+      state = { ...state, taskUsers: undefined }
+      break;
+    case ActionTypes.GET_TASK_USERS_SUCCESS:
+      state = { ...state, taskUsers: action.payload?.details }
+      break;
+    case ActionTypes.GET_TASK_USERS_FAILURE:
+      state = { ...state, taskUsers: undefined }
+      break;
+
+
+    /**
+     * refresh Tasks 
+     */
+
+    case ActionTypes.REFRESH_TASK_EVENTS:
+      state = { ...state, refreshTaskEvents: !state.refreshTaskEvents }
+      break;
+
+
+    // SELECTED TABS
+
+    case ActionTypes.SELECTED_TAB_POSITION:
+      console.log('---', action.payload,)
+      state = {
+        ...state,
+        selectedTabPositions: action.payload,
+      };
+      break;
+    /**
+     * get Task Event Attachments
+     */
+
+
+    case ActionTypes.GET_TASK_EVENT_ATTACHMENTS:
+      state = {
+        ...state,
+        taskEventAttachments: action.payload.params.page_number === 1 ? [] : state.taskEventAttachments
+      };
+      break;
+    case ActionTypes.GET_TASK_EVENT_ATTACHMENTS_SUCCESS:
+      state = {
+        ...state,
+        taskEventAttachments: [...state.taskEventAttachments, ...action.payload.details.data],
+        taskEventAttachmentsCurrentPage:
+          action.payload.details.next_page
+      };
+      break;
+
+    case ActionTypes.GET_TASK_EVENT_ATTACHMENTS_FAILURE:
+      state = { ...state, taskEventAttachments: undefined };
+      break;
+
+    /* GET TASK DETAILS */
+
+    case ActionTypes.GET_TASK_DETAILS:
+      state = { ...state, taskDetails: undefined }
+      break;
+    case ActionTypes.GET_TASK_DETAILS_SUCCESS:
+      state = { ...state, taskDetails: action.payload?.details }
+      break;
+    case ActionTypes.GET_TASK_DETAILS_FAILURE:
+      state = { ...state, taskDetails: undefined }
+      break;
+
+
+
+    /* GET TASK DETAILS */
+
+    case ActionTypes.GET_SUB_TASK_GROUPS:
+      state = { ...state, subTaskGroups: undefined }
+      break;
+    case ActionTypes.GET_SUB_TASK_GROUPS_SUCCESS:
+      console.log(JSON.stringify(action.payload));
+
+      state = { ...state, subTaskGroups: action.payload?.details }
+      break;
+    case ActionTypes.GET_SUB_TASK_GROUPS_FAILURE:
+      state = { ...state, subTaskGroups: undefined }
+      break;
+
+    default:
+      state = state;
+      break;
+  }
+
+  return state;
+};
+
+export { TaskReducer };

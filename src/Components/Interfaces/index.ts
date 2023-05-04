@@ -6,8 +6,11 @@ export type ButtonVariants = 'default' | 'icon' | 'icon-with-text' | 'icon-round
 export type InputVariants = 'default' | 'alternative' | 'flush' | 'muted'
 
 export type Option = {
-    id: string;
-    text: string;
-    other?: string
+    id?: number | string;
+    text?: string;
+    other?: string;
+    color?: string;
+    icon?: any;
+    value?: string
 }
 

@@ -1,17 +1,17 @@
 import React from "react";
 import { OtpInputProps } from "./interfaces";
-import { Input } from "@Components";
-function OtpInput({ ...props }: OtpInputProps) {
+import { Input as RsInput } from 'reactstrap'
+
+const OtpInput = React.forwardRef(({ ...props }: OtpInputProps, ref: any) => {
   return (
-    <Input
+    <RsInput
+      ref={ref}
       {...props}
-      className={"text-center bg-secondary ml-2 font-weight-bold mb-0"}
+      className={'text-center bg-secondary ml-2 font-weight-bold mb-0 form-control'}
       maxLength={1}
-      type={"number"}
-      placeholder={"0"}
-      style={{ width: "50px", height: "50px", fontSize: "16px" }}
-    />
+      type={'number'}
+      style={{ width: "50px", height: "50px", fontSize: "16px" }} />
   );
-}
+});
 
 export { OtpInput };

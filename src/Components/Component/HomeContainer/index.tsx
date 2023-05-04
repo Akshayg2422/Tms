@@ -1,13 +1,21 @@
 import React from "react";
-import { Card } from "@Components";
 import { HomeContainerProps } from "./interfaces";
-function HomeContainer({ children, title, isCard = false }: HomeContainerProps) {
+import { Card } from '@Components'
+
+function HomeContainer({ children, title, className, type = 'default', style }: HomeContainerProps) {
   return (
-    <div className="container-fluid">
-        <div className="row my-4 justify-content-center">
-          {isCard ? <Card className="col-sm-8"  title={title}>{children}</Card> : <div className="col-sm-8">{children}</div>}
-        </div>
-     </div>
+    <>
+      {type === 'default' && <div className={`${className}`} style={style}>{children}</div>}
+      {type === 'card' &&
+        <Card
+          className={`${className}`}
+          style={style}
+          title={title}
+        >
+          {children}
+        </Card>
+      }
+    </>
   );
 }
 export { HomeContainer };

@@ -1,27 +1,41 @@
+import React, { useEffect } from "react";
+import { useLocation, Route, Routes, Navigate, redirect } from "react-router-dom";
+import { Sidebar } from "@Components";
+import {
 
-import React, { useEffect } from 'react';
-import { useLocation, Route, Routes, Navigate } from "react-router-dom";
-import { Sidebar } from '@Components'
-import { ADMIN_ROUTES, HOME_PATH, INFO } from '@Routes'
-import { icons } from '@Assets'
-import { CompanyInfo, CreateCompany } from '@Modules'
-import {getDashboard} from '@Redux';
-import {useDispatch} from 'react-redux'
+  ADMIN_ROUTES,
+
+
+
+} from "@Routes";
+import { icons } from "@Assets";
+import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, IssueCreate, CompanyDetails, IssueDetails, AddReferenceTicket, AddTask, TaskDetails, AddSubTask, AddReferenceTask } from "@Modules";
+import { getDashboard, setIsSync, autoCompleteDropDown } from "@Redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function AdminDashboard() {
-
   const [sideNavOpen, setSideNavOpen] = React.useState(true);
   const location = useLocation();
   const mainContentRef = React.useRef<HTMLDivElement | null>(null);
-
-
+  const { isSync } = useSelector(
+    (state: any) => state.AppReducer
+  );
 
   const dispatch = useDispatch();
-  
-  useEffect(() => {
-    dispatch(getDashboard({}));
-  }, []);
 
+  useEffect(() => {
+    if (!isSync.dashboardDetails) {
+      dispatch(
+        getDashboard({
+          params: {},
+          onSuccess: () => () => {
+
+          },
+          onError: () => () => { },
+        })
+      );
+    }
+  }, []);
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -32,45 +46,42 @@ function AdminDashboard() {
   }, [location]);
 
   /**
-   * toggles collapse between mini sidenav and normal 
+   * toggles collapse between mini sidenav and normal
    **/
 
-
-
   const getRoutes = (routes: any) => {
-    // console.log(JSON.stringify(routes));
 
     return routes.map((prop: any, key: any) => {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
       if (prop.layout === "/admin") {
-        return (
-          <Route
-            path={prop.path}
-            element={prop.component}
-            key={key}
-          />
-        );
+        return <Route path={prop.path} element={prop.component} key={key} />;
       } else {
         return null;
       }
     });
   };
 
-
-
   const toggleSideNav = () => {
-    if (document.body.classList.contains('g-sidenav-pinned')) {
-      document.body.classList.remove('g-sidenav-pinned');
-      document.body.classList.add('g-sidenav-hidden');
+    if (document.body.classList.contains("g-sidenav-pinned")) {
+      document.body.classList.remove("g-sidenav-pinned");
+      document.body.classList.add("g-sidenav-hidden");
+
+      dispatch(
+        autoCompleteDropDown(false)
+      )
+
     } else {
-      document.body.classList.add('g-sidenav-pinned');
-      document.body.classList.remove('g-sidenav-hidden');
+      document.body.classList.add("g-sidenav-pinned");
+      document.body.classList.remove("g-sidenav-hidden");
+
+      dispatch(
+        autoCompleteDropDown(true)
+      )
     }
     setSideNavOpen(!sideNavOpen);
   };
-
 
   return (
     <>
@@ -78,26 +89,37 @@ function AdminDashboard() {
         routes={ADMIN_ROUTES}
         toggleSideNav={toggleSideNav}
         sideNavOpen={sideNavOpen}
+        rtlActive={false}
         logo={{
-          innerLink: '/',
+          innerLink: "/",
           imgSrc: icons.logo,
-          imgAlt: '...',
+          imgAlt: "...",
         }}
       />
 
-      <div className={'main-content'} ref={mainContentRef}>
-        <Routes>
-          {getRoutes(ADMIN_ROUTES)}
-          <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany/>} />
-          <Route path={INFO.COMPANY_INFO} element={<CompanyInfo/>} />
-          {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
-        </Routes>
-      </div>
+      {/* <div className={"main-content"} ref={mainContentRef}>
+        <Routes> */}
+      {/* {getRoutes(ADMIN_ROUTES)}
+          <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany />} />
+          <Route path={HOME_PATH.COMPANY_INFO} element={<CompanyDetails />} />
+          <Route path={HOME_PATH.ADD_USER} element={<AddUser />} />
+          <Route path={HOME_PATH.ISSUE_DETAILS} element={<IssueDetails />} />
+          <Route path={HOME_PATH.ADD_REFERENCE_TICKET} element={<AddReferenceTicket />} />
+          <Route path={HOME_PATH.ADD_REFERENCE_TASK} element={<AddReferenceTask />} />
+          <Route path={HOME_PATH.CREATE_BROAD_CAST} element={<CreateBroadCast />} />
+          <Route path={HOME_PATH.ISSUE_TICKET} element={<IssueCreate />} />
+          <Route path={HOME_PATH.ADD_TASK} element={<AddTask />} />
+          <Route path={HOME_PATH.TASK_DETAILS+'/:id'} element={<TaskDetails />} />
+          <Route path={HOME_PATH.ADD_SUB_TASK} element={<AddSubTask />} /> */}
+      {/* <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} /> */}
+      {/* <Route path={CREATE_BROAD_CAST.BROAD_CAST} element={<CreateBroadCast/>} /> */}
+      {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
+      {/* </Routes>
+      </div> */}
 
       {sideNavOpen ? (
-        <div className={'backdrop d-xl-none'} onClick={toggleSideNav} />
+        <div className={""} onClick={toggleSideNav} />
       ) : null}
-
     </>
   );
 }

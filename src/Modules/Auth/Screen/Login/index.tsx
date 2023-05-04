@@ -1,10 +1,10 @@
 import React from "react";
-import { Card, Input, Button, H, Logo, Radio, showToast } from "@Components";
+import { Input, Button, H, Logo, Radio, showToast, ComponentLoader } from "@Components";
 import { translate } from "@I18n";
-import { LANGUAGES, BUSINESS, validate, MOBILE_NUMBER_RULES, ifObjectExist } from "@Utils";
-import { useInput, useNavigation } from "@Hooks";
+import { LANGUAGES, BUSINESS, validate, MOBILE_NUMBER_RULES, ifObjectExist, getValidateError } from "@Utils";
+import { useInput, useNavigation, useLoader } from "@Hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { AUTH_PATH } from '@Routes'
+import { ROUTES } from '@Routes'
 
 import {
   validateUserBusiness,
@@ -15,16 +15,17 @@ import {
 function Login() {
 
   const { goTo } = useNavigation()
+
   const mobileNumber = useInput("");
   const dispatch = useDispatch();
 
-  const {language } = useSelector(
+  const { language } = useSelector(
     (state: any) => state.AuthReducer
   );
 
+  const validateLoader = useLoader(false);
+
   const validateUserBusinessApiHandler = () => {
-
-
     const params = {
       mobile_number: mobileNumber.value,
       ln: language.value,
@@ -34,27 +35,29 @@ function Login() {
     const validation = validate(MOBILE_NUMBER_RULES, params);
 
     if (ifObjectExist(validation)) {
+      validateLoader.show()
       dispatch(
         validateUserBusiness({
           params,
-          onSuccess: () => {
+          onSuccess: (response) => () => {
+            validateLoader.hide()
             dispatch(setRegisteredMobileNumber(mobileNumber.value));
-            goTo(AUTH_PATH.OTP)
+            goTo(ROUTES["auth-module"].otp)
           },
-          onError: () => {
-            dispatch(setRegisteredMobileNumber(mobileNumber.value));
-            goTo(AUTH_PATH.OTP)
+          onError: (error) => () => {
+            validateLoader.hide()
+            showToast(error.error_message, 'error');
           },
         })
       );
     } else {
-      showToast(validation.mobileNumber + "");
+      showToast(getValidateError(validation));
     }
   };
 
   return (
-    <div className="container vh-100 d-flex justify-content-center align-items-center">
-      <Card className="col-sm-9 col-md-7">
+    <div className="custom-gradient vh-100 d-flex justify-content-center align-items-center">
+      <div className="col-sm-9 col-md-6 col-lg-4">
         <Logo />
         <div className="my-5">
           <Input
@@ -68,6 +71,7 @@ function Login() {
           <H tag={"h5"} text={translate("auth.chooseLanguge")} />
           <Radio
             selected={language}
+            selectItem={language}
             data={LANGUAGES}
             onRadioChange={(selected) => {
               if (selected) {
@@ -76,18 +80,17 @@ function Login() {
             }}
           />
         </div>
+        <ComponentLoader loading={validateLoader.loader}>
+          <Button
+            block
+            text={translate("common.submit")}
+            onClick={() => {
+              validateUserBusinessApiHandler();
+            }}
+          />
+        </ComponentLoader>
 
-        <Button
-          block
-          text={translate("common.submit")}
-          onClick={() => {
-            validateUserBusinessApiHandler();
-          }}
-        />
-        <div className="text-center">
-          <small className="pointer p-1">{translate("common.register")}</small>
-        </div>
-      </Card>
+      </div>
     </div>
   );
 }

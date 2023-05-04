@@ -17,60 +17,66 @@ import {
   GET_USER_BUSINESS_PLACES,
   GET_USER_BUSINESS_PLACES_SUCCESS,
   GET_USER_BUSINESS_PLACES_FAILURE,
-  REGISTER_ADMIN,
-  REGISTER_ADMIN_SUCCESS,
-  REGISTER_ADMIN_FAILURE,
+ 
   BRAND_SECTOR,
   BRAND_SECTOR_SUCCESS,
   BRAND_SECTOR_FAILURE,
   BUSINESS_PLACES_DETAILS,
   BUSINESS_PLACES_DETAILS_SUCCESS,
   BUSINESS_PLACES_DETAILS_FAILURE,
-  REGISTER_COMPANY,
-  REGISTER_COMPANY_SUCCESS,
-  REGISTER_COMPANY_FAILURE,
+
   SECTOR_SERVICE_TYPES,
   SECTOR_SERVICE_TYPES_SUCCESS,
   SECTOR_SERVICE_TYPES_FAILURE,
   SELECT_BUSINESS_PLACE_ID,
   OTP_LOGIN,
   OTP_LOGIN_FAILURE,
-  OTP_LOGIN_SUCCESS
+  OTP_LOGIN_SUCCESS,
+  RESTORE_AUTH,
+  PUSH_NOTIFICATION,
+  PUSH_NOTIFICATION_SUCCESS,
+  PUSH_NOTIFICATION_FAILURE,
 } from '../ActionTypes';
-import {AuthSliceStateProp} from '../../Interfaces';
-import {DEFAULT_LANGUAGE} from '@Utils';
+import { AuthSliceStateProp } from '../../Interfaces';
+import { DEFAULT_LANGUAGE } from '@Utils';
 
 const initialState: AuthSliceStateProp = {
   loading: false,
   error: '',
-  response: undefined,
+   response: undefined,
   userDetails: undefined,
   registeredMobileNumber: undefined,
-  language: DEFAULT_LANGUAGE,
+  language: { id: '1', text: 'English', value: 'en' },
   registerUserResponse: undefined,
   otpRegisterResponse: undefined,
   userBusinessPlaces: undefined,
   validateUserNumber: undefined,
   validateUserBusinessResponse: undefined,
   userSelectedLanguage: undefined,
-  registerAdminResponse: undefined,
+ 
   selectedGoogleBusinessPlaceId: undefined,
   selectedGoogleBusinessPlaceDetails: undefined,
   businessSectorDropdownData: undefined,
   businessServiceTypesDropdownData: undefined,
   alternativeNumber: undefined,
+  notification: undefined,
 };
 
 const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
   switch (action.type) {
+    case RESTORE_AUTH:
+      state = initialState;
+      break;
+
+
     case VALIDATE_USER:
-      state = {...state, loading: true};
+      state = { ...state, loading: true };
       break;
     case VALIDATE_USER_SUCCESS:
-      state = {...state, response: action.payload};
+      state = { ...state, response: action.payload };
       break;
     case VALIDATE_USER_FAILURE:
-      state = {...state, loading: false};
+      state = { ...state, loading: false };
       break;
     case VALIDATE_REGISTER_USER:
       state = {
@@ -87,21 +93,21 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
       };
       break;
     case VALIDATE_REGISTER_USER_FAILURE:
-      state = {...state, registerUserResponse: action.payload};
+      state = { ...state, registerUserResponse: action.payload };
       break;
     case OTP_REGISTER:
-      state = {...state};
+      state = { ...state };
       break;
     case OTP_REGISTER_SUCCESS:
-      state = {...state, otpRegisterResponse: action.payload};
+      state = { ...state, otpRegisterResponse: action.payload };
       break;
     case OTP_REGISTER_FAILURE:
-      state = {...state, otpRegisterResponse: action.payload};
+      state = { ...state, otpRegisterResponse: action.payload };
       break;
 
-      /**
-       * otp login
-       */
+    /**
+     * otp login
+     */
 
     case OTP_LOGIN:
       state = { ...state };
@@ -114,16 +120,16 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
       break;
 
     case GET_USER_BUSINESS_PLACES:
-      state = {...state};
+      state = { ...state };
       break;
     case GET_USER_BUSINESS_PLACES_SUCCESS:
-      state = {...state, userBusinessPlaces: action.payload.details};
+      state = { ...state, userBusinessPlaces: action.payload.details };
       break;
     case GET_USER_BUSINESS_PLACES_FAILURE:
-      state = {...state, userBusinessPlaces: action.payload};
+      state = { ...state, userBusinessPlaces: action.payload };
       break;
     case VALIDATE_USER_BUSINESS:
-      state = {...state, validateUserBusinessResponse: undefined};
+      state = { ...state, validateUserBusinessResponse: undefined };
       break;
     case VALIDATE_USER_BUSINESS_SUCCESS:
       state = {
@@ -133,28 +139,20 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
       };
       break;
     case VALIDATE_USER_BUSINESS_FAILURE:
-      state = {...state, validateUserBusinessResponse: action.payload};
+      state = { ...state, validateUserBusinessResponse: action.payload };
       break;
-    case REGISTER_ADMIN:
-      state = {...state};
-      break;
-    case REGISTER_ADMIN_SUCCESS:
-      state = {...state, loading: false, registerAdminResponse: action.payload};
-      break;
-    case REGISTER_ADMIN_FAILURE:
-      state = {...state};
-      break;
+    
     case BRAND_SECTOR:
-      state = {...state, businessSectorDropdownData: undefined};
+      state = { ...state, businessSectorDropdownData: undefined };
       break;
     case BRAND_SECTOR_SUCCESS:
-      state = {...state, businessSectorDropdownData: action.payload.details};
+      state = { ...state, businessSectorDropdownData: action.payload.details };
       break;
     case BRAND_SECTOR_FAILURE:
-      state = {...state, response: action.payload};
+      state = { ...state, response: action.payload };
       break;
     case BUSINESS_PLACES_DETAILS:
-      state = {...state};
+      state = { ...state };
       break;
     case BUSINESS_PLACES_DETAILS_SUCCESS:
       state = {
@@ -163,22 +161,14 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
       };
       break;
     case BUSINESS_PLACES_DETAILS_FAILURE:
-      state = {...state, response: action.payload};
+      state = { ...state, response: action.payload };
       break;
     case SET_ALTERNATIVE_MOBILE_NUMBER:
-      state = {...state, alternativeNumber: action.payload};
+      state = { ...state, alternativeNumber: action.payload };
       break;
-    case REGISTER_COMPANY:
-      state = {...state};
-      break;
-    case REGISTER_COMPANY_SUCCESS:
-      state = {...state, response: action.payload};
-      break;
-    case REGISTER_COMPANY_FAILURE:
-      state = {...state, response: action.payload};
-      break;
+  
     case SECTOR_SERVICE_TYPES:
-      state = {...state};
+      state = { ...state };
       break;
     case SECTOR_SERVICE_TYPES_SUCCESS:
       state = {
@@ -187,23 +177,34 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
       };
       break;
     case SECTOR_SERVICE_TYPES_FAILURE:
-      state = {...state, response: action.payload};
+      state = { ...state, response: action.payload };
       break;
     case SELECT_BUSINESS_PLACE_ID:
-      state = {...state, selectedGoogleBusinessPlaceId: action.payload};
+      state = { ...state, selectedGoogleBusinessPlaceId: action.payload };
       break;
     case SET_REGISTER_MOBILE_NUMBER:
-      state = {...state,registeredMobileNumber: action.payload};
+      state = { ...state, registeredMobileNumber: action.payload };
       break;
     case SET_LANGUAGE:
-      console.log(JSON.stringify(action.payload));
-      
-      state = {...state, language: action.payload};
+      state = { ...state, language: action.payload };
       break;
+
+    /*PUSH NOTIFICATION */
+
+    case PUSH_NOTIFICATION:
+      state = { ...state };
+      break;
+    case PUSH_NOTIFICATION_SUCCESS:
+      state = { ...state, notification: action.payload.details };
+      break;
+    case PUSH_NOTIFICATION_FAILURE:
+      state = { ...state, notification: action.payload };
+      break;
+
     default:
       state = state;
       break;
   }
   return state;
 };
-export {AuthReducer};
+export { AuthReducer };

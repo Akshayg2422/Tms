@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Input, DropDown, Button, showToast , AuthContainer} from '@Components';
+import { Input, DropDown, Button, showToast, AuthContainer } from '@Components';
 import { translate } from '@I18n';
 import { useInput, useDropDown, useNavigation } from '@Hooks'
 import {
@@ -32,9 +32,6 @@ function RegisterUser() {
   const designation = useDropDown({})
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    getUserBusinessPlacesApiHandler(contactNumber.value)
-  }, [])
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -46,54 +43,10 @@ function RegisterUser() {
       designation: designation.value.id,
     };
 
-    const validation = validate(USER_FORM_RULES, params);
 
-    if (ifObjectExist(validation)) {
-
-      console.log(JSON.stringify(params));
-
-      dispatch(
-        registerAdmin({
-          params,
-          onSuccess: (response: any) => {
-            console.log(JSON.stringify(response));
-            // getUserBusinessPlacesApiHandler(contactNumber.value)
-          },
-          onError: (error: any) => {
-            console.log(JSON.stringify(error));
-
-          },
-        }),
-      );
-    } else {
-      showToast(getValidateError(validation));
-    }
   };
 
 
-  function getUserBusinessPlacesApiHandler(mobileNumber: string) {
-    const params = {
-      q: mobileNumber,
-      type: 'phone',
-    };
-
-    dispatch(
-      getUserBusinessPlaces({
-        params,
-        onSuccess: (success: UserBusinessPlace) => {
-          console.log(JSON.stringify(success));
-          if (success.details.length > 0) {
-            goTo(ROUTES.AUTH.VIEW_GOOGLE_BUSINESS)
-          } else {
-
-          }
-        },
-        onError: () => {
-
-        },
-      }),
-    );
-  }
 
 
   return (

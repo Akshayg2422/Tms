@@ -1,204 +1,63 @@
+
 import {
-  RAISE_NEW_TICKET,
-  RAISE_NEW_TICKET_FAILURE,
-  RAISE_NEW_TICKET_SUCCESS,
-  GET_TICKETS,
-  GET_TICKETS_SUCCESS,
-  GET_TICKETS_FAILURE,
-  GET_TICKET_TAGS,
-  GET_TICKET_TAGS_SUCCESS,
-  GET_TICKET_TAGS_FAILURE,
-  ADD_TICKET_EVENT,
-  ADD_TICKET_EVENT_SUCCESS,
-  ADD_TICKET_EVENT_FAILURE,
-  GET_TICKET_EVENTS,
-  GET_TICKET_EVENTS_SUCCESS,
-  GET_TICKET_EVENTS_FAILURE,
-  GET_EMPLOYEE,
-  GET_EMPLOYEE_SUCCESS,
-  GET_EMPLOYEE_FAILURE,
-  ADD_EMPLOYEE,
-  ADD_EMPLOYEE_SUCCESS,
-  ADD_EMPLOYEE_FAILURE
+  ADD_BROADCAST_MESSAGES,
+  ADD_BROADCAST_MESSAGES_SUCCESS,
+  ADD_BROADCAST_MESSAGES_FAILURE,
+  RESTORE_COMPANY,
+  GET_TASK_GROUPL_FAILURE,
+  GET_TASK_GROUPL,
+  GET_TASK_GROUPL_SUCCESS,
 } from '../ActionTypes';
 
-export const raiseNewTicket = (params: any) => {
+
+export const restoreCompany = () => {
+
   return {
-    type: RAISE_NEW_TICKET,
+    type: RESTORE_COMPANY,
+
+  };
+};
+
+export const addBroadCastMessages = (params: any) => {
+  return {
+    type: ADD_BROADCAST_MESSAGES,
     payload: params,
   };
 };
 
-export const raiseNewTicketSuccess = (response: any) => {
+export const addBroadCastMessagesSuccess = (response: any) => {
   return {
-    type: RAISE_NEW_TICKET_SUCCESS,
+    type: ADD_BROADCAST_MESSAGES_SUCCESS,
     payload: response,
   };
 };
 
-export const raiseNewTicketFailure = (error: any) => {
+export const addBroadCastMessagesFailure = (error: any) => {
   return {
-    type: RAISE_NEW_TICKET_FAILURE,
+    type: ADD_BROADCAST_MESSAGES_FAILURE,
     payload: error,
   };
 };
 
-/**
- *
- * @param params get Ticket
- * @returns
- */
 
-export const getTickets = (params: any) => {
+//GET TASK GROUP
+export const getTaskGroupl = (params: any) => {
   return {
-    type: GET_TICKETS,
+    type: GET_TASK_GROUPL,
     payload: params,
   };
 };
 
-export const getTicketsSuccess = (response: any) => {
+export const getTaskGrouplSuccess = (response: any) => {
   return {
-    type: GET_TICKETS_SUCCESS,
+    type: GET_TASK_GROUPL_SUCCESS,
     payload: response,
   };
 };
 
-export const getTicketsFailure = (error: any) => {
+export const getTaskGrouplFailure = (error: any) => {
   return {
-    type: GET_TICKETS_FAILURE,
-    payload: error,
-  };
-};
-
-/**
- *get Ticket tags
- * @param params
- * @returns
- */
-
-export const getTicketTags = (params: any) => {
-  return {
-    type: GET_TICKET_TAGS,
-    payload: params,
-  };
-};
-
-export const getTicketTagsSuccess = (response: any) => {
-  return {
-    type: GET_TICKET_TAGS_SUCCESS,
-    payload: response,
-  };
-};
-
-export const getTicketTagsFailure = (error: any) => {
-  return {
-    type: GET_TICKET_TAGS_FAILURE,
-    payload: error,
-  };
-};
-
-/**
- *get Ticket tags
- * @param params
- * @returns
- */
-export const addTicketEvent = (params: any) => {
-  return {
-    type: ADD_TICKET_EVENT,
-    payload: params,
-  };
-};
-
-export const addTicketEventSuccess = (response: any) => {
-  return {
-    type: ADD_TICKET_EVENT_SUCCESS,
-    payload: response,
-  };
-};
-
-export const addTicketEventFailure = (error: any) => {
-  return {
-    type: ADD_TICKET_EVENT_FAILURE,
-    payload: error,
-  };
-};
-
-/**
- *get Ticket tags
- * @param params
- * @returns
- */
-export const getTicketsEvents = (params: any) => {
-  return {
-    type: GET_TICKET_EVENTS,
-    payload: params,
-  };
-};
-
-export const getTicketsEventsSuccess = (response: any) => {
-  return {
-    type: GET_TICKET_EVENTS_SUCCESS,
-    payload: response,
-  };
-};
-
-export const getTicketsEventsFailure = (error: any) => {
-  return {
-    type: GET_TICKET_EVENTS_FAILURE,
-    payload: error,
-  };
-};
-
-/**
- *get Employee tags
- * @param params
- * @returns
- */
-
-export const getEmployee = (params: any) => {
-  return {
-    type: GET_EMPLOYEE,
-    payload: params,
-  };
-};
-
-export const getEmployeeSuccess = (response: any) => {
-  return {
-    type: GET_EMPLOYEE_SUCCESS,
-    payload: response,
-  };
-};
-
-export const getEmployeeFailure = (error: any) => {
-  return {
-    type: GET_EMPLOYEE_FAILURE,
-    payload: error,
-  };
-};
-
-/**
- *add Employee tags
- * @param params
- * @returns
- */
-
-export const addEmployee = (params: any) => {
-  return {
-    type: ADD_EMPLOYEE,
-    payload: params,
-  };
-};
-
-export const addEmployeeSuccess = (response: any) => {
-  return {
-    type: ADD_EMPLOYEE_SUCCESS,
-    payload: response,
-  };
-};
-
-export const addEmployeeFailure = (error: any) => {
-  return {
-    type: ADD_EMPLOYEE_FAILURE,
+    type: GET_TASK_GROUPL_FAILURE,
     payload: error,
   };
 };

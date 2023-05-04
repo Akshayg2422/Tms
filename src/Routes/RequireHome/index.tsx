@@ -14,12 +14,12 @@ export const RequireHome = ({ children }: RequireHomeProps) => {
 
     const location = useLocation()
 
-    const { userLoggedIn } = useSelector(
+    const { loginDetails } = useSelector(
         (state: any) => state.AppReducer
     );
 
-    if (userLoggedIn) {
-        return <Navigate to={ROUTES.HOME.DASHBOARD} state={{ path: location.pathname }} />
+    if (loginDetails?.isLoggedIn) {
+        return <Navigate to={ROUTES['task-module'].tasks} state={{ path: location.pathname }} />
     }
 
     return (

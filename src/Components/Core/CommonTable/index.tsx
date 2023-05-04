@@ -1,40 +1,20 @@
 import React from 'react'
-import Table from '../Table';
-import { Spinner } from "@Components";
+import { Table, NoRecordsFound, Heading } from "@Components";
 
 
 interface CommonTableProps {
-  noRecordText?: string;
-  displayDataSet?: Array<{}>;
+  title?: any;
+  displayDataSet: any
   tableDataSet?: Array<{}>;
-  tableTitle?: string;
-  additionalDataSet?: Array<{
-    elt: number,
-    elv: string,
-    elh: string
-  }>;
-  comparisonDataSet?: Array<{ key: string, value: string, elt: number, elv: string, elh: string }>
-  tableOnClick?: (event: any, index: number, item: object) => void;
-  tableValueOnClick?: (event: any, index: number, item: object, elv?: string) => void;
-  noHeader?: boolean;
-  noOfPage?: number;
-  currentPage?: number;
-  isPagination?: boolean;
+  isPagination?: boolean
+  currentPage?: number
+  noOfPage?: number
   previousClick?: () => void;
   nextClick?: () => void;
   paginationNumberClick?: (text: number) => void;
-  buttonText?: string;
-  buttonOnClock?: () => void;
-  tableChildren?: React.ReactNode;
-  custombutton?: string
-  isLoading?: boolean;
-
-
-}
-
-
-interface CommonHeaderProps {
-  children?: React.ReactNode;
+  tableOnClick?: (event: any, index: number, item: any) => void;
+  heading?: any;
+  card?: boolean
 }
 
 interface ChildComponentProps {
@@ -50,35 +30,34 @@ interface GetPaginatorSetProps {
 
 
 
-function CommonTable({ tableTitle, displayDataSet, tableDataSet, additionalDataSet, noRecordText = 'No Data Found', tableOnClick, tableValueOnClick, noHeader, noOfPage, currentPage, isPagination, previousClick, nextClick, paginationNumberClick, buttonText, buttonOnClock, comparisonDataSet, tableChildren, custombutton, isLoading }: CommonTableProps) {
+function CommonTable({ card = false, title, displayDataSet, tableDataSet, isPagination, currentPage, noOfPage, heading, previousClick, nextClick, paginationNumberClick, tableOnClick }: CommonTableProps) {
 
-  const CommonHeader = ({ children }: CommonHeaderProps) => {
+  const CommonHeader = ({ children }) => {
     return (
-      <div className='col'>
-
-        {buttonText && <div className="col text-right mt-4 mb-4">
-          {/* <Primary size={'btn-sm'} text={buttonText} onClick={buttonOnClock} /> */}
-        </div>}
-
-        {!noHeader ?
-          <div className=" ">
-            <div className="card-header border-0 ">
-              <div className="row align-items-center ">
+      <>
+        {card ? <div className='col' >
+          <div className='card shadow-none'>
+            {title && <div className="card-header border-0">
+              <div className="row align-items-center">
                 <div className="col" >
-                  <h3 className="mb-0 " >{tableTitle}</h3>
+                  <h3 className="mb-0" >{title}</h3>
+                  {heading}
                 </div>
               </div>
-            </div>
 
-            {children}
-
-          </div> : <div>{children}</div>
+            </div>}
+            <div className='mt-2'>{children}</div>
+          </div>
+        </div > :
+          <div className='mt-2'>{children}</div>
         }
-      </div>
-    );
+      </>
+    )
   }
 
   const GetPaginatorSet = ({ currentPage, totalPages }: GetPaginatorSetProps) => {
+
+
     if (currentPage && totalPages) {
 
       const children = [];
@@ -105,11 +84,10 @@ function CommonTable({ tableTitle, displayDataSet, tableDataSet, additionalDataS
           page_range_start = page_range_start - adjust
           if (page_range_start <= 0)
             page_range_start = 1
-
         }
 
         const ChildComponent = ({ text }: ChildComponentProps) => {
-          return (<li className={`${currentPage + "" === text + "" ? 'active' : ''} page-item `} onClick={() => { if (paginationNumberClick) paginationNumberClick(text) }} ><a className="page-link" >{text}</a></li>);
+          return (<li className={`${currentPage + "" === text + "" ? 'active' : ''} page-item `} onClick={() => { if (paginationNumberClick) paginationNumberClick(text) }}  ><a className="page-link" >{text}</a></li>);
         }
 
 
@@ -122,11 +100,6 @@ function CommonTable({ tableTitle, displayDataSet, tableDataSet, additionalDataS
 
       return (
         <div className="card-footer">
-          <div className='col-1'>
-            {/* <span></span>
-            <InputNumber /> */}
-          </div>
-
           <ul className="pagination col justify-content-end mb-0">
             <li className={`${currentPage === 1 ? 'disabled' : ''} page-item `} onClick={currentPage === 1 ? undefined : previousClick}>
               <a className="page-link">
@@ -150,34 +123,11 @@ function CommonTable({ tableTitle, displayDataSet, tableDataSet, additionalDataS
     }
 
   }
-
-  const renderTable = () => {
-
-    if (displayDataSet && displayDataSet.length <= 0) {
-      //   return (<CommonHeader><div className='p-5'><NoRecordFound text={noRecordText} /></div></CommonHeader>);
-    }
-
-    return (
-      <CommonHeader>
-        {tableChildren ? <>{tableChildren}</> : <Table displayDataSet={displayDataSet} tableDataSet={tableDataSet} additionalDataSet={additionalDataSet} tableOnClick={tableOnClick} tableValueOnClick={tableValueOnClick} custombutton={custombutton} comparisonDataSet={comparisonDataSet} />}
-        {isPagination && <GetPaginatorSet currentPage={currentPage} totalPages={noOfPage} />}
-      </CommonHeader>
-    );
-
-
-  }
-
   return (
-    <div >
-      {isLoading && <Spinner />}
-
-      {!isLoading && (
-        <div>
-          {renderTable()}
-        </div>
-      )}
-
-    </div>
+    <CommonHeader>
+      {displayDataSet && displayDataSet.length > 0 ? <Table tableDataSet={tableDataSet} displayDataSet={displayDataSet} tableOnClick={tableOnClick} /> : <NoRecordsFound />}
+      {isPagination && <GetPaginatorSet currentPage={currentPage} totalPages={noOfPage} />}
+    </CommonHeader >
 
   );
 }

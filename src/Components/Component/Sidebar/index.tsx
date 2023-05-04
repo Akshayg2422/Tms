@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useLocation, NavLink as NavLinkRRD, Link } from "react-router-dom";
 import classnames from "classnames";
@@ -11,44 +12,37 @@ import {
   NavLink,
   Nav,
 } from "reactstrap";
-
-import { SidebarProps } from './interfaces';
-
-function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive = false }: SidebarProps) {
-
-
-  const [state, setState] = React.useState<any>({});
+import { SidebarProps } from './interfaces'
+import { Image } from '@Components'
+import { url } from "inspector";
+function Sidebar({ toggleSideNav, sideNavOpen, routes, logo, rtlActive }: SidebarProps) {
+  const [state, setState] = React.useState({});
   const location = useLocation();
-
   React.useEffect(() => {
     setState(getCollapseStates(routes));
+    // eslint-disable-next-line
   }, []);
-
-
   // verifies if routeName is the one active (in browser input)
-  const activeRoute = (routeName: string) => {
+  const activeRoute = (routeName) => {
     return location.pathname.indexOf(routeName) > -1 ? "active" : "";
   };
-
   // makes the sidenav normal on hover (actually when mouse enters on it)
-  const onMouseEnterSideNav = () => {
+  const onMouseEnterSidenav = () => {
     if (!document.body.classList.contains("g-sidenav-pinned")) {
       document.body.classList.add("g-sidenav-show");
     }
   };
-
   // makes the sidenav mini on hover (actually when mouse leaves from it)
-  const onMouseLeaveSideNav = () => {
+  const onMouseLeaveSidenav = () => {
     if (!document.body.classList.contains("g-sidenav-pinned")) {
       document.body.classList.remove("g-sidenav-show");
     }
   };
-
   // this creates the intial state of this component based on the collapse routes
   // that it gets through routes
-  const getCollapseStates = (routes: any) => {
+  const getCollapseStates = (routes) => {
     let initialState = {};
-    routes.map((prop: any, key: any) => {
+    routes.map((prop, key) => {
       if (prop.collapse) {
         initialState = {
           [prop.state]: getCollapseInitialState(prop.views),
@@ -60,12 +54,10 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
     });
     return initialState;
   };
-
-
   // this verifies if any of the collapses should be default opened on a rerender of this component
   // for example, on the refresh of the page,
   // while on the src/views/forms/RegularForms.js - route /admin/regular-forms
-  const getCollapseInitialState = (routes: any) => {
+  const getCollapseInitialState = (routes) => {
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse && getCollapseInitialState(routes[i].views)) {
         return true;
@@ -77,22 +69,21 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
   };
   // this is used on mobile devices, when a user navigates
   // the sidebar will autoclose
-  const closeSideNav = () => {
+  const closeSidenav = () => {
     if (window.innerWidth < 1200) {
-      if (toggleSideNav) {
+      if (toggleSideNav)
         toggleSideNav();
-      }
     }
   };
   // this function creates the links and collapses that appear in the sidebar (left menu)
-  const createLinks = (routes: any) => {
-    return routes.map((prop: any, key: any) => {
+  const createLinks = (routes) => {
+    return routes.map((prop, key) => {
       if (prop.redirect) {
         return null;
       }
       if (prop.collapse) {
-        var st: any = {};
-        st[prop["state"] as keyof typeof st] = !state[prop.state];
+        var st = {};
+        st[prop["state"]] = !state[prop.state];
         return (
           <NavItem key={key}>
             <NavLink
@@ -131,14 +122,14 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
         <NavItem className={activeRoute(prop.layout + prop.path)} key={key}>
           <NavLink
             to={prop.layout + prop.path}
-            className=""
-            onClick={closeSideNav}
+            activeClassName=""
+            onClick={closeSidenav}
             tag={NavLinkRRD}
           >
             {prop.icon !== undefined ? (
               <>
-                <i className={prop.icon} />
-                <span className="nav-link-text">{prop.name}</span>
+                <Image src={prop.icon} width={18} height={18} />
+                <span className="nav-link-text ml-3">{prop.name}</span>
               </>
             ) : prop.miniName !== undefined ? (
               <>
@@ -166,7 +157,6 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
       target: "_blank",
     };
   }
-
   const scrollBarInner = (
     <div className="scrollbar-inner">
       <div className="sidenav-header d-flex align-items-center">
@@ -201,15 +191,14 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
       </div>
     </div>
   );
-
   return (
     <Navbar
       className={
         "sidenav navbar-vertical navbar-expand-xs navbar-light bg-white " +
         (rtlActive ? "" : "fixed-left")
       }
-      onMouseEnter={onMouseEnterSideNav}
-      onMouseLeave={onMouseLeaveSideNav}
+      onMouseEnter={onMouseEnterSidenav}
+      onMouseLeave={onMouseLeaveSidenav}
     >
       {navigator.platform.indexOf("Win") > -1 ? (
         <PerfectScrollbar>{scrollBarInner}</PerfectScrollbar>
@@ -219,4 +208,8 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive =
     </Navbar>
   );
 }
+
+
+
+
 export { Sidebar };

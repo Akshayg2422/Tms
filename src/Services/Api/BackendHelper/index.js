@@ -1,75 +1,87 @@
 import { post } from '../ApiHelper';
-import {
-  VALIDATE_USER,
-  VALIDATE_REGISTER_USER,
-  OTP_REGISTER,
-  OTP_LOGIN,
-  VALIDATE_USER_BUSINESS,
-  GET_BUSINESS_PLACES,
-  REGISTER_ADMIN,
-  BRAND_SECTORS,
-  BUSINESS_PLACES_DETAILS,
-  REGISTER_COMPANY,
-  SECTOR_SERVICE_TYPES,
-  GET_ASSOCIATED_COMPANIES,
-  URL_GET_DASHBOARD,
-  GET_TICKETS,
-  RAISE_NEW_TICKET,
-  GET_TICKET_EVENTS,
-  GET_TICKET_TAGS,
-  ADD_TICKET_EVENT,
-  GET_EMPLOYEE,
-  ADD_EMPLOYEE,
-
-  /**
-   * setting
-   */
-  POST_ADD_DEPARTMENT,
-  POST_ADD_DESIGNATION,
-  FETCH_DESIGNATION,
-  FETCH_DEPARTMENT,
-
-} from '../UrlHelper';
+import * as URL from '../UrlHelper'
 
 export const getAssociatedCompaniesApi = payload =>
-  post(GET_ASSOCIATED_COMPANIES, payload, {});
+  post(URL.GET_ASSOCIATED_COMPANIES, payload, {});
+export const getAssociatedCompaniesLApi = payload =>
+  post(URL.GET_ASSOCIATED_COMPANIES_L, payload, {});
 
-export const getDashboardApi = payload => post(URL_GET_DASHBOARD, payload, {});
-export const raiseNewTicketApi = payload => post(RAISE_NEW_TICKET, payload, {});
+export const getDashboardApi = payload => post(URL.URL_GET_DASHBOARD, payload, {});
+export const raiseNewTicketApi = payload => post(URL.RAISE_NEW_TICKET, payload, {});
 
-export const getTicketsApi = payload => post(GET_TICKETS, payload, {});
+export const getTicketsApi = payload => post(URL.GET_TICKETS, payload, {});
 export const getTicketEventsApi = payload =>
-  post(GET_TICKET_EVENTS, payload, {});
-export const getTicketTagsApi = payload => post(GET_TICKET_TAGS, payload, {});
-export const addTicketEventApi = payload => post(ADD_TICKET_EVENT, payload, {});
+  post(URL.GET_TICKET_EVENTS, payload, {});
+export const getTicketTagsApi = payload => post(URL.GET_TICKET_TAGS, payload, {});
+export const addTicketEventApi = payload => post(URL.ADD_TICKET_EVENT, payload, {});
 
-export const validateUserApi = payload => post(VALIDATE_USER, payload, {});
+export const validateUserApi = payload => post(URL.VALIDATE_USER, payload, {});
 export const validateRegisterUserApi = payload =>
-  post(VALIDATE_REGISTER_USER, payload, {});
-export const otpRegisterApi = payload => post(OTP_REGISTER, payload, {});
-export const otpLoginApi = payload => post(OTP_LOGIN, payload, {});
+  post(URL.VALIDATE_REGISTER_USER, payload, {});
+export const otpRegisterApi = payload => post(URL.OTP_REGISTER, payload, {});
+export const otpLoginApi = payload => post(URL.OTP_LOGIN, payload, {});
 export const getBusinessPlacesApi = payload =>
-  post(GET_BUSINESS_PLACES, payload, {});
+  post(URL.GET_BUSINESS_PLACES, payload, {});
 export const validateUserBusinessApi = payload =>
-  post(VALIDATE_USER_BUSINESS, payload, {});
-export const registerAdminApi = payload => post(REGISTER_ADMIN, payload, {});
-export const getBrandSectorsApi = payload => post(BRAND_SECTORS, payload, {});
+  post(URL.VALIDATE_USER_BUSINESS, payload, {});
+export const registerAdminApi = payload => post(URL.REGISTER_ADMIN, payload, {});
+export const getBrandSectorsApi = payload => post(URL.BRAND_SECTORS, payload, {});
 export const getBusinessPlaceDetailsApi = payload =>
-  post(BUSINESS_PLACES_DETAILS, payload, {});
+  post(URL.BUSINESS_PLACES_DETAILS, payload, {});
 export const registerCompanyApi = payload =>
-  post(REGISTER_COMPANY, payload, {});
+  post(URL.REGISTER_COMPANY, payload, {});
 export const SectorServiceTypesApi = payload =>
-  post(SECTOR_SERVICE_TYPES, payload, {});
-export const getEmployeeApi = payload =>
-  post(GET_EMPLOYEE, payload, {})
+  post(URL.SECTOR_SERVICE_TYPES, payload, {});
+export const getEmployeesApi = payload =>
+  post(URL.GET_EMPLOYEES, payload, {})
 
 export const addEmployeeApi = payload =>
-  post(ADD_EMPLOYEE, payload, {})
+  post(URL.ADD_EMPLOYEE, payload, {})
+export const getReferenceTicketsApi = payload =>
+  post(URL.GET_REFERENCE_TICKETS, payload, {})
+
+export const addBroadCastMessagesApi = payload =>
+  post(URL.ADD_BROADCAST_MESSAGES, payload, {})
+export const getBroadCastMessagesApi = payload =>
+  post(URL.GET_BROADCAST_MESSAGES, payload, {})
+
+export const addTaskApi = payload => post(URL.FETCH_ADD_TASK, payload, {})
+
+export const getTaskApi = (payload) => post(URL.URL_GET_TASKS, payload, {})
+export const getSubTaskApi = (payload) => post(URL.FETCH_SUB_TASKS, payload, {})
+export const getTaskUsersApi = (payload) => post(URL.FETCH_TASK_USERS, payload, {})
+
+export const getTaskEventsApi = (payload) => post(URL.FETCH_TASK_EVENTS, payload, {})
+
+export const addTaskEventApi = (payload) => post(URL.URL_ADD_TASK_EVENTS, payload, {})
+
 
 /**
  * setting
  */
-export const postAddDepartmentApi = (payload) => post(POST_ADD_DEPARTMENT, payload, {})
-export const postAddDesignationApi = (payload) => post(POST_ADD_DESIGNATION, payload, {})
-export const fetchDesignationDataApi = (payload) => post(FETCH_DESIGNATION, payload, {})
-export const fetchDepartmentDataApi = (payload) => post(FETCH_DEPARTMENT, payload, {})
+export const postAddDepartmentApi = (payload) => post(URL.POST_ADD_DEPARTMENT, payload, {})
+export const postAddDesignationApi = (payload) => post(URL.POST_ADD_DESIGNATION, payload, {})
+export const fetchDesignationDataApi = (payload) => post(URL.FETCH_DESIGNATION, payload, {})
+export const fetchDepartmentDataApi = (payload) => post(URL.FETCH_DEPARTMENT, payload, {})
+
+export const getBrandSectorApi = (payload) => post(URL.GET_BRAND_SECTOR, payload, {})
+export const addBrandSectorApi = (payload) => post(URL.ADD_BRAND_SECTOR, payload, {})
+export const getTicketTagApi = (payload) => post(URL.GET_TICKET_TAG, payload, {})
+export const addTicketTagApi = (payload) => post(URL.ADD_TICKET_TAG, payload, {})
+export const getReferenceTasksApi = (payload) => post(URL.GET_REFERENCE_TASKS, payload, {})
+export const getTicketUsersApi = (payload) => post(URL.GET_TICKET_USERS, payload, {})
+export const getTaskGroupApi = (payload) => post(URL.GET_TASK_GROUP, payload, {})
+export const addTaskGroupApi = (payload) => post(URL.ADD_TASK_GROUP, payload, {})
+export const updateEmployeeProfilePhotoApi = (payload) => post(URL.UPDATE_EMPLOYEE_PROFILE_PHOTO, payload, {})
+export const getTaskEventHistoryApi = (payload) => post(URL.URL_GET_TASK_EVENT_HISTORY, payload, {})
+export const getTaskGroupLApi = (payload) => post(URL.URL_GET_TASK_GROUP_L, payload, {})
+export const getTaskSubGroupApi = (payload) => post(URL.GET_TASK_SUB_GROUP, payload, {})
+
+/* PUSH NOTIFICATION */
+
+export const addPushNotificationApi = payload => post(URL.ADD_PUSH_NOTIFICATION, payload, {});
+
+/* GET TASK DETAILS */
+
+export const getTaskDetailsApi = (payload) => post(URL.FETCH_TASK_DETAILS, payload, {})
+export const getSubTaskGroupsApi = (payload) => post(URL.URL_SUB_TASK_GROUPS, payload, {})

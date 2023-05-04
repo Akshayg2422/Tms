@@ -1,28 +1,25 @@
-import React from "react";
-import { OtpInput, Button , AuthContainer} from "@Components";
-import { useInput, useTimer , useNavigation} from "@Hooks";
-import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, OTP_RULES, ifObjectExist, USER_TOKEN } from "@Utils";
+import React, { } from "react";
+import { Button, AuthContainer, showToast, ComponentLoader } from "@Components";
+import { useInput, useTimer, useNavigation, useLoader } from "@Hooks";
+import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, OTP_RULES, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
 import { useSelector, useDispatch } from "react-redux";
-import { otpRegister, validateRegisterUser,otpLogin, userLoginDetails } from "@Redux";
-import {AUTH_PATH} from '@Routes'
+import { validateRegisterUser, otpLogin, userLoginDetails } from "@Redux";
+import { ROUTES } from '@Routes'
+import OtpInput from "react-otp-input";
 
 function Otp() {
   const dispatch = useDispatch();
-  const { registeredMobileNumber, language, validateUserBusinessResponse } = useSelector(
+  const { registeredMobileNumber, language } = useSelector(
     (state: any) => state.AuthReducer
   );
-  const {goTo} = useNavigation()
+  const otpLoader = useLoader(false);
 
-  const {loginDetails} = useSelector((state: any) => state.AppReducer);
+  const { goTo } = useNavigation()
 
+  const { loginDetails } = useSelector((state: any) => state.AppReducer);
   const { seconds, setSeconds } = useTimer(OTP_RESEND_DEFAULT_TIME);
-  const otp1 = useInput("");
-  const otp2 = useInput("");
-  const otp3 = useInput("");
-  const otp4 = useInput("");
+  const otp = useInput("");
 
-  console.log(JSON.stringify(validateUserBusinessResponse));
-  
 
   const proceedOtpResentApiHandler = () => {
     setSeconds(OTP_RESEND_DEFAULT_TIME);
@@ -31,52 +28,48 @@ function Otp() {
       ln: language,
       app_user_type: BUSINESS,
     };
-    dispatch(validateRegisterUser({ params }));
+    dispatch(validateRegisterUser({
+      params,
+      onSuccess: () => () => { },
+      onError: () => () => { }
+    }));
   };
 
   const proceedOtpValidationApiHandler = () => {
-    const finalOtp = otp1.value + otp2.value + otp3.value + otp4.value;
 
     const params = {
       mobile_number: registeredMobileNumber,
-      otp: finalOtp,
+      otp: otp.value,
     };
 
     const validation = validate(OTP_RULES, params);
 
     if (ifObjectExist(validation)) {
-      if(validateUserBusinessResponse.success){
+      otpLoader.show()
+      dispatch(
+        otpLogin({
+          params,
+          onSuccess: response => () => {
+            otpLoader.hide()
 
-        dispatch(
-          otpLogin({
-            params,
-            onSuccess: response => {
-              dispatch(
-                userLoginDetails({
-                  ...loginDetails,
-                  isLoggedIn: true,
-                  is_admin: response.details?.company?.type_is_provider,
-                }),
-              );
-              localStorage.setItem(USER_TOKEN, response.details.token);
-              goTo(AUTH_PATH.SPLASH)
-               },
-            onError: e => { },
-          }),
-        );
-      }else{
-        dispatch(
-          otpRegister({
-            params,
-            onSuccess: (response: any) => {
-              console.log(JSON.stringify(response)+"====");
-            },
-            onError: () => {
-            },
-          })
-        );
-      }
-     
+            dispatch(
+              userLoginDetails({
+                ...loginDetails,
+                isLoggedIn: true,
+                is_admin: response.details?.company?.type_is_provider,
+              }),
+            );
+            localStorage.setItem(USER_TOKEN, response.details.token);
+            goTo(ROUTES["auth-module"].splash)
+          },
+          onError: (error) => () => {
+            otpLoader.hide()
+            showToast(error.error_message, 'error')
+          },
+        }),
+      );
+    } else {
+      showToast(getValidateError(validation));
     }
 
 
@@ -86,10 +79,12 @@ function Otp() {
     <AuthContainer>
       <div className="text-center my-5">
         <div className="row justify-content-center align-items-center mb-0">
-          <OtpInput value={otp1.value} onChange={otp1.onChange} />
-          <OtpInput value={otp2.value} onChange={otp2.onChange} />
-          <OtpInput value={otp3.value} onChange={otp3.onChange} />
-          <OtpInput value={otp4.value} onChange={otp4.onChange} />
+          <OtpInput
+            value={otp.value}
+            onChange={otp.set}
+            numInputs={4}
+            inputStyle={'otp-input'}
+          />
         </div>
         <div className="mb-4">
           <small className="d-block">
@@ -105,17 +100,22 @@ function Otp() {
             </span>
           )}
         </div>
+
         <div className="d-flex justify-content-center">
           <div className="col-sm-8">
-            <Button
-              block
-              text={"VERIFY"}
-              onClick={proceedOtpValidationApiHandler}
-            />
+            <ComponentLoader loading={otpLoader.loader}>
+              <Button
+                block
+                text={"VERIFY"}
+                onClick={proceedOtpValidationApiHandler}
+              />
+            </ComponentLoader>
           </div>
         </div>
+
       </div>
-    </AuthContainer>
+
+    </AuthContainer >
   );
 }
 export { Otp };

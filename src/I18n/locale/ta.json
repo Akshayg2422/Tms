@@ -24,17 +24,44 @@
         "register": "பதிவு செய்க?",
         "appName": "Quanta",
         "appSubtext": "ஒரு முறை முன்பதிவு மற்றும் தொடர்பற்ற செக்-இன்",
+        "verify": "சரிபார்க்க",
         "businessName": "வணிகத்தின் பெயர்",
+        "name": "பெயர்",
         "businessAddress": "வணிக முகவரி",
         "businessPinCode": "வணிக அஞ்சல் குறியீடு",
         "contactNumber": "தொடர்பு எண்",
         "alternativeContactNumber": "மாற்று தொடர்பு எண்",
         "business": "வணிகஅலுவல்",
-        "businessAppName": "குவாண்டா வணிகம்",
+        "businessAppName": "Quanta TMS",
         "businessAppSubtext": "வணிக உரிமையாளர் மற்றும் ஸ்டோர் ஏஜெண்டிற்கு",
         "courses": "படிப்புகள்",
-
-        "department":"துறை"
+        "department": "துறை",
+        "PinCode": "அஞ்சல் குறியீடு",
+        "alternativeMobileNumber": "மாற்றுமொபைல் எண்",
+        "businessSector": "வணிக துறை",
+        "companyDetails": "நிறுவன விவரங்கள்",
+        "addCompany": "நிறுவனத்தைச் சேர்க்கவும்",
+        "primaryContactPerson": "முதன்மை தொடர்பு நபர்",
+        "addUser": "பயனரைச் சேர்க்கவும்",
+        "createTicket": "டிக்கெட்டை உருவாக்கு",
+        "createCompany": "நிறுவனம் உருவாக்கு",
+        "company": "நிறுவனம்",
+        "user": "பயனர்",
+        "ticketPriority": "டிக்கெட்முன்னுரிமை",
+        "taskName": "பணி பெயர்",
+        "addTask": "பணியைச் சேர்க்கவும்",
+        "isParent": "பெற்றோர்",
+        "addSubTask": "துணைப் பணியைச் சேர்க்கவும்",
+        "createTask": "உருவாக்குபணி",
+        "addNew": "புதிதாக சேர்க்கவும்",
+        "assignedTo": "ஒதுக்கப்பட்டது",
+        "codeTitle": "குறியீடு தலைப்பு",
+        "Priority" : "முன்னுரிமை",
+        "selectGroup":"தேர்ந்தெடுக்கப்பட்ட குழு",
+        "subTask":"துணை பணி",
+        "Priority": "முன்னுரிமை",
+        "selectGroup": "தேர்ந்தெடுக்கப்பட்ட குழு",
+        "reason": "காரணம்"
     },
     "errors": {
         "invalidEmail": "Invalid email address."
@@ -74,7 +101,24 @@
         "contactNumber": "தொடர்பு எண்",
         "prefilled With Login Mobile Number": "உள்நுழைவு மொபைல் எண்ணுடன் முன்பே நிரப்பப்பட்டது",
         "designation": "பதவி",
-        "notYourBusiness": "உங்கள் பணி அல்ல ?"
+        "selectLanguage": "மொழியை தேர்ந்தெடுங்கள்",
+        "notYourBusiness": "உங்கள் பணி அல்ல ?",
+        "logo": "சின்னம்",
+        "email": "மின்னஞ்சல்",
+        "emailOptional": "மின்னஞ்சல் (விருப்பமானது)",
+        "title": "தலைப்பு",
+        "description": "விளக்கம்",
+        "referenceNo": "குறிப்பு எண்",
+        "createBroadCast": "உருவாக்க பிராட்காஸ்ட்",
+        "sector": "துறை",
+        "tag": "குறிச்சொல்",
+        "city": "நகரம்",
+        "task": "பணி",
+        "group": "குழு",
+        "code": "குறியீடு",
+        "basic": "அடிப்படை",
+        "advance": "முன்கூட்டியே",
+        "title/code": "தலைப்பு/குறியீடு"
     },
     "product": {
         "Store": "ஸ்டோர்",
@@ -137,11 +181,10 @@
         "showTheQRCodeForEasyCheckin": "எளிதாக செக் -இன் செய்ய  QR  கோட் காட்டுங்கள்",
         "paulRaymond": "paul_raymond"
     },
-    
     "course": {
-        "course":"நிச்சயமாக",
-        "view":"காண்க",
-        "hide":"மறை",
-        "start":"தொடங்கு"
+        "course": "நிச்சயமாக",
+        "view": "காண்க",
+        "hide": "மறை",
+        "start": "தொடங்கு"
     }
 }

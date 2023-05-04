@@ -1,3 +1,2 @@
-export * from './TicketItem'
+export * from './BroadCastListedItems'
 export * from './CompanyItem'
-export * from './CompanyInfoItem'

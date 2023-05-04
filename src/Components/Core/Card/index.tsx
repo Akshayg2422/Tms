@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { CardProps } from './interfaces'
 import {
     Card as RsCard, CardBody, CardTitle, CardHeader
 } from "reactstrap";
 
-function Card({ title, children, ...rest }: CardProps) {
+const Card = forwardRef(({ title, children, ...rest }: CardProps, ref: any) => {
     return (
-        <RsCard {...rest}>
+        <RsCard {...rest} ref={ref}>
             {title && <CardTitle>
                 <CardHeader>
                     <h5 className="h3 mb-0">{title}</h5>
@@ -17,6 +17,6 @@ function Card({ title, children, ...rest }: CardProps) {
             </CardBody>
         </RsCard>
     )
-}
+})
 
 export { Card }

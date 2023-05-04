@@ -1,166 +1,176 @@
+
+import { AUTO_COMPLETE_DROPDOWN } from '@Redux//Company';
 import {
-  GET_ASSOCIATED_BRANCH,
-  GET_ASSOCIATED_BRANCH_FAILURE,
-  GET_ASSOCIATED_BRANCH_SUCCESS,
-  GET_DASHBOARD,
-  GET_DASHBOARD_FAILURE,
-  GET_DASHBOARD_SUCCESS,
-  SET_SELECTED_ISSUES,
 
-  ADD_DEPARTMENT,
-  ADD_DEPARTMENT_SUCCESS,
-  ADD_DEPARTMENT_FAILURE,
+  GET_ASSOCIATED_COMPANY_BRANCH,
+  GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
+  GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
+  COMPANY_SELECTED_DETAILS,
+  RESTORE_ADMIN,
+  ADD_TASK,
+  ADD_TASK_SUCCESS,
+  ADD_TASK_FAILURE,
 
-  ADD_DESIGNATION,
-  ADD_DESIGNATION_SUCCESS,
-  ADD_DESIGNATION_FAILURE,
+  GET_TASKS_ITEM,
+  GET_CURRENT_PAGE,
 
-  FETCH_DEPARTMENT,
-  FETCH_DEPARTMENT_SUCCESS,
-  FETCH_DEPARTMENT_FAILURE,
-
-  FETCH_DESIGNATION,
-  FETCH_DESIGNATION_SUCCESS,
-  FETCH_DESIGNATION_FAILURE,
+  GET_REFERENCE_ID,
+  GET_SUBTASK_ID,
+  LOGIN_USER,
+  GET_TASK_SUB_GROUP,
+  GET_TASK_SUB_GROUP_SUCCESS,
+  GET_TASK_SUB_GROUP_FAILURE,
+  GET_TASK_HISTORY,
+  GET_TASK_HISTORY_SUCCESS,
+  GET_TASK_HISTORY_FAILURE,
 
 } from '../ActionTypes';
 
-export const getAssociatedBranch = (params: any) => {
+export const RestoreAdmin = () => {
   return {
-    type: GET_ASSOCIATED_BRANCH,
+    type: RESTORE_ADMIN,
+
+
+  };
+};
+
+
+
+export const getAssociatedCompanyBranch = (params: any) => {
+
+  return {
+    type: GET_ASSOCIATED_COMPANY_BRANCH,
     payload: params,
   };
 };
-export const getAssociatedBranchSuccess = (response: any) => {
+export const getAssociatedCompanyBranchSuccess = (response: any) => {
+
+
   return {
-    type: GET_ASSOCIATED_BRANCH_SUCCESS,
+    type: GET_ASSOCIATED_COMPANY_BRANCH_SUCCESS,
     payload: response,
   };
 };
-export const getAssociatedBranchFailure = (error: any) => {
+export const getAssociatedCompanyBranchFailure = (error: any) => {
   return {
-    type: GET_ASSOCIATED_BRANCH_FAILURE,
+    type: GET_ASSOCIATED_COMPANY_BRANCH_FAILURE,
     payload: error,
   };
 };
 
-export const getDashboard = (params: any) => {
-  return {
-    type: GET_DASHBOARD,
-    payload: params,
-  };
-};
-export const getDashboardSuccess = (response: any) => {
-  return {
-    type: GET_DASHBOARD_SUCCESS,
-    payload: response,
-  };
-};
-export const getDashboardFailure = (error: any) => {
-  return {
-    type: GET_DASHBOARD_FAILURE,
-    payload: error,
-  };
-};
 
 /**
- *
+ * COMPANY SELECTED DETAILS
  */
-
-export const setSelectedIssues = (error: any) => {
+export const companySelectedDetails = (response) => {
   return {
-    type: SET_SELECTED_ISSUES,
-    payload: error,
-  };
-};
-/**
- * add department
- */
- export const addDepartment = (params) => {
-  return {
-    type: ADD_DEPARTMENT,
-    payload: params,
-  };
-};
-
-export const addDepartmentSuccess = (response) => {
-  return {
-    type: ADD_DEPARTMENT_SUCCESS,
+    type: COMPANY_SELECTED_DETAILS,
     payload: response,
-  };
-};
+  }
+}
 
-export const addDepartmentFailure = (error) => {
-  return {
-    type: ADD_DEPARTMENT_FAILURE,
-    payload: error,
-  };
-};
-/**
- * add designation
- */
- export const addDesignation = (params) => {
-  return {
-    type: ADD_DESIGNATION,
-    payload: params,
-  };
-};
+/* Tasks */
 
-export const addDesignationSuccess = (response) => {
+
+export const loginUser = (params: any) => {
+
   return {
-    type: ADD_DESIGNATION_SUCCESS,
+    type: LOGIN_USER,
+    payload: params
+  }
+}
+
+
+/* CREATE TASK */
+export const addTask = (params: any) => {
+  return {
+    type: ADD_TASK,
+    payload: params
+  }
+}
+export const addTaskSuccess = (response: any) => {
+  return {
+    type: ADD_TASK_SUCCESS,
+    payload: response
+  }
+}
+export const addTaskFailure = (error: any) => {
+  return {
+    type: ADD_TASK_FAILURE,
+    payload: error
+  }
+}
+
+
+export const getTaskItem = (params: any) => {
+
+  return {
+    type: GET_TASKS_ITEM,
+    payload: params
+  }
+}
+
+
+
+
+
+
+export const getSelectReferenceId = (response) => {
+  return {
+    type: GET_REFERENCE_ID,
     payload: response,
-  };
-};
 
-export const addDesignationFailure = (error) => {
-  return {
-    type: ADD_DESIGNATION_FAILURE,
-    payload: error,
-  };
-};
-//get designation
+  }
+}
 
-export const getDesignationData = (params) => {
+export const getSelectSubTaskId = (response) => {
   return {
-    type: FETCH_DESIGNATION,
-    payload: params,
-  };
-};
-
-export const getDesignationDataSuccess = (response) => {
-  return {
-    type: FETCH_DESIGNATION_SUCCESS,
+    type: GET_SUBTASK_ID,
     payload: response,
-  };
-};
 
-export const getDesignationDataFailure = (error) => {
+  }
+}
+
+
+export const getCurrentPage = (params: any) => {
+
   return {
-    type: FETCH_DESIGNATION_FAILURE,
-    payload: error,
-  };
-};
+    type: GET_CURRENT_PAGE,
+    payload: params
+  }
+}
 
-//get departments
 
-export const getDepartmentData = (params) => {
+
+export const getTaskSubGroup = (params: any) => {
   return {
-    type: FETCH_DEPARTMENT,
-    payload: params,
-  };
-};
+    type: GET_TASK_SUB_GROUP,
+    payload: params
+  }
+}
 
-export const getDepartmentDataSuccess = (response) => {
-  return {
-    type: FETCH_DEPARTMENT_SUCCESS,
-    payload: response,
-  };
-};
+export const getTaskSubGroupSuccess = (response: any) => {
 
-export const getDepartmentDataFailure = (error) => {
+
   return {
-    type: FETCH_DEPARTMENT_FAILURE,
-    payload: error,
-  };
-};
+    type: GET_TASK_SUB_GROUP_SUCCESS,
+    payload: response
+  }
+}
+
+export const getTaskSubGroupFailure = (error: any) => {
+
+
+  return {
+    type: GET_TASK_SUB_GROUP_FAILURE,
+    payload: error
+  }
+}
+
+export const autoCompleteDropDown = (params: any) => {
+  return {
+    type: AUTO_COMPLETE_DROPDOWN,
+    payload: params
+  }
+}
+
