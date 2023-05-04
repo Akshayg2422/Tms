@@ -1,57 +1,4 @@
-// import React, { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { useInput } from "@Hooks";
-// import { Card, HomeContainer, Image, NoDataFound ,SearchInput,Divider, Spinner } from "@Components";
-// import { translate } from "@I18n";
-// import { getTicketsEvents } from "@Redux";
-// import { getPhoto, MEA } from "@Utils";
-// import InfiniteScroll from 'react-infinite-scroll-component';
 
-// function Attachments() {
-//   const dispatch = useDispatch();
-//   const search = useInput("");
-//   const { ticketEvents } = useSelector((state: any) => state.CompanyReducer);
-//   const { selectedTicket, selectedReferenceTickets } = useSelector(
-//     (state: any) => state.TicketReducer
-//   );
-
-//   const { taskEventAttachments, taskEventAttachmentsCurrentPage, refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
-
-//   useEffect(() => {
-//     const params = {
-//       "ticket_id":"414b6c1c-47a3-4674-80fd-be61bc6173de",
-//       "event_type":"MEA"
-//     };
-
-//     dispatch(
-//       getTicketsEvents({
-//         params,
-//         onSuccess: () => () => { 
-//           console.log("getTicketsEvents==========<>>>")
-//         },
-//         onError: () => () => { },
-//       })
-//     );
-//   }, [selectedTicket, selectedReferenceTickets]);
-
-//   const getSearchHandler = () => {
-//     const params = {
-//       ticket_id: selectedReferenceTickets
-//         ? selectedReferenceTickets?.id
-//         : selectedTicket?.id,
-//       q_many: search.value,
-//       event_type: MEA,
-//     };
-//     dispatch(
-//       getTicketsEvents({
-//         params,
-//         onSuccess: () => () => { 
-//           console.log('getSearchHandler---------->')
-//         },
-//         onError: () => () => { },
-//       })
-//     );
-//   };
 
 import React, { useEffect, useState, } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -79,8 +26,8 @@ function Attachments() {
   function getTicketEventsApiHandler(page_number: number, q_many?: string) {
 
     const params = {
-      "ticket_id":"414b6c1c-47a3-4674-80fd-be61bc6173de",
-      "event_type":"MEA",
+    ticket_id:id,
+      event_type:MEA,
       q_many,
       page_number
     };
@@ -88,7 +35,8 @@ function Attachments() {
     dispatch(
       getTicketEventAttachments({
         params,
-        onSuccess: () => () => {
+        onSuccess: (responece) => () => {
+          console.log('getTicketEventAttachments===========>',responece)
         },
         onError: () => () => { }
       })
@@ -99,7 +47,6 @@ function Attachments() {
   return (
 
     <Card className="overflow-auto" style={{
-      // height: height - 15
     }}>
       <div className="row text-right">
         <div className="col-5" >
