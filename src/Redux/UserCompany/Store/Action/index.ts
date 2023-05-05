@@ -16,7 +16,7 @@ export const addDepartment = (params) => {
 };
 
 export const addDepartmentSuccess = (response) => {
-  console.log('jjj==', JSON.stringify(response))
+
   return {
     type: ActionTypes.ADD_DEPARTMENT_SUCCESS,
     payload: response,
@@ -338,6 +338,83 @@ export const getEmployeesFailure = (error: any) => {
   };
 };
 
+
+// GETEMPLOYESSL
+
+export const getEmployeesl = (params: any) => {
+
+  return {
+    type: ActionTypes.GET_EMPLOYEESL,
+    payload: params,
+  };
+};
+
+export const getEmployeeslSuccess = (response: any) => {
+
+  return {
+    type: ActionTypes.GET_EMPLOYEES_SUCCESSL,
+    payload: response,
+  };
+};
+
+export const getEmployeeslFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_EMPLOYEES_FAILUREL,
+    payload: error,
+  };
+};
+
+
+
+// GETEmployeetimeline
+
+export const getEmployeeTimeline = (params: any) => {
+
+  return {
+    type: ActionTypes.GET_EMPLOYEE_TIMELINE,
+    payload: params,
+  };
+};
+
+export const getEmployeeTimelineSuccess = (response: any) => {
+
+  return {
+    type: ActionTypes.GET_EMPLOYEE_TIMELINE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getEmployeeTimelineFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_EMPLOYEE_TIMELINE_FAILURE,
+    payload: error,
+  };
+};
+
+// addEmpoyeetimeline
+
+export const addEmployeeTimeline = (params: any) => {
+
+  return {
+    type: ActionTypes.ADD_EMPLOYEE_TIMELINE,
+    payload: params,
+  };
+};
+
+export const addEmployeeTimelineSuccess = (response: any) => {
+
+  return {
+    type: ActionTypes.ADD_EMPLOYEE_TIMELINE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addEmployeeTimelineFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_EMPLOYEE_TIMELINE_FAILURE,
+    payload: error,
+  };
+};
 export const registerAdmin = (params: any) => {
   return {
     type: ActionTypes.REGISTER_ADMIN,

@@ -192,21 +192,22 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             <Modal isOpen={editEtaModal.visible} onClose={() => { editEtaModal.hide() }} >
                 <div className="col-6">
                     <DateTimePicker
-                        heading={'ETA'}
+                        heading={translate("auth.eta")}
                         initialValue={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
                         type="both"
                         onChange={setEta}
+                        
                     />
                     <Input
                         type={"text"}
-                        heading={translate("common.reason")}
+                        heading={translate("common.note")}
                         value={editEtaReason.value}
                         onChange={editEtaReason.onChange}
                     />
 
                 </div>
                 <div className="col text-right">
-                    <Button text={'Submit'} onClick={editEtaSubmitApiHandler} />
+                    <Button text={translate("common.submit")} onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
             {/**

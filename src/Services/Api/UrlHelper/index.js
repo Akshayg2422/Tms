@@ -33,8 +33,9 @@ export const VALIDATE_USER_BUSINESS = AUTH + 'validateUserBusiness';
 export const BUSINESS_PLACES_DETAILS = AUTH + 'getBusinessPlaceDetails';
 export const REGISTER_COMPANY = AUTH + 'registerCompany';
 export const REGISTER_ADMIN = AUTH + 'registerAdmin';
-export const GET_EMPLOYEES = EMPLOYEE + 'getEmployees';
+export const GET_EMPLOYEES = EMPLOYEE +'getEmployees';
 export const ADD_EMPLOYEE = EMPLOYEE + 'addEmployee';
+export const GET_EMPLOYEESL = EMPLOYEE +'getEmployeesl';
 export const URL_GET_TASKS = TASK + 'getTasks';
 export const FETCH_TASK_USERS = TASK + 'getTaskUsers';
 export const FETCH_TASK_EVENTS = TASK + 'getTaskEvents';
@@ -93,4 +94,8 @@ export const ADD_PUSH_NOTIFICATION = AUTHENTICATION + 'webAppConfig'
 /* GET TASK DETAILS */
 
 export const FETCH_TASK_DETAILS = TASK + 'getTaskDetails';
-export const URL_SUB_TASK_GROUPS = TASK + 'getSubTaskGroup';
+export const URL_SUB_TASK_GROUPS = TASK +'getTaskSubGroupl';
+
+export const ADD_EMPLOYEE_TIMELINE = TASK +'addEmployeeTimeline';
+export const GET_EMPLOYEE_TIMELINE = TASK +'getEmployeeTimeline';
+

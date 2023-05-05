@@ -85,3 +85,7 @@ export const addPushNotificationApi = payload => post(URL.ADD_PUSH_NOTIFICATION,
 
 export const getTaskDetailsApi = (payload) => post(URL.FETCH_TASK_DETAILS, payload, {})
 export const getSubTaskGroupsApi = (payload) => post(URL.URL_SUB_TASK_GROUPS, payload, {})
+export const getEmployeeslApi = (payload) => post(URL.GET_EMPLOYEESL, payload, {})
+
+export const addEmployeeTimeLineApi = (payload) => post(URL.ADD_EMPLOYEE_TIMELINE, payload, {})
+export const getEmployeeTimeLineApi = (payload) => post(URL.GET_EMPLOYEE_TIMELINE, payload, {})

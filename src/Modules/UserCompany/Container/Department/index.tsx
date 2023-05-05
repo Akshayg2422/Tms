@@ -192,6 +192,9 @@ function Department() {
           className="overflow-auto overflow-hide"
           style={{
             height: showDepartments ? dynamicHeight.dynamicHeight - 100 : '0px',
+            marginLeft:"-23px",
+            marginRight:"-23px"
+           
           }}
         >
           {departments && departments?.length > 0 ? (
@@ -256,9 +259,6 @@ function Department() {
           <Button
             text={translate("common.submit")}
             onClick={() => {
-
-
-              console.log(JSON.stringify(selectedDepartment) + "++++++" + isSubTask);
 
               const params = {
                 ...((!isSubTask && selectedDepartment) && { id: selectedDepartment?.id }),

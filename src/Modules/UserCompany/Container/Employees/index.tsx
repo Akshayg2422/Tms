@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getEmployees } from '@Redux'
 import { capitalizeFirstLetter, getPhoto } from '@Utils'
 import { icons } from '@Assets'
+import { translate } from 'i18n-js'
 
 function Employees({ otherParams, selection = 'none', onSelected }: EmployeesProps) {
 
@@ -116,7 +117,7 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                                     {index !== employees.length - 1 && <Divider space={'3'} />}
                                 </div>
                             </div>)
-                    }) : <NoDataFound type={'text'} text={'No User Found'} />
+                    }) : <NoDataFound type={'text'} text={translate("auth.noUserFound")} />
                 }
             </Card >
         </div >

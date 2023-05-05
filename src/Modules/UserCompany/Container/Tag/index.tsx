@@ -143,6 +143,9 @@ function Tag() {
           className="overflow-auto overflow-hide"
           style={{
             height: showTags ? dynamicHeight.dynamicHeight - 100 : '0px',
+            marginLeft:"-23px",
+            marginRight:"-23px"
+      
           }}
         >
           {ticketTag && ticketTag?.length > 0 ? (

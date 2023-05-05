@@ -35,7 +35,7 @@ function CommonTable({ card = false, title, displayDataSet, tableDataSet, isPagi
   const CommonHeader = ({ children }) => {
     return (
       <>
-        {card ? <div className='col' >
+        {card ? <div className='col ' >
           <div className='card shadow-none'>
             {title && <div className="card-header border-0">
               <div className="row align-items-center">
@@ -49,7 +49,7 @@ function CommonTable({ card = false, title, displayDataSet, tableDataSet, isPagi
             <div className='mt-2'>{children}</div>
           </div>
         </div > :
-          <div className='mt-2'>{children}</div>
+          <div className='mt-2 '>{children}</div>
         }
       </>
     )
@@ -125,7 +125,7 @@ function CommonTable({ card = false, title, displayDataSet, tableDataSet, isPagi
   }
   return (
     <CommonHeader>
-      {displayDataSet && displayDataSet.length > 0 ? <Table tableDataSet={tableDataSet} displayDataSet={displayDataSet} tableOnClick={tableOnClick} /> : <NoRecordsFound />}
+      {displayDataSet && displayDataSet.length > 0 ? <Table tableDataSet={tableDataSet} displayDataSet={displayDataSet} tableOnClick={tableOnClick}  /> : <NoRecordsFound />}
       {isPagination && <GetPaginatorSet currentPage={currentPage} totalPages={noOfPage} />}
     </CommonHeader >
 

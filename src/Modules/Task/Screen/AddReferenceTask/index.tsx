@@ -4,6 +4,7 @@ import { addTaskEvent, getTasks } from "@Redux";
 import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back } from "@Components";
 import { useInput, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE, INITIAL_PAGE } from "@Utils";
+import { translate } from "@I18n";
 
 
 function AddReferenceTask() {
@@ -127,12 +128,12 @@ function AddReferenceTask() {
               getTasksApiHandler(INITIAL_PAGE, text)
             }} />
 
-            <Button className="ml-3" size={'sm'} text={'Submit'} onClick={addReferenceTaskHandler} />
+            <Button className="ml-3" size={'sm'} text={translate("common.submit")} onClick={addReferenceTaskHandler} />
           </div>
         </div>
 
         <div>
-          {tasks && tasks.length > 0 ? <CommonTable title={'Tasks'}
+          {tasks && tasks.length > 0 ? <CommonTable title={translate("auth.task")}
             isPagination
             tableDataSet={tasks}
             currentPage={taskCurrentPages}
@@ -149,7 +150,7 @@ function AddReferenceTask() {
               getTasksApiHandler(paginationHandler("next", taskCurrentPages));
             }
             }
-          /> : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '70vh' }}><NoDataFound text={'No text found'} /></div>}
+          /> : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '70vh' }}><NoDataFound text={translate("auth.noTextFound")!} /></div>}
         </div>
       </div>
     </HomeContainer >

@@ -126,6 +126,8 @@ function BrandSector() {
           className="overflow-auto overflow-hide"
           style={{
             height: showSector ? dynamicHeight.dynamicHeight - 100 : '0px',
+            marginLeft:"-23px",
+            marginRight:"-23px"
           }}>
           {brandSector && brandSector?.length > 0 ? (
             <CommonTable
