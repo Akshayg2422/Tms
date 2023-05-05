@@ -5,7 +5,7 @@ import { useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { TicketFilter } from '@Modules';
 import { ROUTES,HOME_PATH } from '@Routes'
-import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter } from "@Utils";
+import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter, getDates } from "@Utils";
 import { getTickets, setSelectedTicket, getDashboard, setSelectedReferenceTickets, setSelectedTabPosition } from "@Redux";
 
 
@@ -73,8 +73,6 @@ function Tickets() {
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
       return data.map((el: any) => {
-        const etaDate = new Date(el.eta_time)
-        let etaTime = etaDate.getHours()
         return {
 
           "issue":
@@ -124,7 +122,9 @@ function Tickets() {
 
           'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))} </div>,
           status: <div> <Status status={el?.ticket_status} />
-            <small>{time > etaTime ? 'ABOVE ETA' : ""}</small>
+            <small>{  
+            getDates() > getDates(el.eta_time) ? 'ABOVE ETA' : "" 
+            }</small>
           </div>
         };
       });
