@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { TaskChatProps } from './interfaces';
+import { TicketChatProps } from './interface';
 import { useSelector, useDispatch } from 'react-redux'
-import { getTaskEvents } from '@Redux'
+import { getTicketsEvents } from '@Redux'
 import { TimeLine, Spinner, Image } from '@Components'
-import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TASK_STATUS_LIST } from '@Utils'
+import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TICKET_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useWindowDimensions } from '@Hooks'
@@ -11,24 +11,24 @@ import { useParams } from 'react-router-dom';
 import { ImageFullScreen } from '@Components'
 
 
-function TaskChat({ }: TaskChatProps) {
+function TicketChat({ }: TicketChatProps) {
 
     const { id } = useParams();
 
     const dispatch = useDispatch()
     const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
-    const [taskEvents, setTaskEvents] = useState([])
-    const [taskEventsCurrentPage, setEventsTaskCurrentPage] = useState(INITIAL_PAGE)
+    const [ticketEvents, setTicketEvents] = useState([])
+    const [ticketEventsCurrentPage, setEventsTicketCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
 
 
     useEffect(() => {
-        getTaskEventsApi(INITIAL_PAGE)
+        getTicketEventsApi(INITIAL_PAGE)
     }, [refreshTaskEvents, id])
 
 
 
-    function getTaskEventsDisplayData(data: any) {
+    function getTicketEventsDisplayData(data: any) {
         if (data && data.length > 0) {
             return data.map(each => {
                 return {
@@ -38,29 +38,31 @@ function TaskChat({ }: TaskChatProps) {
         }
 
     }
-    const getTaskEventsApi = (page_number: number) => {
+    const  getTicketEventsApi = (page_number: number) => {
         const params = {
-            task_id: id,
+            ticket_id: id,
             page_number
         }
 
-
-
         dispatch(
-            getTaskEvents({
+            getTicketsEvents({
                 params,
                 onSuccess: (response: any) => () => {
-                    const taskEventsResponse = response.details
+                    console.log("response",response)
+                    const ticketEventsResponse = response.details
                     let updatedData = []
-                    if (taskEventsResponse.data && taskEventsResponse.data.length > 0) {
+                    if (ticketEventsResponse.data && ticketEventsResponse.data.length > 0) {
                         if (page_number === 1) {
-                            updatedData = getTaskEventsDisplayData(taskEventsResponse.data)
+                            updatedData = getTicketEventsDisplayData(ticketEventsResponse.data)
+                            console.log("if",updatedData)
                         } else {
-                            updatedData = getTaskEventsDisplayData([...taskEvents, ...taskEventsResponse.data] as any)
+                            updatedData = getTicketEventsDisplayData([...ticketEvents, ...ticketEventsResponse.data] as any)
+                            console.log("else",updatedData)
                         }
                     }
-                    setTaskEvents(updatedData)
-                    setEventsTaskCurrentPage(taskEventsResponse.next_page)
+                    setTicketEvents(updatedData)
+                    setEventsTicketCurrentPage(ticketEventsResponse.next_page)
+                    
                 },
                 onError: () => () => { },
             })
@@ -68,7 +70,7 @@ function TaskChat({ }: TaskChatProps) {
     };
 
     function getIconsFromStatus(each: any) {
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, ticket_status } = each
         let modifiedData = {}
         switch (event_type) {
             case 'TEM':
@@ -85,16 +87,16 @@ function TaskChat({ }: TaskChatProps) {
                 break;
 
             case 'RGU':
-                modifiedData = { ...each, icon: icons.profile, subTitle: by_user?.name, title: "Task Reassigned to " + assigned_to.name }
+                modifiedData = { ...each, icon: icons.profile, subTitle: by_user?.name, title: "Ticket Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
                 modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: attachments.name }
                 break;
             case 'RTS':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'User Attached Reference Task' }
+                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'User Attached Reference Ticket' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status).text }
+                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TICKET_STATUS_LIST, 'id', ticket_status).text }
                 break;
         }
         return modifiedData
@@ -111,26 +113,26 @@ function TaskChat({ }: TaskChatProps) {
             }}
         >
             <InfiniteScroll
-                dataLength={taskEvents.length}
-                hasMore={taskEventsCurrentPage !== -1}
+                dataLength={ticketEvents.length}
+                hasMore={ticketEventsCurrentPage !== -1}
                 scrollableTarget="scrollableDiv"
                 style={{ display: 'flex', flexDirection: 'column-reverse' }}
                 inverse={true}
                 loader={<h4>
-                    <Spinner />
+                    {/* <Spinner /> */}
                 </h4>}
                 next={() => {
                     console.log('came');
 
-                    console.log(taskEventsCurrentPage + '====');
-                    if (taskEventsCurrentPage !== -1) {
-                        getTaskEventsApi(taskEventsCurrentPage)
+                    console.log(ticketEventsCurrentPage + '====page');
+                    if (ticketEventsCurrentPage !== -1) {
+                        getTicketEventsApi(ticketEventsCurrentPage)
                     }
                 }
                 }>
-                {taskEvents && taskEvents.length > 0 &&
-                    taskEvents.map((task: any, index: number) => {
-                        const { icon, title, subTitle, created_at, attachments } = task
+                {ticketEvents && ticketEvents.length > 0 &&
+                    ticketEvents.map((ticket: any, index: number) => {
+                        const { icon, title, subTitle, created_at, attachments } = ticket
                         const showDotLine = index !== 0
                         const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
 
@@ -165,5 +167,5 @@ function TaskChat({ }: TaskChatProps) {
     );
 }
 
-export { TaskChat }
+export { TicketChat }
 

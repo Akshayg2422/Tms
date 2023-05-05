@@ -1,5 +1,5 @@
 import {
-  Thread,
+  Chats,
   IssueUsers,
   Attachments,
   ReferenceTickets,
@@ -18,10 +18,10 @@ function TicketDetails() {
 
 
   const TABS = [
-    { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>Thread</span></div>, component: <Thread /> },
-    { id: "2", title: <div className="bi bi-paperclip">ATTACH</div>, component: <Attachments /> },
-    { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCE</span></div>, component: <ReferenceTickets /> },
-    { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USER</span></div>, component: <IssueUsers /> },
+    { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>Thread</span></div>, component: <Chats /> },
+    // { id: "2", title: <div className="bi bi-paperclip">ATTACH</div>, component: <Attachments /> },
+    // { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCE</span></div>, component: <ReferenceTickets /> },
+    // { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USER</span></div>, component: <IssueUsers /> },
   ];
 
 
@@ -30,7 +30,7 @@ function TicketDetails() {
       <HomeContainer className="m-3">
         <div className="row">
           <div className="col-md-12" >
-            <TicketInfo /*ref={ref}*/ />
+            <TicketInfo/>
           </div>
         </div>
         <div className="row mt--3">
