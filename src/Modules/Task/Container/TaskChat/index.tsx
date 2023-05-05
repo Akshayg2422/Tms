@@ -106,10 +106,10 @@ function TaskChat({ }: TaskChatProps) {
             id="scrollableDiv"
             style={{
                 height: height - 100,
-                overflow: 'auto',
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
+            className={'overflow-auto overflow-hide'}
         >
             <InfiniteScroll
                 dataLength={taskEvents.length}

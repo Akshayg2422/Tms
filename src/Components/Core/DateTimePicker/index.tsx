@@ -18,8 +18,9 @@ function DateTimePicker({ id, heading, placeholder, type = 'date', onChange, ...
                         placeholder: placeholder
                     }
                 }
-                timeFormat={type !== 'date' && true}
-                dateFormat={type !== 'time' && true}
+
+                dateFormat={type !== 'time' && 'D MMM YYYY'}
+                timeFormat={type !== 'date' && 'h:mm A'}
                 onChange={
                     (date: Moment | string) => {
                         if (onChange) {

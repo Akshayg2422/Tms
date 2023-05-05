@@ -20,7 +20,7 @@ import {
   addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer } from "@Utils";
+import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime } from "@Utils";
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
 import { icons } from "@Assets";
 
@@ -65,8 +65,8 @@ function TaskGroup() {
   const subTaskGroupDescription = useInput("");
   const [selectedSubTaskGroup, setSelectedSubTaskGroup] = useState<any>(undefined);
   const [isEdit, setIsEdit] = useState<any>(false);
-  const [startTimeEta, setStatTimeEta] = useState("")
-  const [endTimeEta, setEndTimeEta] = useState("")
+  const [startTimeEta, setStatTimeEta] = useState<any>("")
+  const [endTimeEta, setEndTimeEta] = useState<any>("")
   const [subTaskPhoto, setSubTaskPhoto] = useState("");
 
 
@@ -494,7 +494,7 @@ function TaskGroup() {
                 id="eta-picker"
                 placeholder={'Start Time'}
                 type="both"
-                value={startTimeEta}
+                value={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(startTimeEta))}
                 onChange={handleStartTimeEtaChange}
               />
             </div>
@@ -502,7 +502,7 @@ function TaskGroup() {
               <DateTimePicker
                 id="eta-picker"
                 type="both"
-                value={endTimeEta}
+                value={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(endTimeEta))}
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
               />
