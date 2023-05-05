@@ -97,15 +97,15 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     return (
         <div ref={ref} >
-            <Card  style={{
-                height: height / 2
-            }}>
-                <div className="col">
-                    <div className="row justify-content-between">
-                        <Back />
-                        <TaskItemMenu />
-                    </div>
-                    <div className="row justify-content-between mt-3">
+            <Card>
+                <div className="row justify-content-between mt--3">
+                    <Back />
+                    <TaskItemMenu />
+                </div>
+                <Card style={{ height: height / 2 }}
+                    className={'col mb--4 shadow-none p-0 overflow-auto overflow-hide'}>
+                        
+                    <div className="row justify-content-between mt--2">
                         <div>
                             {title && <H tag={"h4"} className="mb-0" text={title} />}
                             {code && <H tag={"h4"} className="text-muted" text={`# ${code}`} />}
@@ -178,7 +178,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             setActionTask(END_TASK)
                         }} />}
                     </div>
-                </div>
+                </Card>
             </Card >
 
             {/**

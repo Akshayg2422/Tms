@@ -1,5 +1,4 @@
-export interface ImageFullScreenProps {
+export interface FullScreenImageProps {
     images: any;
     style?: React.CSSProperties;
-
 }

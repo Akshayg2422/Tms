@@ -8,7 +8,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
-import { ImageFullScreen } from '@Components'
+import { FullScreenImage } from '@Components'
 
 
 function TaskChat({ }: TaskChatProps) {
@@ -152,7 +152,7 @@ function TaskChat({ }: TaskChatProps) {
                                     <div className='col-4'>
                                         {
                                             imageUrls && imageUrls.length > 0 &&
-                                            <ImageFullScreen images={imageUrls}
+                                            <FullScreenImage images={imageUrls}
                                             />
                                         }
                                     </div>
