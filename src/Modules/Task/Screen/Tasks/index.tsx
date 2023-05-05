@@ -12,9 +12,7 @@ import { translate } from '@I18n'
 
 const DEFAULT_PARAMS = {
   q_many: "",
-
   "tasks_by": "assigned_to",
-
   "task_status": "INP",
   "priority": "ALL",
   "group": "ALL",
@@ -74,7 +72,6 @@ function Tasks() {
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
       return data?.map((el: any) => {
-
         return {
           "task":
             <>

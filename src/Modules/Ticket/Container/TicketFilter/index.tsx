@@ -22,8 +22,8 @@ const FILTER_MENU = [
 function TicketFilter({ onParams }: TicketFilterProps) {
 
     const dispatch = useDispatch()
-    const filteredTicket = useDropDown(TICKET_FILTER_LIST[2]);
-    const ticketStatus = useDropDown(TICKET_STATUS_LIST[2]);
+    const filteredTicket = useDropDown(TICKET_FILTER_LIST[0]);
+    const ticketStatus = useDropDown(TICKET_STATUS_LIST[0]);
     const ticketPriority = useDropDown(TICKET_PRIORITY_LIST[0]);
     const company = useDropDown({})
     const department = useDropDown({})

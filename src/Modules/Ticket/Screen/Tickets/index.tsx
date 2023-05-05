@@ -5,15 +5,15 @@ import { useNavigation } from "@Hooks";
 import { translate } from "@I18n";
 import { TicketFilter } from '@Modules';
 import { ROUTES,HOME_PATH } from '@Routes'
-import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter } from "@Utils";
-import { getTickets, setSelectedTicket, getDashboard, setSelectedReferenceTickets } from "@Redux";
+import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter, getDates } from "@Utils";
+import { getTickets, setSelectedTicket, getDashboard, setSelectedReferenceTickets, setSelectedTabPosition } from "@Redux";
 
 
 
 
-function Ticket() {
+function Tickets() {
 
-  const DEFAULT_PARAMS = { q_many: "", "tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL", page_number: 1 }
+  const DEFAULT_PARAMS = { q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", page_number: 1 }
   const { goTo } = useNavigation();
   const { tickets, ticketNumOfPages, ticketCurrentPages,selectedTicket } = useSelector((state: any) => state.TicketReducer);
   const date = new Date();
@@ -73,8 +73,6 @@ function Ticket() {
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
       return data.map((el: any) => {
-        const etaDate = new Date(el.eta_time)
-        let etaTime = etaDate.getHours()
         return {
 
           "issue":
@@ -124,7 +122,9 @@ function Ticket() {
 
           'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))} </div>,
           status: <div> <Status status={el?.ticket_status} />
-            <small>{time > etaTime ? 'ABOVE ETA' : ""}</small>
+            <small>{  
+            getDates() > getDates(el.eta_time) ? 'ABOVE ETA' : "" 
+            }</small>
           </div>
         };
       });
@@ -174,8 +174,8 @@ function Ticket() {
                 }
                 tableOnClick={(idx, index, item) => {
                   dispatch(setSelectedTicket(item));
-                 // dispatch(setSelectedReferenceTickets(undefined))
-                 goTo(HOME_PATH.ISSUE_DETAILS);
+                 dispatch(setSelectedTabPosition({ id: '1' }))
+                 goTo(ROUTES['ticket-module']['tickets-details']+'/'+item?.id);
                 }
                 }
               />
@@ -188,4 +188,4 @@ function Ticket() {
   );
 }
 
-export { Ticket };
+export { Tickets };
