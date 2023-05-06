@@ -7,7 +7,6 @@ export * from './IssueUsers'
 export * from './Tickets'
 export * from './ReferenceTickets'
 export * from './TagAssignUser'
-export * from './Thread'
 export * from './AddTicket'
 
 

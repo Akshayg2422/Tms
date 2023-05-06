@@ -6,7 +6,7 @@ import { translate } from "@I18n";
 import { TicketFilter } from '@Modules';
 import { ROUTES,HOME_PATH } from '@Routes'
 import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter, getDates } from "@Utils";
-import { getTickets, setSelectedTicket, getDashboard, setSelectedReferenceTickets, setSelectedTabPosition } from "@Redux";
+import { getTickets, setSelectedTicket, getDashboard, setSelectedTabPosition } from "@Redux";
 
 
 
