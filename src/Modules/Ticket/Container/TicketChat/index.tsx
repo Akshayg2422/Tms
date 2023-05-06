@@ -16,7 +16,7 @@ function TicketChat({ }: TicketChatProps) {
     const { id } = useParams();
 
     const dispatch = useDispatch()
-    const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
+    const { refreshTicketEvents } = useSelector((state: any) => state.TicketReducer);
     const [ticketEvents, setTicketEvents] = useState([])
     const [ticketEventsCurrentPage, setEventsTicketCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
@@ -24,17 +24,18 @@ function TicketChat({ }: TicketChatProps) {
 
     useEffect(() => {
         getTicketEventsApi(INITIAL_PAGE)
-    }, [refreshTaskEvents, id])
+    }, [refreshTicketEvents, id])
 
 
 
-    function getTicketEventsDisplayData(data: any) {
+    function getTicketEventsDisplayData(data: any) {        
         if (data && data.length > 0) {
             return data.map(each => {
                 return {
                     ...getIconsFromStatus(each)
                 }
             })
+
         }
 
     }
@@ -48,16 +49,13 @@ function TicketChat({ }: TicketChatProps) {
             getTicketsEvents({
                 params,
                 onSuccess: (response: any) => () => {
-                    console.log("response",response)
                     const ticketEventsResponse = response.details
                     let updatedData = []
                     if (ticketEventsResponse.data && ticketEventsResponse.data.length > 0) {
-                        if (page_number === 1) {
+                        if (page_number === 1) {               
                             updatedData = getTicketEventsDisplayData(ticketEventsResponse.data)
-                            console.log("if",updatedData)
                         } else {
                             updatedData = getTicketEventsDisplayData([...ticketEvents, ...ticketEventsResponse.data] as any)
-                            console.log("else",updatedData)
                         }
                     }
                     setTicketEvents(updatedData)
@@ -71,6 +69,7 @@ function TicketChat({ }: TicketChatProps) {
 
     function getIconsFromStatus(each: any) {
         const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, ticket_status } = each
+
         let modifiedData = {}
         switch (event_type) {
             case 'TEM':
@@ -119,12 +118,9 @@ function TicketChat({ }: TicketChatProps) {
                 style={{ display: 'flex', flexDirection: 'column-reverse' }}
                 inverse={true}
                 loader={<h4>
-                    {/* <Spinner /> */}
+                    <Spinner />
                 </h4>}
                 next={() => {
-                    console.log('came');
-
-                    console.log(ticketEventsCurrentPage + '====page');
                     if (ticketEventsCurrentPage !== -1) {
                         getTicketEventsApi(ticketEventsCurrentPage)
                     }
@@ -143,13 +139,6 @@ function TicketChat({ }: TicketChatProps) {
                                 title={title} subTitle={subTitle}
                                 time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
                                 <div className='pt-2'>
-
-                                    {/* {
-                                        attachments?.attachments && attachments?.attachments.length > 0 && attachments?.attachments.map(each => {
-                                            return <ImageFullScreen images={<Image className='ml-1 mb-1' src={getPhoto(each.attachment_file)} width={120} height={120} />} />
-                                        })
-                                    } */}
-
                                     <div className='col-4'>
                                         {
                                             imageUrls && imageUrls.length > 0 &&

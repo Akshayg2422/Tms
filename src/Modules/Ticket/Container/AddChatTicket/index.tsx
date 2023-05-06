@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Modal, Input, Dropzone } from '@Components'
 import { icons } from '@Assets'
-import {  refreshTaskEvents, addTicketEvent, } from '@Redux'
+import {  refreshTaskEvents, refreshTicketEvents, addTicketEvent, } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
 import {  useModal, useInput } from '@Hooks'
 import { TEM, MEA } from '@Utils'
@@ -27,14 +27,13 @@ function AddChatTicket() {
                 event_type: TEM
             }
 
-            console.log(JSON.stringify(params) + '====params');
 
             dispatch(
                 addTicketEvent({
                     params,
                     onSuccess: (response) => () => {
                         message.set('')
-                        dispatch(refreshTaskEvents())
+                        dispatch(refreshTicketEvents())
                     },
                     onError: () => () => { },
                 })

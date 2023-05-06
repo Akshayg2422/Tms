@@ -48,14 +48,11 @@ function Tickets() {
   const getTicketHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
 
-    console.log('came getTicketHandler');
     
     dispatch(
       getTickets({
         params: updatedParams,
         onSuccess: (response) => () => {
-          console.log("Ticket---->", JSON.stringify(response));
-
         },
         onError: (error) => () => {
 

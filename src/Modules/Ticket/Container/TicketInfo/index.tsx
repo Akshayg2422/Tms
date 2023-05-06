@@ -140,7 +140,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                             <div className="row mt-3">
                                 <div className="col">
                                     <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
-                                    <h5 className="text-uppercase">{ eta_time?getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)):''}</h5>
+                                    <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
                                 </div>
                                 <div className="row ml-1 mr-3">
                                     <div className="pointer" onClick={() => editEtaModal.show()}>
