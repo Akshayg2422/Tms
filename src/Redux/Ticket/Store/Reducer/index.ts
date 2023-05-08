@@ -15,7 +15,7 @@ const initialState: TicketStateProps = {
   selectedTicket: undefined,
   referenceTicketSelectedDetails: undefined,
   selectedReferenceTickets: undefined,
-  ticketEmployees: undefined,
+  ticketUsers: undefined,
   refreshTicketEvents: false,
   ticketEventHistories: undefined,
   ticketDetails: {},
@@ -176,11 +176,11 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TICKET_USERS_SUCCESS:
       state = {
         ...state,
-        ticketEmployees: action.payload,
+        ticketUsers: action.payload?.details?.data,
       };
       break;
     case ActionTypes.GET_TICKET_USERS_FAILURE:
-      state = { ...state, ticketEmployees: undefined };
+      state = { ...state, ticketUsers: undefined };
       break;
     case ActionTypes.REFRESH_TICKET_EVENTS:
       state = { ...state, refreshTicketEvents: !state.refreshTicketEvents }

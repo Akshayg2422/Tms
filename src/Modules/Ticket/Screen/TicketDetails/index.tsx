@@ -1,7 +1,7 @@
 import {
   Chats,
-  IssueUsers,
-  Attachments,
+ TicketUsers,
+ TicketAttachments,
   ReferenceTickets,
 } from "@Modules";
 import { TicketInfo } from "@Modules";
@@ -18,10 +18,10 @@ function TicketDetails() {
 
 
   const TABS = [
-    { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>Thread</span></div>, component: <Chats /> },
-    { id: "2", title: <div className="bi bi-paperclip">ATTACH</div>, component: <Attachments /> },
-    { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCE</span></div>, component: <ReferenceTickets /> },
-    { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USER</span></div>, component: <IssueUsers /> },
+   // { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>Thread</span></div>, component: <Chats /> },
+    { id: "2", title: <div className="bi bi-paperclip">ATTACH</div>, component: <TicketAttachments /> },
+  //  { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCE</span></div>, component: <ReferenceTickets /> },
+    { id: "4", title: <div className="bi bi-person-fill"><span className={'mx-1'}>USER</span></div>, component: <TicketUsers /> },
   ];
 
 
