@@ -89,3 +89,4 @@ export const getEmployeeslApi = (payload) => post(URL.GET_EMPLOYEESL, payload, {
 
 export const addEmployeeTimeLineApi = (payload) => post(URL.ADD_EMPLOYEE_TIMELINE, payload, {})
 export const getEmployeeTimeLineApi = (payload) => post(URL.GET_EMPLOYEE_TIMELINE, payload, {})
+export const getAssignedTaskApi = (payload) => post(URL.GET_ASSIGNED_TASK, payload, {})

@@ -1,3 +1,5 @@
+
+import * as ActionTypes from '../ActionTypes'
 import {
   GET_ASSOCIATED_BRANCH,
   GET_ASSOCIATED_BRANCH_FAILURE,
@@ -69,7 +71,7 @@ import {
 
 import { UserCompanyStateProp } from '../../Interfaces';
 
-import * as ActionTypes from '../ActionTypes'
+// import * as ActionTypes from '../ActionTypes'
 
 const initialState: UserCompanyStateProp = {
 

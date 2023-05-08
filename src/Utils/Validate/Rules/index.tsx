@@ -312,3 +312,15 @@ export const ADD_REFERENCE_TASK = {
     presence: { allowEmpty: false, message: " Reference Task cannot be empty" },
   }
 }
+
+export const ADD_TIME_SHEET_DETAILS = {
+  task_id: {
+    presence: { allowEmpty: false, message: "  Task cannot be empty" },
+  },
+  start_time: {
+    presence: { allowEmpty: false, message: " StartTime cannot be empty" },
+  },
+  end_time: {
+    presence: { allowEmpty: false, message: " EndTime cannot be empty" },
+  }
+}

@@ -145,7 +145,9 @@
     "noTaskFound":"No Task Found",
     "noTextFound":"No text found",
     "createTask":"Create Task",
-    "noUserFound":"No User Found"
+    "noUserFound":"No User Found",
+    "employees":"Employees",
+    "addTimeSheet":"AddTimeSheet"
   },
   "product": {
     "Store": "Store",

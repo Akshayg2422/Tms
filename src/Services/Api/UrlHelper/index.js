@@ -74,6 +74,7 @@ export const SECTOR_SERVICE_TYPES = SERVICE + 'getSectorServiceTypes';
 /* ADD TASK */
 
 export const FETCH_ADD_TASK = TASK + 'raiseNewTask'
+export const GET_ASSIGNED_TASK = TASK + 'getAssingedTask'
 
 /* GET SUB TASK */
 

@@ -128,7 +128,9 @@
         "subTask":"துணைப் பணி",
         "addReferenceTask":"குறிப்பு பணியைச் சேர்க்கவும்",
         "noTaskFound":"பணிகள் எதுவும் இல்லை",
-        "noTextFound":"உரை எதுவும் இல்லை"
+        "noTextFound":"உரை எதுவும் இல்லை",
+        "employees":"ஊழியர்கள்",
+        "addTimeSheet":"கூடுதல் நேரத்தாள்"
     },
     "product": {
         "Store": "ஸ்டோர்",

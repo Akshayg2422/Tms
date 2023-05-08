@@ -7,6 +7,8 @@ import {
 } from "@Redux";
 import { useDropDown, useModal } from '@Hooks';
 import { Card, CommonTable, DateTimePicker, DropDown, Modal } from '@Components';
+import { getDisplayDateFromMomentByType , HDD_MMMM_YYYY_HH_MM_A ,getMomentObjFromServer, DD_MMMM_YYYY} from '@Utils';
+import { translate } from "@I18n";
 
 function EmployeeTimeSheet() {
     const dispatch = useDispatch();
@@ -15,13 +17,13 @@ function EmployeeTimeSheet() {
     const [startTimeEta, setStatTimeEta] = useState("")
   const [endTimeEta, setEndTimeEta] = useState("")
     const [employeesList, setEmployeesList] = useState([])
+    const [employeesTimeSheets,setEmployeesTimeSheets]=useState([])
     const { dashboardDetails,employeeTimelineList } = useSelector((state: any) => state.UserCompanyReducer);
     const { company_branch } = dashboardDetails || ''
 
     useEffect(() => {
         getEmployeesDataList()
-        getEmployeesTimeList()
-
+     
     }, [])
 
     const handleStartTimeEtaChange = (value: any) => {
@@ -46,20 +48,21 @@ function EmployeeTimeSheet() {
                 },
                 onError: (error) => () => {
                 },
-
-
             })
 
         )
     }
 
-const getEmployeesTimeList=()=>{
-    const params={}
+
+
+const getEmployeesTimeList=(item:any)=>{
+    const params={emp_id:item?.id}
+    if(item?.id){
     dispatch(
         getEmployeeTimeline({
             params,
             onSuccess:(response)=>()=>{
-
+                setEmployeesTimeSheets(response?.details)
             },
             onError:(error)=>()=>{
 
@@ -68,18 +71,25 @@ const getEmployeesTimeList=()=>{
         })
 
     )
+    }
 }
+
+
 
 const normalizedTableData = (data: any) => {
     if (data && data?.length > 0){
         return data?.map((el: any) => {
+        
             return{
 
+              Date:getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(el?.created_at)),
+              Task:<div className=''>{el?.task?.name}</div>,
+              Start:getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.start_time)),
+              End:getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.end_time)),
+              // ETA:getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.eta_time)),
+              Status:el?.is_completed?"complete":""
 
-
-            }
-
-        }
+            } }
         )
 
     }
@@ -96,40 +106,35 @@ const normalizedTableData = (data: any) => {
             <div className='col-4'>
                 <DropDown
                     className="form-control-sm"
-                    heading={'employees'}
+                    heading={translate("auth.employees")}
                     placeHolder={'employees'}
                     data={employeesList}
                     selected={employees.value}
                     onChange={(item) => {
                         employees.onChange(item)
-                        // proceedParams({ task_status: item.id })
+                        getEmployeesTimeList(item)
                     }}
                 />
             </div>
-
-
         </div>
         <div>
-      {employeeTimelineList &&employeeTimelineList.length>0 &&  <CommonTable
+      {employeesTimeSheets &&employeesTimeSheets.length>0 &&  <CommonTable
            
-            tableDataSet={employeeTimelineList}
-            displayDataSet={normalizedTableData(employeeTimelineList)}
+            tableDataSet={employeesTimeSheets}
+            displayDataSet={normalizedTableData(employeesTimeSheets)}
             tableOnClick={(idx, index, item) => {
               
               }}
-            
           />
       }
         </div>
         </Card>
-
         <Modal
          isOpen={addEtaTime.visible}
          onClose={() => {
             addEtaTime.hide();
-
           }}
-          title={'addTimeSheet'}
+          title={translate("auth.addTimeSheet")!}
         >
         <div className="row">
             <div className="col-6">

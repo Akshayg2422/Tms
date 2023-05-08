@@ -196,7 +196,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         initialValue={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
                         type="both"
                         onChange={setEta}
-                        
                     />
                     <Input
                         type={"text"}
