@@ -2,48 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HomeContainer, Button, Image, CommonTable, Priority, Status, NoDataFound } from "@Components";
 import { useNavigation } from "@Hooks";
-import { translate } from "@I18n";
 import { TicketFilter } from '@Modules';
-import { ROUTES,HOME_PATH } from '@Routes'
+import { ROUTES } from '@Routes'
 import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter, getDates } from "@Utils";
-import { getTickets, setSelectedTicket, getDashboard, setSelectedTabPosition } from "@Redux";
-
-
+import { getTickets, setSelectedTicket, setSelectedTicketTabPosition } from "@Redux";
 
 
 function Tickets() {
 
   const DEFAULT_PARAMS = { q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", page_number: 1 }
   const { goTo } = useNavigation();
-  const { tickets, ticketNumOfPages, ticketCurrentPages,selectedTicket } = useSelector((state: any) => state.TicketReducer);
-  const date = new Date();
-  const time = date.getHours()
+  const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.TicketReducer);
   const dispatch = useDispatch();
   const [params, setParams] = useState(DEFAULT_PARAMS)
 
 
   useEffect(() => {
     getTicketHandler(ticketCurrentPages)
-    
   }, [params])
-
-
-
-  useEffect(() => {
-    getDashboardDetails()
-  }, [selectedTicket])
-
-
-  function getDashboardDetails() {
-    const params = {}
-    dispatch(getDashboard({
-      params,
-      onSuccess: (response) => () => {
-      },
-      onError: () => () => { }
-    }));
-  }
-
 
   const getTicketHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
@@ -62,8 +38,6 @@ function Tickets() {
       })
     );
   };
-
-  console.log("selectedTicket",selectedTicket)
 
 
 
@@ -170,8 +144,8 @@ function Tickets() {
                 }
                 }
                 tableOnClick={(idx, index, item) => {
-                  dispatch(setSelectedTicket(item));
-                 dispatch(setSelectedTabPosition({ id: '1' }))
+                 dispatch(setSelectedTicket(item));
+                 dispatch(setSelectedTicketTabPosition({ id: '1' }))
                  goTo(ROUTES['ticket-module']['tickets-details']+'/'+item?.id);
                 }
                 }

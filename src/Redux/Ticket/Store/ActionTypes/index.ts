@@ -36,7 +36,10 @@ export const REFERENCE_TICKET_DETAILS = "REFERENCE_TICKET_DETAILS";
  * refresh task Events
  */ 
 
- export const REFRESH_TICKET_EVENTS = 'REFRESH_TICKET_EVENTS';
+export const REFRESH_TICKET_EVENTS = 'REFRESH_TICKET_EVENTS';
+
+ 
+export const SELECTED_TICKET_TAB_POSITION = 'SELECTED_TICKET_TAB_POSITION';
 
  /**
  * Get Ticket Event History

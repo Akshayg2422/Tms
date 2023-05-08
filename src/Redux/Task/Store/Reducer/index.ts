@@ -20,7 +20,7 @@ const initialState: TaskStateProp = {
   refreshTaskEvents: false,
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
-  selectedTabPositions: { id: '1' },
+  selectedTabPositions:{ id: '1' },
   taskDetails: {},
   subTaskGroups: undefined
 };

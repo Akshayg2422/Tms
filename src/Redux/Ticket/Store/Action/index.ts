@@ -227,6 +227,13 @@ export const referenceIssueDetails = (params) => {
   }
 }
 
+export const setSelectedTicketTabPosition = (params: any) => {
+  console.log(" action params",params)
+  return {
+      type: ActionTypes.SELECTED_TICKET_TAB_POSITION,
+      payload: params,
+  };
+};
 
 
 /** 

@@ -175,7 +175,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col text-right mt-3">
+                    {/* <div className="col text-right mt-3">
                         {assigned_to?.id === dashboardDetails?.user_details?.id && < Button size={'sm'} text={'Start'}
                             onClick={() => {
                                 alertModal.show()
@@ -185,7 +185,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                             alertModal.show()
                             setActionTask(END_TASK)
                         }} />}
-                    </div>
+                    </div> */}
                 </div>
             </Card >
 
