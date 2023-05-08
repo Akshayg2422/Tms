@@ -1,9 +1,10 @@
-import React from 'react'
+
 import { DateTimePickerProps } from './interfaces';
 import ReactDatetime from "react-datetime";
 import { FormGroup } from 'reactstrap';
 import { InputHeading } from '@Components'
 import { Moment, isMoment } from 'moment'
+
 
 function DateTimePicker({ id, heading, placeholder, type = 'date', onChange, ...rest }: DateTimePickerProps) {
     return (
@@ -15,7 +16,9 @@ function DateTimePicker({ id, heading, placeholder, type = 'date', onChange, ...
 
                 inputProps={
                     {
-                        placeholder: placeholder
+
+                     placeholder: placeholder
+
                     }
                 }
                 
@@ -24,8 +27,9 @@ function DateTimePicker({ id, heading, placeholder, type = 'date', onChange, ...
                 onChange={
                     (date: Moment | string) => {
                         if (onChange) {
+                          
                             if (isMoment(date)) {
-                                onChange(date.format().toString())
+                                onChange(date.format().toString())  
                             }
                             else {
                                 onChange(date)

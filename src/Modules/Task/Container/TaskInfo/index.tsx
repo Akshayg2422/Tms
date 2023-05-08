@@ -140,10 +140,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 </div>
                                 <div className="row ml-1 mr-3">
                                     <div className="pointer" onClick={() => editEtaModal.show()}>
-                                        <Image src={icons.edit} height={18} width={18} />
+                                        <Image src={icons.editEta} height={16} width={16} />
                                     </div>
                                     <div className="ml-2 pointer" onClick={() => { taskEventModal.show() }}>
-                                        <Image src={icons.history} height={18} width={18} />
+                                        <Image src={icons.timeline} height={17} width={17} />
                                     </div>
                                 </div>
                             </div>
@@ -194,14 +194,14 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     />
                     <Input
                         type={"text"}
-                        heading={translate("common.reason")}
+                        heading={translate("common.note")}
                         value={editEtaReason.value}
                         onChange={editEtaReason.onChange}
                     />
 
                 </div>
                 <div className="col text-right">
-                    <Button text={'Submit'} onClick={editEtaSubmitApiHandler} />
+                    <Button text={translate("common.submit")} onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
             {/**

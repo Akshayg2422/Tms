@@ -15,7 +15,11 @@ import {
 import { SidebarProps } from './interfaces'
 import { Image } from '@Components'
 import { url } from "inspector";
+import { useSelector } from "react-redux";
+import { getPhoto } from "@Utils";
 function Sidebar({ toggleSideNav, sideNavOpen, routes, logo, rtlActive }: SidebarProps) {
+  const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+  const { company_branch, user_details, company } = dashboardDetails || ''
   const [state, setState] = React.useState({});
   const location = useLocation();
   React.useEffect(() => {
@@ -162,11 +166,19 @@ function Sidebar({ toggleSideNav, sideNavOpen, routes, logo, rtlActive }: Sideba
       <div className="sidenav-header d-flex align-items-center">
         {logo ? (
           <NavbarBrand {...navbarBrandProps}>
+            <div className="row">
             <img
               alt={logo.imgAlt}
-              className="navbar-brand-img"
-              src={logo.imgSrc}
+              className="navbar-brand-img rounded-circle "
+              src={ getPhoto(user_details?.profile_photo)}
+            height={200}
+            width={40}
+             
+
             />
+            <div className="ml-1 text-sm mt-2">{user_details?.name}</div>
+
+</div>
           </NavbarBrand>
         ) : null}
         <div className="ml-auto">
@@ -189,6 +201,20 @@ function Sidebar({ toggleSideNav, sideNavOpen, routes, logo, rtlActive }: Sideba
           <Nav navbar>{createLinks(routes)}</Nav>
         </Collapse>
       </div>
+
+      <div className="sidenav-header d-flex align-items-center fixed-bottom">
+        {logo && (
+          <NavbarBrand {...navbarBrandProps}>
+            <img
+              alt={logo.imgAlt}
+              className="navbar-brand-img"
+              src={logo.imgSrc}
+            />
+          </NavbarBrand>
+        ) }
+      </div>
+
+      
     </div>
   );
   return (

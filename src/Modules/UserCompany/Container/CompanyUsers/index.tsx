@@ -15,6 +15,7 @@ function CompanyUsers() {
   const dispatch = useDispatch()
 
   const { employees, selectedCompany } = useSelector((state: any) => state.UserCompanyReducer);
+  console.log(employees)
 
   useEffect(() => {
     getCompanyEmployeesApi()
@@ -27,7 +28,8 @@ function CompanyUsers() {
     const params = { branch_id: selectedCompany.branch_id };
     dispatch(getEmployees({
       params,
-      onSuccess: () => () => {
+      onSuccess: (response) => () => {
+      
       },
       onError: () => () => { }
     }));
@@ -36,8 +38,13 @@ function CompanyUsers() {
   const normalizedTableData = (data: any) => {
     return data?.map((el: any) => {
       return {
-        name: el.name,
-        profile: el?.profile_image && <Image variant={'rounded'} src={getPhoto(el?.profile_image)} />,
+        profile: 
+        <div className='row '>
+          <div className='col-auto '>{el?.profile_image ?<Image variant={'rounded'} src={getPhoto(el?.profile_image)}/>:<Image variant={'rounded'} src={icons.profilePick}/>}</div>
+         <div className='col mt--3 '> <div className='row h5 mb-0 '>{ el.name}</div>
+          <div className=' row ' >{el?.department?.name} <div className='px-1'>/</div>  {el?.designation?.name}</div>
+          </div>
+          </div>,
         phone: el?.mobile_number,
         email: el?.email,
     

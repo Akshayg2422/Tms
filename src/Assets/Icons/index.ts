@@ -131,4 +131,12 @@ export const icons = {
   addSub: require('./AddSub/icon.png'),
   markAsClose: require('./MarkAsClose/icon.png'),
   markAsOpen: require('./MarkAsOpen/icon.png'),
+  editEta: require('./EditEta/icon.png'),
+  Comments: require('./Comments/icon.png'),
+  attachments: require('./attachments/icon.png'),
+  reference: require('./Reference/icon.png'),
+  timeline: require('./TimelineHistoty/icon.png'),
+  users: require('./Users/icon.png'),
+  employeePortfolio:require('./EmployeePortfolio/icon.png'),
+  timeSheet:require('./Timesheet/icon.png')
 };

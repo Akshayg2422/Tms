@@ -324,3 +324,26 @@ export const getSubTaskGroupsFailure = (error: any) => {
         payload: error
     }
 }
+
+
+// GETASSIGNED TASK
+
+export const getAssignedTask = (params: any) => {
+    return {
+        type: ActionTypes.GET_ASSIGNED_TASK,
+        payload: params
+    }
+}
+export const getAssignedTaskSuccess = (response: any) => {
+    return {
+        type: ActionTypes.GET_ASSIGNED_TASK_SUCCESS,
+        payload: response
+    }
+}
+
+export const getAssignedTaskFailure = (error: any) => {
+    return {
+        type: ActionTypes.GET_ASSIGNED_TASK_FAILURE,
+        payload: error
+    }
+}

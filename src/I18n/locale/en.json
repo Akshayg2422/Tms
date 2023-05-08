@@ -78,9 +78,10 @@
     "Priority" : "Priority",
     "selectGroup": "Select Group",
     "subTask":"Sub Task",
-    "Priority": "Priority",
-    "selectGroup": "Select Group",
-    "reason": "Reason"
+    "reason": "Reason",
+    "includeSubtask":"Include SubTask",
+    "addAttachment":"Add Attachment",
+    "note":"Note"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -125,7 +126,6 @@
     "logo": "Logo",
     "email": "Email",
     "emailOptional": "Email (Optional)",
-    "title": "Title",
     "description": "Description",
     "referenceNo": "Reference No",
     "addBroadCast": "ADD BROADCAST",
@@ -138,7 +138,16 @@
     "code": "Code",
     "basic": "Basic",
     "advance": "Advance",
-    "title/code": "Title/Code"
+    "title/code": "Title/Code",
+    "eta":"ETA",
+    "subTask":"SubTask",
+    "addReferenceTask":"Add Reference Task",
+    "noTaskFound":"No Task Found",
+    "noTextFound":"No text found",
+    "createTask":"Create Task",
+    "noUserFound":"No User Found",
+    "employees":"Employees",
+    "addTimeSheet":"AddTimeSheet"
   },
   "product": {
     "Store": "Store",
@@ -216,7 +225,6 @@
     "scrollDown": "Scroll Down",
     "product": "Product",
     "pricing": "Pricing",
-    "company": "Company",
     "about": "About",
     "blog": "Blog",
     "contact": "Contact",

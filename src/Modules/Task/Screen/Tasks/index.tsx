@@ -9,19 +9,8 @@ import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
 
-
-const DEFAULT_PARAMS = {
-  q_many: "",
-  "tasks_by": "assigned_to",
-  "task_status": "INP",
-  "priority": "ALL",
-  "group": "ALL",
-  "include_subtask": false,
-  page_number: 1
-}
-
 function Tasks() {
-  const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, page_number: 1 }
+  const DEFAULT_PARAMS = { q_many: "","tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false,"department_id":"ALL","designation_id":"ALL", page_number: 1}
   const dispatch = useDispatch()
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask } = useSelector((state: any) => state.TaskReducer);
@@ -30,10 +19,6 @@ function Tasks() {
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [params])
-
-
-  console.log(new Date() + "+======" + new Date('2023-05-10T00:00:00+05:30'));
-
 
 
   useEffect(() => {
@@ -127,16 +112,17 @@ function Tasks() {
 
 
   return (
-    <div className="m-3">
-      <div className="row">
-        <div className="mx-2 mb--3 col">
+    <div className="mx-3 mt-3 ">
+      <div className="row ">
+        <div className="mx-2 mb--3  col">
           <TaskGroups onClick={(code) => {
             setParams({ ...params, group: code } as any)
           }} />
         </div>
 
-        <div className="col-auto ">
+        <div className="col-auto  ">
           <Button
+          className="mb--3"
             size={'sm'}
             text={translate("common.createTask")}
             onClick={() => {
@@ -149,7 +135,7 @@ function Tasks() {
         </div>
       </div>
 
-      <HomeContainer type={'card'} className="mt-3">
+      <HomeContainer type={'card'} className="">
         <TaskFilter onParams={(filteredParams) => {
           setParams({ ...params, ...filteredParams })
         }} />
@@ -179,7 +165,7 @@ function Tasks() {
             }
           />
           :
-          <NoDataFound type={'action'} buttonText={'Create Task'} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
+          <NoDataFound type={'action'} buttonText={translate("auth.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
         }
       </HomeContainer>
     </div>

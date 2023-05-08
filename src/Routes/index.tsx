@@ -1,4 +1,4 @@
-import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails,TicketDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Tickets, AddTicket } from '@Modules'
+import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails,TicketDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeeTimeSheet, MyPortfolio, Tickets } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 
@@ -49,7 +49,9 @@ export const ROUTES = {
     "add-company": '/add-company',
     "add-user": '/add-user',
     profile: '/profile',
-    setting: '/setting'
+    setting: '/setting',
+    employee:'/employee-time-sheet',
+    myPortfolio:'/my-portfolio'
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -126,7 +128,24 @@ export const HOME_ROUTES = [
     icon: icons.setting,
     layout: "",
     component: <Setting />
+  },
+
+  {
+    path: ROUTES['user-company-module'].employee,
+    name: "Employee Portfolio",
+    icon: icons.employeePortfolio,
+    layout: "",
+    component: <EmployeeTimeSheet/>
+  },
+  
+  {
+    path: ROUTES['user-company-module'].myPortfolio,
+    name: "MyTimeSheet",
+    icon: icons.timeSheet,
+    layout: "",
+    component: <MyPortfolio/>
   }
+
 ];
 
 export const TASK_ROUTES = [

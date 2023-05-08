@@ -19,7 +19,7 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
               text={title}
             />
           </div>
-          <div className="col-lg-6 col-sm-0 col-7 text-right text-xs text-capitalize">
+          <div className="col-lg-6 col-sm-0 col-7 text-right  text-capitalize">
             {getDataAndTime(created_at)}
           </div>
 

@@ -12,7 +12,7 @@ function Table({ tableDataSet, displayDataSet, tableOnClick }: TableProps) {
     if (displayDataSet) {
       const header = Object.keys(displayDataSet[0])
       return header.map(key => {
-        return <th scope="col" key={key}>{key}</th>
+        return <th scope="col"  key={key}>{key}</th>
       })
     }
   }
@@ -30,9 +30,9 @@ function Table({ tableDataSet, displayDataSet, tableOnClick }: TableProps) {
 
   return (
 
-    <table className="table align-items-center table-flush">
-      <thead className="thead-light">
-        <tr>
+    <table className="table align-items-center table-flush ">
+      <thead className="thead-light ">
+        <tr >
           {
             renderTableHeader()
           }

@@ -109,9 +109,9 @@ export const CREATE_EXTERNAL = {
     presence: { allowEmpty: false, message: "Please select company" },
   },
 
-  assigned_to_id: {
-    presence: { allowEmpty: false, message: "please select User" },
-  },
+  // assigned_to_id: {
+  //   presence: { allowEmpty: false, message: "please select User" },
+  // },
   priority: {
     presence: { allowEmpty: false, message: "please select priority" },
   }
@@ -128,9 +128,9 @@ export const CREATE_INTERNAL = {
     presence: { allowEmpty: false, message: "reference no cannot be empty" },
   },
 
-  assigned_to_id: {
-    presence: { allowEmpty: false, message: "please select User" },
-  },
+  // assigned_to_id: {
+  //   presence: { allowEmpty: false, message: "please select User" },
+  // },
   priority: {
     presence: { allowEmpty: false, message: "please select priority" },
 
@@ -303,5 +303,17 @@ export const ADD_SUB_TASK_GROUP = {
 export const ADD_REFERENCE_TASK = {
   reference_task: {
     presence: { allowEmpty: false, message: " Reference Task cannot be empty" },
+  }
+}
+
+export const ADD_TIME_SHEET_DETAILS = {
+  task_id: {
+    presence: { allowEmpty: false, message: "  Task cannot be empty" },
+  },
+  start_time: {
+    presence: { allowEmpty: false, message: " StartTime cannot be empty" },
+  },
+  end_time: {
+    presence: { allowEmpty: false, message: " EndTime cannot be empty" },
   }
 }

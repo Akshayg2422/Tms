@@ -1,3 +1,5 @@
+
+import * as ActionTypes from '../ActionTypes'
 import {
   GET_ASSOCIATED_BRANCH,
   GET_ASSOCIATED_BRANCH_FAILURE,
@@ -44,6 +46,9 @@ import {
   GET_EMPLOYEES,
   GET_EMPLOYEES_SUCCESS,
   GET_EMPLOYEES_FAILURE,
+  GET_EMPLOYEESL,
+  GET_EMPLOYEES_SUCCESSL,
+  GET_EMPLOYEES_FAILUREL,
 
   REGISTER_ADMIN,
   REGISTER_ADMIN_SUCCESS,
@@ -52,7 +57,13 @@ import {
   REGISTER_COMPANY,
   REGISTER_COMPANY_SUCCESS,
   REGISTER_COMPANY_FAILURE,
+  GET_EMPLOYEE_TIMELINE,
+  GET_EMPLOYEE_TIMELINE_SUCCESS,
+  GET_EMPLOYEE_TIMELINE_FAILURE,
 
+  ADD_EMPLOYEE_TIMELINE,
+  ADD_EMPLOYEE_TIMELINE_SUCCESS,
+  ADD_EMPLOYEE_TIMELINE_FAILURE,
 
   RESTORE_USER_COMPANY,
 } from '../ActionTypes';
@@ -60,7 +71,8 @@ import {
 
 import { UserCompanyStateProp } from '../../Interfaces';
 
-import * as ActionTypes from '../ActionTypes'
+// import * as ActionTypes from '../ActionTypes'
+
 const initialState: UserCompanyStateProp = {
 
   loading: false,
@@ -72,6 +84,9 @@ const initialState: UserCompanyStateProp = {
   departmentsCurrentPages: undefined,
   departmentsNumOfPages: undefined,
   employees: undefined,
+  employeesl: undefined,
+  employeeAddTime:undefined,
+  employeeTimelineList:undefined,
   brandSector: undefined,
   ticketTag: undefined,
   brandSectorCurrentPages: undefined,
@@ -386,8 +401,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ADD_EMPLOYEE_SUCCESS:
-      console.log(JSON.stringify(action.payload) + "======");
-
+     
       state = {
         ...state,
         addEmployeeDetails: action.payload.details,
@@ -429,6 +443,58 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case GET_EMPLOYEES_FAILURE:
       state = { ...state, employees: action.payload };
       break;
+
+      // GET Employessl
+
+      case GET_EMPLOYEESL:
+        state = {
+          ...state
+        };
+  
+        break;
+      case GET_EMPLOYEES_SUCCESSL:
+        state = {
+          ...state,
+          employeesl: action.payload.details,
+        };
+        break;
+      case GET_EMPLOYEES_FAILUREL:
+        state = { ...state, employeesl: action.payload };
+        break;
+  //get employee timeline
+
+  case GET_EMPLOYEE_TIMELINE:
+    state = {
+      ...state
+    };
+
+    break;
+  case GET_EMPLOYEE_TIMELINE_SUCCESS:
+    state = {
+      ...state,
+      employeeTimelineList: action.payload.details,
+    };
+    break;
+  case GET_EMPLOYEE_TIMELINE_FAILURE:
+    state = { ...state, employeeTimelineList: action.payload };
+    break;
+
+//addEmployeeTimeline
+case ADD_EMPLOYEE_TIMELINE:
+  state = {
+    ...state
+  };
+
+  break;
+case ADD_EMPLOYEE_TIMELINE_SUCCESS:
+  state = {
+    ...state,
+    employeeAddTime: action.payload.details,
+  };
+  break;
+case ADD_EMPLOYEE_TIMELINE_FAILURE:
+  state = { ...state, employeeAddTime: action.payload };
+  break;
 
     case REGISTER_COMPANY:
       state = { ...state };

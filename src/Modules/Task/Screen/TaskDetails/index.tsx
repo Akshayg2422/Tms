@@ -7,10 +7,11 @@ import {
     TaskInfo,
     SubTasks
 } from "@Modules";
-import { HomeContainer, Tabs } from "@Components";
+import { HomeContainer, Tabs, Image } from "@Components";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedTabPosition } from '@Redux'
-import { useParams } from 'react-router-dom'
+import { icons } from "@Assets";
+
 
 function TaskDetails() {
 
@@ -21,10 +22,10 @@ function TaskDetails() {
     );
 
     const TABS = [
-        { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>COMMENTS</span></div>, component: <Comments /> },
-        { id: "2", title: <div className="bi bi-paperclip">ATTACHMENTS</div>, component: <TaskAttachments /> },
-        { id: "3", title: <div className="bi bi-search"><span className={'mx-1'}>REFERENCES</span></div>, component: <ReferenceTasks /> },
-        { id: "4", title: <div className="bi bi-person"><span className={'mx-1'}>USERS</span></div>, component: <TaskUsers /> },
+        { id: "1", title: <div><Image src={icons.Comments} height={16} width={16} /><span className={'mx-1'}>COMMENTS</span></div>, component: <Comments /> },
+        { id: "2", title: <div><Image src={icons.attachments} height={16} width={16} /><span className={'mx-1'}>ATTACHMENTS</span></div>, component: <TaskAttachments /> },
+        { id: "3", title: <div><Image src={icons.reference} height={16} width={16} /><span className={'mx-1'}>REFERENCES</span></div>, component: <ReferenceTasks /> },
+        { id: "4", title: <div><Image src={icons.users} height={16} width={16} /><span className={'mx-1'}>USERS</span></div>, component: <TaskUsers /> },
     ];
 
 

@@ -362,6 +362,8 @@ function TaskGroup() {
           className="overflow-auto overflow-hide"
           style={{
             height: showTaskGroup ? dynamicHeight.dynamicHeight - 100 : '0px',
+            marginLeft:"-23px",
+            marginRight:"-23px"
           }}
         >
           {taskGroups && taskGroups?.length > 0 ? (

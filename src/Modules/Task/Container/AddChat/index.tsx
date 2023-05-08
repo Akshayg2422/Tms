@@ -5,6 +5,7 @@ import { addTaskEvent, refreshTaskEvents } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { useWindowDimensions, useModal, useInput } from '@Hooks'
 import { TEM, MEA } from '@Utils'
+import { translate } from '@I18n'
 
 function AddChat() {
 
@@ -118,7 +119,7 @@ function AddChat() {
                         </div>
                     </div>
                     <div className=' pt-4'>
-                        <Button text={'Submit'} onClick={addTaskEventAttachment} />
+                        <Button text={translate("common.submit")} onClick={addTaskEventAttachment} />
                     </div>
                 </div>
 
