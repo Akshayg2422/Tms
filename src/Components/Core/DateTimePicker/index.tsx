@@ -18,7 +18,7 @@ function DateTimePicker({ id, heading, placeholder, type = 'date', onChange, ...
                         placeholder: placeholder
                     }
                 }
-
+                
                 dateFormat={type !== 'time' && 'D MMM YYYY'}
                 timeFormat={type !== 'date' && 'h:mm A'}
                 onChange={

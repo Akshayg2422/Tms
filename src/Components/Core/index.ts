@@ -26,6 +26,7 @@ export * from './AutoCompleteDropDownImage'
 export * from './PageNation'
 export * from './Back'
 export * from './FullScreenImage'
+export * from './BarChart'
 
 
 
