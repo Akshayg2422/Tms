@@ -20,6 +20,8 @@ function TaskDetails() {
         (state: any) => state.TaskReducer
     );
 
+    console.log("tab",selectedTabPositions)
+
     const TABS = [
         { id: "1", title: <div className="bi bi-chat-text"><span className={'mx-1'}>COMMENTS</span></div>, component: <Comments /> },
         { id: "2", title: <div className="bi bi-paperclip">ATTACHMENTS</div>, component: <TaskAttachments /> },

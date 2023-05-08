@@ -8,11 +8,12 @@ export interface TicketStateProps {
   ticketCurrentPages: any
   referenceTicketCurrentPages: any;
   referenceTicketNoOfPages: any;
-  ticketEmployees: any;
-  selectedTicket?: any;
+  ticketUsers: any;
+  selectedTicket: any;
   referenceTicketSelectedDetails: any;
   selectedReferenceTickets: any;
   refreshTicketEvents: boolean;
+  selectedTicketTabPosition:any;
   ticketEventHistories:any;
   ticketDetails: any;
 }

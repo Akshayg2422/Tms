@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { TaskChatProps } from './interfaces';
+import { TicketChatProps } from './interface';
 import { useSelector, useDispatch } from 'react-redux'
-import { getTaskEvents } from '@Redux'
+import { getTicketsEvents } from '@Redux'
 import { TimeLine, Spinner, Image } from '@Components'
-import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TASK_STATUS_LIST } from '@Utils'
+import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TICKET_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useWindowDimensions } from '@Hooks'
@@ -11,56 +11,56 @@ import { useParams } from 'react-router-dom';
 import { ImageFullScreen } from '@Components'
 
 
-function TaskChat({ }: TaskChatProps) {
+function TicketChat({ }: TicketChatProps) {
 
     const { id } = useParams();
 
     const dispatch = useDispatch()
-    const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
-    const [taskEvents, setTaskEvents] = useState([])
-    const [taskEventsCurrentPage, setEventsTaskCurrentPage] = useState(INITIAL_PAGE)
+    const { refreshTicketEvents } = useSelector((state: any) => state.TicketReducer);
+    const [ticketEvents, setTicketEvents] = useState([])
+    const [ticketEventsCurrentPage, setEventsTicketCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
 
 
     useEffect(() => {
-        getTaskEventsApi(INITIAL_PAGE)
-    }, [refreshTaskEvents, id])
+        getTicketEventsApi(INITIAL_PAGE)
+    }, [refreshTicketEvents, id])
 
 
 
-    function getTaskEventsDisplayData(data: any) {
+    function getTicketEventsDisplayData(data: any) {        
         if (data && data.length > 0) {
             return data.map(each => {
                 return {
                     ...getIconsFromStatus(each)
                 }
             })
+
         }
 
     }
-    const getTaskEventsApi = (page_number: number) => {
+    const  getTicketEventsApi = (page_number: number) => {
         const params = {
-            task_id: id,
+            ticket_id: id,
             page_number
         }
 
-
-
         dispatch(
-            getTaskEvents({
+            getTicketsEvents({
                 params,
                 onSuccess: (response: any) => () => {
-                    const taskEventsResponse = response.details
+                    const ticketEventsResponse = response.details
                     let updatedData = []
-                    if (taskEventsResponse.data && taskEventsResponse.data.length > 0) {
-                        if (page_number === 1) {
-                            updatedData = getTaskEventsDisplayData(taskEventsResponse.data)
+                    if (ticketEventsResponse.data && ticketEventsResponse.data.length > 0) {
+                        if (page_number === 1) {               
+                            updatedData = getTicketEventsDisplayData(ticketEventsResponse.data)
                         } else {
-                            updatedData = getTaskEventsDisplayData([...taskEvents, ...taskEventsResponse.data] as any)
+                            updatedData = getTicketEventsDisplayData([...ticketEvents, ...ticketEventsResponse.data] as any)
                         }
                     }
-                    setTaskEvents(updatedData)
-                    setEventsTaskCurrentPage(taskEventsResponse.next_page)
+                    setTicketEvents(updatedData)
+                    setEventsTicketCurrentPage(ticketEventsResponse.next_page)
+                    
                 },
                 onError: () => () => { },
             })
@@ -68,7 +68,8 @@ function TaskChat({ }: TaskChatProps) {
     };
 
     function getIconsFromStatus(each: any) {
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, ticket_status } = each
+
         let modifiedData = {}
         switch (event_type) {
             case 'TEM':
@@ -85,16 +86,16 @@ function TaskChat({ }: TaskChatProps) {
                 break;
 
             case 'RGU':
-                modifiedData = { ...each, icon: icons.profile, subTitle: by_user?.name, title: "Task Reassigned to " + assigned_to.name }
+                modifiedData = { ...each, icon: icons.profile, subTitle: by_user?.name, title: "Ticket Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
                 modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: attachments.name }
                 break;
             case 'RTS':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'User Attached Reference Task' }
+                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'User Attached Reference Ticket' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status).text }
+                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TICKET_STATUS_LIST, 'id', ticket_status).text }
                 break;
         }
         return modifiedData
@@ -111,8 +112,8 @@ function TaskChat({ }: TaskChatProps) {
             }}
         >
             <InfiniteScroll
-                dataLength={taskEvents.length}
-                hasMore={taskEventsCurrentPage !== -1}
+                dataLength={ticketEvents.length}
+                hasMore={ticketEventsCurrentPage !== -1}
                 scrollableTarget="scrollableDiv"
                 style={{ display: 'flex', flexDirection: 'column-reverse' }}
                 inverse={true}
@@ -120,17 +121,14 @@ function TaskChat({ }: TaskChatProps) {
                     <Spinner />
                 </h4>}
                 next={() => {
-                    console.log('came');
-
-                    console.log(taskEventsCurrentPage + '====');
-                    if (taskEventsCurrentPage !== -1) {
-                        getTaskEventsApi(taskEventsCurrentPage)
+                    if (ticketEventsCurrentPage !== -1) {
+                        getTicketEventsApi(ticketEventsCurrentPage)
                     }
                 }
                 }>
-                {taskEvents && taskEvents.length > 0 &&
-                    taskEvents.map((task: any, index: number) => {
-                        const { icon, title, subTitle, created_at, attachments } = task
+                {ticketEvents && ticketEvents.length > 0 &&
+                    ticketEvents.map((ticket: any, index: number) => {
+                        const { icon, title, subTitle, created_at, attachments } = ticket
                         const showDotLine = index !== 0
                         const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
 
@@ -141,13 +139,6 @@ function TaskChat({ }: TaskChatProps) {
                                 title={title} subTitle={subTitle}
                                 time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
                                 <div className='pt-2'>
-
-                                    {/* {
-                                        attachments?.attachments && attachments?.attachments.length > 0 && attachments?.attachments.map(each => {
-                                            return <ImageFullScreen images={<Image className='ml-1 mb-1' src={getPhoto(each.attachment_file)} width={120} height={120} />} />
-                                        })
-                                    } */}
-
                                     <div className='col-4'>
                                         {
                                             imageUrls && imageUrls.length > 0 &&
@@ -165,5 +156,5 @@ function TaskChat({ }: TaskChatProps) {
     );
 }
 
-export { TaskChat }
+export { TicketChat }
 

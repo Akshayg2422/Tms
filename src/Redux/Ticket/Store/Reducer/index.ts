@@ -1,4 +1,3 @@
-import { log } from 'console';
 import { TicketStateProps } from '../../Interfaces';
 import * as ActionTypes from '../ActionTypes'
 
@@ -15,8 +14,9 @@ const initialState: TicketStateProps = {
   selectedTicket: undefined,
   referenceTicketSelectedDetails: undefined,
   selectedReferenceTickets: undefined,
-  ticketEmployees: undefined,
+  ticketUsers: undefined,
   refreshTicketEvents: false,
+  selectedTicketTabPosition:{ id: '1' },
   ticketEventHistories: undefined,
   ticketDetails: {},
 
@@ -176,15 +176,22 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TICKET_USERS_SUCCESS:
       state = {
         ...state,
-        ticketEmployees: action.payload,
+        ticketUsers: action.payload?.details?.data,
       };
       break;
     case ActionTypes.GET_TICKET_USERS_FAILURE:
-      state = { ...state, ticketEmployees: undefined };
+      state = { ...state, ticketUsers: undefined };
       break;
     case ActionTypes.REFRESH_TICKET_EVENTS:
       state = { ...state, refreshTicketEvents: !state.refreshTicketEvents }
       break;
+      //Selected Tab 
+      case ActionTypes.SELECTED_TICKET_TAB_POSITION:
+        state = {
+          ...state,
+          selectedTicketTabPosition: action?.payload,
+        };
+        break;
 
       
     /**
