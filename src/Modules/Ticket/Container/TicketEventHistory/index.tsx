@@ -1,40 +1,41 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getTaskEventHistory } from '@Redux';
-import { HDD_MMMM_YYYY_HH_MM_A, TASK_STATUS_LIST, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getDisplayDateTimeFromMoment, getMomentObjFromServer, getObjectFromArrayByKey } from '@Utils';
-import { TaskEventHistoryProps } from './interfaces'
-import { TimeLine} from '@Components'
+import { getTicketEventHistory } from '@Redux';
+import { HDD_MMMM_YYYY_HH_MM_A, TICKET_STATUS_LIST, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getMomentObjFromServer, getObjectFromArrayByKey } from '@Utils';
+import { TicketEventHistoryProps } from './interface';
+import { TimeLine } from '@Components'
 import { icons } from '@Assets';
 
-function TaskEventHistory({ }: TaskEventHistoryProps) {
+function TicketEventHistory({ }: TicketEventHistoryProps) {
 
     const dispatch = useDispatch();
-    const { selectedTask, taskEventHistories } = useSelector((state: any) => state.TaskReducer);
+    const { selectedTicket, ticketEventHistories } = useSelector((state: any) => state.TicketReducer);
 
     useEffect(() => {
-        getTaskEventHistoryApi()
+        getTicketEventHistoryApi()
     }, [])
 
-    const getTaskEventHistoryApi = () => {
+    const getTicketEventHistoryApi = () => {
 
         const params = {
-            task_id: selectedTask.id,
+            ticket_id: selectedTicket.id,
         }
 
+
+  
+
         dispatch(
-            getTaskEventHistory({
+            getTicketEventHistory({
                 params,
                 onSuccess: () => () => { },
-                onError: () => () => { },
+                onError: (error) => () => { 
+                },
             })
         );
     }
 
-
-
-
     function getIconsFromStatus(each: any) {
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status, start_time, end_time } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, ticket_status, start_time, end_time } = each
         let modifiedData = {}
         switch (event_type) {
             case 'TEM':
@@ -49,7 +50,6 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
                 });
                 modifiedData = { ...each, icon: icons.profile, subTitle: by_user?.name, title: "tagged " + names }
                 break;
-
             case 'RGU':
                 modifiedData = { ...each, icon: icons.profile, subTitle: by_user?.name, title: "Task Reassigned to " + assigned_to.name }
                 break;
@@ -60,7 +60,7 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
                 modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'User Attached Reference Task' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status)?.text }
+                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TICKET_STATUS_LIST, 'id', ticket_status)?.text }
                 break;
             case 'ETE':
                 modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'Task End time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(end_time)) }
@@ -72,21 +72,19 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
         return modifiedData
     }
 
-    console.log(JSON.stringify(taskEventHistories) + '====taskEventHistories');
-
     return (
-        <div className='m-1 mt-3 shadow-none overflow-auto overflow-hide' style={{ maxHeight: '58vh' }}>
-            {
-                taskEventHistories && taskEventHistories?.length > 0 && taskEventHistories?.map((taskEvent: any, index: number) => {
-                    const { icon, subTitle, title, created_at }: any = getIconsFromStatus(taskEvent)
-                    const show = index !== taskEventHistories.length - 1
+        <div>
+             {
+                ticketEventHistories && ticketEventHistories?.length > 0 && ticketEventHistories?.map((ticketEvent: any, index: number) => {
+                    const { icon, subTitle, title, created_at }: any = getIconsFromStatus(ticketEvent)
+                    const show = index !== ticketEventHistories.length - 1
                     return (
-                        <TimeLine icon={icon} subTitle={subTitle} showDotterLine={show} title={title} time={getDisplayDateFromMoment(getMomentObjFromServer(created_at))}> </TimeLine >
+                        <TimeLine icon={icon} subTitle={subTitle} showDotterLine={show} title={title} time={getDisplayDateFromMoment(getMomentObjFromServer(created_at))}>  </TimeLine >
                     )
                 })
-            }
+            } 
         </div >
     )
 }
 
-export { TaskEventHistory }
+export { TicketEventHistory }

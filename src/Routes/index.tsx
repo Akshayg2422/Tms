@@ -1,9 +1,6 @@
-import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Ticket, AddTicket, EmployeesList, MyPortfolio, EmployeesTimeSheet } from '@Modules'
+import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Tickets, AddTicket, EmployeesList, MyPortfolio, EmployeesTimeSheet, TicketDetails } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
-import { TimeLineCurve } from '@Components'
-
-
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -40,9 +37,10 @@ export const ROUTES = {
     'add-sub-task': '/add-sub-task',
   },
   'ticket-module': {
-    ticket: '/ticket',
-    'ticket-details': '/ticket-details',
+    tickets: '/tickets',
+    'tickets-details': '/tickets-details',
     'add-ticket': '/add-ticket',
+    'reference-ticket': './reference-ticket'
   },
   'user-company-module': {
     companies: '/companies',
@@ -97,11 +95,11 @@ export const HOME_ROUTES = [
     component: <Tasks />
   },
   {
-    path: ROUTES['ticket-module'].ticket,
+    path: ROUTES['ticket-module'].tickets,
     name: "Tickets",
     icon: icons.issue,
     layout: "",
-    component: <Ticket/>
+    component: <Tickets />
   },
   {
     path: ROUTES['user-company-module'].companies,
@@ -163,7 +161,6 @@ export const TASK_ROUTES = [
     component: <AddReferenceTask />
   },
 
-
   {
     key: 3,
     path: ROUTES['task-module']['add-task'],
@@ -179,6 +176,11 @@ export const TASK_ROUTES = [
 ];
 
 export const TICKET_ROUTES = [
+  {
+    key: 1,
+    path: ROUTES['ticket-module']['tickets-details']+ '/:id',
+    component: <TicketDetails />
+  },
   {
     key: 2,
     path: ROUTES['ticket-module']['add-ticket'],
@@ -243,7 +245,7 @@ export const ADMIN_ROUTES = [
     name: "Tickets",
     icon: "bi bi-bell text-primary",
     layout: "",
-    component: <Ticket />
+    component: <Tickets />
   },
   {
     path: "/companies",

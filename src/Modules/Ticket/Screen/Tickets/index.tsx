@@ -2,60 +2,33 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HomeContainer, Button, Image, CommonTable, Priority, Status, NoDataFound } from "@Components";
 import { useNavigation } from "@Hooks";
-import { translate } from "@I18n";
 import { TicketFilter } from '@Modules';
-import { ROUTES,HOME_PATH } from '@Routes'
-import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter } from "@Utils";
-import { getTickets, setSelectedTicket, getDashboard, setSelectedReferenceTickets } from "@Redux";
+import { ROUTES } from '@Routes'
+import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter, getDates } from "@Utils";
+import { getTickets, setSelectedTicket, setSelectedTicketTabPosition } from "@Redux";
 
 
+function Tickets() {
 
-
-function Ticket() {
-
-  const DEFAULT_PARAMS = { q_many: "", "tickets_by": "assigned_to", "ticket_status": "INP", "priority": "ALL", page_number: 1 }
+  const DEFAULT_PARAMS = { q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", page_number: 1 }
   const { goTo } = useNavigation();
-  const { tickets, ticketNumOfPages, ticketCurrentPages,selectedTicket } = useSelector((state: any) => state.TicketReducer);
-  const date = new Date();
-  const time = date.getHours()
+  const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.TicketReducer);
   const dispatch = useDispatch();
   const [params, setParams] = useState(DEFAULT_PARAMS)
 
 
   useEffect(() => {
     getTicketHandler(ticketCurrentPages)
-    
   }, [params])
-
-
-
-  useEffect(() => {
-    getDashboardDetails()
-  }, [selectedTicket])
-
-
-  function getDashboardDetails() {
-    const params = {}
-    dispatch(getDashboard({
-      params,
-      onSuccess: (response) => () => {
-      },
-      onError: () => () => { }
-    }));
-  }
-
 
   const getTicketHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
 
-    console.log('came getTicketHandler');
     
     dispatch(
       getTickets({
         params: updatedParams,
         onSuccess: (response) => () => {
-          console.log("Ticket---->", JSON.stringify(response));
-
         },
         onError: (error) => () => {
 
@@ -66,15 +39,11 @@ function Ticket() {
     );
   };
 
-  console.log("selectedTicket",selectedTicket)
-
 
 
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
       return data.map((el: any) => {
-        const etaDate = new Date(el.eta_time)
-        let etaTime = etaDate.getHours()
         return {
 
           "issue":
@@ -124,7 +93,9 @@ function Ticket() {
 
           'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))} </div>,
           status: <div> <Status status={el?.ticket_status} />
-            <small>{time > etaTime ? 'ABOVE ETA' : ""}</small>
+            <small>{  
+            getDates() > getDates(el.eta_time) ? 'ABOVE ETA' : "" 
+            }</small>
           </div>
         };
       });
@@ -173,9 +144,9 @@ function Ticket() {
                 }
                 }
                 tableOnClick={(idx, index, item) => {
-                  dispatch(setSelectedTicket(item));
-                 // dispatch(setSelectedReferenceTickets(undefined))
-                 goTo(HOME_PATH.ISSUE_DETAILS);
+                 dispatch(setSelectedTicket(item));
+                 dispatch(setSelectedTicketTabPosition({ id: '1' }))
+                 goTo(ROUTES['ticket-module']['tickets-details']+'/'+item?.id);
                 }
                 }
               />
@@ -188,4 +159,4 @@ function Ticket() {
   );
 }
 
-export { Ticket };
+export { Tickets };

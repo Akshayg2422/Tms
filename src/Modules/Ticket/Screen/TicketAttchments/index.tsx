@@ -6,7 +6,7 @@ import { translate } from "@I18n";
 import { getTicketsEvents } from "@Redux";
 import { getPhoto, MEA } from "@Utils";
 
-function Attachments() {
+function TicketAttachments() {
   const dispatch = useDispatch();
   const search = useInput("");
   const { ticketEvents } = useSelector((state: any) => state.CompanyReducer);
@@ -94,4 +94,4 @@ function Attachments() {
 
   )
 }
-export { Attachments };
+export { TicketAttachments };

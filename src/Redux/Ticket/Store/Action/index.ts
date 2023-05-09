@@ -216,4 +216,80 @@ export const referenceIssueDetails = (params) => {
   }
 }
 
+/**
+ * refresh task Events
+ */
+
+
+ export const refreshTicketEvents = () => {
+  return {
+      type: ActionTypes.REFRESH_TICKET_EVENTS,
+  }
+}
+
+export const setSelectedTicketTabPosition = (params: any) => {
+  console.log(" action params",params)
+  return {
+      type: ActionTypes.SELECTED_TICKET_TAB_POSITION,
+      payload: params,
+  };
+};
+
+
+/** 
+ * Ticket Event History
+ */
+
+
+ export const getTicketEventHistory = (params: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_HISTORY,
+      payload: params,
+  };
+};
+
+export const getTicketEventHistorySuccess = (response: any) => {
+
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_HISTORY_SUCCESS,
+      payload: response,
+  };
+};
+
+export const getTicketEventHistoryFailure = (error: any) => {
+
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_HISTORY_FAILURE,
+      payload: error,
+  };
+};
+
+
+/* GET TICKET DETAILS */
+
+export const getTicketDetails = (params: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_DETAILS,
+      payload: params
+  }
+}
+export const getTicketDetailsSuccess = (response: any) => {
+
+  return {
+
+      type: ActionTypes.GET_TICKET_DETAILS_SUCCESS,
+      payload: response
+  }
+}
+
+export const getTicketDetailsFailure = (error: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_DETAILS_FAILURE,
+      payload: error
+  }
+}
+
+
+
+
 

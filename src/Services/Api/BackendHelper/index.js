@@ -76,6 +76,8 @@ export const updateEmployeeProfilePhotoApi = (payload) => post(URL.UPDATE_EMPLOY
 export const getTaskEventHistoryApi = (payload) => post(URL.URL_GET_TASK_EVENT_HISTORY, payload, {})
 export const getTaskGroupLApi = (payload) => post(URL.URL_GET_TASK_GROUP_L, payload, {})
 export const getTaskSubGroupApi = (payload) => post(URL.GET_TASK_SUB_GROUP, payload, {})
+export const getTicketEventHistoryApi = (payload) => post(URL.URL_GET_TICKET_EVENT_HISTORY, payload, {})
+
 
 /* PUSH NOTIFICATION */
 
@@ -90,3 +92,7 @@ export const getEmployeeslApi = (payload) => post(URL.GET_EMPLOYEESL, payload, {
 export const addEmployeeTimeLineApi = (payload) => post(URL.ADD_EMPLOYEE_TIMELINE, payload, {})
 export const getEmployeeTimeLineApi = (payload) => post(URL.GET_EMPLOYEE_TIMELINE, payload, {})
 export const getAssignedTaskApi = (payload) => post(URL.GET_ASSIGNED_TASK, payload, {})
+
+/* GET TICKET DETAILS */
+export const getTicketDetailsApi = (payload) => post(URL.URL_FETCH_TICKET_DETAILS, payload, {})
+

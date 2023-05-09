@@ -45,13 +45,9 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                 onSelected(item)
             }
         } else {
-
             const isExist = updatedSelectedEmployee.some((each: any) => {
                 return each.id === item.id
             })
-
-            console.log(isExist + '===');
-
 
             if (isExist) {
                 updatedSelectedEmployee = updatedSelectedEmployee.filter((each: any) => {
