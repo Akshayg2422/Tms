@@ -170,6 +170,25 @@ function* getTicketDetailsSaga(action) {
   }
 }
 
+/**
+ * get Task Event Attachments
+ */
+
+ function* getTicketEventAttachmentsSaga(action) {
+  try {
+      const response = yield call(Services.getTicketEventsApi, action.payload.params);
+      if (response.success) {
+          yield put(Action.getTicketEventAttachmentsSuccess(response));
+          yield call(action.payload.onSuccess(response));
+      } else {
+          yield put(Action.getTicketEventAttachmentsFailure(response.error_message));
+          yield call(action.payload.onError(response));
+      }
+  } catch (error) {
+      yield put(Action.getTicketEventAttachmentsFailure(error));
+      yield call(action.payload.onError(error));
+  }
+}
 
 function* TicketSaga() {
   yield takeLatest(Action.RAISE_NEW_TICKET, raiseNewTicketSaga);
@@ -181,6 +200,7 @@ function* TicketSaga() {
   yield takeLatest(Action.GET_TICKET_USERS, getTicketUsersSaga)
   yield takeLatest(Action.GET_TICKET_EVENT_HISTORY, getTicketEventHistorySaga)
   yield takeLatest(Action.GET_TICKET_DETAILS, getTicketDetailsSaga)
+  yield takeLatest(Action.GET_TICKET_EVENT_ATTACHMENTS, getTicketEventAttachmentsSaga)
 }
 
 export default TicketSaga;

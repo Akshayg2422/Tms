@@ -58,7 +58,7 @@ function AddChatTicket() {
                 onSuccess: () => () => {
                     resetValues();
                     attachmentModal.hide()
-                    dispatch(refreshTaskEvents())
+                    dispatch(refreshTicketEvents())
                 },
                 onError: (error) => () => { },
             }),

@@ -5,7 +5,6 @@ export * from './DropDownMenuArrow'
 export * from './TicketDetails'
 export * from './TicketUsers'
 export * from './Tickets'
-export * from './ReferenceTickets'
 export * from './TagAssignUser'
 export * from './AddTicket'
 

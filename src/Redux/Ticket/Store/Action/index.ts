@@ -290,6 +290,33 @@ export const getTicketDetailsFailure = (error: any) => {
 }
 
 
+/**
+ * get Task Event Attachments
+ */
+
+ export const getTicketEventAttachments = (params: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_ATTACHMENTS,
+      payload: params,
+  };
+};
+
+export const getTicketEventAttachmentsSuccess = (response: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_SUCCESS,
+      payload: response,
+  };
+};
+
+export const getTicketEventAttachmentsFailure = (error: any) => {
+
+  return {
+      type: ActionTypes.GET_REFERENCE_TICKETS_FAILURE,
+      payload: error,
+  };
+};
+
+
 
 
 
