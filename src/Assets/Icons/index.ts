@@ -114,7 +114,7 @@ export const icons = {
   imageEdit: require('./ImageEdit/icon.png'),
   updatedProfile: require('./UpdatedProfile/add-photo.png'),
   profilePick: require('./ProfilePick/user.png'),
-  basic: require('./Basic/layers.png'),
+  basic: require('./Basic/icon.png'),
   advance: require('./Advance/interactivity.png'),
   ticket: require('./Ticket/planning.png'),
   message: require('./Message/icon.png'),
@@ -137,6 +137,14 @@ export const icons = {
   reference: require('./Reference/icon.png'),
   timeline: require('./TimelineHistoty/icon.png'),
   users: require('./Users/icon.png'),
-  employeePortfolio:require('./EmployeePortfolio/icon.png'),
-  timeSheet:require('./Timesheet/icon.png')
+  employeePortfolio: require('./EmployeePortfolio/icon.png'),
+  timeSheet: require('./Timesheet/icon.png'),
+  attachmentWhiteIcon: require('./AttachmentsWhiteIcons/icon.png'),
+  taggedUserWhiteIcon: require('./TaggedUserWhiteIcon/icon.png'),
+  statusWhiteIcon: require('./StatusWhiteIcon/icon.png'),
+  referenceTaskWhiteIcon: require('./ReferenceTaskWhiteIcon/icon.png'),
+  reassignedUserWhiteIcon: require('./ReassignedUserWhiteIcon/icon.png'),
+  clockWhiteIcon: require('./Clock/icon.png'),
+  startTime:require('./StartTime/icon.png'),
+  endTime:require('./EndTime/icon.png')
 };

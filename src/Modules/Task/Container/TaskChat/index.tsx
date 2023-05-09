@@ -82,20 +82,20 @@ function TaskChat({ }: TaskChatProps) {
                 let names = tagged_users.map(function (item) {
                     return '@' + item['name'] + " ";
                 });
-                modifiedData = { ...each, icon: icons.profile, subTitle: by_user?.name, title: "tagged " + names }
+                modifiedData = { ...each, icon: icons.taggedUserWhiteIcon, subTitle: by_user?.name, title: "tagged " + names }
                 break;
 
             case 'RGU':
-                modifiedData = { ...each, icon: icons.profile, subTitle: by_user?.name, title: "Task Reassigned to " + assigned_to.name }
+                modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: by_user?.name, title: "Task Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: attachments.name }
+                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: by_user?.name, title: attachments.name }
                 break;
             case 'RTS':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'User Attached Reference Task' }
+                modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: by_user?.name, title: 'User Attached Reference Task' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status).text }
+                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status).text }
                 break;
         }
         return modifiedData
@@ -143,18 +143,18 @@ function TaskChat({ }: TaskChatProps) {
                                 time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
                                 <div className='pt-2'>
 
-                                    {/* {
+                                    {
                                         attachments?.attachments && attachments?.attachments.length > 0 && attachments?.attachments.map(each => {
-                                            return <ImageFullScreen images={<Image className='ml-1 mb-1' src={getPhoto(each.attachment_file)} width={120} height={120} />} />
+                                            return <Image className='ml-1 mb-1' src={getPhoto(each.attachment_file)} width={120} height={120} />
                                         })
-                                    } */}
+                                    }
 
                                     <div className='col-4'>
-                                        {
+                                        {/* {
                                             imageUrls && imageUrls.length > 0 &&
                                             <FullScreenImage images={imageUrls}
                                             />
-                                        }
+                                        } */}
                                     </div>
                                 </div>
                             </TimeLine>)
