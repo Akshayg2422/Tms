@@ -20,7 +20,7 @@ import {
   addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer } from "@Utils";
+import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, stringSlices } from "@Utils";
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
 import { icons } from "@Assets";
 
@@ -110,10 +110,6 @@ function TaskGroup() {
   };
 
   const addTaskGroupApiHandler = async () => {
-
-
-
-
 
     toDataUrl(photo, function (myBase64) {
 
@@ -407,7 +403,7 @@ function TaskGroup() {
             <div className="col-6">
               <Input
                 placeholder={translate("auth.task")}
-                value={taskGroupName.value}
+                value={stringSlices(taskGroupName.value)}
                 onChange={(e) => {
                   taskGroupName.onChange(e)
                   taskGroupCode.set(stringToUpperCase(stringSlice(e.target.value)))
@@ -473,7 +469,7 @@ function TaskGroup() {
             <div className="col-6">
               <Input
                 placeholder={translate("auth.task")}
-                value={subTaskGroupName.value}
+                value={stringSlices(subTaskGroupName.value)}
                 onChange={(e) => {
                   subTaskGroupName.onChange(e)
                   subTaskGroupCode.set(stringToUpperCase(stringSlice(e.target.value)))

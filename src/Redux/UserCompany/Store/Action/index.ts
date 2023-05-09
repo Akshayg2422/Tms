@@ -521,3 +521,10 @@ export const setSelectedCompany = (response: any) => {
     payload: response,
   }
 }
+
+export const setSelectedEmployee= (response: any) => {
+  return {
+    type: ActionTypes.SET_SELECTED_EMPLOYEE,
+    payload: response,
+  }
+}

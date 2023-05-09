@@ -1,6 +1,7 @@
-import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Ticket, AddTicket, EmployeeTimeSheet, MyPortfolio } from '@Modules'
+import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Ticket, AddTicket, EmployeesList, MyPortfolio, EmployeesTimeSheet } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
+import { TimeLineCurve } from '@Components'
 
 
 
@@ -19,7 +20,8 @@ export const HOME_PATH = {
   ADD_SUB_TASK: '/add-sub-task',
   TASK_DETAILS: '/task-details',
   TICKET_DETAILS: '/ticket-details',
-  ADD_TICKET: './add-ticket'
+  ADD_TICKET: './add-ticket',
+  EMPLOYEE_TIME_SHEET:'./employee-time-sheet'
 }
 
 export const ROUTES = {
@@ -47,10 +49,11 @@ export const ROUTES = {
     "company-details": '/company-details',
     "add-company": '/add-company',
     "add-user": '/add-user',
+    "employee-time-sheet":'/employee-time-sheet',
     profile: '/profile',
     setting: '/setting',
-    employee:'/employee-time-sheet',
-    myPortfolio:'/my-portfolio'
+    employee:'/employee-sheet',
+    myPortfolio:'/my-portfolio',
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -98,7 +101,7 @@ export const HOME_ROUTES = [
     name: "Tickets",
     icon: icons.issue,
     layout: "",
-    component: <Ticket />
+    component: <Ticket/>
   },
   {
     path: ROUTES['user-company-module'].companies,
@@ -134,7 +137,7 @@ export const HOME_ROUTES = [
     name: "Employee Portfolio",
     icon: icons.setting,
     layout: "",
-    component: <EmployeeTimeSheet/>
+    component: <EmployeesList/>
   },
   
   {
@@ -144,6 +147,7 @@ export const HOME_ROUTES = [
     layout: "",
     component: <MyPortfolio/>
   }
+
 
 ];
 
@@ -208,6 +212,11 @@ export const USER_COMPANY_ROTES = [
     key: 3,
     path: ROUTES['user-company-module']['add-user'],
     component: <AddUser />
+  },
+  {
+    key: 4,
+    path: ROUTES['user-company-module']['employee-time-sheet'],
+    component: <EmployeesTimeSheet/>
   },
 ];
 

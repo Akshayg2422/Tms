@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTaskEventHistory } from '@Redux';
 import { HDD_MMMM_YYYY_HH_MM_A, TASK_STATUS_LIST, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getDisplayDateTimeFromMoment, getMomentObjFromServer, getObjectFromArrayByKey } from '@Utils';
 import { TaskEventHistoryProps } from './interfaces'
-import { TimeLine } from '@Components'
+import { TimeLine,TimeLineCurve } from '@Components'
 import { icons } from '@Assets';
 
 function TaskEventHistory({ }: TaskEventHistoryProps) {

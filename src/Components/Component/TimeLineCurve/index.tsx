@@ -2,17 +2,18 @@ import React from 'react'
 import { TimeLineProps } from './interfaces'
 import { Image } from '@Components'
 
-function TimeLine({ showDotterLine, children, title, time, icon, color = 'info', rtl, subTitle }: TimeLineProps) {
-    return (
-        <div
+function TimeLineCurve({ showDotterLine, children, title, time, icon, color = 'info', rtl, subTitle }: TimeLineProps) {
+  return (
+ <>
+    <div
             className={`${showDotterLine && 'timeline '} timeline-one-side  `}
             data-timeline-axis-style="dashed"
             data-timeline-content="axis"
             >
-            <div className="timeline-block" dir={rtl ? "rtl" : undefined}>
-                <span className={`timeline-step badge-${color}`}>
+            <div className="timeline-block" >
+                {/* <span className={`timeline-step badge-${color}`}>
                     {icon ? <Image src={icon} width={15} height={15} /> : <i className="ni ni-bell-55" />}
-                </span>
+                </span> */}
 
                 <div className="timeline-content">
                     <div className='d-flex justify-content-between'>
@@ -22,12 +23,12 @@ function TimeLine({ showDotterLine, children, title, time, icon, color = 'info',
                                 {title}
                             </span>
                         </div>
-                        <div className="text-right">
+                        {/* <div className="text-right">
                             <small className="text-muted">
                                 <i className={`fas fa-clock mr-1 ${rtl && 'ml-1'}`} />
                                 {time}
                             </small>
-                        </div>
+                        </div> */}
                     </div>
                     <div className='mb-4'>
                         {
@@ -35,9 +36,13 @@ function TimeLine({ showDotterLine, children, title, time, icon, color = 'info',
                         }
                     </div>
                 </div>
+                
             </div>
         </div>
-    )
+ 
+
+ </>
+  )
 }
 
-export { TimeLine }
+export { TimeLineCurve}

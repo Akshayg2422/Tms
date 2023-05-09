@@ -67,7 +67,11 @@ function Companies() {
         </div> : null}
 
         
-<div >
+<div    style={{
+              
+              marginLeft:"-23px",
+              marginRight:"-23px"
+            }}>
       {associatedCompanies && associatedCompanies?.length > 0 ?
         <CommonTable
           isPagination
