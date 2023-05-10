@@ -59,7 +59,6 @@ function CreateCompany({ }: CreateCompanyProps) {
       gender: gender.value?.id,
       designation: "Management",
     });
-
     if (ifObjectExist(validation)) {
       dispatch(
         registerAdmin({
@@ -92,7 +91,7 @@ function CreateCompany({ }: CreateCompanyProps) {
     };
 
     const validation = validate(BUSINESS_FORM_RULES, params);
-
+    console.log("++++", ifObjectExist(validation))
     if (ifObjectExist(validation)) {
       dispatch(
         registerCompany({

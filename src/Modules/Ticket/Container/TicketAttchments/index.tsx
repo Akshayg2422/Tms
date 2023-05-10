@@ -2,36 +2,36 @@ import React, { useEffect, useState, } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useWindowDimensions } from "@Hooks";
 import { Card, Image, SearchInput, Divider, Spinner } from "@Components";
-import { getTaskEventAttachments } from "@Redux";
+import { getTicketEventAttachments } from "@Redux";
 import { getPhoto, MEA, capitalizeFirstLetter, INITIAL_PAGE } from "@Utils";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
 
-function TaskAttachments() {
+function TicketAttachments() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const search = useInput("");
-  const { taskEventAttachments, taskEventAttachmentsCurrentPage, refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
+  const { ticketEventAttachments, ticketEventAttachmentsCurrentPage, refreshTicketEvents } = useSelector((state: any) => state.TicketReducer);
   const { height } = useWindowDimensions()
 
 
 
   useEffect(() => {
-    getTaskEventsApiHandler(INITIAL_PAGE, search.value,)
-  }, [search.value, refreshTaskEvents, id]);
+    getTicketEventsApiHandler(INITIAL_PAGE, search.value,)
+  }, [search.value, refreshTicketEvents, id]);
 
 
-  function getTaskEventsApiHandler(page_number: number, q_many?: string) {
+  function getTicketEventsApiHandler(page_number: number, q_many?: string) {
 
     const params = {
-      task_id: id,
+      ticket_id: id,
       event_type: MEA,
       q_many,
       page_number
     };
 
     dispatch(
-      getTaskEventAttachments({
+      getTicketEventAttachments({
         params,
         onSuccess: () => () => {
         },
@@ -52,21 +52,21 @@ function TaskAttachments() {
             <SearchInput onSearch={search.set} />
           </div>
         </div >
-        {taskEventAttachments && taskEventAttachments.length > 0 && <InfiniteScroll
-          dataLength={taskEventAttachments.length}
-          hasMore={taskEventAttachmentsCurrentPage !== -1}
+        {ticketEventAttachments && ticketEventAttachments.length > 0 && <InfiniteScroll
+          dataLength={ticketEventAttachments.length}
+          hasMore={ticketEventAttachmentsCurrentPage !== -1}
           loader={<h4>
             <Spinner />
           </h4>}
           next={() => {
-            if (taskEventAttachmentsCurrentPage !== -1) {
-              getTaskEventsApiHandler(taskEventAttachmentsCurrentPage)
+            if (ticketEventAttachmentsCurrentPage !== -1) {
+              getTicketEventsApiHandler(ticketEventAttachmentsCurrentPage)
             }
           }
           }>
           <div className="mt-3">
             {
-              taskEventAttachments && taskEventAttachments?.length > 0 && taskEventAttachments?.map((item: any, index: number) => {
+              ticketEventAttachments && ticketEventAttachments?.length > 0 && ticketEventAttachments?.map((item: any, index: number) => {
                 const { attachments } = item
                 return (
                   <div >
@@ -81,7 +81,7 @@ function TaskAttachments() {
                       }
                     </div>
                     }
-                    {index !== taskEventAttachments.length - 1 && <Divider space={'3'} />}
+                    {index !== ticketEventAttachments.length - 1 && <Divider space={'3'} />}
                   </div>
                 )
               })
@@ -95,6 +95,6 @@ function TaskAttachments() {
 
   )
 }
-export { TaskAttachments };
+export { TicketAttachments };
 
 

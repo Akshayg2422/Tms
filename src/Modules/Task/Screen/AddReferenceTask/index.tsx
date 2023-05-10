@@ -81,6 +81,7 @@ function AddReferenceTask() {
       id: selectedTask.id,
     };
 
+    console.log("params",params)
 
     dispatch(
       getTasks({
@@ -104,9 +105,9 @@ function AddReferenceTask() {
 
       return {
         issue: el.title,
-        "raised by": el?.by_user.name,
+        "raised by": el?.by_user?.name,
         status: getStatusFromCode(dashboardDetails, el.tasks_status),
-        "assigned to": el?.assigned_to.name,
+        "assigned to": el?.assigned_to?.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
         '': <Checkbox id={el.id} onCheckChange={() => onSelectedTask(el)} defaultChecked={isReference} />,

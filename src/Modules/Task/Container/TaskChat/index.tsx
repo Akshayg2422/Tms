@@ -29,7 +29,6 @@ function TaskChat({ }: TaskChatProps) {
 
 
     function getTaskEventsDisplayData(data: any) {
-
         if (data && data.length > 0) {
             return data.map(each => {
                 return {

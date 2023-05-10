@@ -21,6 +21,8 @@ function TaskDetails() {
         (state: any) => state.TaskReducer
     );
 
+    console.log("tab",selectedTabPositions)
+
     const TABS = [
         { id: "1", title: <div><Image src={icons.Comments} height={16} width={16} /><span className={'mx-1'}>COMMENTS</span></div>, component: <Comments /> },
         { id: "2", title: <div><Image src={icons.attachments} height={16} width={16} /><span className={'mx-1'}>ATTACHMENTS</span></div>, component: <TaskAttachments /> },

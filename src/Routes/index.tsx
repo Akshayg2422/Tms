@@ -1,4 +1,4 @@
-import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails,TicketDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeeTimeSheet, MyPortfolio, Tickets } from '@Modules'
+import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails,TicketDetails,AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeeTimeSheet, MyPortfolio, Tickets } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 
@@ -41,7 +41,7 @@ export const ROUTES = {
     tickets: '/tickets',
     'tickets-details': '/tickets-details',
     'add-ticket': '/add-ticket',
-    'reference-ticket': './reference-ticket'
+    'reference-ticket': '/reference-ticket'
   },
   'user-company-module': {
     companies: '/companies',
@@ -182,6 +182,11 @@ export const TICKET_ROUTES = [
   },
   {
     key: 2,
+    path: ROUTES['ticket-module']['reference-ticket'],
+    component: <AddReferenceTicket />
+  },
+  {
+    key: 3,
     path: ROUTES['ticket-module']['add-ticket'],
     component: <AddTicket />
   }

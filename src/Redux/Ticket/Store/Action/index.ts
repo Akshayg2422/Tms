@@ -227,6 +227,13 @@ export const referenceIssueDetails = (params) => {
   }
 }
 
+export const setSelectedTicketTabPosition = (params: any) => {
+  console.log(" action params",params)
+  return {
+      type: ActionTypes.SELECTED_TICKET_TAB_POSITION,
+      payload: params,
+  };
+};
 
 
 /** 
@@ -281,6 +288,33 @@ export const getTicketDetailsFailure = (error: any) => {
       payload: error
   }
 }
+
+
+/**
+ * get Task Event Attachments
+ */
+
+ export const getTicketEventAttachments = (params: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_ATTACHMENTS,
+      payload: params,
+  };
+};
+
+export const getTicketEventAttachmentsSuccess = (response: any) => {
+  return {
+      type: ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_SUCCESS,
+      payload: response,
+  };
+};
+
+export const getTicketEventAttachmentsFailure = (error: any) => {
+
+  return {
+      type: ActionTypes.GET_REFERENCE_TICKETS_FAILURE,
+      payload: error,
+  };
+};
 
 
 
