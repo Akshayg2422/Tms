@@ -1,7 +1,7 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert } from "@Components";
-import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates } from '@Utils'
+import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory } from "@Modules";
@@ -38,7 +38,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         setEta(eta_time)
     }, [taskDetails])
 
-    console.log("eta_time------>",eta_time)
+    console.log("eta_time------>", eta_time)
 
     const editEtaSubmitApiHandler = () => {
         const params = {
@@ -97,15 +97,15 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     return (
         <div ref={ref} >
-            <Card className={'overflow-auto'} style={{
-                height: height / 2
-            }}>
-                <div className="col">
-                    <div className="row justify-content-between">
-                        <Back />
-                        <TaskItemMenu />
-                    </div>
-                    <div className="row justify-content-between mt-3">
+            <Card>
+                <div className="row justify-content-between mt--3">
+                    <Back />
+                    <TaskItemMenu />
+                </div>
+                <Card style={{ height: height / 2 }}
+                    className={'col mb--4 shadow-none p-0 overflow-auto overflow-hide'}>
+                        
+                    <div className="row justify-content-between mt--2">
                         <div>
                             {title && <H tag={"h4"} className="mb-0" text={title} />}
                             {code && <H tag={"h4"} className="text-muted" text={`# ${code}`} />}
@@ -140,15 +140,16 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 </div>
                                 <div className="row ml-1 mr-3">
                                     <div className="pointer" onClick={() => editEtaModal.show()}>
-                                        <Image src={icons.edit} height={18} width={18} />
+                                        <Image src={icons.editEta} height={16} width={16} />
                                     </div>
                                     <div className="ml-2 pointer" onClick={() => { taskEventModal.show() }}>
-                                        <Image src={icons.history} height={18} width={18} />
+                                        <Image src={icons.timeline} height={17} width={17} />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div className="row justify-content-between mt-4 mr-3">
                         <div>
                             <div className="h5 mb-0"> {by_user?.name} </div>
@@ -156,22 +157,15 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             <div className="mt--2"><small > {by_user?.email} </small></div>
                         </div>
 
-                        <div>
-                            <div className="row">
-                                <div className={'align-self-center'}>
-                                    {raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}
-                                </div>
-                                <div className="ml-2">
-                                    <h4 className="mb-0">{raised_by_company?.display_name} </h4>
-                                    <div className="mt--2">
-                                        <small className="text-xs"> {`@ ${assigned_to?.name}`}</small>
-                                    </div>
-                                    <div className="mt--2">
-                                        <small className={'text-xs'}>{raised_by_company?.address}</small>
-                                    </div>
-                                </div>
+                        <div className="row mt--2">
+                            <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
+                            <div className="ml-2">
+                                <div className="h5 mb-0"> {raised_by_company?.display_name}</div>
+                                <div className="text-xs"><span>{`@ ${assigned_to?.name}`} </span></div>
+                                <div className="text-xs p-0" style={{ maxWidth: '200px', wordWrap: 'break-word' }}>{raised_by_company?.address}</div>
                             </div>
                         </div>
+
                     </div>
                     <div className="col text-right mt-3">
                         {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button size={'sm'} text={'Start'}
@@ -184,7 +178,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             setActionTask(END_TASK)
                         }} />}
                     </div>
-                </div>
+                </Card>
             </Card >
 
             {/**
@@ -194,20 +188,20 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 <div className="col-6">
                     <DateTimePicker
                         heading={'ETA'}
-                        initialValue={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
+                        initialValue={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(eta))}
                         type="both"
                         onChange={setEta}
                     />
                     <Input
                         type={"text"}
-                        heading={translate("common.reason")}
+                        heading={translate("common.note")}
                         value={editEtaReason.value}
                         onChange={editEtaReason.onChange}
                     />
 
                 </div>
                 <div className="col text-right">
-                    <Button text={'Submit'} onClick={editEtaSubmitApiHandler} />
+                    <Button text={translate("common.submit")} onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
             {/**

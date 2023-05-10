@@ -8,7 +8,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
-import { ImageFullScreen } from '@Components'
+// import { ImageFullScreen } from '@Components'
 
 
 function TicketChat({ }: TicketChatProps) {
@@ -141,9 +141,9 @@ function TicketChat({ }: TicketChatProps) {
                                 <div className='pt-2'>
                                     <div className='col-4'>
                                         {
-                                            imageUrls && imageUrls.length > 0 &&
-                                            <ImageFullScreen images={imageUrls}
-                                            />
+                                            // imageUrls && imageUrls.length > 0 &&
+                                            // <ImageFullScreen images={imageUrls}
+                                            // />
                                         }
                                     </div>
                                 </div>

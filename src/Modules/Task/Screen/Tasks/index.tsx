@@ -9,31 +9,21 @@ import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
 
-
-const DEFAULT_PARAMS = {
-  q_many: "",
-  "tasks_by": "assigned_to",
-  "task_status": "INP",
-  "priority": "ALL",
-  "group": "ALL",
-  "include_subtask": false,
-  page_number: 1
-}
-
 function Tasks() {
-  const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, page_number: 1 }
+  const DEFAULT_PARAMS = { q_many: "","tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false,"department_id":"ALL","designation_id":"ALL", page_number: 1}
   const dispatch = useDispatch()
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask } = useSelector((state: any) => state.TaskReducer);
+  const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+  const { company_branch, user_details, company } = dashboardDetails || ''
+ 
+ 
+
   const { goTo } = useNavigation();
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [params])
-
-
-  console.log(new Date() + "+======" + new Date('2023-05-10T00:00:00+05:30'));
-
 
 
   useEffect(() => {
@@ -72,15 +62,18 @@ function Tasks() {
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
       return data?.map((el: any) => {
+       
+        const {priority,parent,task_attachments,by_user,raised_by_company,created_at,task_status,eta_time,title,assigned_to}=el
+      
         return {
           "task":
             <>
               <div className="row">
-                <Priority priority={el?.priority} />
+                <Priority priority={priority} />
                 <div>
-                  <span>{capitalizeFirstLetter(el?.title)}</span>
+                  <span>{capitalizeFirstLetter(title)}</span>
                   <div className="pt-1">
-                    {el.parent && el.parent?.name && <div>{el.parent?.name}
+                    {parent && parent?.name && <div>{parent?.name}
                     </div>
                     }
                   </div>
@@ -91,8 +84,8 @@ function Tasks() {
           "attachments":
             <div className="row avatar-group">
               {
-                el?.task_attachments &&
-                el?.task_attachments.length > 0 && el?.task_attachments.map((item) => {
+                task_attachments &&
+                task_attachments.length > 0 && task_attachments.map((item) => {
                   return (
                     <Image
                       variant={'avatar'}
@@ -104,39 +97,41 @@ function Tasks() {
 
             </div >,
           "raised by":
-            <div className="h5 m-0"> {el?.by_user?.name} </div>,
+            <div className="h5 m-0"> {by_user?.name} </div>,
           "raised to":
             <div className="row">
-              {el.raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(el.raised_by_company?.attachment_logo)} />}
+              
+              {company?.name===raised_by_company?.display_name ? '' :raised_by_company?.attachment_logo &&
+               <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />
+               }
               <div className="ml-2">
-                <div className="h5 mb-0"> {el?.raised_by_company?.display_name}</div>
-                <div className="h5 mb-0 text-truncate">@<span className="h5"> {el?.assigned_to?.name} </span></div>
-                <small className={'text-uppercase mb-0  text-muted'}>{el?.raised_by_company?.place}</small>
+                <div className="h5 mb-0"> {company?.name===raised_by_company?.display_name?'':raised_by_company?.display_name}</div>
+                <div className={`h5 mb-0 text-truncate ${company?.name===raised_by_company?.display_name?'mt--3':""} `}>@<span className="h5"> {assigned_to?.name} </span></div>
+                <small className={'text-uppercase mb-0  text-muted'}>
+                  {raised_by_company?.place}
+                  </small>
               </div>
             </div >,
-          'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))}</div>,
-          status: <div><Status status={el?.task_status} />
-            <small>{getDates() > getDates(el.eta_time) ? 'ABOVE ETA' : ""}</small>
+          'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
+          status: <div><Status status={task_status} />
+            <small>{getDates() > getDates(eta_time) ? 'ABOVE ETA' : ""}</small>
           </div>
         };
       });
   };
 
-
-
-
-
   return (
-    <div className="m-3">
-      <div className="row">
-        <div className="mx-2 mb--3 col">
+    <div className="mx-3 mt-3 ">
+      <div className="row ">
+        <div className="mx-2 mb--3  col">
           <TaskGroups onClick={(code) => {
             setParams({ ...params, group: code } as any)
           }} />
         </div>
 
-        <div className="col-auto ">
+        <div className="col-auto  ">
           <Button
+          className="mb--2"
             size={'sm'}
             text={translate("common.createTask")}
             onClick={() => {
@@ -149,10 +144,15 @@ function Tasks() {
         </div>
       </div>
 
-      <HomeContainer type={'card'} className="mt-3">
+      <HomeContainer type={'card'} className="">
         <TaskFilter onParams={(filteredParams) => {
           setParams({ ...params, ...filteredParams })
         }} />
+        <div    style={{
+              
+              marginLeft:"-23px",
+              marginRight:"-23px"
+            }}>
         {tasks && tasks.length > 0 ?
           <CommonTable
             isPagination
@@ -179,8 +179,9 @@ function Tasks() {
             }
           />
           :
-          <NoDataFound type={'action'} buttonText={'Create Task'} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
+          <NoDataFound type={'action'} buttonText={translate("auth.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
         }
+        </div>
       </HomeContainer>
     </div>
 

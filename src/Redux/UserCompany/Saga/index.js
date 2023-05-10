@@ -281,6 +281,59 @@ function* getEmployeesSaga(action) {
   }
 }
 
+
+// get employeesl
+
+function* getEmployeeslSaga(action) {
+
+  try {
+    const response = yield call(Api.getEmployeeslApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getEmployeeslSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getEmployeeslFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getEmployeeslFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+//get employeeTimeline
+function* getEmployeeTimelineSaga(action) {
+  try {
+    const response = yield call(Api.getEmployeeTimeLineApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getEmployeeTimelineSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getEmployeeTimelineFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getEmployeeTimelineFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+function* addEmployeeTimelineSaga(action) {
+
+  try {
+    const response = yield call(Api.addEmployeeTimeLineApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.addEmployeeTimelineSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.addEmployeeTimelineFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.addEmployeeTimelineFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
 function* registerCompanySaga(action) {
   try {
 
@@ -364,6 +417,7 @@ function* getDashboardSaga(action) {
 function* UserCompanySaga() {
 
   yield takeLatest(Action.GET_EMPLOYEES, getEmployeesSaga);
+  yield takeLatest(Action.GET_EMPLOYEESL, getEmployeeslSaga);
   yield takeLatest(Action.GET_TASK_GROUP, getTaskGroupSaga)
   yield takeLatest(Action.ADD_TASK_GROUP, addTaskGroupSaga)
   yield takeLatest(Action.ADD_BRAND_SECTOR, addBrandSector);
@@ -381,6 +435,9 @@ function* UserCompanySaga() {
   yield takeLatest(Action.REGISTER_COMPANY, registerCompanySaga);
   yield takeLatest(Action.GET_ASSOCIATED_COMPANIES_L, getAssociatedCompaniesLSaga);
   yield takeLatest(Action.GET_DASHBOARD, getDashboardSaga);
+  yield takeLatest(Action.GET_EMPLOYEE_TIMELINE, getEmployeeTimelineSaga);
+  yield takeLatest(Action.ADD_EMPLOYEE_TIMELINE, addEmployeeTimelineSaga);
+ 
 }
 
 export default UserCompanySaga;

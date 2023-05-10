@@ -258,7 +258,7 @@ function AddTicket() {
 
             <div className="col-md-9 col-lg-5">
                 <Input
-                    heading={translate("auth.title")}
+                    heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
                 />

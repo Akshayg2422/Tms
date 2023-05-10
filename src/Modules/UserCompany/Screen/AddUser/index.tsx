@@ -100,10 +100,6 @@ function AddUser() {
     };
 
 
-
-
-
-
     const validation = validate(ADD_USER_RULES, params);
 
     console.log(JSON.stringify(validation) + '======' + ifObjectExist(validation));
@@ -130,8 +126,7 @@ function AddUser() {
         })
       );
     } else {
-      console.log(JSON.stringify(validation));
-
+  
       showToast(getValidateError(validation));
     }
   }

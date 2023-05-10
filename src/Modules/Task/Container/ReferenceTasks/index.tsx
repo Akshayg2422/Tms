@@ -6,6 +6,7 @@ import { NoDataFound, Card, CommonTable, Button } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
+import { translate } from "@I18n";
 
 
 function ReferenceTasks() {
@@ -60,7 +61,7 @@ function ReferenceTasks() {
 
     <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
       <div className="col text-right">
-        <Button size={'sm'} text={'Add Reference Task'} onClick={() => {
+        <Button size={'sm'} text={translate("auth.addReferenceTask")} onClick={() => {
           goTo(ROUTES["task-module"]["reference-task"])
         }} />
       </div>
@@ -87,7 +88,7 @@ function ReferenceTasks() {
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item.id)
           }}
 
-        /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={'Add Reference Task'} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} isButton /></div>}
+        /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} isButton /></div>}
     </Card>
 
 

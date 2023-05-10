@@ -18,7 +18,8 @@ function TaskGroups({ onClick }: TaskGroupProps) {
         dispatch(
             getTaskGroupsL({
                 params,
-                onSuccess: () => () => {
+                onSuccess: (response) => () => {
+                    console.log("===--->",JSON.stringify(response))
                 },
                 onError: () => () => {
                 },
@@ -48,7 +49,7 @@ function TaskGroups({ onClick }: TaskGroupProps) {
                         >
                             <div className='col d-flex justify-content-center align-items-center'>
                                 {el.photo && <Image className='ml--1' variant={'rounded'} src={getPhoto(el.photo)} size={'xs'} />}
-                                <small className={` ml-2  ${textColor}`}>{'#' + el.code}</small>
+                                <small className={` ml-2  ${textColor}`}><div className='text-xxs'>{el.name}</div> <div className='text-xs'>{'#' + el.code}</div></small>
                             </div>
                         </div>
                     )

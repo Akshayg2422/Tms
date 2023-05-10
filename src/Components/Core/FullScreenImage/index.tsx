@@ -1,7 +1,7 @@
 import { ImageGroup, Image } from 'react-fullscreen-image';
-import { ImageFullScreenProps } from './interfaces'
+import { FullScreenImageProps } from './interfaces'
 
-const ImageFullScreen = ({ images, style = {} }: ImageFullScreenProps) => {
+const FullScreenImage = ({ images, style = {} }: FullScreenImageProps) => {
     return (
         <ImageGroup>
             <div className="images"
@@ -41,4 +41,4 @@ const ImageFullScreen = ({ images, style = {} }: ImageFullScreenProps) => {
     );
 };
 
-export { ImageFullScreen };
+export { FullScreenImage };
