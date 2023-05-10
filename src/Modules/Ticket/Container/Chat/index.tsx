@@ -2,7 +2,7 @@ import React from "react";
 import {TicketChat,AddChatTicket  } from "@Modules";
 import { Card } from '@Components'
 
-function Chats() {
+function Chat() {
   return (
     <Card>
       <TicketChat/>
@@ -11,4 +11,4 @@ function Chats() {
   );
 }
 
-export { Chats };
+export { Chat };

@@ -8,7 +8,7 @@ const initialState: TicketStateProps = {
   getTicketTags: undefined,
   ticketEvents: undefined,
   addTicketEvent: undefined,
-  ticketReferenceDetails: undefined,
+  referenceTickets: undefined,
   referenceTicketNoOfPages: undefined,
   referenceTicketCurrentPages: 1,
   selectedTicket: undefined,
@@ -19,8 +19,8 @@ const initialState: TicketStateProps = {
   selectedTicketTabPosition:{ id: '1' },
   ticketEventHistories: undefined,
   ticketDetails: {},
-
-
+  ticketEventAttachments: [],
+  ticketEventAttachmentsCurrentPage: 1,
 
 };
 
@@ -122,7 +122,7 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_REFERENCE_TICKETS:
       state = {
         ...state,
-        ticketReferenceDetails: undefined,
+        referenceTickets: undefined,
         referenceTicketNoOfPages: 0,
         referenceTicketCurrentPages: 1,
       };
@@ -132,7 +132,7 @@ const TicketReducer = (state = initialState, action: any) => {
 
       state = {
         ...state,
-        ticketReferenceDetails: action.payload?.details?.data,
+        referenceTickets: action.payload?.details?.data,
         referenceTicketNoOfPages: action.payload?.details?.num_pages,
         referenceTicketCurrentPages:
           action.payload?.details?.next_page === -1
@@ -143,7 +143,7 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_REFERENCE_TICKETS_FAILURE:
       state = {
         ...state,
-        ticketReferenceDetails: undefined,
+        referenceTickets: undefined,
       };
       break;
 
@@ -222,6 +222,26 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TICKET_DETAILS_FAILURE:
       state = { ...state, ticketDetails: undefined }
       break;
+    
+      case ActionTypes.GET_TICKET_EVENT_ATTACHMENTS:
+        state = {
+          ...state,
+          ticketEventAttachments: action.payload.params.page_number === 1 ? [] : state.ticketEventAttachments
+        };
+        break;
+      case ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_SUCCESS:
+        state = {
+          ...state,
+          ticketEventAttachments: [...state.ticketEventAttachments, ...action.payload.details.data],
+          ticketEventAttachmentsCurrentPage: 
+          action.payload.details.next_page
+        };
+        break;
+  
+      case ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_FAILURE:
+        state = { ...state, ticketEventAttachments: undefined };
+        break;
+
 
 
 

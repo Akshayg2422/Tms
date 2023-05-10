@@ -5,7 +5,7 @@ import { getTickets } from '@Redux';
 import { Card, CommonTable, NoDataFound } from '@Components';
 import { getStatusFromCode } from '@Utils';
 
-function CompanyIssues() {
+function CompanyTickets() {
 
   const dispatch = useDispatch();
   const { tickets } = useSelector((state: any) => state.CompanyReducer);
@@ -47,4 +47,4 @@ function CompanyIssues() {
 
   )
 }
-export { CompanyIssues }
+export { CompanyTickets }

@@ -46,7 +46,7 @@ function Tickets() {
       return data.map((el: any) => {
         return {
 
-          "issue":
+          "ticket":
             <div className="row">
               <Priority priority={el?.priority} />
               <span className="col">{capitalizeFirstLetter(el?.title)}</span>
