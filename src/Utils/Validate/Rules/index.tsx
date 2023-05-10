@@ -257,6 +257,7 @@ export const ADD_TAG = {
 export const ADD_TASK_GROUP = {
   name: {
     presence: { allowEmpty: false, message: "tag name cannot be empty" },
+    length: { is: 10, message: "we cannot not add more then 20 character" },
   },
   code: {
     presence: { allowEmpty: false, message: "code name cannot be empty" },

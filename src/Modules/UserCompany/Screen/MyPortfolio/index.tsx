@@ -103,6 +103,7 @@ function MyPortfolio() {
       getAssignedTask({
         params,
         onSuccess: (response: any) => () => {
+          
 
           const assignedTask = response?.details
           const assignedDetails = assignedTask.map((item) => {
@@ -119,7 +120,7 @@ function MyPortfolio() {
   }
 
   const addEmployeeTimeSheet = () => {
-    console.log('ppppp')
+  
     const editAssignedId=editAssignedTaskSelect?.value?.id
     const assignedTaskId=assignedTaskSelect?.value?.id
     const params = {
@@ -128,7 +129,7 @@ function MyPortfolio() {
       end_time:editEndTimeEta||endTimeEta,
       ...(assignedTasksId &&{ id:assignedTasksId})
     }
-    console.log(params,"ppppppp")
+   
     const validation = validate(ADD_TIME_SHEET_DETAILS, params);
 
     if (ifObjectExist(validation)) {
@@ -189,18 +190,18 @@ function MyPortfolio() {
 
   return (
     <div className='m-3'>
-      <Card >
+      <Card  >
         <div>
-          <div className='h4 text-muted'>
+          <div className='h4 '>
             {user_details?.name}
           </div>
 
           <div className="row">
             <div className="col-5">
-              <h3>{'Date'}</h3>
+              <h5>{'Date'}</h5>
             </div>
             <div className='col'>
-              <h3>{'hours'}</h3>
+              <h5>{'hours'}</h5>
             </div>
             <div className="text-right mr-3 ">
               <Button
@@ -218,7 +219,11 @@ function MyPortfolio() {
 
 
         </div>
-        <div>
+        <div    style={{
+              
+              marginLeft:"-23px",
+              marginRight:"-23px"
+            }}>
           {employeeTimelineList && employeeTimelineList.length > 0 && <CommonTable
 
             tableDataSet={employeeTimelineList}

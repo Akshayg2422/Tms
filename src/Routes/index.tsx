@@ -1,8 +1,6 @@
-import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails,TicketDetails,AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeeTimeSheet, MyPortfolio, Tickets } from '@Modules'
+import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
-
-
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -19,7 +17,8 @@ export const HOME_PATH = {
   ADD_SUB_TASK: '/add-sub-task',
   TASK_DETAILS: '/task-details',
   TICKET_DETAILS: '/ticket-details',
-  ADD_TICKET: './add-ticket'
+  ADD_TICKET: './add-ticket',
+  EMPLOYEE_TIME_SHEET: './employee-time-sheet'
 }
 
 export const ROUTES = {
@@ -48,10 +47,11 @@ export const ROUTES = {
     "company-details": '/company-details',
     "add-company": '/add-company',
     "add-user": '/add-user',
+    "employee-time-sheet": '/employee-time-sheet',
     profile: '/profile',
     setting: '/setting',
-    employee:'/employee-time-sheet',
-    myPortfolio:'/my-portfolio'
+    employee: '/employee-sheet',
+    myPortfolio: '/my-portfolio',
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -135,16 +135,17 @@ export const HOME_ROUTES = [
     name: "Employee Portfolio",
     icon: icons.employeePortfolio,
     layout: "",
-    component: <EmployeeTimeSheet/>
+    component: <EmployeesList />
   },
-  
+
   {
     path: ROUTES['user-company-module'].myPortfolio,
     name: "MyTimeSheet",
     icon: icons.timeSheet,
     layout: "",
-    component: <MyPortfolio/>
+    component: <MyPortfolio />
   }
+
 
 ];
 
@@ -177,7 +178,7 @@ export const TASK_ROUTES = [
 export const TICKET_ROUTES = [
   {
     key: 1,
-    path: ROUTES['ticket-module']['tickets-details']+ '/:id',
+    path: ROUTES['ticket-module']['tickets-details'] + '/:id',
     component: <TicketDetails />
   },
   {
@@ -218,6 +219,11 @@ export const USER_COMPANY_ROTES = [
     key: 3,
     path: ROUTES['user-company-module']['add-user'],
     component: <AddUser />
+  },
+  {
+    key: 4,
+    path: ROUTES['user-company-module']['employee-time-sheet'],
+    component: <EmployeesTimeSheet />
   },
 ];
 

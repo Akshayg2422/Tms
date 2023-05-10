@@ -85,8 +85,12 @@ const initialState: UserCompanyStateProp = {
   departmentsNumOfPages: undefined,
   employees: undefined,
   employeesl: undefined,
+  employeeslCurrentPages: undefined,
+  employeeslNumOfPages: undefined,
   employeeAddTime:undefined,
   employeeTimelineList:undefined,
+  employeeTimelineCurrentPages:undefined,
+  employeeTimelineNumOfPages:undefined,
   brandSector: undefined,
   ticketTag: undefined,
   brandSectorCurrentPages: undefined,
@@ -108,7 +112,8 @@ const initialState: UserCompanyStateProp = {
   registerAdminResponse: undefined,
   associatedCompaniesL: undefined,
   dashboardDetails: undefined,
-  selectedCompany: undefined
+  selectedCompany: undefined,
+  selectedEmployee:undefined,
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -448,14 +453,21 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       case GET_EMPLOYEESL:
         state = {
-          ...state
+          ...state,
+          employeesl:undefined,
+          employeeslCurrentPages:1,
+          employeeslNumOfPages:0,
         };
   
         break;
       case GET_EMPLOYEES_SUCCESSL:
         state = {
           ...state,
-          employeesl: action.payload.details,
+          employeesl: action.payload.details.data,
+          employeeslCurrentPages: action.payload?.details.next_page === -1
+          ? action?.payload?.details.num_pages
+          : action?.payload?.details.next_page - 1,
+          employeeslNumOfPages:  action.payload.details.num_pages,
         };
         break;
       case GET_EMPLOYEES_FAILUREL:
@@ -465,14 +477,23 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
   case GET_EMPLOYEE_TIMELINE:
     state = {
-      ...state
+      ...state,
+      employeeTimelineList:undefined,
+      employeeTimelineCurrentPages:1,
+      employeeTimelineNumOfPages:0,
     };
 
     break;
   case GET_EMPLOYEE_TIMELINE_SUCCESS:
     state = {
       ...state,
-      employeeTimelineList: action.payload.details,
+      employeeTimelineList: action.payload.details.data,
+      employeeTimelineCurrentPages: 
+       action.payload?.details.next_page === -1
+      ? action?.payload?.details.num_pages
+      : action?.payload?.details.next_page - 1,
+      employeeTimelineNumOfPages: action.payload.details.num_pages,
+
     };
     break;
   case GET_EMPLOYEE_TIMELINE_FAILURE:
@@ -550,6 +571,11 @@ case ADD_EMPLOYEE_TIMELINE_FAILURE:
     case ActionTypes.SET_SELECTED_COMPANY:
       state = { ...state, selectedCompany: action.payload };
       break;
+
+      //SELECTED EMP
+      case ActionTypes.SET_SELECTED_EMPLOYEE:
+        state = { ...state, selectedEmployee: action.payload };
+        break;
 
     default:
       state = state;
