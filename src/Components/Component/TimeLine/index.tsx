@@ -5,9 +5,10 @@ import { Image } from '@Components'
 function TimeLine({ showDotterLine, children, title, time, icon, color = 'info', rtl, subTitle }: TimeLineProps) {
     return (
         <div
-            className={`${showDotterLine && 'timeline'} timeline-one-side `}
+            className={`${showDotterLine && 'timeline '} timeline-one-side  `}
             data-timeline-axis-style="dashed"
-            data-timeline-content="axis">
+            data-timeline-content="axis"
+            >
             <div className="timeline-block" dir={rtl ? "rtl" : undefined}>
                 <span className={`timeline-step badge-${color}`}>
                     {icon ? <Image src={icon} width={15} height={15} /> : <i className="ni ni-bell-55" />}

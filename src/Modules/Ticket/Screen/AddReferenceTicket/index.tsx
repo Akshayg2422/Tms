@@ -1,31 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets } from "@Redux";
-import { Button, NoDataFound, CommonTable, Checkbox, showToast, Image } from "@Components";
+import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back } from "@Components";
 import { useInput, useNavigation } from "@Hooks";
-import { translate } from "@I18n";
-import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, ADD_REFERENCE_TICKET, getValidateError, paginationHandler, SEARCH_PAGE } from "@Utils";
-import { icons } from "@Assets";
+import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, paginationHandler, SEARCH_PAGE, INITIAL_PAGE, ADD_REFERENCE_TICKET } from "@Utils";
+
 
 function AddReferenceTicket() {
+
   const dispatch = useDispatch();
-  const { tickets, ticketNumOfPages, ticketCurrentPages, ticketReferenceDetails } = useSelector((state: any) => state.CompanyReducer);
-  const { dashboardDetails, selectedTicket } = useSelector((state: any) => state.AdminReducer);
-  const { isSync } = useSelector((state: any) => state.AppReducer);
-  const [selectedReferenceTickets, setSelectedReferenceTickets] = useState([...ticketReferenceDetails])
-  const Search = useInput("");
+
+  const { tickets, ticketNumOfPages, ticketCurrentPages, selectedTicket, referenceTickets } = useSelector((state: any) => state.TicketReducer);
+
+  const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+  const [selectedReferenceTicket, setSelectedReferenceTicket] = useState([...referenceTickets])
   const { goBack } = useNavigation();
+
+  const search = useInput("");
+
   useEffect(() => {
-    if (!isSync.tasks) {
-      getSearchHandler(ticketCurrentPages)
-    }
-  }, [isSync])
-  const submitHandler = () => {
+    getTicketsApiHandler(ticketCurrentPages)
+  }, [])
+
+
+  const addReferenceTicketHandler = () => {
 
     const params = {
-      id: selectedTicket?.id,
+      id: selectedTicket.id,
       event_type: RTS,
-      reference_ticket: getArrayFromArrayOfObject(selectedReferenceTickets, 'id'),
+      reference_ticket: getArrayFromArrayOfObject(selectedReferenceTicket, 'id'),
     };
 
     const validation = validate(ADD_REFERENCE_TICKET, params)
@@ -34,9 +37,10 @@ function AddReferenceTicket() {
         addTicketEvent({
           params,
           onSuccess: (response: any) => () => {
+
             if (response.success) {
+              goBack()
               showToast(response.message, "success");
-              goBack();
             }
           },
           onError: (error) => () => {
@@ -49,147 +53,108 @@ function AddReferenceTicket() {
       showToast(getValidateError(validation));
     }
   };
-  const onSelectedTickets = (item: any) => {
 
-    let updatedSelectedReferenceTickets: any = [...selectedReferenceTickets];
 
-    const ifExist = updatedSelectedReferenceTickets.some(
+  const onSelectedTicket = (item: any) => {
+
+    let updatedSelectedReferenceTicket: any = [...selectedReferenceTicket];
+
+    const ifExist = updatedSelectedReferenceTicket.some(
       (el: any) => el.id === item?.id
     );
     if (ifExist) {
-      updatedSelectedReferenceTickets = updatedSelectedReferenceTickets.filter(
+      updatedSelectedReferenceTicket = updatedSelectedReferenceTicket.filter(
         (filterItem: any) => filterItem.id !== item?.id
       );
     } else {
-      updatedSelectedReferenceTickets = [...updatedSelectedReferenceTickets, item];
+      updatedSelectedReferenceTicket = [...updatedSelectedReferenceTicket, item];
     }
 
-    setSelectedReferenceTickets(updatedSelectedReferenceTickets);
+    setSelectedReferenceTicket(updatedSelectedReferenceTicket);
   };
 
-  const getSearchHandler = (pageNumber: any) => {
+
+
+  const getTicketsApiHandler = (page_number: number, q_many: string = search.value) => {
     const params = {
-      q_many: Search.value,
-      page_number: pageNumber,
+      q_many,
+      page_number,
+      ticket_id: selectedTicket?.id,
     };
+
+
     dispatch(
       getTickets({
         params,
-        onSuccess: () => () => { },
+        onSuccess: () => () => {
+        },
         onError: () => () => { },
       })
     );
   };
 
-  function proceedTaskSearch() {
-    // setSyncTickets()
-    getSearchHandler(SEARCH_PAGE)
-  }
+
 
   const normalizedTableData = (data: any) => {
 
     return data?.map((el: any) => {
 
-      const isReference = selectedReferenceTickets.some(
+      const isReference = selectedReferenceTicket.some(
         (element: any) => element.id === el?.id
       );
 
       return {
         issue: el.title,
-        "raised by": el?.by_user.name,
+        "raised by": el?.by_user?.name,
         status: getStatusFromCode(dashboardDetails, el.ticket_status),
         "assigned to": el?.assigned_to?.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
-        '': <Checkbox id={el.id} onCheckChange={() => onSelectedTickets(el)}
-          defaultChecked={isReference} />,
-
+        '': <Checkbox id={el.id} onCheckChange={() => onSelectedTicket(el)} defaultChecked={isReference} />,
       };
     });
   };
 
+
+  console.log(JSON.stringify(tickets) + "=====tickets");
+
+
   return (
-    <div>
-      <div className="container mt-4">
-        <div className="row justify-content-center">
-          <div className="col-lg-5  col-md-12 col-sm-12">
-            <div className="input-group bg-white border rounded-pill">
-              <input
-                type="text"
-                className="form-control bg-transparent border border-0"
-                placeholder={translate("auth.search")!}
-                value={Search.value}
-                onChange={Search.onChange}
-              />
-              <span
-                className="input-group-text pointer  border border-0"
-                onClick={proceedTaskSearch}
-              >
-                {" "}
-                <i className="fas fa-search" />
-              </span>
-              <span
-                className="input-group-text pointer  border border-0"
-              >
-                {" "}
-                All{" "}
-              </span>
-              <span
-                className="input-group-text pointer bg-transparent border border-0"
-              >
-                <i className="bi bi-chevron-down " />
-              </span>
-            </div>
-          </div>
-          <div className="col-lg-2 col-md-12 mt-lg-1 mt-sm-0 mt-md-3 mt-3 col-sm-12  text-right">
-            <Button text={translate("common.submit")} onClick={() => {
-              submitHandler()
-              goBack()
+    <HomeContainer type={'card'} className="m-3">
+      <div  >
+        <div className="row justify-content-between m-3">
+          <Back />
+          <div className="row ">
+            <SearchInput onSearch={(text) => {
+              getTicketsApiHandler(INITIAL_PAGE, text)
             }} />
+
+            <Button className="ml-3" size={'sm'} text={'Submit'} onClick={addReferenceTicketHandler} />
           </div>
         </div>
-      </div>
-      <div>
-        <div className="m-3">
-          <div className="row justify-content-center">
 
-
-            {tickets && tickets?.length > 0 ? <CommonTable
-              title={<div className='row col pt-2 '>
-                <div
-                  onClick={() => goBack()}
-                ><Image
-                    size={'sm'}
-                    variant='rounded'
-                    className='bg-white mt--1  pl-1'
-                    src={icons.backArrow} /></div>
-                <div className='pl-2'>  <h3>{'Reference Tickets'}</h3>
-                </div>
-              </div>}
-
-              isPagination
-              tableDataSet={tickets}
-              displayDataSet={normalizedTableData(tickets)}
-              currentPage={ticketCurrentPages}
-              noOfPage={ticketNumOfPages}
-              paginationNumberClick={(currentPage) => {
-                getSearchHandler(paginationHandler("current", currentPage));
-              }}
-              previousClick={() => {
-                getSearchHandler(paginationHandler("prev", ticketCurrentPages))
-              }
-              }
-              nextClick={() => {
-                getSearchHandler(paginationHandler("next", ticketCurrentPages));
-              }
-              }
-
-            /> : <NoDataFound />}
-
-          </div>
+        <div>
+          {tickets && tickets.length > 0 ? <CommonTable title={'Tickets'}
+            isPagination
+            tableDataSet={tickets}
+            currentPage={ticketCurrentPages}
+            noOfPage={ticketNumOfPages}
+            displayDataSet={normalizedTableData(tickets)}
+            paginationNumberClick={(currentPage) => {
+              getTicketsApiHandler(paginationHandler("current", currentPage));
+            }}
+            previousClick={() => {
+              getTicketsApiHandler(paginationHandler("prev", ticketCurrentPages))
+            }
+            }
+            nextClick={() => {
+              getTicketsApiHandler(paginationHandler("next", ticketCurrentPages));
+            }
+            }
+          /> : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '70vh' }}><NoDataFound text={'No text found'} /></div>}
         </div>
       </div>
-    </div>
+    </HomeContainer >
   );
 }
 

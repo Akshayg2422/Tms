@@ -1,8 +1,6 @@
-import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, Ticket, AddTicket } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
-
-
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -19,7 +17,8 @@ export const HOME_PATH = {
   ADD_SUB_TASK: '/add-sub-task',
   TASK_DETAILS: '/task-details',
   TICKET_DETAILS: '/ticket-details',
-  ADD_TICKET: './add-ticket'
+  ADD_TICKET: './add-ticket',
+  EMPLOYEE_TIME_SHEET: './employee-time-sheet'
 }
 
 export const ROUTES = {
@@ -38,17 +37,21 @@ export const ROUTES = {
     'add-sub-task': '/add-sub-task',
   },
   'ticket-module': {
-    ticket: '/ticket',
-    'ticket-details': '/ticket-details',
+    tickets: '/tickets',
+    'tickets-details': '/tickets-details',
     'add-ticket': '/add-ticket',
+    'reference-ticket': '/reference-ticket'
   },
   'user-company-module': {
     companies: '/companies',
     "company-details": '/company-details',
     "add-company": '/add-company',
     "add-user": '/add-user',
+    "employee-time-sheet": '/employee-time-sheet',
     profile: '/profile',
-    setting: '/setting'
+    setting: '/setting',
+    employee: '/employee-sheet',
+    'my-portfolio': '/my-portfolio',
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -92,11 +95,11 @@ export const HOME_ROUTES = [
     component: <Tasks />
   },
   {
-    path: ROUTES['ticket-module'].ticket,
+    path: ROUTES['ticket-module'].tickets,
     name: "Tickets",
     icon: icons.issue,
     layout: "",
-    component: <Ticket />
+    component: <Tickets />
   },
   {
     path: ROUTES['user-company-module'].companies,
@@ -125,7 +128,28 @@ export const HOME_ROUTES = [
     icon: icons.setting,
     layout: "",
     component: <Setting />
-  }
+  }, {
+    collapse: true,
+    name: "Admin",
+    icon: icons.task,
+    state: "dashboardsCollapse",
+    views: [
+      {
+        path: ROUTES['user-company-module'].employee,
+        name: "Employee Portfolio",
+        miniName: "EP",
+        component: <EmployeesList />,
+        layout: '/admin',
+      },
+      {
+        path: ROUTES['user-company-module']['my-portfolio'],
+        name: "MyTimeSheet",
+        miniName: "TS",
+        component: <MyPortfolio />,
+        layout: '/admin',
+      },
+    ],
+  },
 ];
 
 export const TASK_ROUTES = [
@@ -139,7 +163,6 @@ export const TASK_ROUTES = [
     path: ROUTES['task-module']['reference-task'],
     component: <AddReferenceTask />
   },
-
 
   {
     key: 3,
@@ -157,7 +180,17 @@ export const TASK_ROUTES = [
 
 export const TICKET_ROUTES = [
   {
+    key: 1,
+    path: ROUTES['ticket-module']['tickets-details'] + '/:id',
+    component: <TicketDetails />
+  },
+  {
     key: 2,
+    path: ROUTES['ticket-module']['reference-ticket'],
+    component: <AddReferenceTicket />
+  },
+  {
+    key: 3,
     path: ROUTES['ticket-module']['add-ticket'],
     component: <AddTicket />
   }
@@ -190,6 +223,11 @@ export const USER_COMPANY_ROTES = [
     path: ROUTES['user-company-module']['add-user'],
     component: <AddUser />
   },
+  {
+    key: 4,
+    path: ROUTES['user-company-module']['employee-time-sheet'],
+    component: <EmployeesTimeSheet />
+  },
 ];
 
 
@@ -215,7 +253,7 @@ export const ADMIN_ROUTES = [
     name: "Tickets",
     icon: "bi bi-bell text-primary",
     layout: "",
-    component: <Ticket />
+    component: <Tickets />
   },
   {
     path: "/companies",

@@ -208,7 +208,7 @@ function AddSubTask() {
 
             <div className="col-md-9 col-lg-5">
                 <Input
-                    heading={translate("auth.title")}
+                    heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
                 />
@@ -276,7 +276,7 @@ function AddSubTask() {
                     onChange={selectedTicketPriority.onChange} />
 
                 <DateTimePicker
-                    heading={'ETA'}
+                    heading={translate("auth.eta")}
                     id="eta-picker"
                     placeholder={'Select ETA'}
                     type="both"
@@ -286,7 +286,7 @@ function AddSubTask() {
 
             <div className="col-md-9 col-lg-5 mt-3">
                 <label className={`form-control-label`}>
-                    {'Add Attachment'}
+                    {translate("common.addAttachment")}
                 </label>
                 <div>
                     {selectDropzone &&

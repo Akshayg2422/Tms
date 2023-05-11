@@ -1,3 +1,5 @@
+
+import * as ActionTypes from '../ActionTypes'
 import {
   GET_ASSOCIATED_BRANCH,
   GET_ASSOCIATED_BRANCH_FAILURE,
@@ -44,6 +46,9 @@ import {
   GET_EMPLOYEES,
   GET_EMPLOYEES_SUCCESS,
   GET_EMPLOYEES_FAILURE,
+  GET_EMPLOYEESL,
+  GET_EMPLOYEES_SUCCESSL,
+  GET_EMPLOYEES_FAILUREL,
 
   REGISTER_ADMIN,
   REGISTER_ADMIN_SUCCESS,
@@ -52,7 +57,13 @@ import {
   REGISTER_COMPANY,
   REGISTER_COMPANY_SUCCESS,
   REGISTER_COMPANY_FAILURE,
+  GET_EMPLOYEE_TIMELINE,
+  GET_EMPLOYEE_TIMELINE_SUCCESS,
+  GET_EMPLOYEE_TIMELINE_FAILURE,
 
+  ADD_EMPLOYEE_TIMELINE,
+  ADD_EMPLOYEE_TIMELINE_SUCCESS,
+  ADD_EMPLOYEE_TIMELINE_FAILURE,
 
   RESTORE_USER_COMPANY,
 } from '../ActionTypes';
@@ -60,7 +71,8 @@ import {
 
 import { UserCompanyStateProp } from '../../Interfaces';
 
-import * as ActionTypes from '../ActionTypes'
+// import * as ActionTypes from '../ActionTypes'
+
 const initialState: UserCompanyStateProp = {
 
   loading: false,
@@ -72,6 +84,13 @@ const initialState: UserCompanyStateProp = {
   departmentsCurrentPages: undefined,
   departmentsNumOfPages: undefined,
   employees: undefined,
+  employeesl: undefined,
+  employeeslCurrentPages: undefined,
+  employeeslNumOfPages: undefined,
+  employeeAddTime:undefined,
+  employeeTimelineList:undefined,
+  employeeTimelineCurrentPages:undefined,
+  employeeTimelineNumOfPages:undefined,
   brandSector: undefined,
   ticketTag: undefined,
   brandSectorCurrentPages: undefined,
@@ -93,7 +112,8 @@ const initialState: UserCompanyStateProp = {
   registerAdminResponse: undefined,
   associatedCompaniesL: undefined,
   dashboardDetails: undefined,
-  selectedCompany: undefined
+  selectedCompany: undefined,
+  selectedEmployee:undefined,
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -386,8 +406,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ADD_EMPLOYEE_SUCCESS:
-      console.log(JSON.stringify(action.payload) + "======");
-
+     
       state = {
         ...state,
         addEmployeeDetails: action.payload.details,
@@ -429,6 +448,74 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case GET_EMPLOYEES_FAILURE:
       state = { ...state, employees: action.payload };
       break;
+
+      // GET Employessl
+
+      case GET_EMPLOYEESL:
+        state = {
+          ...state,
+          employeesl:undefined,
+          employeeslCurrentPages:1,
+          employeeslNumOfPages:0,
+        };
+  
+        break;
+      case GET_EMPLOYEES_SUCCESSL:
+        state = {
+          ...state,
+          employeesl: action.payload.details.data,
+          employeeslCurrentPages: action.payload?.details.next_page === -1
+          ? action?.payload?.details.num_pages
+          : action?.payload?.details.next_page - 1,
+          employeeslNumOfPages:  action.payload.details.num_pages,
+        };
+        break;
+      case GET_EMPLOYEES_FAILUREL:
+        state = { ...state, employeesl: action.payload };
+        break;
+  //get employee timeline
+
+  case GET_EMPLOYEE_TIMELINE:
+    state = {
+      ...state,
+      employeeTimelineList:undefined,
+      employeeTimelineCurrentPages:1,
+      employeeTimelineNumOfPages:0,
+    };
+
+    break;
+  case GET_EMPLOYEE_TIMELINE_SUCCESS:
+    state = {
+      ...state,
+      employeeTimelineList: action.payload.details.data,
+      employeeTimelineCurrentPages: 
+       action.payload?.details.next_page === -1
+      ? action?.payload?.details.num_pages
+      : action?.payload?.details.next_page - 1,
+      employeeTimelineNumOfPages: action.payload.details.num_pages,
+
+    };
+    break;
+  case GET_EMPLOYEE_TIMELINE_FAILURE:
+    state = { ...state, employeeTimelineList: action.payload };
+    break;
+
+//addEmployeeTimeline
+case ADD_EMPLOYEE_TIMELINE:
+  state = {
+    ...state
+  };
+
+  break;
+case ADD_EMPLOYEE_TIMELINE_SUCCESS:
+  state = {
+    ...state,
+    employeeAddTime: action.payload.details,
+  };
+  break;
+case ADD_EMPLOYEE_TIMELINE_FAILURE:
+  state = { ...state, employeeAddTime: action.payload };
+  break;
 
     case REGISTER_COMPANY:
       state = { ...state };
@@ -484,6 +571,11 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.SET_SELECTED_COMPANY:
       state = { ...state, selectedCompany: action.payload };
       break;
+
+      //SELECTED EMP
+      case ActionTypes.SET_SELECTED_EMPLOYEE:
+        state = { ...state, selectedEmployee: action.payload };
+        break;
 
     default:
       state = state;

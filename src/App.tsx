@@ -18,6 +18,7 @@ import "@fullcalendar/daygrid/main.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+
 import { FCM_TOKEN, getDeviceInfo } from './Utils';
 import { addPushNotification } from './Redux';
 
@@ -31,11 +32,9 @@ function App() {
 
   const dispatch = useDispatch()
   const fcmToken = localStorage.getItem(FCM_TOKEN)
-  console.log("FCM TOKEN APP.TSX======>", fcmToken)
 
 
   useEffect(() => {
-
     if (loginDetails && loginDetails?.isLoggedIn && fcmToken) {
       getPushNotification()
     }
@@ -46,15 +45,22 @@ function App() {
   const AUTH = 1
   const HOME = 2
 
-  const getRoutes = (routes: any, type: number) => {
-    return routes.map((prop: any, key: any) => {
+  const getRoutes = (routes, type?: any) => {
+    return routes.map((prop, key) => {
+      if (prop.collapse) {
+        return getRoutes(prop.views);
+      }
+
+      const path = prop.layout ? prop.layout + prop.path : prop.path;
+
       return (
         <Route
-          path={prop.path}
+          path={path}
           element={type === AUTH ? <RequireHome>{prop.component}</RequireHome> : <RequireAuth>{prop.component}</RequireAuth>}
           key={key}
         />
       );
+
     });
   };
 
@@ -68,10 +74,9 @@ function App() {
 
     dispatch(addPushNotification({
       params,
-      onSuccess: (success) => () => {
+      onSuccess: () => () => {
       },
-      onError: (error) => () => {
-
+      onError: () => () => {
       }
     }))
   }

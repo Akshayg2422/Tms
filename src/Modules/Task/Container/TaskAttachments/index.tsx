@@ -59,8 +59,8 @@ function TaskAttachments() {
             <Spinner />
           </h4>}
           next={() => {
-            if (taskEventAttachments !== -1) {
-              getTaskEventsApiHandler(taskEventAttachments)
+            if (taskEventAttachmentsCurrentPage !== -1) {
+              getTaskEventsApiHandler(taskEventAttachmentsCurrentPage)
             }
           }
           }>

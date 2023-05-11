@@ -66,6 +66,12 @@ function Companies() {
           />
         </div> : null}
 
+        
+<div    style={{
+              
+              marginLeft:"-23px",
+              marginRight:"-23px"
+            }}>
       {associatedCompanies && associatedCompanies?.length > 0 ?
         <CommonTable
           isPagination
@@ -89,11 +95,15 @@ function Companies() {
             dispatch(setSelectedCompany(item));
             goTo(ROUTES["user-company-module"]["company-details"]);
 
-          }} /> :
+          }} />
+          
+           :
         <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={'Add Company'} onClick={() => {
           goTo(ROUTES["user-company-module"]["add-company"]);
         }} isButton/></div>
+
       }
+      </div>
     </Card>
   );
 }

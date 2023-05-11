@@ -1,4 +1,3 @@
-import { log } from 'console';
 import { TicketStateProps } from '../../Interfaces';
 import * as ActionTypes from '../ActionTypes'
 
@@ -9,21 +8,24 @@ const initialState: TicketStateProps = {
   getTicketTags: undefined,
   ticketEvents: undefined,
   addTicketEvent: undefined,
-  ticketReferenceDetails: undefined,
+  referenceTickets: undefined,
   referenceTicketNoOfPages: undefined,
   referenceTicketCurrentPages: 1,
   selectedTicket: undefined,
   referenceTicketSelectedDetails: undefined,
   selectedReferenceTickets: undefined,
-  ticketEmployees: undefined,
-
-
+  ticketUsers: undefined,
+  refreshTicketEvents: false,
+  selectedTicketTabPosition:{ id: '1' },
+  ticketEventHistories: undefined,
+  ticketDetails: {},
+  ticketEventAttachments: [],
+  ticketEventAttachmentsCurrentPage: 1,
 
 };
 
 const TicketReducer = (state = initialState, action: any) => {
   switch (action.type) {
-
 
     case ActionTypes.RAISE_NEW_TICKET:
       state = {
@@ -39,10 +41,8 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.RAISE_NEW_TICKET_FAILURE:
       state = { ...state };
       break;
-    case ActionTypes.GET_TICKETS:
 
-  console.log('case+"=====GET_TICKETSsas');
-  
+    case ActionTypes.GET_TICKETS:
       state = {
         ...state,
         tickets: undefined,
@@ -66,6 +66,7 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TICKETS_FAILURE:
       state = { ...state, tickets: undefined };
       break;
+
     case ActionTypes.GET_TICKET_TAGS:
       state = {
         ...state,
@@ -82,6 +83,8 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TICKET_TAGS_FAILURE:
       state = { ...state };
       break;
+
+
     case ActionTypes.GET_TICKET_EVENTS:
       state = {
         ...state,
@@ -97,6 +100,8 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TICKET_EVENTS_FAILURE:
       state = { ...state, ticketEvents: action.payload };
       break;
+
+
     case ActionTypes.ADD_TICKET_EVENT:
       state = {
         ...state,
@@ -117,7 +122,7 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_REFERENCE_TICKETS:
       state = {
         ...state,
-        ticketReferenceDetails: undefined,
+        referenceTickets: undefined,
         referenceTicketNoOfPages: 0,
         referenceTicketCurrentPages: 1,
       };
@@ -127,7 +132,7 @@ const TicketReducer = (state = initialState, action: any) => {
 
       state = {
         ...state,
-        ticketReferenceDetails: action.payload?.details?.data,
+        referenceTickets: action.payload?.details?.data,
         referenceTicketNoOfPages: action.payload?.details?.num_pages,
         referenceTicketCurrentPages:
           action.payload?.details?.next_page === -1
@@ -138,9 +143,11 @@ const TicketReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_REFERENCE_TICKETS_FAILURE:
       state = {
         ...state,
-        ticketReferenceDetails: undefined,
+        referenceTickets: undefined,
       };
       break;
+
+
 
     case ActionTypes.SELECTED_TICKET_ITEM:
 
@@ -152,6 +159,7 @@ const TicketReducer = (state = initialState, action: any) => {
         referenceTicketSelectedDetails: action.payload,
       };
       break;
+      
 
     case ActionTypes.SET_REFERENCE_SELECTED_TICKETS:
 
@@ -162,17 +170,77 @@ const TicketReducer = (state = initialState, action: any) => {
       state = {
         ...state
       };
-
       break;
+
+
     case ActionTypes.GET_TICKET_USERS_SUCCESS:
       state = {
         ...state,
-        ticketEmployees: action.payload,
+        ticketUsers: action.payload?.details?.data,
       };
       break;
-    case  ActionTypes.GET_TICKET_USERS_FAILURE:
-      state = { ...state, ticketEmployees: undefined };
+    case ActionTypes.GET_TICKET_USERS_FAILURE:
+      state = { ...state, ticketUsers: undefined };
       break;
+    case ActionTypes.REFRESH_TICKET_EVENTS:
+      state = { ...state, refreshTicketEvents: !state.refreshTicketEvents }
+      break;
+      //Selected Tab 
+      case ActionTypes.SELECTED_TICKET_TAB_POSITION:
+        state = {
+          ...state,
+          selectedTicketTabPosition: action?.payload,
+        };
+        break;
+
+      
+    /**
+    * get Task Event History
+    */
+
+    case ActionTypes.GET_TICKET_EVENT_HISTORY:
+      state = {
+        ...state
+      };
+
+      break;
+    case ActionTypes.GET_TICKET_EVENT_HISTORY_SUCCESS:
+      state = {
+        ...state, ticketEventHistories: action.payload?.details.data,
+      };
+      break;
+    case ActionTypes.GET_TICKET_EVENT_HISTORY_FAILURE:
+      state = { ...state, ticketEventHistories: action.payload };
+      break;
+
+    case ActionTypes.GET_TICKET_DETAILS:
+      state = { ...state, ticketDetails: undefined }
+      break;
+    case ActionTypes.GET_TICKET_DETAILS_SUCCESS:
+      state = { ...state, ticketDetails: action.payload?.details }
+      break;
+    case ActionTypes.GET_TICKET_DETAILS_FAILURE:
+      state = { ...state, ticketDetails: undefined }
+      break;
+    
+      case ActionTypes.GET_TICKET_EVENT_ATTACHMENTS:
+        state = {
+          ...state,
+          ticketEventAttachments: action.payload.params.page_number === 1 ? [] : state.ticketEventAttachments
+        };
+        break;
+      case ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_SUCCESS:
+        state = {
+          ...state,
+          ticketEventAttachments: [...state.ticketEventAttachments, ...action.payload.details.data],
+          ticketEventAttachmentsCurrentPage: 
+          action.payload.details.next_page
+        };
+        break;
+  
+      case ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_FAILURE:
+        state = { ...state, ticketEventAttachments: undefined };
+        break;
 
 
 

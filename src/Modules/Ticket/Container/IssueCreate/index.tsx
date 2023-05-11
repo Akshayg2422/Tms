@@ -231,7 +231,7 @@ function IssueCreate() {
 
         <div className="col-md-9 col-lg-7">
           <Input
-            heading={translate("auth.title")}
+            heading={translate("common.title")}
             value={title.value}
             onChange={title.onChange}
           />

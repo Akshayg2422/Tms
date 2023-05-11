@@ -132,9 +132,7 @@ function AddTicket() {
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             ticket_attachments: [{ attachments: attach }],
-            // is_parent: true,
-            // eta_time: eta,
-            // group_id: ticketGroup?.value?.id,
+             eta_time: eta,
         };
         console.log('==========>',params )
 
@@ -260,7 +258,7 @@ function AddTicket() {
 
             <div className="col-md-9 col-lg-5">
                 <Input
-                    heading={translate("auth.title")}
+                    heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
                 />

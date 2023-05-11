@@ -7,6 +7,7 @@ import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObj
 import { getTasks, setSelectedTask } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
+import { translate } from "@I18n";
 
 
 function CompanyTasks() {
@@ -121,7 +122,7 @@ function CompanyTasks() {
           }
           }
         />
-        : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={'No Tasks Found'} /></div>
+        : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={translate("auth.noTaskFound")!} /></div>
       }
     </HomeContainer>
   );

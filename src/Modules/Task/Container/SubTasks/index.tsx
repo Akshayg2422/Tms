@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
+import { translate } from '@I18n'
+
 
 
 function SubTasks({ cardHeight }: SubTasksProps) {
@@ -49,11 +51,11 @@ function SubTasks({ cardHeight }: SubTasksProps) {
             height: cardHeight
         }} >
             <div className='row justify-content-between px-3'>
-                <H tag={'h5'} text={'SUB TASKS'} />
+                <H tag={'h5'} text={translate("auth.subTask")} />
                 <Button
                     className={'shadow-none'}
                     size={"sm"}
-                    text={'Add Task'}
+                    text={translate("common.addSubTask")}
                     onClick={() => {
                         goTo(ROUTES["task-module"]["add-sub-task"])
                     }}
@@ -72,7 +74,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
                         }}
                     /> :
-                    <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={'Add Task'} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton /></div>
+                    <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton /></div>
                 }
             </Card>
         </Card>
