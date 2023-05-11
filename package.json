@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^6.4.5",
+    "@craco/craco": "^7.0.0-alpha.3",
     "@fortawesome/fontawesome-free": "5.15.3",
     "@fullcalendar/core": "^5.11.3",
     "@fullcalendar/daygrid": "^5.11.3",
@@ -113,5 +113,15 @@
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
     "babel-plugin-module-resolver": "^4.1.0"
+  },
+  "peerDependencies": {
+    "react": "0.14.x || ^15.0.0 || ^16.0.0 || ^17.0.0"
+  },
+  "engines": {
+    "npm": ">=8.7.0"
+  },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
   }
 }
