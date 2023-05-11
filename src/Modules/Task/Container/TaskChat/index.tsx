@@ -134,6 +134,9 @@ function TaskChat({ }: TaskChatProps) {
                         const showDotLine = index !== 0
                         const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
 
+                        console.log(JSON.stringify(imageUrls) + "===");
+
+
                         return (
                             <TimeLine
                                 icon={icon}
@@ -143,18 +146,11 @@ function TaskChat({ }: TaskChatProps) {
                                 <div className='pt-2'>
 
                                     {
-                                        attachments?.attachments && attachments?.attachments.length > 0 && attachments?.attachments.map(each => {
-                                            return <Image className='ml-1 mb-1' src={getPhoto(each.attachment_file)} width={120} height={120} />
+                                        imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
+                                            return <Image className='ml-1 mb-1' src={each} width={120} height={120} />
                                         })
                                     }
 
-                                    <div className='col-4'>
-                                        {/* {
-                                            imageUrls && imageUrls.length > 0 &&
-                                            <FullScreenImage images={imageUrls}
-                                            />
-                                        } */}
-                                    </div>
                                 </div>
                             </TimeLine>)
                     })
