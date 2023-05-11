@@ -8,7 +8,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
-import { FullScreenImage } from '@Components'
 
 
 function TaskChat({ }: TaskChatProps) {
