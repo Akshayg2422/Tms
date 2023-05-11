@@ -10,8 +10,8 @@ function AddReferenceTicket() {
 
   const dispatch = useDispatch();
 
-  const { tickets,ticketNumOfPages,ticketCurrentPages,selectedTicket,referenceTickets} = useSelector((state: any) => state.TicketReducer);
- 
+  const { tickets, ticketNumOfPages, ticketCurrentPages, selectedTicket, referenceTickets } = useSelector((state: any) => state.TicketReducer);
+
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const [selectedReferenceTicket, setSelectedReferenceTicket] = useState([...referenceTickets])
   const { goBack } = useNavigation();

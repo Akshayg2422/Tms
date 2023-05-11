@@ -5,7 +5,7 @@ import {
   getEmployeeTimeline
 } from "@Redux";
 
-import { Card, CommonTable, NoDataFound } from '@Components';
+import { Back, Card, CommonTable, NoDataFound } from '@Components';
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, DD_MMMM_YYYY } from '@Utils';
 import { translate } from "@I18n";
 function EmployeesTimeSheet() {
@@ -14,7 +14,8 @@ function EmployeesTimeSheet() {
   const {  selectedEmployee } = useSelector((state: any) => state.UserCompanyReducer);
   const { id,name } = selectedEmployee
   useEffect(() => {
-    const params = {emp_id:id }
+    const params = {emp_id:id,
+      timeline_by:"" }
 
     dispatch(
       getEmployeeTimeline({
@@ -36,10 +37,10 @@ function EmployeesTimeSheet() {
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0) {
       return data?.map((el: any) => {
-
         return {
           Date: getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(el?.created_at)),
           Task: <div className=''>{el?.task?.name}</div>,
+          Description:el?.description,
           Start: getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End: getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.end_time)),
           // ETA:getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.eta_time)),
@@ -52,10 +53,15 @@ function EmployeesTimeSheet() {
     }
 
   }
+
+
   return (
     <div className='m-3'>
       <Card >
-        <div className='h3'>{name}</div>
+          <div className="row">
+          <Back />
+          <h3 className="ml-3">{name}</h3>
+        </div>
         <div
            style={{
               

@@ -8,7 +8,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
-import { FullScreenImage } from '@Components'
 
 
 function TaskChat({ }: TaskChatProps) {
@@ -133,6 +132,7 @@ function TaskChat({ }: TaskChatProps) {
                     taskEvents.map((task: any, index: number) => {
                         const { icon, title, subTitle, created_at, attachments } = task
                         const showDotLine = index !== 0
+                        
 
                         return (
                             <TimeLine
@@ -147,6 +147,8 @@ function TaskChat({ }: TaskChatProps) {
                                             return <Image className='ml-1 mb-1' src={getPhoto(each.attachment_file)} width={120} height={120} />
                                         })
                                     }
+
+                                   
 
                                 </div>
                             </TimeLine>)

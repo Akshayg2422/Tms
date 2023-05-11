@@ -30,7 +30,7 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
         (state: any) => state.AppReducer
     );
 
-    if (!loginDetails.isLoggedIn) {
+    if (!loginDetails?.isLoggedIn) {
         return <Navigate to={ROUTES['auth-module'].login} state={{ path: location.pathname }} />
     }
 

@@ -107,7 +107,6 @@ export const icons = {
   backArrow: require('./BackArrow/icon.png'),
   questionMark: require('./RoundedQuestionMark/icon.png'),
   issuesProblem: require('./IssuesProblem/problem.png'),
-  broadCast: require('./Broadcast/icon.png'),
   bellIcon: require('./BellIcon/icon.png'),
   editLineIcon: require('./EditLine/editing.png'),
   subTask: require('./SubTask/icon.png'),
@@ -145,6 +144,8 @@ export const icons = {
   referenceTaskWhiteIcon: require('./ReferenceTaskWhiteIcon/icon.png'),
   reassignedUserWhiteIcon: require('./ReassignedUserWhiteIcon/icon.png'),
   clockWhiteIcon: require('./Clock/icon.png'),
-  startTime:require('./StartTime/icon.png'),
-  endTime:require('./EndTime/icon.png')
+  startTime: require('./StartTime/icon.png'),
+  endTime: require('./EndTime/icon.png'),
+  broadCast: require('./BroadcastMessage/icon.png'),
+  downArrowBlack: require('./DownArrowBlack/icon.png')
 };
