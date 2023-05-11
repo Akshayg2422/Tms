@@ -171,8 +171,8 @@ function Sidebar({ toggleSideNav, sideNavOpen, routes, logo, rtlActive }: Sideba
                 alt={logo.imgAlt}
                 className="navbar-brand-img rounded-circle "
                 src={getPhoto(user_details?.profile_photo)}
-                height={35}
-                width={34}
+                height={33}
+                width={33}
 
 
               />
@@ -207,7 +207,7 @@ function Sidebar({ toggleSideNav, sideNavOpen, routes, logo, rtlActive }: Sideba
           <NavbarBrand {...navbarBrandProps}>
             <img
               alt={logo.imgAlt}
-              className="navbar-brand-img"
+              className="navbar-brand-img fixed-bottom ml-3 mb-4"
               src={logo.imgSrc}
             />
           </NavbarBrand>

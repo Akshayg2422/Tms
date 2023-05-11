@@ -7,8 +7,8 @@ import {
   getEmployeesl,
   getEmployeeTimeline
 } from "@Redux";
-import { useDropDown, useModal } from '@Hooks';
-import { Button, Card, CommonTable, DateTimePicker, DropDown, MenuBar, Modal, showToast } from '@Components';
+import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
+import { Button, Card, CommonTable, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast,Image } from '@Components';
 import { icons } from '@Assets';
 
 function MyPortfolio() {
@@ -17,6 +17,7 @@ function MyPortfolio() {
   const editEtaTime = useModal(false);
   const employees = useDropDown({})
   const assignedTaskSelect = useDropDown({})
+  const [showTaskGroup, setShowTaskGroup] = useState(false);
   const [startTimeEta, setStatTimeEta] = useState("")
   const [endTimeEta, setEndTimeEta] = useState("")
   const editAssignedTaskSelect = useDropDown({})
@@ -24,13 +25,18 @@ function MyPortfolio() {
   const [assignedTasksId, setAssignedTaskId] = useState("")
   const [editEndTimeEta, setEditEndTimeEta] = useState("")
   const [assignedTaskList, setAssignedTaskList] = useState([])
+  const description = useInput("");
+ const [editDescription,setEditDescription]=useState('')
+ const editDescriptions=useInput('')
+ const dynamicHeight: any = useDynamicHeight()
+
   const { dashboardDetails, employeeTimelineList } = useSelector((state: any) => state.UserCompanyReducer);
   const { user_details } = dashboardDetails || ''
   const getGroupMenuItem = [
     { id: '0', name: "Edit", icon: icons.edit },
 
   ]
-  console.log(editStartTimeEta,editEndTimeEta)
+  
 
 
   useEffect(() => {
@@ -60,9 +66,14 @@ function MyPortfolio() {
     setEditEndTimeEta(value)
   };
 
+  const handleEditDescription = (value: any) => {
+    editDescriptions.set(value)
+   
+  };
+
 
   const getEmployeesTimeList = () => {
-    const params = {}
+    const params = {timeline_by:""}
     dispatch(
       getEmployeeTimeline({
         params,
@@ -83,7 +94,6 @@ function MyPortfolio() {
     setEndTimeEta('')
     addEtaTime.hide()
     assignedTaskSelect.onChange({})
-
    }
 
    function editRestValue(){
@@ -92,13 +102,16 @@ function MyPortfolio() {
     editAssignedTaskSelect.onChange({})
     editEtaTime.hide()
     setAssignedTaskId('')
+    // editDescriptions.onChange({})
 
    }
 
 
   const getAssignedTaskList = () => {
 
-    const params = {}
+    const params = {
+
+    }
     dispatch(
       getAssignedTask({
         params,
@@ -127,9 +140,10 @@ function MyPortfolio() {
       task_id: editAssignedId||assignedTaskId,
       start_time:editStartTimeEta||startTimeEta,
       end_time:editEndTimeEta||endTimeEta,
-      ...(assignedTasksId &&{ id:assignedTasksId})
+      ...(assignedTasksId &&{ id:assignedTasksId}),
+      description:editDescriptions?.value||description?.value
     }
-   
+console.log(params,"ppppppppp")
     const validation = validate(ADD_TIME_SHEET_DETAILS, params);
 
     if (ifObjectExist(validation)) {
@@ -160,25 +174,30 @@ function MyPortfolio() {
   }
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0) {
+
       return data?.map((el: any) => {
 
         return {
 
           Date: getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(el?.created_at)),
-          Task: <div className=''>{el?.task?.name}</div>,
+          Task: <div  data-toggle="tooltip" title={el?.task?.name}>Hover over me</div>,
+          Description:el?.description,
           Start: getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End: getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.end_time)),
           // ETA:getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.eta_time)),
           Status: el?.is_completed ? "complete" : "",
           "Edit": <MenuBar menuData={getGroupMenuItem} onClick={(element) => {
-            console.log(el,"ee")
-            const{start_time,end_time,task,id}=el
+          
+            const{start_time,end_time,task,id,description}=el
+          
             if (element.id === '0') {
+             
               setEditStatTimeEta(start_time)
               setEditEndTimeEta(end_time)
               editAssignedTaskSelect.onChange(task)
               setAssignedTaskId(id)
               editEtaTime.show()
+              handleEditDescription(description)
             }
           }} />
         }
@@ -190,19 +209,21 @@ function MyPortfolio() {
 
   return (
     <div className='m-3'>
-      <Card  >
+      <Card
+        // style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight : '5em' }}
+        >
         <div>
-          <div className='h4 '>
+          {/* <div className='h4 '>
             {user_details?.name}
-          </div>
+          </div> */}
 
           <div className="row">
-            <div className="col-5">
-              <h5>{'Date'}</h5>
+            <div className="col">
+              <h5>{'Date:'}</h5>
+              <h5>{'Hours:'}</h5>
+
             </div>
-            <div className='col'>
-              <h5>{'hours'}</h5>
-            </div>
+          
             <div className="text-right mr-3 ">
               <Button
                 text={'Add'}
@@ -213,6 +234,19 @@ function MyPortfolio() {
                 }}
 
               />
+
+              <Image src={icons.downArrowBlack} height={13} width={13}
+               onClick={() => {
+            
+                setShowTaskGroup(!showTaskGroup)
+                if (!showTaskGroup) {
+                  getEmployeesTimeList()
+
+                  // getTaskGroupList(taskGroupCurrentPages);
+                }
+
+              }}
+               />
 
             </div>
           </div>
@@ -243,16 +277,23 @@ function MyPortfolio() {
         onClose={() => {
           restValue()
         }}
-        title={'addTimeSheet'}
+        title={'AddTimeSheet'}
       >
         <div>
           <DropDown
-            heading={'AssignedTask'}
+            heading={'Task'}
             selected={assignedTaskSelect.value}
             placeHolder={'please select a task priority...'}
             data={assignedTaskList}
             onChange={assignedTaskSelect.onChange}
           />
+        </div>
+        <div>
+          <Input 
+            heading={'description'}
+            placeHolder={'description'}
+            value={description .value}
+            onChange={description.onChange}/>
         </div>
         <div className="row">
           <div className="col-6">
@@ -312,6 +353,13 @@ function MyPortfolio() {
             onChange={editAssignedTaskSelect.onChange}
           />
         </div>
+        <div>
+          <Input 
+            heading={'description'}
+            placeHolder={'description'}
+            value={editDescriptions.value}
+            onChange={editDescriptions.onChange}/>
+        </div>
         <div className="row">
           <div className="col-6">
             <DateTimePicker
@@ -337,7 +385,7 @@ function MyPortfolio() {
             color={"secondary"}
             text={"cancle"}
             onClick={()=>editRestValue()}
-            className='text-cente'
+            className='text-center'
           />
           <Button
             text={"submit"}
