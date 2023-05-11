@@ -148,10 +148,10 @@ function TaskChat({ }: TaskChatProps) {
                                         })
                                     } */}
 
-                                    <div className='col-4'>
+                                    <div>
                                         {
                                             imageUrls && imageUrls.length > 0 &&
-                                            <ImageFullScreen images={imageUrls}
+                                            <Image src={imageUrls} width={120} height={120}
                                             />
                                         }
                                     </div>

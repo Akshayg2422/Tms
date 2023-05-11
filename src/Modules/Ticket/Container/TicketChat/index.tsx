@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { TicketChatProps } from './interface';
 import { useSelector, useDispatch } from 'react-redux'
 import { getTicketsEvents } from '@Redux'
-import { TimeLine, Spinner, Image } from '@Components'
+import { TimeLine, Spinner, Image, Modal, } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TICKET_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
-import { useWindowDimensions } from '@Hooks'
+import { useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
-import { ImageFullScreen } from '@Components'
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+
 
 
 function TicketChat({ }: TicketChatProps) {
@@ -18,8 +21,11 @@ function TicketChat({ }: TicketChatProps) {
     const dispatch = useDispatch()
     const { refreshTicketEvents } = useSelector((state: any) => state.TicketReducer);
     const [ticketEvents, setTicketEvents] = useState([])
+    const imageModal = useModal(false)
+    const [image, setImage] = useState([])
     const [ticketEventsCurrentPage, setEventsTicketCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
+
 
 
     useEffect(() => {
@@ -28,7 +34,7 @@ function TicketChat({ }: TicketChatProps) {
 
 
 
-    function getTicketEventsDisplayData(data: any) {        
+    function getTicketEventsDisplayData(data: any) {
         if (data && data.length > 0) {
             return data.map(each => {
                 return {
@@ -39,7 +45,7 @@ function TicketChat({ }: TicketChatProps) {
         }
 
     }
-    const  getTicketEventsApi = (page_number: number) => {
+    const getTicketEventsApi = (page_number: number) => {
         const params = {
             ticket_id: id,
             page_number
@@ -52,7 +58,7 @@ function TicketChat({ }: TicketChatProps) {
                     const ticketEventsResponse = response.details
                     let updatedData = []
                     if (ticketEventsResponse.data && ticketEventsResponse.data.length > 0) {
-                        if (page_number === 1) {               
+                        if (page_number === 1) {
                             updatedData = getTicketEventsDisplayData(ticketEventsResponse.data)
                         } else {
                             updatedData = getTicketEventsDisplayData([...ticketEvents, ...ticketEventsResponse.data] as any)
@@ -60,7 +66,7 @@ function TicketChat({ }: TicketChatProps) {
                     }
                     setTicketEvents(updatedData)
                     setEventsTicketCurrentPage(ticketEventsResponse.next_page)
-                    
+
                 },
                 onError: () => () => { },
             })
@@ -126,6 +132,7 @@ function TicketChat({ }: TicketChatProps) {
                     }
                 }
                 }>
+
                 {ticketEvents && ticketEvents.length > 0 &&
                     ticketEvents.map((ticket: any, index: number) => {
                         const { icon, title, subTitle, created_at, attachments } = ticket
@@ -138,12 +145,19 @@ function TicketChat({ }: TicketChatProps) {
                                 showDotterLine={showDotLine}
                                 title={title} subTitle={subTitle}
                                 time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
-                                <div className='pt-2'>
-                                    <div className='col-4'>
+
+                                <div className='pt-2' onClick={() => {
+                                    imageModal.show()
+                                    setImage(imageUrls)
+                                }} >
+
+                                    <div>
+
                                         {
-                                            imageUrls && imageUrls.length > 0 &&
-                                            <ImageFullScreen images={imageUrls}
-                                            />
+                                            imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
+                                                return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                            })
+
                                         }
                                     </div>
                                 </div>
@@ -151,6 +165,27 @@ function TicketChat({ }: TicketChatProps) {
                     })
                 }
             </InfiniteScroll>
+
+            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
+                <Carousel >
+                    {
+                        image.map(each => {
+                            return <Image
+                                className='ml-1 mb-1'
+                                src={each}
+                                height={'100%'}
+                                width={'100%'}
+                            />
+                        })
+                    }
+                </Carousel>
+
+
+            </Modal>
+
+
+
+
         </div>
 
     );
