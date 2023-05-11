@@ -81,7 +81,7 @@ function AddReferenceTask() {
       id: selectedTask.id,
     };
 
-    console.log("params",params)
+    console.log("params", params)
 
     dispatch(
       getTasks({

@@ -145,5 +145,6 @@ export const icons = {
   reassignedUserWhiteIcon: require('./ReassignedUserWhiteIcon/icon.png'),
   clockWhiteIcon: require('./Clock/icon.png'),
   startTime: require('./StartTime/icon.png'),
-  endTime: require('./EndTime/icon.png')
+  endTime: require('./EndTime/icon.png'),
+  broadCast: require('./BroadcastMessage/icon.png')
 };

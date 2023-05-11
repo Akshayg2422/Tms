@@ -10,14 +10,14 @@ import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
 
 function Tasks() {
-  const DEFAULT_PARAMS = { q_many: "","tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false,"department_id":"ALL","designation_id":"ALL", page_number: 1}
+  const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
   const dispatch = useDispatch()
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch, user_details, company } = dashboardDetails || ''
- 
- 
+
+
 
   const { goTo } = useNavigation();
 
@@ -62,9 +62,9 @@ function Tasks() {
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
       return data?.map((el: any) => {
-       
-        const {priority,parent,task_attachments,by_user,raised_by_company,created_at,task_status,eta_time,title,assigned_to}=el
-      
+
+        const { priority, parent, task_attachments, by_user, raised_by_company, created_at, task_status, eta_time, title, assigned_to } = el
+
         return {
           "task":
             <>
@@ -100,16 +100,16 @@ function Tasks() {
             <div className="h5 m-0"> {by_user?.name} </div>,
           "raised to":
             <div className="row">
-              
-              {company?.name===raised_by_company?.display_name ? '' :raised_by_company?.attachment_logo &&
-               <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />
-               }
+
+              {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.attachment_logo &&
+                <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />
+              }
               <div className="ml-2">
-                <div className="h5 mb-0"> {company?.name===raised_by_company?.display_name?'':raised_by_company?.display_name}</div>
-                <div className={`h5 mb-0 text-truncate ${company?.name===raised_by_company?.display_name?'mt--3':""} `}>@<span className="h5"> {assigned_to?.name} </span></div>
+                <div className="h5 mb-0"> {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.display_name}</div>
+                <div className={`h5 mb-0 text-truncate ${company?.name === raised_by_company?.display_name ? 'mt--3' : ""} `}>@<span className="h5"> {assigned_to?.name} </span></div>
                 <small className={'text-uppercase mb-0  text-muted'}>
                   {raised_by_company?.place}
-                  </small>
+                </small>
               </div>
             </div >,
           'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
@@ -131,7 +131,7 @@ function Tasks() {
 
         <div className="col-auto  ">
           <Button
-          className="mb--2"
+            className="mb--2"
             size={'sm'}
             text={translate("common.createTask")}
             onClick={() => {
@@ -148,39 +148,39 @@ function Tasks() {
         <TaskFilter onParams={(filteredParams) => {
           setParams({ ...params, ...filteredParams })
         }} />
-        <div    style={{
-              
-              marginLeft:"-23px",
-              marginRight:"-23px"
-            }}>
-        {tasks && tasks.length > 0 ?
-          <CommonTable
-            isPagination
-            tableDataSet={tasks}
-            displayDataSet={normalizedTableData(tasks)}
-            noOfPage={taskNumOfPages}
-            currentPage={taskCurrentPages}
-            paginationNumberClick={(currentPage) => {
-              getTaskHandler(paginationHandler("current", currentPage));
-            }}
-            previousClick={() => {
-              getTaskHandler(paginationHandler("prev", taskCurrentPages))
-            }
-            }
-            nextClick={() => {
-              getTaskHandler(paginationHandler("next", taskCurrentPages));
-            }
-            }
-            tableOnClick={(idx, index, item) => {
-              dispatch(setSelectedTask(item));
-              dispatch(setSelectedTabPosition({ id: '1' }))
-              goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id);
-            }
-            }
-          />
-          :
-          <NoDataFound type={'action'} buttonText={translate("auth.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
-        }
+        <div style={{
+
+          marginLeft: "-23px",
+          marginRight: "-23px"
+        }}>
+          {tasks && tasks.length > 0 ?
+            <CommonTable
+              isPagination
+              tableDataSet={tasks}
+              displayDataSet={normalizedTableData(tasks)}
+              noOfPage={taskNumOfPages}
+              currentPage={taskCurrentPages}
+              paginationNumberClick={(currentPage) => {
+                getTaskHandler(paginationHandler("current", currentPage));
+              }}
+              previousClick={() => {
+                getTaskHandler(paginationHandler("prev", taskCurrentPages))
+              }
+              }
+              nextClick={() => {
+                getTaskHandler(paginationHandler("next", taskCurrentPages));
+              }
+              }
+              tableOnClick={(idx, index, item) => {
+                dispatch(setSelectedTask(item));
+                dispatch(setSelectedTabPosition({ id: '1' }))
+                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id);
+              }
+              }
+            />
+            :
+            <NoDataFound type={'action'} buttonText={translate("auth.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
+          }
         </div>
       </HomeContainer>
     </div>

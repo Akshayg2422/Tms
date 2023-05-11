@@ -18,6 +18,7 @@ import "@fullcalendar/daygrid/main.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+
 import { FCM_TOKEN, getDeviceInfo } from './Utils';
 import { addPushNotification } from './Redux';
 
@@ -31,11 +32,9 @@ function App() {
 
   const dispatch = useDispatch()
   const fcmToken = localStorage.getItem(FCM_TOKEN)
-  console.log("FCM TOKEN APP.TSX======>", fcmToken)
 
 
   useEffect(() => {
-
     if (loginDetails && loginDetails?.isLoggedIn && fcmToken) {
       getPushNotification()
     }
@@ -85,7 +84,6 @@ function App() {
   return (
     <ScreenWrapper>
       <PushNotification />
-      <ToastContainer />
       <Routes>
         {getRoutes(AUTH_ROUTES, AUTH)}
         {getRoutes(HOME_ROUTES, HOME)}
@@ -95,6 +93,7 @@ function App() {
         {getRoutes(USER_COMPANY_ROTES, HOME)}
         <Route path={"*"} element={<PageNotFound />} />
       </Routes>
+      <ToastContainer />
     </ScreenWrapper>
 
   );
