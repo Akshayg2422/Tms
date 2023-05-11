@@ -36,7 +36,7 @@ function App() {
 
   useEffect(() => {
 
-    if (loginDetails && loginDetails?.isLoggedIn && fcmToken ) {
+    if (loginDetails && loginDetails?.isLoggedIn && fcmToken) {
       getPushNotification()
     }
   }, [fcmToken])
@@ -46,15 +46,22 @@ function App() {
   const AUTH = 1
   const HOME = 2
 
-  const getRoutes = (routes: any, type: number) => {
-    return routes.map((prop: any, key: any) => {
+  const getRoutes = (routes, type?: any) => {
+    return routes.map((prop, key) => {
+      if (prop.collapse) {
+        return getRoutes(prop.views);
+      }
+
+      const path = prop.layout ? prop.layout + prop.path : prop.path;
+
       return (
         <Route
-          path={prop.path}
+          path={path}
           element={type === AUTH ? <RequireHome>{prop.component}</RequireHome> : <RequireAuth>{prop.component}</RequireAuth>}
           key={key}
         />
       );
+
     });
   };
 
@@ -65,15 +72,12 @@ function App() {
       device_brand: getDeviceInfo()?.brand,
       device_token: fcmToken
     }
-    console.log("getPushNotificationParamssss----------------->", params)
 
     dispatch(addPushNotification({
       params,
-      onSuccess: (success) => () => {
-        console.log("successsssss----->", success)
+      onSuccess: () => () => {
       },
-      onError: (error) => () => {
-
+      onError: () => () => {
       }
     }))
   }

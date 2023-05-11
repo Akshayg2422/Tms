@@ -1,4 +1,4 @@
-import { Companies, Settings, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 
@@ -51,7 +51,7 @@ export const ROUTES = {
     profile: '/profile',
     setting: '/setting',
     employee: '/employee-sheet',
-    myPortfolio: '/my-portfolio',
+    'my-portfolio': '/my-portfolio',
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -111,7 +111,7 @@ export const HOME_ROUTES = [
   {
     path: ROUTES['message-module'].broadcast,
     name: "Broadcast",
-    icon: icons.broadCast,
+    icon: icons.message,
     layout: "",
     component: <Broadcast />
   },
@@ -128,25 +128,28 @@ export const HOME_ROUTES = [
     icon: icons.setting,
     layout: "",
     component: <Setting />
+  }, {
+    collapse: true,
+    name: "Admin",
+    icon: icons.task,
+    state: "dashboardsCollapse",
+    views: [
+      {
+        path: ROUTES['user-company-module'].employee,
+        name: "Employee Portfolio",
+        miniName: "EP",
+        component: <EmployeesList />,
+        layout: '/admin',
+      },
+      {
+        path: ROUTES['user-company-module']['my-portfolio'],
+        name: "MyTimeSheet",
+        miniName: "TS",
+        component: <MyPortfolio />,
+        layout: '/admin',
+      },
+    ],
   },
-
-  {
-    path: ROUTES['user-company-module'].employee,
-    name: "Employee Portfolio",
-    icon: icons.employeePortfolio,
-    layout: "",
-    component: <EmployeesList />
-  },
-
-  {
-    path: ROUTES['user-company-module'].myPortfolio,
-    name: "MyTimeSheet",
-    icon: icons.timeSheet,
-    layout: "",
-    component: <MyPortfolio />
-  }
-
-
 ];
 
 export const TASK_ROUTES = [
