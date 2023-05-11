@@ -37,8 +37,6 @@ function MyPortfolio() {
 
   ]
   
-
-
   useEffect(() => {
 
     getEmployeesTimeList()
