@@ -100,6 +100,7 @@ function TaskChat({ }: TaskChatProps) {
         return modifiedData
     }
 
+
     return (
         <div
             id="scrollableDiv"
@@ -132,7 +133,6 @@ function TaskChat({ }: TaskChatProps) {
                     taskEvents.map((task: any, index: number) => {
                         const { icon, title, subTitle, created_at, attachments } = task
                         const showDotLine = index !== 0
-                        const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
 
                         return (
                             <TimeLine
@@ -148,13 +148,6 @@ function TaskChat({ }: TaskChatProps) {
                                         })
                                     }
 
-                                    <div className='col-4'>
-                                        {/* {
-                                            imageUrls && imageUrls.length > 0 &&
-                                            <FullScreenImage images={imageUrls}
-                                            />
-                                        } */}
-                                    </div>
                                 </div>
                             </TimeLine>)
                     })

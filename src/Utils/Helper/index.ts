@@ -1,7 +1,8 @@
 import { SERVER } from '@Services'
 import moment from 'moment'
 
-export const getPhoto = (photo: any) => SERVER === 'http://api.quantatms.in' ? photo : (SERVER + photo);
+export const getPhoto = (photo: any) => SERVER === 'https://tmsprimary.quantaedat.com' ? (SERVER + photo) : (SERVER + photo);
+
 
 export const handleEmailClick = (email: any) => {
   return (
@@ -24,8 +25,8 @@ export function arrayOrderbyCreatedAt(array: any) {
       return a.created_at < b.created_at
         ? -1
         : a.created_at > b.created_at
-        ? 1
-        : 0;
+          ? 1
+          : 0;
     });
     return modifiedArray;
   }
