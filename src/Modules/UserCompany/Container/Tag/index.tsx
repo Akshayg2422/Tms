@@ -16,20 +16,17 @@ import {
   getTicketTag,
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, stringSlice, stringToUpperCase, INITIAL_PAGE } from "@Utils";
+import {  paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, stringSlice, stringToUpperCase, INITIAL_PAGE } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
 
 
 
 function Tag() {
-
-
   const dispatch = useDispatch();
   const { ticketTag, ticketTagCurrentPages, ticketTagNumOfPages, } = useSelector((state: any) => state.UserCompanyReducer);
   const dynamicHeight = useDynamicHeight()
   const [showTags, setShowTags] = useState(false);
   const addTagsModal = useModal(false);
-
   const [tagName, setTagName] = useState("");
   const [tagPhoto, setTagPhoto] = useState("");
   const [tagCode, setTagCode] = useState('');
@@ -82,7 +79,6 @@ function Tag() {
     }
     else {
       showToast(getValidateError(validation));
-
     }
   };
 
@@ -143,6 +139,8 @@ function Tag() {
           className="overflow-auto overflow-hide"
           style={{
             height: showTags ? dynamicHeight.dynamicHeight - 100 : '0px',
+            marginLeft:"-23px",
+            marginRight:"-23px"
           }}
         >
           {ticketTag && ticketTag?.length > 0 ? (

@@ -45,3 +45,10 @@ export const getDisplayDateFromMomentByType = (
   return momentObj.format(type);
 };
 
+export const getDisplayTimeDateMonthYearTime = (momentObj: any) => {
+  return momentObj.format("D MMM YYYY, h:mm A")
+
+}
+
+
+

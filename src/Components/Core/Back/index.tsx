@@ -7,7 +7,7 @@ function Back({ icon = icons.backArrow }: BackProps) {
     const { goBack } = useNavigation()
     return (
         <div onClick={goBack} className='pointer'>
-            <Image src={icon} width={20} height={25} />
+            <Image src={icon} width={17} height={17} />
         </div>
     )
 }

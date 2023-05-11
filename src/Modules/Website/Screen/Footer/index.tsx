@@ -126,7 +126,7 @@ function Footer() {
           
 
           <div className='col-lg-3 col-md-3 col-sm-12 pt-sm-5 '>
-            <th className={' h3 pb-4'}><b>{translate('TMS.company')}</b></th>
+            <th className={' h3 pb-4'}><b>{translate('common.company')}</b></th>
             <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.about')}</p>
             <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.blog')}</p>
             <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.contact')}</p>

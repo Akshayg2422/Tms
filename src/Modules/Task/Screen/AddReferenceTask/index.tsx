@@ -4,6 +4,7 @@ import { addTaskEvent, getTasks } from "@Redux";
 import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back } from "@Components";
 import { useInput, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE, INITIAL_PAGE } from "@Utils";
+import { translate } from "@I18n";
 
 
 function AddReferenceTask() {
@@ -80,7 +81,7 @@ function AddReferenceTask() {
       id: selectedTask.id,
     };
 
-    console.log("params",params)
+    console.log("params", params)
 
     dispatch(
       getTasks({
@@ -103,9 +104,9 @@ function AddReferenceTask() {
       );
 
       return {
-        issue: el.title,
+        issue: el?.title,
         "raised by": el?.by_user?.name,
-        status: getStatusFromCode(dashboardDetails, el.tasks_status),
+        status: getStatusFromCode(dashboardDetails, el?.tasks_status),
         "assigned to": el?.assigned_to?.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
@@ -113,10 +114,6 @@ function AddReferenceTask() {
       };
     });
   };
-
-
-  // console.log(JSON.stringify(tasks) + "=====AddReferenceTask");
-
 
   return (
     <HomeContainer type={'card'} className="m-3">
@@ -128,12 +125,12 @@ function AddReferenceTask() {
               getTasksApiHandler(INITIAL_PAGE, text)
             }} />
 
-            <Button className="ml-3" size={'sm'} text={'Submit'} onClick={addReferenceTaskHandler} />
+            <Button className="ml-3" size={'sm'} text={translate("common.submit")} onClick={addReferenceTaskHandler} />
           </div>
         </div>
 
         <div>
-          {tasks && tasks.length > 0 ? <CommonTable title={'Tasks'}
+          {tasks && tasks.length > 0 ? <CommonTable title={translate("auth.task")}
             isPagination
             tableDataSet={tasks}
             currentPage={taskCurrentPages}
@@ -150,7 +147,7 @@ function AddReferenceTask() {
               getTasksApiHandler(paginationHandler("next", taskCurrentPages));
             }
             }
-          /> : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '70vh' }}><NoDataFound text={'No text found'} /></div>}
+          /> : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '70vh' }}><NoDataFound text={translate("auth.noTextFound")!} /></div>}
         </div>
       </div>
     </HomeContainer >

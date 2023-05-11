@@ -11,6 +11,7 @@ export * from './ReferenceTasks'
 export * from './TaskUsers'
 export * from './CompanyTasks'
 export * from './AddChat'
+export * from './ProgressBarEta'
 
 
 

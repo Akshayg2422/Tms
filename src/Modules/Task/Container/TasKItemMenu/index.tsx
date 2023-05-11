@@ -156,7 +156,7 @@ function TaskItemMenu() {
                 <div className="col-6">
                     <DropDown
                         className="form-control-md"
-                        heading={translate("common.ticketStatus")}
+                        heading={translate("common.taskStatus")}
                         data={TASK_STATUS_LIST}
                         selected={status.value}
                         onChange={status.onChange}

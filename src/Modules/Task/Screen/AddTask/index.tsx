@@ -68,12 +68,6 @@ function AddTask() {
     const [eta, setEta] = useState("")
     let attach = photo.slice(-4, 9)
 
-
-
-    console.log(JSON.stringify(subTaskGroups) + '=====Heloo');
-
-
-
     useEffect(() => {
         getAssociatedCompaniesApi();
         getSubTaskGroupsApi();
@@ -109,9 +103,6 @@ function AddTask() {
             ...(designation && { designation_id: designation?.value?.id })
         };
 
-
-        console.log(JSON.stringify(params) + '======getCompanyEmployeeApi');
-
         dispatch(
             getEmployees({
                 params,
@@ -135,12 +126,16 @@ function AddTask() {
             description: description?.value,
             reference_number: referenceNo?.value,
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
-            assigned_to_id: selectedUserId?.id,
+            // assigned_to_id: selectedUserId?.id,
+            ...( selectedUserId?.id && { assigned_to_id:selectedUserId?.id}),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
             eta_time: eta,
             group_id: taskGroup?.value?.id,
+            ...(department?.value?.id && {  department_id:department.value.id }),
+            ...(designation?.value?.id && {designation_id:designation.value.id})
+           
         };
 
         const validation = validate(taskType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
@@ -201,6 +196,7 @@ function AddTask() {
             getSubTaskGroups({
                 params,
                 onSuccess: (response: any) => () => {
+                
                 },
                 onError: () => () => {
                 },
@@ -271,7 +267,7 @@ function AddTask() {
 
             <div className="col-md-9 col-lg-5">
                 <Input
-                    heading={translate("auth.title")}
+                    heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
                 />
@@ -316,7 +312,7 @@ function AddTask() {
                 )}
 
                 {getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
-                    heading={'Department'}
+                    heading={translate("common.department")}
                     placeHolder={'Select a Department...'}
                     data={getDropDownDisplayData(departments)}
                     onChange={(item) => {
@@ -327,7 +323,7 @@ function AddTask() {
                 }
 
                 {getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
-                    heading={'Designation'}
+                    heading={translate("auth.designation")}
                     placeHolder={'Select a Designation'}
                     data={getDropDownDisplayData(designations)}
                     onChange={(item) => {
@@ -354,7 +350,7 @@ function AddTask() {
                     />}
 
                 {subTaskGroups && subTaskGroups.length > 0 && <DropDown
-                    heading={'Select Group'}
+                    heading={translate("common.selectGroup")}
                     placeHolder={'Select a Group'}
                     data={getDropDownDisplayData(subTaskGroups)}
                     onChange={taskGroup.onChange}
@@ -377,10 +373,11 @@ function AddTask() {
                     onChange={handleEtaChange}
                 />
             </div>
+            
 
             <div className="col-md-9 col-lg-5 mt-3">
                 <label className={`form-control-label`}>
-                    {'Add Attachment'}
+                    {translate("common.addAttachment")}
                 </label>
                 <div className="row">
                     {selectDropzone &&

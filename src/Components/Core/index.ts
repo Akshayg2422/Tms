@@ -25,7 +25,7 @@ export * from './DropdownIcon'
 export * from './AutoCompleteDropDownImage'
 export * from './PageNation'
 export * from './Back'
-export * from './ImageFullScreen'
+export * from './BarChart'
 export * from './Carousel'
 
 

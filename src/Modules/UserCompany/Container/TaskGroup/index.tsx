@@ -20,7 +20,7 @@ import {
   addTaskGroup
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer } from "@Utils";
+import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices } from "@Utils";
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
 import { icons } from "@Assets";
 
@@ -65,8 +65,8 @@ function TaskGroup() {
   const subTaskGroupDescription = useInput("");
   const [selectedSubTaskGroup, setSelectedSubTaskGroup] = useState<any>(undefined);
   const [isEdit, setIsEdit] = useState<any>(false);
-  const [startTimeEta, setStatTimeEta] = useState("")
-  const [endTimeEta, setEndTimeEta] = useState("")
+  const [startTimeEta, setStatTimeEta] = useState<any>("")
+  const [endTimeEta, setEndTimeEta] = useState<any>("")
   const [subTaskPhoto, setSubTaskPhoto] = useState("");
 
 
@@ -110,10 +110,6 @@ function TaskGroup() {
   };
 
   const addTaskGroupApiHandler = async () => {
-
-
-
-
 
     toDataUrl(photo, function (myBase64) {
 
@@ -362,6 +358,8 @@ function TaskGroup() {
           className="overflow-auto overflow-hide"
           style={{
             height: showTaskGroup ? dynamicHeight.dynamicHeight - 100 : '0px',
+            marginLeft:"-23px",
+            marginRight:"-23px"
           }}
         >
           {taskGroups && taskGroups?.length > 0 ? (
@@ -405,7 +403,7 @@ function TaskGroup() {
             <div className="col-6">
               <Input
                 placeholder={translate("auth.task")}
-                value={taskGroupName.value}
+                value={stringSlices(taskGroupName.value)}
                 onChange={(e) => {
                   taskGroupName.onChange(e)
                   taskGroupCode.set(stringToUpperCase(stringSlice(e.target.value)))
@@ -471,7 +469,7 @@ function TaskGroup() {
             <div className="col-6">
               <Input
                 placeholder={translate("auth.task")}
-                value={subTaskGroupName.value}
+                value={stringSlices(subTaskGroupName.value)}
                 onChange={(e) => {
                   subTaskGroupName.onChange(e)
                   subTaskGroupCode.set(stringToUpperCase(stringSlice(e.target.value)))
@@ -494,7 +492,7 @@ function TaskGroup() {
                 id="eta-picker"
                 placeholder={'Start Time'}
                 type="both"
-                value={startTimeEta}
+                value={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(startTimeEta))}
                 onChange={handleStartTimeEtaChange}
               />
             </div>
@@ -502,7 +500,7 @@ function TaskGroup() {
               <DateTimePicker
                 id="eta-picker"
                 type="both"
-                value={endTimeEta}
+                value={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(endTimeEta))}
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
               />

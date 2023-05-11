@@ -26,8 +26,8 @@ function Designation() {
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-  const isUserAdmin = dashboardDetails.permission_details.is_admin
-  const isUserSuperAdmin = dashboardDetails.permission_details.is_super_admin
+  const isUserAdmin = dashboardDetails?.permission_details?.is_admin
+  const isUserSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
 
 
   const dispatch = useDispatch();
@@ -136,7 +136,8 @@ function Designation() {
 
   return (
     <>
-      <Card className={'mb-3'} style={{ height: showDesignations ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
+      <Card className={'mb-3'} style={{ height: showDesignations ? dynamicHeight.dynamicHeight - 35 : '5em',
+     }}>
         <div className="row">
           <div className="col">
             <h3>{translate("auth.designation")}</h3>
@@ -169,6 +170,8 @@ function Designation() {
           className="overflow-auto overflow-hide"
           style={{
             height: showDesignations ? dynamicHeight.dynamicHeight - 100 : '0px',
+            marginLeft:"-23px",
+            marginRight:"-23px"
           }}>
           {designations && designations?.length > 0 ? (
             <CommonTable

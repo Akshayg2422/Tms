@@ -19,8 +19,7 @@ const FILTER_MENU = [
 ]
 
 
-function
-    TaskFilter({ onParams }: TaskFilterProps) {
+function TaskFilter({ onParams }: TaskFilterProps) {
 
     const dispatch = useDispatch()
     const filteredTask = useDropDown(TASK_FILTER_LIST[2]);
@@ -145,7 +144,7 @@ function
             <div className="row">
                 <div className='row col'>
                     <div className="col-lg-3  col-md-3 col-sm-12">
-                        <SearchInput heading={'Code/Title'} onSearch={
+                        <SearchInput heading={translate("common.codeTitle")!} onSearch={
                             (text) => {
                                 proceedParams({ q_many: text })
                             }
@@ -167,7 +166,7 @@ function
                     <div className="col-lg-3 col-md-3 col-sm-12">
                         <DropDown
                             className="form-control-sm"
-                            heading={translate("common.ticketStatus")}
+                            heading={translate("common.taskStatus")}
                             data={TASK_STATUS_LIST}
                             selected={taskStatus.value}
                             onChange={(item) => {
@@ -190,7 +189,7 @@ function
                     </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-center">
-                    <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
+                    <MenuBar toggleIcon={icons.equalizer} menuData={FILTER_MENU} onClick={(el) => {
                         if (el.id === FILTER_MENU[1].id) {
                             setAdvanceFilter(true)
                             setDepartments([])
@@ -207,7 +206,7 @@ function
             </div>
             <div className='row mt-2'>
                 <div className='col-auto  d-flex align-items-center justify-content-center'>
-                    <Checkbox text={'Include Subtask'} checked={includeSubTask} onCheckChange={(checked) => {
+                    <Checkbox text={translate('common.includeSubtask')!} checked={includeSubTask} onCheckChange={(checked) => {
                         proceedParams({ include_subtask: checked })
                         setIncludeSubTask(checked)
                     }} />

@@ -70,7 +70,7 @@ function CreateCompany({ }: CreateCompanyProps) {
             }
           },
           onError: (error) => {
-            showToast(error.error_message);
+            showToast(error.error_message,"info");
           },
         })
       );
