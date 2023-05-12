@@ -8,8 +8,10 @@ import {
     DateTimePicker,
     AutoCompleteDropDownImage,
     Card,
-    Back
+    Back,
+    Image
 } from "@Components";
+
 import { translate } from "@I18n";
 import {
     getEmployees,
@@ -27,10 +29,12 @@ import {
     type,
     validate,
     PRIORITY,
+    getPhoto,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
+import AutoSearchInput from "@Components//Core/AutoSearchInput";
 
 function AddTask() {
 
@@ -254,6 +258,8 @@ function AddTask() {
 
     const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
+   
+
 
     return (
         <Card className="m-3">
@@ -333,7 +339,7 @@ function AddTask() {
                 />
                 }
 
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
+                {/* {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
                     <AutoCompleteDropDownImage
                         heading={translate("common.user")!}
                         placeholder={'please select a user...'}
@@ -347,7 +353,26 @@ function AddTask() {
                             setSelectedUser(value);
                             setSelectedUserId(item)
                         }}
-                    />}
+                    />} */}
+                    <div className="mt--2">
+                   
+                  { getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&  <AutoSearchInput 
+                    heading={translate("common.user")!}
+                    placeholder={'please select a user...'}
+                    data={companyUsers}
+                    variant={true}
+                    onSelect={( item)=>{
+                        // setSelectedUser(item.name);
+                        setSelectedUserId(item)
+                    
+                    }}
+                
+
+                    />
+                }
+</div>
+                  
+            
 
                 {subTaskGroups && subTaskGroups.length > 0 && <DropDown
                     heading={translate("common.selectGroup")}
@@ -410,6 +435,7 @@ function AddTask() {
                     onClick={submitTaskHandler}
                 />
             </div>
+            
 
         </Card >
 

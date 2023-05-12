@@ -1,6 +1,7 @@
 import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
+import AutoSearchInput from '@Components//Core/AutoSearchInput'
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -127,7 +128,7 @@ export const HOME_ROUTES = [
     name: "Settings",
     icon: icons.setting,
     layout: "",
-    component: <Setting />
+    component: <Setting/>
   }, {
     collapse: true,
     name: "Admin",
@@ -141,14 +142,24 @@ export const HOME_ROUTES = [
         component: <EmployeesList />,
         layout: '/admin',
       },
-      {
-        path: ROUTES['user-company-module']['my-portfolio'],
-        name: "MyTimeSheet",
-        miniName: "TS",
-        component: <MyPortfolio />,
-        layout: '/admin',
-      },
+      // {
+      //   path: ROUTES['user-company-module']['my-portfolio'],
+      //   name: "MyTimeSheet",
+      //   miniName: "TS",
+      //   component: <MyPortfolio />,
+      //   layout: '/admin',
+      // },
     ],
+
+    
+  },
+
+  {
+    path: ROUTES['user-company-module']['my-portfolio'],
+    name: "MyTimeSheet",
+    miniName: "TS",
+    component: <MyPortfolio />,
+    layout: '',
   },
 ];
 

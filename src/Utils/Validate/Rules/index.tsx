@@ -316,5 +316,9 @@ export const ADD_TIME_SHEET_DETAILS = {
   },
   end_time: {
     presence: { allowEmpty: false, message: " EndTime cannot be empty" },
-  }
+  },
+  description: {
+    presence: { allowEmpty: false, message: " EndTime cannot be empty" },
+  },
+
 }

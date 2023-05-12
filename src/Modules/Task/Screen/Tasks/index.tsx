@@ -131,7 +131,7 @@ function Tasks() {
 
         <div className="col-auto  ">
           <Button
-            className="mb--2"
+            className="mb-0"
             size={'sm'}
             text={translate("common.createTask")}
             onClick={() => {

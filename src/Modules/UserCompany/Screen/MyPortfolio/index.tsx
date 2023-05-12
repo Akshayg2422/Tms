@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getMomentObjFromServer, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError } from '@Utils'
+import { getMomentObjFromServer, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A } from '@Utils'
 import {
   addEmployeeTimeline,
   getAssignedTask,
@@ -8,35 +8,37 @@ import {
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
-import { Button, Card, CommonTable, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast,Image } from '@Components';
+import { Button, Card, CommonTable, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image } from '@Components';
 import { icons } from '@Assets';
+import AutoSearchInput from '@Components//Core/AutoSearchInput';
 
 function MyPortfolio() {
   const dispatch = useDispatch();
   const addEtaTime = useModal(false);
   const editEtaTime = useModal(false);
-  const employees = useDropDown({})
-  const assignedTaskSelect = useDropDown({})
+  // const employees = useDropDown({})
+  // const assignedTaskSelect = useDropDown({})
   const [showTaskGroup, setShowTaskGroup] = useState(false);
-  const [startTimeEta, setStatTimeEta] = useState("")
-  const [endTimeEta, setEndTimeEta] = useState("")
+  const [startTimeEta, setStatTimeEta] = useState<any>("")
+  const [endTimeEta, setEndTimeEta] = useState<any>("")
   const editAssignedTaskSelect = useDropDown({})
-  const [editStartTimeEta, setEditStatTimeEta] = useState("")
+  const [editStartTimeEta, setEditStatTimeEta] = useState<any>("")
   const [assignedTasksId, setAssignedTaskId] = useState("")
-  const [editEndTimeEta, setEditEndTimeEta] = useState("")
+  const [editEndTimeEta, setEditEndTimeEta] = useState<any>("")
   const [assignedTaskList, setAssignedTaskList] = useState([])
   const description = useInput("");
- const [editDescription,setEditDescription]=useState('')
- const editDescriptions=useInput('')
- const dynamicHeight: any = useDynamicHeight()
+    const [assignedTaskDetails,setAssignedTaskDetails]=useState([])
+  const [selectedTask, setSelectedTask] = useState<any>('')
+  const editDescriptions = useInput('')
+  const dynamicHeight: any = useDynamicHeight()
 
-  const { dashboardDetails, employeeTimelineList } = useSelector((state: any) => state.UserCompanyReducer);
+  const { dashboardDetails, employeeTimelineList} = useSelector((state: any) => state.UserCompanyReducer);
+  const {  assignedTask } = useSelector((state: any) => state.TaskReducer);
   const { user_details } = dashboardDetails || ''
   const getGroupMenuItem = [
     { id: '0', name: "Edit", icon: icons.edit },
 
   ]
-  
   useEffect(() => {
 
     getEmployeesTimeList()
@@ -46,32 +48,32 @@ function MyPortfolio() {
 
   const handleStartTimeEtaChange = (value: any) => {
     setStatTimeEta(value)
-   
+
   };
 
   const handleEndTimeEtaChange = (value: any) => {
     setEndTimeEta(value)
-   
+
   };
 
   const handleEditStartTimeEtaChange = (value: any) => {
-   
+
     setEditStatTimeEta(value)
   };
 
   const handleEditEndTimeEtaChange = (value: any) => {
-    
+
     setEditEndTimeEta(value)
   };
 
   const handleEditDescription = (value: any) => {
     editDescriptions.set(value)
-   
+
   };
 
 
   const getEmployeesTimeList = () => {
-    const params = {timeline_by:""}
+    const params = { timeline_by: "" }
     dispatch(
       getEmployeeTimeline({
         params,
@@ -87,22 +89,21 @@ function MyPortfolio() {
 
     )
   }
-   function restValue(){
+  function restValue() {
     setStatTimeEta('')
     setEndTimeEta('')
     addEtaTime.hide()
-    assignedTaskSelect.onChange({})
-   }
+    setSelectedTask('')
+  }
 
-   function editRestValue(){
+  function editRestValue() {
     setEditStatTimeEta('')
     setEditEndTimeEta('')
     editAssignedTaskSelect.onChange({})
     editEtaTime.hide()
     setAssignedTaskId('')
-    // editDescriptions.onChange({})
 
-   }
+  }
 
 
   const getAssignedTaskList = () => {
@@ -114,15 +115,23 @@ function MyPortfolio() {
       getAssignedTask({
         params,
         onSuccess: (response: any) => () => {
-          
-
-          const assignedTask = response?.details
-          const assignedDetails = assignedTask.map((item) => {
+          const assignedTasks = response?.details
+          const assignedDetails = assignedTasks.map((item) => {
             return {
               text: item.title, id: item.id
             }
 
+          
+
           })
+
+          const assignedTaskDetails=assignedTasks.map((item) => {
+            return {
+              name: item.title, id: item.id
+            }
+          })
+          setAssignedTaskDetails(assignedTaskDetails)
+
           setAssignedTaskList(assignedDetails)
         },
         onError: () => () => { }
@@ -131,17 +140,17 @@ function MyPortfolio() {
   }
 
   const addEmployeeTimeSheet = () => {
-  
-    const editAssignedId=editAssignedTaskSelect?.value?.id
-    const assignedTaskId=assignedTaskSelect?.value?.id
+
+    const editAssignedId = editAssignedTaskSelect?.value?.id
+    const assignedTaskId = selectedTask?.id
     const params = {
-      task_id: editAssignedId||assignedTaskId,
-      start_time:editStartTimeEta||startTimeEta,
-      end_time:editEndTimeEta||endTimeEta,
-      ...(assignedTasksId &&{ id:assignedTasksId}),
-      description:editDescriptions?.value||description?.value
+      task_id: editAssignedId || assignedTaskId,
+      start_time:getServerTimeFromMoment(getMomentObjFromServer(editStartTimeEta))  ||getServerTimeFromMoment(getMomentObjFromServer(startTimeEta)) ,
+      end_time: getServerTimeFromMoment(getMomentObjFromServer(editEndTimeEta))  ||getServerTimeFromMoment(getMomentObjFromServer( endTimeEta)),
+      ...(assignedTasksId && { id: assignedTasksId }),
+      description: editDescriptions?.value || description?.value
     }
-console.log(params,"ppppppppp")
+
     const validation = validate(ADD_TIME_SHEET_DETAILS, params);
 
     if (ifObjectExist(validation)) {
@@ -156,7 +165,7 @@ console.log(params,"ppppppppp")
             editRestValue()
           },
           onError: (error) => () => {
-            
+
 
           }
 
@@ -164,7 +173,7 @@ console.log(params,"ppppppppp")
       )
     }
     else {
-    
+
 
       showToast(getValidateError(validation));
     }
@@ -178,21 +187,23 @@ console.log(params,"ppppppppp")
         return {
 
           Date: getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(el?.created_at)),
-          Task: <div  data-toggle="tooltip" title={el?.task?.name}>Hover over me</div>,
-          Description:el?.description,
-          Start: getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.start_time)),
-          End: getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.end_time)),
+          Task: <div data-toggle="tooltip" title={el?.task?.name}>Hover over me</div>,
+          Description: el?.description,
+          Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
+          End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
           // ETA:getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.eta_time)),
           Status: el?.is_completed ? "complete" : "",
           "Edit": <MenuBar menuData={getGroupMenuItem} onClick={(element) => {
+       
+            const { start_time, end_time, task, id, description } = el
+            const tasks = { id: task.id, text: task.name }
           
-            const{start_time,end_time,task,id,description}=el
-          
+
             if (element.id === '0') {
-             
+
               setEditStatTimeEta(start_time)
               setEditEndTimeEta(end_time)
-              editAssignedTaskSelect.onChange(task)
+              editAssignedTaskSelect.onChange(tasks)
               setAssignedTaskId(id)
               editEtaTime.show()
               handleEditDescription(description)
@@ -208,12 +219,9 @@ console.log(params,"ppppppppp")
   return (
     <div className='m-3'>
       <Card
-        // style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight : '5em' }}
-        >
+      // style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight : '5em' }}
+      >
         <div>
-          {/* <div className='h4 '>
-            {user_details?.name}
-          </div> */}
 
           <div className="row">
             <div className="col">
@@ -221,41 +229,40 @@ console.log(params,"ppppppppp")
               <h5>{'Hours:'}</h5>
 
             </div>
-          
+
             <div className="text-right mr-3 ">
               <Button
                 text={'Add'}
                 size={"sm"}
                 onClick={() => {
                   addEtaTime.show()
-                  
+
                 }}
 
               />
 
               <Image src={icons.downArrowBlack} height={13} width={13}
-               onClick={() => {
-            
-                setShowTaskGroup(!showTaskGroup)
-                if (!showTaskGroup) {
-                  getEmployeesTimeList()
+                onClick={() => {
 
-                  // getTaskGroupList(taskGroupCurrentPages);
-                }
+                  setShowTaskGroup(!showTaskGroup)
+                  if (!showTaskGroup) {
+                    getEmployeesTimeList()
 
-              }}
-               />
+                  }
+
+                }}
+              />
 
             </div>
           </div>
 
 
         </div>
-        <div    style={{
-              
-              marginLeft:"-23px",
-              marginRight:"-23px"
-            }}>
+        <div style={{
+
+          marginLeft: "-23px",
+          marginRight: "-23px"
+        }}>
           {employeeTimelineList && employeeTimelineList.length > 0 && <CommonTable
 
             tableDataSet={employeeTimelineList}
@@ -277,7 +284,7 @@ console.log(params,"ppppppppp")
         }}
         title={'AddTimeSheet'}
       >
-        <div>
+        {/* <div>
           <DropDown
             heading={'Task'}
             selected={assignedTaskSelect.value}
@@ -285,13 +292,29 @@ console.log(params,"ppppppppp")
             data={assignedTaskList}
             onChange={assignedTaskSelect.onChange}
           />
-        </div>
+        </div> */}
+
+        {<AutoSearchInput
+          heading={'Task'}
+          placeholder={'please select a task...'}
+          data={assignedTaskDetails}
+          // variant={true}
+          onSelect={(item) => {
+            setSelectedTask(item)
+
+          }}
+
+
+        />
+        }
+
+
         <div>
-          <Input 
+          <Input
             heading={'description'}
             placeHolder={'description'}
-            value={description .value}
-            onChange={description.onChange}/>
+            value={description.value}
+            onChange={description.onChange} />
         </div>
         <div className="row">
           <div className="col-6">
@@ -317,8 +340,8 @@ console.log(params,"ppppppppp")
           <Button
             color={"secondary"}
             text={"cancle"}
-            onClick={()=>restValue()}
-            className='text-cente'
+            onClick={() => restValue()}
+            className='text-center'
           />
           <Button
             text={"submit"}
@@ -337,7 +360,7 @@ console.log(params,"ppppppppp")
         onClose={() => {
           editEtaTime.hide();
           editRestValue()
-         
+
 
         }}
         title={'editTimeSheet'}
@@ -352,11 +375,11 @@ console.log(params,"ppppppppp")
           />
         </div>
         <div>
-          <Input 
+          <Input
             heading={'description'}
             placeHolder={'description'}
             value={editDescriptions.value}
-            onChange={editDescriptions.onChange}/>
+            onChange={editDescriptions.onChange} />
         </div>
         <div className="row">
           <div className="col-6">
@@ -365,7 +388,7 @@ console.log(params,"ppppppppp")
               placeholder={'Start Time'}
               type="both"
               value={editStartTimeEta}
-              onChange={ handleEditStartTimeEtaChange}
+              onChange={handleEditStartTimeEtaChange}
             />
           </div>
           <div className="col-6">
@@ -382,7 +405,7 @@ console.log(params,"ppppppppp")
           <Button
             color={"secondary"}
             text={"cancle"}
-            onClick={()=>editRestValue()}
+            onClick={() => editRestValue()}
             className='text-center'
           />
           <Button

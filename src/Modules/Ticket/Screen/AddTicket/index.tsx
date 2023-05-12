@@ -31,6 +31,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
+import AutoSearchInput from "@Components//Core/AutoSearchInput";
 
 function AddTicket() {
 
@@ -324,7 +325,7 @@ function AddTicket() {
                 />
                 }
 
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
+                {/* {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
                     <AutoCompleteDropDownImage
                         heading={translate("common.user")!}
                         placeholder={'please select a user...'}
@@ -338,7 +339,23 @@ function AddTicket() {
                             setSelectedUser(value);
                             setSelectedUserId(item)
                         }}
-                    />}
+                    />} */}
+
+
+{ getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&  <AutoSearchInput 
+                    heading={translate("common.user")!}
+                    placeholder={'please select a user...'}
+                    data={companyUsers}
+                    variant={true}
+                    onSelect={( item)=>{
+                        // setSelectedUser(item.name);
+                        setSelectedUserId(item)
+                    
+                    }}
+                
+
+                    />
+                }
 
 
                 <DropDown
