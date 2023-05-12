@@ -5,7 +5,7 @@ import { useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
-import { BroadCastListedItems } from "@Modules";
+import { BroadCastListedItems, Home } from "@Modules";
 import { getBroadCastMessages } from "@Redux";
 import { INITIAL_PAGE } from '@Utils'
 
@@ -19,7 +19,7 @@ function Broadcast() {
     (state: any) => state.CommunicationReducer
   );
 
-
+  console.log('11111111111111111', broadCastDetails)
 
   useEffect(() => {
     getBroadCastMessage(INITIAL_PAGE)
@@ -49,52 +49,36 @@ function Broadcast() {
 
   return (
     <>
-      <HomeContainer className="m-3">
-        {broadCastDetails && broadCastDetails.length > 0 ?
-          <div className="col text-right p-0">
-            <Button
-              text={translate("auth.createPost")!}
-              size={"sm"}
-              onClick={proceedCreateBroadcast}
-            />
-          </div> : null}
-
-        {broadCastDetails && broadCastDetails.length > 0 ?
-          <InfiniteScroll
-            dataLength={broadCastDetails.length}
-            hasMore={broadCastCurrentPage !== -1}
-            loader={<h4>
-              <Spinner />
-            </h4>}
-            next={() => {
-              if (broadCastCurrentPage !== -1) {
-                getBroadCastMessage(broadCastCurrentPage)
-              }
+      {broadCastDetails && broadCastDetails.length > 0 ?
+        <InfiniteScroll
+          dataLength={broadCastDetails.length}
+          hasMore={broadCastCurrentPage !== -1}
+          loader={<h4>
+            <Spinner />
+          </h4>}
+          next={() => {
+            if (broadCastCurrentPage !== -1) {
+              getBroadCastMessage(broadCastCurrentPage)
             }
-            }>
+          }
+          }>
 
-            <Card title={"BroadCast"} className="mt-3">
-              {
-                broadCastDetails?.map((company: any, index: number) => {
-                  return (
-                    <div key={company.id}>
-                      <BroadCastListedItems key={company.id} item={company} />
-                      {index !== broadCastDetails?.length - 1 && (
-                        <div className="mx-1">
-                          <Divider />
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-            </Card>
-
-          </InfiniteScroll>
-          : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
-            <NoDataFound buttonText={'create broadcast'} onClick={proceedCreateBroadcast} isButton />
+          <div className={''} >
+            {
+              broadCastDetails?.map((company: any, index: number) => {
+                return (
+                  <div key={company.id}>
+                    <Card className={'shadow-none border m-3 col-7 mb--2'}><BroadCastListedItems key={company.id} item={company} /></Card>
+                  </div>
+                );
+              })}
           </div>
-        }
-      </HomeContainer>
+
+        </InfiniteScroll>
+        : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
+          <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />
+        </div>
+      }
     </>
   );
 }
