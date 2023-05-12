@@ -53,7 +53,7 @@ function Broadcast() {
         {broadCastDetails && broadCastDetails.length > 0 ?
           <div className="col text-right p-0">
             <Button
-              text={translate("auth.addBroadCast")!}
+              text={translate("auth.createPost")!}
               size={"sm"}
               onClick={proceedCreateBroadcast}
             />
