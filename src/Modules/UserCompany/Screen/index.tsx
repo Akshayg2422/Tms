@@ -7,6 +7,7 @@ export * from './AddUser'
 export * from './EmployeesList'
 export * from './MyPortfolio'
 export * from './EmployeesTimeSheet'
+export * from './VirtualConference'
 
 
 
