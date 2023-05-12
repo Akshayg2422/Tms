@@ -87,10 +87,10 @@ const initialState: UserCompanyStateProp = {
   employeesl: undefined,
   employeeslCurrentPages: undefined,
   employeeslNumOfPages: undefined,
-  employeeAddTime:undefined,
-  employeeTimelineList:undefined,
-  employeeTimelineCurrentPages:undefined,
-  employeeTimelineNumOfPages:undefined,
+  employeeAddTime: undefined,
+  employeeTimelineList: undefined,
+  employeeTimelineCurrentPages: undefined,
+  employeeTimelineNumOfPages: undefined,
   brandSector: undefined,
   ticketTag: undefined,
   brandSectorCurrentPages: undefined,
@@ -113,7 +113,10 @@ const initialState: UserCompanyStateProp = {
   associatedCompaniesL: undefined,
   dashboardDetails: undefined,
   selectedCompany: undefined,
-  selectedEmployee:undefined,
+  selectedEmployee: undefined,
+  videoConference: undefined,
+  scheduledListData: undefined,
+  userToken: undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -406,7 +409,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ADD_EMPLOYEE_SUCCESS:
-     
+
       state = {
         ...state,
         addEmployeeDetails: action.payload.details,
@@ -449,73 +452,73 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, employees: action.payload };
       break;
 
-      // GET Employessl
+    // GET Employessl
 
-      case GET_EMPLOYEESL:
-        state = {
-          ...state,
-          employeesl:undefined,
-          employeeslCurrentPages:1,
-          employeeslNumOfPages:0,
-        };
-  
-        break;
-      case GET_EMPLOYEES_SUCCESSL:
-        state = {
-          ...state,
-          employeesl: action.payload.details.data,
-          employeeslCurrentPages: action.payload?.details.next_page === -1
+    case GET_EMPLOYEESL:
+      state = {
+        ...state,
+        employeesl: undefined,
+        employeeslCurrentPages: 1,
+        employeeslNumOfPages: 0,
+      };
+
+      break;
+    case GET_EMPLOYEES_SUCCESSL:
+      state = {
+        ...state,
+        employeesl: action.payload.details.data,
+        employeeslCurrentPages: action.payload?.details.next_page === -1
           ? action?.payload?.details.num_pages
           : action?.payload?.details.next_page - 1,
-          employeeslNumOfPages:  action.payload.details.num_pages,
-        };
-        break;
-      case GET_EMPLOYEES_FAILUREL:
-        state = { ...state, employeesl: action.payload };
-        break;
-  //get employee timeline
+        employeeslNumOfPages: action.payload.details.num_pages,
+      };
+      break;
+    case GET_EMPLOYEES_FAILUREL:
+      state = { ...state, employeesl: action.payload };
+      break;
+    //get employee timeline
 
-  case GET_EMPLOYEE_TIMELINE:
-    state = {
-      ...state,
-      employeeTimelineList:undefined,
-      employeeTimelineCurrentPages:1,
-      employeeTimelineNumOfPages:0,
-    };
+    case GET_EMPLOYEE_TIMELINE:
+      state = {
+        ...state,
+        employeeTimelineList: undefined,
+        employeeTimelineCurrentPages: 1,
+        employeeTimelineNumOfPages: 0,
+      };
 
-    break;
-  case GET_EMPLOYEE_TIMELINE_SUCCESS:
-    state = {
-      ...state,
-      employeeTimelineList: action.payload.details.data,
-      employeeTimelineCurrentPages: 
-       action.payload?.details.next_page === -1
-      ? action?.payload?.details.num_pages
-      : action?.payload?.details.next_page - 1,
-      employeeTimelineNumOfPages: action.payload.details.num_pages,
+      break;
+    case GET_EMPLOYEE_TIMELINE_SUCCESS:
+      state = {
+        ...state,
+        employeeTimelineList: action.payload.details.data,
+        employeeTimelineCurrentPages:
+          action.payload?.details.next_page === -1
+            ? action?.payload?.details.num_pages
+            : action?.payload?.details.next_page - 1,
+        employeeTimelineNumOfPages: action.payload.details.num_pages,
 
-    };
-    break;
-  case GET_EMPLOYEE_TIMELINE_FAILURE:
-    state = { ...state, employeeTimelineList: action.payload };
-    break;
+      };
+      break;
+    case GET_EMPLOYEE_TIMELINE_FAILURE:
+      state = { ...state, employeeTimelineList: action.payload };
+      break;
 
-//addEmployeeTimeline
-case ADD_EMPLOYEE_TIMELINE:
-  state = {
-    ...state
-  };
+    //addEmployeeTimeline
+    case ADD_EMPLOYEE_TIMELINE:
+      state = {
+        ...state
+      };
 
-  break;
-case ADD_EMPLOYEE_TIMELINE_SUCCESS:
-  state = {
-    ...state,
-    employeeAddTime: action.payload.details,
-  };
-  break;
-case ADD_EMPLOYEE_TIMELINE_FAILURE:
-  state = { ...state, employeeAddTime: action.payload };
-  break;
+      break;
+    case ADD_EMPLOYEE_TIMELINE_SUCCESS:
+      state = {
+        ...state,
+        employeeAddTime: action.payload.details,
+      };
+      break;
+    case ADD_EMPLOYEE_TIMELINE_FAILURE:
+      state = { ...state, employeeAddTime: action.payload };
+      break;
 
     case REGISTER_COMPANY:
       state = { ...state };
@@ -572,10 +575,54 @@ case ADD_EMPLOYEE_TIMELINE_FAILURE:
       state = { ...state, selectedCompany: action.payload };
       break;
 
-      //SELECTED EMP
-      case ActionTypes.SET_SELECTED_EMPLOYEE:
-        state = { ...state, selectedEmployee: action.payload };
-        break;
+    //SELECTED EMP
+    case ActionTypes.SET_SELECTED_EMPLOYEE:
+      state = { ...state, selectedEmployee: action.payload };
+      break;
+
+
+    /**
+* add employee details for video conference
+*/
+    case ActionTypes.POST_VIDEO_CONFERENCE:
+      state = { ...state, videoConference: undefined };
+      break;
+    case ActionTypes.POST_VIDEO_CONFERENCE_SUCCESS:
+      state = { ...state, videoConference: action.payload.details };
+      break;
+    case ActionTypes.POST_VIDEO_CONFERENCE_FAILURE:
+      state = { ...state, videoConference: action.payload };
+      break;
+
+
+    /**
+*get scheduled list for video call
+*/
+    case ActionTypes.GET_VIDEO_CONFERENCE_LIST:
+      state = { ...state, scheduledListData: undefined };
+      break;
+    case ActionTypes.GET_VIDEO_CONFERENCE_LIST_SUCCESS:
+      state = { ...state, scheduledListData: action.payload.details };
+      break;
+    case ActionTypes.GET_VIDEO_CONFERENCE_LIST_FAILURE:
+      state = { ...state, scheduledListData: action.payload };
+      break;
+
+
+    /**
+* get user token
+*/
+    case ActionTypes.GET_TOKEN_BY_USER:
+      state = { ...state, userToken: undefined };
+      break;
+    case ActionTypes.GET_TOKEN_BY_USER_SUCCESS:
+      state = { ...state, userToken: action.payload.details };
+      break;
+    case ActionTypes.GET_TOKEN_BY_USER_FAILURE:
+      state = { ...state, userToken: action.payload };
+      break;
+
+
 
     default:
       state = state;

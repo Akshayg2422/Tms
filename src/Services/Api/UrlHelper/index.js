@@ -107,3 +107,15 @@ export const GET_EMPLOYEE_TIMELINE = TASK +'getEmployeeTimeline';
 
 export const URL_FETCH_TICKET_DETAILS = TICKET + 'getTicketDetails';
 
+/*POST VIDEO CONFERENCE */
+
+export const POSE_VIDEO_CONFERENCE = TASK + 'addVideoConference';
+
+/*GET VIDEO CONFERENCE LIST */
+
+export const GET_VIDEO_CONFERENCE_LIST = TASK + 'getVideoConferenceList';
+
+/*GET AUTH TOKEN FOR VIDEO CONFERENCE */
+
+export const GET_TOKEN_BY_USER = TASK + 'getTokenByUser';
+

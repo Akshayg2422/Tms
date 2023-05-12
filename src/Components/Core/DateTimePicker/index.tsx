@@ -6,7 +6,7 @@ import { InputHeading } from '@Components'
 import { Moment, isMoment } from 'moment'
 
 
-function DateTimePicker({ id, heading, placeholder, type = 'date', onChange, ...rest }: DateTimePickerProps) {
+function DateTimePicker({ id, heading, placeholder, type = 'date', format = "", onChange, ...rest }: DateTimePickerProps) {
     return (
         <FormGroup>
             {heading && <InputHeading id={id} heading={heading} />}
@@ -17,19 +17,19 @@ function DateTimePicker({ id, heading, placeholder, type = 'date', onChange, ...
                 inputProps={
                     {
 
-                     placeholder: placeholder
+                        placeholder: placeholder
 
                     }
                 }
-                
+
                 dateFormat={type !== 'time' && 'D MMM YYYY'}
                 timeFormat={type !== 'date' && 'h:mm A'}
                 onChange={
                     (date: Moment | string) => {
                         if (onChange) {
-                          
+
                             if (isMoment(date)) {
-                                onChange(date.format().toString())  
+                                onChange(date.format(format).toString())
                             }
                             else {
                                 onChange(date)
