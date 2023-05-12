@@ -113,7 +113,7 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                                     {index !== employees.length - 1 && <Divider space={'3'} />}
                                 </div>
                             </div>)
-                    }) : <NoDataFound type={'text'} text={translate("auth.noUserFound")} />
+                    }) : <NoDataFound type={'text'} text={''} />
                 }
             </Card >
         </div >

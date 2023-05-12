@@ -147,5 +147,6 @@ export const icons = {
   startTime: require('./StartTime/icon.png'),
   endTime: require('./EndTime/icon.png'),
   broadCast: require('./BroadcastMessage/icon.png'),
-  downArrowBlack: require('./DownArrowBlack/icon.png')
+  downArrowBlack: require('./DownArrowBlack/icon.png'),
+  protfolio: require('./Protfolio/icon.png')
 };

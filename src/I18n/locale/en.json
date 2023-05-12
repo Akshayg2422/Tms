@@ -147,7 +147,8 @@
     "createTask":"Create Task",
     "noUserFound":"No User Found",
     "employees":"Employees",
-    "addTimeSheet":"AddTimeSheet"
+    "addTimeSheet":"AddTimeSheet",
+    "createPost":"Create Post"
   },
   "product": {
     "Store": "Store",

@@ -111,7 +111,7 @@ export const HOME_ROUTES = [
   },
   {
     path: ROUTES['message-module'].broadcast,
-    name: "Broadcast",
+    name: "Feeds",
     icon: icons.broadCast,
     layout: "",
     component: <Broadcast />
@@ -138,6 +138,7 @@ export const HOME_ROUTES = [
       {
         path: ROUTES['user-company-module'].employee,
         name: "Employee Portfolio",
+        icon:icons.protfolio,
         miniName: "EP",
         component: <EmployeesList />,
         layout: '/admin',
