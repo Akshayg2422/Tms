@@ -15,7 +15,7 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
           <div className={''}>
             <div className={'align-self-center'}>{<Image variant={'avatar'} src={getPhoto(created_by?.profile_image)} />}</div>
           </div>
-          <div className='ml-1'>
+          <div className='ml-2'>
             <H
               className="py-1 m-0 pointer mb-0"
               tag={'h4'}
@@ -32,8 +32,8 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
 
         <div className="row mt-4">
           <div className="col-lg-12 col-sm-0 col-12 mt--2 ml-2">
-            <div className={'text-xs font-weight-600 mt--2'}>{title}</div>
-            <div className={'text-xs font-weight-600 mb--2'}>{description}</div>
+            <div className={'text-xs font-weight-800 mt--2 mb-1'}>{title}</div>
+            <div className={'text-xs font-weight-400 mb--2'}>{description}</div>
           </div>
         </div>
 
