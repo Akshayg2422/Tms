@@ -114,7 +114,7 @@ export const HOME_ROUTES = [
   },
   {
     path: ROUTES['message-module'].broadcast,
-    name: "Broadcast",
+    name: "Feeds",
     icon: icons.broadCast,
     layout: "",
     component: <Broadcast />

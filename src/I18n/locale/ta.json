@@ -67,7 +67,8 @@
         "addAttachment":"இணைப்பை சேர்க்கவும்",
         "createTask":"உருவாக்குபணி",
         "noUserFound":"எந்த பயனரும் கிடைக்கவில்லை",
-        "note":"குறிப்பு"
+        "note":"குறிப்பு",
+        "createPost":"உருவாக்கு இடுகை"
     },
     "errors": {
         "invalidEmail": "Invalid email address."
