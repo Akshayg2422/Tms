@@ -107,3 +107,8 @@ export const GET_EMPLOYEE_TIMELINE = TASK +'getEmployeeTimeline';
 
 export const URL_FETCH_TICKET_DETAILS = TICKET + 'getTicketDetails';
 
+/* Events */
+
+export const URL_GET_EVENTS = TASK + 'getEmployeeEvents'
+export const URL_ADD_EVENTS = TASK + 'addEmployeeEvent'
+

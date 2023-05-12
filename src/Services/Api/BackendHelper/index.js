@@ -96,3 +96,10 @@ export const getAssignedTaskApi = (payload) => post(URL.GET_ASSIGNED_TASK, paylo
 /* GET TICKET DETAILS */
 
 export const getTicketDetailsApi = (payload) => post(URL.URL_FETCH_TICKET_DETAILS, payload, {})
+
+/* Events */
+
+
+export const getEventsApi = (payload) => post(URL.URL_GET_EVENTS, payload, {})
+export const addEventApi = (payload) => post(URL.URL_ADD_EVENTS, payload, {})
+

@@ -1,6 +1,7 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, MyFeeds,Events,AddEvent } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
+import { Component } from 'react'
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -52,6 +53,9 @@ export const ROUTES = {
     setting: '/setting',
     employee: '/employee-sheet',
     'my-portfolio': '/my-portfolio',
+    'my-feeds':'/my-feeds',
+    Events:'/events',
+    'add-event': '/add-event'
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -148,6 +152,20 @@ export const HOME_ROUTES = [
         component: <MyPortfolio />,
         layout: '/admin',
       },
+      {
+        path: ROUTES['user-company-module']['my-feeds'],
+        name: "MyFeeds",
+        miniName: "MF",
+        component: <MyFeeds />,
+        layout: '/admin',
+      },
+      {
+        path: ROUTES['user-company-module'].Events,
+        name: "Events",
+        miniName: "ET",
+        component: <Events />,
+        layout: '/admin',
+      }
     ],
   },
 ];
@@ -228,6 +246,22 @@ export const USER_COMPANY_ROTES = [
     path: ROUTES['user-company-module']['employee-time-sheet'],
     component: <EmployeesTimeSheet />
   },
+  {
+    key: 5,
+    path: ROUTES['user-company-module']['my-feeds'],
+    component:<MyFeeds/>
+  },
+  {
+    key: 6,
+    path: ROUTES['user-company-module'].Events,
+    component:<Events/>
+  },
+  {
+    key: 7,
+    path: ROUTES['user-company-module']['add-event'],
+    component:<AddEvent/>
+  }
+
 ];
 
 

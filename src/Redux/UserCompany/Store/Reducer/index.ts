@@ -114,6 +114,7 @@ const initialState: UserCompanyStateProp = {
   dashboardDetails: undefined,
   selectedCompany: undefined,
   selectedEmployee:undefined,
+  events:undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -576,6 +577,22 @@ case ADD_EMPLOYEE_TIMELINE_FAILURE:
       case ActionTypes.SET_SELECTED_EMPLOYEE:
         state = { ...state, selectedEmployee: action.payload };
         break;
+
+        case ActionTypes.GET_EVENTS:
+          state = {
+            ...state,
+             events: undefined,
+          };
+          break;
+        case ActionTypes.GET_EVENTS_SUCCESS:
+          state = {
+            ...state,
+            events: action.payload.details,
+          };
+          break;
+        case ActionTypes.GET_EVENTS_FAILURE:
+          state = { ...state, events: undefined };
+          break;   
 
     default:
       state = state;

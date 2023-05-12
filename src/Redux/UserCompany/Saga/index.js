@@ -414,6 +414,42 @@ function* getDashboardSaga(action) {
 }
 
 
+function* getEventsSaga(action) {
+
+  try {
+    const response = yield call(Api.getEventsApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getEventsSuccess({ response }));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getEventsFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getEventsFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+function* addEventSaga(action) {
+
+  try {
+    const response = yield call(Api.addEventApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.addEventSuccess({ response }));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.addEventFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.addEventFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
+
 function* UserCompanySaga() {
 
   yield takeLatest(Action.GET_EMPLOYEES, getEmployeesSaga);
@@ -437,6 +473,8 @@ function* UserCompanySaga() {
   yield takeLatest(Action.GET_DASHBOARD, getDashboardSaga);
   yield takeLatest(Action.GET_EMPLOYEE_TIMELINE, getEmployeeTimelineSaga);
   yield takeLatest(Action.ADD_EMPLOYEE_TIMELINE, addEmployeeTimelineSaga);
+  yield takeLatest(Action.GET_EVENTS, getEventsSaga)
+  yield takeLatest(Action.ADD_EVENT, addEventSaga)
  
 }
 

@@ -528,3 +528,48 @@ export const setSelectedEmployee= (response: any) => {
     payload: response,
   }
 }
+
+
+//GET EVENTS
+export const getEvents = (params: any) => {
+  return {
+    type: ActionTypes.GET_EVENTS,
+    payload: params,
+  };
+};
+
+export const getEventsSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_EVENTS_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getEventsFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_EVENTS_FAILURE,
+    payload: error,
+  };
+};
+
+//ADD EVENTS
+export const addEvent = (params: any) => {
+  return {
+    type: ActionTypes.ADD_EVENT,
+    payload: params,
+  };
+};
+
+export const addEventSuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_EVENT_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addEventFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_EVENT_FAILURE,
+    payload: error,
+  };
+};
