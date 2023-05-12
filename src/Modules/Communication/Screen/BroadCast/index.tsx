@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image } from "@Components";
+import { Card, NoDataFound, Spinner } from "@Components";
 import { useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
@@ -14,12 +14,9 @@ import { INITIAL_PAGE } from '@Utils'
 function Broadcast() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
-  const { height } = useWindowDimensions()
   const { broadCastDetails, broadCastCurrentPage } = useSelector(
     (state: any) => state.CommunicationReducer
   );
-
-  console.log('11111111111111111', broadCastDetails)
 
   useEffect(() => {
     getBroadCastMessage(INITIAL_PAGE)
@@ -41,7 +38,7 @@ function Broadcast() {
   }
 
 
-  console.log(JSON.stringify(broadCastDetails) + '=====');
+  console.log(JSON.stringify(broadCastDetails) + 'broadCastDetails');
 
   function proceedCreateBroadcast() {
     goTo(ROUTES["message-module"]["create-broadcast"])
