@@ -1,16 +1,19 @@
 import React, { useEffect, useState, } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput, useWindowDimensions } from "@Hooks";
-import { Card, Image, SearchInput, Divider, Spinner } from "@Components";
+import { useInput, useModal, useWindowDimensions } from "@Hooks";
+import { Card, Image, SearchInput, Divider, Spinner, Modal } from "@Components";
 import { getTicketEventAttachments } from "@Redux";
 import { getPhoto, MEA, capitalizeFirstLetter, INITIAL_PAGE } from "@Utils";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
+import { Carousel } from "react-responsive-carousel";
 
 function TicketAttachments() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const search = useInput("");
+  const imageModal=useModal(false)
+  const [image,setImage]=useState([])
   const { ticketEventAttachments, ticketEventAttachmentsCurrentPage, refreshTicketEvents } = useSelector((state: any) => state.TicketReducer);
   const { height } = useWindowDimensions()
 
@@ -41,7 +44,7 @@ function TicketAttachments() {
   }
 
 
-
+console.log('=====>',image)
   return (
     <>
       <Card className="overflow-auto" style={{
@@ -66,10 +69,12 @@ function TicketAttachments() {
           }>
           <div className="mt-3">
             {
-              ticketEventAttachments && ticketEventAttachments?.length > 0 && ticketEventAttachments?.map((item: any, index: number) => {
+              ticketEventAttachments && ticketEventAttachments?.length > 0 && ticketEventAttachments?.map((item) => {
                 const { attachments } = item
                 return (
-                  <div >
+                  <div onClick={() => {imageModal.show() 
+                    setImage(attachments?.attachments)
+                    }} >
                     {attachments?.attachments && <div>
                       <h4 className="mb-2"> {capitalizeFirstLetter(attachments?.name)} </h4>
                       {
@@ -81,7 +86,7 @@ function TicketAttachments() {
                       }
                     </div>
                     }
-                    {index !== ticketEventAttachments.length - 1 && <Divider space={'3'} />}
+                    
                   </div>
                 )
               })
@@ -89,6 +94,16 @@ function TicketAttachments() {
           </div>
         </InfiniteScroll>}
       </Card >
+      <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size={'lg'}>
+      <Carousel autoPlay>
+        {
+        
+           image.map((el:any)=>{
+            return <Image src={getPhoto(el?.attachment_file)} height={'600px'} width={'800px'}/>
+           })
+        }
+      </Carousel>
+      </Modal>
 
 
     </>
