@@ -528,3 +528,122 @@ export const setSelectedEmployee= (response: any) => {
     payload: response,
   }
 }
+
+
+//GET EVENTS
+export const getEvents = (params: any) => {
+  return {
+    type: ActionTypes.GET_EVENTS,
+    payload: params,
+  };
+};
+
+export const getEventsSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_EVENTS_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getEventsFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_EVENTS_FAILURE,
+    payload: error,
+  };
+};
+
+//ADD EVENTS
+export const addEvent = (params: any) => {
+  return {
+    type: ActionTypes.ADD_EVENT,
+    payload: params,
+  };
+};
+
+export const addEventSuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_EVENT_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addEventFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_EVENT_FAILURE,
+    payload: error,
+  };
+};
+/**
+ * add employee details for video conference
+ */
+
+
+  export const postVideoConference = (params: any) => {
+    return {
+      type: ActionTypes.POST_VIDEO_CONFERENCE,
+      payload: params,
+    };
+  };
+  export const postVideoConferenceSuccess = (response: any) => {
+    return {
+      type: ActionTypes.POST_VIDEO_CONFERENCE_SUCCESS,
+      payload: response,
+    };
+  };
+  export const postVideoConferenceFailure = (error: any) => {
+    return {
+      type: ActionTypes.POST_VIDEO_CONFERENCE_FAILURE,
+      payload: error,
+    };
+  };
+
+
+  /**
+ * get schedule meeting list
+ */
+
+
+  export const getVideoConferenceList = (params: any) => {
+    return {
+      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST,
+      payload: params,
+    };
+  };
+  export const getVideoConferenceListSuccess = (response: any) => {
+    return {
+      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_SUCCESS,
+      payload: response,
+    };
+  };
+  export const getVideoConferenceListFailure = (error: any) => {
+    return {
+      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_FAILURE,
+      payload: error,
+    };
+  };
+
+
+    /**
+ * get token for meeting
+ */
+
+
+    export const getTokenByUser = (params: any) => {
+      return {
+        type: ActionTypes.GET_TOKEN_BY_USER,
+        payload: params,
+      };
+    };
+    export const getTokenByUserSuccess = (response: any) => {
+      return {
+        type: ActionTypes.GET_TOKEN_BY_USER_SUCCESS,
+        payload: response,
+      };
+    };
+    export const getTokenByUserFailure = (error: any) => {
+      return {
+        type: ActionTypes.GET_TOKEN_BY_USER_FAILURE,
+        payload: error,
+      };
+    };
+  

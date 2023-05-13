@@ -4,7 +4,7 @@ import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert } fro
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
-import { TaskItemMenu, TaskEventHistory } from "@Modules";
+import { TaskItemMenu, TaskEventHistory, ProgressBarEta } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useWindowDimensions } from '@Hooks'
 import { addTaskEvent, getTaskDetails } from '@Redux'
@@ -28,6 +28,15 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
     const { height } = useWindowDimensions()
+    const percentComplete = 91
+    const etaTime = new Date();
+    console.log('111111111111111', etaTime)
+    const actualFinishTime = new Date();
+    console.log('22222222222222222', actualFinishTime);
+    
+
+
+
 
     useEffect(() => {
         getTaskDetailsHandler()
@@ -104,7 +113,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 </div>
                 <Card style={{ height: height / 2 }}
                     className={'col mb--4 shadow-none p-0 overflow-auto overflow-hide'}>
-                        
+
                     <div className="row justify-content-between mt--2">
                         <div>
                             {title && <H tag={"h4"} className="mb-0" text={title} />}
@@ -115,14 +124,15 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 <div className="row">
                                     {
                                         task_attachments &&
-                                        task_attachments?.length > 0 && task_attachments?.map((item) => {
-                                            return <div
-                                                className="ml-3"
-                                                onClick={(e) => e.preventDefault()}>
-                                                <Image
-                                                    variant={'avatar'}
-                                                    src={getPhoto(item?.attachment_file)} /></div>
-                                        })
+                                        task_attachments?.length > 0 && task_attachments?.map
+                                            ((item) => {
+                                                return <div
+                                                    className="ml-3"
+                                                    onClick={(e) => e.preventDefault()}>
+                                                    <Image
+                                                        variant={'avatar'}
+                                                        src={getPhoto(item?.attachment_file)} /></div>
+                                            })
                                     }
                                 </div>
                             </div>
@@ -178,6 +188,16 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             setActionTask(END_TASK)
                         }} />}
                     </div>
+
+                    <div className="">
+                        <ProgressBarEta
+                            percentComplete={percentComplete}
+                            eta={etaTime}
+                            actualFinishTime={actualFinishTime}
+                        />
+                    </div>
+
+
                 </Card>
             </Card >
 

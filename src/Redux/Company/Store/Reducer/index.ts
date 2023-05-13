@@ -3,13 +3,14 @@ import {
   AUTO_COMPLETE_DROPDOWN,
   GET_TASK_GROUPL,
   GET_TASK_GROUPL_FAILURE,
-  GET_TASK_GROUPL_SUCCESS
+  GET_TASK_GROUPL_SUCCESS,
 } from '../ActionTypes';
 import { CompanyStateProp } from '../../Interfaces';
 
 const initialState: CompanyStateProp = {
   autoCompleteInputSize: false,
   getTaskGrouplDetails: undefined,
+  events:undefined
 };
 
 const CompanyReducer = (
@@ -41,6 +42,8 @@ const CompanyReducer = (
     case GET_TASK_GROUPL_FAILURE:
       state = { ...state, getTaskGrouplDetails: undefined };
       break;
+
+
 
 
     // case UPDATE_EMPLOYEE_PROFILE_PHOTO:
