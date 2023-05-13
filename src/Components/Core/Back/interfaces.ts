@@ -1,5 +1,3 @@
 export interface BackProps {
-    icon?: any,
-    
-    
+    icon?: any,   
 }

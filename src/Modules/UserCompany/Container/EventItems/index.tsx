@@ -11,10 +11,10 @@ function EventItem({ item }: EventItemProps) {
 
     const MY_FEED_MENU = [
         {
-            id: 0, name: 'Edit', icon: icons.tagUser,
+            id: 0, name: 'Edit', icon: icons.edit,
         },
         {
-            id: 1, name: 'delete', icon: icons.reassignUser,
+            id: 1, name: 'delete', icon: icons.delete,
         },
 
     ]
@@ -73,7 +73,6 @@ function EventItem({ item }: EventItemProps) {
                                 return (
 
                                     <span className=" h5 text-capitalize font-weight-900 "
-
 
                                     >
                                         {applicable_branches.register_name} {' '} {','} {''}
