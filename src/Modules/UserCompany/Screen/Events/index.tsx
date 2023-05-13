@@ -5,7 +5,7 @@ import { useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
-import { MyFeedItem } from "@Modules";
+import { EventItem, MyFeedItem } from "@Modules";
 import { getBroadCastMessages, getEvents } from "@Redux";
 import { INITIAL_PAGE } from '@Utils'
 
@@ -13,30 +13,17 @@ function Events() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
-  const { broadCastDetails, broadCastCurrentPage } = useSelector(
-    (state: any) => state.CommunicationReducer
+  const { events } = useSelector(
+    (state: any) => state.UserCompanyReducer
   );
 
 
 
   useEffect(() => {
-    getBroadCastMessage(INITIAL_PAGE)
+    //getBroadCastMessage(INITIAL_PAGE)
+    getEventsApiHandler()
   }, []);
 
-  function getBroadCastMessage(page_number: number) {
-
-    const params = { q: "", page_number };
-
-    dispatch(
-      getBroadCastMessages({
-        params,
-        onSuccess: () => () => {
-        },
-        onError: () => () => {
-        },
-      })
-    );
-  }
 
   const getEventsApiHandler = () => {
     const params = {}
@@ -51,15 +38,16 @@ function Events() {
     )
 }
 
-
   function proceedCreateBroadcast() {
     goTo(ROUTES['user-company-module']['add-event'])
   }
 
+  console.log("events",events)
+
   return (
 
   <>
-   {broadCastDetails && broadCastDetails.length > 0 ?
+   {events && events.length > 0 ?
        <div className="col-9 text-right my-1">
          <Button
            text={'CREATE EVENT'}
@@ -68,32 +56,33 @@ function Events() {
            onClick={proceedCreateBroadcast}
          />
        </div> : null}
-  {broadCastDetails && broadCastDetails.length > 0 ?
-    <InfiniteScroll
-      dataLength={broadCastDetails.length}
-      hasMore={broadCastCurrentPage !== -1}
-      loader={<h4>
-        <Spinner />
-      </h4>}
-      next={() => {
-        if (broadCastCurrentPage !== -1) {
-          getBroadCastMessage(broadCastCurrentPage)
-        }
-      }
-      }>
+  {events && events.length > 0 ?
+    // <InfiniteScroll
+    //   dataLength={events.length}
+    //   hasMore={broadCastCurrentPage !== -1}
+    //   loader={<h4>
+    //     <Spinner />
+    //   </h4>}
+    //   next={() => {
+    //     if (broadCastCurrentPage !== -1) {
+    //       getBroadCastMessage(broadCastCurrentPage)
+    //     }
+    //   }
+    //   }>
 
       <div className={''} >
         {
-          broadCastDetails?.map((company: any, index: number) => {
+          events?.map((item: any, index: number) => {
             return (
-              <div key={company.id}>
-                <Card className={'shadow-none border m-3 col-9 mb--2'}><MyFeedItem key={company.id} item={company} /></Card>
+              <div key={item.id}>
+                <Card className={'shadow-none border m-3 col-9 mb--2'}><EventItem key={item.id} item={item} /></Card>
               </div>
             );
           })}
       </div>
 
-    </InfiniteScroll>
+    // </InfiniteScroll>
+
     : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
       <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />
     </div>

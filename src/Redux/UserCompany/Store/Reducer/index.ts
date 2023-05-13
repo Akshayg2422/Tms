@@ -634,7 +634,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         case ActionTypes.GET_EVENTS_SUCCESS:
           state = {
             ...state,
-            events: action.payload.details,
+            events: action?.payload?.details,
           };
           break;
         case ActionTypes.GET_EVENTS_FAILURE:

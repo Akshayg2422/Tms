@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image } from "@Components";
 import { useNavigation, useWindowDimensions } from "@Hooks";
@@ -25,7 +25,7 @@ function MyFeeds() {
 
   function getBroadCastMessage(page_number: number) {
 
-    const params = { q: "", page_number };
+    const params = { q: "", page_number  };
 
     dispatch(
       getBroadCastMessages({
@@ -45,47 +45,47 @@ function MyFeeds() {
 
   return (
 
-  <>
-   {broadCastDetails && broadCastDetails.length > 0 ?
-       <div className="col-8 text-right my-1">
-         <Button
-           text={'CREATE POST'}
-           className="text-white"
-           size={"sm"}
-           onClick={proceedCreateBroadcast}
-         />
-       </div> : null}
-  {broadCastDetails && broadCastDetails.length > 0 ?
-    <InfiniteScroll
-      dataLength={broadCastDetails.length}
-      hasMore={broadCastCurrentPage !== -1}
-      loader={<h4>
-        <Spinner />
-      </h4>}
-      next={() => {
-        if (broadCastCurrentPage !== -1) {
-          getBroadCastMessage(broadCastCurrentPage)
-        }
+    <>
+      {broadCastDetails && broadCastDetails.length > 0 ?
+        <div className="col-8 text-right my-1">
+          <Button
+            text={'CREATE POST'}
+            className="text-white"
+            size={"sm"}
+            onClick={proceedCreateBroadcast}
+          />
+        </div> : null}
+      {broadCastDetails && broadCastDetails.length > 0 ?
+        <InfiniteScroll
+          dataLength={broadCastDetails.length}
+          hasMore={broadCastCurrentPage !== -1}
+          loader={<h4>
+            <Spinner />
+          </h4>}
+          next={() => {
+            if (broadCastCurrentPage !== -1) {
+              getBroadCastMessage(broadCastCurrentPage)
+            }
+          }
+          }>
+
+          <div className={''} >
+            {
+              broadCastDetails?.map((company: any, index: number) => {
+                return (
+                  <div key={company.id}>
+                    <Card className={'shadow-none border m-3 col-8 mt-4 mb--2'}><MyFeedItem key={company.id} item={company} /></Card>
+                  </div>
+                );
+              })}
+          </div>
+
+        </InfiniteScroll>
+        : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
+          <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />
+        </div>
       }
-      }>
-
-      <div className={''} >
-        {
-          broadCastDetails?.map((company: any, index: number) => {
-            return (
-              <div key={company.id}>
-                <Card className={'shadow-none border m-3 col-8 mt-4 mb--2'}><MyFeedItem key={company.id} item={company} /></Card>
-              </div>
-            );
-          })}
-      </div>
-
-    </InfiniteScroll>
-    : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
-      <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />
-    </div>
-  }
-</>
+    </>
 
   )
 }

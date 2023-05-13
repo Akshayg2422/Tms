@@ -5,7 +5,7 @@ export const BUILD_TYPE_LIVE_DEMO = 2;
 export const BUILD_TYPE_STAGING = 3;
 export const BUILD_TYPE_LOCAL = 4;
 
-export const BUILD_TYPE = BUILD_TYPE_LIVE;
+export const BUILD_TYPE = BUILD_TYPE_STAGING;
 export const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
     ? 'https://tmsprimary.quantaedat.com' 
@@ -14,7 +14,7 @@ export const SERVER =
       : BUILD_TYPE === BUILD_TYPE_LOCAL
         ? 'http://192.168.87.5:8004'
         : BUILD_TYPE === BUILD_TYPE_STAGING
-          ? 'http://103.118.188.135:8004'
+          ? 'http://103.118.188.135:8002'
           : BUILD_TYPE === BUILD_TYPE_LOCAL
             ? 'http://192.168.23.5:8004'
             : 'http://localhost:8000'
