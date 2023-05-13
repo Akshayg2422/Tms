@@ -20,7 +20,7 @@ function EventItem({ item }: EventItemProps) {
     ]
 
     console.log("item", JSON.stringify(item))
-    const { title, attachments, description, created_by, created_at, applicable_branches, for_internal_company, for_external_company } =
+    const { title, attachments, description, event_by, created_at, applicable_branches, for_internal_company, for_external_company } =
         item;
 
     const imageModal = useModal(false)
@@ -33,17 +33,17 @@ function EventItem({ item }: EventItemProps) {
                     <div className='row d-flex justify-content-between m-0 mt--2 ml-2'>
                         <div className="col-lg-6">
                             <div className={'row'}>
-                                <div className={'align-self-center'}>{<Image variant={'avatar'} src={getPhoto(created_by?.profile_image)} />}</div>
+                                <div className={'align-self-center'}>{<Image variant={'avatar'} src={getPhoto(event_by?.profile_image)} />}</div>
                                 <div className='ml-1 '>
                                     <H
                                         className="py-1 m-0 pointer mb-0"
                                         tag={'h4'}
-                                        text={capitalizeFirstLetter(created_by?.name)}
+                                        text={capitalizeFirstLetter(event_by?.name)}
                                     />
                                     <div className={'d-flex align-items-center  mt--3'}>
-                                        <div className={'mb-0 text-xs text-muted '} >{created_by ? created_by.department : '-'}</div>
+                                        <div className={'mb-0 text-xs text-muted '} >{event_by ? event_by.department : '-'}</div>
                                         <div className='p-1 text-muted'>{'/'}</div>
-                                        <div className={'mb-0 text-xs text-muted'}>{created_by ? created_by.designation : '-'}</div>
+                                        <div className={'mb-0 text-xs text-muted'}>{event_by ? event_by.designation : '-'}</div>
                                     </div>
                                     <div className=" mb-0 text-muted text-xs mt--2">{getDataAndTime(created_at)}</div>
                                 </div>

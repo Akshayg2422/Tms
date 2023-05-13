@@ -10,7 +10,7 @@ import {
     DateTimePicker
 } from "@Components";
 import { translate } from "@I18n";
-import { addBroadCastMessages, setIsSync, getAssociatedCompanyBranch } from "@Redux";
+import { addBroadCastMessages, setIsSync, getAssociatedCompanyBranch, addEvent } from "@Redux";
 import {
     CREATE_BROAD_CAST_EXTERNAL,
     CREATE_BROAD_CAST_INTERNAL,
@@ -20,7 +20,9 @@ import {
     validate,
     getArrayFromArrayOfObject,
     getDisplayTimeDateMonthYearTime,
-    getMomentObjFromServer
+    getMomentObjFromServer,
+    getServerTimeFromMoment,
+    ADD_EVENT_RULES
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,8 +33,6 @@ function AddEvent() {
 
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
-
-
     const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
     const [photo, setPhoto] = useState<any>([]);
     const [selectedCompanies, setSelectedCompanies] = useState<any>([]);
@@ -80,23 +80,26 @@ console.log("startTime",startTime)
 
         const params = {
             title: title?.value,
+            place: place?.value,
+            start_time: getServerTimeFromMoment(getMomentObjFromServer(startTime)),
+            end_time: getServerTimeFromMoment(getMomentObjFromServer(endTime)),
             description: description?.value,
             ...(selectedCompanies.length > 0 && {
                 applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
             }),
             ...(internalCheck && { for_internal_company: true }),
             ...(externalCheck && { for_external_company: true }),
-            broadcast_attachments: [{ attachments: attach }],
+            event_attachments: [{ attachments: attach }],
         };
 
 
         console.log(JSON.stringify(params));
 
-        const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
+        const validation = validate(ADD_EVENT_RULES, params);
 
         if (ifObjectExist(validation)) {
             dispatch(
-                addBroadCastMessages({
+                addEvent({
                     params,
                     onSuccess: (response: any) => () => {
                         if (response.success) {
@@ -182,15 +185,15 @@ console.log("startTime",startTime)
                         id="time-picker"
                         placeholder={'Start Time'}
                         type="both"
-                        value={startTime}
+                        initialValue={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(startTime))}
                         onChange={handleStartTimeEtaChange}
                     />
 
                      <DateTimePicker
                         id="time-picker"
                         placeholder={'end Time'}
-                        type={'date'}
-                        value={endTime}
+                        type={'both'}
+                        initialValue={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(endTime))}
                         onChange={handleEndTimeEtaChange}
                     />
 
@@ -227,7 +230,9 @@ console.log("startTime",startTime)
                             }}
                         />
                     )}
-                </div>
+                    
+                    </div> 
+                
 
                 <div className="col">
                     <label className={`form-control-label`}>
