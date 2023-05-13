@@ -28,7 +28,7 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
 
     return (
         <>
-            <div className="row mx--5 ">
+            <div className="row mx--5">
                 <div className="col">
                     <div className='row d-flex justify-content-between m-0 mt--2 ml-2'>
                         <div className="col-lg-6">
@@ -66,13 +66,13 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
                     </div>
 
                     <div className="mt-1 ml-2">
-                        <span className="h4 text-capitalize"> Shared Across: {''} </span>
+                        <span className="text-sm font-weight-600"> Shared Across: {''} </span>
                         {applicable_branches &&
                             applicable_branches.length > 0 &&
                             applicable_branches?.map((applicable_branches: any, index: number) => {
                                 return (
 
-                                    <span className=" h5 text-capitalize font-weight-900 "
+                                    <span className=" text-xs font-weight-600"
 
 
                                     >

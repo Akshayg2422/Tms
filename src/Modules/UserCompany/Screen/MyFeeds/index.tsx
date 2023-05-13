@@ -47,7 +47,7 @@ function MyFeeds() {
 
   <>
    {broadCastDetails && broadCastDetails.length > 0 ?
-       <div className="col-9 text-right my-1">
+       <div className="col-8 text-right my-1">
          <Button
            text={'CREATE POST'}
            className="text-white"
@@ -74,7 +74,7 @@ function MyFeeds() {
           broadCastDetails?.map((company: any, index: number) => {
             return (
               <div key={company.id}>
-                <Card className={'shadow-none border m-3 col-9 mb--2'}><MyFeedItem key={company.id} item={company} /></Card>
+                <Card className={'shadow-none border m-3 col-8 mt-4 mb--2'}><MyFeedItem key={company.id} item={company} /></Card>
               </div>
             );
           })}

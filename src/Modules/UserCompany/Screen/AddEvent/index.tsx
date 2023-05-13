@@ -38,7 +38,7 @@ function AddEvent() {
     const [selectedCompanies, setSelectedCompanies] = useState<any>([]);
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
-    const [startTime, setStartTime] = useState("")
+    const [startTime, setStartTime] = useState<any>("")
     const [endTime, setEndTime] = useState<any>("")
     const title = useInput("");
     const description = useInput("");
@@ -48,8 +48,12 @@ function AddEvent() {
     const [externalCheck, setExternalCheck] = useState(false)
     const [isExternalDisable, setExternalDisable] = useState(false)
 
-    const startDate = new Date(startTime)
-    const startTimet = startDate.getHours()
+    // const startDate = new Date(startTime)
+    // const startTimet = startDate.getHours()
+
+    
+
+console.log("startTime",startTime)
 
 
     const handleStartTimeEtaChange = (value: any) => {
@@ -178,8 +182,16 @@ function AddEvent() {
                         id="time-picker"
                         placeholder={'Start Time'}
                         type="both"
-                        value={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(startTime))}
+                        value={startTime}
                         onChange={handleStartTimeEtaChange}
+                    />
+
+                     <DateTimePicker
+                        id="time-picker"
+                        placeholder={'end Time'}
+                        type={'date'}
+                        value={endTime}
+                        onChange={handleEndTimeEtaChange}
                     />
 
                     <div className="row col ">
