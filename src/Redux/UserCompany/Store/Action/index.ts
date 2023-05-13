@@ -528,3 +528,79 @@ export const setSelectedEmployee= (response: any) => {
     payload: response,
   }
 }
+
+
+/**
+ * add employee details for video conference
+ */
+
+
+  export const postVideoConference = (params: any) => {
+    return {
+      type: ActionTypes.POST_VIDEO_CONFERENCE,
+      payload: params,
+    };
+  };
+  export const postVideoConferenceSuccess = (response: any) => {
+    return {
+      type: ActionTypes.POST_VIDEO_CONFERENCE_SUCCESS,
+      payload: response,
+    };
+  };
+  export const postVideoConferenceFailure = (error: any) => {
+    return {
+      type: ActionTypes.POST_VIDEO_CONFERENCE_FAILURE,
+      payload: error,
+    };
+  };
+
+
+  /**
+ * get schedule meeting list
+ */
+
+
+  export const getVideoConferenceList = (params: any) => {
+    return {
+      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST,
+      payload: params,
+    };
+  };
+  export const getVideoConferenceListSuccess = (response: any) => {
+    return {
+      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_SUCCESS,
+      payload: response,
+    };
+  };
+  export const getVideoConferenceListFailure = (error: any) => {
+    return {
+      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_FAILURE,
+      payload: error,
+    };
+  };
+
+
+    /**
+ * get token for meeting
+ */
+
+
+    export const getTokenByUser = (params: any) => {
+      return {
+        type: ActionTypes.GET_TOKEN_BY_USER,
+        payload: params,
+      };
+    };
+    export const getTokenByUserSuccess = (response: any) => {
+      return {
+        type: ActionTypes.GET_TOKEN_BY_USER_SUCCESS,
+        payload: response,
+      };
+    };
+    export const getTokenByUserFailure = (error: any) => {
+      return {
+        type: ActionTypes.GET_TOKEN_BY_USER_FAILURE,
+        payload: error,
+      };
+    };
+  
