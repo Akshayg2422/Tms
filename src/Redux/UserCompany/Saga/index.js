@@ -431,6 +431,27 @@ function* getEventsSaga(action) {
   }
 }
 
+
+/**
+ * add employee for virtual conference
+ */
+
+function* postVideoConferenceSaga(action) {
+  try {
+    const response = yield call(Api.postVideoConferenceApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.postVideoConferenceSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.postVideoConferenceFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.postVideoConferenceFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
 function* addEventSaga(action) {
 
   try {
@@ -444,6 +465,47 @@ function* addEventSaga(action) {
     }
   } catch (error) {
     yield put(Action.addEventFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+/**
+ * get schedule list for meeting
+ */
+
+function* getVideoConferenceListSaga(action) {
+  try {
+    const response = yield call(Api.getVideoConferenceListApi, action.payload.params);
+    console.log("schedule============>",response)
+    if (response.success) {
+      yield put(Action.getVideoConferenceListSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getVideoConferenceListFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getVideoConferenceListFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+/**
+ * get auth token for meeting
+ */
+
+function* getTokenByUserSaga(action) {
+  try {
+    const response = yield call(Api.getTokenByUserApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getTokenByUserSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getTokenByUserFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getTokenByUserFailure(error));
     yield call(action.payload.onError(error));
   }
 }
@@ -473,9 +535,13 @@ function* UserCompanySaga() {
   yield takeLatest(Action.GET_DASHBOARD, getDashboardSaga);
   yield takeLatest(Action.GET_EMPLOYEE_TIMELINE, getEmployeeTimelineSaga);
   yield takeLatest(Action.ADD_EMPLOYEE_TIMELINE, addEmployeeTimelineSaga);
-  yield takeLatest(Action.GET_EVENTS, getEventsSaga)
-  yield takeLatest(Action.ADD_EVENT, addEventSaga)
- 
+  yield takeLatest(Action.GET_EVENTS, getEventsSaga);
+  yield takeLatest(Action.ADD_EVENT, addEventSaga);
+  yield takeLatest(Action.POST_VIDEO_CONFERENCE, postVideoConferenceSaga);
+  yield takeLatest(Action.GET_VIDEO_CONFERENCE_LIST, getVideoConferenceListSaga);
+  yield takeLatest(Action.GET_TOKEN_BY_USER, getTokenByUserSaga);
+
 }
 
 export default UserCompanySaga;
+

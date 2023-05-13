@@ -111,4 +111,15 @@ export const URL_FETCH_TICKET_DETAILS = TICKET + 'getTicketDetails';
 
 export const URL_GET_EVENTS = TASK + 'getEmployeeEvents'
 export const URL_ADD_EVENTS = TASK + 'addEmployeeEvent'
+/*POST VIDEO CONFERENCE */
+
+export const POSE_VIDEO_CONFERENCE = TASK + 'addVideoConference';
+
+/*GET VIDEO CONFERENCE LIST */
+
+export const GET_VIDEO_CONFERENCE_LIST = TASK + 'getVideoConferenceList';
+
+/*GET AUTH TOKEN FOR VIDEO CONFERENCE */
+
+export const GET_TOKEN_BY_USER = TASK + 'getTokenByUser';
 
