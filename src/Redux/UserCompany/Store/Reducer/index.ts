@@ -113,6 +113,7 @@ const initialState: UserCompanyStateProp = {
   associatedCompaniesL: undefined,
   dashboardDetails: undefined,
   selectedCompany: undefined,
+  events:undefined,
   selectedEmployee: undefined,
   videoConference: undefined,
   scheduledListData: undefined,
@@ -623,6 +624,22 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
 
 
+
+        case ActionTypes.GET_EVENTS:
+          state = {
+            ...state,
+             events: undefined,
+          };
+          break;
+        case ActionTypes.GET_EVENTS_SUCCESS:
+          state = {
+            ...state,
+            events: action.payload.details,
+          };
+          break;
+        case ActionTypes.GET_EVENTS_FAILURE:
+          state = { ...state, events: undefined };
+          break;   
 
     default:
       state = state;

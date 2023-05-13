@@ -1,6 +1,7 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, VirtualConference,  ScheduleMeeting, VideoConference, } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets,MyFeeds,Events,AddEvent, VirtualConference,  ScheduleMeeting, VideoConference, } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
+import { Component } from 'react'
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -52,10 +53,13 @@ export const ROUTES = {
     setting: '/setting',
     employee: '/employee-sheet',
     'virtual-conference': '/virtual-conference',
-    'video-conference':'/video-conference',
+    'video-conference': '/video-conference',
     "scheduled-meeting-list": '/scheduled-meeting-list',
     "schedule-meeting": '/schedule-meeting',
     'my-portfolio': '/my-portfolio',
+    'my-feeds': '/my-feeds',
+    Events: '/events',
+    'add-event': '/add-event'
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -153,6 +157,20 @@ export const HOME_ROUTES = [
         layout: '/admin',
       },
       {
+        path: ROUTES['user-company-module']['my-feeds'],
+        name: "MyFeeds",
+        miniName: "MF",
+        component: <MyFeeds />,
+        layout: '/admin',
+      },
+      {
+        path: ROUTES['user-company-module'].Events,
+        name: "Events",
+        miniName: "ET",
+        component: <Events />,
+        layout: '/admin',
+      },
+      {
         path: ROUTES['user-company-module']['virtual-conference'],
         name: "Virtual Conference",
         miniName: "VC",
@@ -241,11 +259,26 @@ export const USER_COMPANY_ROTES = [
   },
   {
     key: 5,
+    path: ROUTES['user-company-module']['my-feeds'],
+    component: <MyFeeds />
+  },
+  {
+    key: 6,
+    path: ROUTES['user-company-module'].Events,
+    component: <Events />
+  },
+  {
+    key: 7,
+    path: ROUTES['user-company-module']['add-event'],
+    component: <AddEvent />
+  },
+  {
+    key: 8,
     path: ROUTES['user-company-module']['schedule-meeting'],
     component: <ScheduleMeeting />
   },
   {
-    key: 6,
+    key: 9,
     path: ROUTES['user-company-module']['video-conference'],
     component: <VideoConference />
   },
