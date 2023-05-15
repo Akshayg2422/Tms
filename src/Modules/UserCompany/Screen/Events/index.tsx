@@ -77,7 +77,6 @@ function Events() {
                 <div key={item.id}>
                   <Card className={'shadow-none border m-3 col-9 mb--2'}>
                     <EventItem key={item.id} item={item} />
-                    <div className={''}>dsaasfihaslkj;las</div>
                   </Card>
                 </div>
               );
