@@ -19,7 +19,6 @@ function EventItem({ item }: EventItemProps) {
 
     ]
 
-    console.log("item", JSON.stringify(item))
     const { title, attachments, description, event_by, created_at, applicable_branches, for_internal_company, for_external_company } =
         item;
 
@@ -101,6 +100,14 @@ function EventItem({ item }: EventItemProps) {
                             </Carousel>
                         </div>
 
+                    </div>
+                    <div className="row ml-2">
+                        <div className="text-xs"> {'chennai'} </div>
+                    </div>
+
+                    <div className="row ml-2 text-xs">
+                        <span> {' 18 may 2023 12.30 PM '} {' '} {' '} </span>
+                        <span> {' 19 may 2023 6.30 PM '} </span>
                     </div>
 
                 </div>

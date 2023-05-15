@@ -22,7 +22,8 @@ import {
     getDisplayTimeDateMonthYearTime,
     getMomentObjFromServer,
     getServerTimeFromMoment,
-    ADD_EVENT_RULES
+    ADD_EVENT_EXTERNAL_RULES,
+    ADD_EVENT_INTERNAL_RULES
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -95,7 +96,9 @@ console.log("startTime",startTime)
 
         console.log(JSON.stringify(params));
 
-        const validation = validate(ADD_EVENT_RULES, params);
+        const validation = validate( externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);
+
+       
 
         if (ifObjectExist(validation)) {
             dispatch(

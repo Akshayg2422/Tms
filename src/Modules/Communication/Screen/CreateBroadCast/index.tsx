@@ -50,6 +50,7 @@ function CreateBroadCast() {
     setPhoto(newUpdatedPhoto);
   };
 
+  console.log("modifiedCompanyDropDownData-->",modifiedCompanyDropDownData)
 
   const submitTicketHandler = () => {
 

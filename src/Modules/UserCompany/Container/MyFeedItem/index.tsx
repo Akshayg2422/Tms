@@ -18,8 +18,7 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
         },
 
     ]
-
-    console.log("item", JSON.stringify(item))
+    
     const { title, attachments, description, created_by, created_at, applicable_branches, for_internal_company, for_external_company } =
         item;
 
@@ -49,12 +48,22 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-lg-6">
+                        {/* <div className="col-lg-6">
                             <div className="row d-flex justify-content-end mt-3">
                                 <MenuBar menuData={MY_FEED_MENU}
+                                 onClick={(element) => {
+                                    if (element.id === MY_FEED_MENU[0].id) {
+                                    
+                                        alert('edit')
+                                    } else if (element.id === MY_FEED_MENU[1].id) {
+                                     
+                                       alert('delete')
+
+                                    }
+                                }}
                                 />
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
 
