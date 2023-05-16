@@ -6,7 +6,7 @@ import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
 import { MyFeedItem } from "@Modules";
-import { addBroadCastMessages, addEvent, getAssociatedCompanyBranch, getBroadCastMessages } from "@Redux";
+import { addBroadCastMessages, getAssociatedCompanyBranch, getBroadCastMessages } from "@Redux";
 import { CREATE_BROAD_CAST_EXTERNAL, CREATE_BROAD_CAST_INTERNAL, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
 
@@ -35,10 +35,8 @@ function MyFeeds() {
   const deleteModal = useModal(false)
   const editFeedModal = useModal(false)
 
-  const [isDelete, setIsDelete] = useState(false)
 
 
-  console.log("internal",internalCheck,"external",externalCheck)
 
   const MY_FEED_MENU = [
     {
@@ -53,12 +51,10 @@ function MyFeeds() {
 
   useEffect(() => {
     getBroadCastMessage(INITIAL_PAGE)
-  }, [isDelete]);
+  }, []);
 
   function getBroadCastMessage(page_number: number) {
-
     const params = { q: "", page_number };
-
     dispatch(
       getBroadCastMessages({
         params,
@@ -104,9 +100,6 @@ function MyFeeds() {
 
   }
 
-
-
-
   let attach = photo.slice(-2, 4)
 
   const handleImagePicker = (index: number, file: any) => {
@@ -114,15 +107,12 @@ function MyFeeds() {
     setPhoto(newUpdatedPhoto);
   };
 
-
-
-  function feedDeleteHandler() {
+  function deleteFeedHandler() {
     const params = {
       id: selectedFeed?.id,
       is_deleted: true
     }
 
-    console.log("params----->", params)
     dispatch(
       addBroadCastMessages({
         params,
@@ -143,16 +133,6 @@ function MyFeeds() {
   }
 
   function editFeedHandler() {
-
-      toDataUrl(photo, function (myBase64) {
-
-      let updatedPhoto = photo
-      if (photo.includes('http')) {
-        let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
-        updatedPhoto = encoded
-      }
-    })
-
     const params = {
       id: selectedFeed?.id,
       title: feedTitle?.value,
@@ -162,7 +142,7 @@ function MyFeeds() {
       }),
       ...(internalCheck && { for_internal_company: true }),
       ...(externalCheck && { for_external_company: true }),
-      broadcast_attachments: [{ attachments: attach }],
+     broadcast_attachments: [{ attachments: attach }],
     };
 
 
@@ -190,23 +170,6 @@ function MyFeeds() {
 
   }
 
-  async function toDataUrl(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      var reader = new FileReader();
-      reader.onloadend = function () {
-        callback(reader.result);
-      }
-      reader.readAsDataURL(xhr.response);
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-  }
-
-
-console.log("selectedfeeds--->",selectedFeed)
-console.log("photo==========>",photo);
 
 
   function proceedCreateBroadcast() {
@@ -259,7 +222,7 @@ console.log("photo==========>",photo);
                               setExternalCheck(for_external_company)
                               setPhoto(attachments)
                               setSelectedCompanies(applicable_branches)
-                              console.log("internal",internalCheck,"external",externalCheck)
+                            
 
                             } else if (element.id === MY_FEED_MENU[1].id) {
 
@@ -374,7 +337,7 @@ console.log("photo==========>",photo);
         <div>
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
-            <Button text={'Delete'} onClick={feedDeleteHandler} />
+            <Button text={'Delete'} onClick={deleteFeedHandler} />
           </div>
 
         </div>

@@ -1,7 +1,8 @@
 import { Back, H, Image, MenuBar, Modal } from "@Components";
 import React, { useState } from "react";
 import { EventItemProps } from "./interface";
-import { getPhoto, getDataAndTime, capitalizeFirstLetter, } from "@Utils";
+import { getPhoto, getDataAndTime, capitalizeFirstLetter,   getDisplayTimeDateMonthYearTime,
+    getMomentObjFromServer, } from "@Utils";
 import { translate } from "@I18n";
 import { useModal } from "@Hooks";
 import { Carousel } from "react-responsive-carousel";
@@ -19,7 +20,7 @@ function EventItem({ item }: EventItemProps) {
 
     ]
 
-    const { title, attachments, description, event_by, created_at, applicable_branches, for_internal_company, for_external_company } =
+    const { title, attachments, place,start_time,end_time, description, event_by, created_at, applicable_branches, for_internal_company, for_external_company } =
         item;
 
     const imageModal = useModal(false)
@@ -59,19 +60,20 @@ function EventItem({ item }: EventItemProps) {
 
                     <div className="row mt-4">
                         <div className="col-lg-12 col-sm-0 col-12 mt--2 ml-2">
-                            <div className={'text-xs font-weight-600 mt--2'}>{title}</div>
+                            <div className={'text-sm font-weight-600 mt--2'}>{title}</div>
                             <div className={'text-xs font-weight-600 mb--2'}>{description}</div>
                         </div>
                     </div>
 
                     <div className="mt-1 ml-2">
-                        <span className="h4 text-capitalize"> Shared Across: {''} </span>
+                        <div className="h5 text-uppercase mt-3 mb--1 m-0"> Shared Across: </div>
+                        <span> {''} </span>
                         {applicable_branches &&
                             applicable_branches.length > 0 &&
                             applicable_branches?.map((applicable_branches: any, index: number) => {
                                 return (
 
-                                    <span className=" h5 text-capitalize font-weight-900 "
+                                    <span className=" h5 text-capitalize  text-xs text-muted "
 
 
                                     >
@@ -101,13 +103,13 @@ function EventItem({ item }: EventItemProps) {
                         </div>
 
                     </div>
-                    <div className="row ml-2">
-                        <div className="text-xs"> {'chennai'} </div>
+                    <div className="row ml-2 mt-4">
+                        <div className="text-xs"> {place} </div>
                     </div>
 
                     <div className="row ml-2 text-xs">
-                        <span> {' 18 may 2023 12.30 PM '} {' '} {' '} </span>
-                        <span> {' 19 may 2023 6.30 PM '} </span>
+                        <span> {getDisplayTimeDateMonthYearTime(getMomentObjFromServer(start_time))}  {" "} {'-'} {" "} </span>
+                        <span>  {" "} {' '} {" "} {getDisplayTimeDateMonthYearTime(getMomentObjFromServer(end_time))} </span>
                     </div>
 
                 </div>
