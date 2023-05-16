@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ROUTES, HOME_ROUTES } from '@Routes'
 import { Sidebar } from '@Components'
 import { icons } from '@Assets'
+import {FCM_TOKEN, getDeviceInfo} from '@Utils'
+import {addPushNotification} from '@Redux'
 
 
 
@@ -12,11 +14,39 @@ type RequireAuthProps = {
 }
 
 export const RequireAuth = ({ children }: RequireAuthProps) => {
-
+  const dispatch = useDispatch()
 
     const [sideNavOpen, setSideNavOpen] = useState(true);
     const mainContentRef = React.useRef<HTMLDivElement | null>(null);
     const location = useLocation();
+
+
+    const fcmToken = localStorage.getItem(FCM_TOKEN)
+
+
+  useEffect(() => {    
+    if (loginDetails && loginDetails.isLoggedIn) {
+      getPushNotification()
+    }
+  }, [fcmToken])
+
+
+function getPushNotification() {
+  const params = {
+    device_model: getDeviceInfo()?.model,
+    device_platform: getDeviceInfo()?.platform,
+    device_brand: getDeviceInfo()?.brand,
+    device_token: fcmToken
+  }
+
+  dispatch(addPushNotification({
+    params,
+    onSuccess: () => () => {
+    },
+    onError: () => () => {
+    }
+  }))
+}
 
     useEffect(() => {
         document.documentElement.scrollTop = 0;

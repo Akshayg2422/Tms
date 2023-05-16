@@ -15,7 +15,6 @@ import {
 import {
   GENDER_LIST,
   validate,
-  BUSINESS_FORM_RULES,
   USER_FORM_RULES,
   getValidateError,
   ifObjectExist,
@@ -70,7 +69,7 @@ function CreateCompany({ }: CreateCompanyProps) {
             }
           },
           onError: (error) => {
-            showToast(error.error_message,"info");
+            showToast(error.error_message, "info");
           },
         })
       );
@@ -90,26 +89,22 @@ function CreateCompany({ }: CreateCompanyProps) {
       attachment_logo: PhotoAttach[0],
     };
 
-    const validation = validate(BUSINESS_FORM_RULES, params);
-    console.log("++++", ifObjectExist(validation))
-    if (ifObjectExist(validation)) {
-      dispatch(
-        registerCompany({
-          params,
-          onSuccess: (response: any) => () => {
-            if (response.success) {
-              showToast(response.message, "success");
-              goBack();
-            }
-          },
-          onError: (error: any) => () => {
-            showToast(error.message, "error");
-          },
-        })
-      );
-    } else {
-      showToast(getValidateError(validation));
-    }
+
+    dispatch(
+      registerCompany({
+        params,
+        onSuccess: (response: any) => () => {
+          if (response.success) {
+            showToast(response.message, "success");
+            goBack();
+          }
+        },
+        onError: (error: any) => () => {
+          showToast(error.message, "error");
+        },
+      })
+    );
+
   };
 
   return (
