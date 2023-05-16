@@ -20,6 +20,9 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         getSubTasksApi()
     }, [id])
 
+
+    console.log("responsesubtask",subTasks)
+
     function getSubTasksApi() {
         const params = {
             task_id: id
@@ -28,7 +31,6 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         dispatch(getSubTasks({
             params,
             onSuccess: (response) => () => {
-
             },
             onError: () => () => {
             },

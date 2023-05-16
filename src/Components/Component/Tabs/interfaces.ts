@@ -7,4 +7,6 @@ export interface TabsProps {
     tabs: Array<TabItem>,
     onChange?: (item: any)=> void,
     selected?: TabItem
+    height?:any
+
 }

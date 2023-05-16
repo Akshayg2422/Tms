@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, Divider } from "@Components";
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
@@ -28,6 +28,12 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
     const { height } = useWindowDimensions()
+    const percentComplete = 91
+    const etaTime = new Date();
+    console.log('111111111111111', etaTime)
+    const actualFinishTime = new Date();
+    console.log('22222222222222222', actualFinishTime);
+
 
 
     // const start_timee = start_time;
@@ -45,10 +51,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     }, [taskDetails])
 
     console.log("eta_time------>", eta_time)
-    console.log('starttimeeeeeeee',start_time);
-    console.log('endtimeeeeeeeeeeee',end_time);
-    
-    
+    console.log('starttimeeeeeeee', start_time);
+    console.log('endtimeeeeeeeeeeee', end_time);
+
+
 
     const editEtaSubmitApiHandler = () => {
         const params = {
@@ -108,20 +114,20 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     return (
         <div ref={ref} >
             <Card>
-                <div className="row justify-content-between mt--3">
+                <div className="row  mt--3">
                     <Back />
-                    <TaskItemMenu />
                 </div>
-                <Card style={{ height: height / 2 }}
+                <Card style={{ height: height - 200 }}
                     className={'col mb--4 shadow-none p-0 overflow-auto overflow-hide'}>
 
-                    <div className="row justify-content-between mt--2">
+                    <div className="row justify-content-between mt--3">
                         <div>
                             {title && <H tag={"h4"} className="mb-0" text={title} />}
-                            {code && <H tag={"h4"} className="text-muted" text={`# ${code}`} />}
+                            {description && <H tag={'h5'} className="mb-0" text={capitalizeFirstLetter(description)} />}
+                            {code && <H tag={"h6"} className="text-muted mb-0" text={`# ${code}`} />}
 
-                            <div className="mt-3">
-                                {description && <H tag={'h5'} text={capitalizeFirstLetter(description)} />}
+                            <div className="my-1">
+
                                 <div className="row">
                                     {
                                         task_attachments &&
@@ -137,48 +143,59 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                     }
                                 </div>
                             </div>
+                            <div className="mt-3">
+                                <div className="h5 mb-0"> {by_user?.name} </div>
+                                <div className="mt--1"><small > {by_user?.phone} </small></div>
+                                <div className="mt--2"><small > {by_user?.email} </small></div>
+                            </div>
+
                         </div>
 
-                        <div className="mr-3">
-                            <div>
-                                <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'CREATED AT :'} />
-                                <h5 className="text-uppercase ">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
+                    </div>
+                    <hr className="mx--3 my-3" />
+
+                    <div className="row justify-content-between">
+                        <div className=" col ml--3 ">
+                            <H className=" text-uppercase text-muted" tag={"h6"} text={'CREATED AT :'} />
+                            <h5 className="text-uppercase ">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
+                        </div>
+                        <div className="col">
+                            <TaskItemMenu />
+                        </div>
+                    </div>
+                    <div className="row ">
+                        <div className="col ml--3">
+                            <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
+                            <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
+                        </div>
+                        <div className="row ml-1 mr-3">
+                            <div className="pointer" onClick={() => editEtaModal.show()}>
+                                <Image src={icons.editEta} height={16} width={16} />
                             </div>
-                            <div className="row mt-3">
-                                <div className="col">
-                                    <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
-                                    <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
-                                </div>
-                                <div className="row ml-1 mr-3">
-                                    <div className="pointer" onClick={() => editEtaModal.show()}>
-                                        <Image src={icons.editEta} height={16} width={16} />
-                                    </div>
-                                    <div className="ml-2 pointer" onClick={() => { taskEventModal.show() }}>
-                                        <Image src={icons.timeline} height={17} width={17} />
-                                    </div>
-                                </div>
+                            <div className="ml-2 pointer" onClick={() => { taskEventModal.show() }}>
+                                <Image src={icons.timeline} height={17} width={17} />
                             </div>
                         </div>
                     </div>
 
-                    <div className="row justify-content-between mt-4 mr-3">
-                        <div>
-                            <div className="h5 mb-0"> {by_user?.name} </div>
-                            <div className="mt--1"><small > {by_user?.phone} </small></div>
-                            <div className="mt--2"><small > {by_user?.email} </small></div>
+                    <div className="row">
+                        <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
+                        <div className="ml-2">
+                            <div className="h5 mb-0"> {raised_by_company?.display_name}</div>
+                            <div className="text-xs"><span>{`@ ${assigned_to?.name}`} </span></div>
+                            <div className="text-xs p-0" style={{ maxWidth: '200px', wordWrap: 'break-word' }}>{raised_by_company?.address}</div>
                         </div>
-
-                        <div className="row mt--2">
-                            <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
-                            <div className="ml-2">
-                                <div className="h5 mb-0"> {raised_by_company?.display_name}</div>
-                                <div className="text-xs"><span>{`@ ${assigned_to?.name}`} </span></div>
-                                <div className="text-xs p-0" style={{ maxWidth: '200px', wordWrap: 'break-word' }}>{raised_by_company?.address}</div>
-                            </div>
-                        </div>
- 
                     </div>
-                    <div className="col text-right mt-3">
+
+                    <div className=" ml--2  mt-3">
+                        <ProgressBarEta
+                            start_time={start_time}
+                            end_time={end_time}
+                            eta_time={eta_time}
+                        />
+                    </div>
+
+                    <div className="col text-right mt-3 ml--3">
                         {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button size={'sm'} text={'Start'}
                             onClick={() => {
                                 alertModal.show()
@@ -188,15 +205,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             alertModal.show()
                             setActionTask(END_TASK)
                         }} />}
-                    </div>
-
-                    <div className="">
-                        <ProgressBarEta
-                            start_time={start_time}
-                            end_time={end_time}
-                            eta_time={eta_time}
-                        />
-                        
                     </div>
 
 

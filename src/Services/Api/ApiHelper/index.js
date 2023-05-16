@@ -15,7 +15,9 @@ export const SERVER =
         ? 'http://192.168.253.5:8003'
         : BUILD_TYPE === BUILD_TYPE_STAGING
           ? 'http://103.118.188.135:8003'
-          : 'http://localhost:8000'
+          : BUILD_TYPE === BUILD_TYPE_LOCAL
+            ? 'http://192.168.253.5:8003'
+            : 'http://localhost:8000'
 
 
 const axiosApi = axios.create({
