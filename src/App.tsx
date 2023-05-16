@@ -22,8 +22,6 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 
 
-
-
 function App() {
 
   const { loginDetails } = useSelector((state: any) => state.AppReducer);

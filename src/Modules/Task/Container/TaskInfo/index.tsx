@@ -28,14 +28,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
     const { height } = useWindowDimensions()
-    const percentComplete = 91
-    const etaTime = new Date();
-    console.log('111111111111111', etaTime)
-    const actualFinishTime = new Date();
-    console.log('22222222222222222', actualFinishTime);
-    
 
 
+    // const start_timee = start_time;
+    // const end_timee = end_time;
+    // const eta_timee = eta_time;
 
 
     useEffect(() => {
@@ -48,6 +45,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     }, [taskDetails])
 
     console.log("eta_time------>", eta_time)
+    console.log('starttimeeeeeeee',start_time);
+    console.log('endtimeeeeeeeeeeee',end_time);
+    
+    
 
     const editEtaSubmitApiHandler = () => {
         const params = {
@@ -175,7 +176,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 <div className="text-xs p-0" style={{ maxWidth: '200px', wordWrap: 'break-word' }}>{raised_by_company?.address}</div>
                             </div>
                         </div>
-
+ 
                     </div>
                     <div className="col text-right mt-3">
                         {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button size={'sm'} text={'Start'}
@@ -191,10 +192,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                     <div className="">
                         <ProgressBarEta
-                            percentComplete={percentComplete}
-                            eta={etaTime}
-                            actualFinishTime={actualFinishTime}
+                            start_time={start_time}
+                            end_time={end_time}
+                            eta_time={eta_time}
                         />
+                        
                     </div>
 
 
