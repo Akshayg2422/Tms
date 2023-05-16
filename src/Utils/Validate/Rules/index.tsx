@@ -338,7 +338,7 @@ export const ADD_TIME_SHEET_DETAILS = {
 }
 
 
-export const ADD_EVENT_RULES = {
+export const ADD_EVENT_EXTERNAL_RULES = {
 
   title: {
     presence: { allowEmpty: false, message: "title cannot be empty" },
@@ -363,3 +363,27 @@ export const ADD_EVENT_RULES = {
     presence: { allowEmpty: false, message: " End Time cannot be empty" },
   }
 }
+
+export const ADD_EVENT_INTERNAL_RULES = {
+  title: {
+    presence: { allowEmpty: false, message: "title cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  place: {
+    presence: { allowEmpty: false, message: "place cannot be empty" },
+  },
+  event_attachments:
+  {
+    presence: { message: "attachments cannot be empty" },
+  },
+  start_time: {
+    presence: { allowEmpty: false, message: " Start Time cannot be empty" },
+  },
+  end_time: {
+    presence: { allowEmpty: false, message: " End Time cannot be empty" },
+  }
+
+}
+

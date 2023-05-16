@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image } from "@Components";
+import { Button, Card, NoDataFound, Spinner, Image } from "@Components";
 import { useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
-import { EventItem, MyFeedItem } from "@Modules";
-import { getBroadCastMessages, getEvents } from "@Redux";
+import { EventItem } from "@Modules";
+import {  getEvents } from "@Redux";
 import { INITIAL_PAGE } from '@Utils'
 
 function Events() {
@@ -20,7 +20,6 @@ function Events() {
 
 
   useEffect(() => {
-    //getBroadCastMessage(INITIAL_PAGE)
     getEventsApiHandler()
   }, []);
 
@@ -28,13 +27,12 @@ function Events() {
   const getEventsApiHandler = () => {
     const params = {}
     dispatch(
-      getEvents({
-        params,
-        onSuccess: (response) => () => {
-          console.log("response", response)
-        },
-        onError: () => () => { },
-      })
+        getEvents({
+            params,
+            onSuccess: (response) => () => {
+            },
+            onError: () => () => { },
+        })
     )
   }
 

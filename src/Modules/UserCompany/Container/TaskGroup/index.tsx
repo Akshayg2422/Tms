@@ -301,8 +301,10 @@ function TaskGroup() {
 
   async function toDataUrl(url, callback) {
     var xhr = new XMLHttpRequest();
+    console.log("xhr---->",xhr)
     xhr.onload = function () {
       var reader = new FileReader();
+      console.log("reader",reader)
       reader.onloadend = function () {
         callback(reader.result);
       }
@@ -358,8 +360,8 @@ function TaskGroup() {
           className="overflow-auto overflow-hide"
           style={{
             height: showTaskGroup ? dynamicHeight.dynamicHeight - 100 : '0px',
-            marginLeft:"-23px",
-            marginRight:"-23px"
+            marginLeft: "-23px",
+            marginRight: "-23px"
           }}
         >
           {taskGroups && taskGroups?.length > 0 ? (
