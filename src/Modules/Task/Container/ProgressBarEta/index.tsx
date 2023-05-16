@@ -7,7 +7,7 @@ interface ProgressBarEtaProps {
     eta_time: string;
 }
 
-function ProgressBarEta({ start_time, end_time, eta_time }: ProgressBarEtaProps) {
+function ProgressBarEta({ start_time, end_time, eta_time ,}: ProgressBarEtaProps) {
     const [percentComplete, setPercentComplete] = useState<number>(0);
     const [actualFinishTime, setActualFinishTime] = useState<Date | null>(null);
     const [etaDiff, setEtaDiff] = useState<number>(0);

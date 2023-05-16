@@ -188,11 +188,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     </div>
 
                     <div className=" ml--2  mt-3">
-                        <ProgressBarEta
-                            start_time={start_time}
-                            end_time={end_time}
-                            eta_time={eta_time}
-                        />
+                            <ProgressBarEta
+                                start_time={start_time}
+                                end_time={end_time}
+                                eta_time={eta_time}
+                            />
                     </div>
 
                     <div className="col text-right mt-3 ml--3">
