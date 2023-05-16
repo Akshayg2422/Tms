@@ -8,7 +8,7 @@ const useNavigation = () => {
     navigation(to, { replace: replace });
 
 
-  const goBack= () => navigation(-1)
+  const goBack= (action:number= -1) => navigation(action)
   return { goTo , goBack, params};
 
 };

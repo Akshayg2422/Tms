@@ -8,16 +8,14 @@ export const BUILD_TYPE_LOCAL = 4;
 export const BUILD_TYPE = BUILD_TYPE_STAGING;
 export const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
-    ? 'https://tmsprimary.quantaedat.com' 
+    ? 'https://tmsprimary.quantaedat.com'
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_local'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
-        ? 'http://192.168.87.5:8004'
+        ? 'http://192.168.253.5:8003'
         : BUILD_TYPE === BUILD_TYPE_STAGING
-          ? 'http://103.118.188.135:8002'
-          : BUILD_TYPE === BUILD_TYPE_LOCAL
-            ? 'http://192.168.23.5:8004'
-            : 'http://localhost:8000'
+          ? 'http://103.118.188.135:8003'
+          : 'http://localhost:8000'
 
 
 const axiosApi = axios.create({

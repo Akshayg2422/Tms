@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { PageNotFound, ScreenWrapper, Sidebar, ComponentLoader, Button } from "@Components";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { PageNotFound, ScreenWrapper } from "@Components";
+import { Route, Routes } from "react-router-dom";
 import { HOME_ROUTES, AUTH_ROUTES, TASK_ROUTES, TICKET_ROUTES, USER_COMPANY_ROTES, MESSAGE_ROUTES, RequireAuth, RequireHome } from "@Routes";
-import { PushNotification, Tasks } from "@Modules";
+import { PushNotification } from "@Modules";
 import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { icons } from '@Assets'
@@ -19,8 +19,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-import { FCM_TOKEN, getDeviceInfo } from './Utils';
-import { addPushNotification } from './Redux';
+
 
 
 
@@ -30,15 +29,9 @@ function App() {
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
   const { language } = useSelector((state: any) => state.AuthReducer);
 
-  const dispatch = useDispatch()
-  const fcmToken = localStorage.getItem(FCM_TOKEN)
 
 
-  useEffect(() => {
-    if (loginDetails && loginDetails?.isLoggedIn && fcmToken) {
-      getPushNotification()
-    }
-  }, [fcmToken])
+
 
   changeLanguage(language?.value);
 
@@ -64,22 +57,7 @@ function App() {
     });
   };
 
-  function getPushNotification() {
-    const params = {
-      device_model: getDeviceInfo()?.model,
-      device_platform: getDeviceInfo()?.platform,
-      device_brand: getDeviceInfo()?.brand,
-      device_token: fcmToken
-    }
-
-    dispatch(addPushNotification({
-      params,
-      onSuccess: () => () => {
-      },
-      onError: () => () => {
-      }
-    }))
-  }
+ 
 
   return (
     <ScreenWrapper>

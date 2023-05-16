@@ -30,28 +30,12 @@ export const ADD_USER_RULES = {
   designation_id: {
     presence: { allowEmpty: false, message: "Designation cannot be empty" },
   },
-
   department_id: {
     presence: { allowEmpty: false, message: "Department cannot be empty" },
   },
   profile_image: {
     presence: { allowEmpty: false, message: "profile image cannot be empty" }
-  }
-};
-
-export const OTP_RULES = {
-  mobile_number: {
-    presence: { message: "Mobile number cannot be empty" },
-    length: { is: 10, message: "Mobile number should be 10 number" },
   },
-  otp: {
-    presence: { message: "Otp cannot be empty" },
-    length: { is: 4, message: "Otp should be 4 number" },
-  },
-};
-
-export const BUSINESS_FORM_RULES = {
-
   attachment_logo: {
     presence: { allowEmpty: false, message: "Attach cannot be empty" }
   },
@@ -73,6 +57,41 @@ export const BUSINESS_FORM_RULES = {
   mobile_number2: MOBILE_NUMBER_RULES.mobile_number,
 
 };
+
+export const OTP_RULES = {
+  mobile_number: {
+    presence: { message: "Mobile number cannot be empty" },
+    length: { is: 10, message: "Mobile number should be 10 number" },
+  },
+  otp: {
+    presence: { message: "Otp cannot be empty" },
+    length: { is: 4, message: "Otp should be 4 number" },
+  },
+};
+
+// export const BUSINESS_FORM_RULES = {
+
+//   attachment_logo: {
+//     presence: { allowEmpty: false, message: "Attach cannot be empty" }
+//   },
+//   registered_name: {
+//     presence: { message: "Name cannot be empty" },
+//     length: { minimum: 3, message: "Name minimum 3 chars" },
+//   },
+//   city: {
+//     presence: { allowEmpty: false, message: "city cannot be empty" },
+//   },
+//   communication_address: {
+//     presence: { allowEmpty: false, message: "Address cannot be empty" },
+//   },
+//   pincode: {
+//     presence: { allowEmpty: false, message: "PinCode cannot be empty" },
+//     length: { is: 6, message: "PinCode should be 6 number" },
+//   },
+
+//   mobile_number2: MOBILE_NUMBER_RULES.mobile_number,
+
+// };
 
 export const USER_FORM_RULES = {
   first_name: {

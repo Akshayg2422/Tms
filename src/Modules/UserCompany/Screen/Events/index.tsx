@@ -28,66 +28,68 @@ function Events() {
   const getEventsApiHandler = () => {
     const params = {}
     dispatch(
-        getEvents({
-            params,
-            onSuccess: (response) => () => {
-                console.log("response", response)
-            },
-            onError: () => () => { },
-        })
+      getEvents({
+        params,
+        onSuccess: (response) => () => {
+          console.log("response", response)
+        },
+        onError: () => () => { },
+      })
     )
-}
+  }
 
   function proceedCreateBroadcast() {
     goTo(ROUTES['user-company-module']['add-event'])
   }
 
-  console.log("events",events)
+  console.log("events", events)
 
   return (
 
-  <>
-   {events && events.length > 0 ?
-       <div className="col-9 text-right my-1">
-         <Button
-           text={'CREATE EVENT'}
-           className="text-white"
-           size={"sm"}
-           onClick={proceedCreateBroadcast}
-         />
-       </div> : null}
-  {events && events.length > 0 ?
-    // <InfiniteScroll
-    //   dataLength={events.length}
-    //   hasMore={broadCastCurrentPage !== -1}
-    //   loader={<h4>
-    //     <Spinner />
-    //   </h4>}
-    //   next={() => {
-    //     if (broadCastCurrentPage !== -1) {
-    //       getBroadCastMessage(broadCastCurrentPage)
-    //     }
-    //   }
-    //   }>
+    <>
+      {events && events.length > 0 ?
+        <div className="col-9 text-right my-1">
+          <Button
+            text={'CREATE EVENT'}
+            className="text-white"
+            size={"sm"}
+            onClick={proceedCreateBroadcast}
+          />
+        </div> : null}
+      {events && events.length > 0 ?
+        // <InfiniteScroll
+        //   dataLength={events.length}
+        //   hasMore={broadCastCurrentPage !== -1}
+        //   loader={<h4>
+        //     <Spinner />
+        //   </h4>}
+        //   next={() => {
+        //     if (broadCastCurrentPage !== -1) {
+        //       getBroadCastMessage(broadCastCurrentPage)
+        //     }
+        //   }
+        //   }>
 
-      <div className={''} >
-        {
-          events?.map((item: any, index: number) => {
-            return (
-              <div key={item.id}>
-                <Card className={'shadow-none border m-3 col-9 mb--2'}><EventItem key={item.id} item={item} /></Card>
-              </div>
-            );
-          })}
-      </div>
+        <div className={''} >
+          {
+            events?.map((item: any, index: number) => {
+              return (
+                <div key={item.id}>
+                  <Card className={'shadow-none border m-3 col-9 mb--2'}>
+                    <EventItem key={item.id} item={item} />
+                  </Card>
+                </div>
+              );
+            })}
+        </div>
 
-    // </InfiniteScroll>
+        // </InfiniteScroll>
 
-    : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
-      <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />
-    </div>
-  }
-</>
+        : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
+          <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />
+        </div>
+      }
+    </>
 
   )
 }
