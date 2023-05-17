@@ -2,8 +2,11 @@ import { messaging } from '../Config'
 import React, { useEffect } from 'react'
 import { getToken } from "firebase/messaging" /**which is used to retrieve the FCM token. */
 import { FCM_TOKEN } from '@Utils'
+import { useDispatch } from 'react-redux'
 
+import { setFcmToken } from '@Redux'
 const GetToken = () => {
+    const dispatch = useDispatch()
 
     useEffect(() => {
         pushNotification()
@@ -24,6 +27,7 @@ const GetToken = () => {
                                 if (currentToken) {
                                     console.log('current getToken for client: ', currentToken);
                                     localStorage.setItem(FCM_TOKEN, currentToken)
+                                    dispatch(setFcmToken(currentToken))
                                 } else {
                                     console.log('No registration token available. Request permission to generate one.');
                                 }

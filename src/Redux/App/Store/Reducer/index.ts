@@ -1,11 +1,13 @@
-import { USER_LOGIN_DETAILS, RESTORE_APP, HANDLING_API } from '../ActionTypes';
+import { USER_LOGIN_DETAILS, RESTORE_APP, HANDLING_API, FCM_TOKEN } from '../ActionTypes';
 import { AppStateProp } from '../../Interfaces';
+
 
 const initialState: AppStateProp = {
 
   userLoggedIn: false,
   loginDetails: undefined,
   isSync: { issues: false, tasks: false, companies: false, broadcast: false, dashboardDetails: false },
+  token: undefined
 };
 
 const AppReducer = (state = initialState, action: any) => {
@@ -25,7 +27,13 @@ const AppReducer = (state = initialState, action: any) => {
         isSync: action.payload,
       };
       break;
-      default:
+    case FCM_TOKEN:
+      state = {
+        ...state,
+        token: action.payload
+      };
+      break;
+    default:
       state = state;
       break;
 
