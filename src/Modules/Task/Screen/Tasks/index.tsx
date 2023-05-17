@@ -31,6 +31,8 @@ function Tasks() {
   }, [selectedTask])
 
 
+  console.log("dashboardDetails-------->",dashboardDetails)
+
   function getDashboardDetails() {
     const params = {}
     dispatch(getDashboard({
