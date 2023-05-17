@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets,MyFeeds,Events,AddEvent, VirtualConference,  ScheduleMeeting, VideoConference, } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets,AdminFeeds,Events,AddEvent, VirtualConference,  ScheduleMeeting, VideoConference, } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -57,8 +57,8 @@ export const ROUTES = {
     "scheduled-meeting-list": '/scheduled-meeting-list',
     "schedule-meeting": '/schedule-meeting',
     'my-portfolio': '/my-portfolio',
-    'my-feeds': '/my-feeds',
-    Events: '/events',
+    'admin-feeds': '/admin-feeds',
+     Events: '/events',
     'add-event': '/add-event'
   },
   'message-module': {
@@ -157,10 +157,10 @@ export const HOME_ROUTES = [
         layout: '/admin',
       },
       {
-        path: ROUTES['user-company-module']['my-feeds'],
-        name: "MyFeeds",
+        path: ROUTES['user-company-module']['admin-feeds'],
+        name: "Admin Feeds",
         miniName: "MF",
-        component: <MyFeeds />,
+        component: <AdminFeeds />,
         layout: '/admin',
       },
       {
@@ -259,8 +259,8 @@ export const USER_COMPANY_ROTES = [
   },
   {
     key: 5,
-    path: ROUTES['user-company-module']['my-feeds'],
-    component: <MyFeeds />
+    path: ROUTES['user-company-module']['admin-feeds'],
+    component: <AdminFeeds />
   },
   {
     key: 6,

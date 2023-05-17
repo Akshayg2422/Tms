@@ -50,7 +50,7 @@ function CreateBroadCast() {
     setPhoto(newUpdatedPhoto);
   };
 
-  console.log("modifiedCompanyDropDownData-->",modifiedCompanyDropDownData)
+  console.log("photo-->",photo)
 
   const submitTicketHandler = () => {
 
@@ -69,7 +69,6 @@ function CreateBroadCast() {
     console.log(JSON.stringify(params));
 
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
-
     if (ifObjectExist(validation)) {
       dispatch(
         addBroadCastMessages({
@@ -106,6 +105,8 @@ function CreateBroadCast() {
       })
     );
   }, []);
+
+  console.log("selectedCompanies-->",selectedCompanies)
 
 
   const getCompanyBranchDropdown = (details: any) => {

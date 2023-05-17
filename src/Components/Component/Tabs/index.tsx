@@ -35,7 +35,7 @@ export function Tabs({ tabs, selected, onChange,height }: TabsProps) {
             left: `calc((100% / ${tabs.length}) * ${getSelectedTabIndex()})`,
             height: "2px",
             width: `calc(100% / ${tabs.length})`,
-            background: "#BFEDF0",
+            //background: "#BFEDF0",
             transition: "all ease 0.2s",
           }}
         />

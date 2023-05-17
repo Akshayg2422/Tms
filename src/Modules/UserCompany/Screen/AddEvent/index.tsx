@@ -70,8 +70,8 @@ function AddEvent() {
         const params = {
             title: title?.value,
             place: place?.value,
-            start_time: getServerTimeFromMoment(getMomentObjFromServer(startTime)),
-            end_time: getServerTimeFromMoment(getMomentObjFromServer(endTime)),
+            start_time: startTime,
+            end_time: endTime,
             description: description?.value,
             ...(selectedCompanies.length > 0 && {
                 applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
@@ -82,7 +82,8 @@ function AddEvent() {
         };
 
         const validation = validate(externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);
-
+console.log("start",startTime,"end",endTime)
+        console.log("validation",validation)
         if (ifObjectExist(validation)) {
             dispatch(
                 addEvent({
