@@ -42,7 +42,7 @@ function TaskGroup() {
 
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
-    ...(is_parent ? [{ id: '1', name: "Create Sub Task", icon: icons.addSub }] : []),
+    ...(is_parent ? [{ id: '1', name: "Create Sub Group", icon: icons.addSub }] : []),
     ...(marked_as_closed ? [{ id: '3', name: "Mark As Open", icon: icons.markAsOpen }] : [{ id: '2', name: "Mark As Closed", icon: icons.markAsClose }]),
   ]
   const [showTaskGroup, setShowTaskGroup] = useState(false);
@@ -301,10 +301,10 @@ function TaskGroup() {
 
   async function toDataUrl(url, callback) {
     var xhr = new XMLHttpRequest();
-    console.log("xhr---->",xhr)
+    console.log("xhr---->", xhr)
     xhr.onload = function () {
       var reader = new FileReader();
-      console.log("reader",reader)
+      console.log("reader", reader)
       reader.onloadend = function () {
         callback(reader.result);
       }
@@ -491,18 +491,16 @@ function TaskGroup() {
           <div className="row">
             <div className="col-6">
               <DateTimePicker
-                id="eta-picker"
                 placeholder={'Start Time'}
                 type="both"
-                value={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(startTimeEta))}
+                initialValue={(getMomentObjFromServer(startTimeEta))}
                 onChange={handleStartTimeEtaChange}
               />
             </div>
             <div className="col-6">
               <DateTimePicker
-                id="eta-picker"
                 type="both"
-                value={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(endTimeEta))}
+                initialValue={(getMomentObjFromServer(endTimeEta))}
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
               />

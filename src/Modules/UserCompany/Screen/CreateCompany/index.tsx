@@ -57,6 +57,13 @@ function CreateCompany({ }: CreateCompanyProps) {
       ...(email.value && { email: email.value }),
       gender: gender.value?.id,
       designation: "Management",
+      registered_name: name.value,
+      city: city.value,
+      communication_address: address.value,
+      pincode: pinCode.value,
+      mobile_number1: contactNumber.value,
+      mobile_number2: companyContactNumber.value,
+      attachment_logo: PhotoAttach[0],
     });
     if (ifObjectExist(validation)) {
       dispatch(
@@ -104,8 +111,8 @@ function CreateCompany({ }: CreateCompanyProps) {
         },
       })
     );
+  }
 
-  };
 
   return (
     <Card className="m-3">
