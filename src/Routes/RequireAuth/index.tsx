@@ -4,8 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { ROUTES, HOME_ROUTES } from '@Routes'
 import { Sidebar } from '@Components'
 import { icons } from '@Assets'
-import {FCM_TOKEN, getDeviceInfo} from '@Utils'
-import {addPushNotification} from '@Redux'
+import { FCM_TOKEN, getDeviceInfo } from '@Utils'
+import { addPushNotification } from '@Redux'
+import { PushNotification } from "@Modules";
+
 
 
 
@@ -14,7 +16,7 @@ type RequireAuthProps = {
 }
 
 export const RequireAuth = ({ children }: RequireAuthProps) => {
-  const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
     const [sideNavOpen, setSideNavOpen] = useState(true);
     const mainContentRef = React.useRef<HTMLDivElement | null>(null);
@@ -23,30 +25,34 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
 
     const fcmToken = localStorage.getItem(FCM_TOKEN)
 
+    const { loginDetails, token } = useSelector(
+        (state: any) => state.AppReducer
+    );
 
-  useEffect(() => {    
-    if (loginDetails && loginDetails.isLoggedIn) {
-      getPushNotification()
+
+    useEffect(() => {
+        if (loginDetails && loginDetails.isLoggedIn && token) {
+            getPushNotification()
+        }
+    }, [token])
+
+
+    function getPushNotification() {
+        const params = {
+            device_model: getDeviceInfo()?.model,
+            device_platform: getDeviceInfo()?.platform,
+            device_brand: getDeviceInfo()?.brand,
+            device_token: fcmToken
+        }
+
+        dispatch(addPushNotification({
+            params,
+            onSuccess: () => () => {
+            },
+            onError: () => () => {
+            }
+        }))
     }
-  }, [fcmToken])
-
-
-function getPushNotification() {
-  const params = {
-    device_model: getDeviceInfo()?.model,
-    device_platform: getDeviceInfo()?.platform,
-    device_brand: getDeviceInfo()?.brand,
-    device_token: fcmToken
-  }
-
-  dispatch(addPushNotification({
-    params,
-    onSuccess: () => () => {
-    },
-    onError: () => () => {
-    }
-  }))
-}
 
     useEffect(() => {
         document.documentElement.scrollTop = 0;
@@ -56,9 +62,7 @@ function getPushNotification() {
         }
     }, [location]);
 
-    const { loginDetails } = useSelector(
-        (state: any) => state.AppReducer
-    );
+
 
     if (!loginDetails?.isLoggedIn) {
         return <Navigate to={ROUTES['auth-module'].login} state={{ path: location.pathname }} />
@@ -89,6 +93,7 @@ function getPushNotification() {
                 }}
             />
             <div className='main-content' ref={mainContentRef}>
+                <PushNotification />
                 {children}
             </div>
 
