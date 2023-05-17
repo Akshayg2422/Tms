@@ -22,7 +22,6 @@ function DeviceInfo() {
 
     const getDeviceInfo = () => {
         const userAgent = navigator.userAgent;
-        console.log('navigator', navigator);
 
         const platform = navigator.platform;
         const regex = /\(([^)]+)\)/;

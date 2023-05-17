@@ -22,10 +22,12 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
 
 
     const fcmToken = localStorage.getItem(FCM_TOKEN)
+    console.log('tokennnnnnnnnnnnnnn',fcmToken);
+    
 
 
   useEffect(() => {    
-    if (loginDetails && loginDetails.isLoggedIn) {
+    if (loginDetails && loginDetails.isLoggedIn ) {
       getPushNotification()
     }
   }, [fcmToken])
