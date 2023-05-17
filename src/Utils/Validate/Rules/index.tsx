@@ -220,7 +220,7 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
   },
   broadcast_attachments:
   {
-    presence: { message: "attachments cannot be empty" },
+    presence: { allowEmpty: false, message: "attachments cannot be empty" },
 
   }
 }
@@ -349,6 +349,12 @@ export const ADD_EVENT_EXTERNAL_RULES = {
   place: {
     presence: { allowEmpty: false, message: "place cannot be empty" },
   },
+  start_time: {
+    presence: { allowEmpty: false, message: "Start time cannot be empty" },
+  },
+  end_time: {
+    presence: { allowEmpty: false, message: "End time cannot be empty" },
+  },
   applicable_branches: {
     presence: { allowEmpty: false, message: "Company cannot be empty" },
   },
@@ -356,12 +362,6 @@ export const ADD_EVENT_EXTERNAL_RULES = {
   {
     presence: { message: "attachments cannot be empty" },
   },
-  start_time: {
-    presence: { allowEmpty: false, message: " Start Time cannot be empty" },
-  },
-  end_time: {
-    presence: { allowEmpty: false, message: " End Time cannot be empty" },
-  }
 }
 
 export const ADD_EVENT_INTERNAL_RULES = {
@@ -374,16 +374,15 @@ export const ADD_EVENT_INTERNAL_RULES = {
   place: {
     presence: { allowEmpty: false, message: "place cannot be empty" },
   },
-  event_attachments:
-  {
-    presence: { message: "attachments cannot be empty" },
-  },
   start_time: {
-    presence: { allowEmpty: false, message: " Start Time cannot be empty" },
+    presence: { allowEmpty: false, message: " Start time cannot be empty" },
   },
   end_time: {
-    presence: { allowEmpty: false, message: " End Time cannot be empty" },
-  }
-
+    presence: { allowEmpty: false, message: "End time cannot be empty" },
+  },
+  event_attachments:
+  {
+    presence: {allowEmpty: false,  message: "attachments cannot be empty" },
+  },
 }
 

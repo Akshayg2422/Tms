@@ -180,7 +180,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                     <div className="row">
                         <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
-                        <div className="ml-2">
+                        <div className="ml-3">
                             <div className="h5 mb-0"> {raised_by_company?.display_name}</div>
                             <div className="text-xs"><span>{`@ ${assigned_to?.name}`} </span></div>
                             <div className="text-xs p-0" style={{ maxWidth: '200px', wordWrap: 'break-word' }}>{raised_by_company?.address}</div>
