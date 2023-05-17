@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { PageNotFound, ScreenWrapper } from "@Components";
 import { Route, Routes } from "react-router-dom";
 import { HOME_ROUTES, AUTH_ROUTES, TASK_ROUTES, TICKET_ROUTES, USER_COMPANY_ROTES, MESSAGE_ROUTES, RequireAuth, RequireHome } from "@Routes";
-import { PushNotification } from "@Modules";
 import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { icons } from '@Assets'
@@ -57,11 +56,10 @@ function App() {
     });
   };
 
- 
+
 
   return (
     <ScreenWrapper>
-      <PushNotification />
       <Routes>
         {getRoutes(AUTH_ROUTES, AUTH)}
         {getRoutes(HOME_ROUTES, HOME)}
