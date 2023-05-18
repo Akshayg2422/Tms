@@ -126,7 +126,7 @@ function AddUser() {
         })
       );
     } else {
-  
+
       showToast(getValidateError(validation));
     }
   }

@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets,AdminFeeds,Events,AddEvent, VirtualConference,  ScheduleMeeting, VideoConference, } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -58,7 +58,7 @@ export const ROUTES = {
     "schedule-meeting": '/schedule-meeting',
     'my-portfolio': '/my-portfolio',
     'admin-feeds': '/admin-feeds',
-     Events: '/events',
+    Events: '/events',
     'add-event': '/add-event'
   },
   'message-module': {
