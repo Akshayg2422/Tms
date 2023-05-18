@@ -10,13 +10,14 @@ import { addBroadCastMessages, getAssociatedCompanyBranch, getBroadCastMessages 
 import { CREATE_BROAD_CAST_EXTERNAL, CREATE_BROAD_CAST_INTERNAL, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
 
-function MyFeeds() {
+function AdminFeeds() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
   const { broadCastDetails, broadCastCurrentPage } = useSelector(
     (state: any) => state.CommunicationReducer
   );
+
 
 
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
@@ -36,8 +37,6 @@ function MyFeeds() {
   const editFeedModal = useModal(false)
 
 
-
-
   const MY_FEED_MENU = [
     {
       id: 0, name: 'Edit', icon: icons.edit,
@@ -54,12 +53,14 @@ function MyFeeds() {
   }, []);
 
   function getBroadCastMessage(page_number: number) {
-    const params = { q: "", page_number };
+    const params = {
+      q: "",
+      page_number
+    };
     dispatch(
       getBroadCastMessages({
         params,
-        onSuccess: (response) => () => {
-          console.log("response---->", response)
+        onSuccess: () => () => {
         },
         onError: () => () => {
         },
@@ -157,11 +158,9 @@ function MyFeeds() {
           onSuccess: (response: any) => () => {
             if (response.success) {
               showToast(response.message, 'success')
-              editFeedModal.hide()
             }
           },
           onError: (error) => () => {
-            editFeedModal.hide()
             showToast(error.error_message)
           },
         })
@@ -175,7 +174,7 @@ function MyFeeds() {
 
 
 
-  function proceedCreateBroadcast() {
+  function proceedCreatePost() {
     goTo(ROUTES["message-module"]["create-broadcast"])
   }
 
@@ -188,7 +187,7 @@ function MyFeeds() {
             text={'CREATE POST'}
             className="text-white"
             size={"sm"}
-            onClick={proceedCreateBroadcast}
+            onClick={proceedCreatePost}
           />
         </div> : null}
       {broadCastDetails && broadCastDetails.length > 0 ?
@@ -215,7 +214,6 @@ function MyFeeds() {
                         <MenuBar menuData={MY_FEED_MENU}
                           onClick={(element) => {
                             if (element.id === MY_FEED_MENU[0].id) {
-
                               editFeedModal.show()
                               setSelectedFeed(item)
                               const { title, attachments, description, created_by, created_at, applicable_branches, for_internal_company, for_external_company } = item
@@ -223,26 +221,11 @@ function MyFeeds() {
                               feedDescription.set(description)
                               setInternalCheck(for_internal_company)
                               setExternalCheck(for_external_company)
-                              setPhoto(attachments)
-
-
-
-                              const updatedData = applicable_branches.map(each => {
-                                return {
-                                  key: each.id,
-                                  name: each.register_name,
-                                  value: each.register_name
-                                }
-                              })
-                              setSelectedCompanies(updatedData)
-
+                              // setSelectedCompanies(applicable_branches)
 
                             } else if (element.id === MY_FEED_MENU[1].id) {
-
                               setSelectedFeed(item)
                               deleteModal.show()
-
-
                             }
                           }}
                         />
@@ -256,7 +239,7 @@ function MyFeeds() {
 
         </InfiniteScroll>
         : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
-          <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />
+          <NoDataFound buttonText={'create post'} onClick={proceedCreatePost} isButton />
         </div>
       }
 
@@ -296,14 +279,11 @@ function MyFeeds() {
             <MultiSelectDropDown
               heading={translate("common.company")!}
               options={modifiedCompanyDropDownData!}
-              defaultValue={selectedCompanies}
               displayValue={"value"}
               onSelect={(item) => {
-                console.log(JSON.stringify(item));
                 setSelectedCompanies(item);
               }}
               onRemove={(item) => {
-                console.log(JSON.stringify(item));
                 setSelectedCompanies(item);
               }}
             />
@@ -349,7 +329,6 @@ function MyFeeds() {
 
       </Modal>
       <Modal isOpen={deleteModal.visible} size="md" onClose={deleteModal.hide}>
-
         <div>
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
@@ -364,4 +343,4 @@ function MyFeeds() {
   )
 }
 
-export { MyFeeds }
+export { AdminFeeds }

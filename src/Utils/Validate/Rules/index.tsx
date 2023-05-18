@@ -36,25 +36,6 @@ export const ADD_USER_RULES = {
   profile_image: {
     presence: { allowEmpty: false, message: "profile image cannot be empty" }
   },
-  attachment_logo: {
-    presence: { allowEmpty: false, message: "Attach cannot be empty" }
-  },
-  registered_name: {
-    presence: { message: "Name cannot be empty" },
-    length: { minimum: 3, message: "Name minimum 3 chars" },
-  },
-  city: {
-    presence: { allowEmpty: false, message: "city cannot be empty" },
-  },
-  communication_address: {
-    presence: { allowEmpty: false, message: "Address cannot be empty" },
-  },
-  pincode: {
-    presence: { allowEmpty: false, message: "PinCode cannot be empty" },
-    length: { is: 6, message: "PinCode should be 6 number" },
-  },
-
-  mobile_number2: MOBILE_NUMBER_RULES.mobile_number,
 
 };
 
@@ -69,47 +50,38 @@ export const OTP_RULES = {
   },
 };
 
-// export const BUSINESS_FORM_RULES = {
-
-//   attachment_logo: {
-//     presence: { allowEmpty: false, message: "Attach cannot be empty" }
-//   },
-//   registered_name: {
-//     presence: { message: "Name cannot be empty" },
-//     length: { minimum: 3, message: "Name minimum 3 chars" },
-//   },
-//   city: {
-//     presence: { allowEmpty: false, message: "city cannot be empty" },
-//   },
-//   communication_address: {
-//     presence: { allowEmpty: false, message: "Address cannot be empty" },
-//   },
-//   pincode: {
-//     presence: { allowEmpty: false, message: "PinCode cannot be empty" },
-//     length: { is: 6, message: "PinCode should be 6 number" },
-//   },
-
-//   mobile_number2: MOBILE_NUMBER_RULES.mobile_number,
-
-// };
-
 export const USER_FORM_RULES = {
+  attachment_logo: {
+    presence: { allowEmpty: false, message: "Logo cannot be empty." }
+  },
+  registered_name: {
+    presence: { message: "Name cannot be empty." },
+    length: { minimum: 3, message: "Name should have a minimum of 3 characters." },
+  },
+  mobile_number2: MOBILE_NUMBER_RULES.mobile_number,
+  communication_address: {
+    presence: { allowEmpty: false, message: "Address cannot be empty." },
+  },
+  city: {
+    presence: { allowEmpty: false, message: "City cannot be empty." },
+  },
+  pincode: {
+    presence: { allowEmpty: false, message: "Pin code cannot be empty." },
+    length: { is: 6, message: "Pin code should be 6 digits." },
+  },
   first_name: {
-    presence: { message: "Name cannot be empty" },
-    length: { minimum: 3, message: "Name minimum 3 chars" },
+    presence: { message: "Name cannot be empty." },
+    length: { minimum: 3, message: "Name should have a minimum of 3 characters." },
   },
   mobile_number: MOBILE_NUMBER_RULES.mobile_number,
 
   email: {
     email: {
-      message: "doesn't look like a valid email",
+      message: "Email doesn't look like a valid email.",
     },
   },
   gender: {
-    presence: { message: "Please Select Gender" },
-  },
-  designation: {
-    presence: { message: "please select Designation" },
+    presence: { message: "Please select a gender." },
   },
 };
 
@@ -202,8 +174,6 @@ export const CREATE_SUB_TASK_INTERNAL = {
 
   },
 
-
-
 };
 
 
@@ -220,7 +190,7 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
   },
   broadcast_attachments:
   {
-    presence: { message: "attachments cannot be empty" },
+    presence: { allowEmpty: false, message: "attachments cannot be empty" },
 
   }
 }
@@ -275,7 +245,7 @@ export const ADD_TAG = {
 export const ADD_TASK_GROUP = {
   name: {
     presence: { allowEmpty: false, message: "tag name cannot be empty" },
-    length: { is: 10, message: "we cannot not add more then 20 character" },
+    length: { maximum: 20, message: "we cannot not add more then 20 character" },
   },
   code: {
     presence: { allowEmpty: false, message: "code name cannot be empty" },
@@ -295,6 +265,7 @@ export const ADD_TASK_GROUP = {
 export const ADD_SUB_TASK_GROUP = {
   name: {
     presence: { allowEmpty: false, message: "tag name cannot be empty" },
+    length: { maximum: 20, message: "we cannot not add more then 20 character" },
   },
   code: {
     presence: { allowEmpty: false, message: "code name cannot be empty" },
@@ -306,7 +277,6 @@ export const ADD_SUB_TASK_GROUP = {
   },
   photo: {
     presence: { allowEmpty: false, message: "Photo cannot be empty" }
-
   },
   start_time: {
     presence: { allowEmpty: false, message: " please select Stat Time  cannot be empty" },
@@ -349,6 +319,12 @@ export const ADD_EVENT_EXTERNAL_RULES = {
   place: {
     presence: { allowEmpty: false, message: "place cannot be empty" },
   },
+  start_time: {
+    presence: { allowEmpty: false, message: "Start time cannot be empty" },
+  },
+  end_time: {
+    presence: { allowEmpty: false, message: "End time cannot be empty" },
+  },
   applicable_branches: {
     presence: { allowEmpty: false, message: "Company cannot be empty" },
   },
@@ -356,12 +332,6 @@ export const ADD_EVENT_EXTERNAL_RULES = {
   {
     presence: { message: "attachments cannot be empty" },
   },
-  start_time: {
-    presence: { allowEmpty: false, message: " Start Time cannot be empty" },
-  },
-  end_time: {
-    presence: { allowEmpty: false, message: " End Time cannot be empty" },
-  }
 }
 
 export const ADD_EVENT_INTERNAL_RULES = {
@@ -374,16 +344,15 @@ export const ADD_EVENT_INTERNAL_RULES = {
   place: {
     presence: { allowEmpty: false, message: "place cannot be empty" },
   },
-  event_attachments:
-  {
-    presence: { message: "attachments cannot be empty" },
-  },
   start_time: {
-    presence: { allowEmpty: false, message: " Start Time cannot be empty" },
+    presence: { allowEmpty: false, message: " Start time cannot be empty" },
   },
   end_time: {
-    presence: { allowEmpty: false, message: " End Time cannot be empty" },
-  }
-
+    presence: { allowEmpty: false, message: "End time cannot be empty" },
+  },
+  event_attachments:
+  {
+    presence: {allowEmpty: false,  message: "attachments cannot be empty" },
+  },
 }
 
