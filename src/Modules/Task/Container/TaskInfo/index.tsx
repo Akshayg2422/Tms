@@ -50,9 +50,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         setEta(eta_time)
     }, [taskDetails])
 
-    console.log("eta_time------>", eta_time)
-    console.log('starttimeeeeeeee', start_time);
-    console.log('endtimeeeeeeeeeeee', end_time);
 
 
 
@@ -103,6 +100,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 params,
                 onSuccess: (response) => () => {
                     alertModal.hide()
+                    getTaskDetailsHandler()
                 },
                 onError: () => () => {
                     alertModal.hide()
