@@ -159,6 +159,7 @@ export const HOME_ROUTES = [
     path: ROUTES['user-company-module']['my-portfolio'],
     name: "MyTimeSheet",
     miniName: "TS",
+    icon:icons.myTimeSheet,
     component: <MyPortfolio />,
     layout: '',
   },

@@ -16,7 +16,6 @@ const END_TASK = 2
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const { id } = useParams()
-
     const dispatch = useDispatch()
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
@@ -30,14 +29,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const { height } = useWindowDimensions()
     const percentComplete = 91
     const etaTime = new Date();
-    console.log('111111111111111', etaTime)
     const actualFinishTime = new Date();
-    console.log('22222222222222222', actualFinishTime);
-    
-
-
-
-
     useEffect(() => {
         getTaskDetailsHandler()
     }, [id])
@@ -47,9 +39,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         setEta(eta_time)
     }, [taskDetails])
 
-    console.log("eta_time------>", eta_time)
-
+  
     const editEtaSubmitApiHandler = () => {
+        
         const params = {
             id,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),

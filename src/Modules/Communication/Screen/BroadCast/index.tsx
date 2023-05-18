@@ -3,7 +3,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { Card, NoDataFound, Spinner } from "@Components";
 import { useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
-import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
 import { BroadCastListedItems, Home } from "@Modules";
 import { getBroadCastMessages } from "@Redux";

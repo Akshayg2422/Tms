@@ -131,15 +131,15 @@ function AddTask() {
             reference_number: referenceNo?.value,
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             // assigned_to_id: selectedUserId?.id,
-            ...( selectedUserId?.id && { assigned_to_id:selectedUserId?.id}),
+            ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
             eta_time: eta,
             group_id: taskGroup?.value?.id,
-            ...(department?.value?.id && {  department_id:department.value.id }),
-            ...(designation?.value?.id && {designation_id:designation.value.id})
-           
+            ...(department?.value?.id && { department_id: department.value.id }),
+            ...(designation?.value?.id && { designation_id: designation.value.id })
+
         };
 
         const validation = validate(taskType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
@@ -200,7 +200,7 @@ function AddTask() {
             getSubTaskGroups({
                 params,
                 onSuccess: (response: any) => () => {
-                
+
                 },
                 onError: () => () => {
                 },
@@ -258,7 +258,7 @@ function AddTask() {
 
     const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
-   
+
 
 
     return (
@@ -354,25 +354,25 @@ function AddTask() {
                             setSelectedUserId(item)
                         }}
                     />} */}
-                    <div className="mt--2">
-                   
-                  { getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&  <AutoSearchInput 
-                    heading={translate("common.user")!}
-                    placeholder={'please select a user...'}
-                    data={companyUsers}
-                    variant={true}
-                    onSelect={( item)=>{
-                        // setSelectedUser(item.name);
-                        setSelectedUserId(item)
-                    
-                    }}
-                
+                <div className="mt--2">
+
+                    {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && <AutoSearchInput
+                        heading={translate("common.user")!}
+                        placeholder={'please select a user...'}
+                        data={companyUsers}
+                        variant={true}
+                        onSelect={(item) => {
+                            // setSelectedUser(item.name);
+                            setSelectedUserId(item)
+
+                        }}
+
 
                     />
-                }
-</div>
-                  
-            
+                    }
+                </div>
+
+
 
                 {subTaskGroups && subTaskGroups.length > 0 && <DropDown
                     heading={translate("common.selectGroup")}
@@ -398,7 +398,7 @@ function AddTask() {
                     onChange={handleEtaChange}
                 />
             </div>
-            
+
 
             <div className="col-md-9 col-lg-5 mt-3">
                 <label className={`form-control-label`}>
@@ -435,7 +435,7 @@ function AddTask() {
                     onClick={submitTaskHandler}
                 />
             </div>
-            
+
 
         </Card >
 

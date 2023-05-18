@@ -88,8 +88,8 @@ const initialState: UserCompanyStateProp = {
   employeeslCurrentPages: undefined,
   employeeslNumOfPages: undefined,
   employeeAddTime:undefined,
-  employeeTimelineList:undefined,
-  employeeTimelineCurrentPages:undefined,
+  employeeTimeline:[],
+  employeeTimelineCurrentPages:1,
   employeeTimelineNumOfPages:undefined,
   brandSector: undefined,
   ticketTag: undefined,
@@ -324,7 +324,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     /**get task group */
     case GET_TASK_GROUP:
-      const { page_number } = action.payload.params
+   
       state = {
         ...state,
         // taskGroupDetails: page_number === 1 ? [] : state.taskGroupDetails,
@@ -476,28 +476,37 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
   //get employee timeline
 
   case GET_EMPLOYEE_TIMELINE:
+    const { page_number } = action.payload.params
+    // console.log('pa',JSON.stringify( page_number))
     state = {
       ...state,
-      employeeTimelineList:undefined,
-      employeeTimelineCurrentPages:1,
-      employeeTimelineNumOfPages:0,
+      employeeTimeline: page_number === 1 ? [] : state.employeeTimeline
     };
 
     break;
   case GET_EMPLOYEE_TIMELINE_SUCCESS:
-    state = {
-      ...state,
-      employeeTimelineList: action.payload.details.data,
-      employeeTimelineCurrentPages: 
-       action.payload?.details.next_page === -1
-      ? action?.payload?.details.num_pages
-      : action?.payload?.details.next_page - 1,
-      employeeTimelineNumOfPages: action.payload.details.num_pages,
+//     console.log("sssssssssssst",JSON.stringify(state))
+// console.log(...state. employeeTimelineList, ...action.payload?.details?.data,'{{{{{{{{{{{{')
 
-    };
+  state = {
+    ...state,
+    employeeTimeline: [...state.employeeTimeline, ...action.payload?.details?.data],
+    employeeTimelineCurrentPages:action.payload?.details?.next_page
+  };
+  
+    // state = {
+    //   ...state,
+    //   employeeTimelineList: action.payload.details.data,
+    //   employeeTimelineCurrentPages: 
+    //    action.payload?.details.next_page === -1
+    //   ? action?.payload?.details.num_pages
+    //   : action?.payload?.details.next_page - 1,
+    //   employeeTimelineNumOfPages: action.payload.details.num_pages,
+
+    // };
     break;
   case GET_EMPLOYEE_TIMELINE_FAILURE:
-    state = { ...state, employeeTimelineList: action.payload };
+    state = { ...state, employeeTimeline: action.payload };
     break;
 
 //addEmployeeTimeline

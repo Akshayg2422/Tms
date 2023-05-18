@@ -244,9 +244,6 @@ function AddTicket() {
 
 
     const getExternalCompanyStatus = () => ((ticketType && ticketType?.id === "2") || company.value?.id)
-
-    console.log("======>", JSON.stringify(company.value));
-
     return (
         <Card className="m-3">
             <div className='col'>
@@ -256,7 +253,6 @@ function AddTicket() {
                 </div>
             </div>
             <hr className='mt-3'></hr>
-
             <div className="col-md-9 col-lg-5">
                 <Input
                     heading={translate("common.title")}

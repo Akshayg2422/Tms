@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getMomentObjFromServer, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A } from '@Utils'
+import { getMomentObjFromServer, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A, getDisplayDateFromMoment } from '@Utils'
 import {
   addEmployeeTimeline,
   getAssignedTask,
@@ -8,17 +8,19 @@ import {
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
-import { Button, Card, CommonTable, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image } from '@Components';
+import { Button, Card, CommonTable, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, Spinner, NoDataFound } from '@Components';
 import { icons } from '@Assets';
 import AutoSearchInput from '@Components//Core/AutoSearchInput';
-
+import { ROUTES } from '@Routes'
+import { useNavigation } from '@Hooks'
+import { INITIAL_PAGE } from '@Utils'
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { translate } from "@I18n";
 function MyPortfolio() {
   const dispatch = useDispatch();
   const addEtaTime = useModal(false);
   const editEtaTime = useModal(false);
-  // const employees = useDropDown({})
-  // const assignedTaskSelect = useDropDown({})
-  const [showTaskGroup, setShowTaskGroup] = useState(false);
+  const { goTo } = useNavigation();
   const [startTimeEta, setStatTimeEta] = useState<any>("")
   const [endTimeEta, setEndTimeEta] = useState<any>("")
   const editAssignedTaskSelect = useDropDown({})
@@ -27,24 +29,39 @@ function MyPortfolio() {
   const [editEndTimeEta, setEditEndTimeEta] = useState<any>("")
   const [assignedTaskList, setAssignedTaskList] = useState([])
   const description = useInput("");
-    const [assignedTaskDetails,setAssignedTaskDetails]=useState([])
+  const [assignedTaskDetails, setAssignedTaskDetails] = useState([])
   const [selectedTask, setSelectedTask] = useState<any>('')
   const editDescriptions = useInput('')
-  const dynamicHeight: any = useDynamicHeight()
+  let currentDate = getServerTimeFromMoment(getMomentObjFromServer(new Date()))
 
-  const { dashboardDetails, employeeTimelineList} = useSelector((state: any) => state.UserCompanyReducer);
-  const {  assignedTask } = useSelector((state: any) => state.TaskReducer);
-  const { user_details } = dashboardDetails || ''
+  const { employeeTimeline, employeeTimelineCurrentPages } = useSelector((state: any) => state.UserCompanyReducer);
+  const [employeeTimelineDisplayData, setEmployeeTimelineDisplayData] = useState({ keys: [], data: {} })
   const getGroupMenuItem = [
     { id: '0', name: "Edit", icon: icons.edit },
 
   ]
+
+  console.log(employeeTimelineCurrentPages);
+
+
+  useEffect(() => {
+    getAssignedTaskList()
+    getEmployeesTimeList(INITIAL_PAGE)
+  }, [])
+
+
   useEffect(() => {
 
-    getEmployeesTimeList()
-    getAssignedTaskList()
+    if (employeeTimeline && employeeTimeline.length > 0) {
+      getDropDownDisplayData()
 
-  }, [])
+    }
+
+  }, [employeeTimeline])
+
+
+
+
 
   const handleStartTimeEtaChange = (value: any) => {
     setStatTimeEta(value)
@@ -72,19 +89,17 @@ function MyPortfolio() {
   };
 
 
-  const getEmployeesTimeList = () => {
-    const params = { timeline_by: "" }
+  const getEmployeesTimeList = (page_number: number) => {
+
+    const params = { timeline_by: "", page_number }
     dispatch(
       getEmployeeTimeline({
         params,
         onSuccess: (response) => () => {
-
-
         },
         onError: (error) => () => {
 
         }
-
       })
 
     )
@@ -115,17 +130,18 @@ function MyPortfolio() {
       getAssignedTask({
         params,
         onSuccess: (response: any) => () => {
+
           const assignedTasks = response?.details
           const assignedDetails = assignedTasks.map((item) => {
             return {
               text: item.title, id: item.id
             }
 
-          
+
 
           })
 
-          const assignedTaskDetails=assignedTasks.map((item) => {
+          const assignedTaskDetails = assignedTasks.map((item) => {
             return {
               name: item.title, id: item.id
             }
@@ -139,14 +155,36 @@ function MyPortfolio() {
     )
   }
 
+
+
+  function getDropDownDisplayData() {
+    const updatedData = [...employeeTimeline]
+    const modifiedData = {}
+    updatedData.forEach(each => {
+      const { created_at } = each
+      const date = getDisplayDateFromMoment(getMomentObjFromServer(created_at))
+      if (modifiedData[date] !== undefined) {
+        modifiedData[date] = [...modifiedData[date], each]
+      } else {
+        modifiedData[date] = [each]
+      }
+    })
+
+    setEmployeeTimelineDisplayData({
+      keys: Object.keys(modifiedData),
+      data: modifiedData
+    } as never)
+  }
+
+
   const addEmployeeTimeSheet = () => {
 
     const editAssignedId = editAssignedTaskSelect?.value?.id
     const assignedTaskId = selectedTask?.id
     const params = {
       task_id: editAssignedId || assignedTaskId,
-      start_time:getServerTimeFromMoment(getMomentObjFromServer(editStartTimeEta))  ||getServerTimeFromMoment(getMomentObjFromServer(startTimeEta)) ,
-      end_time: getServerTimeFromMoment(getMomentObjFromServer(editEndTimeEta))  ||getServerTimeFromMoment(getMomentObjFromServer( endTimeEta)),
+      start_time: editStartTimeEta ? getServerTimeFromMoment(getMomentObjFromServer(editStartTimeEta)) : startTimeEta,
+      end_time: editEndTimeEta ? getServerTimeFromMoment(getMomentObjFromServer(editEndTimeEta)) : endTimeEta,
       ...(assignedTasksId && { id: assignedTasksId }),
       description: editDescriptions?.value || description?.value
     }
@@ -160,13 +198,12 @@ function MyPortfolio() {
           onSuccess: (response) => () => {
 
             addEtaTime.hide()
-            getEmployeesTimeList()
+            getEmployeesTimeList(INITIAL_PAGE)
             restValue()
             editRestValue()
+
           },
           onError: (error) => () => {
-
-
           }
 
         })
@@ -174,107 +211,94 @@ function MyPortfolio() {
     }
     else {
 
-
       showToast(getValidateError(validation));
     }
 
   }
-  const normalizedTableData = (data: any) => {
+
+  const normalizedTableDatas = (data: any) => {
     if (data && data?.length > 0) {
 
       return data?.map((el: any) => {
 
         return {
-
           Date: getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(el?.created_at)),
-          Task: <div data-toggle="tooltip" title={el?.task?.name}>Hover over me</div>,
+          Task: <div data-toggle="tooltip" title={el?.task?.name} onClick={() => { goTo(ROUTES["task-module"]["tasks-details"] + '/' + el?.task?.id); }}>{el?.task?.code}</div>,
           Description: el?.description,
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
-          // ETA:getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(el?.eta_time)),
           Status: el?.is_completed ? "complete" : "",
           "Edit": <MenuBar menuData={getGroupMenuItem} onClick={(element) => {
-       
+
             const { start_time, end_time, task, id, description } = el
             const tasks = { id: task.id, text: task.name }
-          
 
             if (element.id === '0') {
-
-              setEditStatTimeEta(start_time)
-              setEditEndTimeEta(end_time)
+              setEditStatTimeEta(getDisplayDateFromMoment(getMomentObjFromServer(start_time)))
+              setEditEndTimeEta(getDisplayDateFromMoment(getMomentObjFromServer(end_time)))
               editAssignedTaskSelect.onChange(tasks)
               setAssignedTaskId(id)
               editEtaTime.show()
               handleEditDescription(description)
             }
           }} />
+
+
+
         }
       }
       )
     }
-
   }
+
+
+
 
   return (
     <div className='m-3'>
-      <Card
-      // style={{ height: showTaskGroup ? dynamicHeight.dynamicHeight : '5em' }}
-      >
-        <div>
-
-          <div className="row">
-            <div className="col">
-              <h5>{'Date:'}</h5>
-              <h5>{'Hours:'}</h5>
-
-            </div>
-
-            <div className="text-right mr-3 ">
-              <Button
-                text={'Add'}
-                size={"sm"}
-                onClick={() => {
-                  addEtaTime.show()
-
-                }}
-
-              />
-
-              <Image src={icons.downArrowBlack} height={13} width={13}
-                onClick={() => {
-
-                  setShowTaskGroup(!showTaskGroup)
-                  if (!showTaskGroup) {
-                    getEmployeesTimeList()
-
-                  }
-
-                }}
-              />
-
-            </div>
-          </div>
-
-
-        </div>
-        <div style={{
-
-          marginLeft: "-23px",
-          marginRight: "-23px"
-        }}>
-          {employeeTimelineList && employeeTimelineList.length > 0 && <CommonTable
-
-            tableDataSet={employeeTimelineList}
-            displayDataSet={normalizedTableData(employeeTimelineList)}
-            tableOnClick={(idx, index, item) => {
-
-            }}
-
-          />
+      {employeeTimelineDisplayData?.keys.length > 0 ?
+        <InfiniteScroll
+          dataLength={employeeTimelineDisplayData?.keys.length}
+          hasMore={employeeTimelineDisplayData?.keys.length !== -1}
+          loader={<h4>
+            {employeeTimelineCurrentPages === -1 ? '' : <Spinner />}
+          </h4>}
+          next={() => {
+            if (employeeTimelineCurrentPages !== -1) {
+              getEmployeesTimeList(employeeTimelineCurrentPages)
+            }
           }
+          }>
+
+          <div>
+            {employeeTimelineDisplayData?.keys && employeeTimelineDisplayData?.keys?.length > 0 && employeeTimelineDisplayData?.keys?.map((el, index) => {
+
+              const dataset = Object.values(employeeTimelineDisplayData?.data)
+              return (
+
+                <CollapseButton
+                  selectedIds={employeeTimelineDisplayData?.keys[index]}
+                  selectedId={currentDate}
+                  children={
+                    <h5>{employeeTimelineDisplayData?.keys[index]}
+                    </h5>}
+                  tableDataSet={dataset[index]}
+                  displayDataSet={normalizedTableDatas(dataset[index])}
+                  onClick={() => {
+                    addEtaTime.show()
+
+                  }}
+                  text={translate('common.add')!}
+
+                />
+              )
+            })}
+          </div>
+        </InfiniteScroll>
+        : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
+          <NoDataFound buttonText={translate('common.add')!} isButton />
         </div>
-      </Card>
+      }
 
       <Modal
         isOpen={addEtaTime.visible}
@@ -282,18 +306,8 @@ function MyPortfolio() {
         onClose={() => {
           restValue()
         }}
-        title={'AddTimeSheet'}
+        title={translate('auth.addTimeSheet')!}
       >
-        {/* <div>
-          <DropDown
-            heading={'Task'}
-            selected={assignedTaskSelect.value}
-            placeHolder={'please select a task priority...'}
-            data={assignedTaskList}
-            onChange={assignedTaskSelect.onChange}
-          />
-        </div> */}
-
         {<AutoSearchInput
           heading={'Task'}
           placeholder={'please select a task...'}
@@ -303,12 +317,8 @@ function MyPortfolio() {
             setSelectedTask(item)
 
           }}
-
-
         />
         }
-
-
         <div>
           <Input
             heading={'description'}
@@ -322,7 +332,7 @@ function MyPortfolio() {
               id="eta-picker"
               placeholder={'Start Time'}
               type="both"
-              value={startTimeEta}
+              initialValue={startTimeEta}
               onChange={handleStartTimeEtaChange}
             />
           </div>
@@ -330,7 +340,7 @@ function MyPortfolio() {
             <DateTimePicker
               id="eta-picker"
               type="both"
-              value={endTimeEta}
+              initialValue={endTimeEta}
               placeholder={'End Time'}
               onChange={handleEndTimeEtaChange}
             />
@@ -339,12 +349,12 @@ function MyPortfolio() {
         <div className='text-right'>
           <Button
             color={"secondary"}
-            text={"cancle"}
+            text={translate('common.cancel')}
             onClick={() => restValue()}
             className='text-center'
           />
           <Button
-            text={"submit"}
+            text={translate('common.submit')}
             onClick={() => {
               addEmployeeTimeSheet()
             }}
@@ -360,23 +370,21 @@ function MyPortfolio() {
         onClose={() => {
           editEtaTime.hide();
           editRestValue()
-
-
         }}
-        title={'editTimeSheet'}
+        title={translate('auth.editTimeSheet')!}
       >
         <div>
           <DropDown
-            heading={'AssignedTask'}
+            heading={translate('auth.assignedTask')}
             selected={editAssignedTaskSelect.value}
-            placeHolder={'please select a task priority...'}
+            placeHolder={editAssignedTaskSelect.value.text}
             data={assignedTaskList}
             onChange={editAssignedTaskSelect.onChange}
           />
         </div>
         <div>
           <Input
-            heading={'description'}
+            heading={translate('auth.description')}
             placeHolder={'description'}
             value={editDescriptions.value}
             onChange={editDescriptions.onChange} />
@@ -384,18 +392,18 @@ function MyPortfolio() {
         <div className="row">
           <div className="col-6">
             <DateTimePicker
-              id="eta-picker"
+
               placeholder={'Start Time'}
               type="both"
-              value={editStartTimeEta}
+              initialValue={editStartTimeEta}
               onChange={handleEditStartTimeEtaChange}
             />
           </div>
           <div className="col-6">
             <DateTimePicker
-              id="eta-picker"
+
               type="both"
-              value={editEndTimeEta}
+              initialValue={editEndTimeEta}
               placeholder={'End Time'}
               onChange={handleEditEndTimeEtaChange}
             />
@@ -404,12 +412,12 @@ function MyPortfolio() {
         <div className='text-right'>
           <Button
             color={"secondary"}
-            text={"cancle"}
+            text={translate("common.cancel")}
             onClick={() => editRestValue()}
             className='text-center'
           />
           <Button
-            text={"submit"}
+            text={translate('common.submit')}
             onClick={() => {
               addEmployeeTimeSheet()
             }}

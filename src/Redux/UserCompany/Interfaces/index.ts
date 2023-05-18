@@ -34,7 +34,7 @@ export interface UserCompanyStateProp {
     selectedCompany: any,
     employeesl:any,
     employeeAddTime:any,
-    employeeTimelineList:any,
+    employeeTimeline:any,
     selectedEmployee:any,
     employeeTimelineCurrentPages:any,
     employeeTimelineNumOfPages:any,
