@@ -82,8 +82,6 @@ function AddEvent() {
         };
 
         const validation = validate(externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);
-console.log("start",startTime,"end",endTime)
-        console.log("validation",validation)
         if (ifObjectExist(validation)) {
             dispatch(
                 addEvent({
