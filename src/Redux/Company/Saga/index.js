@@ -2,6 +2,8 @@ import { takeLatest, put, call } from 'redux-saga/effects';
 import {
   addBroadCastMessagesApi,
   getBroadCastMessagesApi,
+  getEventsApi,
+  addEventApi
 
 } from '@Services';
 import {
@@ -11,7 +13,17 @@ import {
   addBroadCastMessagesFailure,
   getBroadCastMessagesSuccess,
   getBroadCastMessagesFailure,
+  GET_EVENTS,
+  getEventsSuccess,
+  getEventsFailure,
+  ADD_EVENT,
+ addEventSuccess,
+ addEventFailure
+
 } from '@Redux';
+
+// import * as Action from '../Store'
+// import * as Services from '@Services'
 
 function* addBroadCastMessagesSaga(action) {
   try {
@@ -72,6 +84,7 @@ function* getBroadCastMessagesSaga(action) {
 function* CompanySaga() {
   yield takeLatest(ADD_BROADCAST_MESSAGES, addBroadCastMessagesSaga)
   yield takeLatest(GET_BROADCAST_MESSAGES, getBroadCastMessagesSaga)
+  
 
 }
 export default CompanySaga;

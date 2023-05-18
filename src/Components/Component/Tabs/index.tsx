@@ -4,8 +4,8 @@ import type { TabsProps, TabItem } from "./interfaces";
 import { useWindowDimensions } from '@Hooks'
 import { Card } from '@Components'
 
-export function Tabs({ tabs, selected, onChange }: TabsProps) {
-  const { height } = useWindowDimensions()
+export function Tabs({ tabs, selected, onChange,height }: TabsProps) {
+  //const { height } = useWindowDimensions()
 
   const changeTab = (item: TabItem) => {
     if (onChange) {
@@ -15,6 +15,8 @@ export function Tabs({ tabs, selected, onChange }: TabsProps) {
 
   const getSelectedTabIndex = () =>
     tabs.findIndex((item) => item.id === selected?.id);
+
+
 
 
   return (
@@ -33,7 +35,7 @@ export function Tabs({ tabs, selected, onChange }: TabsProps) {
             left: `calc((100% / ${tabs.length}) * ${getSelectedTabIndex()})`,
             height: "2px",
             width: `calc(100% / ${tabs.length})`,
-            background: "#BFEDF0",
+            //background: "#BFEDF0",
             transition: "all ease 0.2s",
           }}
         />

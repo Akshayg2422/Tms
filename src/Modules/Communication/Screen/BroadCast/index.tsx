@@ -23,7 +23,7 @@ function Broadcast() {
 
   function getBroadCastMessage(page_number: number) {
 
-    const params = { q: "", page_number };
+    const params = { page_number };
 
     dispatch(
       getBroadCastMessages({

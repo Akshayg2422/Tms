@@ -149,5 +149,6 @@ export const icons = {
   broadCast: require('./BroadcastMessage/icon.png'),
   downArrowBlack: require('./DownArrowBlack/icon.png'),
   protfolio: require('./Protfolio/icon.png'),
-  myTimeSheet: require('./MyTimeSheet/icons.png')
+  myTimeSheet: require('./MyTimeSheet/icons.png'),
+  videoConference: require('./VideoConference/icon.png')
 };

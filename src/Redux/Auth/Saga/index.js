@@ -247,7 +247,7 @@ function* pushNotificationSaga(action) {
     console.log("responseeeeeesagaa==>", response)
     if (response.success) {
 
-      yield put(addPushNotificationSuccess(...response));
+      yield put(addPushNotificationSuccess({...response}));
       yield call(action.payload.onSuccess(response));
     } else {
 

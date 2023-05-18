@@ -3,7 +3,7 @@ import { Logo } from "@Components";
 import { ROUTES } from "@Routes";
 import { useNavigation } from "@Hooks";
 import { useSelector, useDispatch } from 'react-redux'
-import { getDashboard } from '@Redux'
+
 
 function Splash() {
 
@@ -12,11 +12,12 @@ function Splash() {
   const dispatch = useDispatch()
 
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
-
+  
 
   useEffect(() => {
     setTimeout(() => {
       if (loginDetails?.isLoggedIn) {
+
         goTo(ROUTES["task-module"].tasks, true)
       }
       else {

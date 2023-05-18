@@ -72,7 +72,6 @@ export function stringToUpperCase(string: any) {
 
 export const getDeviceInfo = () => {
   const userAgent = navigator.userAgent;
-  console.log('navigator', navigator);
 
   const platform = navigator.platform;
   const regex = /\(([^)]+)\)/;

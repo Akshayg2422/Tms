@@ -32,7 +32,7 @@ function MyPortfolio() {
   const [assignedTaskDetails, setAssignedTaskDetails] = useState([])
   const [selectedTask, setSelectedTask] = useState<any>('')
   const editDescriptions = useInput('')
-  let currentDate = getServerTimeFromMoment(getMomentObjFromServer(new Date()))
+  let currentDate =getDisplayDateFromMoment(getMomentObjFromServer(new Date())) 
 
   const { employeeTimeline, employeeTimelineCurrentPages } = useSelector((state: any) => state.UserCompanyReducer);
   const [employeeTimelineDisplayData, setEmployeeTimelineDisplayData] = useState({ keys: [], data: {} })
@@ -40,8 +40,6 @@ function MyPortfolio() {
     { id: '0', name: "Edit", icon: icons.edit },
 
   ]
-
-  console.log(employeeTimelineCurrentPages);
 
 
   useEffect(() => {
@@ -190,6 +188,7 @@ function MyPortfolio() {
     }
 
     const validation = validate(ADD_TIME_SHEET_DETAILS, params);
+    console.log("validation",validation)
 
     if (ifObjectExist(validation)) {
       dispatch(

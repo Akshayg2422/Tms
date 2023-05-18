@@ -96,3 +96,23 @@ export const getAssignedTaskApi = (payload) => post(URL.GET_ASSIGNED_TASK, paylo
 /* GET TICKET DETAILS */
 
 export const getTicketDetailsApi = (payload) => post(URL.URL_FETCH_TICKET_DETAILS, payload, {})
+
+/* Events */
+
+
+export const getEventsApi = (payload) => post(URL.URL_GET_EVENTS, payload, {})
+export const addEventApi = (payload) => post(URL.URL_ADD_EVENTS, payload, {})
+
+/**
+ * POST VIDEO CONFERENCE
+ */
+
+export const postVideoConferenceApi = (payload) => post(URL.POSE_VIDEO_CONFERENCE, payload, {})
+
+/* GET VIDEO CONFERENCE LIST */
+
+export const getVideoConferenceListApi = (payload) => post(URL.GET_VIDEO_CONFERENCE_LIST, payload, {})
+
+/* GET TOKEN BY USER */
+
+export const getTokenByUserApi = (payload) => post(URL.GET_TOKEN_BY_USER, payload, {})

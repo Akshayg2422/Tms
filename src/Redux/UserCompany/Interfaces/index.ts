@@ -40,4 +40,9 @@ export interface UserCompanyStateProp {
     employeeTimelineNumOfPages:any,
     employeeslCurrentPages:any,
     employeeslNumOfPages:any,
+    events:any,
+    eventsCurrentPages:number
+    videoConference:any,
+    scheduledListData:any,
+    userToken:any
 }

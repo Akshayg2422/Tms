@@ -42,8 +42,6 @@ function TaskItemMenu() {
     const dispatch = useDispatch()
     const { selectedTask } = useSelector((state: any) => state.TaskReducer);
 
-
-
     const tagUserModal = useModal(false);
     const reassignUserModal = useModal(false);
     const taskCloseModal = useModal(false);
@@ -75,8 +73,8 @@ function TaskItemMenu() {
                 } catch (e) {
                 }
             },
-            onError: (erroe) => () => {
-                console.log(JSON.stringify(erroe));
+            onError: (error) => () => {
+                console.log(JSON.stringify(error));
             }
         }))
     }
