@@ -58,7 +58,8 @@ function MyFeeds() {
     dispatch(
       getBroadCastMessages({
         params,
-        onSuccess: () => () => {
+        onSuccess: (response) => () => {
+          console.log("response---->", response)
         },
         onError: () => () => {
         },
@@ -142,7 +143,7 @@ function MyFeeds() {
       }),
       ...(internalCheck && { for_internal_company: true }),
       ...(externalCheck && { for_external_company: true }),
-     broadcast_attachments: [{ attachments: attach }],
+      broadcast_attachments: [{ attachments: attach }],
     };
 
 
@@ -156,9 +157,11 @@ function MyFeeds() {
           onSuccess: (response: any) => () => {
             if (response.success) {
               showToast(response.message, 'success')
+              editFeedModal.hide()
             }
           },
           onError: (error) => () => {
+            editFeedModal.hide()
             showToast(error.error_message)
           },
         })
@@ -221,8 +224,18 @@ function MyFeeds() {
                               setInternalCheck(for_internal_company)
                               setExternalCheck(for_external_company)
                               setPhoto(attachments)
-                              setSelectedCompanies(applicable_branches)
-                            
+
+
+
+                              const updatedData = applicable_branches.map(each => {
+                                return {
+                                  key: each.id,
+                                  name: each.register_name,
+                                  value: each.register_name
+                                }
+                              })
+                              setSelectedCompanies(updatedData)
+
 
                             } else if (element.id === MY_FEED_MENU[1].id) {
 
@@ -268,7 +281,7 @@ function MyFeeds() {
                 disabled={isExternalDisable}
                 defaultChecked={externalCheck}
                 text={'External'}
-                onCheckChange={ setExternalCheck}
+                onCheckChange={setExternalCheck}
               />
             </div>
             <Checkbox
@@ -283,11 +296,14 @@ function MyFeeds() {
             <MultiSelectDropDown
               heading={translate("common.company")!}
               options={modifiedCompanyDropDownData!}
+              defaultValue={selectedCompanies}
               displayValue={"value"}
               onSelect={(item) => {
+                console.log(JSON.stringify(item));
                 setSelectedCompanies(item);
               }}
               onRemove={(item) => {
+                console.log(JSON.stringify(item));
                 setSelectedCompanies(item);
               }}
             />
