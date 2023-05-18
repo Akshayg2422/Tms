@@ -419,7 +419,7 @@ function* getEventsSaga(action) {
   try {
     const response = yield call(Api.getEventsApi, action.payload.params);
     if (response.success) {
-      yield put(Action.getEventsSuccess({ response }));
+      yield put(Action.getEventsSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(Action.getEventsFailure(response));

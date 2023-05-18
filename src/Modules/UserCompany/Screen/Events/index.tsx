@@ -1,104 +1,94 @@
 import React, { useEffect } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image } from "@Components";
+import { Button, Card, NoDataFound, Spinner, Image } from "@Components";
 import { useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
-import { MyFeedItem } from "@Modules";
-import { getBroadCastMessages, getEvents } from "@Redux";
+import { EventItem } from "@Modules";
+import { getEvents } from "@Redux";
 import { INITIAL_PAGE } from '@Utils'
 
 function Events() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
-  const { broadCastDetails, broadCastCurrentPage } = useSelector(
-    (state: any) => state.CommunicationReducer
+  const { events, eventsCurrentPages } = useSelector(
+    (state: any) => state.UserCompanyReducer
   );
 
 
 
+
   useEffect(() => {
-    getBroadCastMessage(INITIAL_PAGE)
+    getEventsApiHandler(INITIAL_PAGE)
   }, []);
 
-  function getBroadCastMessage(page_number: number) {
 
-    const params = { q: "", page_number };
-
+  const getEventsApiHandler = (page_number: number) => {
+    const params = { page_number }
     dispatch(
-      getBroadCastMessages({
+      getEvents({
         params,
-        onSuccess: () => () => {
+        onSuccess: (response) => () => {
         },
-        onError: () => () => {
-        },
+        onError: () => () => { },
       })
-    );
+    )
   }
 
-  const getEventsApiHandler = () => {
-    const params = {}
-    dispatch(
-        getEvents({
-            params,
-            onSuccess: (response) => () => {
-                console.log("response", response)
-            },
-            onError: () => () => { },
-        })
-    )
-}
-
-
-  function proceedCreateBroadcast() {
+  function proceedCreateEvent() {
     goTo(ROUTES['user-company-module']['add-event'])
   }
 
+  console.log("eventsCurrentPages", eventsCurrentPages)
+
   return (
 
-  <>
-   {broadCastDetails && broadCastDetails.length > 0 ?
-       <div className="col-9 text-right my-1">
-         <Button
-           text={'CREATE EVENT'}
-           className="text-white"
-           size={"sm"}
-           onClick={proceedCreateBroadcast}
-         />
-       </div> : null}
-  {broadCastDetails && broadCastDetails.length > 0 ?
-    <InfiniteScroll
-      dataLength={broadCastDetails.length}
-      hasMore={broadCastCurrentPage !== -1}
-      loader={<h4>
-        <Spinner />
-      </h4>}
-      next={() => {
-        if (broadCastCurrentPage !== -1) {
-          getBroadCastMessage(broadCastCurrentPage)
-        }
+    <>
+      {events && events.length > 0 ?
+        <div className="col-9 text-right my-1">
+          <Button
+            text={'CREATE EVENT'}
+            className="text-white"
+            size={"sm"}
+            onClick={proceedCreateEvent}
+          />
+        </div> : null}
+      {events && events.length > 0 ?
+        <InfiniteScroll
+          dataLength={events.length}
+          hasMore={eventsCurrentPages !== -1}
+          loader={<h4>
+            <Spinner />
+          </h4>}
+          next={() => {
+            if (eventsCurrentPages !== -1) {
+              getEvents(eventsCurrentPages)
+            }
+          }
+          }>
+
+          <div className={''} >
+            {
+              events?.map((item: any, index: number) => {
+                return (
+                  <div key={item.id}>
+                    <Card className={'shadow-none border m-3 col-9 mb--2'}>
+                      <EventItem key={item.id} item={item} />
+                    </Card>
+                  </div>
+                );
+              })}
+          </div>
+
+        </InfiniteScroll>
+
+        : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
+          <NoDataFound buttonText={'CREATE EVENT'} onClick={proceedCreateEvent} isButton />
+        </div>
       }
-      }>
-
-      <div className={''} >
-        {
-          broadCastDetails?.map((company: any, index: number) => {
-            return (
-              <div key={company.id}>
-                <Card className={'shadow-none border m-3 col-9 mb--2'}><MyFeedItem key={company.id} item={company} /></Card>
-              </div>
-            );
-          })}
-      </div>
-
-    </InfiniteScroll>
-    : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
-      <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />
-    </div>
-  }
-</>
+    </>
 
   )
 }

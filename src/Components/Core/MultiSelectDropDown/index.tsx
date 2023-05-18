@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MultiSelectProps } from './interfaces'
 import { Multiselect } from 'multiselect-react-dropdown';
 import { FormGroup } from 'reactstrap';
@@ -10,18 +10,17 @@ const MultiSelectDropDown = ({
     onRemove,
     selectedValues,
     displayValue,
-    singleSelect,
-    disable,
-    showArrow,
-    avoidHighlightFirstOption,
-    showCheckbox,
-    placeholder,
-    style,
     heading,
+    defaultValue,
     id,
 }: MultiSelectProps) => {
 
-    const [selectedOptions, setSelectedOptions] = useState([])
+    const [selectedOptions, setSelectedOptions] = useState(defaultValue)
+
+
+    useEffect(() => {
+        setSelectedOptions(defaultValue)
+    }, [defaultValue])
 
     const handleSelect = (selectedOptions: any) => {
         setSelectedOptions(selectedOptions)
@@ -59,15 +58,15 @@ const MultiSelectDropDown = ({
     return (
         <FormGroup>
             <InputHeading heading={heading} id={id} />
-        <Multiselect
-            style={styles}
-            options={options}
-            selectedValues={selectedOptions}
-            onSelect={handleSelect}
-            onRemove={handleRemove}
-            displayValue={displayValue}
-            avoidHighlightFirstOption={true}
-        />
+            <Multiselect
+                style={styles}
+                options={options}
+                selectedValues={selectedOptions}
+                onSelect={handleSelect}
+                onRemove={handleRemove}
+                displayValue={displayValue}
+                avoidHighlightFirstOption={true}
+            />
         </FormGroup>
     )
 }

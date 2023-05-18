@@ -1,5 +1,6 @@
-import { Back, Button, Card } from '@Components'
-import { useNavigation } from '@Hooks'
+import { icons } from '@Assets'
+import { Back, Button, Card, Image } from '@Components'
+import { useNavigation, useWindowDimensions } from '@Hooks'
 import { getTokenByUser, getVideoConferenceList } from '@Redux'
 import { ROUTES } from '@Routes'
 import classnames from 'classnames'
@@ -12,7 +13,7 @@ import { Nav, NavItem, NavLink } from 'reactstrap'
 const LIST_ITEMS = [
     { id: 1, name: 'SESSIONS', },
     // { id: 2, name: 'BATCH INFO', },
-    { id: 2, name: 'EMPLOYS', },
+    { id: 2, name: 'EMPLOYEES', },
     // { id: 1, text: 'MEETING', }
 ]
 
@@ -23,6 +24,7 @@ function VirtualConference() {
 
     const { scheduledListData, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { company_branch, user_details, company } = dashboardDetails || ''
+    const { height } = useWindowDimensions()
 
     useEffect(() => {
         getScheduledMeetingList()
@@ -41,7 +43,7 @@ function VirtualConference() {
         }))
     }
 
-    console.log("user_details",user_details)
+    console.log("user_details", user_details)
 
     const getUserToken = () => {
         const params = {
@@ -64,15 +66,20 @@ function VirtualConference() {
 
     const { goTo } = useNavigation()
     return (
-        <div className='container py-4'>
+        <div
+            style={{
+                height: height
+            }}
+            className='container py-4'>
             <div className='row ml-1 mt--2'>
                 <Back />
                 <h3 className=' ml-2'>Session</h3>
             </div>
             <div>
-                <Card className='h-100vh'>
+                <Card className='100vh'>
                     <div className='text-right'>
                         <Button
+                            className={'text-white'}
                             size='sm'
                             text={"Create Meeting"}
                             onClick={() => {
@@ -83,13 +90,13 @@ function VirtualConference() {
                     <div className='col-sm-4'>
                         {scheduledListData && scheduledListData.length > 0 && scheduledListData.map((el: any) => {
                             return (
-                                <Card className='col' style={{ backgroundColor: "#d9d9d9" }}>
+                                <Card className='col' style={{ backgroundColor: "#ffff" }}>
                                     <div className=''>
-                                        <i className="bi bi-camera-video-fill text-black fa-lg align-middle" style={{ fontSize: '50px' }}></i>
+                                        <Image src={icons.videoConference} width={50} height={50} />
                                         <span className='text-black h4 ml-3'>{el.room_name}</span>
                                     </div>
                                     <div>
-                                        <span className='text-black'>{"Date :"}</span>
+                                        <span className='text-black text-uppercase font-weight-600'>{"Date :"}</span>
                                         <span className='text-black'> {moment(el.start_time).format('MMMM Do YYYY')}</span>
                                     </div>
                                     <div>
@@ -101,6 +108,7 @@ function VirtualConference() {
                                         <span className='text-black'> {moment(el.end_time).format('h:mm a')}</span>
                                     </div>
                                     <Button
+                                        className={'text-white'}
                                         text={"Join"}
                                         onClick={() => {
                                             getUserToken()

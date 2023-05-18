@@ -143,6 +143,7 @@ function MyPortfolio() {
     }
 console.log(params,"ppppppppp")
     const validation = validate(ADD_TIME_SHEET_DETAILS, params);
+    console.log("validation",validation)
 
     if (ifObjectExist(validation)) {
       dispatch(

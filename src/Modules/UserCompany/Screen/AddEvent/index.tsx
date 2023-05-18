@@ -10,20 +10,19 @@ import {
     DateTimePicker
 } from "@Components";
 import { translate } from "@I18n";
-import { addBroadCastMessages, setIsSync, getAssociatedCompanyBranch } from "@Redux";
+import { getAssociatedCompanyBranch, addEvent } from "@Redux";
 import {
-    CREATE_BROAD_CAST_EXTERNAL,
-    CREATE_BROAD_CAST_INTERNAL,
     getValidateError,
     ifObjectExist,
-    type,
     validate,
     getArrayFromArrayOfObject,
-    getDisplayTimeDateMonthYearTime,
-    getMomentObjFromServer
+    getMomentObjFromServer,
+    getServerTimeFromMoment,
+    ADD_EVENT_EXTERNAL_RULES,
+    ADD_EVENT_INTERNAL_RULES
 } from "@Utils";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useInput, useNavigation } from "@Hooks";
 
 
@@ -31,8 +30,6 @@ function AddEvent() {
 
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
-
-
     const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
     const [photo, setPhoto] = useState<any>([]);
     const [selectedCompanies, setSelectedCompanies] = useState<any>([]);
@@ -43,17 +40,10 @@ function AddEvent() {
     const title = useInput("");
     const description = useInput("");
     const place = useInput("")
-
     const [internalCheck, setInternalCheck] = useState(true)
     const [externalCheck, setExternalCheck] = useState(false)
     const [isExternalDisable, setExternalDisable] = useState(false)
 
-    // const startDate = new Date(startTime)
-    // const startTimet = startDate.getHours()
-
-    
-
-console.log("startTime",startTime)
 
 
     const handleStartTimeEtaChange = (value: any) => {
@@ -73,30 +63,30 @@ console.log("startTime",startTime)
     };
 
 
-    console.log("st", startTime, "et", endTime)
 
 
-    const submitTicketHandler = () => {
+    const submitAddEventHandler = () => {
 
         const params = {
             title: title?.value,
+            place: place?.value,
+            start_time: startTime,
+            end_time: endTime,
             description: description?.value,
             ...(selectedCompanies.length > 0 && {
                 applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
             }),
             ...(internalCheck && { for_internal_company: true }),
             ...(externalCheck && { for_external_company: true }),
-            broadcast_attachments: [{ attachments: attach }],
+            event_attachments: [{ attachments: attach }],
         };
 
-
-        console.log(JSON.stringify(params));
-
-        const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
-
+        const validation = validate(externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);
+console.log("start",startTime,"end",endTime)
+        console.log("validation",validation)
         if (ifObjectExist(validation)) {
             dispatch(
-                addBroadCastMessages({
+                addEvent({
                     params,
                     onSuccess: (response: any) => () => {
                         if (response.success) {
@@ -182,15 +172,15 @@ console.log("startTime",startTime)
                         id="time-picker"
                         placeholder={'Start Time'}
                         type="both"
-                        value={startTime}
+                        initialValue={startTime}
                         onChange={handleStartTimeEtaChange}
                     />
 
-                     <DateTimePicker
+                    <DateTimePicker
                         id="time-picker"
                         placeholder={'end Time'}
-                        type={'date'}
-                        value={endTime}
+                        type={'both'}
+                        initialValue={endTime}
                         onChange={handleEndTimeEtaChange}
                     />
 
@@ -227,7 +217,9 @@ console.log("startTime",startTime)
                             }}
                         />
                     )}
+
                 </div>
+
 
                 <div className="col">
                     <label className={`form-control-label`}>
@@ -258,7 +250,7 @@ console.log("startTime",startTime)
                         <Button
                             block
                             text={translate("common.submit")}
-                            onClick={submitTicketHandler}
+                            onClick={submitAddEventHandler}
                         />
                     </div>
                 </div>

@@ -15,7 +15,6 @@ import {
 import {
   GENDER_LIST,
   validate,
-  BUSINESS_FORM_RULES,
   USER_FORM_RULES,
   getValidateError,
   ifObjectExist,
@@ -58,6 +57,13 @@ function CreateCompany({ }: CreateCompanyProps) {
       ...(email.value && { email: email.value }),
       gender: gender.value?.id,
       designation: "Management",
+      registered_name: name.value,
+      city: city.value,
+      communication_address: address.value,
+      pincode: pinCode.value,
+      mobile_number1: contactNumber.value,
+      mobile_number2: companyContactNumber.value,
+      attachment_logo: PhotoAttach[0],
     });
     if (ifObjectExist(validation)) {
       dispatch(
@@ -70,7 +76,7 @@ function CreateCompany({ }: CreateCompanyProps) {
             }
           },
           onError: (error) => {
-            showToast(error.error_message,"info");
+            showToast(error.error_message, "info");
           },
         })
       );
@@ -90,27 +96,23 @@ function CreateCompany({ }: CreateCompanyProps) {
       attachment_logo: PhotoAttach[0],
     };
 
-    const validation = validate(BUSINESS_FORM_RULES, params);
-    console.log("++++", ifObjectExist(validation))
-    if (ifObjectExist(validation)) {
-      dispatch(
-        registerCompany({
-          params,
-          onSuccess: (response: any) => () => {
-            if (response.success) {
-              showToast(response.message, "success");
-              goBack();
-            }
-          },
-          onError: (error: any) => () => {
-            showToast(error.message, "error");
-          },
-        })
-      );
-    } else {
-      showToast(getValidateError(validation));
-    }
-  };
+
+    dispatch(
+      registerCompany({
+        params,
+        onSuccess: (response: any) => () => {
+          if (response.success) {
+            showToast(response.message, "success");
+            goBack();
+          }
+        },
+        onError: (error: any) => () => {
+          showToast(error.message, "error");
+        },
+      })
+    );
+  }
+
 
   return (
     <Card className="m-3">

@@ -97,7 +97,7 @@ const VideoConference = () => {
     const handleReadyToClose = () => {
         /* eslint-disable-next-line no-alert */
         alert('Ready to close...');
-        goBack()
+        goBack(-2)
         console.log()
     };
 
