@@ -31,7 +31,7 @@ function Tasks() {
   }, [selectedTask])
 
 
-  console.log("dashboardDetails-------->",dashboardDetails)
+  console.log("dashboardDetails-------->", dashboardDetails)
 
   function getDashboardDetails() {
     const params = {}
@@ -133,7 +133,7 @@ function Tasks() {
 
         <div className="col-auto  ">
           <Button
-            className="mb--2"
+            className="mb-3"
             size={'sm'}
             text={translate("common.createTask")}
             onClick={() => {
@@ -146,12 +146,11 @@ function Tasks() {
         </div>
       </div>
 
-      <HomeContainer type={'card'} className="">
+      <HomeContainer type={'card'} >
         <TaskFilter onParams={(filteredParams) => {
           setParams({ ...params, ...filteredParams })
         }} />
         <div style={{
-
           marginLeft: "-23px",
           marginRight: "-23px"
         }}>
