@@ -66,6 +66,10 @@ import {
   ADD_EMPLOYEE_TIMELINE_FAILURE,
 
   RESTORE_USER_COMPANY,
+
+  GET_ASSOCIATED_COMPANY,
+  GET_ASSOCIATED_COMPANY_SUCCESS,
+  GET_ASSOCIATED_COMPANY_FAILURE
 } from '../ActionTypes';
 
 
@@ -118,7 +122,8 @@ const initialState: UserCompanyStateProp = {
   selectedEmployee: undefined,
   videoConference: undefined,
   scheduledListData: undefined,
-  userToken: undefined
+  userToken: undefined,
+  associatedCompany: undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -630,18 +635,32 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       state = {
         ...state,
-        events: action?.payload?.params?.page_number === 1 ? []:state.events
+        events: action?.payload?.params?.page_number === 1 ? [] : state.events
       };
       break;
     case ActionTypes.GET_EVENTS_SUCCESS:
       state = {
         ...state,
         events: [...state.events, ...action?.payload?.details?.data],
-        eventsCurrentPages:action?.payload?.details?.next_page
+        eventsCurrentPages: action?.payload?.details?.next_page
       };
       break;
     case ActionTypes.GET_EVENTS_FAILURE:
       state = { ...state, events: undefined };
+      break;
+
+    /**
+     * GET ASSOCIATED COMPANIES
+     */
+
+    case ActionTypes.GET_ASSOCIATED_COMPANY:
+      state = { ...state, associatedCompany: undefined };
+      break;
+    case ActionTypes.GET_ASSOCIATED_COMPANY_SUCCESS:
+      state = { ...state, associatedCompany: action.payload.details };
+      break;
+    case ActionTypes.GET_ASSOCIATED_COMPANY_FAILURE:
+      state = { ...state, associatedCompany: action.payload };
       break;
 
     default:

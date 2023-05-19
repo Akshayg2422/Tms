@@ -31,7 +31,7 @@ export const addDepartmentFailure = (error) => {
 };
 
 export const addDesignation = (params) => {
-  console.log("designationparams--->",params)
+  console.log("designationparams--->", params)
   return {
     type: ActionTypes.ADD_DESIGNATION,
     payload: params,
@@ -522,7 +522,7 @@ export const setSelectedCompany = (response: any) => {
   }
 }
 
-export const setSelectedEmployee= (response: any) => {
+export const setSelectedEmployee = (response: any) => {
   return {
     type: ActionTypes.SET_SELECTED_EMPLOYEE,
     payload: response,
@@ -578,72 +578,95 @@ export const addEventFailure = (error: any) => {
  */
 
 
-  export const postVideoConference = (params: any) => {
-    return {
-      type: ActionTypes.POST_VIDEO_CONFERENCE,
-      payload: params,
-    };
+export const postVideoConference = (params: any) => {
+  return {
+    type: ActionTypes.POST_VIDEO_CONFERENCE,
+    payload: params,
   };
-  export const postVideoConferenceSuccess = (response: any) => {
-    return {
-      type: ActionTypes.POST_VIDEO_CONFERENCE_SUCCESS,
-      payload: response,
-    };
+};
+export const postVideoConferenceSuccess = (response: any) => {
+  return {
+    type: ActionTypes.POST_VIDEO_CONFERENCE_SUCCESS,
+    payload: response,
   };
-  export const postVideoConferenceFailure = (error: any) => {
-    return {
-      type: ActionTypes.POST_VIDEO_CONFERENCE_FAILURE,
-      payload: error,
-    };
+};
+export const postVideoConferenceFailure = (error: any) => {
+  return {
+    type: ActionTypes.POST_VIDEO_CONFERENCE_FAILURE,
+    payload: error,
   };
+};
 
 
-  /**
- * get schedule meeting list
+/**
+* get schedule meeting list
+*/
+
+
+export const getVideoConferenceList = (params: any) => {
+  return {
+    type: ActionTypes.GET_VIDEO_CONFERENCE_LIST,
+    payload: params,
+  };
+};
+export const getVideoConferenceListSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_SUCCESS,
+    payload: response,
+  };
+};
+export const getVideoConferenceListFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_FAILURE,
+    payload: error,
+  };
+};
+
+
+/**
+* get token for meeting
+*/
+
+
+export const getTokenByUser = (params: any) => {
+  return {
+    type: ActionTypes.GET_TOKEN_BY_USER,
+    payload: params,
+  };
+};
+export const getTokenByUserSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_TOKEN_BY_USER_SUCCESS,
+    payload: response,
+  };
+};
+export const getTokenByUserFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_TOKEN_BY_USER_FAILURE,
+    payload: error,
+  };
+};
+
+
+/**
+ * GET ASSOCIATED COMPANIES
  */
 
-
-  export const getVideoConferenceList = (params: any) => {
-    return {
-      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST,
-      payload: params,
-    };
+export const getAssociatedCompany = (params: any) => {
+  return {
+    type: ActionTypes.GET_ASSOCIATED_COMPANY,
+    payload: params,
   };
-  export const getVideoConferenceListSuccess = (response: any) => {
-    return {
-      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_SUCCESS,
-      payload: response,
-    };
+};
+export const getAssociatedCompanySuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_ASSOCIATED_COMPANY_SUCCESS,
+    payload: response,
   };
-  export const getVideoConferenceListFailure = (error: any) => {
-    return {
-      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_FAILURE,
-      payload: error,
-    };
+};
+export const getAssociatedCompanyFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_ASSOCIATED_COMPANY_FAILURE,
+    payload: error,
   };
-
-
-    /**
- * get token for meeting
- */
-
-
-    export const getTokenByUser = (params: any) => {
-      return {
-        type: ActionTypes.GET_TOKEN_BY_USER,
-        payload: params,
-      };
-    };
-    export const getTokenByUserSuccess = (response: any) => {
-      return {
-        type: ActionTypes.GET_TOKEN_BY_USER_SUCCESS,
-        payload: response,
-      };
-    };
-    export const getTokenByUserFailure = (error: any) => {
-      return {
-        type: ActionTypes.GET_TOKEN_BY_USER_FAILURE,
-        payload: error,
-      };
-    };
-  
+};

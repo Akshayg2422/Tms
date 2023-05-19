@@ -148,7 +148,8 @@
     "noUserFound":"No User Found",
     "employees":"Employees",
     "addTimeSheet":"AddTimeSheet",
-    "createPost":"Create Post"
+    "createPost":"Create Post",
+    "associatedCompany":"Associate Company"
   },
   "product": {
     "Store": "Store",

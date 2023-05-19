@@ -111,7 +111,7 @@ export const HOME_ROUTES = [
   },
   {
     path: ROUTES['user-company-module'].companies,
-    name: "Companies",
+    name: "Associations",
     icon: icons.company,
     layout: "",
     component: <Companies />

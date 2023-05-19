@@ -44,7 +44,6 @@ function AdminFeeds() {
     {
       id: 1, name: 'delete', icon: icons.deleteCurve,
     },
-
   ]
 
 

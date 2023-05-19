@@ -131,7 +131,8 @@
         "noTaskFound":"பணிகள் எதுவும் இல்லை",
         "noTextFound":"உரை எதுவும் இல்லை",
         "employees":"ஊழியர்கள்",
-        "addTimeSheet":"கூடுதல் நேரத்தாள்"
+        "addTimeSheet":"கூடுதல் நேரத்தாள்",
+        "associatedCompany":"தொடர்புடைய நிறுவனம்"
     },
     "product": {
         "Store": "ஸ்டோர்",

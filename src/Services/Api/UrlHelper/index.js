@@ -33,9 +33,9 @@ export const VALIDATE_USER_BUSINESS = AUTH + 'validateUserBusiness';
 export const BUSINESS_PLACES_DETAILS = AUTH + 'getBusinessPlaceDetails';
 export const REGISTER_COMPANY = AUTH + 'registerCompany';
 export const REGISTER_ADMIN = AUTH + 'registerAdmin';
-export const GET_EMPLOYEES = EMPLOYEE +'getEmployees';
+export const GET_EMPLOYEES = EMPLOYEE + 'getEmployees';
 export const ADD_EMPLOYEE = EMPLOYEE + 'addEmployee';
-export const GET_EMPLOYEESL = EMPLOYEE +'getEmployeesl';
+export const GET_EMPLOYEESL = EMPLOYEE + 'getEmployeesl';
 export const URL_GET_TASKS = TASK + 'getTasks';
 export const FETCH_TASK_USERS = TASK + 'getTaskUsers';
 export const FETCH_TASK_EVENTS = TASK + 'getTaskEvents';
@@ -98,10 +98,10 @@ export const URL_GET_TICKET_EVENT_HISTORY = TICKET + 'getTicketHistory'
 /* GET TASK DETAILS */
 
 export const FETCH_TASK_DETAILS = TASK + 'getTaskDetails';
-export const URL_SUB_TASK_GROUPS = TASK +'getTaskSubGroupl';
+export const URL_SUB_TASK_GROUPS = TASK + 'getTaskSubGroupl';
 
-export const ADD_EMPLOYEE_TIMELINE = TASK +'addEmployeeTimeline';
-export const GET_EMPLOYEE_TIMELINE = TASK +'getEmployeeTimeline';
+export const ADD_EMPLOYEE_TIMELINE = TASK + 'addEmployeeTimeline';
+export const GET_EMPLOYEE_TIMELINE = TASK + 'getEmployeeTimeline';
 
 /* GET TICKET DETAILS */
 
@@ -122,4 +122,8 @@ export const GET_VIDEO_CONFERENCE_LIST = TASK + 'getVideoConferenceList';
 /*GET AUTH TOKEN FOR VIDEO CONFERENCE */
 
 export const GET_TOKEN_BY_USER = TASK + 'getTokenByUser';
+
+/* GET ASSOCIATED COMPANY */
+
+export const FETCH_ASSOCIATED_COMPANY = TASK + ''
 

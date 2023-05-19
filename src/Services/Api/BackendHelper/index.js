@@ -116,3 +116,7 @@ export const getVideoConferenceListApi = (payload) => post(URL.GET_VIDEO_CONFERE
 /* GET TOKEN BY USER */
 
 export const getTokenByUserApi = (payload) => post(URL.GET_TOKEN_BY_USER, payload, {})
+
+/* GET ASSOCIATED COMPANY */
+
+export const getAssociatedCompanyApi = (payload) => post(URL.FETCH_ASSOCIATED_COMPANY, payload, {})

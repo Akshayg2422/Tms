@@ -187,26 +187,29 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         </div>
                     </div>
 
-                    <div className=" ml--2  mt-3">
-                            <ProgressBarEta
-                                start_time={start_time}
-                                end_time={end_time}
-                                eta_time={eta_time}
-                            />
-                    </div>
 
-                    <div className="col text-right mt-3 ml--3">
-                        {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button size={'sm'} text={'Start'}
-                            onClick={() => {
-                                alertModal.show()
-                                setActionTask(START_TASK)
-                            }} />}
-                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button size={'sm'} text={'End'} onClick={() => {
-                            alertModal.show()
-                            setActionTask(END_TASK)
-                        }} />}
-                    </div>
-
+                    {
+                        <div className="col text-right mt-3 ml--3">
+                            {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button size={'sm'} text={'Start'}
+                                onClick={() => {
+                                    alertModal.show()
+                                    setActionTask(START_TASK)
+                                }} />}
+                        </div> ?
+                            <div className="mt-3">
+                                <ProgressBarEta
+                                    start_time={start_time}
+                                    end_time={end_time}
+                                    eta_time={eta_time}
+                                />
+                            </div> :
+                            <div className="col text-right mt-3 ml--3">
+                                {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button size={'sm'} text={'End'} onClick={() => {
+                                    alertModal.show()
+                                    setActionTask(END_TASK)
+                                }} />}
+                            </div>
+                    }
 
                 </Card>
             </Card >

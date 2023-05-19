@@ -24,6 +24,7 @@ const initialState: TaskStateProp = {
   taskDetails: {},
   subTaskGroups: undefined,
   assignedTask:undefined,
+  taskFilterParams:undefined,
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -293,6 +294,13 @@ const TaskReducer = (state = initialState, action: any) => {
       case ActionTypes.GET_ASSIGNED_TASK_FAILURE:
         state = { ...state, assignedTask: undefined }
         break;
+
+        /**
+     * TASK FILTER GROUPS
+     */
+    case ActionTypes.TASK_DEFAULT_PARAMS:
+      state = { ...state, taskFilterParams: action.payload }
+      break;
 
     default:
       state = state;

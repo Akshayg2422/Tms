@@ -44,5 +44,6 @@ export interface UserCompanyStateProp {
     eventsCurrentPages:number
     videoConference:any,
     scheduledListData:any,
-    userToken:any
+    userToken:any,
+    associatedCompany:any,
 }
