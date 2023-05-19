@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAssociatedBranch, getAssociatedCompany, setSelectedCompany } from "@Redux";
-import { Button, Card, Image, CommonTable, NoDataFound, Modal } from "@Components";
-import { useNavigation, useModal, useDynamicHeight } from "@Hooks";
+import { addAssociatedCompany, getAssociatedBranch, getAssociatedCompany, setSelectedCompany } from "@Redux";
+import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown } from "@Components";
+import { useNavigation, useModal, useDynamicHeight, useDropDown } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler } from "@Utils";
@@ -12,6 +12,7 @@ function Companies() {
   const dispatch = useDispatch();
   const { goTo } = useNavigation();
   const associatedCompanyModal = useModal(false);
+  const associatedCompanyDropDown = useDropDown({})
   const dynamicHeight: any = useDynamicHeight()
 
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany } = useSelector(
@@ -34,17 +35,17 @@ function Companies() {
         params,
         onSuccess: () => () => {
         },
-        onError: () => () => { },
+        onError: () => () => {
+
+        },
       })
     );
 
   }
 
 
-  const getAssociatedCompanyApi = (q_many: string = '') => {
-    const params = {
-
-    }
+  const getAssociatedCompanyApi = () => {
+    const params = {}
 
     dispatch(
       getAssociatedCompany({
@@ -53,6 +54,30 @@ function Companies() {
           associatedCompanyModal.hide()
         },
         onError: () => () => { }
+      })
+    )
+  }
+
+  console.log('screeeeeeeeeeeeeennnnnnnnnnn', JSON.stringify(associatedCompany))
+
+  const addAssociatedCompanyApi = () => {
+    const params = {
+      company_id: associatedCompanyDropDown.value.id
+    }
+    console.log('params', params);
+
+
+    console.log(JSON.stringify(associatedCompanyDropDown.value));
+
+
+    dispatch(
+      addAssociatedCompany({
+        params,
+        onSuccess: (response) => () => {
+          getAssociatedCompanyApi()
+        },
+        onError: (error) => () => {
+        }
       })
     )
 
@@ -72,6 +97,13 @@ function Companies() {
     });
   };
 
+  function getAssociatedCompanyDropDownDisplayData(data: any, key: string = 'display_name') {
+    if (data && data.length > 0) {
+      return data.map(each => {
+        return { ...each, text: each[key] }
+      })
+    }
+  }
 
 
   return (
@@ -87,37 +119,44 @@ function Companies() {
             }}
           />
         </div> : null}
-      <Modal fade={false} isOpen={associatedCompanyModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={associatedCompanyModal.hide}>
+
+      <Modal size={"md"} fade={false} isOpen={associatedCompanyModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={associatedCompanyModal.hide}>
+
         {
-          associatedCompany && associatedCompany.length > 0 && associatedCompany.map(() => {
-            return (
-              ''
-            )
-          })
+          <div className="col mt--4">
+            <DropDown
+              heading={'SELECTED COMPANIES :'}
+              data={getAssociatedCompanyDropDownDisplayData(associatedCompany)}
+              onChange={(item) => {
+                associatedCompanyDropDown.onChange(item)
+              }}
+              selected={associatedCompanyDropDown.value}
+            />
+
+            <div className="text-right">
+              <Button
+                className={'text-white'}
+                size={'sm'}
+                text={translate("common.submit")}
+                onClick={() => {
+                  addAssociatedCompanyApi()
+                }} />
+            </div>
+
+            <div className={'text-xs text-muted mb-2'}>Can't find Company?</div>
+
+            <Button
+              className={'text-white'}
+              size={'sm'}
+              text={translate("common.addNew")}
+              onClick={() => {
+                goTo(ROUTES["user-company-module"]["add-company"]);
+              }}
+            />
+          </div>
         }
-        <div className="text-right">
-          <Button
-            className={'text-white'}
-            size={'sm'}
-            text={translate("common.submit")}
-            onClick={() => {
-
-            }} />
-        </div>
-
-        <div className={'text-xs text-black mb-2'}>Can't find Company?</div>
-
-        <Button
-          className={'text-white'}
-          size={'sm'}
-          text={translate("common.addNew")}
-          onClick={() => {
-            goTo(ROUTES["user-company-module"]["add-company"]);
-          }}
-        />
 
       </Modal>
-
 
       <div style={{
 

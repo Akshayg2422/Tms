@@ -4,14 +4,19 @@ import { ButtonProps } from './interfaces';
 import { Image } from '@Components'
 
 function Button({
-  text, color = 'primary', variant = 'default', size = 'md', icon, ...rest
+  text, color = 'primary', variant = 'default', size = 'md', icon, onEnter, ...rest
 }: ButtonProps) {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === 'Enter') {
+      onEnter?.();
+    }
+  }
   return (
     <>
-      {variant === 'default' && <RSButton type={'button'} size={size} color={color} {...rest} >{text}</RSButton>}
+      {variant === 'default' && <RSButton type={'button'} size={size} color={color} onKeyDown={handleKeyDown} {...rest} >{text}</RSButton>}
 
       {(variant === 'icon' || variant === 'icon-with-text') &&
-        <RSButton type={'button'} ize={size} className={'btn-icon'} color={color} {...rest} >
+        <RSButton type={'button'} ize={size} className={'btn-icon'} color={color} onKeyDown={handleKeyDown} {...rest} >
           {
             <span className={`btn-inner--icon ${variant === 'icon-with-text' && 'mr-1'}`}>
               <i className='ni ni-atom' />
@@ -25,7 +30,7 @@ function Button({
       }
 
       {variant === 'icon-rounded' &&
-        <RSButton type={'button'} size={size} className={'btn-icon-only rounded-circle d-flex align-items-center justify-content-center'} color={color} {...rest} >
+        <RSButton type={'button'} size={size} className={'btn-icon-only rounded-circle d-flex align-items-center justify-content-center'} color={color} onKeyDown={handleKeyDown} {...rest} >
           {/* <span className={'btn-inner--icon'}>
             <i className='ni ni-atom' />
           </span> */}

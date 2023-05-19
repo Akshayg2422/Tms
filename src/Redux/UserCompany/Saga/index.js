@@ -476,7 +476,6 @@ function* addEventSaga(action) {
 function* getVideoConferenceListSaga(action) {
   try {
     const response = yield call(Api.getVideoConferenceListApi, action.payload.params);
-    console.log("schedule============>", response)
     if (response.success) {
       yield put(Action.getVideoConferenceListSuccess(response));
       yield call(action.payload.onSuccess(response));
@@ -516,16 +515,38 @@ function* getTokenByUserSaga(action) {
 
 function* getAssociatedCompanySaga(action) {
   try {
-    const response = yield call(Api.getTokenByUserApi, action.payload.params);
+    const response = yield call(Api.getAssociatedCompanyApi, action.payload.params);
+    console.log("registerCompany============>", response)
     if (response.success) {
-      yield put(Action.getTokenByUserSuccess(response));
+      yield put(Action.getAssociatedCompanySuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(Action.getTokenByUserFailure(response.error_message));
+      yield put(Action.getAssociatedCompanyFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(Action.getTokenByUserFailure(error));
+    yield put(Action.getAssociatedCompanyFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+/**
+ * ADD ASSOCIATED COMPANY
+ */
+
+function* addAssociatedCompanySaga(action) {
+  try {
+    const response = yield call(Api.addAssociatedCompanyApi, action.payload.params);
+    console.log("registerCompany============>", response)
+    if (response.success) {
+      yield put(Action.addAssociatedCompanySuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.addAssociatedCompanyFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.addAssociatedCompanyFailure(error));
     yield call(action.payload.onError(error));
   }
 }
@@ -559,6 +580,8 @@ function* UserCompanySaga() {
   yield takeLatest(Action.POST_VIDEO_CONFERENCE, postVideoConferenceSaga);
   yield takeLatest(Action.GET_VIDEO_CONFERENCE_LIST, getVideoConferenceListSaga);
   yield takeLatest(Action.GET_TOKEN_BY_USER, getTokenByUserSaga);
+  yield takeLatest(Action.GET_ASSOCIATED_COMPANY, getAssociatedCompanySaga);
+  yield takeLatest(Action.ADD_ASSOCIATED_COMPANY, addAssociatedCompanySaga);
 
 }
 

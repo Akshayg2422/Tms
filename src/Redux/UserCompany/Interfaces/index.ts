@@ -46,4 +46,5 @@ export interface UserCompanyStateProp {
     scheduledListData:any,
     userToken:any,
     associatedCompany:any,
+    updateAssociatedCompany:any,
 }

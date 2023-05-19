@@ -64,7 +64,7 @@ function AddTask() {
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
-    const selectedTicketPriority = useDropDown("");
+    const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
     let attach = photo.slice(-4, 9)
 
@@ -127,15 +127,15 @@ function AddTask() {
             reference_number: referenceNo?.value,
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             // assigned_to_id: selectedUserId?.id,
-            ...( selectedUserId?.id && { assigned_to_id:selectedUserId?.id}),
+            ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
             eta_time: eta,
             group_id: taskGroup?.value?.id,
-            ...(department?.value?.id && {  department_id:department.value.id }),
-            ...(designation?.value?.id && {designation_id:designation.value.id})
-           
+            ...(department?.value?.id && { department_id: department.value.id }),
+            ...(designation?.value?.id && { designation_id: designation.value.id })
+
         };
 
         const validation = validate(taskType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
@@ -196,7 +196,7 @@ function AddTask() {
             getSubTaskGroups({
                 params,
                 onSuccess: (response: any) => () => {
-                
+
                 },
                 onError: () => () => {
                 },
@@ -266,6 +266,33 @@ function AddTask() {
             <hr className='mt-3'></hr>
 
             <div className="col-md-9 col-lg-5">
+
+                <div className="col-md-9 col-lg-5 ml--1">
+                    <label className={`form-control-label ml--2`}>
+                        {translate("common.addAttachment")}
+                    </label>
+                    <span className="col">
+                        {selectDropzone &&
+                            selectDropzone.map((el, index) => {
+                                return (
+                                    <div className="ml-2">
+                                        <Dropzone
+                                            variant="ICON"
+                                            icon={image}
+                                            size="xl"
+                                            onSelect={(image) => {
+                                                let file = image.toString().replace(/^data:(.*,)?/, "");
+                                                handleImagePicker(index, file);
+                                                { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
+                                                { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
+                                                { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
+                                            }}
+                                        />
+                                    </div>
+                                );
+                            })}
+                    </span>
+                </div>
                 <Input
                     heading={translate("common.title")}
                     value={title.value}
@@ -282,6 +309,14 @@ function AddTask() {
                     value={referenceNo.value}
                     onChange={referenceNo.onChange}
                 />
+
+                <DropDown
+                    heading={translate("common.taskPriority")!}
+                    selected={selectedTicketPriority.value}
+                    placeHolder={'please select a task priority...'}
+                    data={PRIORITY}
+                    onChange={selectedTicketPriority.onChange} />
+
                 <div className="mb-2">
                     <Radio
                         data={type}
@@ -358,12 +393,6 @@ function AddTask() {
                 />
                 }
 
-                <DropDown
-                    heading={translate("common.taskPriority")!}
-                    selected={selectedTicketPriority.value}
-                    placeHolder={'please select a task priority...'}
-                    data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange} />
 
                 <DateTimePicker
                     heading={'ETA'}
@@ -373,35 +402,6 @@ function AddTask() {
                     onChange={handleEtaChange}
                 />
             </div>
-            
-
-            <div className="col-md-9 col-lg-5 mt-3">
-                <label className={`form-control-label`}>
-                    {translate("common.addAttachment")}
-                </label>
-                <div className="row">
-                    {selectDropzone &&
-                        selectDropzone.map((el, index) => {
-                            return (
-                                <div className="ml-2">
-                                    <Dropzone
-                                        variant="ICON"
-                                        icon={image}
-                                        size="xl"
-                                        onSelect={(image) => {
-                                            let file = image.toString().replace(/^data:(.*,)?/, "");
-                                            handleImagePicker(index, file);
-                                            { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
-                                            { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
-                                            { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
-                                        }}
-                                    />
-                                </div>
-                            );
-                        })}
-                </div>
-            </div>
-
 
 
             <div className="col mt-4">

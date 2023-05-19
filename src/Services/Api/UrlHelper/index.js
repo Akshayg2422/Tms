@@ -12,6 +12,15 @@ const AUTHENTICATION = '/authentication/'
 
 export const GET_ASSOCIATED_COMPANIES = COMPANY + 'getAssociatedCompanies';
 export const GET_ASSOCIATED_COMPANIES_L = COMPANY + 'getAssociatedCompaniesl';
+
+/* GET ASSOCIATED COMPANY */
+
+export const FETCH_ASSOCIATED_COMPANY = COMPANY + 'getCompanies'
+
+/* ADD ASSOCIATED COMPANIES */
+
+export const ADDING_ASSOCIATED_COMPANY = COMPANY + 'addAssociatedCompanies'
+
 export const URL_GET_DASHBOARD = AUTH + 'dashboard';
 
 export const RAISE_NEW_TICKET = TICKET + 'raiseNewTicket';
@@ -123,7 +132,4 @@ export const GET_VIDEO_CONFERENCE_LIST = TASK + 'getVideoConferenceList';
 
 export const GET_TOKEN_BY_USER = TASK + 'getTokenByUser';
 
-/* GET ASSOCIATED COMPANY */
-
-export const FETCH_ASSOCIATED_COMPANY = TASK + ''
 

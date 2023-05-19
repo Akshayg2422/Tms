@@ -120,3 +120,7 @@ export const getTokenByUserApi = (payload) => post(URL.GET_TOKEN_BY_USER, payloa
 /* GET ASSOCIATED COMPANY */
 
 export const getAssociatedCompanyApi = (payload) => post(URL.FETCH_ASSOCIATED_COMPANY, payload, {})
+
+/* ADD ASSOCIATED COMPANY */
+
+export const addAssociatedCompanyApi = (payload) => post(URL.ADDING_ASSOCIATED_COMPANY, payload, {})

@@ -653,6 +653,8 @@ export const getTokenByUserFailure = (error: any) => {
  */
 
 export const getAssociatedCompany = (params: any) => {
+  console.log('actionnnnnnnnnnnnnnnn');
+
   return {
     type: ActionTypes.GET_ASSOCIATED_COMPANY,
     payload: params,
@@ -667,6 +669,31 @@ export const getAssociatedCompanySuccess = (response: any) => {
 export const getAssociatedCompanyFailure = (error: any) => {
   return {
     type: ActionTypes.GET_ASSOCIATED_COMPANY_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ * ADD ASSOCIATED COMPANIES
+ */
+
+export const addAssociatedCompany = (params: any) => {
+  console.log('actionnnnnnnnnnnnnnnn------------addAssociatedCompany');
+
+  return {
+    type: ActionTypes.ADD_ASSOCIATED_COMPANY,
+    payload: params,
+  };
+};
+export const addAssociatedCompanySuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_ASSOCIATED_COMPANY_SUCCESS,
+    payload: response,
+  };
+};
+export const addAssociatedCompanyFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_ASSOCIATED_COMPANY_FAILURE,
     payload: error,
   };
 };
