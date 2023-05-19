@@ -112,13 +112,14 @@ function TaskChat({ }: TaskChatProps) {
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
-            className={'overflow-auto overflow-hide'}
+            className={'overflow-auto scroll-hidden'}
         >
             <InfiniteScroll
                 dataLength={taskEvents.length}
                 hasMore={taskEventsCurrentPage !== -1}
                 scrollableTarget="scrollableDiv"
-                style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                className='overflow-auto scroll-hidden'
+                style={{ display: 'flex', flexDirection: 'column-reverse', overflowY: 'auto'}}
                 inverse={true}
                 loader={<h4>
                     <Spinner />

@@ -11,6 +11,7 @@ import { HomeContainer, Tabs, Image } from "@Components";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedTabPosition } from '@Redux'
 import { icons } from "@Assets";
+import { useDynamicHeight } from "@Hooks";
 
 
 function TaskDetails() {
@@ -21,6 +22,9 @@ function TaskDetails() {
         (state: any) => state.TaskReducer
     );
 
+    const dynamicHeight: any = useDynamicHeight()
+
+    console.log("dynamicHeight----->",dynamicHeight)
     console.log("tab", selectedTabPositions)
 
     const TABS = [
@@ -34,6 +38,7 @@ function TaskDetails() {
 
     const ref = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState(0);
+
 
     useLayoutEffect(() => {
         if (ref?.current) {

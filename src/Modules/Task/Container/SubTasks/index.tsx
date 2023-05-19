@@ -37,7 +37,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         }))
     }
     const normalizedTableData = (data: any) => {
-        return data.map((el: any) => {
+        return data?.map((el: any) => {
             return {
                 "Sub task":
                     <div className='row'>

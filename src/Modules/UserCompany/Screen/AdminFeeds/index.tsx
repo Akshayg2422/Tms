@@ -18,6 +18,16 @@ function AdminFeeds() {
     (state: any) => state.CommunicationReducer
   );
 
+  const { dashboardDetails } = useSelector(
+    (state: any) => state.UserCompanyReducer
+  );
+
+
+  const { user_details  } = dashboardDetails
+
+
+  console.log("dashboradDetails---->", dashboardDetails)
+
 
 
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
@@ -54,7 +64,7 @@ function AdminFeeds() {
 
   function getBroadCastMessage(page_number: number) {
     const params = {
-      q: "",
+      id: user_details?.id,
       page_number
     };
     dispatch(
@@ -162,8 +172,8 @@ function AdminFeeds() {
             if (response.success) {
               showToast(response.message, 'success')
               editFeedModal.hide()
-               getBroadCastMessage(INITIAL_PAGE)
-            
+              getBroadCastMessage(INITIAL_PAGE)
+
 
             }
           },
@@ -204,6 +214,8 @@ function AdminFeeds() {
           loader={<h4>
             <Spinner />
           </h4>}
+          className='overflow-auto scroll-hidden'
+          style={{ overflowY: "auto" }}
           next={() => {
             if (broadCastCurrentPage !== -1) {
               getBroadCastMessage(broadCastCurrentPage)

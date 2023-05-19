@@ -55,7 +55,8 @@ function AddEvent() {
     };
 
 
-    let attach = photo.slice(-2, 4)
+    let attach = [photo]
+    let PhotoAttach = photo.slice(-2, 4)
 
     const handleImagePicker = (index: number, file: any) => {
         let newUpdatedPhoto = [...photo, file];
@@ -78,7 +79,7 @@ function AddEvent() {
             }),
             ...(internalCheck && { for_internal_company: true }),
             ...(externalCheck && { for_external_company: true }),
-            event_attachments: [{ attachments: attach }],
+            event_attachments: [{ attachments: PhotoAttach }],
         };
 
         const validation = validate(externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);

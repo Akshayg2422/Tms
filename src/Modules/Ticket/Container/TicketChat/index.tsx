@@ -112,16 +112,18 @@ function TicketChat({ }: TicketChatProps) {
             id="scrollableDiv"
             style={{
                 height: height - 100,
-                overflow: 'auto',
+                overflowY: 'auto',
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
+            className='overflow-auto scroll-hidden'
         >
             <InfiniteScroll
                 dataLength={ticketEvents.length}
                 hasMore={ticketEventsCurrentPage !== -1}
                 scrollableTarget="scrollableDiv"
-                style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                style={{ display: 'flex', flexDirection: 'column-reverse',overflowY: "auto" }}
+                className='overflow-auto scroll-hidden'
                 inverse={true}
                 loader={<h4>
                     <Spinner />

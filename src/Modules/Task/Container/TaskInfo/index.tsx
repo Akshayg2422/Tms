@@ -20,10 +20,13 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const dispatch = useDispatch()
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time } = taskDetails || {};
+    const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time, } = taskDetails || {};
     const [eta, setEta] = useState(eta_time)
+    const editTitle = useInput(title)
+    const editDescription = useInput(description)
     const editEtaModal = useModal(false)
     const editEtaReason = useInput('')
+    const editTaskModal = useModal(false)
     const taskEventModal = useModal(false)
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
@@ -34,11 +37,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const actualFinishTime = new Date();
     console.log('22222222222222222', actualFinishTime);
 
+    console.log("taskDeails----->", taskDetails, "id", id)
 
 
-    // const start_timee = start_time;
-    // const end_timee = end_time;
-    // const eta_timee = eta_time;
 
 
     useEffect(() => {
@@ -54,6 +55,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     console.log('starttimeeeeeeee', start_time);
     console.log('endtimeeeeeeeeeeee', end_time);
 
+
+    function resetValues() {
+        editTitle.set('')
+        editDescription.set('')
+    }
 
 
     const editEtaSubmitApiHandler = () => {
@@ -111,6 +117,30 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         )
     }
 
+    console.log("title", editTitle.value, "description", editDescription.value)
+
+    function editTaskDetailsHandler() {
+        const params = {
+            id,
+            title: editTitle.value,
+            description: editDescription.value,
+            event_type: "TKE"
+        }
+
+        dispatch(
+            addTaskEvent({
+                params,
+                onSuccess: () => () => {
+                    editTaskModal.hide()
+                    resetValues()
+                    getTaskDetailsHandler();
+
+                },
+                onError: () => () => { }
+            })
+        )
+    }
+
     return (
         <div ref={ref} >
             <Card>
@@ -120,9 +150,20 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 <Card style={{ height: height - 200 }}
                     className={'col mb--4 shadow-none p-0 overflow-auto overflow-hide'}>
 
-                    <div className="row justify-content-between mt--3">
+                    <div className="row  d-flex justify-content-between">
+                        <span> {title && <H tag={"h4"} className="mb-3" text={title} />} </span>
+                        <span className="mr-4">
+                            <div className="pointer" onClick={() => {
+                                editTaskModal.show()
+                                editTitle.set(title)
+                                editDescription.set(description)
+                            }}>
+                                <Image src={icons.editEta} height={16} width={16} />
+                            </div>
+                        </span>
+                    </div>
+                    <div className="row mt--3">
                         <div>
-                            {title && <H tag={"h4"} className="mb-0" text={title} />}
                             {description && <H tag={'h5'} className="mb-0" text={capitalizeFirstLetter(description)} />}
                             {code && <H tag={"h6"} className="text-muted mb-0" text={`# ${code}`} />}
 
@@ -187,7 +228,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         </div>
                     </div>
 
-                    <div className=" ml--2  mt-3">
+                    <div className="ml--2  mt-3">
                         <ProgressBarEta
                             start_time={start_time}
                             end_time={end_time}
@@ -214,7 +255,12 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             {/**
              * Edit Eta Modal
              */}
-            <Modal isOpen={editEtaModal.visible} onClose={() => { editEtaModal.hide() }} >
+            <Modal title="Edit eta time" isOpen={editEtaModal.visible}
+                onClose={() => {
+                    editEtaModal.hide()
+                    resetValues()
+                }}
+            >
                 <div className="col-6">
                     <DateTimePicker
                         heading={'ETA'}
@@ -231,7 +277,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                 </div>
                 <div className="col text-right">
-                    <Button text={translate("common.submit")} onClick={editEtaSubmitApiHandler} />
+                    <Button text={'Update'} onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
             {/**
@@ -239,6 +285,27 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
              */}
             <Modal title={"Latest Events"} size={'lg'} isOpen={taskEventModal.visible} onClose={taskEventModal.hide} >
                 <TaskEventHistory />
+            </Modal>
+            <Modal title={'Edit task Details'} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
+
+                <div className="col-6">
+                    <Input
+                        type={"text"}
+                        heading={translate("common.title")}
+                        value={editTitle.value}
+                        onChange={editTitle.onChange}
+                    />
+                    <Input
+                        type={"text"}
+                        heading={translate("auth.description")}
+                        value={editDescription.value}
+                        onChange={editDescription.onChange}
+                    />
+                </div>
+                <div className="text-right">
+                    <Button text={'Update'} onClick={editTaskDetailsHandler} />
+                </div>
+
             </Modal>
 
             <Alert

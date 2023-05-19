@@ -205,6 +205,8 @@ function Events() {
         <InfiniteScroll
           dataLength={events.length}
           hasMore={eventsCurrentPages !== -1}
+          className='overflow-auto scroll-hidden'
+          style={{ overflowY: "auto" }}
           loader={<h4>
             <Spinner />
           </h4>}
