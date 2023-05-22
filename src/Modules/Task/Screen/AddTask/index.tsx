@@ -512,7 +512,7 @@ function AddTask() {
                         })}
                 </div>
             </div>
-            <div className="row">
+            {/* <div className="row">
                 <ImagePicker
                     icon={image}
                     size='xl'
@@ -523,7 +523,7 @@ function AddTask() {
                     }}
                 />
 
-            </div>
+            </div> */}
 
 
 

@@ -126,15 +126,7 @@ const ImagePicker = ({
                   </div>
                 </div>
               )}
-              {/* {editImagePicker && 
-          <div className=" mt--2 ml--3" >
-            <Image size={'xs'} src={icons.updatedProfile}
-            variant={'avatar'}
-            onClick={handleRefClick} height={14} width={14}
-            style={{ backgroundColor: "white", }}
-             />
-          </div>
-          } */}
+      
 
             </div>
           </>
