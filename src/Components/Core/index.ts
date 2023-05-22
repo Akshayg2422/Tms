@@ -28,7 +28,7 @@ export * from './Back'
 export * from './BarChart'
 export * from './AutoSearchInput'
 export * from './Carousel'
-
+export * from './ImagePicker'
 
 
 

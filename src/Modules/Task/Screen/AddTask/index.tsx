@@ -6,10 +6,10 @@ import {
     Dropzone,
     showToast,
     DateTimePicker,
-    AutoCompleteDropDownImage,
     Card,
     Back,
-    Image
+    Image,
+    ImagePicker
 } from "@Components";
 
 import { translate } from "@I18n";
@@ -56,9 +56,7 @@ function AddTask() {
     const [disableTaskType, setDisableTaskType] = useState([]);
     const [companies, setCompanies] = useState([])
     const [companyUsers, setCompanyUsers] = useState([])
-
-
-
+    const [data,setData]=useState<any>()
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
@@ -260,6 +258,96 @@ function AddTask() {
 
 
 
+    async function toDataUrl(url, callback) {
+        var xhr = new XMLHttpRequest();
+        console.log("xhr---->", xhr)
+        xhr.onload = function () {
+            var reader = new FileReader();
+            console.log("reader", reader)
+            reader.onloadend = function () {
+                callback(reader.result);
+            }
+            reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
+    }
+
+
+
+
+    const array = [
+        { id: 3, base64: "/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg" },
+
+        { id: 2, base64: "/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg" },
+
+        { id: 1, base64: "/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg" }]
+
+
+        // const base64 = await fetch(photo)
+        // .then(response => response.blob())
+        // .then(blob => {
+        //     const reader = new FileReader();
+        //     reader.readAsDataURL(blob);
+        //     return new Promise((res) => {
+        //         reader.onloadend = () => {
+        //             res(reader.result);
+        //         }
+        //     })
+        // })
+
+        // console.log(base64);
+        
+
+    // function arrayOfvalueIntoBase64(array) {
+
+    //     return array.map( async (each: any) =>  {
+    //         let photo = getPhoto(each.base64)
+    //         return {
+    //             ...each,
+    //             base111: '888s'
+    //         }
+
+    //     })
+    // }
+
+
+    // console.log(JSON.stringify(arrayOfvalueIntoBase64(array))+"=====arrayOfvalueIntoBase64");
+
+//     async function arrayOfvalueIntoBase64(array) {
+//         const promises = array.map(async (each) => {
+//           let photo = await getPhoto(each.base64);
+//           const base64 = await fetch(photo)
+//    .then(response => response.blob())
+//         .then(blob => {
+//             const reader = new FileReader();
+//             reader.readAsDataURL(blob);
+//             return new Promise((res) => {
+//                 reader.onloadend = () => {
+//                     res(reader.result);
+//                 }
+//             })
+//         })
+          
+//           return {
+//             ...each,
+//             base111: base64
+//           };
+//         });
+      
+//         return Promise.all(promises);
+//       }
+      
+    //   arrayOfvalueIntoBase64(array)
+    //     .then((result) => {
+    //         setData(result)
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    
+
 
     return (
         <Card className="m-3">
@@ -366,8 +454,6 @@ function AddTask() {
                             setSelectedUserId(item)
 
                         }}
-
-
                     />
                     }
                 </div>
@@ -416,7 +502,7 @@ function AddTask() {
                                         onSelect={(image) => {
                                             let file = image.toString().replace(/^data:(.*,)?/, "");
                                             handleImagePicker(index, file);
-                                            { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
+                                            { selectDropzone.length && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
                                             { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
                                             { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
                                         }}
@@ -425,6 +511,18 @@ function AddTask() {
                             );
                         })}
                 </div>
+            </div>
+            <div className="row">
+                <ImagePicker
+                    icon={image}
+                    size='xl'
+                    // defaultValue={[data]}
+                    onSelect={(image) => {
+                        let file = image.toString().replace(/^data:(.*,)?/, "");
+                        console.log(file,"ffffffffffff")
+                    }}
+                />
+
             </div>
 
 

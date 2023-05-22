@@ -41,8 +41,6 @@ function TaskDetails() {
         }
     }, []);
 
-
-
     return (
         <HomeContainer className="m-3">
             <div className="">
