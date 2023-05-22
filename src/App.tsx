@@ -26,10 +26,6 @@ function App() {
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
   const { language } = useSelector((state: any) => state.AuthReducer);
 
-
-
-
-
   changeLanguage(language?.value);
 
   const AUTH = 1
