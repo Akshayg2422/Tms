@@ -66,6 +66,19 @@ import {
   ADD_EMPLOYEE_TIMELINE_FAILURE,
 
   RESTORE_USER_COMPANY,
+
+  GET_GROUPS_EMPLOYEES,
+  GET_GROUPS_EMPLOYEES_SUCCESS,
+  GET_GROUPS_EMPLOYEES_FAILURE,
+
+  GET_GROUP_MESSAGE,
+  GET_GROUP_MESSAGE_SUCCESS,
+  GET_GROUP_MESSAGE_FAILURE,
+
+  ADD_GROUP_MESSAGE,
+  ADD_GROUP_MESSAGE_SUCCESS,
+  ADD_GROUP_MESSAGE_FAILURE,
+
 } from '../ActionTypes';
 
 
@@ -113,11 +126,16 @@ const initialState: UserCompanyStateProp = {
   associatedCompaniesL: undefined,
   dashboardDetails: undefined,
   selectedCompany: undefined,
-  events:undefined,
+  events: undefined,
   selectedEmployee: undefined,
   videoConference: undefined,
   scheduledListData: undefined,
-  userToken: undefined
+  userToken: undefined,
+  groupEmployees: undefined,
+  groupMessage: undefined,
+  addGroupMessages: undefined,
+  refreshGroupEvents: false,
+  selectedGroup:undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -331,7 +349,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       const { page_number } = action.payload.params
       state = {
         ...state,
-        // taskGroupDetails: page_number === 1 ? [] : state.taskGroupDetails,
+        taskGroupDetails: page_number === 1 ? [] : state.taskGroupDetails,
         taskGroups: undefined,
         taskGroupNumOfPages: 0,
         taskGroupCurrentPages: 1,
@@ -625,21 +643,90 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
 
 
-        case ActionTypes.GET_EVENTS:
-          state = {
-            ...state,
-             events: undefined,
-          };
-          break;
-        case ActionTypes.GET_EVENTS_SUCCESS:
-          state = {
-            ...state,
-            events: action?.payload?.details,
-          };
-          break;
-        case ActionTypes.GET_EVENTS_FAILURE:
-          state = { ...state, events: undefined };
-          break;   
+    case ActionTypes.GET_EVENTS:
+      state = {
+        ...state,
+        events: undefined,
+      };
+      break;
+    case ActionTypes.GET_EVENTS_SUCCESS:
+      state = {
+        ...state,
+        events: action?.payload?.details,
+      };
+      break;
+    case ActionTypes.GET_EVENTS_FAILURE:
+      state = { ...state, events: undefined };
+      break;
+
+    //get group employees
+
+    case ActionTypes.GET_GROUPS_EMPLOYEES:
+      state = {
+        ...state,
+        groupEmployees: undefined,
+      };
+      break;
+    case ActionTypes.GET_GROUPS_EMPLOYEES_SUCCESS:
+      state = {
+        ...state,
+        groupEmployees: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_GROUPS_EMPLOYEES_FAILURE:
+      state = { ...state, groupEmployees: action.payload };
+      break;
+
+    //get group message
+
+    case ActionTypes.GET_GROUP_MESSAGE:
+      state = {
+        ...state,
+        groupMessage: undefined,
+      };
+      break;
+    case ActionTypes.GET_GROUP_MESSAGE_SUCCESS:
+      state = {
+        ...state,
+        groupMessage: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_GROUP_MESSAGE_FAILURE:
+      state = { ...state, groupMessage: action.payload };
+      break;
+
+      /**
+     * refresh Tasks 
+     */
+
+    case ActionTypes.REFRESH_GROUP_EVENTS:
+      state = { ...state, refreshGroupEvents: !state.refreshGroupEvents }
+      break;
+
+      /**
+     * selected Group
+     */
+    case ActionTypes.SELECTED_GROUP_ITEM:
+      state = { ...state, selectedGroup: action.payload }
+      break;
+
+    //add group message
+
+    case ActionTypes.ADD_GROUP_MESSAGE:
+      state = {
+        ...state,
+        addGroupMessages: undefined,
+      };
+      break;
+    case ActionTypes.ADD_GROUP_MESSAGE_SUCCESS:
+      state = {
+        ...state,
+        addGroupMessages: action.payload.details,
+      };
+      break;
+    case ActionTypes.ADD_GROUP_MESSAGE_FAILURE:
+      state = { ...state, addGroupMessages: action.payload };
+      break;
 
     default:
       state = state;

@@ -646,4 +646,96 @@ export const addEventFailure = (error: any) => {
         payload: error,
       };
     };
+
+    
+//Get groups Employees
+
+export const getGroupsEmployees = (params: any) => {
+  return {
+      type: ActionTypes.GET_GROUPS_EMPLOYEES,
+      payload: params,
+  };
+};
+
+export const getGroupsEmployeesSuccess = (response: any) => {
+  return {
+      type: ActionTypes.GET_GROUPS_EMPLOYEES_SUCCESS,
+      payload: response,
+  };
+};
+
+export const getGroupsEmployeesFailure = (error: any) => {
+  return {
+      type: ActionTypes.GET_GROUPS_EMPLOYEES_FAILURE,
+      payload: error,
+  };
+};
+
+/**
+ * refresh group Events
+ */
+
+
+export const refreshGroupEvents = () => {
+  return {
+      type: ActionTypes.REFRESH_GROUP_EVENTS,
+  }
+}
+
+/**
+ * store selected Group 
+ */
+
+export const setSelectedGroup = (group: any) => {
+  return {
+      type: ActionTypes.SELECTED_GROUP_ITEM,
+      payload: group
+  }
+}
+
+//Get group Message
+
+export const getGroupMessage = (params: any) => {
+  return {
+      type: ActionTypes.GET_GROUP_MESSAGE,
+      payload: params,
+  };
+};
+
+export const getGroupMessageSuccess = (response: any) => {
+  return {
+      type: ActionTypes.GET_GROUP_MESSAGE_SUCCESS,
+      payload: response,
+  };
+};
+
+export const getGroupMessageFailure = (error: any) => {
+  return {
+      type: ActionTypes.GET_GROUP_MESSAGE_FAILURE,
+      payload: error,
+  };
+};
+
+//Add group Message
+
+export const addGroupMessage = (params: any) => {
+  return {
+      type: ActionTypes.ADD_GROUP_MESSAGE,
+      payload: params,
+  };
+};
+
+export const addGroupMessageSuccess = (response: any) => {
+  return {
+      type: ActionTypes.ADD_GROUP_MESSAGE_SUCCESS,
+      payload: response,
+  };
+};
+
+export const addGroupMessageFailure = (error: any) => {
+  return {
+      type: ActionTypes.ADD_GROUP_MESSAGE_FAILURE,
+      payload: error,
+  };
+};
   

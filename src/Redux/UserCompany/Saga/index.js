@@ -497,6 +497,7 @@ function* getVideoConferenceListSaga(action) {
 function* getTokenByUserSaga(action) {
   try {
     const response = yield call(Api.getTokenByUserApi, action.payload.params);
+    console.log('=========>',response)
     if (response.success) {
       yield put(Action.getTokenByUserSuccess(response));
       yield call(action.payload.onSuccess(response));
@@ -507,6 +508,60 @@ function* getTokenByUserSaga(action) {
   } catch (error) {
     yield put(Action.getTokenByUserFailure(error));
     yield call(action.payload.onError(error));
+  }
+}
+
+// getGroupEmployees
+
+ function* getGroupsEmployeesSaga(action) {
+     try {
+         const response = yield call(Api.getGroupEmployeesApi, action.payload.params);
+         if (response.success) {
+             yield put(Action.getGroupsEmployeesSuccess(response));
+             yield call(action.payload.onSuccess(response));
+         } else {
+             yield put(Action.getGroupsEmployeesFailure(response));
+             yield call(action.payload.onError(response));
+         }
+     } catch (error) {
+         yield put(Action.getGroupsEmployeesFailure(error));
+         yield call(action.payload.onError(error));
+     }
+}
+
+//get group message
+
+function* getGroupsMessageSaga(action) {
+  try {
+      const response = yield call(Api.getGroupMessageApi, action.payload.params);
+      if (response.success) {
+          yield put(Action.getGroupMessageSuccess(response));
+          yield call(action.payload.onSuccess(response));
+      } else {
+          yield put(Action.getGroupMessageFailure(response));
+          yield call(action.payload.onError(response));
+      }
+  } catch (error) {
+      yield put(Action.getGroupMessageFailure(error));
+      yield call(action.payload.onError(error));
+  }
+}
+
+//add group message
+
+function* addGroupsMessageSaga(action) {
+  try {
+      const response = yield call(Api.addGroupMessageApi, action.payload.params);
+      if (response.success) {
+          yield put(Action.addGroupMessageSuccess(response));
+          yield call(action.payload.onSuccess(response));
+      } else {
+          yield put(Action.addGroupMessageFailure(response));
+          yield call(action.payload.onError(response));
+      }
+  } catch (error) {
+      yield put(Action.addGroupMessageFailure(error));
+      yield call(action.payload.onError(error));
   }
 }
 
@@ -540,6 +595,9 @@ function* UserCompanySaga() {
   yield takeLatest(Action.POST_VIDEO_CONFERENCE, postVideoConferenceSaga);
   yield takeLatest(Action.GET_VIDEO_CONFERENCE_LIST, getVideoConferenceListSaga);
   yield takeLatest(Action.GET_TOKEN_BY_USER, getTokenByUserSaga);
+  yield takeLatest(Action.GET_GROUPS_EMPLOYEES, getGroupsEmployeesSaga);
+  yield takeLatest(Action.GET_GROUP_MESSAGE, getGroupsMessageSaga);
+  yield takeLatest(Action.ADD_GROUP_MESSAGE, addGroupsMessageSaga)
 
 }
 

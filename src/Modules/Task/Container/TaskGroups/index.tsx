@@ -12,7 +12,6 @@ function TaskGroups({ onClick }: TaskGroupProps) {
     const [selectedTaskGroup, setSelectedTaskGroup] = useState(DEFAULT_GROUP.code)
     const dispatch = useDispatch()
 
-
     useEffect(() => {
         const params = {}
         dispatch(
@@ -25,7 +24,6 @@ function TaskGroups({ onClick }: TaskGroupProps) {
                 },
             }))
     }, [])
-
 
     return (
         <div className='row'>

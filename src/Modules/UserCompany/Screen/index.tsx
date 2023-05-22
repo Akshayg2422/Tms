@@ -11,6 +11,11 @@ export * from './MyFeeds'
 export * from './Events'
 export * from './AddEvent'
 export * from './VirtualConference'
+export * from './Groups'
+export * from './AddMessage'
+export * from './GroupMessage'
+export * from './GroupEmployees'
+
 
 
 

@@ -89,7 +89,6 @@ function CreateCompany({ }: CreateCompanyProps) {
       attachment_logo: PhotoAttach[0],
     };
 
-
     dispatch(
       registerCompany({
         params,
