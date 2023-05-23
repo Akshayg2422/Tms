@@ -116,3 +116,10 @@ export const getVideoConferenceListApi = (payload) => post(URL.GET_VIDEO_CONFERE
 /* GET TOKEN BY USER */
 
 export const getTokenByUserApi = (payload) => post(URL.GET_TOKEN_BY_USER, payload, {})
+
+
+/* GET GROUP DETAILS */
+
+export const getGroupEmployeesApi = (payload) => post(URL.GET_GROUP_EMPLOYEES, payload, {})
+export const getGroupMessageApi = (payload) => post(URL.GET_GROUP_MESSAGE, payload, {})
+export const addGroupMessageApi = (payload) => post(URL.ADD_GROUP_MESSAGE, payload, {})

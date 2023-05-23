@@ -17,8 +17,6 @@ function Tasks() {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch, user_details, company } = dashboardDetails || ''
 
-
-
   const { goTo } = useNavigation();
 
   useEffect(() => {
@@ -31,14 +29,13 @@ function Tasks() {
   }, [selectedTask])
 
 
-  console.log("dashboardDetails-------->",dashboardDetails)
+
 
   function getDashboardDetails() {
     const params = {}
     dispatch(getDashboard({
       params,
       onSuccess: (response) => () => {
-
 
       },
       onError: () => () => { }
@@ -58,8 +55,6 @@ function Tasks() {
       })
     );
   };
-
-
 
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)

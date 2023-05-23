@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { TaskChatProps } from './interfaces';
+import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
-import { getTaskEvents } from '@Redux'
-import { TimeLine, Spinner, Image, Modal } from '@Components'
-import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TASK_STATUS_LIST } from '@Utils'
+import { getGroupMessage } from '@Redux'
+import { TimeLine, Spinner, Image, Modal, Card } from '@Components'
+import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useModal, useWindowDimensions } from '@Hooks'
@@ -11,24 +11,26 @@ import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-
-function TaskChat({ }: TaskChatProps) {
+function GroupMessage({selectedGroup
+}: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
-    const [taskEvents, setTaskEvents] = useState([])
-    const [taskEventsCurrentPage, setEventsTaskCurrentPage] = useState(INITIAL_PAGE)
+    const { refreshGroupEvents } = useSelector((state: any) => state.UserCompanyReducer);
+    const [groupEvents, setGroupEvents] = useState([])
+    const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
     const imageModal = useModal(false)
 
+    
+
 
     useEffect(() => {
-        getTaskEventsApi(INITIAL_PAGE)
-    }, [refreshTaskEvents, id])
+        getGroupMessageApi(INITIAL_PAGE)
+    }, [refreshGroupEvents,selectedGroup])
 
-    function getTaskEventsDisplayData(data: any) {
+    function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
             return data.map(each => {
                 return {
@@ -38,37 +40,43 @@ function TaskChat({ }: TaskChatProps) {
         }
 
     }
-    const getTaskEventsApi = (page_number: number) => {
+
+    const getGroupMessageApi = (page_number: number) => {
         const params = {
-            task_id: id,
+            group_id:selectedGroup,
             page_number
         }
 
+   
+
         dispatch(
-            getTaskEvents({
+            getGroupMessage({
                 params,
                 onSuccess: (response: any) => () => {
-                    const taskEventsResponse = response.details
+                    const groupEventsResponse = response.details
                     let updatedData = []
-                    if (taskEventsResponse.data && taskEventsResponse.data.length > 0) {
+                    if (groupEventsResponse.data && groupEventsResponse.data.length > 0) {
                         if (page_number === 1) {
-                            updatedData = getTaskEventsDisplayData(taskEventsResponse.data)
+                            updatedData = getGroupEventsDisplayData(groupEventsResponse.data)
                         } else {
-                            updatedData = getTaskEventsDisplayData([...taskEvents, ...taskEventsResponse.data] as any)
+                            updatedData = getGroupEventsDisplayData([...groupEvents, ...groupEventsResponse.data] as any)
                         }
                     }
-                    setTaskEvents(updatedData)
-                    setEventsTaskCurrentPage(taskEventsResponse.next_page)
+                    setGroupEvents(updatedData)
+                    setGroupCurrentPage(groupEventsResponse.next_page)
+
+                    console.log('response=====>',response)
                 },
-                onError: () => () => { },
+                onError: () => () => {},
             })
         );
     };
 
     function getIconsFromStatus(each: any) {
 
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, group_status } = each
         let modifiedData = {}
+
         switch (event_type) {
             case 'TEM':
                 modifiedData = { ...each, icon: icons.message, subTitle: by_user?.name, title: message, }
@@ -93,12 +101,11 @@ function TaskChat({ }: TaskChatProps) {
                 modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: by_user?.name, title: 'User Attached Reference Task' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status).text }
+                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(GROUP_STATUS_LIST, 'id', group_status).text }
                 break;
         }
         return modifiedData
     }
-
 
     return (
         <div
@@ -108,28 +115,27 @@ function TaskChat({ }: TaskChatProps) {
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
-            className={'overflow-auto overflow-hide'}
+            className={'overflow-auto overflow-hide '}
         >
             <InfiniteScroll
-                dataLength={taskEvents.length}
-                hasMore={taskEventsCurrentPage !== -1}
+                dataLength={groupEvents.length}
+                hasMore={GroupCurrentPage !== -1}
                 scrollableTarget="scrollableDiv"
                 style={{ display: 'flex', flexDirection: 'column-reverse' }}
                 inverse={true}
                 loader={<h4>
-                    {/* <Spinner /> */}
+                    <Spinner />
                 </h4>}
                 next={() => {
-                    console.log('came');
+                   
 
-                    console.log(taskEventsCurrentPage + '====');
-                    if (taskEventsCurrentPage !== -1) {
-                        getTaskEventsApi(taskEventsCurrentPage)
+                    if (GroupCurrentPage !== -1) {
+                        getGroupMessageApi(GroupCurrentPage)
                     }
                 }
                 }>
-                {taskEvents && taskEvents.length > 0 &&
-                    taskEvents.map((task: any, index: number) => {
+                {groupEvents && groupEvents.length > 0 &&
+                    groupEvents.map((task: any, index: number) => {
                         const { icon, title, subTitle, created_at, attachments } = task
                         const showDotLine = index !== 0
                         const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
@@ -142,7 +148,7 @@ function TaskChat({ }: TaskChatProps) {
                                 time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
                                 <div className='pt-2' onClick={() => {
-                                    imageModal.show()
+                                    imageModal.show() 
                                     setImage(imageUrls)
                                 }} >
                                     <div>
@@ -158,7 +164,7 @@ function TaskChat({ }: TaskChatProps) {
                 }
             </InfiniteScroll>
 
-            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
+             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
                 <Carousel >
                     {
                         image.map(each => {
@@ -171,12 +177,12 @@ function TaskChat({ }: TaskChatProps) {
                         })
                     }
                 </Carousel>
-            </Modal>
+            </Modal> 
         </div>
 
 
     );
 }
 
-export { TaskChat }
+export { GroupMessage }
 

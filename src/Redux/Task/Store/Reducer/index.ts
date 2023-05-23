@@ -24,6 +24,7 @@ const initialState: TaskStateProp = {
   taskDetails: {},
   subTaskGroups: undefined,
   assignedTask:undefined,
+
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -104,14 +105,18 @@ const TaskReducer = (state = initialState, action: any) => {
      */
 
     case ActionTypes.GET_TASK_EVENT_HISTORY:
+      const { page_numbers } = action.payload.params
       state = {
-        ...state
+        ...state,taskEventHistories: page_numbers === 1 ? [] : state.taskEventHistories
       };
 
       break;
     case ActionTypes.GET_TASK_EVENT_HISTORY_SUCCESS:
       state = {
-        ...state, taskEventHistories: action.payload?.details.data,
+        ...state, 
+        taskEventHistories:  [...state.taskEventHistories, ...action.payload.details.data,],
+        taskEventsCurrentPages:
+          action.payload.details.next_page
       };
       break;
     case ActionTypes.GET_TASK_EVENT_HISTORY_FAILURE:
@@ -293,6 +298,8 @@ const TaskReducer = (state = initialState, action: any) => {
       case ActionTypes.GET_ASSIGNED_TASK_FAILURE:
         state = { ...state, assignedTask: undefined }
         break;
+
+
 
     default:
       state = state;

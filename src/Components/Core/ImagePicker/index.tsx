@@ -3,7 +3,6 @@ import { Image } from "@Components";
 import { icons } from "@Assets";
 import { DropZoneImageProps } from "./interfaces";
 import Compressor from "compressorjs";
-import { getPhoto } from "@Utils";
 
 
 const ImagePicker = ({
@@ -21,9 +20,15 @@ const ImagePicker = ({
 
   const [count, setCount] = useState(1)
 
-  const initialValue = { id: 0, base64: icons.addFillSquare }
-  const [photo, setPhoto] = useState<any>([ initialValue])
-  console.log(photo,"=========>")
+  const initialValue = { id: 0, base64: icons.addFillSquare ,base111: icons.addFillSquare }
+  const imagePicker:any=defaultValue && [...defaultValue,initialValue]
+  console.log(imagePicker,"pppppppppppppppp")
+  const [photo, setPhoto] = useState<any>()
+  
+  useEffect(()=>{
+    setPhoto(imagePicker)
+
+  },[defaultValue])
 
   const handleRefClick = (el) => {
     console.log(fileInputRef)
@@ -89,7 +94,7 @@ const ImagePicker = ({
         onChange={handleChange}
         accept="image/*"
       />
-      {photo && photo.map((el, index) => {
+      {photo&&photo.map((el, index) => {
 
         return (
           <>
@@ -97,7 +102,7 @@ const ImagePicker = ({
               <div >
                 <div >
                   <Image
-                    src={photo[index]?.base64}
+                    src={imagePicker[index]?.base111}
                     variant={imageVariant}
                     onClick={() => handleRefClick(el)}
                     size={size}

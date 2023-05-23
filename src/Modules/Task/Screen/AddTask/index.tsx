@@ -69,6 +69,8 @@ function AddTask() {
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
     let attach = photo.slice(-4, 9)
+    const[imagePicker,setImagePicker]=useState<any>()
+
 
     useEffect(() => {
         getAssociatedCompaniesApi();
@@ -258,95 +260,70 @@ function AddTask() {
 
 
 
-    async function toDataUrl(url, callback) {
-        var xhr = new XMLHttpRequest();
-        console.log("xhr---->", xhr)
-        xhr.onload = function () {
-            var reader = new FileReader();
-            console.log("reader", reader)
-            reader.onloadend = function () {
-                callback(reader.result);
-            }
-            reader.readAsDataURL(xhr.response);
-        };
-        xhr.open('GET', url);
-        xhr.responseType = 'blob';
-        xhr.send();
-    }
-
-
-
-
-    const array = [
-        { id: 3, base64: "/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg" },
-
-        { id: 2, base64: "/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg" },
-
-        { id: 1, base64: "/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg" }]
-
-
-        // const base64 = await fetch(photo)
-        // .then(response => response.blob())
-        // .then(blob => {
-        //     const reader = new FileReader();
-        //     reader.readAsDataURL(blob);
-        //     return new Promise((res) => {
-        //         reader.onloadend = () => {
-        //             res(reader.result);
-        //         }
-        //     })
-        // })
-
-        // console.log(base64);
-        
-
-    // function arrayOfvalueIntoBase64(array) {
-
-    //     return array.map( async (each: any) =>  {
-    //         let photo = getPhoto(each.base64)
-    //         return {
-    //             ...each,
-    //             base111: '888s'
+    // async function toDataUrl(url, callback) {
+    //     var xhr = new XMLHttpRequest();
+    //     console.log("xhr---->", xhr)
+    //     xhr.onload = function () {
+    //         var reader = new FileReader();
+    //         console.log("reader", reader)
+    //         reader.onloadend = function () {
+    //             callback(reader.result);
     //         }
-
-    //     })
+    //         reader.readAsDataURL(xhr.response);
+    //     };
+    //     xhr.open('GET', url);
+    //     xhr.responseType = 'blob';
+    //     xhr.send();
     // }
 
 
-    // console.log(JSON.stringify(arrayOfvalueIntoBase64(array))+"=====arrayOfvalueIntoBase64");
-
-//     async function arrayOfvalueIntoBase64(array) {
-//         const promises = array.map(async (each) => {
-//           let photo = await getPhoto(each.base64);
-//           const base64 = await fetch(photo)
-//    .then(response => response.blob())
-//         .then(blob => {
-//             const reader = new FileReader();
-//             reader.readAsDataURL(blob);
-//             return new Promise((res) => {
-//                 reader.onloadend = () => {
-//                     res(reader.result);
-//                 }
-//             })
-//         })
+    async function arrayOfvalueIntoBase64(array) {
+        
+        const promises = array.map(async (each) => {
+          let photo = await getPhoto(each.base64);
+          const base64 = await fetch(photo)
+   .then(response => response.blob())
+        .then(blob => {
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            return new Promise((res) => {
+                reader.onloadend = () => {
+                    res(reader.result);
+                }
+            })
+        })
           
-//           return {
-//             ...each,
-//             base111: base64
-//           };
-//         });
+          return {
+            
+            ...each,
+            base111: base64
+          };
+
+        });
+     
+        return Promise.all(promises);
+      }
+  
       
-//         return Promise.all(promises);
-//       }
-      
-    //   arrayOfvalueIntoBase64(array)
-    //     .then((result) => {
-    //         setData(result)
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
+  useEffect(() => {
+    // Define the input array
+    const array = [
+      { id: 3, base64: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' },
+      { id: 2, base64: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' },
+      { id: 1, base64: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' }
+    ];
+
+    arrayOfvalueIntoBase64(array)
+      .then((result) => {
+        setImagePicker(result);
     
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+   
 
 
     return (
@@ -512,18 +489,18 @@ function AddTask() {
                         })}
                 </div>
             </div>
-            {/* <div className="row">
+            
+            <div className="row">
                 <ImagePicker
                     icon={image}
                     size='xl'
-                    // defaultValue={[data]}
+                    defaultValue={imagePicker}
                     onSelect={(image) => {
-                        let file = image.toString().replace(/^data:(.*,)?/, "");
-                        console.log(file,"ffffffffffff")
+                        let file = image.toString().replace(/^data:(.*,)?/, "")
                     }}
                 />
 
-            </div> */}
+            </div>
 
 
 

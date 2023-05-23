@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Button, Modal, Input, Dropzone } from '@Components'
 import { icons } from '@Assets'
-import { addTaskEvent, refreshTaskEvents } from '@Redux'
+import { addTaskEvent, refreshTaskEvents,} from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
-import { useWindowDimensions, useModal, useInput } from '@Hooks'
+import { useModal, useInput } from '@Hooks'
 import { TEM, MEA } from '@Utils'
 import { translate } from '@I18n'
+
 
 function AddChat() {
 
@@ -20,7 +21,6 @@ function AddChat() {
 
     const proceedTaskEventsApiHandler = () => {
 
-
         if (message.value) {
 
             const params = {
@@ -29,7 +29,7 @@ function AddChat() {
                 event_type: TEM
             }
 
-            console.log(JSON.stringify(params) + '====params');
+            console.log(JSON.stringify(params) + '====>>>params');
 
             dispatch(
                 addTaskEvent({

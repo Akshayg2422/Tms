@@ -21,4 +21,5 @@ export interface TaskStateProp {
     taskDetails: any,
     subTaskGroups: any,
     assignedTask:any,
+
 }

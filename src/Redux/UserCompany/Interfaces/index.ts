@@ -44,5 +44,10 @@ export interface UserCompanyStateProp {
     eventsCurrentPages:number
     videoConference:any,
     scheduledListData:any,
-    userToken:any
+    userToken:any,
+    groupEmployees:any,
+    groupMessage:any,
+    addGroupMessages:any,
+    refreshGroupEvents:boolean,
+    selectedGroup:any,
 }
