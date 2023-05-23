@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAssociatedBranch, setSelectedCompany } from "@Redux";
+import { getAssociatedBranch, getTaskGroupsL, setSelectedCompany } from "@Redux";
 import { Button, Card, Image, CommonTable, NoDataFound, CollapseButton } from "@Components";
 import { useNavigation } from "@Hooks";
 import { ROUTES } from "@Routes";
@@ -19,6 +19,8 @@ function Companies() {
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+
+ 
 
   useEffect(() => {
     getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)

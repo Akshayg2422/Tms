@@ -30,6 +30,7 @@ import {
     validate,
     PRIORITY,
     getPhoto,
+    imagePickerConvertBase64
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,18 +38,14 @@ import { useInput, useNavigation, useDropDown } from "@Hooks";
 import AutoSearchInput from "@Components//Core/AutoSearchInput";
 
 function AddTask() {
-
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
-
-
     const { dashboardDetails, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
-
     const title = useInput("");
     const description = useInput("");
     const referenceNo = useInput("");
@@ -56,7 +53,6 @@ function AddTask() {
     const [disableTaskType, setDisableTaskType] = useState([]);
     const [companies, setCompanies] = useState([])
     const [companyUsers, setCompanyUsers] = useState([])
-    const [data,setData]=useState<any>()
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
@@ -69,7 +65,7 @@ function AddTask() {
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
     let attach = photo.slice(-4, 9)
-    const[imagePicker,setImagePicker]=useState<any>()
+    const [imagePicker, setImagePicker] = useState<any>()
 
 
     useEffect(() => {
@@ -254,76 +250,14 @@ function AddTask() {
     const handleEtaChange = (value: any) => {
         setEta(value);
     };
-
-
     const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
-
-
-    // async function toDataUrl(url, callback) {
-    //     var xhr = new XMLHttpRequest();
-    //     console.log("xhr---->", xhr)
-    //     xhr.onload = function () {
-    //         var reader = new FileReader();
-    //         console.log("reader", reader)
-    //         reader.onloadend = function () {
-    //             callback(reader.result);
-    //         }
-    //         reader.readAsDataURL(xhr.response);
-    //     };
-    //     xhr.open('GET', url);
-    //     xhr.responseType = 'blob';
-    //     xhr.send();
-    // }
-
-
-    async function arrayOfvalueIntoBase64(array) {
-        
-        const promises = array.map(async (each) => {
-          let photo = await getPhoto(each.base64);
-          const base64 = await fetch(photo)
-   .then(response => response.blob())
-        .then(blob => {
-            const reader = new FileReader();
-            reader.readAsDataURL(blob);
-            return new Promise((res) => {
-                reader.onloadend = () => {
-                    res(reader.result);
-                }
-            })
-        })
-          
-          return {
-            
-            ...each,
-            base111: base64
-          };
-
-        });
-     
-        return Promise.all(promises);
-      }
   
-      
-  useEffect(() => {
-    // Define the input array
-    const array = [
-      { id: 3, base64: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' },
-      { id: 2, base64: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' },
-      { id: 1, base64: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' }
-    ];
-
-    arrayOfvalueIntoBase64(array)
-      .then((result) => {
-        setImagePicker(result);
-    
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-   
+   const array = [
+            { id: 3, photo: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' },
+            { id: 2, photo: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' },
+            { id: 1, photo: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' }
+        ];
 
 
     return (
@@ -489,16 +423,20 @@ function AddTask() {
                         })}
                 </div>
             </div>
-            
-            <div className="row">
+
+            <div className="col">
+                <div className="row">
                 <ImagePicker
                     icon={image}
                     size='xl'
-                    defaultValue={imagePicker}
+                    // defaultValue={array}
                     onSelect={(image) => {
                         let file = image.toString().replace(/^data:(.*,)?/, "")
                     }}
                 />
+
+                </div>
+              
 
             </div>
 

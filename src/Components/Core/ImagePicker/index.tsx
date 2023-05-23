@@ -1,34 +1,39 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Image } from "@Components";
+import { Image, InputHeading } from "@Components";
 import { icons } from "@Assets";
 import { DropZoneImageProps } from "./interfaces";
 import Compressor from "compressorjs";
-
-
+import { imagePickerConvertBase64 } from "@Utils";
 const ImagePicker = ({
   onSelect,
-  text,
-  icon,
   size = "lg",
   imageVariant = 'avatar',
   noOfFilePickers = 3,
-  editImagePicker = false,
-  defaultValue
+  defaultValue,
+  className='row'
 }: DropZoneImageProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [count, setCount] = useState(1)
-
-  const initialValue = { id: 0, base64: icons.addFillSquare ,base111: icons.addFillSquare }
-  const imagePicker:any=defaultValue && [...defaultValue,initialValue]
-  console.log(imagePicker,"pppppppppppppppp")
+  const initialValue = { id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }
   const [photo, setPhoto] = useState<any>()
-  
-  useEffect(()=>{
-    setPhoto(imagePicker)
 
-  },[defaultValue])
+  useEffect(() => {
+    if( defaultValue ){
+    imagePickerConvertBase64(defaultValue)
+      .then((result) => {
+        setPhoto([...result, initialValue])
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+    else{
+      setPhoto([initialValue])
+    }
+     
+  }, [defaultValue]);
+
+  
 
   const handleRefClick = (el) => {
     console.log(fileInputRef)
@@ -60,6 +65,16 @@ const ImagePicker = ({
           updatedPhoto = { id: count, base64: e.target?.result }
 
           let updatedSelectedPhotos: any = [...photo];
+
+          if(updatedSelectedPhotos.length===noOfFilePickers){
+            updatedSelectedPhotos = updatedSelectedPhotos.filter(
+              (filterItem: any) => filterItem.id !== 0
+            );
+            setPhoto(updatedSelectedPhotos)
+            
+
+          }
+
           const ifExist = updatedSelectedPhotos.some(
             (el: any) => el.id === updatedPhoto?.id
           );
@@ -68,7 +83,6 @@ const ImagePicker = ({
               (filterItem: any) => filterItem.id !== updatedPhoto?.id
             );
             updatedSelectedPhotos = [{ id: updatedPhoto?.id, base64: e.target?.result }, ...updatedSelectedPhotos]
-
           }
           else {
             setCount(count + 1)
@@ -82,9 +96,6 @@ const ImagePicker = ({
       reader.readAsDataURL(file);
     }
   };
-
-
-
   return (
     <>
       <input
@@ -94,15 +105,16 @@ const ImagePicker = ({
         onChange={handleChange}
         accept="image/*"
       />
-      {photo&&photo.map((el, index) => {
+      <div className="col-12 pt-2"><InputHeading heading={'jjjuu'} /></div>
+      {photo && photo.map((el, index) => {
 
         return (
-          <>
-            <div className="row col-auto pt-2 pr-3">
+        
+            <div className={`${className} col-auto  pr-3`}>
               <div >
                 <div >
                   <Image
-                    src={imagePicker[index]?.base111}
+                    src={photo[index]?.base64}
                     variant={imageVariant}
                     onClick={() => handleRefClick(el)}
                     size={size}
@@ -131,10 +143,10 @@ const ImagePicker = ({
                   </div>
                 </div>
               )}
-      
+
 
             </div>
-          </>
+       
         )
 
       })

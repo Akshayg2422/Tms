@@ -34,7 +34,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                     onSuccess: (response) => () => {
                         message.set('')
                         dispatch(refreshGroupEvents())
-                        // console.log('.........',response)
+                
                     },
                     onError: () => () => { },
                 })

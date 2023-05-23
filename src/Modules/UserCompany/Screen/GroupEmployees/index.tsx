@@ -3,9 +3,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import {EmployeeGroupsProps} from'./interfaces'
 import { Card, Divider, NoDataFound, H ,Image, SearchInput} from '@Components'
-import { getGroupsEmployees } from '@Redux';
-import { getPhoto } from '@Utils';
-
+import { getGroupsEmployees } from '@Redux'
 function GroupEmployees({ Employees,height,otherParams}: EmployeeGroupsProps) {
 
     const dispatch = useDispatch()
@@ -54,28 +52,7 @@ function GroupEmployees({ Employees,height,otherParams}: EmployeeGroupsProps) {
                         const { name, mobile_number, designation, department, } = el
                         return (
                             <>
-                            {/* <div className='container pointer overflow-auto overflow-hide ' >
-                                <div className='d-flex align-items-center  mt--4'>
-                                    <div className=' ml-3'>
-                                        <H
-                                            className=" m-0 pointer mb-0"
-                                            tag={'h4'}
-                                            text={name}
-                                        />
-                                    </div>
-                                    <div className='d-flex  '>
-                                        <div className={'h5 mt-5 text-muted'} >{mobile_number ? mobile_number : '-'}</div>
-                                    </div>
-                                    <div className={' d-flex align-items-center  mt-6 ml--6'}>
-                                        <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
-                                        <div className='p-1'>{'/'}</div>
-                                        <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
-                                    </div>
-                                </div>
-                                <div className={'mx--2'}>
-                                    {index !== groupEmployees.length - 1 && <Divider space={'1'} />}
-                                </div>
-                            </div> */}
+                       
 
                             <div className='container  overflow-auto overflow-hide pt-1 ' >
                                 <div className=' align-items-center  '>

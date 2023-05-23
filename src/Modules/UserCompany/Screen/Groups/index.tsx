@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { GroupMessage, AddMessage, TaskGroups, GroupEmployees,} from '@Modules'
 import { Card,} from '@Components'
 import { useSelector } from 'react-redux'
@@ -8,10 +8,16 @@ import { useWindowDimensions } from '@Hooks';
 function Groups() {
 
     const { taskGroups, } = useSelector((state: any) => state.TaskReducer);
-    const [selectGroup,setSelectGroup] = useState<any>(taskGroups && taskGroups[0].id)
+    const [selectGroup,setSelectGroup] = useState<any>()
     const { height } = useWindowDimensions()
 
- 
+useEffect(()=>{
+    if(taskGroups && taskGroups.length>0)
+    {
+        setSelectGroup(taskGroups[0].id)
+    }
+
+},[taskGroups])
     return (
         <div className='mx-3 '>
             <div className='row mb-0'>
