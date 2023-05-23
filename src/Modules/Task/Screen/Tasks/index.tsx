@@ -15,31 +15,27 @@ function Tasks() {
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask, taskFilterParams } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch, user_details, company } = dashboardDetails || ''
-  const [params, setParams] = useState(taskFilterParams)
+  const [params, setParams] = useState(DEFAULT_PARAMS)
   const { goTo } = useNavigation();
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
-    dispatch(taskDefaultParams(DEFAULT_PARAMS))
   }, [params])
 
 
   useEffect(() => {
     getDashboardDetails()
   }, [selectedTask])
-  
 
-  console.log("default params",taskFilterParams)
 
-  console.log("dashboardDetails-------->", dashboardDetails)
+  console.log("default params------------>", taskFilterParams)
+
 
   function getDashboardDetails() {
     const params = {}
     dispatch(getDashboard({
       params,
       onSuccess: (response) => () => {
-
-
       },
       onError: () => () => { }
     }));
@@ -148,6 +144,8 @@ function Tasks() {
 
       <HomeContainer type={'card'} className="">
         <TaskFilter onParams={(filteredParams) => {
+          console.log('filteredParams-------->', filteredParams);
+
           setParams({ ...params, ...filteredParams })
         }} />
         <div style={{

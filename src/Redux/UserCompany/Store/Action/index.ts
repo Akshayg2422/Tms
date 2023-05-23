@@ -697,3 +697,11 @@ export const addAssociatedCompanyFailure = (error: any) => {
     payload: error,
   };
 };
+
+/* REFRESH USER COMPANY */
+
+export const refreshUserCompanies = () => {
+  return {
+      type: ActionTypes.REFRESH_USER_COMPANY,
+  }
+}

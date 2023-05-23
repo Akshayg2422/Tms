@@ -21,7 +21,6 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     }, [id])
 
 
-    console.log("responsesubtask",subTasks)
 
     function getSubTasksApi() {
         const params = {

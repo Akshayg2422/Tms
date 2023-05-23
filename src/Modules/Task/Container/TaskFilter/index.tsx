@@ -21,6 +21,7 @@ const FILTER_MENU = [
 
 function TaskFilter({ onParams }: TaskFilterProps) {
 
+
     const dispatch = useDispatch()
     const filteredTask = useDropDown(TASK_FILTER_LIST[2]);
     const taskStatus = useDropDown(TASK_STATUS_LIST[2]);
@@ -38,9 +39,6 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
     useEffect(() => {
         const params = { q: '' };
-        if (filteredTask && taskStatus && taskPriority) {
-            
-        }
         if (advanceFilter) {
             dispatch(
                 getAssociatedCompaniesL({
@@ -70,7 +68,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     }, [advanceFilter]);
 
     const getTaskDefaultParams = () => {
-        
+
     }
 
     const getDesignation = (items: any) => {

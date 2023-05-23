@@ -47,4 +47,5 @@ export interface UserCompanyStateProp {
     userToken:any,
     associatedCompany:any,
     updateAssociatedCompany:any,
+    refreshUserCompany: boolean,
 }

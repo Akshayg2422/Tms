@@ -117,7 +117,7 @@ const PushNotification = () => {
             const title = payload?.data?.title;
             const options = {
                 body: payload?.data?.message,
-                icon: icons.quantaTms
+                icon: icons.quantaTms,
             };
             new Notification(title, options).addEventListener('click', function () {
                 routingHandler(payload)

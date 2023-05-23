@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAssociatedCompany, getAssociatedBranch, getAssociatedCompany, setSelectedCompany } from "@Redux";
+import { addAssociatedCompany, getAssociatedBranch, getAssociatedCompany, refreshUserCompanies, setSelectedCompany } from "@Redux";
 import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast } from "@Components";
 import { useNavigation, useModal, useDynamicHeight, useDropDown } from "@Hooks";
 import { ROUTES } from "@Routes";
@@ -49,20 +49,12 @@ function Companies() {
       getAssociatedCompany({
         params,
         onSuccess: (response: any) => () => {
-          if (response.success) {
-            goBack();
-            associatedCompanyModal.hide()
-            showToast(response.message, "success");
-          }
-        },
-        onError: (error) => () => {
-          showToast(error.error_message);
-        },
+          associatedCompanyModal.hide()
+        }
       })
     )
   }
 
-  console.log('screeeeeeeeeeeeeennnnnnnnnnn', JSON.stringify(dashboardDetails))
 
   const addAssociatedCompanyApi = () => {
     const params = {
@@ -72,21 +64,26 @@ function Companies() {
     console.log('params', params);
 
 
-    console.log(JSON.stringify(associatedCompanyDropDown.value));
-
-
     dispatch(
       addAssociatedCompany({
         params,
         onSuccess: (response: any) => () => {
-          associatedCompanyDropDown.set('')
-          getAssociatedCompanyApi()
+          console.log('11111111111---------------->', response);
+
+          if (response.success) {
+            goBack()
+            getAssociatedCompanyApi()
+            associatedCompanyDropDown.set({})
+            dispatch(refreshUserCompanies())
+            showToast(response.message, "success");
+          }
+
         },
         onError: (error) => () => {
+          showToast(error.error_message)
         },
       })
     )
-
   }
 
   const normalizedTableData = (data: any) => {
@@ -193,7 +190,6 @@ function Companies() {
               goTo(ROUTES["user-company-module"]["company-details"]);
 
             }} />
-
           :
           <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={'Add Company'} onClick={() => {
             goTo(ROUTES["user-company-module"]["add-company"]);

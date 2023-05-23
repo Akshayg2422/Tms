@@ -67,13 +67,6 @@ import {
 
   RESTORE_USER_COMPANY,
 
-  GET_ASSOCIATED_COMPANY,
-  GET_ASSOCIATED_COMPANY_SUCCESS,
-  GET_ASSOCIATED_COMPANY_FAILURE,
-
-  ADD_ASSOCIATED_COMPANY,
-  ADD_ASSOCIATED_COMPANY_SUCCESS,
-  ADD_ASSOCIATED_COMPANY_FAILURE
 } from '../ActionTypes';
 
 
@@ -129,6 +122,7 @@ const initialState: UserCompanyStateProp = {
   userToken: undefined,
   associatedCompany: undefined,
   updateAssociatedCompany: undefined,
+  refreshUserCompany: false,
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -680,6 +674,10 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
     case ActionTypes.ADD_ASSOCIATED_COMPANY_FAILURE:
       state = { ...state, updateAssociatedCompany: action.payload };
+      break;
+
+    case ActionTypes.REFRESH_USER_COMPANY:
+      state = { ...state, refreshUserCompany: !state.refreshUserCompany }
       break;
 
     default:

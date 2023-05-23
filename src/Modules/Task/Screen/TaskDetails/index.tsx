@@ -24,9 +24,6 @@ function TaskDetails() {
 
     const dynamicHeight: any = useDynamicHeight()
 
-    console.log("dynamicHeight----->", dynamicHeight)
-    console.log("tab", selectedTabPositions)
-
     const TABS = [
         { id: "1", title: <div className="text-center"><Image src={icons.Comments} height={16} width={16} /></div>, component: <Comments /> },
         { id: "2", title: <div className="text-center"><Image src={icons.attachments} height={16} width={16} /></div>, component: <TaskAttachments /> },

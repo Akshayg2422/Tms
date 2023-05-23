@@ -33,13 +33,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const { height } = useWindowDimensions()
     const percentComplete = 91
     const etaTime = new Date();
-    console.log('111111111111111', etaTime)
     const actualFinishTime = new Date();
-    console.log('22222222222222222', actualFinishTime);
-
-    console.log("taskDeails----->", taskDetails, "id", id)
-
-
 
 
     useEffect(() => {
@@ -50,10 +44,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     useEffect(() => {
         setEta(eta_time)
     }, [taskDetails])
-
-    console.log("eta_time------>", eta_time)
-    console.log('starttimeeeeeeee', start_time);
-    console.log('endtimeeeeeeeeeeee', end_time);
 
 
     function resetValues() {
@@ -117,7 +107,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         )
     }
 
-    console.log("title", editTitle.value, "description", editDescription.value)
 
     function editTaskDetailsHandler() {
         const params = {
@@ -250,7 +239,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         </div> ?
                             <div className="mt-3">
                                 <ProgressBarEta
-                                    start_time={start_time}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                    start_time={start_time}
                                     end_time={end_time}
                                     eta_time={eta_time}
                                 />

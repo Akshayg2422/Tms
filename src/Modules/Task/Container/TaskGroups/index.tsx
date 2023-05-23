@@ -19,7 +19,6 @@ function TaskGroups({ onClick }: TaskGroupProps) {
             getTaskGroupsL({
                 params,
                 onSuccess: (response) => () => {
-                    console.log("===--->",JSON.stringify(response))
                 },
                 onError: () => () => {
                 },
