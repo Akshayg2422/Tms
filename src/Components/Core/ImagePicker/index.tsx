@@ -8,9 +8,11 @@ const ImagePicker = ({
   onSelect,
   size = "lg",
   imageVariant = 'avatar',
-  noOfFilePickers = 3,
+  noOfFileImagePickers ,
   defaultValue,
-  className='row'
+  className='row',
+  heading,
+  
 }: DropZoneImageProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [count, setCount] = useState(1)
@@ -66,7 +68,7 @@ const ImagePicker = ({
 
           let updatedSelectedPhotos: any = [...photo];
 
-          if(updatedSelectedPhotos.length===noOfFilePickers){
+          if(updatedSelectedPhotos.length===noOfFileImagePickers){
             updatedSelectedPhotos = updatedSelectedPhotos.filter(
               (filterItem: any) => filterItem.id !== 0
             );
@@ -105,12 +107,12 @@ const ImagePicker = ({
         onChange={handleChange}
         accept="image/*"
       />
-      <div className="col-12 pt-2"><InputHeading heading={'jjjuu'} /></div>
+      <div className="col-12 pt-2"><InputHeading heading={heading} /></div>
       {photo && photo.map((el, index) => {
 
         return (
         
-            <div className={`${className} col-auto  pr-3`}>
+            <div className={`${className} col-auto ml-0  pr-3`}>
               <div >
                 <div >
                   <Image

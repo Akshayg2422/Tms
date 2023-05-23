@@ -66,7 +66,7 @@ function AddTask() {
     const [eta, setEta] = useState("")
     let attach = photo.slice(-4, 9)
     const [imagePicker, setImagePicker] = useState<any>()
-
+console.log(photo,"pppppp")
 
     useEffect(() => {
         getAssociatedCompaniesApi();
@@ -90,8 +90,8 @@ function AddTask() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = (index: number, file: any) => {
-        let newUpdatedPhoto = [...photo, file];
+    const handleImagePicker = ( file: any) => {
+        let newUpdatedPhoto = [ file];
         setPhoto(newUpdatedPhoto);
     };
 
@@ -369,8 +369,6 @@ function AddTask() {
                     }
                 </div>
 
-
-
                 {subTaskGroups && subTaskGroups.length > 0 && <DropDown
                     heading={translate("common.selectGroup")}
                     placeHolder={'Select a Group'}
@@ -397,7 +395,7 @@ function AddTask() {
             </div>
 
 
-            <div className="col-md-9 col-lg-5 mt-3">
+            {/* <div className="col-md-9 col-lg-5 mt-3">
                 <label className={`form-control-label`}>
                     {translate("common.addAttachment")}
                 </label>
@@ -422,16 +420,19 @@ function AddTask() {
                             );
                         })}
                 </div>
-            </div>
+            </div> */}
 
             <div className="col">
                 <div className="row">
                 <ImagePicker
                     icon={image}
                     size='xl'
-                    // defaultValue={array}
+                    heading={translate("common.addAttachment")!}
+                    noOfFileImagePickers={1}
                     onSelect={(image) => {
                         let file = image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker( file);
+                      
                     }}
                 />
 
