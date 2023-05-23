@@ -95,8 +95,7 @@ function AddChat() {
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
                 <div className='col-6'>
-                    <Input heading={'Name'} value={attachmentName.value} onChange={attachmentName.onChange} />
-                    <div className='col'>
+                <div className='col'>
                         <div className='row'>
                             {selectDropzone && selectDropzone.map((el, index) => {
 
@@ -116,7 +115,9 @@ function AddChat() {
                             })}
                         </div>
                     </div>
-                    <div className=' pt-4'>
+                    
+                    <div className='mt-3'> <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /> </div>
+                    <div className=' pt-2'>
                         <Button text={translate("common.submit")} onClick={addTaskEventAttachment} />
                     </div>
                 </div>

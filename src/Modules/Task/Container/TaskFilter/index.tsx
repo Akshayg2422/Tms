@@ -4,7 +4,7 @@ import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
 import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, } from '@Utils'
 import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartments, getDesignations } from '@Redux'
+import { getAssociatedCompaniesL, getDepartments, getDesignations, taskDefaultParams } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { icons } from '@Assets'
 
@@ -36,9 +36,11 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const [advanceFilter, setAdvanceFilter] = useState(false)
 
 
-
     useEffect(() => {
         const params = { q: '' };
+        if (filteredTask && taskStatus && taskPriority) {
+            
+        }
         if (advanceFilter) {
             dispatch(
                 getAssociatedCompaniesL({
@@ -66,6 +68,10 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             );
         }
     }, [advanceFilter]);
+
+    const getTaskDefaultParams = () => {
+        
+    }
 
     const getDesignation = (items: any) => {
 

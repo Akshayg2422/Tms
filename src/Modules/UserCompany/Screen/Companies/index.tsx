@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssociatedCompany, getAssociatedBranch, getAssociatedCompany, setSelectedCompany } from "@Redux";
-import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown } from "@Components";
+import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast } from "@Components";
 import { useNavigation, useModal, useDynamicHeight, useDropDown } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
@@ -10,12 +10,13 @@ import { getPhoto, paginationHandler } from "@Utils";
 function Companies() {
 
   const dispatch = useDispatch();
-  const { goTo } = useNavigation();
+  const { goTo, goBack } = useNavigation();
+
   const associatedCompanyModal = useModal(false);
   const associatedCompanyDropDown = useDropDown({})
   const dynamicHeight: any = useDynamicHeight()
 
-  const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany } = useSelector(
+  const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany, dashboardDetails } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
 
@@ -33,11 +34,8 @@ function Companies() {
     dispatch(
       getAssociatedBranch({
         params,
-        onSuccess: () => () => {
-        },
-        onError: () => () => {
-
-        },
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
 
@@ -50,19 +48,26 @@ function Companies() {
     dispatch(
       getAssociatedCompany({
         params,
-        onSuccess: () => () => {
-          associatedCompanyModal.hide()
+        onSuccess: (response: any) => () => {
+          if (response.success) {
+            goBack();
+            associatedCompanyModal.hide()
+            showToast(response.message, "success");
+          }
         },
-        onError: () => () => { }
+        onError: (error) => () => {
+          showToast(error.error_message);
+        },
       })
     )
   }
 
-  console.log('screeeeeeeeeeeeeennnnnnnnnnn', JSON.stringify(associatedCompany))
+  console.log('screeeeeeeeeeeeeennnnnnnnnnn', JSON.stringify(dashboardDetails))
 
   const addAssociatedCompanyApi = () => {
     const params = {
-      company_id: associatedCompanyDropDown.value.id
+      company_id: associatedCompanyDropDown.value.id,
+      id: dashboardDetails.company.id
     }
     console.log('params', params);
 
@@ -73,11 +78,12 @@ function Companies() {
     dispatch(
       addAssociatedCompany({
         params,
-        onSuccess: (response) => () => {
+        onSuccess: (response: any) => () => {
+          associatedCompanyDropDown.set('')
           getAssociatedCompanyApi()
         },
         onError: (error) => () => {
-        }
+        },
       })
     )
 
