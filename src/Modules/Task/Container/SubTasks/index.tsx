@@ -3,7 +3,7 @@ import { SubTasksProps } from './interfaces'
 import { Card, H, Button, CommonTable, Priority, NoDataFound } from '@Components'
 import { getSubTasks, setSelectedTask, setSelectedTabPosition } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@Hooks'
+import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
 import { translate } from '@I18n'
@@ -15,6 +15,8 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     const { goTo } = useNavigation();
     const { subTasks } = useSelector((state: any) => state.TaskReducer);
     const dispatch = useDispatch()
+    const { height } = useWindowDimensions()
+
 
     useEffect(() => {
         getSubTasksApi()
@@ -49,7 +51,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
     return (
         <Card style={{
-            height: cardHeight
+            height: height - 418
         }} >
             <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={translate("auth.subTask")} />

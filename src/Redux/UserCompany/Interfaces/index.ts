@@ -53,4 +53,5 @@ export interface UserCompanyStateProp {
     addGroupMessages:any,
     refreshGroupEvents:boolean,
     selectedGroup:any,
+    getSubGroups:any
 }

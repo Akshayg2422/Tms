@@ -131,7 +131,11 @@ function Tasks() {
           }} />
         </div>
       </div>
+<<<<<<< HEAD
       <div className="col-auto text-right">
+=======
+      <div className="col-auto text-right ">
+>>>>>>> 3a42dd5a6d9bb7861c3382e005fa940567abaf6c
         <Button
           className="text-white mb-2"
           size={'sm'}
