@@ -67,23 +67,16 @@ function Companies() {
       company_id: associatedCompanyDropDown.value.id,
       id: dashboardDetails.company.id
     }
-    console.log('params', params);
+
 
 
     dispatch(
       addAssociatedCompany({
         params,
         onSuccess: (response: any) => () => {
-          console.log('11111111111---------------->', response);
-
-          if (response.success) {
-            goBack()
-            getAssociatedCompanyApi()
-            associatedCompanyDropDown.set({})
-            dispatch(refreshUserCompanies())
-            showToast(response.message, "success");
-          }
-
+          associatedCompanyModal.hide();
+          associatedCompanyDropDown.set({})
+          showToast(response.message)
         },
         onError: (error) => () => {
           showToast(error.error_message)
@@ -116,19 +109,58 @@ function Companies() {
 
 
   return (
+    <>
+      <Card className="m-3">
+        {associatedCompanies && associatedCompanies?.length > 0 ?
+          <div className="text-right mb-3">
+            <Button
+              className={'text-white'}
+              size={'sm'}
+              text={translate("auth.associatedCompany")}
+              onClick={() => {
+                associatedCompanyModal.show()
+              }}
+            />
+          </div> : null}
 
-    <Card className="m-3">
-      {associatedCompanies && associatedCompanies?.length > 0 ?
-        <div className="text-right mb-3">
-          <Button
-            className={'text-white'}
-            size={'sm'}
-            text={translate("auth.associatedCompany")}
-            onClick={() => {
-              associatedCompanyModal.show()
-            }}
-          />
-        </div> : null}
+
+        <div style={{
+
+          marginLeft: "-23px",
+          marginRight: "-23px"
+        }}>
+          {associatedCompanies && associatedCompanies?.length > 0 ?
+            <CommonTable
+              isPagination
+              title={'Companies'}
+              tableDataSet={associatedCompanies}
+              currentPage={associatedCompaniesCurrentPages}
+              noOfPage={associatedCompaniesNumOfPages}
+              displayDataSet={normalizedTableData(associatedCompanies)}
+              paginationNumberClick={(currentPage) => {
+                getAssociatedCompaniesHandler(paginationHandler("current", currentPage));
+              }}
+              previousClick={() => {
+                getAssociatedCompaniesHandler(paginationHandler("prev", associatedCompaniesCurrentPages))
+              }
+              }
+              nextClick={() => {
+                getAssociatedCompaniesHandler(paginationHandler("next", associatedCompaniesCurrentPages));
+              }
+              }
+              tableOnClick={(idx, index, item) => {
+                dispatch(setSelectedCompany(item));
+                goTo(ROUTES["user-company-module"]["company-details"]);
+
+              }} />
+            :
+            <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={'Add Company'} onClick={() => {
+              goTo(ROUTES["user-company-module"]["add-company"]);
+            }} isButton /></div>
+
+          }
+        </div>
+      </Card>
 
       <Modal size={"md"} fade={false} isOpen={associatedCompanyModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={associatedCompanyModal.hide}>
 
@@ -149,6 +181,8 @@ function Companies() {
                 size={'sm'}
                 text={translate("common.submit")}
                 onClick={() => {
+                  console.log('caadsas');
+
                   addAssociatedCompanyApi()
                 }} />
             </div>
@@ -167,45 +201,7 @@ function Companies() {
         }
 
       </Modal>
-
-      <div style={{
-
-        marginLeft: "-23px",
-        marginRight: "-23px"
-      }}>
-        {associatedCompanies && associatedCompanies?.length > 0 ?
-          <CommonTable
-            isPagination
-            title={'Companies'}
-            tableDataSet={associatedCompanies}
-            currentPage={associatedCompaniesCurrentPages}
-            noOfPage={associatedCompaniesNumOfPages}
-            displayDataSet={normalizedTableData(associatedCompanies)}
-            paginationNumberClick={(currentPage) => {
-              getAssociatedCompaniesHandler(paginationHandler("current", currentPage));
-            }}
-            previousClick={() => {
-              getAssociatedCompaniesHandler(paginationHandler("prev", associatedCompaniesCurrentPages))
-            }
-            }
-            nextClick={() => {
-              getAssociatedCompaniesHandler(paginationHandler("next", associatedCompaniesCurrentPages));
-            }
-            }
-            tableOnClick={(idx, index, item) => {
-              dispatch(setSelectedCompany(item));
-              goTo(ROUTES["user-company-module"]["company-details"]);
-
-            }} />
-          :
-          <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={'Add Company'} onClick={() => {
-            goTo(ROUTES["user-company-module"]["add-company"]);
-          }} isButton /></div>
-
-        }
-      </div>
-    </Card>
-
+    </>
 
 
   );

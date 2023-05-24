@@ -5,13 +5,12 @@ import { Image } from '@Components'
 import { getPhoto } from '@Utils'
 import { TaskGroupProps } from './interfaces'
 
-function TaskGroups({ onClick,selectAll=true }: TaskGroupProps) {
+function TaskGroups({ onClick, selectAll = true }: TaskGroupProps) {
     const DEFAULT_GROUP = { id: 'ALL', Photo: null, code: "ALL" }
     const { taskGroups } = useSelector((state: any) => state.TaskReducer);
-    console.log(taskGroups)
-    const groupCode=(taskGroups && taskGroups[0]?.code)
-    const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(selectAll?DEFAULT_GROUP.code:groupCode)
-    const taskGroupList= taskGroups && selectAll?[DEFAULT_GROUP, ...taskGroups]:taskGroups
+    const groupCode = (taskGroups && taskGroups[0]?.code)
+    const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>((!selectAll && groupCode) ? groupCode: DEFAULT_GROUP.code )
+    const taskGroupList = taskGroups && selectAll ? [DEFAULT_GROUP, ...(taskGroups.length > 0 ? taskGroups : [])] : taskGroups
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -29,7 +28,7 @@ function TaskGroups({ onClick,selectAll=true }: TaskGroupProps) {
     return (
         <div className='row'>
             {taskGroups && taskGroups.length > 0 &&
-               taskGroupList.map((el: any, index: number) => {
+                taskGroupList.map((el: any, index: number) => {
                     const bgColor = selectedTaskGroup === el.code ? "bg-primary" : "bg-white"
                     const textColor = selectedTaskGroup === el.code ? "text-white" : ""
                     return (
