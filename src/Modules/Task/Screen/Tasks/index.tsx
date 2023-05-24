@@ -4,7 +4,7 @@ import { Button, HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
-import { getTasks, setSelectedTask, getDashboard, setSelectedTabPosition, taskDefaultParams } from '@Redux'
+import { getTasks, setSelectedTask, getDashboard, setSelectedTabPosition, setTaskParams } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
@@ -12,11 +12,12 @@ import { translate } from '@I18n'
 function Tasks() {
   const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
   const dispatch = useDispatch()
-  const { tasks, taskNumOfPages, taskCurrentPages, selectedTask, taskFilterParams } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, selectedTask, taskParams } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch, user_details, company } = dashboardDetails || ''
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const { goTo } = useNavigation();
+
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
@@ -28,7 +29,8 @@ function Tasks() {
   }, [selectedTask])
 
 
-  console.log("default params------------>", taskFilterParams)
+
+
 
 
   function getDashboardDetails() {
@@ -121,11 +123,12 @@ function Tasks() {
       <div className="row">
         <div className="mx-2 mb--3 col">
           <TaskGroups onClick={(code) => {
+            dispatch(setTaskParams({ ...taskParams, group: code }))
             setParams({ ...params, group: code } as any)
           }} />
         </div>
       </div>
-      <div className="col-auto text-right mt--5">
+      <div className="col-auto text-right">
         <Button
           className="text-white mb-2"
           size={'sm'}
@@ -138,8 +141,7 @@ function Tasks() {
 
       <HomeContainer type={'card'} className={'mt-2'}>
         <TaskFilter onParams={(filteredParams) => {
-          console.log('filteredParams-------->', filteredParams);
-
+          dispatch(setTaskParams({ ...taskParams, ...filteredParams }))
           setParams({ ...params, ...filteredParams })
         }} />
         <div style={{
