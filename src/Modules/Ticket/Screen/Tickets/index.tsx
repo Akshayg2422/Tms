@@ -24,7 +24,7 @@ function Tickets() {
   const getTicketHandler = (page_number: number) => {
     const updatedParams = { ...params, page_number }
 
-    
+
     dispatch(
       getTickets({
         params: updatedParams,
@@ -93,8 +93,8 @@ function Tickets() {
 
           'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))} </div>,
           status: <div> <Status status={el?.ticket_status} />
-            <small>{  
-            getDates() > getDates(el.eta_time) ? 'ABOVE ETA' : "" 
+            <small>{
+              getDates() > getDates(el.eta_time) ? 'ABOVE ETA' : ""
             }</small>
           </div>
         };
@@ -107,15 +107,15 @@ function Tickets() {
     <>
       <div className="m-3">
         <div className="row justify-content-end m-0 mb-3">
-            <div className=" ">
-              <Button
-                size={'sm'}
-                text={'Create Ticket'}
-                onClick={() => {
-                  goTo(ROUTES["ticket-module"]["add-ticket"])
-                }
-                }
-              />
+          <div className=" ">
+            <Button
+              className={'text-white'}
+              size={'sm'}
+              text={'Create Ticket'}
+              onClick={() => {
+                goTo(ROUTES["ticket-module"]["add-ticket"])
+              }}
+            />
           </div>
         </div>
 
@@ -144,9 +144,9 @@ function Tickets() {
                 }
                 }
                 tableOnClick={(idx, index, item) => {
-                 dispatch(setSelectedTicket(item));
-                 dispatch(setSelectedTicketTabPosition({ id: '1' }))
-                 goTo(ROUTES['ticket-module']['tickets-details']+'/'+item?.id);
+                  dispatch(setSelectedTicket(item));
+                  dispatch(setSelectedTicketTabPosition({ id: '1' }))
+                  goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item?.id);
                 }
                 }
               />

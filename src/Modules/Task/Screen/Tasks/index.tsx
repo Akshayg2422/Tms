@@ -120,29 +120,25 @@ function Tasks() {
 
   return (
     <div className="mx-3 mt-3 ">
-      <div className="row ">
-        <div className="mx-2 mb--3  col">
+      <div className="row">
+        <div className="mx-2 mb--3 col">
           <TaskGroups onClick={(code) => {
             setParams({ ...params, group: code } as any)
           }} />
         </div>
-
-        <div className="col-auto  ">
-          <Button
-            className="mb--2"
-            size={'sm'}
-            text={translate("common.createTask")}
-            onClick={() => {
-              goTo(ROUTES["task-module"]["add-task"])
-            }
-            }
-
-          />
-
-        </div>
+      </div>
+      <div className="col-auto text-right mt--5">
+        <Button
+          className="text-white mb-2"
+          size={'sm'}
+          text={translate("common.createTask")}
+          onClick={() => {
+            goTo(ROUTES["task-module"]["add-task"])
+          }}
+        />
       </div>
 
-      <HomeContainer type={'card'} className="">
+      <HomeContainer type={'card'} className={'mt-2'}>
         <TaskFilter onParams={(filteredParams) => {
           console.log('filteredParams-------->', filteredParams);
 
