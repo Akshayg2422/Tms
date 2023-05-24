@@ -23,13 +23,7 @@ function AdminFeeds() {
   );
 
 
-  const { user_details  } = dashboardDetails
-
-
-  console.log("dashboradDetails---->", dashboardDetails)
-
-
-
+  const { user_details } = dashboardDetails
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
   const [selectedCompanies, setSelectedCompanies] = useState<any>([]);
