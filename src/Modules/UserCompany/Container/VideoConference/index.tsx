@@ -7,9 +7,6 @@ import { ROUTES } from '@Routes';
 
 const VideoConference = () => {
     
-
-    
-
     useEffect(() => {
 
     }, [])
