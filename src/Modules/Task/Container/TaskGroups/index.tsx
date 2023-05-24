@@ -8,12 +8,10 @@ import { TaskGroupProps } from './interfaces'
 function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
     const DEFAULT_GROUP = { id: 'ALL', Photo: null, code: "ALL" }
     const { taskGroups } = useSelector((state: any) => state.TaskReducer);
-
-
-
+    console.log(taskGroups)
     const groupCode = (taskGroups && taskGroups[0]?.code)
-    const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>((!showAll && groupCode) ? groupCode.code : DEFAULT_GROUP.code)
-    const taskGroupList = taskGroups && showAll ? [DEFAULT_GROUP, ...(taskGroups.length > 0 ? taskGroups : [])] : taskGroups
+    const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(showAll ? DEFAULT_GROUP.code : groupCode)
+    const taskGroupList = taskGroups && showAll ? [DEFAULT_GROUP, ...taskGroups] : taskGroups
     const dispatch = useDispatch()
 
     useEffect(() => {
