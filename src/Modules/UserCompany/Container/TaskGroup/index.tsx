@@ -330,6 +330,7 @@ function TaskGroup() {
 
           <div className="text-right mr-3">
             <Button
+              className={'text-white'}
               text={
                 showTaskGroup
                   ? translate("course.hide")
@@ -345,6 +346,7 @@ function TaskGroup() {
               }}
             />
             <Button
+              className={'text-white'}
               text={translate("product.addItem")}
               size={"sm"}
               onClick={() => {
