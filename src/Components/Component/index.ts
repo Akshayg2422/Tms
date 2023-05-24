@@ -17,6 +17,7 @@ export * from './ComponentLoader'
 export * from './SearchInput'
 export * from './TimeLine'
 export * from './Alert'
+export * from './Collapse'
 
 
 

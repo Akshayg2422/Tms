@@ -5,8 +5,8 @@ import { Card } from '@Components'
 function Chat() {
   return (
     <Card>
-      <TicketChat/>
-      <AddChatTicket/>
+       <TicketChat/>
+      <AddChatTicket/> 
     </Card>
   );
 }

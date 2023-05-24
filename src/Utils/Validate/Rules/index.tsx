@@ -245,7 +245,7 @@ export const ADD_TAG = {
 export const ADD_TASK_GROUP = {
   name: {
     presence: { allowEmpty: false, message: "tag name cannot be empty" },
-    length: { maximum: 20, message: "we cannot not add more then 20 character" },
+     length: { maximum: 10, message: "we cannot not add more then 20 character" },
   },
   code: {
     presence: { allowEmpty: false, message: "code name cannot be empty" },
@@ -265,7 +265,6 @@ export const ADD_TASK_GROUP = {
 export const ADD_SUB_TASK_GROUP = {
   name: {
     presence: { allowEmpty: false, message: "tag name cannot be empty" },
-    length: { maximum: 20, message: "we cannot not add more then 20 character" },
   },
   code: {
     presence: { allowEmpty: false, message: "code name cannot be empty" },
@@ -304,7 +303,10 @@ export const ADD_TIME_SHEET_DETAILS = {
   },
   end_time: {
     presence: { allowEmpty: false, message: " EndTime cannot be empty" },
-  }
+  },
+  description: {
+    presence: { allowEmpty: false, message: " EndTime cannot be empty" },
+  },
 }
 
 

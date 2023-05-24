@@ -16,7 +16,6 @@ import { useDynamicHeight } from "@Hooks";
 
 function TaskDetails() {
 
-
     const dispatch = useDispatch()
     const { selectedTabPositions } = useSelector(
         (state: any) => state.TaskReducer
@@ -31,19 +30,14 @@ function TaskDetails() {
         { id: "4", title: <div className="text-center"><Image src={icons.users} height={16} width={16} /></div>, component: <TaskUsers /> },
     ];
 
-
-
     const ref = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState(0);
-
-
     useLayoutEffect(() => {
         if (ref?.current) {
             setHeight(ref.current.offsetHeight);
+
         }
     }, []);
-
-
 
     return (
         <HomeContainer className="m-3">

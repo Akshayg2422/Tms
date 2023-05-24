@@ -3,15 +3,16 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getTaskGroupsL } from '@Redux'
 import { Image } from '@Components'
 import { getPhoto } from '@Utils'
-import { icons } from '@Assets'
 import { TaskGroupProps } from './interfaces'
 
-function TaskGroups({ onClick }: TaskGroupProps) {
+function TaskGroups({ onClick,selectAll=true }: TaskGroupProps) {
     const DEFAULT_GROUP = { id: 'ALL', Photo: null, code: "ALL" }
     const { taskGroups } = useSelector((state: any) => state.TaskReducer);
-    const [selectedTaskGroup, setSelectedTaskGroup] = useState(DEFAULT_GROUP.code)
+    console.log(taskGroups)
+    const groupCode=(taskGroups && taskGroups[0]?.code)
+    const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(selectAll?DEFAULT_GROUP.code:groupCode)
+    const taskGroupList= taskGroups && selectAll?[DEFAULT_GROUP, ...taskGroups]:taskGroups
     const dispatch = useDispatch()
-
 
     useEffect(() => {
         const params = {}
@@ -25,11 +26,10 @@ function TaskGroups({ onClick }: TaskGroupProps) {
             }))
     }, [])
 
-
     return (
         <div className='row'>
             {taskGroups && taskGroups.length > 0 &&
-                [DEFAULT_GROUP, ...taskGroups].map((el: any, index: number) => {
+               taskGroupList.map((el: any, index: number) => {
                     const bgColor = selectedTaskGroup === el.code ? "bg-primary" : "bg-white"
                     const textColor = selectedTaskGroup === el.code ? "text-white" : ""
                     return (

@@ -8,6 +8,7 @@ export const delay = (ms: number) =>
 
 
 export function matchStateToTerm(state, value) {
+  
   return (
     state.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
   )

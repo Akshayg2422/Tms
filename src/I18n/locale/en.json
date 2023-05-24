@@ -81,7 +81,8 @@
     "reason": "Reason",
     "includeSubtask":"Include SubTask",
     "addAttachment":"Add Attachment",
-    "note":"Note"
+    "note":"Note",
+    "add":"Add"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -149,7 +150,9 @@
     "employees":"Employees",
     "addTimeSheet":"AddTimeSheet",
     "createPost":"Create Post",
-    "associatedCompany":"Associate Company"
+    "associatedCompany":"Associate Company",
+    "assignedTask":"AssignedTask",
+    "editTimeSheet":"EditTimeSheet"
   },
   "product": {
     "Store": "Store",

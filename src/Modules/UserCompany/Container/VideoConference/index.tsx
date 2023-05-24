@@ -5,16 +5,8 @@ import { JitsiMeeting, JaaSMeeting } from '@jitsi/react-sdk';
 import { useSelector } from 'react-redux';
 import { ROUTES } from '@Routes';
 
-
-
-
-
-
 const VideoConference = () => {
     
-
-    
-
     useEffect(() => {
 
     }, [])

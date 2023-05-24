@@ -34,7 +34,7 @@ export interface UserCompanyStateProp {
     selectedCompany: any,
     employeesl:any,
     employeeAddTime:any,
-    employeeTimelineList:any,
+    employeeTimeline:any,
     selectedEmployee:any,
     employeeTimelineCurrentPages:any,
     employeeTimelineNumOfPages:any,
@@ -48,4 +48,9 @@ export interface UserCompanyStateProp {
     associatedCompany:any,
     updateAssociatedCompany:any,
     refreshUserCompany: boolean,
+    groupEmployees:any,
+    groupMessage:any,
+    addGroupMessages:any,
+    refreshGroupEvents:boolean,
+    selectedGroup:any,
 }

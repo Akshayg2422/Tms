@@ -16,7 +16,6 @@ const END_TASK = 2
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const { id } = useParams()
-
     const dispatch = useDispatch()
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
@@ -53,6 +52,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
     const editEtaSubmitApiHandler = () => {
+        
         const params = {
             id,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),

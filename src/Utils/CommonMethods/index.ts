@@ -1,4 +1,6 @@
-
+import {
+  getPhoto,
+} from "@Utils";
 
 export function ifObjectExist(value: object) {
   let is_valid = true;
@@ -85,3 +87,29 @@ export const getDeviceInfo = () => {
   }
   return { brand, model, platform }
 }
+
+
+export  async function imagePickerConvertBase64(array) {
+  const promises = array.map(async (each) => {
+    let photo = await getPhoto(each. photo);
+    const base64 = await fetch(photo)
+.then(response => response.blob())
+  .then(blob => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      return new Promise((res) => {
+          reader.onloadend = () => {
+              res(reader.result);
+          }
+      })
+  })
+    return {
+      ...each,
+      base64: base64
+    };
+
+  });
+
+  return Promise.all(promises);
+}
+

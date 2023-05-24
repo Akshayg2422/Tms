@@ -32,7 +32,6 @@ export const GET_REFERENCE_TICKETS = TICKET + 'getReferenceTickets';
 export const ADD_BROADCAST_MESSAGES = TICKET + 'addBroadcastMessages';
 export const GET_BROADCAST_MESSAGES = TICKET + 'getBroadcastMessages';
 
-
 export const VALIDATE_USER = AUTH + 'validateUser';
 export const VALIDATE_REGISTER_USER = AUTH + 'validateRegistrationUser';
 export const OTP_REGISTER = AUTH + 'otpRegister';
@@ -132,4 +131,15 @@ export const GET_VIDEO_CONFERENCE_LIST = TASK + 'getVideoConferenceList';
 
 export const GET_TOKEN_BY_USER = TASK + 'getTokenByUser';
 
+/* GET GROUPS EMPLOYEES*/
+
+export const GET_GROUP_EMPLOYEES= TASK + 'getGroupEmployees'
+
+/* GET GROUP MESSAGE*/
+
+export const GET_GROUP_MESSAGE= TASK + 'getGroupMessage'
+
+/* ADD GROUP MESSAGE*/
+
+export const ADD_GROUP_MESSAGE= TASK + 'addGroupMessage'
 

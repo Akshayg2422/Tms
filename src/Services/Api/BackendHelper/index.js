@@ -124,3 +124,9 @@ export const getAssociatedCompanyApi = (payload) => post(URL.FETCH_ASSOCIATED_CO
 /* ADD ASSOCIATED COMPANY */
 
 export const addAssociatedCompanyApi = (payload) => post(URL.ADDING_ASSOCIATED_COMPANY, payload, {})
+
+/* GET GROUP DETAILS */
+
+export const getGroupEmployeesApi = (payload) => post(URL.GET_GROUP_EMPLOYEES, payload, {})
+export const getGroupMessageApi = (payload) => post(URL.GET_GROUP_MESSAGE, payload, {})
+export const addGroupMessageApi = (payload) => post(URL.ADD_GROUP_MESSAGE, payload, {})
