@@ -30,31 +30,23 @@ function TaskDetails() {
         { id: "4", title: <div className="text-center"><Image src={icons.users} height={16} width={16} /></div>, component: <TaskUsers /> },
     ];
 
-    const ref = useRef<HTMLDivElement>(null)
-    const [height, setHeight] = useState(0);
-    useLayoutEffect(() => {
-        if (ref?.current) {
-            setHeight(ref.current.offsetHeight);
-
-        }
-    }, []);
 
     return (
-        <HomeContainer className="m-3">
+        <div className="m-3">
             <div className="">
                 <div className="row">
                     <div className="col-md-6" >
-                        <TaskInfo ref={ref} />
-                        <SubTasks cardHeight={height - 250} />
+                        <TaskInfo />
+                        <SubTasks />
                     </div>
                     <div className="col-md-6">
-                        <Tabs height={height} tabs={TABS} selected={selectedTabPositions} onChange={(item) => {
+                        <Tabs tabs={TABS} selected={selectedTabPositions} onChange={(item) => {
                             dispatch(setSelectedTabPosition(item))
                         }} />
                     </div>
                 </div>
             </div>
-        </HomeContainer>
+        </div>
     );
 }
 

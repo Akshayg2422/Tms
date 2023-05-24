@@ -104,7 +104,7 @@ function TaskChat({ }: TaskChatProps) {
         <div
             id="scrollableDiv"
             style={{
-                height: height - 100,
+                height: height - 186,
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
