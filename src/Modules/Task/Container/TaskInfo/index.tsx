@@ -29,9 +29,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const taskEventModal = useModal(false)
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
-    const { height } = useWindowDimensions()
-
-
 
     useEffect(() => {
         getTaskDetailsHandler()
@@ -130,16 +127,18 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     return (
         <div ref={ref} >
-            <Card>
-                <div className="row mt--3">
-                    <Back />
-                </div>
-                <Card style={{ height: height - 287 }}
-                    className={'col mb--4 shadow-none p-0 overflow-auto overflow-hide'}>
-
-                    <div className="row  d-flex justify-content-between">
-                        <span> {title && <H tag={"h4"} className="mb-3" text={title} />} </span>
-                        <span className="mr-4">
+            <Card className={'px-3'}>
+                <div>
+                    <div className="col">
+                        <div className="row d-flex justify-content-between">
+                            <div className="row">
+                                <Back />
+                                <div className="ml-3">
+                                    <span> {title && <H tag={"h4"} className="mb-0" text={title} />} </span>
+                                    {description && <p className="text-muted text-sm mb--2">{capitalizeFirstLetter(description)}</p>}
+                                    {code && <small>{`# ${code}`}</small>}
+                                </div>
+                            </div>
                             <div className="pointer" onClick={() => {
                                 editTaskModal.show()
                                 editTitle.set(title)
@@ -147,46 +146,38 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             }}>
                                 <Image src={icons.editEta} height={16} width={16} />
                             </div>
-                        </span>
-                    </div>
-                    <div className="row mt--3">
-                        <div>
-                            {description && <H tag={'h5'} className="mb-0" text={capitalizeFirstLetter(description)} />}
-                            {code && <H tag={"h6"} className="text-muted mb-0" text={`# ${code}`} />}
-
-                            <div className="my-1">
-
-                                <div className="row">
-                                    {
-                                        task_attachments &&
-                                        task_attachments?.length > 0 && task_attachments?.map
-                                            ((item) => {
-                                                return <div
-                                                    className="ml-3"
-                                                    onClick={(e) => e.preventDefault()}>
-                                                    <Image
-                                                        variant={'avatar'}
-                                                        src={getPhoto(item?.attachment_file)} /></div>
-                                            })
-                                    }
-                                </div>
-                            </div>
-                            <div className="mt-3">
-                                <div className="h5 mb-0"> {by_user?.name} </div>
-                                <div className="mt--1"><small > {by_user?.phone} </small></div>
-                                <div className="mt--2"><small > {by_user?.email} </small></div>
-                            </div>
-
                         </div>
-
                     </div>
-                    <hr className="mx--3 my-3" />
+                    <div className="row mt-3">
+                        {
+                            task_attachments &&
+                            task_attachments?.length > 0 && task_attachments?.map
+                                ((item, index) => {
+                                    return <div
+                                        className={`${index !== 0 && 'ml-2'}`}
+                                        onClick={(e) => e.preventDefault()}>
+                                        <Image
+                                            variant={'avatar'}
+                                            size={'lg'}
+                                            src={getPhoto(item?.attachment_file)}
+                                        />
+                                    </div>
+                                })
+                        }
+                    </div>
+                    <div className="ml--3 mt-2">
+                        <div className="h5 mb-0"> {by_user?.name} </div>
+                        <div className="mt--1"><small > {by_user?.phone} </small></div>
+                        <div className="mt--2"><small > {by_user?.email} </small></div>
+                    </div>
 
-                    <div className="row ">
+                    <hr className="my-4" />
+
+                    <div className="row mt-2">
 
                         <div className="col ml--3">
                             {
-                                eta_time === null ?
+                                eta_time ?
                                     <>
                                         <H className=" text-uppercase text-muted " tag={"h6"} text={'CREATED AT :'} />
                                         <h5 className="text-uppercase mt--2">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
@@ -213,7 +204,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         </div>
                     </div>
 
-                    <div className="row">
+                    <div className="row mt-2">
                         <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
                         <div className="ml-3">
                             <div className="h5 mb-0"> {raised_by_company?.display_name}</div>
@@ -234,22 +225,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         }} />}
                     </div>
 
-                    {
-                        <><div className="col text-right mt-3 ml--3">
-                            {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && <Button size={'sm'} text={'Start'}
-                                onClick={() => {
-                                    alertModal.show();
-                                    setActionTask(START_TASK);
-                                }} />}
-                        </div><div className="col text-right mt-3 ml--3">
-                                {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && <Button size={'sm'} text={'End'} onClick={() => {
-                                    alertModal.show();
-                                    setActionTask(END_TASK);
-                                }} />}
-                            </div></>
-                    }
-
-                </Card>
+                </div>
             </Card >
 
             {/**

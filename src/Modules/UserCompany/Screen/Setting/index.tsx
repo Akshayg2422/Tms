@@ -6,14 +6,14 @@ function Setting() {
     <div className='m-3'>
       <div className='row'>
         <div className='col-6'>
-      <Tag />
-   <div className='mt--3'><Designation /></div>   
-      <TaskGroup />
-
+          <Tag />
+          <div className='mt--3'>
+            <Designation /></div>
+          <TaskGroup />
         </div>
         <div className='col-6 ml--2'>
-        <BrandSector/>
-        <Department />
+          <BrandSector />
+          <Department />
 
         </div>
 

@@ -7,11 +7,11 @@ import {
     TaskInfo,
     SubTasks
 } from "@Modules";
-import { HomeContainer, Tabs, Image } from "@Components";
+import { Tabs, Image } from "@Components";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedTabPosition } from '@Redux'
 import { icons } from "@Assets";
-import { useDynamicHeight } from "@Hooks";
+import { useWindowDimensions } from "@Hooks";
 
 
 function TaskDetails() {
@@ -20,8 +20,10 @@ function TaskDetails() {
     const { selectedTabPositions } = useSelector(
         (state: any) => state.TaskReducer
     );
+    const ref = useRef<HTMLDivElement>(null)
 
-    const dynamicHeight: any = useDynamicHeight()
+    const { width, height } = useWindowDimensions()
+    const [infoHeight, setInfoHeight] = useState(0)
 
     const TABS = [
         { id: "1", title: <div className="text-center"><Image src={icons.Comments} height={16} width={16} /></div>, component: <Comments /> },
@@ -30,20 +32,32 @@ function TaskDetails() {
         { id: "4", title: <div className="text-center"><Image src={icons.users} height={16} width={16} /></div>, component: <TaskUsers /> },
     ];
 
+    useEffect(() => {
+        if (ref.current) {
+            setInfoHeight(ref.current.clientHeight)
+        }
+    })
 
     return (
-        <div className="m-3">
-            <div className="">
-                <div className="row">
-                    <div className="col-md-6" >
+        <div className="h-100vh m-3">
+            <div className="row">
+                <div className="col mr--3 h-100vh overflow-hide" style={{
+                    overflowY: 'scroll'
+                }}>
+                    <div ref={ref}>
                         <TaskInfo />
+                    </div>
+                    <div className="mt--3" style={{
+                        height: height - (infoHeight + 45),
+                        minHeight: 300
+                    }}>
                         <SubTasks />
                     </div>
-                    <div className="col-md-6">
-                        <Tabs tabs={TABS} selected={selectedTabPositions} onChange={(item) => {
-                            dispatch(setSelectedTabPosition(item))
-                        }} />
-                    </div>
+                </div>
+                <div className="col-6">
+                    <Tabs tabs={TABS} selected={selectedTabPositions} onChange={(item) => {
+                        dispatch(setSelectedTabPosition(item))
+                    }} />
                 </div>
             </div>
         </div>

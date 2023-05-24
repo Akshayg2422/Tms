@@ -14,7 +14,7 @@ function Tasks() {
   const dispatch = useDispatch()
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask, taskParams } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-  const { company_branch, user_details, company } = dashboardDetails || ''
+  const { company } = dashboardDetails || ''
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const { goTo } = useNavigation();
 
@@ -28,10 +28,6 @@ function Tasks() {
   useEffect(() => {
     getDashboardDetails()
   }, [selectedTask])
-
-
-
-
 
 
   function getDashboardDetails() {
@@ -122,22 +118,11 @@ function Tasks() {
   };
 
   return (
-    <div className="mx-3 mt-3 ">
-      <div className="row">
-        <div className="mx-2 mb--3 col">
-          <TaskGroups onClick={(code) => {
-            dispatch(setTaskParams({ ...taskParams, group: code }))
-            setParams({ ...params, group: code } as any)
-          }} />
-        </div>
-      </div>
-<<<<<<< HEAD
-      <div className="col-auto text-right">
-=======
-      <div className="col-auto text-right ">
->>>>>>> 3a42dd5a6d9bb7861c3382e005fa940567abaf6c
+    <div className="mx-3 mt-3">
+
+      <div className="d-flex justify-content-end">
         <Button
-          className="text-white mb-2"
+          className="text-white"
           size={'sm'}
           text={translate("common.createTask")}
           onClick={() => {
@@ -145,8 +130,16 @@ function Tasks() {
           }}
         />
       </div>
+      <div className="row mt-3">
+        <div className="mx-2 col">
+          <TaskGroups onClick={(code) => {
+            dispatch(setTaskParams({ ...taskParams, group: code }))
+            setParams({ ...params, group: code } as any)
+          }} />
+        </div>
+      </div>
 
-      <HomeContainer type={'card'} className={'mt-2'}>
+      <HomeContainer type={'card'}>
         <TaskFilter onParams={(filteredParams) => {
           dispatch(setTaskParams({ ...taskParams, ...filteredParams }))
           setParams({ ...params, ...filteredParams })

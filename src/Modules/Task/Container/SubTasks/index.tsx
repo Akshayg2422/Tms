@@ -50,10 +50,9 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     };
 
     return (
-        <Card style={{
-            height: height - 418
-        }} >
-            <div className='row justify-content-between px-3'>
+
+        <Card className="h-100">
+            {(subTasks && subTasks.length < 0) && <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={translate("auth.subTask")} />
                 <Button
                     className={'shadow-none text-white'}
@@ -64,6 +63,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                     }}
                 />
             </div>
+            }
 
             <Card className='h-100 mt-1 mx--4 overflow-auto overflow-hide shadow-none' style={{ maxHeight: '39vh' }}>
                 {subTasks && subTasks.length > 0 ?

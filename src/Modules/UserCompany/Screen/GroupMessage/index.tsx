@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-function GroupMessage({selectedGroup
+function GroupMessage({ selectedGroup
 }: GroupMessageProps) {
 
     const { id } = useParams();
@@ -23,12 +23,12 @@ function GroupMessage({selectedGroup
     const [image, setImage] = useState([])
     const imageModal = useModal(false)
 
-    
+
 
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
-    }, [refreshGroupEvents,selectedGroup])
+    }, [refreshGroupEvents, selectedGroup])
 
     function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -43,34 +43,34 @@ function GroupMessage({selectedGroup
 
     const getGroupMessageApi = (page_number: number) => {
         const params = {
-            group_id:selectedGroup,
+            group_id: selectedGroup,
             page_number
         }
 
-   if(selectedGroup){
+        if (selectedGroup) {
 
-        dispatch(
-            getGroupMessage({
-                params,
-                onSuccess: (response: any) => () => {
-                    const groupEventsResponse = response.details
-                    let updatedData = []
-                    if (groupEventsResponse.data && groupEventsResponse.data.length > 0) {
-                        if (page_number === 1) {
-                            updatedData = getGroupEventsDisplayData(groupEventsResponse.data)
-                        } else {
-                            updatedData = getGroupEventsDisplayData([...groupEvents, ...groupEventsResponse.data] as any)
+            dispatch(
+                getGroupMessage({
+                    params,
+                    onSuccess: (response: any) => () => {
+                        const groupEventsResponse = response.details
+                        let updatedData = []
+                        if (groupEventsResponse.data && groupEventsResponse.data.length > 0) {
+                            if (page_number === 1) {
+                                updatedData = getGroupEventsDisplayData(groupEventsResponse.data)
+                            } else {
+                                updatedData = getGroupEventsDisplayData([...groupEvents, ...groupEventsResponse.data] as any)
+                            }
                         }
-                    }
-                    setGroupEvents(updatedData)
-                    setGroupCurrentPage(groupEventsResponse.next_page)
+                        setGroupEvents(updatedData)
+                        setGroupCurrentPage(groupEventsResponse.next_page)
 
-                    console.log('response=====>',response)
-                },
-                onError: () => () => {},
-            })
-        );
-   }
+                        console.log('response=====>', response)
+                    },
+                    onError: () => () => { },
+                })
+            );
+        }
 
     };
 
@@ -110,63 +110,66 @@ function GroupMessage({selectedGroup
     }
 
     return (
-        <div
-            id="scrollableDiv"
-            style={{
-                height: height - 100,
-                display: 'flex',
-                flexDirection: 'column-reverse',
-            }}
-            className={'overflow-auto overflow-hide '}
-        >
-            <InfiniteScroll
-                dataLength={groupEvents.length}
-                hasMore={GroupCurrentPage !== -1}
-                scrollableTarget="scrollableDiv"
-                style={{ display: 'flex', flexDirection: 'column-reverse' }}
-                inverse={true}
-                loader={<h4>
-                    <Spinner />
-                </h4>}
-                next={() => {
-                   
+        <>
+            <div
+                id="scrollableDiv"
+                style={{
+                    height: height - 185,
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                }}
+                className={'overflow-auto overflow-hide'}
+            >
+                <InfiniteScroll
+                    dataLength={groupEvents.length}
+                    hasMore={GroupCurrentPage !== -1}
+                    scrollableTarget="scrollableDiv"
+                    style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                    inverse={true}
+                    loader={<h4>
+                        <Spinner />
+                    </h4>}
+                    next={() => {
 
-                    if (GroupCurrentPage !== -1) {
-                        getGroupMessageApi(GroupCurrentPage)
+
+                        if (GroupCurrentPage !== -1) {
+                            getGroupMessageApi(GroupCurrentPage)
+                        }
                     }
-                }
-                }>
-                {groupEvents && groupEvents.length > 0 &&
-                    groupEvents.map((task: any, index: number) => {
-                        const { icon, title, subTitle, created_at, attachments } = task
-                        const showDotLine = index !== 0
-                        const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                    }>
+                    {groupEvents && groupEvents.length > 0 &&
+                        groupEvents.map((task: any, index: number) => {
+                            const { icon, title, subTitle, created_at, attachments } = task
+                            const showDotLine = index !== 0
+                            const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
 
-                        return (
-                            <TimeLine
-                                icon={icon}
-                                showDotterLine={showDotLine}
-                                title={title} subTitle={subTitle}
-                                time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
+                            return (
+                                <TimeLine
+                                    icon={icon}
+                                    showDotterLine={showDotLine}
+                                    title={title} subTitle={subTitle}
+                                    time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
-                                <div className='pt-2' onClick={() => {
-                                    imageModal.show() 
-                                    setImage(imageUrls)
-                                }} >
-                                    <div>
-                                        {
-                                            imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                                return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
-                                            })
-                                        }
+                                    <div className='pt-2' onClick={() => {
+                                        imageModal.show()
+                                        setImage(imageUrls)
+                                    }} >
+                                        <div>
+                                            {
+                                                imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
+                                                    return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                                })
+                                            }
+                                        </div>
                                     </div>
-                                </div>
-                            </TimeLine>)
-                    })
-                }
-            </InfiniteScroll>
+                                </TimeLine>)
+                        })
+                    }
+                </InfiniteScroll>
 
-             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
+
+            </div>
+            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
                 <Carousel >
                     {
                         image.map(each => {
@@ -179,8 +182,8 @@ function GroupMessage({selectedGroup
                         })
                     }
                 </Carousel>
-            </Modal> 
-        </div>
+            </Modal>
+        </>
 
 
     );
