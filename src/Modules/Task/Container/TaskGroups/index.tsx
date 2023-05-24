@@ -5,12 +5,16 @@ import { Image } from '@Components'
 import { getPhoto } from '@Utils'
 import { TaskGroupProps } from './interfaces'
 
-function TaskGroups({ onClick, selectAll = true }: TaskGroupProps) {
+function TaskGroups({ onClick,showAll=true }: TaskGroupProps) {
     const DEFAULT_GROUP = { id: 'ALL', Photo: null, code: "ALL" }
     const { taskGroups } = useSelector((state: any) => state.TaskReducer);
-    const groupCode = (taskGroups && taskGroups[0]?.code)
-    const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>((!selectAll && groupCode) ? groupCode: DEFAULT_GROUP.code )
-    const taskGroupList = taskGroups && selectAll ? [DEFAULT_GROUP, ...(taskGroups.length > 0 ? taskGroups : [])] : taskGroups
+    console.log(taskGroups)
+    const groupCode=(taskGroups && taskGroups[0]?.id)
+    // const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>((showAll && groupCode )?DEFAULT_GROUP.id: groupCode )
+     const taskGroupList= taskGroups && showAll?[DEFAULT_GROUP, ...(taskGroups.length>0?taskGroups:[])]:taskGroups
+     const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>()
+    
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -25,18 +29,24 @@ function TaskGroups({ onClick, selectAll = true }: TaskGroupProps) {
             }))
     }, [])
 
+    useEffect(()=>{
+        setSelectedTaskGroup((showAll && groupCode)?DEFAULT_GROUP.id: groupCode )
+
+    },[taskGroupList])
+
     return (
-        <div className='row'>
-            {taskGroups && taskGroups.length > 0 &&
-                taskGroupList.map((el: any, index: number) => {
-                    const bgColor = selectedTaskGroup === el.code ? "bg-primary" : "bg-white"
-                    const textColor = selectedTaskGroup === el.code ? "text-white" : ""
+        
+        <div className='row mb-2 ' >
+            {taskGroups && taskGroups.length > 0 && taskGroupList &&
+               taskGroupList.map((el: any, index: number) => {
+                    const bgColor = selectedTaskGroup === el.id ? "bg-primary" : "bg-white"
+                    const textColor = selectedTaskGroup === el.id ? "text-white" : ""
                     return (
                         <div
-                            className={`card ${bgColor} ml-2 pointer`}
+                            className={`card ${bgColor} ml-2 pointer mb-2`}
                             key={el.code}
                             onClick={() => {
-                                setSelectedTaskGroup(el.code)
+                                setSelectedTaskGroup(el.id)
                                 onClick(el.id)
                                 console.log(el.id)
                             }}

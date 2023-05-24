@@ -143,3 +143,8 @@ export const GET_GROUP_MESSAGE= TASK + 'getGroupMessage'
 
 export const ADD_GROUP_MESSAGE= TASK + 'addGroupMessage'
 
+// get subTaskGroup
+export const GET_SUB_GROUP= TASK + 'getSubGroup'
+
+
+

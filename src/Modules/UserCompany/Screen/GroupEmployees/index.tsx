@@ -20,7 +20,7 @@ function GroupEmployees({ Employees,height,otherParams}: EmployeeGroupsProps) {
             ...(otherParams && { ...otherParams }),
             q
         }
-        
+        if(Employees){
         dispatch(
             getGroupsEmployees({
                 params,
@@ -33,6 +33,7 @@ function GroupEmployees({ Employees,height,otherParams}: EmployeeGroupsProps) {
                 }
             })
         )
+        }
     }
 
     
@@ -56,11 +57,9 @@ function GroupEmployees({ Employees,height,otherParams}: EmployeeGroupsProps) {
 
                             <div className='container  overflow-auto overflow-hide pt-1 ' >
                                 <div className=' align-items-center  '>
-                                    
-                              
-
+                                
                                     <div className='row align-item-center justify-content-center'>
-                                        <div className='col pt-2'>
+                                        <div className='col pt-1'>
                                         <H
                                             tag={'h4'}
                                             text={name}
@@ -70,13 +69,13 @@ function GroupEmployees({ Employees,height,otherParams}: EmployeeGroupsProps) {
                                       
                                     </div>
 
-                                    <div className={'row col'}>
-                                        <div className={'h6 mb-0 text-uppercase text-muted pl-2 '} >{department ? department : '-'}</div>
+                                    <div className={'row col mt--2'}>
+                                        <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
                                         <div className={'h5 mb-0 text-uppercase text-muted px-1'}>{'/'}</div>
                                         <div className={'h6 mb-0 text-uppercase text-muted' }>{designation ? designation : '-'}</div>
                                     </div>
                                 </div>
-                                <div className={'mx--2'}>
+                                <div className={'mx--2 '}>
                                     {index !== groupEmployees.length - 1 && <Divider space={'1'} />}
                                 </div>
                             </div>

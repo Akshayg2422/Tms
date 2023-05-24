@@ -47,7 +47,7 @@ function GroupMessage({selectedGroup
             page_number
         }
 
-   
+   if(selectedGroup){
 
         dispatch(
             getGroupMessage({
@@ -70,6 +70,8 @@ function GroupMessage({selectedGroup
                 onError: () => () => {},
             })
         );
+   }
+
     };
 
     function getIconsFromStatus(each: any) {

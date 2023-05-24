@@ -797,3 +797,26 @@ export const addGroupMessageFailure = (error: any) => {
   };
 };
 
+
+//GET SUB GROUP
+export const getSubGroup = (params: any) => {
+  return {
+    type: ActionTypes.GET_SUB_GROUP,
+    payload: params,
+  };
+};
+
+export const getSubGroupSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_SUB_GROUP_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getSubGroupFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_SUB_GROUP_FAILURE,
+    payload: error,
+  };
+};
+
