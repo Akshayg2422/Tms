@@ -358,3 +358,9 @@ export const ADD_EVENT_INTERNAL_RULES = {
   },
 }
 
+export const ADD_GROUP_MESSAGE= {
+  group_attachments: {
+    presence: { allowEmpty: false, message: "name and attachment cannot be empty" },
+  },
+}
+

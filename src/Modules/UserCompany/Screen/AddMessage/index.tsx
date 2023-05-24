@@ -98,9 +98,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             </div >
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
-                <div className='col-6'>
-                    <Input heading={'Name'} value={attachmentName.value} onChange={attachmentName.onChange} />
-                    <div className='col'>
+                     <div className='col ml-3'>
                         <div className='row'>
                             {selectDropzone && selectDropzone.map((el, index) => {
 
@@ -120,6 +118,8 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                             })}
                         </div>
                     </div>
+                <div className='col-6 pt-1'>
+                    <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
                     <div className=' pt-4'>
                         <Button text={translate("common.submit")} onClick={addGroupEventAttachment} />
                     </div>
