@@ -136,14 +136,16 @@ function Designation() {
 
   return (
     <>
-      <Card className={'mb-3'} style={{ height: showDesignations ? dynamicHeight.dynamicHeight - 35 : '5em',
-     }}>
+      <Card className={'mb-3'} style={{
+        height: showDesignations ? dynamicHeight.dynamicHeight - 35 : '5em',
+      }}>
         <div className="row">
           <div className="col">
             <h3>{translate("auth.designation")}</h3>
           </div>
           <div className="text-right mr-3 ">
             <Button
+              className={'text-white'}
               text={
                 showDesignations
                   ? translate("course.hide")
@@ -158,6 +160,7 @@ function Designation() {
               }}
             />
             <Button
+              className={'text-white'}
               text={translate("product.addItem")}
               size={"sm"}
               onClick={() => { addDesignationModal.show() }}
@@ -170,8 +173,8 @@ function Designation() {
           className="overflow-auto overflow-hide"
           style={{
             height: showDesignations ? dynamicHeight.dynamicHeight - 100 : '0px',
-            marginLeft:"-23px",
-            marginRight:"-23px"
+            marginLeft: "-23px",
+            marginRight: "-23px"
           }}>
           {designations && designations?.length > 0 ? (
             <CommonTable
