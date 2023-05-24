@@ -8,7 +8,8 @@ import {
     DateTimePicker,
     AutoCompleteDropDownImage,
     Card,
-    Back
+    Back,
+    ImagePicker
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -75,7 +76,7 @@ function AddTask() {
 
     useEffect(() => {
         getCompanyEmployeeApi()
-    }, [designation.value, department.value])
+    }, [designation.value, department.value,company.value,])
 
 
     useEffect(() => {
@@ -271,11 +272,11 @@ function AddTask() {
                     <label className={`form-control-label ml--2`}>
                         {translate("common.addAttachment")}
                     </label>
-                    <span className="col">
+                    <span className="row">
                         {selectDropzone &&
                             selectDropzone.map((el, index) => {
                                 return (
-                                    <div className="ml-2">
+                                    <div className="mb-2" >
                                         <Dropzone
                                             variant="ICON"
                                             icon={image}
@@ -293,6 +294,21 @@ function AddTask() {
                             })}
                     </span>
                 </div>
+
+                {/* <div className="row pb-3">
+                <ImagePicker
+                    icon={image}
+                    // noOfFileImagePickers={1}
+                    size='xl'
+                    onSelect={(image) => {
+                        let file = image.toString().replace(/^data:(.*,)?/, "")
+                    }}
+                    heading={translate("common.addAttachment")!}
+                />
+
+            </div> */}
+
+
                 <Input
                     heading={translate("common.title")}
                     value={title.value}

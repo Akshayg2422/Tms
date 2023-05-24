@@ -139,7 +139,8 @@ const initialState: UserCompanyStateProp = {
   groupMessage: undefined,
   addGroupMessages: undefined,
   refreshGroupEvents: false,
-  selectedGroup: undefined
+  selectedGroup: undefined,
+  getSubGroups:undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -776,6 +777,26 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.ADD_GROUP_MESSAGE_FAILURE:
       state = { ...state, addGroupMessages: action.payload };
       break;
+
+      // GET SUB GROUP
+
+      case ActionTypes.GET_SUB_GROUP:
+      state = {
+        ...state,
+        getSubGroups: undefined,
+      };
+      break;
+    case ActionTypes.GET_SUB_GROUP_SUCCESS:
+      state = {
+        ...state,
+        getSubGroups: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_SUB_GROUP_FAILURE:
+      state = { ...state,  getSubGroups: action.payload };
+      break;
+  
+
 
     default:
       state = state;
