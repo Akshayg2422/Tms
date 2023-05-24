@@ -8,9 +8,6 @@ import { FCM_TOKEN, getDeviceInfo } from '@Utils'
 import { addPushNotification } from '@Redux'
 import { PushNotification } from "@Modules";
 
-
-
-
 type RequireAuthProps = {
     children: React.ReactNode;
 }

@@ -21,7 +21,6 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     }, [id])
 
 
-    console.log("responsesubtask",subTasks)
 
     function getSubTasksApi() {
         const params = {
@@ -37,7 +36,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         }))
     }
     const normalizedTableData = (data: any) => {
-        return data.map((el: any) => {
+        return data?.map((el: any) => {
             return {
                 "Sub task":
                     <div className='row'>
@@ -55,7 +54,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
             <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={translate("auth.subTask")} />
                 <Button
-                    className={'shadow-none'}
+                    className={'shadow-none text-white'}
                     size={"sm"}
                     text={translate("common.addSubTask")}
                     onClick={() => {

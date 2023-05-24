@@ -348,3 +348,14 @@ export const getAssignedTaskFailure = (error: any) => {
         payload: error
     }
 }
+
+/**
+ * TASK FILTER PARAMS
+ */
+
+export const taskDefaultParams = (params: any) => {
+    return {
+        type: ActionTypes.TASK_DEFAULT_PARAMS,
+        payload: params
+    }
+}

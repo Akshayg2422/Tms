@@ -11,17 +11,17 @@ import { HomeContainer, Tabs, Image } from "@Components";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedTabPosition } from '@Redux'
 import { icons } from "@Assets";
+import { useDynamicHeight } from "@Hooks";
 
 
 function TaskDetails() {
-
 
     const dispatch = useDispatch()
     const { selectedTabPositions } = useSelector(
         (state: any) => state.TaskReducer
     );
 
-    console.log("tab", selectedTabPositions)
+    const dynamicHeight: any = useDynamicHeight()
 
     const TABS = [
         { id: "1", title: <div className="text-center"><Image src={icons.Comments} height={16} width={16} /></div>, component: <Comments /> },
@@ -30,14 +30,12 @@ function TaskDetails() {
         { id: "4", title: <div className="text-center"><Image src={icons.users} height={16} width={16} /></div>, component: <TaskUsers /> },
     ];
 
-
-
     const ref = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState(0);
     useLayoutEffect(() => {
         if (ref?.current) {
             setHeight(ref.current.offsetHeight);
-            
+
         }
     }, []);
 
@@ -47,12 +45,12 @@ function TaskDetails() {
                 <div className="row">
                     <div className="col-md-6" >
                         <TaskInfo ref={ref} />
-                        <SubTasks cardHeight={height-273}/>
+                        <SubTasks cardHeight={height - 250} />
                     </div>
                     <div className="col-md-6">
-                    <Tabs height={height}  tabs={TABS} selected={selectedTabPositions} onChange={(item) => {
-                        dispatch(setSelectedTabPosition(item))
-                    }} />
+                        <Tabs height={height} tabs={TABS} selected={selectedTabPositions} onChange={(item) => {
+                            dispatch(setSelectedTabPosition(item))
+                        }} />
                     </div>
                 </div>
             </div>

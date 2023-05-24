@@ -61,7 +61,7 @@ function ReferenceTasks() {
 
     <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
       <div className="col text-right">
-        <Button size={'sm'} text={translate("auth.addReferenceTask")} onClick={() => {
+        <Button size={'sm'} className={'text-white'} text={translate("auth.addReferenceTask")} onClick={() => {
           goTo(ROUTES["task-module"]["reference-task"])
         }} />
       </div>

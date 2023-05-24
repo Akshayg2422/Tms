@@ -20,7 +20,6 @@ function TaskGroups({ onClick,selectAll=true }: TaskGroupProps) {
             getTaskGroupsL({
                 params,
                 onSuccess: (response) => () => {
-                    console.log("===--->",JSON.stringify(response))
                 },
                 onError: () => () => {
                 },

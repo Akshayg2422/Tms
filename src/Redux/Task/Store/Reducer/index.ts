@@ -20,11 +20,11 @@ const initialState: TaskStateProp = {
   refreshTaskEvents: false,
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
-  selectedTabPositions:{ id: '1' },
+  selectedTabPositions: { id: '1' },
   taskDetails: {},
   subTaskGroups: undefined,
-  assignedTask:undefined,
-
+  assignedTask: undefined,
+  taskFilterParams: undefined,
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -107,14 +107,14 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TASK_EVENT_HISTORY:
       const { page_numbers } = action.payload.params
       state = {
-        ...state,taskEventHistories: page_numbers === 1 ? [] : state.taskEventHistories
+        ...state, taskEventHistories: page_numbers === 1 ? [] : state.taskEventHistories
       };
 
       break;
     case ActionTypes.GET_TASK_EVENT_HISTORY_SUCCESS:
       state = {
-        ...state, 
-        taskEventHistories:  [...state.taskEventHistories, ...action.payload.details.data,],
+        ...state,
+        taskEventHistories: [...state.taskEventHistories, ...action.payload.details.data,],
         taskEventsCurrentPages:
           action.payload.details.next_page
       };
@@ -285,21 +285,26 @@ const TaskReducer = (state = initialState, action: any) => {
       state = { ...state, subTaskGroups: undefined }
       break;
 
-      // get Assigned task
+    // get Assigned task
 
-      case ActionTypes.GET_ASSIGNED_TASK:
-        state = { ...state, assignedTask: undefined }
-        break;
-      case ActionTypes.GET_ASSIGNED_TASK_SUCCESS:
-      
-        state = { ...state, assignedTask:action.payload?.details }
-       
-        break;
-      case ActionTypes.GET_ASSIGNED_TASK_FAILURE:
-        state = { ...state, assignedTask: undefined }
-        break;
+    case ActionTypes.GET_ASSIGNED_TASK:
+      state = { ...state, assignedTask: undefined }
+      break;
+    case ActionTypes.GET_ASSIGNED_TASK_SUCCESS:
 
+      state = { ...state, assignedTask: action.payload?.details }
 
+      break;
+    case ActionTypes.GET_ASSIGNED_TASK_FAILURE:
+      state = { ...state, assignedTask: undefined }
+      break;
+
+    /**
+ * TASK FILTER GROUPS
+ */
+    case ActionTypes.TASK_DEFAULT_PARAMS:
+      state = { ...state, taskFilterParams: action.payload }
+      break;
 
     default:
       state = state;

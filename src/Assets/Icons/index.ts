@@ -148,7 +148,8 @@ export const icons = {
   endTime: require('./EndTime/icon.png'),
   broadCast: require('./BroadcastMessage/icon.png'),
   downArrowBlack: require('./DownArrowBlack/icon.png'),
+  videoConference: require('./VideoConference/icon.png'),
+  verticalLine: require('./VerticalLine/icon.png'),
   protfolio: require('./Protfolio/icon.png'),
   myTimeSheet: require('./MyTimeSheet/icons.png'),
-  videoConference: require('./VideoConference/icon.png')
 };

@@ -4,7 +4,7 @@ import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
 import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, } from '@Utils'
 import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartments, getDesignations } from '@Redux'
+import { getAssociatedCompaniesL, getDepartments, getDesignations, taskDefaultParams } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { icons } from '@Assets'
 
@@ -21,6 +21,7 @@ const FILTER_MENU = [
 
 function TaskFilter({ onParams }: TaskFilterProps) {
 
+
     const dispatch = useDispatch()
     const filteredTask = useDropDown(TASK_FILTER_LIST[2]);
     const taskStatus = useDropDown(TASK_STATUS_LIST[2]);
@@ -34,7 +35,6 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const [includeSubTask, setIncludeSubTask] = useState(false)
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
-
 
 
     useEffect(() => {
@@ -66,6 +66,10 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             );
         }
     }, [advanceFilter]);
+
+    const getTaskDefaultParams = () => {
+
+    }
 
     const getDesignation = (items: any) => {
 

@@ -18,6 +18,16 @@ function AdminFeeds() {
     (state: any) => state.CommunicationReducer
   );
 
+  const { dashboardDetails } = useSelector(
+    (state: any) => state.UserCompanyReducer
+  );
+
+
+  const { user_details  } = dashboardDetails
+
+
+  console.log("dashboradDetails---->", dashboardDetails)
+
 
 
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
@@ -33,7 +43,7 @@ function AdminFeeds() {
 
   const [selectedFeed, setSelectedFeed] = useState<any>(undefined)
 
-  const deleteModal = useModal(false)
+  const deleteFeedModal = useModal(false)
   const editFeedModal = useModal(false)
 
 
@@ -44,7 +54,6 @@ function AdminFeeds() {
     {
       id: 1, name: 'delete', icon: icons.deleteCurve,
     },
-
   ]
 
 
@@ -54,7 +63,7 @@ function AdminFeeds() {
 
   function getBroadCastMessage(page_number: number) {
     const params = {
-      q: "",
+      id: user_details?.id,
       page_number
     };
     dispatch(
@@ -102,6 +111,8 @@ function AdminFeeds() {
 
   }
 
+
+
   let attach = photo.slice(-2, 4)
 
   const handleImagePicker = (index: number, file: any) => {
@@ -109,7 +120,7 @@ function AdminFeeds() {
     setPhoto(newUpdatedPhoto);
   };
 
-  function deleteFeedHandler() {
+  function proceedDeleteHandler() {
     const params = {
       id: selectedFeed?.id,
       is_deleted: true
@@ -121,7 +132,7 @@ function AdminFeeds() {
         onSuccess: (response: any) => () => {
           if (response.success) {
             showToast(response.message, 'success')
-            deleteModal.hide()
+            deleteFeedModal.hide()
             getBroadCastMessage(INITIAL_PAGE)
 
           }
@@ -134,7 +145,10 @@ function AdminFeeds() {
 
   }
 
-  function editFeedHandler() {
+  console.log("image------>", image)
+
+
+  function proceedEditHandler() {
     const params = {
       id: selectedFeed?.id,
       title: feedTitle?.value,
@@ -147,8 +161,6 @@ function AdminFeeds() {
       broadcast_attachments: [{ attachments: attach }],
     };
 
-
-
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
 
     if (ifObjectExist(validation)) {
@@ -158,6 +170,10 @@ function AdminFeeds() {
           onSuccess: (response: any) => () => {
             if (response.success) {
               showToast(response.message, 'success')
+              editFeedModal.hide()
+              getBroadCastMessage(INITIAL_PAGE)
+
+
             }
           },
           onError: (error) => () => {
@@ -172,7 +188,7 @@ function AdminFeeds() {
 
   }
 
-
+  console.log("dropzone--.", selectDropzone)
 
   function proceedCreatePost() {
     goTo(ROUTES["message-module"]["create-broadcast"])
@@ -197,6 +213,8 @@ function AdminFeeds() {
           loader={<h4>
             <Spinner />
           </h4>}
+          className='overflow-auto scroll-hidden'
+          style={{ overflowY: "auto" }}
           next={() => {
             if (broadCastCurrentPage !== -1) {
               getBroadCastMessage(broadCastCurrentPage)
@@ -221,11 +239,22 @@ function AdminFeeds() {
                               feedDescription.set(description)
                               setInternalCheck(for_internal_company)
                               setExternalCheck(for_external_company)
-                              // setSelectedCompanies(applicable_branches)
+                              setSelectDropzone(attachments)
+
+
+                              const updatedData = applicable_branches.map(item => {
+                                return {
+                                  key: item.id,
+                                  name: item.register_name,
+                                  value: item.register_name
+                                }
+                              })
+
+                              setSelectedCompanies(updatedData)
 
                             } else if (element.id === MY_FEED_MENU[1].id) {
                               setSelectedFeed(item)
-                              deleteModal.show()
+                              deleteFeedModal.show()
                             }
                           }}
                         />
@@ -280,6 +309,7 @@ function AdminFeeds() {
               heading={translate("common.company")!}
               options={modifiedCompanyDropDownData!}
               displayValue={"value"}
+              defaultValue={selectedCompanies}
               onSelect={(item) => {
                 setSelectedCompanies(item);
               }}
@@ -304,7 +334,7 @@ function AdminFeeds() {
               return (
                 <Dropzone
                   variant="ICON"
-                  icon={image}
+                  icon={getPhoto(el?.attachment_file)}
                   size="xl"
                   onSelect={(image) => {
                     let file = image.toString().replace(/^data:(.*,)?/, "");
@@ -320,23 +350,21 @@ function AdminFeeds() {
           <div className="col-md-6 col-lg-4 ">
             <Button
               block
-              text={translate("common.submit")}
-              onClick={editFeedHandler}
+              text={'Update'}
+              onClick={proceedEditHandler}
             />
           </div>
         </div>
 
 
       </Modal>
-      <Modal isOpen={deleteModal.visible} size="md" onClose={deleteModal.hide}>
+      <Modal isOpen={deleteFeedModal.visible} size="md" onClose={deleteFeedModal.hide}>
         <div>
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
-            <Button text={'Delete'} onClick={deleteFeedHandler} />
+            <Button text={'Delete'} onClick={proceedDeleteHandler} />
           </div>
-
         </div>
-
       </Modal>
     </>
 
@@ -344,3 +372,7 @@ function AdminFeeds() {
 }
 
 export { AdminFeeds }
+function goBack() {
+  throw new Error("Function not implemented.");
+}
+

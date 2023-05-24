@@ -4,7 +4,7 @@ import { Button, HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
-import { getTasks, setSelectedTask, getDashboard, setSelectedTabPosition } from '@Redux'
+import { getTasks, setSelectedTask, getDashboard, setSelectedTabPosition, taskDefaultParams } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
@@ -12,11 +12,10 @@ import { translate } from '@I18n'
 function Tasks() {
   const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
   const dispatch = useDispatch()
-  const [params, setParams] = useState(DEFAULT_PARAMS)
-  const { tasks, taskNumOfPages, taskCurrentPages, selectedTask } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, selectedTask, taskFilterParams } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch, user_details, company } = dashboardDetails || ''
-
+  const [params, setParams] = useState(DEFAULT_PARAMS)
   const { goTo } = useNavigation();
 
   useEffect(() => {
@@ -29,6 +28,7 @@ function Tasks() {
   }, [selectedTask])
 
 
+  console.log("default params------------>", taskFilterParams)
 
 
   function getDashboardDetails() {
@@ -36,7 +36,6 @@ function Tasks() {
     dispatch(getDashboard({
       params,
       onSuccess: (response) => () => {
-
       },
       onError: () => () => { }
     }));
@@ -119,30 +118,28 @@ function Tasks() {
 
   return (
     <div className="mx-3 mt-3 ">
-      <div className="row ">
-        <div className="mx-2 mb--3  col">
+      <div className="row">
+        <div className="mx-2 mb--3 col">
           <TaskGroups onClick={(code) => {
             setParams({ ...params, group: code } as any)
           }} />
         </div>
-
-        <div className="col-auto  ">
-          <Button
-            className="mb-0"
-            size={'sm'}
-            text={translate("common.createTask")}
-            onClick={() => {
-              goTo(ROUTES["task-module"]["add-task"])
-            }
-            }
-
-          />
-
-        </div>
+      </div>
+      <div className="col-auto text-right mt--5">
+        <Button
+          className="text-white mb-2"
+          size={'sm'}
+          text={translate("common.createTask")}
+          onClick={() => {
+            goTo(ROUTES["task-module"]["add-task"])
+          }}
+        />
       </div>
 
-      <HomeContainer type={'card'} className="">
+      <HomeContainer type={'card'} className={'mt-2'}>
         <TaskFilter onParams={(filteredParams) => {
+          console.log('filteredParams-------->', filteredParams);
+
           setParams({ ...params, ...filteredParams })
         }} />
         <div style={{

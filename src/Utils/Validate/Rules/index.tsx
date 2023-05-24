@@ -96,9 +96,9 @@ export const CREATE_EXTERNAL = {
   reference_number: {
     presence: { allowEmpty: false, message: "reference no cannot be empty" },
   },
-  brand_branch_id: {
-    presence: { allowEmpty: false, message: "Please select company" },
-  },
+  // brand_branch_id: {
+  //   presence: { allowEmpty: false, message: "Please select company" },
+  // },
 
   // assigned_to_id: {
   //   presence: { allowEmpty: false, message: "please select User" },

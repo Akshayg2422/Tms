@@ -34,7 +34,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                     onSuccess: (response) => () => {
                         message.set('')
                         dispatch(refreshGroupEvents())
-                
+
                     },
                     onError: () => () => { },
                 })
@@ -51,7 +51,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             group_attachments: [{ name: attachmentName.value, attachments: photo }],
             // name: attachmentName.value,
         };
-        console.log('============>>',JSON.stringify(params))
+        console.log('============>>', JSON.stringify(params))
         dispatch(
             addGroupMessage({
                 params,
@@ -59,7 +59,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                     resetValues();
                     attachmentModal.hide()
                     dispatch(refreshGroupEvents())
-                      console.log('============>>>',response)
+                    console.log('============>>>', response)
                 },
                 onError: (error) => () => { },
             }),
@@ -78,6 +78,12 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         setPhoto(newUpdatedPhoto)
     }
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            addGroupMessageApiHandler()
+        }
+    }
+
     return (
         <>
             <div className='col'>
@@ -85,7 +91,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
-                        <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
+                        <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={addGroupMessageApiHandler} />
                 </div >
