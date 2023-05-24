@@ -16,7 +16,7 @@ import {
   getTicketTag,
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import {  paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, stringSlice, stringToUpperCase, INITIAL_PAGE } from "@Utils";
+import { paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, stringSlice, stringToUpperCase, INITIAL_PAGE } from "@Utils";
 import { useModal, useDynamicHeight } from "@Hooks";
 
 
@@ -113,6 +113,7 @@ function Tag() {
           </div>
           <div className="text-right mr-3 ">
             <Button
+              className={'text-white'}
               text={
                 showTags
                   ? translate("course.hide")
@@ -127,6 +128,7 @@ function Tag() {
               }}
             />
             <Button
+              className={'text-white'}
               text={translate("product.addItem")}
               size={"sm"}
               onClick={() => { addTagsModal.show() }}
@@ -139,8 +141,8 @@ function Tag() {
           className="overflow-auto overflow-hide"
           style={{
             height: showTags ? dynamicHeight.dynamicHeight - 100 : '0px',
-            marginLeft:"-23px",
-            marginRight:"-23px"
+            marginLeft: "-23px",
+            marginRight: "-23px"
           }}
         >
           {ticketTag && ticketTag?.length > 0 ? (

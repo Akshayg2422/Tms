@@ -6,7 +6,7 @@ import {
     setSelectedEmployee
 } from "@Redux";
 import { useDropDown, useModal, useNavigation } from '@Hooks';
-import { Card, CommonTable,Button  } from '@Components';
+import { Card, CommonTable, Button } from '@Components';
 import { translate } from "@I18n";
 import { ROUTES } from '@Routes';
 import { INITIAL_PAGE, paginationHandler } from '@Utils';
@@ -18,7 +18,7 @@ function EmployeesList() {
     const { dashboardDetails, employeeTimelineList, employeesl, employeeslCurrentPages,
         employeeslNumOfPages } = useSelector((state: any) => state.UserCompanyReducer);
     const { company_branch } = dashboardDetails || ''
-  
+
 
     useEffect(() => {
         getEmployeesHandler(INITIAL_PAGE)
@@ -47,7 +47,7 @@ function EmployeesList() {
 
                     Name: el?.name,
                     PhoneNo: el?.mobile_number,
-                    '':<Button text={'View'}size='sm' onClick={()=>{goTo(ROUTES['user-company-module']['employee-time-sheet']);}}/>
+                    '': <Button className={'text-white'} text={'View'} size='sm' onClick={() => { goTo(ROUTES['user-company-module']['employee-time-sheet']); }} />
                 }
             }
             )
@@ -95,7 +95,7 @@ function EmployeesList() {
                         tableOnClick={(idx, index, item) => {
                             dispatch(setSelectedEmployee(item));
 
-                        
+
 
                         }}
                     />

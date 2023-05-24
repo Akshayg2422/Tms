@@ -18,7 +18,7 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
         },
 
     ]
-    
+
     const { title, attachments, description, created_by, created_at, applicable_branches, for_internal_company, for_external_company } =
         item;
 
@@ -75,7 +75,8 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
                     </div>
 
                     <div className="mt-1 ml-2">
-                        <span className="text-sm font-weight-600"> Shared Across: {''} </span>
+                        <div className="h5 text-uppercase mt-3 mb--1 m-0"> Shared Across: </div>
+                        <span> {''} </span>
                         {applicable_branches &&
                             applicable_branches.length > 0 &&
                             applicable_branches?.map((applicable_branches: any, index: number) => {

@@ -127,7 +127,6 @@ function AddTask() {
             description: description?.value,
             reference_number: referenceNo?.value,
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
-            // assigned_to_id: selectedUserId?.id,
             ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
@@ -354,7 +353,7 @@ function AddTask() {
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={'Select a company'}
-                        data={companies}
+                        data={getDropDownDisplayData(companies)}
                         onChange={(item) => {
                             company.onChange(item)
                         }}

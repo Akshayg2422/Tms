@@ -540,14 +540,11 @@ function* addAssociatedCompanySaga(action) {
     const response = yield call(Api.addAssociatedCompanyApi, action.payload.params);
     console.log("registerCompany============>", response)
     if (response.success) {
-      yield put(Action.addAssociatedCompanySuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(Action.addAssociatedCompanyFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(Action.addAssociatedCompanyFailure(error));
     yield call(action.payload.onError(error));
   }
 }

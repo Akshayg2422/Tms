@@ -160,6 +160,7 @@ function Department() {
           </div>
           <div className="text-right mr-3 ">
             <Button
+              className={'text-white'}
               text={
                 showDepartments
                   ? translate("course.hide")
@@ -176,6 +177,7 @@ function Department() {
               }}
             />
             <Button
+              className={'text-white'}
               text={translate("product.addItem")}
               size={"sm"}
               onClick={() => {
@@ -192,9 +194,9 @@ function Department() {
           className="overflow-auto overflow-hide"
           style={{
             height: showDepartments ? dynamicHeight.dynamicHeight - 100 : '0px',
-            marginLeft:"-23px",
-            marginRight:"-23px"
-           
+            marginLeft: "-23px",
+            marginRight: "-23px"
+
           }}
         >
           {departments && departments?.length > 0 ? (

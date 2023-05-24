@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Modal, Input, Dropzone } from '@Components'
 import { icons } from '@Assets'
-import { addTaskEvent, refreshTaskEvents,} from '@Redux'
+import { addTaskEvent, refreshTaskEvents, } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { useModal, useInput } from '@Hooks'
 import { TEM, MEA } from '@Utils'
@@ -45,8 +45,6 @@ function AddChat() {
 
         }
     };
-
-
 
     const addTaskEventAttachment = () => {
         const params = {

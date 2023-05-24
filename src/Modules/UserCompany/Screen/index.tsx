@@ -16,6 +16,7 @@ export * from './AddMessage'
 export * from './GroupMessage'
 export * from './GroupEmployees'
 export * from './SubTaskGroup'
+export * from './AdminFeeds'
 
 
 
