@@ -128,6 +128,17 @@ export const STATUS_LIST = [
 
 ]
 
+export const GROUP_STATUS_LIST = [
+  { id: 'ALL', text: 'All', },
+  { id: 'RAI', text: 'Raised', color: "gray" },
+  { id: 'INP', text: 'In-Progress', color: "yellow" },
+  { id: 'CAN', text: 'Cancel', color: "red" },
+  { id: "CLS", text: 'Close', color: "red" },
+  { id: 'ONH', text: 'On-Hold', color: "black" },
+  { id: 'REJ', text: 'Reject', color: "red" }
+
+]
+
 
 export const FILTERED_LIST = [
   { id: 'ALL', text: 'All' },

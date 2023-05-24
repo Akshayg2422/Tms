@@ -32,6 +32,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
+import AutoSearchInput from "@Components//Core/AutoSearchInput";
 
 function AddSubTask() {
 
@@ -54,9 +55,6 @@ function AddSubTask() {
     const [disableTaskType, setDisableTaskType] = useState([]);
     const [companies, setCompanies] = useState([])
     const [companyUsers, setCompanyUsers] = useState([])
-
-
-
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
@@ -252,7 +250,7 @@ function AddSubTask() {
                     />
                 )}
 
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
+                {/* {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
                     <AutoCompleteDropDownImage
                         heading={translate("common.user")!}
                         placeholder={'please select a user...'}
@@ -266,7 +264,24 @@ function AddSubTask() {
                             setSelectedUser(value);
                             setSelectedUserId(item)
                         }}
-                    />}
+                    />} */}
+
+                    
+
+            { getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&  <AutoSearchInput 
+                    heading={translate("common.user")!}
+                    placeholder={'please select a user...'}
+                    data={companyUsers}
+                    variant={true}
+                    onSelect={( item)=>{
+                        // setSelectedUser(item.name);
+                        setSelectedUserId(item)
+                    
+                    }}
+                
+
+                    />
+                }
 
                 <DropDown
                     heading={translate("common.taskPriority")!}

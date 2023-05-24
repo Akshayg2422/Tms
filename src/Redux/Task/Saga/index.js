@@ -1,4 +1,4 @@
-import { takeLatest, put, call, takeEvery } from 'redux-saga/effects';
+import { takeLatest, put, call,} from 'redux-saga/effects';
 import * as Action from '../Store'
 import * as Services from '@Services'
 
@@ -68,8 +68,10 @@ function* addTaskEventSaga(action) {
  */
 
 function* getTaskEventHistorySaga(action) {
+    // console.log('getTaskEventsHistorySaga====>' + JSON.stringify(action));
     try {
         const response = yield call(Services.getTaskEventHistoryApi, action.payload.params);
+        // console.log(JSON.stringify(response) + 'getTaskEventsSaga======>');
         if (response.success) {
             yield put(Action.getTaskEventHistorySuccess(response));
             yield call(action.payload.onSuccess(response));
@@ -258,6 +260,8 @@ function* getAssignedTaskSaga(action) {
 }
 
 
+
+
 function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_GROUPS_L, getTaskGroupLSaga)
     yield takeLatest(Action.GET_TASKS, getTasksSaga)
@@ -271,6 +275,7 @@ function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_DETAILS, getTaskDetailsSaga)
     yield takeLatest(Action.GET_SUB_TASK_GROUPS, getSubTaskGroupSaga)
     yield takeLatest(Action.GET_ASSIGNED_TASK, getAssignedTaskSaga)
+    
 }
 
 export default TaskSaga;

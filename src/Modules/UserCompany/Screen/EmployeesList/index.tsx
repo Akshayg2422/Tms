@@ -6,10 +6,11 @@ import {
     setSelectedEmployee
 } from "@Redux";
 import { useDropDown, useModal, useNavigation } from '@Hooks';
-import { Card, CommonTable } from '@Components';
+import { Card, CommonTable,Button  } from '@Components';
 import { translate } from "@I18n";
 import { ROUTES } from '@Routes';
-import { paginationHandler } from '@Utils';
+import { INITIAL_PAGE, paginationHandler } from '@Utils';
+
 
 function EmployeesList() {
     const dispatch = useDispatch();
@@ -17,12 +18,13 @@ function EmployeesList() {
     const { dashboardDetails, employeeTimelineList, employeesl, employeeslCurrentPages,
         employeeslNumOfPages } = useSelector((state: any) => state.UserCompanyReducer);
     const { company_branch } = dashboardDetails || ''
+  
 
     useEffect(() => {
-        getEmployeesHandler(employeeslCurrentPages)
+        getEmployeesHandler(INITIAL_PAGE)
     }, [])
 
-    const getEmployeesHandler = ((page_number: any) => {
+    const getEmployeesHandler = ((page_number) => {
         const params = {
             page_number
         }
@@ -30,8 +32,6 @@ function EmployeesList() {
             getEmployeesl({
                 params,
                 onSuccess: (response: any) => () => {
-
-
                 },
                 onError: (error) => () => {
                 },
@@ -43,14 +43,11 @@ function EmployeesList() {
     const normalizedEmployeesTableData = (data: any) => {
         if (data && data?.length > 0) {
             return data?.map((el: any) => {
-
                 return {
 
                     Name: el?.name,
-                    PhoneNo: el?.mobile_number
-
-
-
+                    PhoneNo: el?.mobile_number,
+                    '':<Button text={'View'}size='sm' onClick={()=>{goTo(ROUTES['user-company-module']['employee-time-sheet']);}}/>
                 }
             }
             )
@@ -98,7 +95,7 @@ function EmployeesList() {
                         tableOnClick={(idx, index, item) => {
                             dispatch(setSelectedEmployee(item));
 
-                            goTo(ROUTES['user-company-module']['employee-time-sheet']);
+                        
 
                         }}
                     />

@@ -6,10 +6,12 @@ import {
     Dropzone,
     showToast,
     DateTimePicker,
-    AutoCompleteDropDownImage,
     Card,
-    Back
+    Back,
+    Image,
+    ImagePicker
 } from "@Components";
+
 import { translate } from "@I18n";
 import {
     getEmployees,
@@ -27,24 +29,23 @@ import {
     type,
     validate,
     PRIORITY,
+    getPhoto,
+    imagePickerConvertBase64
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
+import AutoSearchInput from "@Components//Core/AutoSearchInput";
 
 function AddTask() {
-
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
-
-
     const { dashboardDetails, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
-
     const title = useInput("");
     const description = useInput("");
     const referenceNo = useInput("");
@@ -52,9 +53,6 @@ function AddTask() {
     const [disableTaskType, setDisableTaskType] = useState([]);
     const [companies, setCompanies] = useState([])
     const [companyUsers, setCompanyUsers] = useState([])
-
-
-
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
@@ -67,6 +65,8 @@ function AddTask() {
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
     let attach = photo.slice(-4, 9)
+    const [imagePicker, setImagePicker] = useState<any>()
+console.log(photo,"pppppp")
 
     useEffect(() => {
         getAssociatedCompaniesApi();
@@ -90,8 +90,8 @@ function AddTask() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = (index: number, file: any) => {
-        let newUpdatedPhoto = [...photo, file];
+    const handleImagePicker = ( file: any) => {
+        let newUpdatedPhoto = [ file];
         setPhoto(newUpdatedPhoto);
     };
 
@@ -127,15 +127,15 @@ function AddTask() {
             reference_number: referenceNo?.value,
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             // assigned_to_id: selectedUserId?.id,
-            ...( selectedUserId?.id && { assigned_to_id:selectedUserId?.id}),
+            ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
             eta_time: eta,
             group_id: taskGroup?.value?.id,
-            ...(department?.value?.id && {  department_id:department.value.id }),
-            ...(designation?.value?.id && {designation_id:designation.value.id})
-           
+            ...(department?.value?.id && { department_id: department.value.id }),
+            ...(designation?.value?.id && { designation_id: designation.value.id })
+
         };
 
         const validation = validate(taskType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
@@ -196,7 +196,7 @@ function AddTask() {
             getSubTaskGroups({
                 params,
                 onSuccess: (response: any) => () => {
-                
+
                 },
                 onError: () => () => {
                 },
@@ -250,9 +250,14 @@ function AddTask() {
     const handleEtaChange = (value: any) => {
         setEta(value);
     };
-
-
     const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
+
+  
+   const array = [
+            { id: 3, photo: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' },
+            { id: 2, photo: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' },
+            { id: 1, photo: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' }
+        ];
 
 
     return (
@@ -333,7 +338,7 @@ function AddTask() {
                 />
                 }
 
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
+                {/* {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
                     <AutoCompleteDropDownImage
                         heading={translate("common.user")!}
                         placeholder={'please select a user...'}
@@ -347,7 +352,22 @@ function AddTask() {
                             setSelectedUser(value);
                             setSelectedUserId(item)
                         }}
-                    />}
+                    />} */}
+                <div className="mt--2">
+
+                    {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && <AutoSearchInput
+                        heading={translate("common.user")!}
+                        placeholder={'please select a user...'}
+                        data={companyUsers}
+                        variant={true}
+                        onSelect={(item) => {
+                            // setSelectedUser(item.name);
+                            setSelectedUserId(item)
+
+                        }}
+                    />
+                    }
+                </div>
 
                 {subTaskGroups && subTaskGroups.length > 0 && <DropDown
                     heading={translate("common.selectGroup")}
@@ -373,9 +393,9 @@ function AddTask() {
                     onChange={handleEtaChange}
                 />
             </div>
-            
 
-            <div className="col-md-9 col-lg-5 mt-3">
+
+            {/* <div className="col-md-9 col-lg-5 mt-3">
                 <label className={`form-control-label`}>
                     {translate("common.addAttachment")}
                 </label>
@@ -391,7 +411,7 @@ function AddTask() {
                                         onSelect={(image) => {
                                             let file = image.toString().replace(/^data:(.*,)?/, "");
                                             handleImagePicker(index, file);
-                                            { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
+                                            { selectDropzone.length && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
                                             { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
                                             { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
                                         }}
@@ -400,6 +420,25 @@ function AddTask() {
                             );
                         })}
                 </div>
+            </div> */}
+
+            <div className="col">
+                <div className="row">
+                <ImagePicker
+                    icon={image}
+                    size='xl'
+                    heading={translate("common.addAttachment")!}
+                    noOfFileImagePickers={1}
+                    onSelect={(image) => {
+                        let file = image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker( file);
+                      
+                    }}
+                />
+
+                </div>
+              
+
             </div>
 
 
@@ -410,6 +449,7 @@ function AddTask() {
                     onClick={submitTaskHandler}
                 />
             </div>
+
 
         </Card >
 

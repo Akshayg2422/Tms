@@ -31,6 +31,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
+import AutoSearchInput from "@Components//Core/AutoSearchInput";
 
 function AddTicket() {
 
@@ -243,9 +244,6 @@ function AddTicket() {
 
 
     const getExternalCompanyStatus = () => ((ticketType && ticketType?.id === "2") || company.value?.id)
-
-    console.log("======>", JSON.stringify(company.value));
-
     return (
         <Card className="m-3">
             <div className='col'>
@@ -255,7 +253,6 @@ function AddTicket() {
                 </div>
             </div>
             <hr className='mt-3'></hr>
-
             <div className="col-md-9 col-lg-5">
                 <Input
                     heading={translate("common.title")}
@@ -324,7 +321,7 @@ function AddTicket() {
                 />
                 }
 
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
+                {/* {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
                     <AutoCompleteDropDownImage
                         heading={translate("common.user")!}
                         placeholder={'please select a user...'}
@@ -338,7 +335,23 @@ function AddTicket() {
                             setSelectedUser(value);
                             setSelectedUserId(item)
                         }}
-                    />}
+                    />} */}
+
+
+{ getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&  <AutoSearchInput 
+                    heading={translate("common.user")!}
+                    placeholder={'please select a user...'}
+                    data={companyUsers}
+                    variant={true}
+                    onSelect={( item)=>{
+                        // setSelectedUser(item.name);
+                        setSelectedUserId(item)
+                    
+                    }}
+                
+
+                    />
+                }
 
 
                 <DropDown

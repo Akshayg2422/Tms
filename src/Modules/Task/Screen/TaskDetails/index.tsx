@@ -34,14 +34,12 @@ function TaskDetails() {
 
     const ref = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState(0);
-
     useLayoutEffect(() => {
         if (ref?.current) {
             setHeight(ref.current.offsetHeight);
+            
         }
     }, []);
-
-
 
     return (
         <HomeContainer className="m-3">

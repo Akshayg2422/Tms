@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAssociatedBranch, setSelectedCompany } from "@Redux";
-import { Button, Card, Image, CommonTable, NoDataFound } from "@Components";
+import { getAssociatedBranch, getTaskGroupsL, setSelectedCompany } from "@Redux";
+import { Button, Card, Image, CommonTable, NoDataFound, CollapseButton } from "@Components";
 import { useNavigation } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler } from "@Utils";
 
 function Companies() {
+  const item =[{id:'1',text:"welcome to my world"},
+  {id:'1',text:"welcome to my worlds"},
+  {id:'1',text:"welcome to my worldr"},
+  {id:'1',text:"welcome to my worlde"}]
 
   const dispatch = useDispatch();
   const { goTo } = useNavigation();
@@ -15,6 +19,8 @@ function Companies() {
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+
+ 
 
   useEffect(() => {
     getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
@@ -54,6 +60,7 @@ function Companies() {
 
 
   return (
+
     <Card className="m-3">
       {associatedCompanies && associatedCompanies?.length > 0 ?
         <div className="text-right mb-3">
@@ -105,6 +112,9 @@ function Companies() {
         }
       </div>
     </Card>
+
+
+
   );
 }
 export { Companies };

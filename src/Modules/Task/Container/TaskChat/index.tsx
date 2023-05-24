@@ -15,7 +15,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 function TaskChat({ }: TaskChatProps) {
 
     const { id } = useParams();
-
     const dispatch = useDispatch()
     const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
     const [taskEvents, setTaskEvents] = useState([])
@@ -28,8 +27,6 @@ function TaskChat({ }: TaskChatProps) {
     useEffect(() => {
         getTaskEventsApi(INITIAL_PAGE)
     }, [refreshTaskEvents, id])
-
-
 
     function getTaskEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -46,8 +43,6 @@ function TaskChat({ }: TaskChatProps) {
             task_id: id,
             page_number
         }
-
-
 
         dispatch(
             getTaskEvents({
@@ -71,6 +66,7 @@ function TaskChat({ }: TaskChatProps) {
     };
 
     function getIconsFromStatus(each: any) {
+
         const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status } = each
         let modifiedData = {}
         switch (event_type) {
@@ -121,7 +117,7 @@ function TaskChat({ }: TaskChatProps) {
                 style={{ display: 'flex', flexDirection: 'column-reverse' }}
                 inverse={true}
                 loader={<h4>
-                    <Spinner />
+                    {/* <Spinner /> */}
                 </h4>}
                 next={() => {
                     console.log('came');

@@ -45,7 +45,7 @@ function AddChatTicket() {
 
 
 
-    const addTaskEventAttachment = () => {
+    const addTicketEventAttachment = () => {
         const params = {
             event_type: MEA,
             id: selectedTicket.id,
@@ -66,6 +66,7 @@ function AddChatTicket() {
 
 
     };
+    
     const resetValues = () => {
         attachmentName.set('');
         setSelectDropzone([{}]);
@@ -116,7 +117,7 @@ function AddChatTicket() {
                         </div>
                     </div>
                     <div className=' pt-4'>
-                        <Button text={'Submit'} onClick={addTaskEventAttachment} />
+                        <Button text={'Submit'} onClick={addTicketEventAttachment} />
                     </div>
                 </div>
 
