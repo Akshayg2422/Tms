@@ -19,6 +19,7 @@ function Tasks() {
   const { goTo } = useNavigation();
 
 
+
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [params])
@@ -44,8 +45,7 @@ function Tasks() {
   }
 
   const getTaskHandler = (page_number: number) => {
-    const updatedParams = { ...params, page_number }
-
+    const updatedParams = { ...taskParams, page_number }
     dispatch(
       getTasks({
         params: updatedParams,
@@ -98,17 +98,20 @@ function Tasks() {
             <div className="h5 m-0"> {by_user?.name} </div>,
           "raised to":
             <div className="row">
-
-              {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.attachment_logo &&
-                <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />
+              {assigned_to ?
+                <>
+                  {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.attachment_logo &&
+                    <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />
+                  }
+                  <div className="ml-2">
+                    <div className="h5 mb-0"> {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.display_name}</div>
+                    <div className={`h5 mb-0 text-truncate ${company?.name === raised_by_company?.display_name ? 'mt--3' : ""} `}>@<span className="h5"> {assigned_to?.name} </span></div>
+                    <small className={'text-uppercase mb-0  text-muted'}>
+                      {raised_by_company?.place}
+                    </small>
+                  </div>
+                </> : <div></div>
               }
-              <div className="ml-2">
-                <div className="h5 mb-0"> {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.display_name}</div>
-                <div className={`h5 mb-0 text-truncate ${company?.name === raised_by_company?.display_name ? 'mt--3' : ""} `}>@<span className="h5"> {assigned_to?.name} </span></div>
-                <small className={'text-uppercase mb-0  text-muted'}>
-                  {raised_by_company?.place}
-                </small>
-              </div>
             </div >,
           'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
           status: <div><Status status={task_status} />
@@ -145,7 +148,6 @@ function Tasks() {
           setParams({ ...params, ...filteredParams })
         }} />
         <div style={{
-
           marginLeft: "-23px",
           marginRight: "-23px"
         }}>
