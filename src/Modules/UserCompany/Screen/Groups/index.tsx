@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { GroupMessage, AddMessage, TaskGroups, GroupEmployees, } from '@Modules'
-import { Card, } from '@Components'
+import { Card, NoDataFound, } from '@Components'
 import { useSelector } from 'react-redux'
 import { useWindowDimensions } from '@Hooks';
 
@@ -34,7 +34,7 @@ function Groups() {
                 <TaskGroups onClick={(code) => setSelectGroup(code)} showAll={false} />
             </div>
 
-            <div className='row'>
+            {taskGroups && taskGroups.length > 0 ? <div className='row'>
                 <div className='col-8' ref={ref}>
                     <Card>
                         <GroupMessage selectedGroup={selectGroup} />
@@ -48,6 +48,10 @@ function Groups() {
                     <GroupEmployees Employees={selectGroup} />
                 </div>
             </div>
+                : <div className='d-flex h-100vh justify-content-center align-items-center'>
+                    <NoDataFound text={'No Group Found'} />
+                </div>
+            }
 
         </div >
     )
