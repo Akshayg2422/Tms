@@ -4,15 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { EmployeeGroupsProps } from './interfaces'
 import { Card, Divider, NoDataFound, H, SearchInput } from '@Components'
 import { getGroupsEmployees } from '@Redux'
-function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps) {
 
+
+function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
     const { groupEmployees } = useSelector((state: any) => state.UserCompanyReducer);
     useEffect(() => {
         getGroupEmployees()
     }, [Employees])
-
-
 
     const getGroupEmployees = (q: string = '') => {
 

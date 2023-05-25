@@ -9,8 +9,7 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
 
 
     const DEFAULT_GROUP = { id: 'ALL', Photo: null, code: "ALL" }
-    const { taskGroups } = useSelector((state: any) => state.TaskReducer);
-
+    const { taskGroups } = useSelector((state: any) => state.TaskReducer);  
     const groupCode = (taskGroups && taskGroups[0]?.id)
     const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(showAll ? DEFAULT_GROUP.id : groupCode)
     const taskGroupList = taskGroups && showAll ? [DEFAULT_GROUP, ...taskGroups] : taskGroups

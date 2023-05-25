@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { GroupMessage, AddMessage, TaskGroups, GroupEmployees, } from '@Modules'
 import { Card, } from '@Components'
 import { useSelector } from 'react-redux'
@@ -12,7 +12,7 @@ function Groups() {
 
     const ref = useRef<HTMLDivElement>(null)
 
-    const { width, height } = useWindowDimensions()
+    // const { width, height } = useWindowDimensions()
     const [infoHeight, setInfoHeight] = useState(0)
 
     useEffect(() => {
