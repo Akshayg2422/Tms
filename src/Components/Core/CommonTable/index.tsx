@@ -33,7 +33,6 @@ interface GetPaginatorSetProps {
 function CommonTable({ card = false, title, displayDataSet, tableDataSet, isPagination, currentPage, noOfPage, heading, previousClick, nextClick, paginationNumberClick, tableOnClick }: CommonTableProps) {
 
 
-  console.log(displayDataSet,"??????????????????")
   const CommonHeader = ({ children }) => {
     return (
       <>

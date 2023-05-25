@@ -9,7 +9,6 @@ const useDropDown = (initialValue: any) => {
 
   const set = (value: any) => {
     setValue(value)
-    console.log('valueeeeeeeee----------->',value);
   }
 
   
