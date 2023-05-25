@@ -28,10 +28,9 @@ const Dropzone = ({
         quality: 0.7,
         success: (file) => {
           const reader = new FileReader();
-
           reader.onload = (e) => {
+       
             if (onSelect && e.target) {
-
               onSelect(e.target?.result);
               setImage(e.target?.result);
             }
@@ -65,9 +64,7 @@ const Dropzone = ({
             onChange={handleChange}
             accept="image/*"
           />
-
-
-          <div>
+          <div >
             <Image
               src={image || icons.addFillSquare}
               variant={imageVariant}
@@ -77,7 +74,9 @@ const Dropzone = ({
             />
           </div>
 
-          {imagePicker && <div className="mt--4 ml-5 " ><Image size={'xs'} src={icons.updatedProfile}
+          {imagePicker && 
+          <div className="mt--4 ml-5 " >
+            <Image size={'xs'} src={icons.updatedProfile}
             variant={'avatar'}
             onClick={handleRefClick} height={14} width={14}
             style={{ position: 'absolute', backgroundColor: "white", }} />

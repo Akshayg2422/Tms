@@ -4,7 +4,7 @@ import type { TabsProps, TabItem } from "./interfaces";
 import { useWindowDimensions } from '@Hooks'
 import { Card } from '@Components'
 
-export function Tabs({ tabs, selected, onChange,height }: TabsProps) {
+export function Tabs({ tabs, selected, onChange, height }: TabsProps) {
   //const { height } = useWindowDimensions()
 
   const changeTab = (item: TabItem) => {
@@ -20,13 +20,9 @@ export function Tabs({ tabs, selected, onChange,height }: TabsProps) {
 
 
   return (
-    <div style={{
-      height: height
-    }}>
+    <div>
       <nav
-        style={{
-          position: "relative",
-        }}
+
       >
         <div
           style={{
@@ -67,7 +63,7 @@ export function Tabs({ tabs, selected, onChange,height }: TabsProps) {
           })}
         </div>
       </nav>
-      <div className="h-100">
+      <div>
         {tabs.map((item: TabItem) => {
           return (
             <TabPanel key={item.id} hidden={selected?.id !== item.id}>

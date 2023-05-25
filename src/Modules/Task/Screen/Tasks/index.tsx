@@ -4,7 +4,7 @@ import { Button, HomeContainer, NoDataFound } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
-import { getTasks, setSelectedTask, getDashboard, setSelectedTabPosition } from '@Redux'
+import { getTasks, setSelectedTask, getDashboard, setSelectedTabPosition, setTaskParams } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
@@ -12,14 +12,13 @@ import { translate } from '@I18n'
 function Tasks() {
   const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
   const dispatch = useDispatch()
-  const [params, setParams] = useState(DEFAULT_PARAMS)
-  const { tasks, taskNumOfPages, taskCurrentPages, selectedTask } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, selectedTask, taskParams } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-  const { company_branch, user_details, company } = dashboardDetails || ''
-
-
-
+  const { company } = dashboardDetails || ''
+  const [params, setParams] = useState(DEFAULT_PARAMS)
   const { goTo } = useNavigation();
+
+
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
@@ -31,23 +30,18 @@ function Tasks() {
   }, [selectedTask])
 
 
-  console.log("dashboardDetails-------->", dashboardDetails)
-
   function getDashboardDetails() {
     const params = {}
     dispatch(getDashboard({
       params,
       onSuccess: (response) => () => {
-
-
       },
       onError: () => () => { }
     }));
   }
 
   const getTaskHandler = (page_number: number) => {
-    const updatedParams = { ...params, page_number }
-
+    const updatedParams = { ...taskParams, page_number }
     dispatch(
       getTasks({
         params: updatedParams,
@@ -58,8 +52,6 @@ function Tasks() {
       })
     );
   };
-
-
 
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
@@ -102,17 +94,20 @@ function Tasks() {
             <div className="h5 m-0"> {by_user?.name} </div>,
           "raised to":
             <div className="row">
-
-              {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.attachment_logo &&
-                <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />
+              {assigned_to ?
+                <>
+                  {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.attachment_logo &&
+                    <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />
+                  }
+                  <div className="ml-2">
+                    <div className="h5 mb-0"> {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.display_name}</div>
+                    <div className={`h5 mb-0 text-truncate ${company?.name === raised_by_company?.display_name ? 'mt--3' : ""} `}>@<span className="h5"> {assigned_to?.name} </span></div>
+                    <small className={'text-uppercase mb-0  text-muted'}>
+                      {raised_by_company?.place}
+                    </small>
+                  </div>
+                </> : <div></div>
               }
-              <div className="ml-2">
-                <div className="h5 mb-0"> {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.display_name}</div>
-                <div className={`h5 mb-0 text-truncate ${company?.name === raised_by_company?.display_name ? 'mt--3' : ""} `}>@<span className="h5"> {assigned_to?.name} </span></div>
-                <small className={'text-uppercase mb-0  text-muted'}>
-                  {raised_by_company?.place}
-                </small>
-              </div>
             </div >,
           'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
           status: <div><Status status={task_status} />
@@ -123,31 +118,30 @@ function Tasks() {
   };
 
   return (
-    <div className="mx-3 mt-3 ">
-      <div className="row ">
-        <div className="mx-2 mb--3  col">
+    <div className="mx-3 mt-3">
+
+      <div className="d-flex justify-content-end">
+        <Button
+          className="text-white"
+          size={'sm'}
+          text={translate("common.createTask")}
+          onClick={() => {
+            goTo(ROUTES["task-module"]["add-task"])
+          }}
+        />
+      </div>
+      <div className="row mt-3">
+        <div className="mx-2 col">
           <TaskGroups onClick={(code) => {
+            dispatch(setTaskParams({ ...taskParams, group: code }))
             setParams({ ...params, group: code } as any)
           }} />
         </div>
-
-        <div className="col-auto  ">
-          <Button
-            className="mb-3"
-            size={'sm'}
-            text={translate("common.createTask")}
-            onClick={() => {
-              goTo(ROUTES["task-module"]["add-task"])
-            }
-            }
-
-          />
-
-        </div>
       </div>
 
-      <HomeContainer type={'card'} >
+      <HomeContainer type={'card'}>
         <TaskFilter onParams={(filteredParams) => {
+          dispatch(setTaskParams({ ...taskParams, ...filteredParams }))
           setParams({ ...params, ...filteredParams })
         }} />
         <div style={{

@@ -31,7 +31,7 @@ export const addDepartmentFailure = (error) => {
 };
 
 export const addDesignation = (params) => {
-  console.log("designationparams--->",params)
+  console.log("designationparams--->", params)
   return {
     type: ActionTypes.ADD_DESIGNATION,
     payload: params,
@@ -352,14 +352,14 @@ export const getEmployeesl = (params: any) => {
 export const getEmployeeslSuccess = (response: any) => {
 
   return {
-    type: ActionTypes.GET_EMPLOYEES_SUCCESSL,
+    type: ActionTypes.GET_EMPLOYEESL_SUCCESS,
     payload: response,
   };
 };
 
 export const getEmployeeslFailure = (error: any) => {
   return {
-    type: ActionTypes.GET_EMPLOYEES_FAILUREL,
+    type: ActionTypes.GET_EMPLOYEESL_FAILURE,
     payload: error,
   };
 };
@@ -522,7 +522,7 @@ export const setSelectedCompany = (response: any) => {
   }
 }
 
-export const setSelectedEmployee= (response: any) => {
+export const setSelectedEmployee = (response: any) => {
   return {
     type: ActionTypes.SET_SELECTED_EMPLOYEE,
     payload: response,
@@ -578,72 +578,245 @@ export const addEventFailure = (error: any) => {
  */
 
 
-  export const postVideoConference = (params: any) => {
-    return {
-      type: ActionTypes.POST_VIDEO_CONFERENCE,
-      payload: params,
-    };
+export const postVideoConference = (params: any) => {
+  return {
+    type: ActionTypes.POST_VIDEO_CONFERENCE,
+    payload: params,
   };
-  export const postVideoConferenceSuccess = (response: any) => {
-    return {
-      type: ActionTypes.POST_VIDEO_CONFERENCE_SUCCESS,
-      payload: response,
-    };
+};
+export const postVideoConferenceSuccess = (response: any) => {
+  return {
+    type: ActionTypes.POST_VIDEO_CONFERENCE_SUCCESS,
+    payload: response,
   };
-  export const postVideoConferenceFailure = (error: any) => {
-    return {
-      type: ActionTypes.POST_VIDEO_CONFERENCE_FAILURE,
-      payload: error,
-    };
+};
+export const postVideoConferenceFailure = (error: any) => {
+  return {
+    type: ActionTypes.POST_VIDEO_CONFERENCE_FAILURE,
+    payload: error,
   };
+};
 
 
-  /**
- * get schedule meeting list
+/**
+* get schedule meeting list
+*/
+
+
+export const getVideoConferenceList = (params: any) => {
+  return {
+    type: ActionTypes.GET_VIDEO_CONFERENCE_LIST,
+    payload: params,
+  };
+};
+export const getVideoConferenceListSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_SUCCESS,
+    payload: response,
+  };
+};
+export const getVideoConferenceListFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_FAILURE,
+    payload: error,
+  };
+};
+
+
+/**
+* get token for meeting
+*/
+
+
+export const getTokenByUser = (params: any) => {
+  return {
+    type: ActionTypes.GET_TOKEN_BY_USER,
+    payload: params,
+  };
+};
+export const getTokenByUserSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_TOKEN_BY_USER_SUCCESS,
+    payload: response,
+  };
+};
+export const getTokenByUserFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_TOKEN_BY_USER_FAILURE,
+    payload: error,
+  };
+};
+
+
+/**
+ * GET ASSOCIATED COMPANIES
+ */
+
+export const getAssociatedCompany = (params: any) => {
+  console.log('actionnnnnnnnnnnnnnnn');
+
+  return {
+    type: ActionTypes.GET_ASSOCIATED_COMPANY,
+    payload: params,
+  };
+};
+export const getAssociatedCompanySuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_ASSOCIATED_COMPANY_SUCCESS,
+    payload: response,
+  };
+};
+export const getAssociatedCompanyFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_ASSOCIATED_COMPANY_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ * ADD ASSOCIATED COMPANIES
+ */
+
+export const addAssociatedCompany = (params: any) => {
+  console.log('actionnnnnnnnnnnnnnnn------------addAssociatedCompany');
+  return {
+    type: ActionTypes.ADD_ASSOCIATED_COMPANY,
+    payload: params,
+  };
+};
+export const addAssociatedCompanySuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_ASSOCIATED_COMPANY_SUCCESS,
+    payload: response,
+  };
+};
+export const addAssociatedCompanyFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_ASSOCIATED_COMPANY_FAILURE,
+    payload: error,
+  };
+};
+
+/* REFRESH USER COMPANY */
+
+export const refreshUserCompanies = () => {
+  return {
+    type: ActionTypes.REFRESH_USER_COMPANY,
+  }
+}
+
+
+//Get groups Employees
+
+export const getGroupsEmployees = (params: any) => {
+  return {
+    type: ActionTypes.GET_GROUPS_EMPLOYEES,
+    payload: params,
+  };
+};
+
+export const getGroupsEmployeesSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_GROUPS_EMPLOYEES_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getGroupsEmployeesFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_GROUPS_EMPLOYEES_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ * refresh group Events
  */
 
 
-  export const getVideoConferenceList = (params: any) => {
-    return {
-      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST,
-      payload: params,
-    };
-  };
-  export const getVideoConferenceListSuccess = (response: any) => {
-    return {
-      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_SUCCESS,
-      payload: response,
-    };
-  };
-  export const getVideoConferenceListFailure = (error: any) => {
-    return {
-      type: ActionTypes.GET_VIDEO_CONFERENCE_LIST_FAILURE,
-      payload: error,
-    };
-  };
+export const refreshGroupEvents = () => {
+  return {
+    type: ActionTypes.REFRESH_GROUP_EVENTS,
+  }
+}
 
-
-    /**
- * get token for meeting
+/**
+ * store selected Group 
  */
 
+export const setSelectedGroup = (group: any) => {
+  return {
+    type: ActionTypes.SELECTED_GROUP_ITEM,
+    payload: group
+  }
+}
 
-    export const getTokenByUser = (params: any) => {
-      return {
-        type: ActionTypes.GET_TOKEN_BY_USER,
-        payload: params,
-      };
-    };
-    export const getTokenByUserSuccess = (response: any) => {
-      return {
-        type: ActionTypes.GET_TOKEN_BY_USER_SUCCESS,
-        payload: response,
-      };
-    };
-    export const getTokenByUserFailure = (error: any) => {
-      return {
-        type: ActionTypes.GET_TOKEN_BY_USER_FAILURE,
-        payload: error,
-      };
-    };
-  
+//Get group Message
+
+export const getGroupMessage = (params: any) => {
+  return {
+    type: ActionTypes.GET_GROUP_MESSAGE,
+    payload: params,
+  };
+};
+
+export const getGroupMessageSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_GROUP_MESSAGE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getGroupMessageFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_GROUP_MESSAGE_FAILURE,
+    payload: error,
+  };
+};
+
+//Add group Message
+
+export const addGroupMessage = (params: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_MESSAGE,
+    payload: params,
+  };
+};
+
+export const addGroupMessageSuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_MESSAGE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addGroupMessageFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_MESSAGE_FAILURE,
+    payload: error,
+  };
+};
+
+
+//GET SUB GROUP
+export const getSubGroup = (params: any) => {
+  return {
+    type: ActionTypes.GET_SUB_GROUP,
+    payload: params,
+  };
+};
+
+export const getSubGroupSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_SUB_GROUP_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getSubGroupFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_SUB_GROUP_FAILURE,
+    payload: error,
+  };
+};
+

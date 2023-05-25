@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CheckboxProps } from './interfaces'
 import { FormGroup } from 'reactstrap'
 
 function Checkbox({ id = '0', text, defaultChecked, variant = 'primary', onCheckChange, ...rest }: CheckboxProps) {
 
     const [checked, setChecked] = useState(defaultChecked);
+
+
+    useEffect(() => {
+        setChecked(defaultChecked)
+    }, [defaultChecked])
 
     function onChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
         if (onCheckChange) {

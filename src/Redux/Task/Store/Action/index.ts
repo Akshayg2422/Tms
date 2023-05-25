@@ -1,4 +1,5 @@
 import * as ActionTypes from '../ActionTypes'
+
 export const getTaskGroupsL = (params: any) => {
     return {
         type: ActionTypes.GET_TASK_GROUPS_L,
@@ -345,5 +346,16 @@ export const getAssignedTaskFailure = (error: any) => {
     return {
         type: ActionTypes.GET_ASSIGNED_TASK_FAILURE,
         payload: error
+    }
+}
+
+/**
+ * TASK FILTER PARAMS
+ */
+
+export const setTaskParams = (params: any) => {
+    return {
+        type: ActionTypes.TASK_DEFAULT_PARAMS,
+        payload: params
     }
 }

@@ -1,37 +1,86 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getTaskEventHistory } from '@Redux';
-import { HDD_MMMM_YYYY_HH_MM_A, TASK_STATUS_LIST, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getDisplayDateTimeFromMoment, getMomentObjFromServer, getObjectFromArrayByKey } from '@Utils';
+import { HDD_MMMM_YYYY_HH_MM_A, TASK_STATUS_LIST, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getDisplayDateTimeFromMoment, getMomentObjFromServer, getObjectFromArrayByKey,INITIAL_PAGE, } from '@Utils';
 import { TaskEventHistoryProps } from './interfaces'
-import { TimeLine} from '@Components'
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { TimeLine,Spinner} from '@Components'
 import { icons } from '@Assets';
+import { useParams } from 'react-router-dom';
 
 function TaskEventHistory({ }: TaskEventHistoryProps) {
-
+    const { id } = useParams();
     const dispatch = useDispatch();
-    const { selectedTask, taskEventHistories } = useSelector((state: any) => state.TaskReducer);
+    const [taskEventHistory, setTaskEventHistory] = useState([])
+    const [taskEventsCurrentPage, setEventsTaskCurrentPage] = useState(INITIAL_PAGE)
+    const { selectedTask, taskEventHistories,refreshTaskEvents  } = useSelector((state: any) => state.TaskReducer);
+
+    // useEffect(() => {
+    //     getTaskEventHistoryApi(INITIAL_PAGE)
+    // }, [refreshTaskEvents.id])
+
+    
+
+    // const getTaskEventHistoryApi = () => {
+            
+        
+    //     const params = {
+    //         task_id: selectedTask.id,
+    //     }
+
+    //     dispatch(
+    //         getTaskEventHistory({
+    //             params,
+    //             onSuccess: () => () => { },
+    //             onError: () => () => { },
+    //         })
+    //     );
+    // }
+
 
     useEffect(() => {
-        getTaskEventHistoryApi()
-    }, [])
+        getTaskEventHistoryApi(INITIAL_PAGE)
+    }, [refreshTaskEvents,id])
 
-    const getTaskEventHistoryApi = () => {
 
-        const params = {
-            task_id: selectedTask.id,
+
+    function getTaskEventsDisplayData(data: any) {
+        if (data && data.length > 0) {
+            return data.map(each => {
+                return {
+                    ...getIconsFromStatus(each)
+                }
+            })
         }
+
+    }
+    const getTaskEventHistoryApi = (page_numbers: number) => {
+        
+        const params = {
+                     task_id:id,
+                     page_numbers,
+                 }
 
         dispatch(
             getTaskEventHistory({
                 params,
-                onSuccess: () => () => { },
+                onSuccess: (response: any) => () => {
+                    const taskEventsResponse = response.details
+                    let updatedData = []
+                    if (taskEventsResponse.data && taskEventsResponse.data.length > 0) {
+                        if (page_numbers === 1) {
+                            updatedData = getTaskEventsDisplayData(taskEventsResponse.data)
+                        } else {
+                            updatedData = getTaskEventsDisplayData([...taskEventHistory, ...taskEventsResponse.data] as any)
+                        }
+                    }
+                    setTaskEventHistory(updatedData)
+                    setEventsTaskCurrentPage(taskEventsResponse.next_page)
+                },
                 onError: () => () => { },
             })
         );
-    }
-
-
-
+    };
 
     function getIconsFromStatus(each: any) {
         const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status, start_time, end_time } = each
@@ -72,16 +121,52 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
         return modifiedData
     }
 
-    console.log(JSON.stringify(taskEventHistories) + '====taskEventHistories');
+    console.log('taskEventHistories ===>',JSON.stringify(taskEventHistories) );
 
     return (
         <div className='m-1 mt-3 shadow-none overflow-auto overflow-hide' style={{ maxHeight: '58vh' }}>
             {
                 taskEventHistories && taskEventHistories?.length > 0 && taskEventHistories?.map((taskEvent: any, index: number) => {
-                    const { icon, subTitle, title, created_at }: any = getIconsFromStatus(taskEvent)
-                    const show = index !== taskEventHistories.length - 1
+                    // const { icon, subTitle, title, created_at }: any = getIconsFromStatus(taskEvent)
+                    // const show = index !== taskEventHistories.length - 1
                     return (
-                        <TimeLine icon={icon} subTitle={subTitle} showDotterLine={show} title={title} time={getDisplayDateFromMoment(getMomentObjFromServer(created_at))}> </TimeLine >
+                        <InfiniteScroll
+                dataLength={taskEventHistory.length}
+                hasMore={taskEventsCurrentPage !== -1}
+                scrollableTarget="scrollableDiv"
+                style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                inverse={true}
+                loader={<h4>
+                    <Spinner />
+                </h4>}
+                next={() => {
+                    
+                    console.log('taskEventsCurrentPage====>',taskEventsCurrentPage );
+                    
+                    if (taskEventsCurrentPage !== -1) {
+                        getTaskEventHistoryApi(taskEventsCurrentPage)
+                    }
+                }
+                }>
+                {taskEventHistory && taskEventHistory.length > 0 &&
+                    taskEventHistory.map((task: any, index: number) => {
+                        const showDotLine = index !== 0
+                        // const show = index !== taskEventHistories.length - 1
+                        const { icon, title, subTitle, created_at, } = task
+                        // const { icon, subTitle, title, created_at }: any = getIconsFromStatus(taskEvent)
+
+                        return (
+                            <TimeLine icon={icon} 
+                                      subTitle={subTitle} 
+                                      showDotterLine={showDotLine} 
+                                      title={title} 
+                                      time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))}> 
+                            </TimeLine >
+                            )
+                    })
+                }
+            </InfiniteScroll>
+                        
                     )
                 })
             }

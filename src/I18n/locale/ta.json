@@ -68,7 +68,8 @@
         "createTask":"உருவாக்குபணி",
         "noUserFound":"எந்த பயனரும் கிடைக்கவில்லை",
         "note":"குறிப்பு",
-        "createPost":"உருவாக்கு இடுகை"
+        "createPost":"உருவாக்கு இடுகை",
+        "add":"கூட்டு"
     },
     "errors": {
         "invalidEmail": "Invalid email address."
@@ -131,7 +132,10 @@
         "noTaskFound":"பணிகள் எதுவும் இல்லை",
         "noTextFound":"உரை எதுவும் இல்லை",
         "employees":"ஊழியர்கள்",
-        "addTimeSheet":"கூடுதல் நேரத்தாள்"
+        "addTimeSheet":"கூடுதல் நேரத்தாள்",
+        "associatedCompany":"தொடர்புடைய நிறுவனம்",
+        "assignedTask":"ஒதுக்கப்பட்ட பணி",
+        "editTimeSheet":"திருத்த நேரத்தாள்"
     },
     "product": {
         "Store": "ஸ்டோர்",

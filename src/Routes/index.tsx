@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference,Groups } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -19,7 +19,8 @@ export const HOME_PATH = {
   TASK_DETAILS: '/task-details',
   TICKET_DETAILS: '/ticket-details',
   ADD_TICKET: './add-ticket',
-  EMPLOYEE_TIME_SHEET: './employee-time-sheet'
+  EMPLOYEE_TIME_SHEET: './employee-time-sheet',
+  GROUPS:'./groups'
 }
 
 export const ROUTES = {
@@ -59,6 +60,7 @@ export const ROUTES = {
     'my-portfolio': '/my-portfolio',
     'admin-feeds': '/admin-feeds',
     Events: '/events',
+    Groups:'/groups',
     'add-event': '/add-event'
   },
   'message-module': {
@@ -111,7 +113,7 @@ export const HOME_ROUTES = [
   },
   {
     path: ROUTES['user-company-module'].companies,
-    name: "Companies",
+    name: "Associations",
     icon: icons.company,
     layout: "",
     component: <Companies />
@@ -135,7 +137,7 @@ export const HOME_ROUTES = [
     name: "Settings",
     icon: icons.setting,
     layout: "",
-    component: <Setting />
+    component: <Setting/>
   }, {
     collapse: true,
     name: "Admin",
@@ -145,17 +147,18 @@ export const HOME_ROUTES = [
       {
         path: ROUTES['user-company-module'].employee,
         name: "Employee Portfolio",
+        // icon:icons.protfolio,
         miniName: "EP",
         component: <EmployeesList />,
         layout: '/admin',
       },
-      {
-        path: ROUTES['user-company-module']['my-portfolio'],
-        name: "MyTimeSheet",
-        miniName: "TS",
-        component: <MyPortfolio />,
-        layout: '/admin',
-      },
+      // {
+      //   path: ROUTES['user-company-module']['my-portfolio'],
+      //   name: "MyTimeSheet",
+      //   miniName: "TS",
+      //   component: <MyPortfolio />,
+      //   layout: '/admin',
+      // },
       {
         path: ROUTES['user-company-module']['admin-feeds'],
         name: "Admin Feeds",
@@ -178,6 +181,24 @@ export const HOME_ROUTES = [
         layout: '/admin',
       },
     ],
+
+    
+  },
+
+  {
+    path: ROUTES['user-company-module']['my-portfolio'],
+    name: "MyTimeSheet",
+    miniName: "TS",
+    icon:icons.myTimeSheet,
+    component: <MyPortfolio />,
+    layout: '',
+  },
+  {
+    path: ROUTES['user-company-module'].Groups,
+    name: "Groups",
+    icon: icons.company,
+    layout: "",
+    component: <Groups />
   },
 ];
 
@@ -281,6 +302,11 @@ export const USER_COMPANY_ROTES = [
     key: 9,
     path: ROUTES['user-company-module']['video-conference'],
     component: <VideoConference />
+  },
+  {
+    key: 10,
+    path: ROUTES['user-company-module'].Groups,
+    component: <Groups />
   },
 ];
 

@@ -47,8 +47,8 @@ import {
   GET_EMPLOYEES_SUCCESS,
   GET_EMPLOYEES_FAILURE,
   GET_EMPLOYEESL,
-  GET_EMPLOYEES_SUCCESSL,
-  GET_EMPLOYEES_FAILUREL,
+  GET_EMPLOYEESL_SUCCESS,
+  GET_EMPLOYEESL_FAILURE,
 
   REGISTER_ADMIN,
   REGISTER_ADMIN_SUCCESS,
@@ -66,6 +66,19 @@ import {
   ADD_EMPLOYEE_TIMELINE_FAILURE,
 
   RESTORE_USER_COMPANY,
+
+  GET_GROUPS_EMPLOYEES,
+  GET_GROUPS_EMPLOYEES_SUCCESS,
+  GET_GROUPS_EMPLOYEES_FAILURE,
+
+  GET_GROUP_MESSAGE,
+  GET_GROUP_MESSAGE_SUCCESS,
+  GET_GROUP_MESSAGE_FAILURE,
+
+  ADD_GROUP_MESSAGE,
+  ADD_GROUP_MESSAGE_SUCCESS,
+  ADD_GROUP_MESSAGE_FAILURE,
+
 } from '../ActionTypes';
 
 
@@ -88,8 +101,8 @@ const initialState: UserCompanyStateProp = {
   employeeslCurrentPages: undefined,
   employeeslNumOfPages: undefined,
   employeeAddTime: undefined,
-  employeeTimelineList: undefined,
-  employeeTimelineCurrentPages: undefined,
+  employeeTimeline: [],
+  employeeTimelineCurrentPages: 1,
   employeeTimelineNumOfPages: undefined,
   brandSector: undefined,
   ticketTag: undefined,
@@ -118,7 +131,16 @@ const initialState: UserCompanyStateProp = {
   selectedEmployee: undefined,
   videoConference: undefined,
   scheduledListData: undefined,
-  userToken: undefined
+  userToken: undefined,
+  associatedCompany: undefined,
+  updateAssociatedCompany: undefined,
+  refreshUserCompany: false,
+  groupEmployees: undefined,
+  groupMessage: undefined,
+  addGroupMessages: undefined,
+  refreshGroupEvents: false,
+  selectedGroup: undefined,
+  getSubGroups:undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -329,7 +351,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     /**get task group */
     case GET_TASK_GROUP:
-      const { page_number } = action.payload.params
+
       state = {
         ...state,
         // taskGroupDetails: page_number === 1 ? [] : state.taskGroupDetails,
@@ -465,7 +487,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
 
       break;
-    case GET_EMPLOYEES_SUCCESSL:
+    case GET_EMPLOYEESL_SUCCESS:
       state = {
         ...state,
         employeesl: action.payload.details.data,
@@ -475,34 +497,43 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         employeeslNumOfPages: action.payload.details.num_pages,
       };
       break;
-    case GET_EMPLOYEES_FAILUREL:
+    case GET_EMPLOYEESL_FAILURE:
       state = { ...state, employeesl: action.payload };
       break;
     //get employee timeline
 
     case GET_EMPLOYEE_TIMELINE:
+      const { page_number } = action.payload.params
+      // console.log('pa',JSON.stringify( page_number))
       state = {
         ...state,
-        employeeTimelineList: undefined,
-        employeeTimelineCurrentPages: 1,
-        employeeTimelineNumOfPages: 0,
+        employeeTimeline: page_number === 1 ? [] : state.employeeTimeline
       };
 
       break;
     case GET_EMPLOYEE_TIMELINE_SUCCESS:
+      //     console.log("sssssssssssst",JSON.stringify(state))
+      // console.log(...state. employeeTimelineList, ...action.payload?.details?.data,'{{{{{{{{{{{{')
+
       state = {
         ...state,
-        employeeTimelineList: action.payload.details.data,
-        employeeTimelineCurrentPages:
-          action.payload?.details.next_page === -1
-            ? action?.payload?.details.num_pages
-            : action?.payload?.details.next_page - 1,
-        employeeTimelineNumOfPages: action.payload.details.num_pages,
-
+        employeeTimeline: [...state.employeeTimeline, ...action.payload?.details?.data],
+        employeeTimelineCurrentPages: action.payload?.details?.next_page
       };
+
+      // state = {
+      //   ...state,
+      //   employeeTimelineList: action.payload.details.data,
+      //   employeeTimelineCurrentPages: 
+      //    action.payload?.details.next_page === -1
+      //   ? action?.payload?.details.num_pages
+      //   : action?.payload?.details.next_page - 1,
+      //   employeeTimelineNumOfPages: action.payload.details.num_pages,
+
+      // };
       break;
     case GET_EMPLOYEE_TIMELINE_FAILURE:
-      state = { ...state, employeeTimelineList: action.payload };
+      state = { ...state, employeeTimeline: action.payload };
       break;
 
     //addEmployeeTimeline
@@ -630,19 +661,142 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       state = {
         ...state,
-        events: action?.payload?.params?.page_number === 1 ? []:state.events
+        events: action?.payload?.params?.page_number === 1 ? [] : state.events
       };
       break;
     case ActionTypes.GET_EVENTS_SUCCESS:
       state = {
         ...state,
         events: [...state.events, ...action?.payload?.details?.data],
-        eventsCurrentPages:action?.payload?.details?.next_page
+        eventsCurrentPages: action?.payload?.details?.next_page
       };
       break;
     case ActionTypes.GET_EVENTS_FAILURE:
       state = { ...state, events: undefined };
       break;
+
+    /**
+     * GET ASSOCIATED COMPANIES
+     */
+
+    case ActionTypes.GET_ASSOCIATED_COMPANY:
+      state = { ...state, associatedCompany: undefined };
+      break;
+    case ActionTypes.GET_ASSOCIATED_COMPANY_SUCCESS:
+      state = { ...state, associatedCompany: action.payload.details.data };
+      break;
+    case ActionTypes.GET_ASSOCIATED_COMPANY_FAILURE:
+      state = { ...state, associatedCompany: action.payload };
+      break;
+
+    /**
+   * ADD ASSOCIATED COMPANIES
+   */
+
+    case ActionTypes.ADD_ASSOCIATED_COMPANY:
+      state = { ...state, updateAssociatedCompany: undefined };
+      break;
+    case ActionTypes.ADD_ASSOCIATED_COMPANY_SUCCESS:
+      state = { ...state, updateAssociatedCompany: action.payload.details.data };
+      break;
+    case ActionTypes.ADD_ASSOCIATED_COMPANY_FAILURE:
+      state = { ...state, updateAssociatedCompany: action.payload };
+      break;
+
+    //REFRESH USER COMPANY
+
+    case ActionTypes.REFRESH_USER_COMPANY:
+      state = { ...state, refreshUserCompany: !state.refreshUserCompany }
+      break;
+
+    //get group employees
+
+    case ActionTypes.GET_GROUPS_EMPLOYEES:
+      state = {
+        ...state,
+        groupEmployees: undefined,
+      };
+      break;
+    case ActionTypes.GET_GROUPS_EMPLOYEES_SUCCESS:
+      state = {
+        ...state,
+        groupEmployees: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_GROUPS_EMPLOYEES_FAILURE:
+      state = { ...state, groupEmployees: action.payload };
+      break;
+
+    //get group message
+
+    case ActionTypes.GET_GROUP_MESSAGE:
+      state = {
+        ...state,
+        groupMessage: undefined,
+      };
+      break;
+    case ActionTypes.GET_GROUP_MESSAGE_SUCCESS:
+      state = {
+        ...state,
+        groupMessage: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_GROUP_MESSAGE_FAILURE:
+      state = { ...state, groupMessage: action.payload };
+      break;
+
+    /**
+   * refresh Tasks 
+   */
+
+    case ActionTypes.REFRESH_GROUP_EVENTS:
+      state = { ...state, refreshGroupEvents: !state.refreshGroupEvents }
+      break;
+
+    /**
+   * selected Group
+   */
+    case ActionTypes.SELECTED_GROUP_ITEM:
+      state = { ...state, selectedGroup: action.payload }
+      break;
+
+    //add group message
+
+    case ActionTypes.ADD_GROUP_MESSAGE:
+      state = {
+        ...state,
+        addGroupMessages: undefined,
+      };
+      break;
+    case ActionTypes.ADD_GROUP_MESSAGE_SUCCESS:
+      state = {
+        ...state,
+        addGroupMessages: action.payload.details,
+      };
+      break;
+    case ActionTypes.ADD_GROUP_MESSAGE_FAILURE:
+      state = { ...state, addGroupMessages: action.payload };
+      break;
+
+      // GET SUB GROUP
+
+      case ActionTypes.GET_SUB_GROUP:
+      state = {
+        ...state,
+        getSubGroups: undefined,
+      };
+      break;
+    case ActionTypes.GET_SUB_GROUP_SUCCESS:
+      state = {
+        ...state,
+        getSubGroups: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_SUB_GROUP_FAILURE:
+      state = { ...state,  getSubGroups: action.payload };
+      break;
+  
+
 
     default:
       state = state;

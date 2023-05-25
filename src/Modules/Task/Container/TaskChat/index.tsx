@@ -15,7 +15,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 function TaskChat({ }: TaskChatProps) {
 
     const { id } = useParams();
-
     const dispatch = useDispatch()
     const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
     const [taskEvents, setTaskEvents] = useState([])
@@ -28,8 +27,6 @@ function TaskChat({ }: TaskChatProps) {
     useEffect(() => {
         getTaskEventsApi(INITIAL_PAGE)
     }, [refreshTaskEvents, id])
-
-
 
     function getTaskEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -46,8 +43,6 @@ function TaskChat({ }: TaskChatProps) {
             task_id: id,
             page_number
         }
-
-
 
         dispatch(
             getTaskEvents({
@@ -71,6 +66,7 @@ function TaskChat({ }: TaskChatProps) {
     };
 
     function getIconsFromStatus(each: any) {
+
         const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status, end_time, start_time } = each
         let modifiedData = {}
         switch (event_type) {
@@ -115,7 +111,7 @@ function TaskChat({ }: TaskChatProps) {
         <div
             id="scrollableDiv"
             style={{
-                height: height - 100,
+                height: height - 186,
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
@@ -125,10 +121,11 @@ function TaskChat({ }: TaskChatProps) {
                 dataLength={taskEvents.length}
                 hasMore={taskEventsCurrentPage !== -1}
                 scrollableTarget="scrollableDiv"
-                style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                className='overflow-auto overflow-hide'
+                style={{ display: 'flex', flexDirection: 'column-reverse', overflowY: 'auto' }}
                 inverse={true}
                 loader={<h4>
-                    <Spinner />
+                    {/* <Spinner /> */}
                 </h4>}
                 next={() => {
                     console.log('came');

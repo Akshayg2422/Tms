@@ -476,7 +476,6 @@ function* addEventSaga(action) {
 function* getVideoConferenceListSaga(action) {
   try {
     const response = yield call(Api.getVideoConferenceListApi, action.payload.params);
-    console.log("schedule============>",response)
     if (response.success) {
       yield put(Action.getVideoConferenceListSuccess(response));
       yield call(action.payload.onSuccess(response));
@@ -497,19 +496,128 @@ function* getVideoConferenceListSaga(action) {
 function* getTokenByUserSaga(action) {
   try {
     const response = yield call(Api.getTokenByUserApi, action.payload.params);
+    console.log('=========>', response)
     if (response.success) {
-      yield put(Action.getTokenByUserSuccess(response));
+      yield put(Action.getAssociatedCompanySuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(Action.getTokenByUserFailure(response.error_message));
+      yield put(Action.getAssociatedCompanyFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(Action.getTokenByUserFailure(error));
+    yield put(Action.getAssociatedCompanyFailure(error));
     yield call(action.payload.onError(error));
   }
 }
 
+/**
+ * GET ASSOCIATED COMPANIES
+ */
+
+function* getAssociatedCompanySaga(action) {
+  try {
+    const response = yield call(Api.getAssociatedCompanyApi, action.payload.params);
+    console.log("registerCompany============>", response)
+    if (response.success) {
+      yield put(Action.getAssociatedCompanySuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getAssociatedCompanyFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getAssociatedCompanyFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+/**
+ * ADD ASSOCIATED COMPANY
+ */
+
+function* addAssociatedCompanySaga(action) {
+  try {
+    const response = yield call(Api.addAssociatedCompanyApi, action.payload.params);
+    console.log("registerCompany============>", response)
+    if (response.success) {
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield call(action.payload.onError(error));
+  }
+}
+// getGroupEmployees
+
+function* getGroupsEmployeesSaga(action) {
+  try {
+    const response = yield call(Api.getGroupEmployeesApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getGroupsEmployeesSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getGroupsEmployeesFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getGroupsEmployeesFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+//get group message
+
+function* getGroupsMessageSaga(action) {
+  try {
+    const response = yield call(Api.getGroupMessageApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getGroupMessageSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getGroupMessageFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getGroupMessageFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+//add group message
+
+function* addGroupsMessageSaga(action) {
+  try {
+    const response = yield call(Api.addGroupMessageApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.addGroupMessageSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.addGroupMessageFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.addGroupMessageFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
+function* getSubGroupSaga(action) {
+  try {
+    const response = yield call(Api.getSubGroupApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getSubGroupSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getSubGroupFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getSubGroupFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
 
 
 function* UserCompanySaga() {
@@ -540,6 +648,12 @@ function* UserCompanySaga() {
   yield takeLatest(Action.POST_VIDEO_CONFERENCE, postVideoConferenceSaga);
   yield takeLatest(Action.GET_VIDEO_CONFERENCE_LIST, getVideoConferenceListSaga);
   yield takeLatest(Action.GET_TOKEN_BY_USER, getTokenByUserSaga);
+  yield takeLatest(Action.GET_ASSOCIATED_COMPANY, getAssociatedCompanySaga);
+  yield takeLatest(Action.ADD_ASSOCIATED_COMPANY, addAssociatedCompanySaga);
+  yield takeLatest(Action.GET_GROUPS_EMPLOYEES, getGroupsEmployeesSaga);
+  yield takeLatest(Action.GET_GROUP_MESSAGE, getGroupsMessageSaga);
+  yield takeLatest(Action.ADD_GROUP_MESSAGE, addGroupsMessageSaga);
+  yield takeLatest(Action.GET_SUB_GROUP, getSubGroupSaga)
 
 }
 

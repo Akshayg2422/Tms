@@ -12,12 +12,10 @@ export const SERVER =
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_local'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
-        ? 'http://192.168.253.5:8003'
+        ? 'http://192.168.181.5:8004'
         : BUILD_TYPE === BUILD_TYPE_STAGING
           ? 'http://103.118.188.135:8003'
-          : BUILD_TYPE === BUILD_TYPE_LOCAL
-            ? 'http://192.168.253.5:8003'
-            : 'http://localhost:8000'
+          : 'http://localhost:8000'
 
 
 const axiosApi = axios.create({

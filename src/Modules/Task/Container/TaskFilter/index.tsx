@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { TaskFilterProps } from './interfaces'
 import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
-import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, } from '@Utils'
-import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartments, getDesignations } from '@Redux'
-import { useDispatch } from 'react-redux'
+import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, getObjectFromArrayByKey, } from '@Utils'
+import { useDropDown, useInput } from '@Hooks'
+import { getAssociatedCompaniesL, getDepartments, getDesignations, setTaskParams } from '@Redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { icons } from '@Assets'
 
 
@@ -21,6 +21,10 @@ const FILTER_MENU = [
 
 function TaskFilter({ onParams }: TaskFilterProps) {
 
+
+    const { taskParams } = useSelector((state: any) => state.TaskReducer);
+
+
     const dispatch = useDispatch()
     const filteredTask = useDropDown(TASK_FILTER_LIST[2]);
     const taskStatus = useDropDown(TASK_STATUS_LIST[2]);
@@ -34,7 +38,22 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const [includeSubTask, setIncludeSubTask] = useState(false)
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
+    const search = useInput('')
 
+
+
+    useEffect(() => {
+
+        if (taskParams) {
+            const { q_many, task_status, priority, tasks_by, include_subtask } = taskParams
+            search.set(q_many)
+            filteredTask.set(getObjectFromArrayByKey(TASK_FILTER_LIST, 'id', tasks_by))
+            taskStatus.set(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status))
+            taskPriority.set(getObjectFromArrayByKey(TASK_PRIORITY_LIST, 'id', priority))
+            setIncludeSubTask(include_subtask)
+        }
+
+    }, [taskParams, companies])
 
 
     useEffect(() => {
@@ -66,6 +85,10 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             );
         }
     }, [advanceFilter]);
+
+    const getTaskDefaultParams = () => {
+
+    }
 
     const getDesignation = (items: any) => {
 
@@ -144,8 +167,9 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             <div className="row">
                 <div className='row col'>
                     <div className="col-lg-3  col-md-3 col-sm-12">
-                        <SearchInput heading={translate("common.codeTitle")!} onSearch={
+                        <SearchInput defaultValue={search.value} heading={translate("common.codeTitle")!} onSearch={
                             (text) => {
+                                search.set(text)
                                 proceedParams({ q_many: text })
                             }
                         } />
@@ -206,7 +230,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             </div>
             <div className='row mt-2'>
                 <div className='col-auto  d-flex align-items-center justify-content-center'>
-                    <Checkbox text={translate('common.includeSubtask')!} checked={includeSubTask} onCheckChange={(checked) => {
+                    <Checkbox text={translate('common.includeSubtask')!} defaultChecked={includeSubTask} onCheckChange={(checked) => {
                         proceedParams({ include_subtask: checked })
                         setIncludeSubTask(checked)
                     }} />

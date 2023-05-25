@@ -12,7 +12,7 @@ function NoDataFound({ text = 'No Data Found', type = 'action', buttonText, onCl
                     <div>
                         <div className='text-center'>
                             <p className='mb-1'><u>{text}</u></p>
-                           {isButton && <Button size={'sm'} text={buttonText} onClick={onClick} />}
+                           {isButton && <Button size={'sm'} className={'text-white'} text={buttonText} onClick={onClick} />}
                         </div>
                     </div >
 
