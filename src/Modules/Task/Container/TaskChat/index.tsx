@@ -160,18 +160,19 @@ function TaskChat({ }: TaskChatProps) {
             </InfiniteScroll>
 
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
+                <div className={'mb--6 mt--5 mx--2'}>
                 <Carousel >
                     {
                         image.map(each => {
                             return <Image
                                 className='ml-1 mb-1'
                                 src={each}
-                                height={'100%'}
-                                width={'100%'}
+                                style={{ height: '450px', width: '850px' }}
                             />
                         })
                     }
                 </Carousel>
+                </div>
             </Modal>
         </div>
 
