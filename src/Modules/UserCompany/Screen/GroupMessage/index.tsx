@@ -127,10 +127,9 @@ function GroupMessage({ selectedGroup
                     style={{ display: 'flex', flexDirection: 'column-reverse' }}
                     inverse={true}
                     loader={<h4>
-                        <Spinner />
+                        {/* <Spinner /> */}
                     </h4>}
                     next={() => {
-
 
                         if (GroupCurrentPage !== -1) {
                             getGroupMessageApi(GroupCurrentPage)

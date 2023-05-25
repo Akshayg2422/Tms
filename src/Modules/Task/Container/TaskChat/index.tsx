@@ -67,7 +67,7 @@ function TaskChat({ }: TaskChatProps) {
 
     function getIconsFromStatus(each: any) {
 
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status, end_time, start_time } = each
         let modifiedData = {}
         switch (event_type) {
             case 'TEM':
@@ -95,6 +95,13 @@ function TaskChat({ }: TaskChatProps) {
             case 'EVS':
                 modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status).text }
                 break;
+            case 'ETE':
+                modifiedData = { ...each, icon: icons.endTime, subTitle: by_user?.name, title: 'Task End time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(end_time)) }
+                break;
+            case 'ETS':
+                modifiedData = { ...each, icon: icons.startTime, subTitle: by_user?.name, title: 'Task Start time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(start_time)) }
+                break;
+
         }
         return modifiedData
     }

@@ -7,7 +7,7 @@ import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory, ProgressBarEta } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useWindowDimensions } from '@Hooks'
-import { addTaskEvent, getTaskDetails } from '@Redux'
+import { addTaskEvent, getTaskDetails, refreshTaskEvents } from '@Redux'
 import { useParams } from 'react-router-dom'
 
 const START_TASK = 1
@@ -61,6 +61,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 onSuccess: () => () => {
                     editEtaReason.set('')
                     editEtaModal.hide();
+                    dispatch(refreshTaskEvents())
                     getTaskDetailsHandler();
                 },
                 onError: () => () => { }
@@ -94,6 +95,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 params,
                 onSuccess: (response) => () => {
                     alertModal.hide()
+                    getTaskDetailsHandler()
                 },
                 onError: () => () => {
                     alertModal.hide()
