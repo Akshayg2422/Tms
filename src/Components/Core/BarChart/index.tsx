@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 
-interface Props {}
+interface Props { }
 
-interface State {}
+interface State { }
 
 class BarChart extends Component<Props, State> {
   componentDidMount() {
@@ -33,7 +33,7 @@ class BarChart extends Component<Props, State> {
     svg.append('g')
       .call(d3.axisLeft(y));
 
-    svg.selectAll('rect')
+    svg.showAll('rect')
       .data(data)
       .enter()
       .append('rect')
@@ -49,4 +49,4 @@ class BarChart extends Component<Props, State> {
   }
 }
 
-export {BarChart} ;
+export { BarChart };

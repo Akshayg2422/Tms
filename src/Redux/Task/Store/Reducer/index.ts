@@ -24,7 +24,7 @@ const initialState: TaskStateProp = {
   taskDetails: {},
   subTaskGroups: undefined,
   assignedTask: undefined,
-  taskFilterParams: undefined,
+  taskParams: { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "department_id": "ALL", "designation_id": "ALL", page_number: 1 },
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -303,7 +303,7 @@ const TaskReducer = (state = initialState, action: any) => {
  * TASK FILTER GROUPS
  */
     case ActionTypes.TASK_DEFAULT_PARAMS:
-      state = { ...state, taskFilterParams: action.payload }
+      state = { ...state, taskParams: action.payload }
       break;
 
     default:

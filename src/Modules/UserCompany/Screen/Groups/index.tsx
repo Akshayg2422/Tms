@@ -1,47 +1,55 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { GroupMessage, AddMessage, TaskGroups,SubTaskGroup, GroupEmployees,} from '@Modules'
-import { Card,} from '@Components'
+import { GroupMessage, AddMessage, TaskGroups, GroupEmployees, } from '@Modules'
+import { Card, } from '@Components'
 import { useSelector } from 'react-redux'
 import { useWindowDimensions } from '@Hooks';
 
 
 function Groups() {
 
-    const { taskGroups } = useSelector((state: any) => state.TaskReducer);
-    const [selectGroup,setSelectGroup] = useState<any>()
-    const { height } = useWindowDimensions()
-   
+    const { taskGroups, } = useSelector((state: any) => state.TaskReducer);
+    const [selectGroup, setSelectGroup] = useState<any>()
 
-useEffect(()=>{
-    if(taskGroups&& taskGroups.length>0)
-    {
-        setSelectGroup(taskGroups[0].id)
-       
-    }
+    const ref = useRef<HTMLDivElement>(null)
 
-},[taskGroups])
+    const { width, height } = useWindowDimensions()
+    const [infoHeight, setInfoHeight] = useState(0)
+
+    useEffect(() => {
+        if (taskGroups && taskGroups.length > 0) {
+            setSelectGroup(taskGroups[0].id)
+        }
+
+    }, [taskGroups])
+
+    useEffect(() => {
+        if (ref.current) {
+            setInfoHeight(ref.current.clientHeight)
+        }
+    })
+
     return (
-        <div className='mx-3 '>
-         
-            <div className='row mb-0' >
-                <div className=" mx-4 mt-3 mb-0" >
-                    <TaskGroups onClick={(code) => setSelectGroup(code)} showAll={false}/>
-                </div>
+        <div className='m-3 v-100vh'>
+            <div className='mx-3 mt-3' >
+                <TaskGroups onClick={(code) => setSelectGroup(code)} showAll={false} />
             </div>
-           
-            <div className='row mt--2'>
-                <div className='col-8 mr--3' >
-                    <Card className='shadow-none '>
-                        <GroupMessage selectedGroup={selectGroup}/>
+
+            <div className='row'>
+                <div className='col-8' ref={ref}>
+                    <Card>
+                        <GroupMessage selectedGroup={selectGroup} />
                         <AddMessage AddGroup={selectGroup} />
                     </Card>
+
                 </div>
-                <div className='col-4 mx-0'>
-                    <GroupEmployees Employees={selectGroup}height={height}/>
+                <div className='col ml--3' style={{
+                    height: infoHeight - 30
+                }}>
+                    <GroupEmployees Employees={selectGroup} />
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }
 export { Groups }

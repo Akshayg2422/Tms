@@ -88,7 +88,6 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         <>
             <div className='col'>
                 <div className='row justify-content-center align-items-center'>
-
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
                         <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
@@ -98,26 +97,26 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             </div >
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
-                     <div className='col ml-3'>
-                        <div className='row'>
-                            {selectDropzone && selectDropzone.map((el, index) => {
+                <div className='col ml-3'>
+                    <div className='row'>
+                        {selectDropzone && selectDropzone.map((el, index) => {
 
-                                return (
-                                    <div className={`${index !== 0 && 'ml-2'}`}>
-                                        <Dropzone variant='ICON'
+                            return (
+                                <div className={`${index !== 0 && 'ml-2'}`}>
+                                    <Dropzone variant='ICON'
 
-                                            icon={image}
-                                            size='xl'
-                                            onSelect={(image) => {
-                                                let file = image.toString().replace(/^data:(.*,)?/, '');
-                                                handleImagePicker(index, file)
-                                            }}
-                                        />
-                                    </div>
-                                )
-                            })}
-                        </div>
+                                        icon={image}
+                                        size='xl'
+                                        onSelect={(image) => {
+                                            let file = image.toString().replace(/^data:(.*,)?/, '');
+                                            handleImagePicker(index, file)
+                                        }}
+                                    />
+                                </div>
+                            )
+                        })}
                     </div>
+                </div>
                 <div className='col-6 pt-1'>
                     <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
                     <div className=' pt-4'>

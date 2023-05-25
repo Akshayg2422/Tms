@@ -20,6 +20,6 @@ export interface TaskStateProp {
     selectedTabPositions: any,
     taskDetails: any,
     subTaskGroups: any,
-    assignedTask:any,
-    taskFilterParams:any,
+    assignedTask: any,
+    taskParams: any,
 }
