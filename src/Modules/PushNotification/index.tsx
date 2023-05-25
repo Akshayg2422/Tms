@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
-import { HOME_PATH } from "@Routes";
+import { HOME_PATH, ROUTES } from "@Routes";
 
 const MAX_LENGTH = 70
 
@@ -54,31 +54,15 @@ const PushNotification = () => {
         }
     }, [notification])
 
-    const NOTI_TYPE_BROADCAST_MESSAGE = 'BROADCAST_MESSAGE'
-    const NOTI_TYPE_LEAVE_REQUEST = 'LEAVE_REQUEST'
-    const NOTI_TYPE_LEAVE_REQUEST_AD = 'LEAVE_REQUEST_AD'
-    const NOTI_TYPE_SHIFT_REQUEST = 'SHIFT_REQUEST'
-    const NOTI_TYPE_SHIFT_REQUEST_AD = 'SHIFT_REQUEST_AD'
-    // const NOTI_TYPE_FACE_RR_REQUEST = 'FACE_RR_REQUEST'
-    const NOTI_TYPE_FACE_APPROVAL_REQUEST_AD = 'FACE_APPROVAL_REQUEST_AD'
-    const NOTI_TYPE_FACE_RR_REQUEST_AD = 'FACE_RR_REQUEST_AD'
-    // const NOTI_TYPE_MODIFY_LOG_REQUEST = 'MODIFY_LOG_REQUEST'
-    const NOTI_TYPE_MODIFY_LOG_REQUEST_AD = 'MODIFY_LOG_REQUEST_AD'
-    const NOTI_TYPE_MY_SHIFTS = 'MY_SHIFTS'
-    const NOTI_TYPE_NO_ACTION = 'NO_ACTION'
+    const NOTI_TYPE_GROUP_MESSAGE = 'GROUP_MESSAGE'
 
     const routingHandler = (payload: any) => {
 
-        // const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
-        const route_type = 'HOME_PATH.CREATE_COMPANY'
+        const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
 
-        if (route_type === 'HOME_PATH.CREATE_COMPANY') {
-            goTo(HOME_PATH.ADD_TASK);
+        if (route_type === NOTI_TYPE_GROUP_MESSAGE) {
+            goTo(ROUTES['user-company-module'].Groups);
         }
-
-        //     if (route_type === NOTI_TYPE_BROADCAST_MESSAGE) {
-        //         goTo(navigation, ROUTE.ROUTE_MY_NOTIFICATION);
-        //     }
         //     else if (route_type === NOTI_TYPE_LEAVE_REQUEST) {
         //         goTo(navigation, ROUTE.ROUTE_MY_LEAVES);
         //     }
@@ -112,7 +96,7 @@ const PushNotification = () => {
 
     onMessageListener()
         .then((payload: any) => {
-            console.log("foreground message", payload);
+            console.log("foreground message--------------->", payload);
             setNotification(payload)
             const title = payload?.data?.title;
             const options = {
@@ -121,6 +105,7 @@ const PushNotification = () => {
             };
             new Notification(title, options).addEventListener('click', function () {
                 routingHandler(payload)
+                console.log("foreground message--------------->", payload);
                 this.close()
             });
 

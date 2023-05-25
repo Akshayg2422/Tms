@@ -64,8 +64,6 @@ function GroupMessage({ selectedGroup
                         }
                         setGroupEvents(updatedData)
                         setGroupCurrentPage(groupEventsResponse.next_page)
-
-                        console.log('response=====>', response)
                     },
                     onError: () => () => { },
                 })
