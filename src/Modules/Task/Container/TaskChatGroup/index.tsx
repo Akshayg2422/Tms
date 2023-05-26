@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getTaskGroupsL, setSelectedGroupChatCode, setSelectedTaskGroupCode } from '@Redux'
+import { getGroup, setSelectedGroupChatCode } from '@Redux'
 import { Image } from '@Components'
-import { getPhoto, DEFAULT_TASK_GROUP } from '@Utils'
-import { TaskGroupProps } from './interfaces'
+import { getPhoto } from '@Utils'
+import { TaskChartGroupProps } from './interfaces'
 
-function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
-    const { taskGroups } = useSelector((state: any) => state.TaskReducer);
-    const { selectedTaskGroupCode } = useSelector((state: any) => state.UserCompanyReducer);
+function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
+
+    // const { taskGroups } = useSelector((state: any) => state.TaskReducer);
+    const { selectedGroupChatCode , getGroups} = useSelector((state: any) => state.UserCompanyReducer);
     const dispatch = useDispatch()
-
-    console.log(JSON.stringify(selectedTaskGroupCode)+'===');
-    
 
     useEffect(() => {
         const params = {}
         dispatch(
-            getTaskGroupsL({
+            getGroup({
                 params,
                 onSuccess: () => () => {
                 },
@@ -32,16 +30,16 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
             overflowX: 'auto'
         }} >
             <div className='col d-flex ml--2'>
-                {taskGroups && taskGroups.length > 0 && taskGroups &&
-             [DEFAULT_TASK_GROUP  ,...taskGroups].map((el: any, index: number) => {
-                        const bgColor = selectedTaskGroupCode === el.id ? "bg-primary" : "bg-white"
-                        const textColor = selectedTaskGroupCode === el.id ? "text-white" : ""
+                { getGroups &&  getGroups.length > 0 && 
+                     getGroups.map((el: any, index: number) => {
+                        const bgColor = selectedGroupChatCode === el.id ? "bg-primary" : "bg-white"
+                        const textColor = selectedGroupChatCode === el.id ? "text-white" : ""
                         return (
                             <div
                                 className={`card ${bgColor} ${index !== 0 && "ml-2"} pointer mb-2`}
                                 key={el.code}
                                 onClick={() => {
-                                    dispatch(setSelectedTaskGroupCode(el.id))
+                                    dispatch(setSelectedGroupChatCode(el.id))
                                     onClick(el.id)
                                 }}
                                 style={{
@@ -62,4 +60,4 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
     )
 }
 
-export { TaskGroups }
+export { TaskChatGroup }
