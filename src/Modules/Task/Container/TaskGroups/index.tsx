@@ -10,8 +10,15 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
 
     const DEFAULT_GROUP = { id: 'ALL', Photo: null, code: "ALL" }
     const { taskGroups } = useSelector((state: any) => state.TaskReducer);
+<<<<<<< HEAD
     const { selectedGroupChatCode } = useSelector((state: any) => state.UserCompanyReducer);
     const taskGroupList = taskGroups && showAll ? [DEFAULT_GROUP, ...taskGroups] : taskGroups
+=======
+
+    const groupCode = (taskGroups && taskGroups[0]?.id)
+    const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(showAll ? DEFAULT_GROUP.id : groupCode)
+    const taskGroupList = taskGroups && showAll ? [DEFAULT_GROUP, ...(taskGroups.length>0 && taskGroups)] : taskGroups
+>>>>>>> d38a62a591a13eefdeb003582bfa4e895b1b699b
     const dispatch = useDispatch()
 
     useEffect(() => {

@@ -820,6 +820,7 @@ export const getSubGroupFailure = (error: any) => {
   };
 };
 
+<<<<<<< HEAD
 /**
  * selected Message Group
  */
@@ -831,3 +832,29 @@ export const setSelectedGroupChatCode = (value: any) => {
     payload: value,
   };
 };
+=======
+
+//Add group USER
+
+export const addGroupUser = (params: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER,
+    payload: params,
+  };
+};
+
+export const addGroupUserSuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addGroupUserFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER_FAILURE,
+    payload: error,
+  };
+};
+
+>>>>>>> d38a62a591a13eefdeb003582bfa4e895b1b699b
