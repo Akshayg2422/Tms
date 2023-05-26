@@ -26,8 +26,6 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
                 getGroupsEmployees({
                     params,
                     onSuccess: (response) => () => {
-
-                        console.log('=======>>', JSON.stringify(response))
                     },
                     onError: () => () => {
 

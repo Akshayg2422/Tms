@@ -18,10 +18,6 @@ function Profile() {
   const { goTo } = useNavigation()
 
 
-  console.log(JSON.stringify(dashboardDetails) + '====dashboardDetails');
-
-  console.log("prifile--->",user_details?.profile_photo)
-
   const userProfileEdit = (item) => {
 
 
@@ -85,7 +81,7 @@ function Profile() {
                 imagePicker={true}
               />
             </div>
-          
+
             }
           </div>
 

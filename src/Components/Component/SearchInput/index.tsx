@@ -15,7 +15,6 @@ function SearchInput({ defaultValue, heading, onSearch }: SearchInputProps) {
     }, [defaultValue])
 
 
-    console.log(JSON.stringify(taskParams) + '=====taskParams');
 
     return (
         <div>

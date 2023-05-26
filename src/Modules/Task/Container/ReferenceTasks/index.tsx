@@ -60,7 +60,7 @@ function ReferenceTasks() {
   return (
 
     <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
-      {referencesTasks && referencesTasks?.length < 0 && <div className="col text-right">
+      {referencesTasks && referencesTasks?.length > 0 && <div className="col text-right">
         <Button size={'sm'} className={'text-white'} text={translate("auth.addReferenceTask")} onClick={() => {
           goTo(ROUTES["task-module"]["reference-task"])
         }} />
@@ -68,7 +68,6 @@ function ReferenceTasks() {
       }
       {referencesTasks && referencesTasks?.length > 0 ?
         <CommonTable
-          isPagination
           tableDataSet={referencesTasks}
           currentPage={referencesTasksCurrentPages}
           noOfPage={referencesTasksNumOfPages}
