@@ -146,5 +146,8 @@ export const ADD_GROUP_MESSAGE= TASK + 'addGroupMessage'
 // get subTaskGroup
 export const GET_SUB_GROUP= TASK + 'getSubGroup'
 
+//add group user
+export const ADD_GROUP_USER= TASK + 'addGroupUser'
+
 
 
