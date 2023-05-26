@@ -1,7 +1,7 @@
 import {
   Chat,
- TicketUsers,
- TicketAttachments,
+  TicketUsers,
+  TicketAttachments,
   ReferenceTickets,
 } from "@Modules";
 import { TicketInfo } from "@Modules";
@@ -27,14 +27,14 @@ function TicketDetails() {
       <HomeContainer className="m-3">
         <div className="row">
           <div className="col-md-12" >
-            <TicketInfo/>
+            <TicketInfo />
           </div>
         </div>
         <div className="row mt--3">
           <div className="col">
-            <Tabs tabs={TABS} selected={selectedTicketTabPosition} onChange={ (item) => {
-                dispatch(setSelectedTicketTabPosition(item))
-              }
+            <Tabs tabs={TABS} selected={selectedTicketTabPosition} onChange={(item) => {
+              dispatch(setSelectedTicketTabPosition(item))
+            }
             } />
           </div>
         </div>

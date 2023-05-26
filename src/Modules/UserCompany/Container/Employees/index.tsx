@@ -10,13 +10,13 @@ import { translate } from 'i18n-js'
 function Employees({ otherParams, selection = 'none', onSelected, defaultSelect }: EmployeesProps) {
 
     const { employees } = useSelector((state: any) => state.UserCompanyReducer);
-    const [selectedEmployee, setSelectedEmployee] = useState(defaultSelect)
+    const [selectedEmployee, setSelectedEmployee] = useState<any>(defaultSelect)
     const dispatch = useDispatch()
 
 
-    useEffect(()=>{
-       setSelectedEmployee(defaultSelect) 
-    },[defaultSelect])
+    useEffect(() => {
+        setSelectedEmployee(defaultSelect)
+    }, [defaultSelect])
 
 
 
@@ -43,7 +43,7 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
 
     function proceedSelectEmployee(item: any) {
 
-        let updatedSelectedEmployee = [...selectedEmployee]
+        let updatedSelectedEmployee = (selectedEmployee && selectedEmployee.length) ? [...selectedEmployee] : []
         if (selection === 'single') {
             updatedSelectedEmployee = [item] as never
             if (onSelected) {
@@ -84,7 +84,7 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
                     employees && employees.length > 0 ? employees.map((employee: any, index: number) => {
                         const { profile_image, name, designation, department, id } = employee
 
-                        const isSelected = selectedEmployee.some((each: any) => {
+                        const isSelected = selectedEmployee && selectedEmployee.length > 0 && selectedEmployee.some((each: any) => {
                             return each.id === id
                         })
 
@@ -96,7 +96,7 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
                         // })
 
 
-                      
+
 
 
                         return (
