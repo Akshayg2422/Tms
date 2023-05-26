@@ -855,3 +855,41 @@ export const addGroupUserFailure = (error: any) => {
   };
 };
 
+
+
+//GETgroup 
+
+export const getGroup = (params: any) => {
+  return {
+    type: ActionTypes.GET_GROUP,
+    payload: params,
+  };
+};
+
+export const getGroupSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_GROUP_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getGroupFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_GROUP_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ * selected  Group
+ */
+
+
+export const setSelectedTaskGroupCode = (value: any) => {
+  return {
+    type: ActionTypes.SELECTED_TASK_GROUP_CODE,
+    payload: value,
+  };
+};
+
+
