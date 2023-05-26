@@ -820,3 +820,27 @@ export const getSubGroupFailure = (error: any) => {
   };
 };
 
+
+//Add group USER
+
+export const addGroupUser = (params: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER,
+    payload: params,
+  };
+};
+
+export const addGroupUserSuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addGroupUserFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER_FAILURE,
+    payload: error,
+  };
+};
+

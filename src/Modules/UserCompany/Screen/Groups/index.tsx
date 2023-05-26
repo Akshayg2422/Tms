@@ -45,7 +45,7 @@ function Groups() {
                 <div className='col ml--3' style={{
                     height: infoHeight - 30
                 }}>
-                    <GroupEmployees Employees={selectGroup} />
+                    <GroupEmployees Employee={selectGroup} />
                 </div>
             </div>
 
