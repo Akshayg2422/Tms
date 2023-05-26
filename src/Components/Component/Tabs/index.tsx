@@ -16,9 +16,6 @@ export function Tabs({ tabs, selected, onChange, height }: TabsProps) {
   const getSelectedTabIndex = () =>
     tabs.findIndex((item) => item.id === selected?.id);
 
-
-
-
   return (
     <div>
       <nav
@@ -51,7 +48,7 @@ export function Tabs({ tabs, selected, onChange, height }: TabsProps) {
                   padding: "1rem",
                   textDecoration: "none",
                   color: "#32325d",
-                  background: selected?.id === item.id ? "#ffffff" : "#ffffff",
+                  background: selected?.id === item.id ? "#ffddee" : "#ffffff",
                 }}
                 onClick={() => { changeTab(item) }}
                 data-tab={item}

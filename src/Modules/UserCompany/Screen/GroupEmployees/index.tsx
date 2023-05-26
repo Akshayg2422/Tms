@@ -22,7 +22,7 @@ function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) 
     const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
 
     // const status = useDropDown(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', selectedTask?.task_status));
-    
+
     const getGroupEmployees = (q: string = '') => {
 
         const params = {
@@ -35,11 +35,11 @@ function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) 
                 getGroupsEmployees({
                     params,
                     onSuccess: (response) => () => {
-                      const selectedUsers = response.details
+                        const selectedUsers = response.details
                         if (selectedUsers && selectedUsers.length > 0) {
                             setDefaultSelectedUser(selectedUsers)
                         }
-                        
+
                     },
                     onError: () => () => {
 
@@ -50,12 +50,12 @@ function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) 
     }
 
 
-    const addGroupUsers=(addUsers:any)=>{
-        console.log(addUsers,"pppppuuuuuuuuuu")
+    const addGroupUsers = (addUsers: any) => {
+        console.log(addUsers, "pppppuuuuuuuuuu")
 
-        const params={
-            group_id:Employee,
-            users_id:addUsers.tagged_users
+        const params = {
+            group_id: Employee,
+            users_id: addUsers.tagged_users
         }
 
         dispatch(
@@ -68,8 +68,8 @@ function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) 
                 onError: () => () => {
 
                 }
-                
-                
+
+
             })
         )
 
@@ -87,62 +87,62 @@ function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) 
     return (
         <>
 
-        <Card  className={'h-100 '}>
-            <div className='row'>
-                <div className='col'>
-                <h5 className="h3 mb-0">{'Members'}</h5>
-                {/* members */}
+            <Card className={'h-100'}>
+                <div className='row'>
+                    <div className='col'>
+                        <h5 className="h3 mb-0">{'Members'}</h5>
                     </div>
                     <div className='col-auto'>
-                        <Button text={'Add'} size='sm' onClick={()=>{
+                        <Button text={'Add'} size='sm' onClick={() => {
                             addUserModal.show()
 
 
-                        }}/>
+                        }} />
                     </div>
-            </div>
+                </div>
 
+                <div className='h-100 overflow-auto scroll-hidden pb-3'>
+                    <div className='mt-3'>
+                        <SearchInput onSearch={(search) => {
+                            getGroupEmployees(search)
+                        }} />
+                    </div>
+                    <div className='mt-3'>
+                        {
+                            groupEmployees && groupEmployees.length > 0 ? groupEmployees.map((el: any, index: number) => {
+                                const { name, mobile_number, designation, department, } = el
+                                return (
+                                    <div >
+                                        <div className='align-items-center'>
+                                            <div className='row align-item-center justify-content-center'>
+                                                <div className='col pt-1'>
+                                                    <H
+                                                        tag={'h4'}
+                                                        text={name}
+                                                    />
+                                                </div>
 
-            <div className='mt-3'>
-                <SearchInput onSearch={(search) => {
-                    getGroupEmployees(search)
-                }} />
-            </div>
-            <div className='mt-3'>
-                {
-                    groupEmployees && groupEmployees.length > 0 ? groupEmployees.map((el: any, index: number) => {
-                        const { name, mobile_number, designation, department, } = el
-                        return (
-                            <div >
-                                <div className='align-items-center'>
-                                    <div className='row align-item-center justify-content-center'>
-                                        <div className='col pt-1'>
-                                            <H
-                                                tag={'h4'}
-                                                text={name}
-                                            />
+                                            </div>
+                                            <div className={'row col mt--2'}>
+                                                <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
+                                                <div className={'h5 mb-0 text-uppercase text-muted px-1'}>{'|'}</div>
+                                                <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
+                                            </div>
                                         </div>
-
+                                        <div className={'mx--2 '}>
+                                            {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
+                                        </div>
                                     </div>
-                                    <div className={'row col mt--2'}>
-                                        <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
-                                        <div className={'h5 mb-0 text-uppercase text-muted px-1'}>{'/'}</div>
-                                        <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
-                                    </div>
-                                </div>
-                                <div className={'mx--2 '}>
-                                    {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
-                                </div>
+                                )
+                            }) : <div className='pt-6 mt-5'>
+                                <NoDataFound type={'text'} text={'No data found'} />
                             </div>
-                        )
-                    }) : <div className='pt-6 mt-5'>
-                        <NoDataFound type={'text'} text={'No data found'} />
+                        }
                     </div>
-                }
-            </div>
-        </Card >
-        
-        {
+                </div>
+            </Card >
+
+            {
                 /**
                  * Tag User
                  */
@@ -150,7 +150,7 @@ function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) 
 
             <Modal fade={false} isOpen={addUserModal.visible} onClose={addUserModal.hide} style={{ maxHeight: '80vh' }}>
                 <Employees selection={'multiple'}
-                   defaultSelect={defaultSelectedUsers}
+                    defaultSelect={defaultSelectedUsers}
                     onSelected={(users) => {
                         const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
                         setTaggedUsers(taggedUserIds)
@@ -165,7 +165,7 @@ function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) 
                 </div>
             </Modal>
 
-</>
+        </>
     )
 }
 export { GroupEmployees }
