@@ -268,7 +268,8 @@ function AddSubTask() {
 
 
 
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && <AutoSearchInput
+                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && 
+                <AutoSearchInput
                     heading={translate("common.user")!}
                     placeholder={'please select a user...'}
                     data={companyUsers}

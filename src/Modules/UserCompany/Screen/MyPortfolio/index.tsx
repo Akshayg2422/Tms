@@ -16,6 +16,7 @@ import { useNavigation } from '@Hooks'
 import { INITIAL_PAGE } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { translate } from "@I18n";
+import moment from 'moment';
 function MyPortfolio() {
   const dispatch = useDispatch();
   const addEtaTime = useModal(false);
@@ -33,6 +34,8 @@ function MyPortfolio() {
   const [selectedTask, setSelectedTask] = useState<any>('')
   const editDescriptions = useInput('')
   let currentDate = getDisplayDateFromMoment(getMomentObjFromServer(new Date()))
+  const [startDate, setStartDate] = useState(moment().startOf('week'))
+  const [endDate, setEndDate] = useState(moment().endOf('week'))
 
   const { employeeTimeline, employeeTimelineCurrentPages } = useSelector((state: any) => state.UserCompanyReducer);
   const [employeeTimelineDisplayData, setEmployeeTimelineDisplayData] = useState({ keys: [], data: {} })
