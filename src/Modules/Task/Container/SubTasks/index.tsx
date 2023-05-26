@@ -52,10 +52,10 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     return (
 
         <Card className="h-100">
-            {(subTasks && subTasks.length < 0) && <div className='row justify-content-between px-3'>
+            {(subTasks && subTasks.length > 0) && <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={translate("auth.subTask")} />
                 <Button
-                    className={'shadow-none text-white'}
+                    className={'text-white'}
                     size={"sm"}
                     text={translate("common.addSubTask")}
                     onClick={() => {

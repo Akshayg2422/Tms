@@ -4,11 +4,13 @@ import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, Divi
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
-import { TaskItemMenu, TaskEventHistory, ProgressBarEta } from "@Modules";
+import { TaskItemMenu, TaskEventHistory, ProgressBarEta, Comments } from "@Modules";
 import { translate } from "@I18n";
-import { useModal, useInput, useWindowDimensions } from '@Hooks'
+import { useModal, useInput, useWindowDimensions, useNavigation } from '@Hooks'
 import { addTaskEvent, getTaskDetails, refreshTaskEvents } from '@Redux'
 import { useParams } from 'react-router-dom'
+import { CardBody, CardHeader, CardImg, Col, Row } from "reactstrap";
+import { ROUTES } from "@Routes";
 
 const START_TASK = 1
 const END_TASK = 2
@@ -29,6 +31,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const taskEventModal = useModal(false)
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
+    const userModal = useModal(false)
+    const { goTo } = useNavigation()
 
     useEffect(() => {
         getTaskDetailsHandler()
@@ -38,6 +42,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     useEffect(() => {
         setEta(eta_time)
     }, [taskDetails])
+
+    console.log('111111111111111111--------------->', JSON.stringify(taskDetails));
+
 
 
     function resetValues() {
@@ -167,13 +174,23 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 })
                         }
                     </div>
-                    <div className="ml--3 mt-2">
-                        <div className="h5 mb-0"> {by_user?.name} </div>
-                        <div className="mt--1"><small > {by_user?.phone} </small></div>
-                        <div className="mt--2"><small > {by_user?.email} </small></div>
+                    <div className={'row ml-1 justify-content-between'}>
+                        <div className="row mt-4 pointer" onClick={() => userModal.show()}>
+                            <div className={'align-self-center'}>{by_user?.profile_photo && <Image size={'sm'} variant={'rounded'} src={getPhoto(by_user?.profile_photo)} />}</div>
+                            <div className={'ml-2 align-self-center'}>
+                                <div className="h5 mb-0"> {by_user?.name}</div>
+                            </div>
+                        </div>
+                        <div className="row mt-2 mr-3">
+                            <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
+                            <div className="ml-2 align-self-center">
+                                <div className="h5 mb-0"> {raised_by_company?.display_name}</div>
+                                <div className="text-xs"><span>{`@ ${assigned_to?.name}`} </span></div>
+                            </div>
+                        </div>
                     </div>
 
-                    <hr className="my-4" />
+                    <hr className="my-4 mx--3" />
 
                     <div className="row mt-2">
 
@@ -181,13 +198,13 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             {
                                 eta_time ?
                                     <>
-                                        <H className=" text-uppercase text-muted " tag={"h6"} text={'CREATED AT :'} />
-                                        <h5 className="text-uppercase mt--2">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
+                                        <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
+                                        <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
                                     </>
                                     :
                                     <>
-                                        <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
-                                        <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
+                                        <H className=" text-uppercase text-muted " tag={"h6"} text={'CREATED AT :'} />
+                                        <h5 className="text-uppercase mt--2">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
                                     </>
 
                             }
@@ -206,22 +223,15 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         </div>
                     </div>
 
-                    <div className="row mt-2">
-                        <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
-                        <div className="ml-3">
-                            <div className="h5 mb-0"> {raised_by_company?.display_name}</div>
-                            <div className="text-xs"><span>{`@ ${assigned_to?.name}`} </span></div>
-                            <div className="text-xs p-0" style={{ maxWidth: '200px', wordWrap: 'break-word' }}>{raised_by_company?.address}</div>
-                        </div>
-                    </div>
+
 
                     <div className="col text-right mt-3 ml--3">
-                        {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button size={'sm'} text={'Start'}
+                        {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button className={'text-white'} size={'sm'} text={'Start'}
                             onClick={() => {
                                 alertModal.show()
                                 setActionTask(START_TASK)
                             }} />}
-                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button size={'sm'} text={'End'} onClick={() => {
+                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button className={'text-white'} size={'sm'} text={'End'} onClick={() => {
                             alertModal.show()
                             setActionTask(END_TASK)
                         }} />}
@@ -282,6 +292,64 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 </div>
                 <div className="text-right">
                     <Button text={'Update'} onClick={editTaskDetailsHandler} />
+                </div>
+
+            </Modal>
+
+            <Modal size={'sm'} isOpen={userModal.visible} onClose={userModal.hide}>
+
+                <div className="card-profile p-2 mx--3 mb--4 mt--5">
+                    <CardImg
+                        // style={{ maxHeight: '200px' }}
+                        src={by_user?.profile_photo && 'https://cdn.britannica.com/48/222648-050-F4D0A2D8/President-of-India-A-P-J-Abdul-Kalam-2007.jpg'}
+                    />
+                    <Row className="justify-content-center">
+                        <Col>
+                            <div className="card-profile-image">
+                                <Image
+                                    variant="rounded"
+                                    size={'xxl'}
+                                    className="rounded-circle pointer"
+                                    style={{ height: '150px', width: '150px' }}
+                                    src={by_user?.profile_photo ? by_user?.profile_photo : 'https://cdn.britannica.com/48/222648-050-F4D0A2D8/President-of-India-A-P-J-Abdul-Kalam-2007.jpg'}
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                    <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                        <div className="d-flex justify-content-between">
+                            <Button
+                                className={"mr-4 px-2 text-white"}
+                                text={'Connect'}
+                                color={'info'}
+                                onClick={() => { goTo(ROUTES["auth-module"].otp) }}
+                                size={'sm'}
+                            />
+                            <Button
+                                text={'Message'}
+                                className="float-right px-2"
+                                color="default"
+                                onClick={(e) => e.preventDefault()}
+                                size={'sm'}
+                            />
+                        </div>
+                    </CardHeader>
+                    <CardBody className="pt-0">
+
+                        <div className="text-center mt-3">
+                            <h5 className="h3">
+                                {by_user?.name}
+                            </h5>
+                            <div className="h5">
+                                <i className="ni business_briefcase-24 mr-2" />
+                                {by_user?.department.name} - {by_user?.designation.name}
+                            </div>
+                            <div>
+                                <i className="ni education_hat mr-2" />
+                                {raised_by_company?.display_name}
+                            </div>
+                        </div>
+                    </CardBody>
                 </div>
 
             </Modal>

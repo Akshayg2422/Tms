@@ -820,3 +820,38 @@ export const getSubGroupFailure = (error: any) => {
   };
 };
 
+/**
+ * selected Message Group
+ */
+
+
+export const setSelectedGroupChatCode = (value: any) => {
+  return {
+    type: ActionTypes.SELECTED_GROUP_CHAT_CODE,
+    payload: value,
+  };
+};
+
+//Add group USER
+
+export const addGroupUser = (params: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER,
+    payload: params,
+  };
+};
+
+export const addGroupUserSuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addGroupUserFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER_FAILURE,
+    payload: error,
+  };
+};
+

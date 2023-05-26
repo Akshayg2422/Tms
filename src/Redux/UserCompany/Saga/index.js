@@ -619,6 +619,24 @@ function* getSubGroupSaga(action) {
   }
 }
 
+//add group USER
+
+function* addGroupUserSaga(action) {
+  try {
+    const response = yield call(Api.addGroupUserApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.addGroupUserSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.addGroupUserFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.addGroupUserFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
 
 function* UserCompanySaga() {
 
@@ -653,7 +671,8 @@ function* UserCompanySaga() {
   yield takeLatest(Action.GET_GROUPS_EMPLOYEES, getGroupsEmployeesSaga);
   yield takeLatest(Action.GET_GROUP_MESSAGE, getGroupsMessageSaga);
   yield takeLatest(Action.ADD_GROUP_MESSAGE, addGroupsMessageSaga);
-  yield takeLatest(Action.GET_SUB_GROUP, getSubGroupSaga)
+  yield takeLatest(Action.GET_SUB_GROUP, getSubGroupSaga);
+  yield takeLatest(Action.ADD_GROUP_USER, addGroupUserSaga)
 
 }
 

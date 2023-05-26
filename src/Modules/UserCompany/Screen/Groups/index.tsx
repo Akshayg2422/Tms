@@ -1,26 +1,20 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { GroupMessage, AddMessage, TaskGroups, GroupEmployees, } from '@Modules'
 import { Card, NoDataFound, } from '@Components'
-import { useSelector } from 'react-redux'
-import { useWindowDimensions } from '@Hooks';
-
-
+import { useSelector, useDispatch } from 'react-redux'
+import { setSelectedGroupChatCode, } from '@Redux'
 function Groups() {
 
     const { taskGroups, } = useSelector((state: any) => state.TaskReducer);
-    const [selectGroup, setSelectGroup] = useState<any>()
+    const { selectedGroupChatCode } = useSelector((state: any) => state.UserCompanyReducer);
+    const dispatch = useDispatch()
+
+
 
     const ref = useRef<HTMLDivElement>(null)
-
-    const { width, height } = useWindowDimensions()
     const [infoHeight, setInfoHeight] = useState(0)
 
-    useEffect(() => {
-        if (taskGroups && taskGroups.length > 0) {
-            setSelectGroup(taskGroups[0].id)
-        }
 
-    }, [taskGroups])
 
     useEffect(() => {
         if (ref.current) {
@@ -31,21 +25,21 @@ function Groups() {
     return (
         <div className='m-3 v-100vh'>
             <div className='mx-3 mt-3' >
-                <TaskGroups onClick={(code) => setSelectGroup(code)} showAll={false} />
+                <TaskGroups onClick={(code) => { dispatch(setSelectedGroupChatCode(code)) }} showAll={false} />
             </div>
 
             {taskGroups && taskGroups.length > 0 ? <div className='row'>
                 <div className='col-8' ref={ref}>
                     <Card>
-                        <GroupMessage selectedGroup={selectGroup} />
-                        <AddMessage AddGroup={selectGroup} />
+                        <GroupMessage selectedGroup={selectedGroupChatCode} />
+                        <AddMessage AddGroup={selectedGroupChatCode} />
                     </Card>
 
                 </div>
                 <div className='col ml--3' style={{
                     height: infoHeight - 30
                 }}>
-                    <GroupEmployees Employees={selectGroup} />
+                    <GroupEmployees Employee={selectedGroupChatCode} />
                 </div>
             </div>
                 : <div className='d-flex h-100vh justify-content-center align-items-center'>
