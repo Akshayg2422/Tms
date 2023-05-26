@@ -7,12 +7,21 @@ import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
+import { refreshGroupEvents, refreshTaskEvents } from '@Redux'
+import { useDispatch } from 'react-redux'
 
 const MAX_LENGTH = 70
 
 const PushNotification = () => {
+
+    const NOTI_TYPE_GROUP_MESSAGE = 'GROUP_MESSAGE'
+    const NOTIFICATION_TASK_CHANNEL_EVENT = 'TASK_CHANNEL_EVENT'
+
+
+
     const { goTo } = useNavigation();
     const [notification, setNotification] = useState<any>([]);
+    const dispatch = useDispatch()
 
     const notify = () => {
         notification.forEach((message: any) => {
@@ -54,7 +63,6 @@ const PushNotification = () => {
         }
     }, [notification])
 
-    const NOTI_TYPE_GROUP_MESSAGE = 'GROUP_MESSAGE'
 
     const routingHandler = (payload: any) => {
 
@@ -96,13 +104,30 @@ const PushNotification = () => {
 
     onMessageListener()
         .then((payload: any) => {
-            console.log("foreground message--------------->", payload);
             setNotification(payload)
             const title = payload?.data?.title;
             const options = {
                 body: payload?.data?.message,
                 icon: icons.quantaTms,
             };
+
+            const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
+
+            if (route_type === NOTI_TYPE_GROUP_MESSAGE) {
+                try {
+                    dispatch(refreshGroupEvents())
+                } catch (e) {
+
+                }
+            } else if (route_type === NOTIFICATION_TASK_CHANNEL_EVENT) {
+                try {
+                    dispatch(refreshTaskEvents())
+                } catch (e) {
+
+                }
+            }
+
+
             new Notification(title, options).addEventListener('click', function () {
                 routingHandler(payload)
                 console.log("foreground message--------------->", payload);

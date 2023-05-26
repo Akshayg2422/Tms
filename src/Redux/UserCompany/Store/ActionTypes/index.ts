@@ -188,3 +188,9 @@ export const REFRESH_GROUP_EVENTS = 'REFRESH_GROUP_EVENTS';
 
 /* Group */
 export const SELECTED_GROUP_ITEM = 'SELECTED_GROUP_ITEM';
+
+
+/* GroupChat  */
+export const SELECTED_GROUP_CHAT_CODE = 'SELECTED_GROUP_CHAT_CODE';
+
+

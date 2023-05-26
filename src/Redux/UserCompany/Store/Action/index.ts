@@ -820,3 +820,14 @@ export const getSubGroupFailure = (error: any) => {
   };
 };
 
+/**
+ * selected Message Group
+ */
+
+
+export const setSelectedGroupChatCode = (value: any) => {
+  return {
+    type: ActionTypes.SELECTED_GROUP_CHAT_CODE,
+    payload: value,
+  };
+};
