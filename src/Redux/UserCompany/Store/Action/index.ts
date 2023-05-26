@@ -820,7 +820,6 @@ export const getSubGroupFailure = (error: any) => {
   };
 };
 
-<<<<<<< HEAD
 /**
  * selected Message Group
  */
@@ -832,7 +831,6 @@ export const setSelectedGroupChatCode = (value: any) => {
     payload: value,
   };
 };
-=======
 
 //Add group USER
 
@@ -857,4 +855,3 @@ export const addGroupUserFailure = (error: any) => {
   };
 };
 
->>>>>>> d38a62a591a13eefdeb003582bfa4e895b1b699b
