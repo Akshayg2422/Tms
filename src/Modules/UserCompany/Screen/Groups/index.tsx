@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { GroupMessage, AddMessage, TaskGroups, GroupEmployees, } from '@Modules'
-import { Card, } from '@Components'
+import { Card } from '@Components'
 import { useSelector } from 'react-redux'
 import { useWindowDimensions } from '@Hooks';
 

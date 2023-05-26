@@ -1,4 +1,4 @@
-import { Image, Card, Modal, Button, Dropzone, showToast } from "@Components";
+import { Image, Card, Modal, Button, Dropzone, showToast, ImageDownloadButton } from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
@@ -7,7 +7,9 @@ import { addUpdateEmployeePhoto, getDashboard, userLogout } from '@Redux'
 import { ROUTES } from "@Routes"
 import { useState } from "react";
 import { translate } from "@I18n";
+import axios from 'axios';
 import { icons } from "@Assets";
+import { saveAs } from "file-saver"
 
 function Profile() {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
@@ -16,14 +18,28 @@ function Profile() {
   const logoutModal = useModal(false)
   const dispatch = useDispatch()
   const { goTo } = useNavigation()
-
+  const Url = 'https://res.cloudinary.com/demo/basketball_shot.jpg';
 
   console.log(JSON.stringify(dashboardDetails) + '====dashboardDetails');
 
-  console.log("prifile--->",user_details?.profile_photo)
+  console.log("prifile--->", user_details?.profile_photo)
+
+
+  // const downloadImage = async (imageUrl) => {
+  //   try {
+  //     const response = await axios.get(imageUrl, {
+  //       responseType: 'blob'
+  //     });
+  //     saveAs(response.data);
+  //   } catch (error) {
+  //     console.error('Error downloading image:', error);
+  //   }
+  // };
+
+  
+
 
   const userProfileEdit = (item) => {
-
 
     const params = {
       attachment: item
@@ -53,7 +69,6 @@ function Profile() {
       })
     )
 
-
   }
 
   return (
@@ -62,11 +77,18 @@ function Profile() {
       <Card
         title={'Profile'}
         className="m-3"
-      //  style={{
-      //   height: height
-      // }}
       >
         <div>
+          {/* <div>r
+            <Image src={imageUrl} size={'xxl'} variant={'avatar'} alt="Image" />
+          </div> */}
+           {/* <ImageDownloadButton imageUrl={Url}/> */}
+          {/* <div>
+            <Button onClick={() => downloadImage(imageUrl)} className="fa fa-download mt-1" size={'sm'}>
+
+            </Button>
+          </div> */}
+
           <div className="col text-right">
             <Button color={'white'} size={'sm'} text={'Logout'} onClick={logoutModal.show} />
           </div>
@@ -84,8 +106,9 @@ function Profile() {
                 }}
                 imagePicker={true}
               />
+
             </div>
-          
+
             }
           </div>
 
@@ -198,3 +221,5 @@ function Profile() {
 }
 
 export { Profile }
+
+

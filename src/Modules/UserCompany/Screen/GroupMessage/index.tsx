@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { getGroupMessage } from '@Redux'
-import { TimeLine, Spinner, Image, Modal, Card } from '@Components'
+import { TimeLine, Spinner, Image, Modal, Card, ImageDownloadButton } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
@@ -150,16 +150,45 @@ function GroupMessage({ selectedGroup
                                     title={title} subTitle={subTitle}
                                     time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
-                                    <div className='pt-2' onClick={() => {
+                                    {/* <div className='pt-2' onClick={() => {
                                         imageModal.show()
                                         setImage(imageUrls)
                                     }} >
-                                        <div>
+                                        <div className='row'>
                                             {
                                                 imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                                    return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                                    return <div key={each}>
+                                                        <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                                        <div className='col text-center'>
+                                                            <ImageDownloadButton Url={each} />
+                                                        </div>
+                                                    </div>
                                                 })
                                             }
+                                        </div>
+                                    </div> */}
+
+                                    <div className='pt-2'>
+                                        <div className='row'>
+                                            {imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
+                                                    return (
+                                                        <div className='m-1'>
+                                                            <Image
+                                                                className=''
+                                                                src={each}
+                                                                width={100}
+                                                                height={100}
+                                                                onClick={() => {
+                                                                    imageModal.show();
+                                                                    setImage(imageUrls);
+                                                                }}
+                                                            />
+                                                            <div className='text-center'>
+                                                                <ImageDownloadButton Url={each} />
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
                                         </div>
                                     </div>
                                 </TimeLine>)
