@@ -98,7 +98,7 @@ function Employees({ otherParams, selection = 'none', onSelected }: EmployeesPro
                                         />
                                         <div className={'d-flex align-items-center mt--2'}>
                                             <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department.name : '-'}</div>
-                                            <div className='text-muted'><Image src={icons.verticalLine} height={12} width={10} /></div>
+                                            <div className='text-muted'><Image src={icons.verticalLine} height={12} width={7} /></div>
                                             <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation.name : '-'}</div>
                                         </div>
                                     </div>

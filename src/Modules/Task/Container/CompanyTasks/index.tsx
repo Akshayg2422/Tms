@@ -97,7 +97,7 @@ function CompanyTasks() {
   };
 
   return (
-    <HomeContainer type={'card'} className="mt-3 vh-100">
+    <HomeContainer type={'card'} className={'100-vh'}>
       {tasks && tasks.length > 0 ?
         <CommonTable
           isPagination
