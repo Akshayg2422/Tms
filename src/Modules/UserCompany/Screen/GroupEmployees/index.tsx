@@ -113,30 +113,27 @@ function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) 
                     groupEmployees && groupEmployees.length > 0 ? groupEmployees.map((el: any, index: number) => {
                         const { name, mobile_number, designation, department, } = el
                         return (
-                            <>
-                                <div className='overflow-auto overflow-hide' >
-                                    <div className='align-items-center'>
-                                        <div className='row align-item-center justify-content-center'>
-                                            <div className='col pt-1'>
-                                                <H
-                                                    tag={'h4'}
-                                                    text={name}
-                                                />
-                                            </div>
+                            <div >
+                                <div className='align-items-center'>
+                                    <div className='row align-item-center justify-content-center'>
+                                        <div className='col pt-1'>
+                                            <H
+                                                tag={'h4'}
+                                                text={name}
+                                            />
+                                        </div>
 
-                                        </div>
-                                        <div className={'row col mt--2'}>
-                                            <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
-                                            <div className={'h5 mb-0 text-uppercase text-muted px-1'}>{'/'}</div>
-                                            <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
-                                        </div>
                                     </div>
-                                    <div className={'mx--2 '}>
-                                        {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
+                                    <div className={'row col mt--2'}>
+                                        <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
+                                        <div className={'h5 mb-0 text-uppercase text-muted px-1'}>{'/'}</div>
+                                        <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
                                     </div>
                                 </div>
-                            </>
-
+                                <div className={'mx--2 '}>
+                                    {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
+                                </div>
+                            </div>
                         )
                     }) : <div className='pt-6 mt-5'>
                         <NoDataFound type={'text'} text={'No data found'} />
