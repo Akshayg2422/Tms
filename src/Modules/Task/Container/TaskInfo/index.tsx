@@ -216,12 +216,12 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     </div>
 
                     <div className="col text-right mt-3 ml--3">
-                        {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button size={'sm'} text={'Start'}
+                        {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button className={'text-white'} size={'sm'} text={'Start'}
                             onClick={() => {
                                 alertModal.show()
                                 setActionTask(START_TASK)
                             }} />}
-                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button size={'sm'} text={'End'} onClick={() => {
+                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button className={'text-white'} size={'sm'} text={'End'} onClick={() => {
                             alertModal.show()
                             setActionTask(END_TASK)
                         }} />}

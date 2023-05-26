@@ -125,6 +125,7 @@ function GroupMessage({ selectedGroup
                     hasMore={GroupCurrentPage !== -1}
                     scrollableTarget="scrollableDiv"
                     style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                    className={'overflow-auto overflow-hide'}
                     inverse={true}
                     loader={<h4>
                         {/* <Spinner /> */}

@@ -76,7 +76,7 @@ function AddTask() {
 
     useEffect(() => {
         getCompanyEmployeeApi()
-    }, [designation.value, department.value,company.value,])
+    }, [designation.value, department.value, company.value,])
 
 
     useEffect(() => {
@@ -115,8 +115,7 @@ function AddTask() {
                     });
                     setCompanyUsers(companiesUser);
                 },
-                onError: (error) => () => {
-                },
+                onError: () => () => { },
             })
         );
     }
