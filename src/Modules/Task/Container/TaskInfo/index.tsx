@@ -7,7 +7,7 @@ import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory, ProgressBarEta, Comments } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useWindowDimensions, useNavigation } from '@Hooks'
-import { addTaskEvent, getTaskDetails } from '@Redux'
+import { addTaskEvent, getTaskDetails, refreshTaskEvents } from '@Redux'
 import { useParams } from 'react-router-dom'
 import { CardBody, CardHeader, CardImg, Col, Row } from "reactstrap";
 import { ROUTES } from "@Routes";
@@ -68,6 +68,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 onSuccess: () => () => {
                     editEtaReason.set('')
                     editEtaModal.hide();
+                    dispatch(refreshTaskEvents())
                     getTaskDetailsHandler();
                 },
                 onError: () => () => { }
@@ -101,6 +102,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 params,
                 onSuccess: (response) => () => {
                     alertModal.hide()
+                    getTaskDetailsHandler()
                 },
                 onError: () => () => {
                     alertModal.hide()
@@ -224,12 +226,12 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
                     <div className="col text-right mt-3 ml--3">
-                        {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button size={'sm'} text={'Start'}
+                        {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button className={'text-white'} size={'sm'} text={'Start'}
                             onClick={() => {
                                 alertModal.show()
                                 setActionTask(START_TASK)
                             }} />}
-                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button size={'sm'} text={'End'} onClick={() => {
+                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button className={'text-white'} size={'sm'} text={'End'} onClick={() => {
                             alertModal.show()
                             setActionTask(END_TASK)
                         }} />}
