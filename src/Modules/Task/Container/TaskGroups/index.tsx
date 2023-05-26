@@ -13,7 +13,7 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
 
     const groupCode = (taskGroups && taskGroups[0]?.id)
     const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(showAll ? DEFAULT_GROUP.id : groupCode)
-    const taskGroupList = taskGroups && showAll ? [DEFAULT_GROUP, ...taskGroups] : taskGroups
+    const taskGroupList = taskGroups && showAll ? [DEFAULT_GROUP, ...(taskGroups.length>0 && taskGroups)] : taskGroups
     const dispatch = useDispatch()
 
     useEffect(() => {
