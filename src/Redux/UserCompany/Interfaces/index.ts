@@ -54,5 +54,7 @@ export interface UserCompanyStateProp {
     refreshGroupEvents: boolean,
     selectedGroup: any,
     getSubGroups: any,
-    selectedGroupChatCode: any
+    selectedGroupChatCode: any,
+    chatGroups: any,
+    selectedTaskGroupCode: any,
 }

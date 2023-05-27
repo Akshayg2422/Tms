@@ -855,3 +855,41 @@ export const addGroupUserFailure = (error: any) => {
   };
 };
 
+
+
+//GETgroup 
+
+export const getChatGroups = (params: any) => {
+  return {
+    type: ActionTypes.GET_CHAT_GROUPS,
+    payload: params,
+  };
+};
+
+export const getChatGroupsSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_CHAT_GROUPS_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getChatGroupsFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_CHAT_GROUPS_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ * selected  Group
+ */
+
+
+export const setSelectedTaskGroupCode = (value: any) => {
+  return {
+    type: ActionTypes.SELECTED_TASK_GROUP_CODE,
+    payload: value,
+  };
+};
+
+
