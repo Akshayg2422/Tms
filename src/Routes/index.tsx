@@ -2,6 +2,8 @@ import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetai
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
+import { MyTimeSheet } from '@Modules//UserCompany/Screen/MyTimeSheet'
+
 
 export const HOME_PATH = {
   DASHBOARD: "/admin",
@@ -190,7 +192,7 @@ export const HOME_ROUTES = [
     name: "MyTimeSheet",
     miniName: "TS",
     icon:icons.myTimeSheet,
-    component: <MyPortfolio />,
+    component: <MyTimeSheet />,
     layout: '',
   },
   {

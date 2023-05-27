@@ -111,6 +111,8 @@ function AddSubTask() {
                         return { ...item, designation: item?.designation?.name, department: item?.department?.name }
                     });
                     setCompanyUsers(companiesUser);
+
+                    console.log(companiesUser,"lllllllnnnnnnn")
                 },
                 onError: (error) => () => {
                 },

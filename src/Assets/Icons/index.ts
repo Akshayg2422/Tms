@@ -152,4 +152,6 @@ export const icons = {
   verticalLine: require('./VerticalLine/icon.png'),
   protfolio: require('./Protfolio/icon.png'),
   myTimeSheet: require('./MyTimeSheet/icons.png'),
+  previousBackArrow: require('./PreviousBackArrow/icons.png'),
+  nextArrow: require('./NextArrow/icons.png'),
 };

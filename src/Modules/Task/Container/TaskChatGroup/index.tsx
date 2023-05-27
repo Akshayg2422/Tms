@@ -26,10 +26,15 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
 
     return (
 
-        <div className='row mb-2 overflow-hide' style={{
-            overflowX: 'auto'
+        <div className='row mb-2 
+        ' style={{
+            overflowX: 'scroll',
+            overflowY:'hidden',
+            
+        
         }} >
-            <div className='col d-flex ml--2'>
+            <div className=' d-flex '
+            >
                 { getGroups &&  getGroups.length > 0 && 
                      getGroups.map((el: any, index: number) => {
                         const bgColor = selectedGroupChatCode === el.id ? "bg-primary" : "bg-white"
@@ -45,9 +50,10 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
                                 style={{
                                     width: 100,
                                     height: 38,
+                                
                                 }}
                             >
-                                <div className='col d-flex justify-content-center align-items-center'>
+                                <div className='col d-flex justify-content-center align-items-center' >
                                     {el.photo && <Image className='ml--1' variant={'rounded'} src={getPhoto(el.photo)} size={'xs'} />}
                                     <small className={` ml-2  ${textColor}`}><div className='text-xxs'>{el.name}</div> <div className='text-xs'>{'#' + el.code}</div></small>
                                 </div>
