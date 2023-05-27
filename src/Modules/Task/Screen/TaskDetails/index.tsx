@@ -26,10 +26,10 @@ function TaskDetails() {
     const [infoHeight, setInfoHeight] = useState(0)
 
     const TABS = [
-        { id: "1", title: <div className="text-center"><Image src={icons.Comments} height={16} width={16} /></div>, component: <Comments /> },
-        { id: "2", title: <div className="text-center"><Image src={icons.attachments} height={16} width={16} /></div>, component: <TaskAttachments /> },
-        { id: "3", title: <div className="text-center"><Image src={icons.reference} height={16} width={16} /></div>, component: <ReferenceTasks /> },
-        { id: "4", title: <div className="text-center"><Image src={icons.users} height={16} width={16} /></div>, component: <TaskUsers /> },
+        { id: "1", title: <div className="text-center"><Image src={icons.Comments} height={16} width={16} /><Image src={icons.CommentsPink} height={16} width={16} /></div>, component: <Comments /> },
+        { id: "2", title: <div className="text-center"><Image src={icons.attachments} height={16} width={16} /><Image src={icons.attachmentsPink} height={16} width={16} /></div>, component: <TaskAttachments /> },
+        { id: "3", title: <div className="text-center"><Image src={icons.reference} height={16} width={16} /><Image src={icons.referencePink} height={16} width={16} /></div>, component: <ReferenceTasks /> },
+        { id: "4", title: <div className="text-center"><Image src={icons.users} height={16} width={16} /><Image src={icons.usersPink} height={16} width={16} /></div>, component: <TaskUsers /> },
     ];
 
     useEffect(() => {

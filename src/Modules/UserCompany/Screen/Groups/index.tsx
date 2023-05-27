@@ -11,8 +11,6 @@ function Groups() {
     const ref = useRef<HTMLDivElement>(null)
     const [infoHeight, setInfoHeight] = useState(0)
 
-
-
     useEffect(() => {
         if (ref.current) {
             setInfoHeight(ref.current.clientHeight)
