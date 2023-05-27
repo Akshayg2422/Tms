@@ -131,7 +131,6 @@ function GroupMessage({ selectedGroup
                     </h4>}
                     next={() => {
 
-
                         if (GroupCurrentPage !== -1) {
                             getGroupMessageApi(GroupCurrentPage)
                         }
