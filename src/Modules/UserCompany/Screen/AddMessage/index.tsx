@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AddMessageProps } from './interfaces';
-import { Button, Modal, Input, Dropzone } from '@Components'
+import { Button, Modal, Input, Dropzone, ImageDownloadButton } from '@Components'
 import { icons } from '@Assets'
 import { addGroupMessage, refreshGroupEvents } from '@Redux'
 import { useDispatch } from 'react-redux'
@@ -91,6 +91,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                         <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={addGroupMessageApiHandler} />
+                    
                 </div >
             </div >
             <Modal isOpen={attachmentModal.visible}
@@ -110,6 +111,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                                             handleImagePicker(index, file)
                                         }}
                                     />
+                                    
                                 </div>
                             )
                         })}

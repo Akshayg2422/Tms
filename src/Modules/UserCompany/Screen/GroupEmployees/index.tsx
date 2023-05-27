@@ -8,13 +8,14 @@ import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArr
 import { useDropDown, useModal } from '@Hooks';
 import { Employees } from '@Modules'
 import { translate } from '@I18n'
-function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) {
 
+
+function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
     const { groupEmployees } = useSelector((state: any) => state.UserCompanyReducer);
     useEffect(() => {
         getGroupEmployees()
-    }, [Employee])
+    }, [Employees])
 
     const addUserModal = useModal(false);
     const [taggedUsers, setTaggedUsers] = useState([])
@@ -26,11 +27,11 @@ function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) 
     const getGroupEmployees = (q: string = '') => {
 
         const params = {
-            group_id: Employee,
+            group_id: Employees,
             ...(otherParams && { ...otherParams }),
             q
         }
-        if (Employee) {
+        if (Employees) {
             dispatch(
                 getGroupsEmployees({
                     params,
@@ -53,7 +54,7 @@ function GroupEmployees({ Employee, height, otherParams }: EmployeeGroupsProps) 
         console.log(addUsers, "pppppuuuuuuuuuu")
 
         const params = {
-            group_id: Employee,
+            group_id: Employees,
             users_id: addUsers.tagged_users
         }
 
