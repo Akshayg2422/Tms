@@ -24,8 +24,6 @@ function GroupMessage({ selectedGroup
     const imageModal = useModal(false)
 
 
-
-
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
     }, [refreshGroupEvents, selectedGroup])
