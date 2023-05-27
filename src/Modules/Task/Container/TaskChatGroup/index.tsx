@@ -35,7 +35,7 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
                         const textColor = (selectedGroupChatCode ? selectedGroupChatCode : chatGroups[0].id) === el.id ? "text-white" : ""
                         return (
                             <div
-                                className={`card ${bgColor} ${index !== 0 && "ml-2"} pointer`}
+                                className={`card justify-content-center align-items-center mb-0 mb-3 ${bgColor} ${index !== 0 && "ml-2"}`}
                                 key={el.code}
                                 onClick={() => {
                                     dispatch(setSelectedGroupChatCode(el.id))
@@ -46,7 +46,7 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
                                     height: 40,
                                 }}
                             >
-                                <div className='d-flex row justify-content-center align-items-center'>
+                                <div className='d-flex'>
                                     {el.photo && <Image variant={'rounded'} src={getPhoto(el.photo)} size={'xs'} />}
                                     <div className={`ml-1 ${textColor}`}>
                                         <div className='text-xxs'>{el.name} </div>
