@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TaskChatProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { getTaskEvents } from '@Redux'
-import { TimeLine, Spinner, Image, Modal } from '@Components'
+import { TimeLine, Spinner, Image, Modal, ImageDownloadButton } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TASK_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
@@ -154,6 +154,15 @@ function TaskChat({ }: TaskChatProps) {
                                         }
                                     </div>
                                 </div>
+                                
+                                <div>
+                                        {
+                                            imageUrls && imageUrls.length > 0 && (
+                                                <ImageDownloadButton Url={imageUrls} title={title} />
+                                            )
+
+                                        }
+                                    </div>
                             </TimeLine>)
                     })
                 }

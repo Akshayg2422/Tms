@@ -143,7 +143,8 @@ function GroupMessage({ selectedGroup
                             const { icon, title, subTitle, created_at, attachments } = task
                             const showDotLine = index !== 0
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
-                            console.log("==============>", task);
+                            
+                            console.log("==============>Task", task);
 
                             return (
                                 <TimeLine
@@ -166,13 +167,11 @@ function GroupMessage({ selectedGroup
                                     <div>
                                         {
                                             imageUrls && imageUrls.length > 0 && (
-                                                <ImageDownloadButton Url={imageUrls} title='sample.png' />
+                                                <ImageDownloadButton Url={imageUrls} title={title} />
                                             )
 
                                         }
                                     </div>
-
-
                                 </TimeLine>)
                         })
                     }
@@ -192,7 +191,7 @@ function GroupMessage({ selectedGroup
                             />
                         })
                     }
-                </Carousel>
+                </Carousel>               
             </Modal>
         </>
 

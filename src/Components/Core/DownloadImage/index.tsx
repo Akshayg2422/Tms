@@ -4,20 +4,22 @@ import { saveAs } from 'file-saver';
 import { DownloadImageProps } from './interfaces';
 import { Button } from '@Components';
 
-function ImageDownloadButton({ Url, size = 'sm', color = 'primary',title }: DownloadImageProps) {
+function ImageDownloadButton({ Url, size = 'sm', color = 'primary', title }: DownloadImageProps) {
+
+  console.log("==========titile", title);
 
   const handleDownload = async () => {
     try {
       if (Array.isArray(Url)) {
         const requests = Url.map((url) => axios.get(url, { responseType: 'blob' }));
         const responses = await Promise.all(requests);
-        responses.forEach((response) => saveAs(response.data));
-        
+        responses.forEach((response) => saveAs(response.data, title));
+
         // console.log('response=======>>>',responses)
 
       } else {
         const response = await axios.get(Url, { responseType: 'blob' });
-        saveAs(response.data,title);
+        saveAs(response.data, title);
       }
     } catch (error) {
       // console.error('Error=====>>', error);
