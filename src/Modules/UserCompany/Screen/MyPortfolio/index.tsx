@@ -40,8 +40,6 @@ function MyPortfolio() {
     { id: '0', name: "Edit", icon: icons.edit },
 
   ]
-
-
   useEffect(() => {
     getAssignedTaskList()
     getEmployeesTimeList(INITIAL_PAGE)

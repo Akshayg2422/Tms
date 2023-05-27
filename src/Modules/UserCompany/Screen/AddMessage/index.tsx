@@ -26,8 +26,6 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                 event_type: TEM,
             }
 
-            console.log('======>>>params', JSON.stringify(params));
-
             dispatch(
                 addGroupMessage({
                     params,
@@ -51,7 +49,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             group_attachments: [{ name: attachmentName.value, attachments: photo }],
             // name: attachmentName.value,
         };
-        console.log('============>>', JSON.stringify(params))
+        
         dispatch(
             addGroupMessage({
                 params,
@@ -59,7 +57,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                     resetValues();
                     attachmentModal.hide()
                     dispatch(refreshGroupEvents())
-                    console.log('============>>>', response)
+                    
                 },
                 onError: (error) => () => { },
             }),

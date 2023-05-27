@@ -1,88 +1,7 @@
 
 import * as ActionTypes from '../ActionTypes'
-import {
-  GET_ASSOCIATED_BRANCH,
-  GET_ASSOCIATED_BRANCH_FAILURE,
-  GET_ASSOCIATED_BRANCH_SUCCESS,
-  GET_TASK_GROUP,
-  GET_TASK_GROUP_FAILURE,
-  GET_TASK_GROUP_SUCCESS,
-  ADD_TASK_GROUP,
-  ADD_TASK_GROUP_SUCCESS,
-  ADD_TASK_GROUP_FAILURE,
-  ADD_DEPARTMENT,
-  ADD_DEPARTMENT_SUCCESS,
-  ADD_DEPARTMENT_FAILURE,
-
-  ADD_DESIGNATION,
-  ADD_DESIGNATION_SUCCESS,
-  ADD_DESIGNATION_FAILURE,
-
-  FETCH_DEPARTMENT,
-  FETCH_DEPARTMENT_SUCCESS,
-  FETCH_DEPARTMENT_FAILURE,
-
-  FETCH_DESIGNATION,
-  FETCH_DESIGNATION_SUCCESS,
-  FETCH_DESIGNATION_FAILURE,
-  ADD_BRAND_SECTOR_SUCCESS,
-  ADD_BRAND_SECTOR_FAILURE,
-  ADD_TICKET_TAG_SUCCESS,
-  ADD_TICKET_TAG_FAILURE,
-  GET_BRAND_SECTOR_SUCCESS,
-  GET_BRAND_SECTOR_FAILURE,
-  GET_TICKET_TAG_SUCCESS,
-  GET_TICKET_TAG_FAILURE,
-  GET_TICKET_TAG,
-  GET_BRAND_SECTOR,
-  ADD_BRAND_SECTOR,
-  ADD_TICKET_TAG,
-  ADD_EMPLOYEE,
-  ADD_EMPLOYEE_SUCCESS,
-  ADD_EMPLOYEE_FAILURE,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS,
-  UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE,
-  GET_EMPLOYEES,
-  GET_EMPLOYEES_SUCCESS,
-  GET_EMPLOYEES_FAILURE,
-  GET_EMPLOYEESL,
-  GET_EMPLOYEESL_SUCCESS,
-  GET_EMPLOYEESL_FAILURE,
-
-  REGISTER_ADMIN,
-  REGISTER_ADMIN_SUCCESS,
-  REGISTER_ADMIN_FAILURE,
-
-  REGISTER_COMPANY,
-  REGISTER_COMPANY_SUCCESS,
-  REGISTER_COMPANY_FAILURE,
-  GET_EMPLOYEE_TIMELINE,
-  GET_EMPLOYEE_TIMELINE_SUCCESS,
-  GET_EMPLOYEE_TIMELINE_FAILURE,
-
-  ADD_EMPLOYEE_TIMELINE,
-  ADD_EMPLOYEE_TIMELINE_SUCCESS,
-  ADD_EMPLOYEE_TIMELINE_FAILURE,
-
-  RESTORE_USER_COMPANY,
-
-  GET_GROUPS_EMPLOYEES,
-  GET_GROUPS_EMPLOYEES_SUCCESS,
-  GET_GROUPS_EMPLOYEES_FAILURE,
-
-  GET_GROUP_MESSAGE,
-  GET_GROUP_MESSAGE_SUCCESS,
-  GET_GROUP_MESSAGE_FAILURE,
-
-  ADD_GROUP_MESSAGE,
-  ADD_GROUP_MESSAGE_SUCCESS,
-  ADD_GROUP_MESSAGE_FAILURE,
-
-} from '../ActionTypes';
-
-
 import { UserCompanyStateProp } from '../../Interfaces';
+import { DEFAULT_TASK_GROUP } from '@Utils'
 
 // import * as ActionTypes from '../ActionTypes'
 
@@ -140,30 +59,33 @@ const initialState: UserCompanyStateProp = {
   addGroupMessages: undefined,
   refreshGroupEvents: false,
   selectedGroup: undefined,
-  getSubGroups:undefined
+  getSubGroups: undefined,
+  selectedGroupChatCode: undefined,
+  chatGroups: undefined,
+  selectedTaskGroupCode: "ALL",
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
 
   switch (action.type) {
 
-    case RESTORE_USER_COMPANY:
+    case ActionTypes.RESTORE_USER_COMPANY:
       state = initialState;
       break;
 
     /**
 * add department
 */
-    case ADD_DEPARTMENT:
+    case ActionTypes.ADD_DEPARTMENT:
       state = { ...state, loading: true };
       break;
-    case ADD_DEPARTMENT_SUCCESS:
+    case ActionTypes.ADD_DEPARTMENT_SUCCESS:
       state = {
         ...state,
         loading: false,
       };
       break;
-    case ADD_DEPARTMENT_FAILURE:
+    case ActionTypes.ADD_DEPARTMENT_FAILURE:
       state = {
         ...state,
         error: action.payload,
@@ -174,16 +96,16 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     /**
 * add designation
 */
-    case ADD_DESIGNATION:
+    case ActionTypes.ADD_DESIGNATION:
       state = { ...state, loading: true };
       break;
-    case ADD_DESIGNATION_SUCCESS:
+    case ActionTypes.ADD_DESIGNATION_SUCCESS:
       state = {
         ...state,
         loading: false,
       };
       break;
-    case ADD_DESIGNATION_FAILURE:
+    case ActionTypes.ADD_DESIGNATION_FAILURE:
       state = {
         ...state,
         error: action.payload,
@@ -191,7 +113,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
 
-    case FETCH_DEPARTMENT:
+    case ActionTypes.FETCH_DEPARTMENT:
       state = {
         ...state,
         departments: undefined,
@@ -200,7 +122,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         loading: true
       };
       break;
-    case FETCH_DEPARTMENT_SUCCESS:
+    case ActionTypes.FETCH_DEPARTMENT_SUCCESS:
 
       state = {
         ...state,
@@ -213,7 +135,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
             : action?.payload?.details.next_page - 1,
       };
       break;
-    case FETCH_DEPARTMENT_FAILURE:
+    case ActionTypes.FETCH_DEPARTMENT_FAILURE:
       state = {
         ...state,
         error: action.payload,
@@ -221,7 +143,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
 
-    case FETCH_DESIGNATION:
+    case ActionTypes.FETCH_DESIGNATION:
 
       state = {
         ...state,
@@ -232,7 +154,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
 
       break;
-    case FETCH_DESIGNATION_SUCCESS:
+    case ActionTypes.FETCH_DESIGNATION_SUCCESS:
 
       state = {
         ...state,
@@ -245,7 +167,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
             : action?.payload?.next_page - 1,
       };
       break;
-    case FETCH_DESIGNATION_FAILURE:
+    case ActionTypes.FETCH_DESIGNATION_FAILURE:
       state = {
         ...state,
         error: action.payload,
@@ -254,16 +176,16 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
 
 
-    case ADD_BRAND_SECTOR:
+    case ActionTypes.ADD_BRAND_SECTOR:
       state = { ...state, loading: true };
       break;
-    case ADD_BRAND_SECTOR_SUCCESS:
+    case ActionTypes.ADD_BRAND_SECTOR_SUCCESS:
       state = {
         ...state,
         loading: false,
       };
       break;
-    case ADD_BRAND_SECTOR_FAILURE:
+    case ActionTypes.ADD_BRAND_SECTOR_FAILURE:
       state = {
         ...state,
         error: action.payload,
@@ -273,16 +195,16 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     /**
         * add TICKET TAG
         */
-    case ADD_TICKET_TAG:
+    case ActionTypes.ADD_TICKET_TAG:
       state = { ...state, loading: true };
       break;
-    case ADD_TICKET_TAG_SUCCESS:
+    case ActionTypes.ADD_TICKET_TAG_SUCCESS:
       state = {
         ...state,
         loading: false,
       };
       break;
-    case ADD_TICKET_TAG_FAILURE:
+    case ActionTypes.ADD_TICKET_TAG_FAILURE:
       state = {
         ...state,
         error: action.payload,
@@ -292,7 +214,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     //get BRAND SECTOR
 
-    case GET_BRAND_SECTOR:
+    case ActionTypes.GET_BRAND_SECTOR:
       state = {
         ...state,
         brandSector: undefined,
@@ -300,7 +222,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         brandSectorCurrentPages: 1,
       };
       break;
-    case GET_BRAND_SECTOR_SUCCESS:
+    case ActionTypes.GET_BRAND_SECTOR_SUCCESS:
       state = {
         ...state,
         brandSector: action.payload.details.data,
@@ -311,7 +233,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
             : action.payload.details.next_page - 1,
       };
       break;
-    case GET_BRAND_SECTOR_FAILURE:
+    case ActionTypes.GET_BRAND_SECTOR_FAILURE:
       state = {
         ...state,
         error: action.payload,
@@ -320,7 +242,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     //get designations
 
-    case GET_TICKET_TAG:
+    case ActionTypes.GET_TICKET_TAG:
 
       state = {
         ...state,
@@ -330,7 +252,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
 
       break;
-    case GET_TICKET_TAG_SUCCESS:
+    case ActionTypes.GET_TICKET_TAG_SUCCESS:
       state = {
         ...state,
         ticketTag: action.payload.details.data,
@@ -341,7 +263,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
             : action.payload.details.next_page - 1,
       };
       break;
-    case GET_TICKET_TAG_FAILURE:
+    case ActionTypes.GET_TICKET_TAG_FAILURE:
       state = {
         ...state,
         error: action.payload,
@@ -350,7 +272,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
 
     /**get task group */
-    case GET_TASK_GROUP:
+    case ActionTypes.GET_TASK_GROUP:
 
       state = {
         ...state,
@@ -362,7 +284,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
 
       break;
-    case GET_TASK_GROUP_SUCCESS:
+    case ActionTypes.GET_TASK_GROUP_SUCCESS:
       state = {
         ...state,
         loading: false,
@@ -378,7 +300,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
             : action?.payload?.details?.next_page - 1,
       };
       break;
-    case GET_TASK_GROUP_FAILURE:
+    case ActionTypes.GET_TASK_GROUP_FAILURE:
       state = {
         ...state,
         error: action.payload,
@@ -387,22 +309,22 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
 
     /**add task group */
-    case ADD_TASK_GROUP:
+    case ActionTypes.ADD_TASK_GROUP:
 
       state = { ...state, addTaskGroup: undefined };
       break;
 
-    case ADD_TASK_GROUP_SUCCESS:
+    case ActionTypes.ADD_TASK_GROUP_SUCCESS:
 
       state = { ...state, addTaskGroup: action.payload.details };
       break;
 
-    case ADD_TASK_GROUP_FAILURE:
+    case ActionTypes.ADD_TASK_GROUP_FAILURE:
 
       state = { ...state, addTaskGroup: action.payload };
       break;
 
-    case GET_ASSOCIATED_BRANCH:
+    case ActionTypes.GET_ASSOCIATED_BRANCH:
       state = {
         ...state,
         associatedCompanies: undefined,
@@ -410,7 +332,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         associatedCompaniesCurrentPages: 1
       };
       break;
-    case GET_ASSOCIATED_BRANCH_SUCCESS:
+    case ActionTypes.GET_ASSOCIATED_BRANCH_SUCCESS:
       const { data, next_page, num_pages } = action.payload?.details;
       state = {
         ...state,
@@ -422,63 +344,63 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
             : next_page - 1,
       };
       break;
-    case GET_ASSOCIATED_BRANCH_FAILURE:
+    case ActionTypes.GET_ASSOCIATED_BRANCH_FAILURE:
       state = { ...state };
       break;
 
-    case ADD_EMPLOYEE:
+    case ActionTypes.ADD_EMPLOYEE:
       state = {
         ...state,
         addEmployeeDetails: undefined,
       };
       break;
-    case ADD_EMPLOYEE_SUCCESS:
+    case ActionTypes.ADD_EMPLOYEE_SUCCESS:
 
       state = {
         ...state,
         addEmployeeDetails: action.payload.details,
       };
       break;
-    case ADD_EMPLOYEE_FAILURE:
+    case ActionTypes.ADD_EMPLOYEE_FAILURE:
       state = { ...state, addEmployeeDetails: undefined };
       break;
 
-    case UPDATE_EMPLOYEE_PROFILE_PHOTO:
+    case ActionTypes.UPDATE_EMPLOYEE_PROFILE_PHOTO:
       state = {
         ...state,
         updateEmployeeProfile: undefined,
       };
       break;
-    case UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS:
+    case ActionTypes.UPDATE_EMPLOYEE_PROFILE_PHOTO_SUCCESS:
       state = {
         ...state,
         updateEmployeeProfile: action.payload.details,
       };
       break;
-    case UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE:
+    case ActionTypes.UPDATE_EMPLOYEE_PROFILE_PHOTO_FAILURE:
       state = { ...state, updateEmployeeProfile: undefined };
       break;
 
 
-    case GET_EMPLOYEES:
+    case ActionTypes.GET_EMPLOYEES:
       state = {
         ...state
       };
 
       break;
-    case GET_EMPLOYEES_SUCCESS:
+    case ActionTypes.GET_EMPLOYEES_SUCCESS:
       state = {
         ...state,
         employees: action.payload.details,
       };
       break;
-    case GET_EMPLOYEES_FAILURE:
+    case ActionTypes.GET_EMPLOYEES_FAILURE:
       state = { ...state, employees: action.payload };
       break;
 
     // GET Employessl
 
-    case GET_EMPLOYEESL:
+    case ActionTypes.GET_EMPLOYEESL:
       state = {
         ...state,
         employeesl: undefined,
@@ -487,7 +409,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
 
       break;
-    case GET_EMPLOYEESL_SUCCESS:
+    case ActionTypes.GET_EMPLOYEESL_SUCCESS:
       state = {
         ...state,
         employeesl: action.payload.details.data,
@@ -497,12 +419,12 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         employeeslNumOfPages: action.payload.details.num_pages,
       };
       break;
-    case GET_EMPLOYEESL_FAILURE:
+    case ActionTypes.GET_EMPLOYEESL_FAILURE:
       state = { ...state, employeesl: action.payload };
       break;
     //get employee timeline
 
-    case GET_EMPLOYEE_TIMELINE:
+    case ActionTypes.GET_EMPLOYEE_TIMELINE:
       const { page_number } = action.payload.params
       // console.log('pa',JSON.stringify( page_number))
       state = {
@@ -511,7 +433,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
 
       break;
-    case GET_EMPLOYEE_TIMELINE_SUCCESS:
+    case ActionTypes.GET_EMPLOYEE_TIMELINE_SUCCESS:
       //     console.log("sssssssssssst",JSON.stringify(state))
       // console.log(...state. employeeTimelineList, ...action.payload?.details?.data,'{{{{{{{{{{{{')
 
@@ -532,43 +454,43 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       // };
       break;
-    case GET_EMPLOYEE_TIMELINE_FAILURE:
+    case ActionTypes.GET_EMPLOYEE_TIMELINE_FAILURE:
       state = { ...state, employeeTimeline: action.payload };
       break;
 
     //addEmployeeTimeline
-    case ADD_EMPLOYEE_TIMELINE:
+    case ActionTypes.ADD_EMPLOYEE_TIMELINE:
       state = {
         ...state
       };
 
       break;
-    case ADD_EMPLOYEE_TIMELINE_SUCCESS:
+    case ActionTypes.ADD_EMPLOYEE_TIMELINE_SUCCESS:
       state = {
         ...state,
         employeeAddTime: action.payload.details,
       };
       break;
-    case ADD_EMPLOYEE_TIMELINE_FAILURE:
+    case ActionTypes.ADD_EMPLOYEE_TIMELINE_FAILURE:
       state = { ...state, employeeAddTime: action.payload };
       break;
 
-    case REGISTER_COMPANY:
+    case ActionTypes.REGISTER_COMPANY:
       state = { ...state };
       break;
-    case REGISTER_COMPANY_SUCCESS:
+    case ActionTypes.REGISTER_COMPANY_SUCCESS:
       state = { ...state, response: action.payload };
       break;
-    case REGISTER_COMPANY_FAILURE:
+    case ActionTypes.REGISTER_COMPANY_FAILURE:
       state = { ...state, response: action.payload };
       break;
-    case REGISTER_ADMIN:
+    case ActionTypes.REGISTER_ADMIN:
       state = { ...state };
       break;
-    case REGISTER_ADMIN_SUCCESS:
+    case ActionTypes.REGISTER_ADMIN_SUCCESS:
       state = { ...state, loading: false, registerAdminResponse: action.payload };
       break;
-    case REGISTER_ADMIN_FAILURE:
+    case ActionTypes.REGISTER_ADMIN_FAILURE:
       state = { ...state };
       break;
 
@@ -778,9 +700,9 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, addGroupMessages: action.payload };
       break;
 
-      // GET SUB GROUP
+    // GET SUB GROUP
 
-      case ActionTypes.GET_SUB_GROUP:
+    case ActionTypes.GET_SUB_GROUP:
       state = {
         ...state,
         getSubGroups: undefined,
@@ -793,10 +715,42 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ActionTypes.GET_SUB_GROUP_FAILURE:
-      state = { ...state,  getSubGroups: action.payload };
+      state = { ...state, getSubGroups: action.payload };
       break;
-  
 
+
+    // GET  GROUP
+
+    case ActionTypes.GET_CHAT_GROUPS:
+      state = {
+        ...state,
+        chatGroups: undefined,
+      };
+      break;
+    case ActionTypes.GET_CHAT_GROUPS_SUCCESS:
+      state = {
+        ...state,
+        chatGroups: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_CHAT_GROUPS_FAILURE:
+      state = { ...state, chatGroups: undefined };
+      break;
+
+
+    /**
+     * selected Group chat code
+     */
+    case ActionTypes.SELECTED_GROUP_CHAT_CODE:
+      state = { ...state, selectedGroupChatCode: action.payload };
+      break;
+
+    /**
+ * selected Group  code
+ */
+    case ActionTypes.SELECTED_TASK_GROUP_CODE:
+      state = { ...state, selectedTaskGroupCode: action.payload };
+      break;
 
     default:
       state = state;

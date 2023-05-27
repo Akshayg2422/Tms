@@ -20,13 +20,6 @@ function Profile() {
   const { goTo } = useNavigation()
   const Url = 'https://res.cloudinary.com/demo/basketball_shot.jpg';
 
-  console.log(JSON.stringify(dashboardDetails) + '====dashboardDetails');
-
-  console.log("prifile--->", user_details?.profile_photo)
-
-  
-
-
   const userProfileEdit = (item) => {
 
     const params = {

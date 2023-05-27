@@ -11,12 +11,11 @@ import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-function GroupMessage({ selectedGroup
-}: GroupMessageProps) {
+function GroupMessage({ }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshGroupEvents } = useSelector((state: any) => state.UserCompanyReducer);
+    const { refreshGroupEvents, selectedGroupChatCode } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
@@ -26,7 +25,7 @@ function GroupMessage({ selectedGroup
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
-    }, [refreshGroupEvents, selectedGroup])
+    }, [refreshGroupEvents, selectedGroupChatCode])
 
     function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -41,12 +40,11 @@ function GroupMessage({ selectedGroup
 
     const getGroupMessageApi = (page_number: number) => {
         const params = {
-            group_id: selectedGroup,
+            group_id: selectedGroupChatCode,
             page_number
         }
 
-        if (selectedGroup) {
-
+        if (selectedGroupChatCode) {
             dispatch(
                 getGroupMessage({
                     params,
@@ -62,8 +60,6 @@ function GroupMessage({ selectedGroup
                         }
                         setGroupEvents(updatedData)
                         setGroupCurrentPage(groupEventsResponse.next_page)
-
-                        console.log('response=====>', response)
                     },
                     onError: () => () => { },
                 })
@@ -74,34 +70,37 @@ function GroupMessage({ selectedGroup
 
     function getIconsFromStatus(each: any) {
 
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, group_status } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, group_status, event_by } = each
         let modifiedData = {}
+
+        console.log(JSON.stringify(each));
+
 
         switch (event_type) {
             case 'TEM':
-                modifiedData = { ...each, icon: icons.message, subTitle: by_user?.name, title: message, }
+                modifiedData = { ...each, icon: icons.message, subTitle: event_by?.name, title: message, }
                 break;
             case 'ETA':
-                modifiedData = { ...each, icon: icons.clock, subTitle: by_user?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
+                modifiedData = { ...each, icon: icons.clock, subTitle: event_by?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
                 break;
             case 'TGU':
                 let names = tagged_users.map(function (item) {
                     return '@' + item['name'] + " ";
                 });
-                modifiedData = { ...each, icon: icons.taggedUserWhiteIcon, subTitle: by_user?.name, title: "tagged " + names }
+                modifiedData = { ...each, icon: icons.taggedUserWhiteIcon, subTitle: event_by?.name, title: "tagged " + names }
                 break;
 
             case 'RGU':
-                modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: by_user?.name, title: "Task Reassigned to " + assigned_to.name }
+                modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: event_by?.name, title: "Task Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
-                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: by_user?.name, title: attachments.name }
+                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: event_by?.name, title: attachments.name }
                 break;
             case 'RTS':
-                modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: by_user?.name, title: 'User Attached Reference Task' }
+                modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: event_by?.name, title: 'User Attached Reference Task' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(GROUP_STATUS_LIST, 'id', group_status).text }
+                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: event_by?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(GROUP_STATUS_LIST, 'id', group_status).text }
                 break;
         }
         return modifiedData
@@ -123,9 +122,10 @@ function GroupMessage({ selectedGroup
                     hasMore={GroupCurrentPage !== -1}
                     scrollableTarget="scrollableDiv"
                     style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                    className={'overflow-auto overflow-hide'}
                     inverse={true}
                     loader={<h4>
-                        <Spinner />
+                        {/* <Spinner /> */}
                     </h4>}
                     next={() => {
 

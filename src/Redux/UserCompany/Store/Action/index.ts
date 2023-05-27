@@ -820,3 +820,76 @@ export const getSubGroupFailure = (error: any) => {
   };
 };
 
+/**
+ * selected Message Group
+ */
+
+
+export const setSelectedGroupChatCode = (value: any) => {
+  return {
+    type: ActionTypes.SELECTED_GROUP_CHAT_CODE,
+    payload: value,
+  };
+};
+
+//Add group USER
+
+export const addGroupUser = (params: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER,
+    payload: params,
+  };
+};
+
+export const addGroupUserSuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addGroupUserFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_GROUP_USER_FAILURE,
+    payload: error,
+  };
+};
+
+
+
+//GETgroup 
+
+export const getChatGroups = (params: any) => {
+  return {
+    type: ActionTypes.GET_CHAT_GROUPS,
+    payload: params,
+  };
+};
+
+export const getChatGroupsSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_CHAT_GROUPS_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getChatGroupsFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_CHAT_GROUPS_FAILURE,
+    payload: error,
+  };
+};
+
+/**
+ * selected  Group
+ */
+
+
+export const setSelectedTaskGroupCode = (value: any) => {
+  return {
+    type: ActionTypes.SELECTED_TASK_GROUP_CODE,
+    payload: value,
+  };
+};
+
+

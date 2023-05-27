@@ -132,3 +132,7 @@ export const getGroupMessageApi = (payload) => post(URL.GET_GROUP_MESSAGE, paylo
 export const addGroupMessageApi = (payload) => post(URL.ADD_GROUP_MESSAGE, payload, {})
 
 export const getSubGroupApi = (payload) => post(URL.GET_SUB_GROUP, payload, {})
+
+
+export const addGroupUserApi = (payload) => post(URL.ADD_GROUP_USER, payload, {})
+export const getChatGroupsApi = (payload) => post(URL.GET_CHAT_GROUPS, payload, {})

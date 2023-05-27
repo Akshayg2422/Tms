@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getTaskGroupsL } from '@Redux'
+import { getTaskGroupsL, setSelectedGroupChatCode, setSelectedTaskGroupCode } from '@Redux'
 import { Image } from '@Components'
-import { getPhoto } from '@Utils'
+import { getPhoto, DEFAULT_TASK_GROUP } from '@Utils'
 import { TaskGroupProps } from './interfaces'
 
 function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
-
-
-    const DEFAULT_GROUP = { id: 'ALL', Photo: null, code: "ALL" }
     const { taskGroups } = useSelector((state: any) => state.TaskReducer);
-
-    const groupCode = (taskGroups && taskGroups[0]?.id)
-    const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(showAll ? DEFAULT_GROUP.id : groupCode)
-    const taskGroupList = taskGroups 
-    // && showAll ? [DEFAULT_GROUP, ...taskGroups] : taskGroups
+    const { selectedTaskGroupCode } = useSelector((state: any) => state.UserCompanyReducer);
     const dispatch = useDispatch()
+
+    console.log(JSON.stringify(selectedTaskGroupCode)+'===');
+    
 
     useEffect(() => {
         const params = {}
@@ -36,17 +32,16 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
             overflowX: 'auto'
         }} >
             <div className='col d-flex ml--2'>
-                {taskGroups && taskGroups.length > 0 && taskGroupList &&
-                    taskGroupList.map((el: any, index: number) => {
-                        const bgColor = selectedTaskGroup === el.id ? "bg-primary" : "bg-white"
-                        const textColor = selectedTaskGroup === el.id ? "text-white" : ""
-
+                {taskGroups && taskGroups.length > 0 && taskGroups &&
+             [DEFAULT_TASK_GROUP  ,...taskGroups].map((el: any, index: number) => {
+                        const bgColor = selectedTaskGroupCode === el.id ? "bg-primary" : "bg-white"
+                        const textColor = selectedTaskGroupCode === el.id ? "text-white" : ""
                         return (
                             <div
                                 className={`card ${bgColor} ${index !== 0 && "ml-2"} pointer mb-2`}
                                 key={el.code}
                                 onClick={() => {
-                                    setSelectedTaskGroup(el.id)
+                                    dispatch(setSelectedTaskGroupCode(el.id))
                                     onClick(el.id)
                                 }}
                                 style={{

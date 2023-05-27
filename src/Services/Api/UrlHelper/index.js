@@ -133,18 +133,25 @@ export const GET_TOKEN_BY_USER = TASK + 'getTokenByUser';
 
 /* GET GROUPS EMPLOYEES*/
 
-export const GET_GROUP_EMPLOYEES= TASK + 'getGroupEmployees'
+export const GET_GROUP_EMPLOYEES = TASK + 'getGroupEmployees'
 
 /* GET GROUP MESSAGE*/
 
-export const GET_GROUP_MESSAGE= TASK + 'getGroupMessage'
+export const GET_GROUP_MESSAGE = TASK + 'getGroupMessage'
 
 /* ADD GROUP MESSAGE*/
 
-export const ADD_GROUP_MESSAGE= TASK + 'addGroupMessage'
+export const ADD_GROUP_MESSAGE = TASK + 'addGroupMessage'
 
 // get subTaskGroup
-export const GET_SUB_GROUP= TASK + 'getSubGroup'
+export const GET_SUB_GROUP = TASK + 'getSubGroup'
+
+//add group user
+export const ADD_GROUP_USER = TASK + 'addGroupUser'
+
+//get group
+export const GET_CHAT_GROUPS = TASK + 'getGroup'
+
 
 
 
