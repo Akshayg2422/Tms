@@ -15,6 +15,7 @@ function GroupMessage({ }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
+    // const [isConfirming, setIsConfirming] = useState(false);
     const { refreshGroupEvents, selectedGroupChatCode } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
@@ -106,6 +107,15 @@ function GroupMessage({ }: GroupMessageProps) {
         return modifiedData
     }
 
+    // const handleDelete = () => {
+    //     onDelete();
+    //     setIsConfirming(false);
+    // };
+
+    // const toggleConfirmation = () => {
+    //     setIsConfirming((prevState) => !prevState);
+    // };
+
     return (
         <>
             <div
@@ -142,6 +152,8 @@ function GroupMessage({ }: GroupMessageProps) {
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
                             console.log("==============>Task", task);
 
+
+
                             return (
                                 <TimeLine
                                     icon={icon}
@@ -168,6 +180,18 @@ function GroupMessage({ }: GroupMessageProps) {
 
                                         }
                                     </div>
+                                    {/* <div>
+                                        {!isConfirming ? (
+                                            <button onClick={toggleConfirmation}>Delete</button>
+                                        ) : (
+                                            <div>
+                                                <p>Are you sure you want to delete?</p>
+                                                <button onClick={handleDelete}>Yes</button>
+                                                <button onClick={toggleConfirmation}>No</button>
+                                            </div>
+                                        )}
+                                    </div> */}
+
 
 
                                 </TimeLine>)
@@ -198,4 +222,8 @@ function GroupMessage({ }: GroupMessageProps) {
 }
 
 export { GroupMessage }
+
+function onDelete() {
+    throw new Error('Function not implemented.');
+}
 
