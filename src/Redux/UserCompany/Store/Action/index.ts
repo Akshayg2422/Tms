@@ -859,23 +859,23 @@ export const addGroupUserFailure = (error: any) => {
 
 //GETgroup 
 
-export const getGroup = (params: any) => {
+export const getChatGroups = (params: any) => {
   return {
-    type: ActionTypes.GET_GROUP,
+    type: ActionTypes.GET_CHAT_GROUPS,
     payload: params,
   };
 };
 
-export const getGroupSuccess = (response: any) => {
+export const getChatGroupsSuccess = (response: any) => {
   return {
-    type: ActionTypes.GET_GROUP_SUCCESS,
+    type: ActionTypes.GET_CHAT_GROUPS_SUCCESS,
     payload: response,
   };
 };
 
-export const getGroupFailure = (error: any) => {
+export const getChatGroupsFailure = (error: any) => {
   return {
-    type: ActionTypes.GET_GROUP_FAILURE,
+    type: ActionTypes.GET_CHAT_GROUPS_FAILURE,
     payload: error,
   };
 };
