@@ -17,12 +17,15 @@ import { translate } from "@I18n";
 import {
 
   getTaskGroup,
-  addTaskGroup
+  addTaskGroup,
+  addGroupUser,
+  getGroupsEmployees
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices } from "@Utils";
+import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
 import { icons } from "@Assets";
+import { Employees } from '@Modules'
 
 
 
@@ -32,18 +35,25 @@ function TaskGroup() {
   const {
     taskGroups,
     taskGroupCurrentPages,
-    taskGroupNumOfPages
+    taskGroupNumOfPages,
+    selectedGroupChatCode
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
 
   const dynamicHeight: any = useDynamicHeight()
+  useEffect(() => {
+    getGroupEmployees()
+  }, [selectedGroupChatCode])
+  console.log('selectedGroupChatCode', JSON.stringify(selectedGroupChatCode));
+
 
 
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
     ...(is_parent ? [{ id: '1', name: "Create Sub Group", icon: icons.addSub }] : []),
     ...(marked_as_closed ? [{ id: '3', name: "Mark As Open", icon: icons.markAsOpen }] : [{ id: '2', name: "Mark As Closed", icon: icons.markAsClose }]),
+    ...(is_parent ? [{ id: '4', name: "Add Member ", icon: icons.addSub }] : []),
   ]
   const [showTaskGroup, setShowTaskGroup] = useState(false);
 
@@ -68,7 +78,9 @@ function TaskGroup() {
   const [startTimeEta, setStatTimeEta] = useState<any>("")
   const [endTimeEta, setEndTimeEta] = useState<any>("")
   const [subTaskPhoto, setSubTaskPhoto] = useState("");
-
+  const addMemberModal = useModal(false);
+  const [taggedUsers, setTaggedUsers] = useState([])
+  const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
 
   const startDate = new Date(startTimeEta)
   const startTime = startDate.getHours()
@@ -215,6 +227,64 @@ function TaskGroup() {
 
   };
 
+  // EMPLOYEES
+
+  const getGroupEmployees = (q: string = '') => {
+
+
+    const params = {
+      group_id: selectedGroupChatCode,
+      // ...(otherParams && { ...otherParams }),
+      q
+    }
+
+
+    if (selectedGroupChatCode) {
+      dispatch(
+        getGroupsEmployees({
+          params,
+          onSuccess: (response) => () => {
+            const selectedUsers = response.details
+            if (selectedUsers && selectedUsers.length > 0) {
+              setDefaultSelectedUser(selectedUsers)
+            }
+
+          },
+          onError: () => () => {
+
+          }
+        })
+      )
+    }
+  }
+
+  // ADD MEMBER
+
+  const addGroupUsers = (addUsers: any) => {
+    console.log(addUsers, "111111111111111111111111111111111111111")
+
+    const params = {
+      group_id: selectedGroupChatCode,
+      users_id: addUsers.tagged_users
+    }
+
+    console.log('paramsssssssss------------>', params);
+    dispatch(
+      addGroupUser({
+        params,
+        onSuccess: (response) => () => {
+          addMemberModal.hide()
+          getGroupEmployees()
+          showToast('Member added successfully');
+        },
+        onError: () => () => {
+          // showToast('Add member not added');
+        }
+      })
+    )
+
+  }
+
   const normalizedTaskGroupData = (data: any) => {
     return data.map((taskGroup: any,) => {
 
@@ -267,8 +337,11 @@ function TaskGroup() {
             const { id } = taskGroup
             changeGroupStatusApiHandler(id, false)
           }
-
-
+          else if (el.id === '4') {
+            const { id } = taskGroup
+            addGroupUsers(id)
+            addMemberModal.show()
+          }
         }} />
 
       };
@@ -538,6 +611,29 @@ function TaskGroup() {
               addSubTaskGroupApiHandler();
             }}
           />
+        </div>
+      </Modal>
+
+      {
+        /**
+         * Tag User
+         */
+      }
+
+      <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '80vh' }}>
+        <Employees selection={'multiple'}
+          defaultSelect={defaultSelectedUsers}
+          onSelected={(users) => {
+            const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
+            setTaggedUsers(taggedUserIds)
+          }} />
+        <div className="pt-3 mr-2 text-right">
+          <Button
+            size={'sm'}
+            text={translate("common.submit")}
+            onClick={() => {
+              addGroupUsers({ event_type: TGU, tagged_users: taggedUsers })
+            }} />
         </div>
       </Modal>
     </div>
