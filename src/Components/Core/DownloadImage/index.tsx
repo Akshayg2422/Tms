@@ -1,27 +1,34 @@
 import React from 'react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
-import { Button } from '@Components//Core';
 import { DownloadImageProps } from './interfaces';
+import { Button } from '@Components';
 
-function ImageDownloadButton ({ 
-    Url,...rest }:DownloadImageProps) {
+function ImageDownloadButton({ Url, size = 'sm', color = 'primary',title }: DownloadImageProps) {
 
-    const handleDownload = async () => {
-      try {
-        const response = await axios.get(Url, {
-          responseType: 'blob'
-        });
-        saveAs(response.data);
-      } catch (error) {
-        console.error('Error downloading image:', error);
+  const handleDownload = async () => {
+    try {
+      if (Array.isArray(Url)) {
+        const requests = Url.map((url) => axios.get(url, { responseType: 'blob' }));
+        const responses = await Promise.all(requests);
+        responses.forEach((response) => saveAs(response.data));
+        
+        // console.log('response=======>>>',responses)
+
+      } else {
+        const response = await axios.get(Url, { responseType: 'blob' });
+        saveAs(response.data,title);
       }
-    };
-  
-    return (
-      <Button onClick={handleDownload} className="fa fa-download mt-1" size={'sm'} >
-      </Button>
-    );
+    } catch (error) {
+      // console.error('Error=====>>', error);
+    }
   };
 
-  export  {ImageDownloadButton};
+  return (
+    <Button onClick={handleDownload} className="fa fa-download mt-1" size={'sm'} >
+      {Array.isArray(Url) ? 'All' : 'Image'}
+    </Button>
+  );
+}
+
+export { ImageDownloadButton };

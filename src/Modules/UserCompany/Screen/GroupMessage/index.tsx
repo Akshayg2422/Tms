@@ -137,11 +137,13 @@ function GroupMessage({ selectedGroup
                         }
                     }
                     }>
+
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((task: any, index: number) => {
                             const { icon, title, subTitle, created_at, attachments } = task
                             const showDotLine = index !== 0
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                            console.log("==============>", task);
 
                             return (
                                 <TimeLine
@@ -150,47 +152,27 @@ function GroupMessage({ selectedGroup
                                     title={title} subTitle={subTitle}
                                     time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
-                                    {/* <div className='pt-2' onClick={() => {
+                                    <div className='pt-2' onClick={() => {
                                         imageModal.show()
                                         setImage(imageUrls)
                                     }} >
-                                        <div className='row'>
-                                            {
-                                                imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                                    return <div key={each}>
-                                                        <Image className='ml-1 mb-1' src={each} width={100} height={100} />
-                                                        <div className='col text-center'>
-                                                            <ImageDownloadButton Url={each} />
-                                                        </div>
-                                                    </div>
-                                                })
-                                            }
-                                        </div>
-                                    </div> */}
-
-                                    <div className='pt-2'>
-                                        <div className='row'>
-                                            {imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                                    return (
-                                                        <div className='m-1'>
-                                                            <Image
-                                                                className=''
-                                                                src={each}
-                                                                width={100}
-                                                                height={100}
-                                                                onClick={() => {
-                                                                    imageModal.show();
-                                                                    setImage(imageUrls);
-                                                                }}
-                                                            />
-                                                            <div className='text-center'>
-                                                                <ImageDownloadButton Url={each} />
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                })}
-                                        </div>
+                                        {
+                                            imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
+                                                return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                            })
+                                        }
                                     </div>
+
+                                    <div>
+                                        {
+                                            imageUrls && imageUrls.length > 0 && (
+                                                <ImageDownloadButton Url={imageUrls} title='sample.png' />
+                                            )
+
+                                        }
+                                    </div>
+
+
                                 </TimeLine>)
                         })
                     }

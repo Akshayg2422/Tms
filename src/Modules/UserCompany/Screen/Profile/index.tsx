@@ -24,18 +24,6 @@ function Profile() {
 
   console.log("prifile--->", user_details?.profile_photo)
 
-
-  // const downloadImage = async (imageUrl) => {
-  //   try {
-  //     const response = await axios.get(imageUrl, {
-  //       responseType: 'blob'
-  //     });
-  //     saveAs(response.data);
-  //   } catch (error) {
-  //     console.error('Error downloading image:', error);
-  //   }
-  // };
-
   
 
 
@@ -79,16 +67,6 @@ function Profile() {
         className="m-3"
       >
         <div>
-          {/* <div>r
-            <Image src={imageUrl} size={'xxl'} variant={'avatar'} alt="Image" />
-          </div> */}
-           {/* <ImageDownloadButton imageUrl={Url}/> */}
-          {/* <div>
-            <Button onClick={() => downloadImage(imageUrl)} className="fa fa-download mt-1" size={'sm'}>
-
-            </Button>
-          </div> */}
-
           <div className="col text-right">
             <Button color={'white'} size={'sm'} text={'Logout'} onClick={logoutModal.show} />
           </div>
