@@ -143,7 +143,6 @@ function GroupMessage({ selectedGroup
                             const { icon, title, subTitle, created_at, attachments } = task
                             const showDotLine = index !== 0
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
-                            
                             console.log("==============>Task", task);
 
                             return (
@@ -172,6 +171,8 @@ function GroupMessage({ selectedGroup
 
                                         }
                                     </div>
+
+
                                 </TimeLine>)
                         })
                     }
@@ -191,7 +192,7 @@ function GroupMessage({ selectedGroup
                             />
                         })
                     }
-                </Carousel>               
+                </Carousel>
             </Modal>
         </>
 
