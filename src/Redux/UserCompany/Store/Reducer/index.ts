@@ -1,7 +1,7 @@
 
 import * as ActionTypes from '../ActionTypes'
 import { UserCompanyStateProp } from '../../Interfaces';
-import {DEFAULT_TASK_GROUP} from '@Utils'
+import { DEFAULT_TASK_GROUP } from '@Utils'
 
 // import * as ActionTypes from '../ActionTypes'
 
@@ -61,8 +61,8 @@ const initialState: UserCompanyStateProp = {
   selectedGroup: undefined,
   getSubGroups: undefined,
   selectedGroupChatCode: undefined,
-  getGroups:undefined,
-  selectedTaskGroupCode:"ALL",
+  chatGroups: undefined,
+  selectedTaskGroupCode: "ALL",
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -719,22 +719,22 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
 
 
-       // GET  GROUP
+    // GET  GROUP
 
-    case ActionTypes.GET_GROUP:
+    case ActionTypes.GET_CHAT_GROUPS:
       state = {
         ...state,
-        getGroups: undefined,
+        chatGroups: undefined,
       };
       break;
-    case ActionTypes.GET_GROUP_SUCCESS:
+    case ActionTypes.GET_CHAT_GROUPS_SUCCESS:
       state = {
         ...state,
-        getGroups: action.payload.details,
+        chatGroups: action.payload.details,
       };
       break;
-    case ActionTypes.GET_GROUP_FAILURE:
-      state = { ...state, getGroups: action.payload };
+    case ActionTypes.GET_CHAT_GROUPS_FAILURE:
+      state = { ...state, chatGroups: undefined };
       break;
 
 
@@ -745,9 +745,9 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, selectedGroupChatCode: action.payload };
       break;
 
-        /**
-     * selected Group  code
-     */
+    /**
+ * selected Group  code
+ */
     case ActionTypes.SELECTED_TASK_GROUP_CODE:
       state = { ...state, selectedTaskGroupCode: action.payload };
       break;

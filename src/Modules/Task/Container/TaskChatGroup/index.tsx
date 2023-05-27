@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getGroup, setSelectedGroupChatCode } from '@Redux'
+import { getChatGroups, setSelectedGroupChatCode } from '@Redux'
 import { Image } from '@Components'
-import { getPhoto } from '@Utils'
+import { getPhoto, stringToUpperCase } from '@Utils'
 import { TaskChartGroupProps } from './interfaces'
 
 function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
 
-    // const { taskGroups } = useSelector((state: any) => state.TaskReducer);
-    const { selectedGroupChatCode , getGroups} = useSelector((state: any) => state.UserCompanyReducer);
+
+    const { selectedGroupChatCode, chatGroups } = useSelector((state: any) => state.UserCompanyReducer);
     const dispatch = useDispatch()
 
     useEffect(() => {
         const params = {}
         dispatch(
-            getGroup({
+            getChatGroups({
                 params,
                 onSuccess: () => () => {
                 },
@@ -26,30 +26,32 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
 
     return (
 
-        <div className='row mb-2 overflow-hide' style={{
-            overflowX: 'auto'
-        }} >
-            <div className='col d-flex ml--2'>
-                { getGroups &&  getGroups.length > 0 && 
-                     getGroups.map((el: any, index: number) => {
-                        const bgColor = selectedGroupChatCode === el.id ? "bg-primary" : "bg-white"
-                        const textColor = selectedGroupChatCode === el.id ? "text-white" : ""
+        <div
+            className='row overflow-auto'>
+            <div className='d-flex scroll-hidden'>
+                {chatGroups && chatGroups.length > 0 &&
+                    chatGroups.map((el: any, index: number) => {
+                        const bgColor = (selectedGroupChatCode ? selectedGroupChatCode : chatGroups[0].id) === el.id ? "bg-primary" : "bg-white"
+                        const textColor = (selectedGroupChatCode ? selectedGroupChatCode : chatGroups[0].id) === el.id ? "text-white" : ""
                         return (
                             <div
-                                className={`card ${bgColor} ${index !== 0 && "ml-2"} pointer mb-2`}
+                                className={`card ${bgColor} ${index !== 0 && "ml-2"} pointer`}
                                 key={el.code}
                                 onClick={() => {
                                     dispatch(setSelectedGroupChatCode(el.id))
                                     onClick(el.id)
                                 }}
                                 style={{
-                                    width: 100,
-                                    height: 38,
+                                    width: 120,
+                                    height: 40,
                                 }}
                             >
-                                <div className='col d-flex justify-content-center align-items-center'>
-                                    {el.photo && <Image className='ml--1' variant={'rounded'} src={getPhoto(el.photo)} size={'xs'} />}
-                                    <small className={` ml-2  ${textColor}`}><div className='text-xxs'>{el.name}</div> <div className='text-xs'>{'#' + el.code}</div></small>
+                                <div className='d-flex row justify-content-center align-items-center'>
+                                    {el.photo && <Image variant={'rounded'} src={getPhoto(el.photo)} size={'xs'} />}
+                                    <div className={`ml-1 ${textColor}`}>
+                                        <div className='text-xxs'>{el.name} </div>
+                                        <div className='text-xs'>{stringToUpperCase('#' + el.code)}</div>
+                                    </div>
                                 </div>
                             </div>
                         )
@@ -60,4 +62,4 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
     )
 }
 
-export { TaskChatGroup }
+export { TaskChatGroup }    
