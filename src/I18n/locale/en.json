@@ -82,7 +82,9 @@
     "includeSubtask":"Include SubTask",
     "addAttachment":"Add Attachment",
     "note":"Note",
-    "add":"Add"
+    "add":"Add",
+    "Profile":"Profile",
+    "Basic Information":"Basic Information"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -153,6 +155,7 @@
     "associatedCompany":"Associate Company",
     "assignedTask":"AssignedTask",
     "editTimeSheet":"EditTimeSheet"
+    
   },
   "product": {
     "Store": "Store",

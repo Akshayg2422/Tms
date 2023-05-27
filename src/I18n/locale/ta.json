@@ -45,6 +45,7 @@
         "addUser": "பயனரைச் சேர்க்கவும்",
         "createTicket": "டிக்கெட்டை உருவாக்கு",
         "createCompany": "நிறுவனம் உருவாக்கு",
+        "company": "நிறுவனம்",
         "Select Group":"குழுவைத் தேர்ந்தெடுக்கவும்",
         "user": "பயனர்",
         "ticketPriority": "டிக்கெட்முன்னுரிமை",
@@ -69,7 +70,9 @@
         "noUserFound":"எந்த பயனரும் கிடைக்கவில்லை",
         "note":"குறிப்பு",
         "createPost":"உருவாக்கு இடுகை",
-        "add":"கூட்டு"
+        "add":"கூட்டு",
+        "Profile":"சுயவிவரம்",
+        "Basic Information":"அடிப்படை தகவல்"
     },
     "errors": {
         "invalidEmail": "Invalid email address."
