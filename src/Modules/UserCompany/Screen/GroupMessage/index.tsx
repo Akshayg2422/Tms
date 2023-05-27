@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { getGroupMessage } from '@Redux'
-import { TimeLine, Spinner, Image, Modal, Card } from '@Components'
+import { TimeLine, Spinner, Image, Modal, Card, ImageDownloadButton } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
@@ -21,10 +21,6 @@ function GroupMessage({ }: GroupMessageProps) {
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
     const imageModal = useModal(false)
-
-
-    console.log(JSON.stringify(selectedGroupChatCode));
-
 
 
     useEffect(() => {
@@ -138,11 +134,13 @@ function GroupMessage({ }: GroupMessageProps) {
                         }
                     }
                     }>
+
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((task: any, index: number) => {
                             const { icon, title, subTitle, created_at, attachments } = task
                             const showDotLine = index !== 0
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                            console.log("==============>Task", task);
 
                             return (
                                 <TimeLine
@@ -155,14 +153,23 @@ function GroupMessage({ }: GroupMessageProps) {
                                         imageModal.show()
                                         setImage(imageUrls)
                                     }} >
-                                        <div>
-                                            {
-                                                imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                                    return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
-                                                })
-                                            }
-                                        </div>
+                                        {
+                                            imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
+                                                return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                            })
+                                        }
                                     </div>
+
+                                    <div>
+                                        {
+                                            imageUrls && imageUrls.length > 0 && (
+                                                <ImageDownloadButton Url={imageUrls} title={title} />
+                                            )
+
+                                        }
+                                    </div>
+
+
                                 </TimeLine>)
                         })
                     }

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { GroupMessage, AddMessage, TaskGroups, GroupEmployees, TaskChatGroup } from '@Modules'
+import { GroupMessage, AddMessage, GroupEmployees, TaskChatGroup } from '@Modules'
 import { Card, NoDataFound, } from '@Components'
 import { useSelector, useDispatch } from 'react-redux'
 import { setSelectedGroupChatCode, } from '@Redux'
-function Groups() {
 
+function Groups() {
     const { taskGroups, } = useSelector((state: any) => state.TaskReducer);
     const { selectedGroupChatCode } = useSelector((state: any) => state.UserCompanyReducer);
     const dispatch = useDispatch()
@@ -36,7 +36,7 @@ function Groups() {
                 <div className='col ml--3' style={{
                     height: infoHeight - 30
                 }}>
-                    <GroupEmployees Employee={selectedGroupChatCode} />
+                    <GroupEmployees Employees={selectedGroupChatCode} />
                 </div>
             </div>
                 : <div className='d-flex h-100vh justify-content-center align-items-center'>
