@@ -32,7 +32,6 @@ function TaskDetails() {
         { id: "4", title: <div className="text-center"><Image src={icons.users} height={16} width={16} /><Image src={icons.usersPink} height={16} width={16} /></div>, component: <TaskUsers /> },
     ];
 
-    
     useEffect(() => {
         if (ref.current) {
             setInfoHeight(ref.current.clientHeight)
