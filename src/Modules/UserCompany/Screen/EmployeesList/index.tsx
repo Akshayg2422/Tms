@@ -21,7 +21,7 @@ function EmployeesList() {
     console.log(employees)
     const { company_branch } = dashboardDetails || ''
     console.log('11111111111111111111',);
-    
+
 
     useEffect(() => {
         getCompanyEmployeesApi()
@@ -85,85 +85,5 @@ function EmployeesList() {
     )
 }
 
-// function EmployeesList() {
-//     const dispatch = useDispatch();
-//     const { goTo } = useNavigation();
-//     const { employees, selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-//     // const { dashboardDetails, employeeTimelineList, employeesl, employeeslCurrentPages, employeeslNumOfPages } = useSelector((state: any) => state.UserCompanyReducer);
-//     const { company_branch } = dashboardDetails || ''
-
-
-//     // useEffect(() => {
-//     //     getEmployeesHandler()
-//     // }, [])
-
-//     const getEmployeesHandler = (() => {
-//         const params = { branch_id: selectedCompany.branch_id };
-//         dispatch(
-//             getEmployees({
-//                 params,
-//                 onSuccess: (response: any) => () => {
-//                 },
-//                 onError: (error) => () => {
-//                 },
-//             })
-
-//         )
-//     })
-
-//     const normalizedEmployeesTableData = (data: any) => {
-//         console.log('dataaaaaaaaaaa---------->',data);
-
-//         if (data && data?.length > 0) {
-//             return data?.map((el: any) => {
-//                 return {
-
-//                     Name: el?.name,
-//                     PhoneNo: el?.mobile_number,
-//                     '': <Button className={'text-white'} text={'View'} size='sm' onClick={() => { goTo(ROUTES['user-company-module']['employee-time-sheet']); }} />
-//                 }
-//             }
-//             )
-//         }
-//     }
-
-
-
-//     return (
-//         <div className='m-3'>
-//             <Card >
-//                 <div className={'row justify-content-between'}>
-//                     <div className='h4 text-muted'>
-//                         {company_branch?.name}
-//                     </div>
-
-//                     <div>
-//                         <Button className={'text-white'} text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.ADD_USER) }} />
-//                     </div>
-//                 </div>
-//                 <div
-//                     style={{
-
-//                         marginLeft: "-23px",
-//                         marginRight: "-23px"
-//                     }}
-//                 >
-
-//                     {employees && employees.length > 0 && <CommonTable
-//                         isPagination
-//                         tableDataSet={employees}
-//                         displayDataSet={normalizedEmployeesTableData(employees)}
-//                         tableOnClick={(idx, index, item) => {
-//                             dispatch(setSelectedEmployee(item));
-//                         }}
-//                     />
-//                     }
-
-//                 </div>
-//             </Card>
-
-//         </div>
-//     )
-// }
 
 export { EmployeesList }
