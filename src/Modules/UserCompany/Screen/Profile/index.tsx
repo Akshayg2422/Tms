@@ -22,6 +22,7 @@ function Profile() {
   );
   const dispatch = useDispatch()
   const { goTo } = useNavigation()
+  
   const Url = 'https://res.cloudinary.com/demo/basketball_shot.jpg';
 
   const userProfileEdit = (item) => {
