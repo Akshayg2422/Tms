@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
@@ -11,6 +11,18 @@ import { NoRecordsFound, Table, Button } from '@Components';
 
 function CollapseButton({ title, children, displayDataSet, tableDataSet, tableOnClick, text, onClick, childrenS, selectedIds, selectedId }: AuthContainerProps) {
   const [openedCollapses, setOpenedCollapses] = useState<any>([selectedId])
+  console.log(selectedId,'sseeelle')
+let currentDate=new Date
+  let currentDay=currentDate.getDate()
+  let currentMonth=currentDate.getMonth()
+  let currentYear=currentDate.getFullYear()
+ 
+  let dateFormate=`${currentYear}-${currentMonth}-${currentDay}`
+  console.log(dateFormate,"lll")
+  useEffect(()=>{
+    collapsesToggle('2023-05-29')
+
+  },[])
   const collapsesToggle = (collapse) => {
     let openedCollapser = openedCollapses;
     if (openedCollapses.includes(collapse)) {
@@ -20,7 +32,14 @@ function CollapseButton({ title, children, displayDataSet, tableDataSet, tableOn
 
     }
   };
+  
 
+
+const year = title.getFullYear();
+const month = title.toLocaleString('default', { month: 'long' });
+const date = title.getDate();
+
+const formattedDate = `${month} ${date}, ${year}`;
 
   return (
     <div className="accordion">
@@ -37,8 +56,7 @@ function CollapseButton({ title, children, displayDataSet, tableDataSet, tableOn
         >
           <div className='row'>
             <div className='col'>
-              {children}
-              {/* <h4>{title}</h4> */}
+             { formattedDate}
             </div>
             <div className='col-auto mr-4'>
               <Button className={'text-white'} text={text} size='sm' onClick={onClick} />
@@ -50,7 +68,7 @@ function CollapseButton({ title, children, displayDataSet, tableDataSet, tableOn
           role="tabpanel"
           isOpen={openedCollapses.includes(selectedIds)}
         >
-          <CardBody>
+          <CardBody className='pb-6 shadow-none'>
             {childrenS}
             <div style={{
 
