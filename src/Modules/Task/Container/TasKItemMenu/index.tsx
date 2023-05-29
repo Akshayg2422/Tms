@@ -51,15 +51,12 @@ function TaskItemMenu() {
     const [taggedUsers, setTaggedUsers] = useState([])
     const [reassignUser, setReassignUser] = useState<any>({})
 
-
-
     function proceedAddTaskEvents(taskEventParams: any) {
 
         const params = {
             ...(taskEventParams && { ...taskEventParams }),
             id: selectedTask.id
         };
-
 
 
         dispatch(addTaskEvent({

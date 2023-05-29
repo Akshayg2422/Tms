@@ -639,18 +639,18 @@ function* addGroupUserSaga(action) {
 
 //get group 
 
-function* getGroupSaga(action) {
+function* getChatGroupsSaga(action) {
   try {
-    const response = yield call(Api.getGroupApi, action.payload.params);
+    const response = yield call(Api.getChatGroupsApi, action.payload.params);
     if (response.success) {
-      yield put(Action.getGroupSuccess(response));
+      yield put(Action.getChatGroupsSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
-      yield put(Action.getGroupFailure(response));
+      yield put(Action.getChatGroupsFailure(response));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(Action.getGroupFailure(error));
+    yield put(Action.getChatGroupsFailure(error));
     yield call(action.payload.onError(error));
   }
 }
@@ -692,7 +692,7 @@ function* UserCompanySaga() {
   yield takeLatest(Action.ADD_GROUP_MESSAGE, addGroupsMessageSaga);
   yield takeLatest(Action.GET_SUB_GROUP, getSubGroupSaga);
   yield takeLatest(Action.ADD_GROUP_USER, addGroupUserSaga);
-  yield takeLatest(Action.GET_GROUP, getGroupSaga)
+  yield takeLatest(Action.GET_CHAT_GROUPS, getChatGroupsSaga)
 
 }
 

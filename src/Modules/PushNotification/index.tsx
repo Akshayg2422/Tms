@@ -14,10 +14,11 @@ const MAX_LENGTH = 70
 
 const PushNotification = () => {
 
-    const NOTI_TYPE_GROUP_MESSAGE = 'GROUP_MESSAGE'
+    const NOTIFICATION_TASK_RAISED = 'TASK_RAISED'
+    const NOTIFICATION_TICKET_RAISED = 'TICKET_RAISED'
+    const NOTIFICATION_BROADCAST_MESSAGE = 'BROADCAST_MESSAGE'
+    const NOTIFICATION_GROUP_MESSAGE = 'GROUP_MESSAGE'
     const NOTIFICATION_TASK_CHANNEL_EVENT = 'TASK_CHANNEL_EVENT'
-
-
 
     const { goTo } = useNavigation();
     const [notification, setNotification] = useState<any>([]);
@@ -30,7 +31,6 @@ const PushNotification = () => {
             });
         });
     };
-
 
     function ToastDisplay({ data }: any) {
         const MAX_LENGTH = 50;
@@ -63,44 +63,27 @@ const PushNotification = () => {
         }
     }, [notification])
 
-
     const routingHandler = (payload: any) => {
 
         const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
 
-        if (route_type === NOTI_TYPE_GROUP_MESSAGE) {
+        if (route_type === NOTIFICATION_GROUP_MESSAGE) {
             goTo(ROUTES['user-company-module'].Groups);
         }
-        //     else if (route_type === NOTI_TYPE_LEAVE_REQUEST) {
-        //         goTo(navigation, ROUTE.ROUTE_MY_LEAVES);
-        //     }
-        //     else if (route_type === NOTI_TYPE_LEAVE_REQUEST_AD) {
-        //         goTo(navigation, ROUTE.ROUTE_LEAVE_REQUEST);
-        //     }
-        //     else if (route_type === NOTI_TYPE_SHIFT_REQUEST) {
-        //         goTo(navigation, ROUTE.ROUTE_EMPLOYEE_SHIFT_REQUEST);
-        //     }
-        //     else if (route_type === NOTI_TYPE_SHIFT_REQUEST_AD) {
-        //         goTo(navigation, ROUTE.ROUTE_SHIFT_REQUEST);
-        //     }
-        //     else if (route_type === NOTI_TYPE_FACE_RR_REQUEST_AD) {
-        //         goTo(navigation, ROUTE.ROUTE_FACE_RE_REGISTER_REQUEST);
-        //     }
-        //     else if (route_type === NOTI_TYPE_FACE_APPROVAL_REQUEST_AD) {
-        //         goTo(navigation, ROUTE.ROUTE_FACE_RE_REQUEST);
-        //     }
-        //     else if (route_type === NOTI_TYPE_MODIFY_LOG_REQUEST_AD) {
-        //         goTo(navigation, ROUTE.ROUTE_MODIFY_LOGS);
-        //     }
-        //     else if (route_type === NOTI_TYPE_MY_SHIFTS) {
-        //         goTo(navigation, ROUTE.ROUTE_MY_SHIFTS_DETAILS);
-        //     }
-        //     else {
-        //         // goTo(navigation, ROUTE.ROUTE_MY_NOTIFICATION);
-        //     }
+        else if (route_type === NOTIFICATION_TASK_RAISED) {
+            goTo(ROUTES["task-module"].tasks)
+        }
+        else if (route_type === NOTIFICATION_TICKET_RAISED) {
+            goTo(ROUTES['ticket-module'].tickets)
+        }
+        else if (route_type === NOTIFICATION_BROADCAST_MESSAGE) {
+            goTo(ROUTES['message-module'].broadcast)
+        }
+        else {
+            goTo(ROUTES['user-company-module'].Groups)
+        }
 
     }
-
 
     onMessageListener()
         .then((payload: any) => {
@@ -113,7 +96,7 @@ const PushNotification = () => {
 
             const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
 
-            if (route_type === NOTI_TYPE_GROUP_MESSAGE) {
+            if (route_type === NOTIFICATION_GROUP_MESSAGE) {
                 try {
                     dispatch(refreshGroupEvents())
                 } catch (e) {

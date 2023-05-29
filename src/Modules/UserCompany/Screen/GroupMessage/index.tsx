@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { getGroupMessage } from '@Redux'
-import { TimeLine, Spinner, Image, Modal, Card } from '@Components'
+import { TimeLine, Spinner, Image, Modal, Card, ImageDownloadButton } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
@@ -11,12 +11,11 @@ import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-function GroupMessage({ selectedGroup
-}: GroupMessageProps) {
+function GroupMessage({ }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshGroupEvents } = useSelector((state: any) => state.UserCompanyReducer);
+    const { refreshGroupEvents, selectedGroupChatCode } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
@@ -24,11 +23,9 @@ function GroupMessage({ selectedGroup
     const imageModal = useModal(false)
 
 
-
-
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
-    }, [refreshGroupEvents, selectedGroup])
+    }, [refreshGroupEvents, selectedGroupChatCode])
 
     function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -43,12 +40,11 @@ function GroupMessage({ selectedGroup
 
     const getGroupMessageApi = (page_number: number) => {
         const params = {
-            group_id: selectedGroup,
+            group_id: selectedGroupChatCode,
             page_number
         }
 
-        if (selectedGroup) {
-
+        if (selectedGroupChatCode) {
             dispatch(
                 getGroupMessage({
                     params,
@@ -138,11 +134,13 @@ function GroupMessage({ selectedGroup
                         }
                     }
                     }>
+
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((task: any, index: number) => {
                             const { icon, title, subTitle, created_at, attachments } = task
                             const showDotLine = index !== 0
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                            console.log("==============>Task", task);
 
                             return (
                                 <TimeLine
@@ -155,14 +153,23 @@ function GroupMessage({ selectedGroup
                                         imageModal.show()
                                         setImage(imageUrls)
                                     }} >
-                                        <div>
-                                            {
-                                                imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                                    return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
-                                                })
-                                            }
-                                        </div>
+                                        {
+                                            imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
+                                                return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                            })
+                                        }
                                     </div>
+
+                                    <div>
+                                        {
+                                            imageUrls && imageUrls.length > 0 && (
+                                                <ImageDownloadButton Url={imageUrls} title={title} />
+                                            )
+
+                                        }
+                                    </div>
+
+
                                 </TimeLine>)
                         })
                     }

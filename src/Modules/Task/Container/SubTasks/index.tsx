@@ -17,12 +17,9 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
 
-
     useEffect(() => {
         getSubTasksApi()
     }, [id])
-
-
 
     function getSubTasksApi() {
         const params = {
@@ -38,15 +35,18 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         }))
     }
     const normalizedTableData = (data: any) => {
-        return data?.map((el: any) => {
-            return {
-                "Sub task":
-                    <div className='row'>
-                        <Priority priority={el?.priority} />
-                        <span className="ml-2">{el?.title}</span>
-                    </div>
-            };
-        });
+        if (data && data.length > 0) {
+            return data?.map((el: any) => {
+                return {
+                    "Sub task":
+                        <div className='row'>
+                            <Priority priority={el?.priority} />
+                            <span className="ml-2">{el?.title}</span>
+                        </div>
+                };
+            });
+        }
+        return []
     };
 
     return (
