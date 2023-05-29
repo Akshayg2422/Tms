@@ -154,7 +154,7 @@ function Companies() {
 
               }} />
             :
-            <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={'Add Company'} onClick={() => {
+            <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={translate("common.addCompany")!} onClick={() => {
               goTo(ROUTES["user-company-module"]["add-company"]);
             }} isButton /></div>
 
@@ -167,7 +167,7 @@ function Companies() {
         {
           <div className="col mt--4">
             <DropDown
-              heading={'SELECTED COMPANIES :'}
+              heading={translate('order.SELECTED COMPANIES :')}
               data={getAssociatedCompanyDropDownDisplayData(associatedCompany)}
               onChange={(item) => {
                 associatedCompanyDropDown.onChange(item)
@@ -187,7 +187,7 @@ function Companies() {
                 }} />
             </div>
 
-            <div className={'text-xs text-muted mb-2'}>Can't find Company?</div>
+            <div className={'text-xs text-muted mb-2'}>{translate("order.Can't find Company?")}</div>
 
             <Button
               className={'text-white'}

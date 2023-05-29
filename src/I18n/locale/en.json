@@ -224,7 +224,34 @@
     "yesterday": "Yesterday",
     "allEmployeesAreRequestedSurvey": "All employees are requested survey",
     "showTheQRCodeForEasyCheckin": "Show the QR Code for easy check in",
-    "paulRaymond": "paul_raymond"
+    "paulRaymond": "paul_raymond",
+    "please select a task priority...":"please select a task priority...",
+    "Select a company":"Select a company",
+    "Select a Designation":"Select a Designation",
+    "Select a Department":"Select a Department",
+    "please select a user":"please select a user",
+    "Select a Group":"Select a Group",
+    "please select a ticket priority":"please select a ticket priority",
+    "Can't find Company?":"Can't find Company?",
+    "SELECTED COMPANIES :":"SELECTED COMPANIES :",
+    "CREATE POST":"CREATE POST",
+    "CREATE EVENT":"CREATE EVENT",
+    "ADD EVENT":"ADD EVENT",
+    "Place":"Place",
+    "Start Time":"Start Time",
+    "end Time":"end Time",
+    "Create Meeting":"Create Meeting",
+    "Title":"Title",
+    "Meeting Schedule":"Meeting Schedule",
+    "Schedule Date":"Schedule Date",
+    "Employee list":"Employee list",
+    "Select All":"Select All",
+    "Search student":"Search student",
+    "Selected List":"Selected List",
+    "Session":"Session",
+    "Members":"Members",
+    "Add":"Add",
+    "Write your comment":"Write your comment"
   },
   "course": {
     "course": "Course",
@@ -257,6 +284,7 @@
     "secondScreen": {
       "Efficient Resolution": "Efficient Resolution",
       "subText": "Quanta Ticket Management ensures that issues are resolved quickly and effectively. The app assigns the issue to the most suitable department and provides an efficient workflow for tracking the progress of the ticket. This allows users to keep track of their tickets and ensure that any issues are resolved in a timely manner."
+      
     },
     "thirdScreen": {
       "Efficieny and Collaboration": "Efficieny and Collaboration",

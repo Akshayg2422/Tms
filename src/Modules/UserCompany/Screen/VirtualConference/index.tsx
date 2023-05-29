@@ -1,6 +1,7 @@
 import { icons } from '@Assets'
 import { Back, Button, Card, Image } from '@Components'
 import { useNavigation, useWindowDimensions } from '@Hooks'
+import { translate } from '@I18n'
 import { getTokenByUser, getVideoConferenceList } from '@Redux'
 import { ROUTES } from '@Routes'
 import classnames from 'classnames'
@@ -73,7 +74,7 @@ function VirtualConference() {
             className='container py-4'>
             <div className='row ml-1 mt--2'>
                 <Back />
-                <h3 className=' ml-2'>Session</h3>
+                <h3 className=' ml-2'>{translate('order.Session')}</h3>
             </div>
             <div>
                 <Card className='100vh'>
@@ -81,7 +82,7 @@ function VirtualConference() {
                         <Button
                             className={'text-white'}
                             size='sm'
-                            text={"Create Meeting"}
+                            text={translate("order.Create Meeting")}
                             onClick={() => {
                                 goTo(ROUTES['user-company-module']['schedule-meeting'], false)
                             }}

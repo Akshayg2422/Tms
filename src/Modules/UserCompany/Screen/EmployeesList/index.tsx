@@ -55,7 +55,7 @@ function EmployeesList() {
                         </div>,
                     phone: el?.mobile_number,
                     email: el?.email,
-                    '': <Button className={'text-white'} text={'View'} size='sm' onClick={() => { goTo(ROUTES['user-company-module']['employee-time-sheet']); }} />
+                    '': <Button className={'text-white'} text={translate("course.view")} size='sm' onClick={() => { goTo(ROUTES['user-company-module']['employee-time-sheet']); }} />
 
                 };
             });

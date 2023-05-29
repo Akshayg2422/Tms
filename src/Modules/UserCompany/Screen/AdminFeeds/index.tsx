@@ -194,7 +194,7 @@ function AdminFeeds() {
       {broadCastDetails && broadCastDetails.length > 0 ?
         <div className="col-8 text-right my-1">
           <Button
-            text={translate('common.create Post')}
+            text={translate("order.CREATE POST")}
             className="text-white"
             size={"sm"}
             onClick={proceedCreatePost}
@@ -366,6 +366,7 @@ function AdminFeeds() {
 }
 
 export { AdminFeeds }
+
 function goBack() {
   throw new Error("Function not implemented.");
 }

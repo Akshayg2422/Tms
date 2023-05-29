@@ -195,7 +195,7 @@ function Events() {
       {events && events.length > 0 ?
         <div className="col-9 text-right my-1">
           <Button
-            text={'CREATE EVENT'}
+            text={translate('order.CREATE EVENT')}
             className="text-white"
             size={"sm"}
             onClick={proceedCreateEvent}

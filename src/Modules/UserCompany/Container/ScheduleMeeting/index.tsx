@@ -1,6 +1,7 @@
 import { icons } from '@Assets';
 import { Back, Button, Card, DateTimePicker, Input, InputHeading, Image } from '@Components';
 import { useDynamicHeight, useNavigation } from '@Hooks';
+import { translate } from '@I18n';
 import { getEmployeesl, postVideoConference } from '@Redux';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -115,7 +116,7 @@ function ScheduleMeeting() {
         <div className='container py-4'>
             <div className='row ml-1 mt--2'>
                 <Back />
-                <h3 className=' ml-2'>Meeting Schedule</h3>
+                <h3 className=' ml-2'>{translate('order.Meeting Schedule')}</h3>
             </div>
             <Card>
 
@@ -124,10 +125,10 @@ function ScheduleMeeting() {
                     <div className=' col-sm-3'>
                         <InputHeading
                             id={"Title"}
-                            heading={"Title"}
+                            heading={translate('order.Title')}
                         />
                         <Input
-                            placeholder='Title'
+                            placeholder={translate("order.Title")}
                             id='Title'
                             onChange={(e) => {
                                 setRoomTitle(e.target.value)
@@ -138,8 +139,8 @@ function ScheduleMeeting() {
                         <DateTimePicker
                             // disableFuture={true}
                             format='YYYY-MM-DD'
-                            heading={"Schedule Date"}
-                            placeholder={"Schedule Date"}
+                            heading={translate("order.Schedule Date")}
+                            placeholder={translate("order.Schedule Date")!}
                             value={''}
                             onChange={(e) => { setScheduleDate(e) }}
                         />
@@ -147,7 +148,7 @@ function ScheduleMeeting() {
                     <div className='col-sm-3'>
                         <InputHeading
                             id={"Start Time"}
-                            heading={"Start Time"}
+                            heading={translate("order.Start Time")}
                         />
                         <Input
                             defaultValue="10:30:00"
@@ -161,7 +162,7 @@ function ScheduleMeeting() {
                     <div className='col-sm-3'>
                         <InputHeading
                             id={"End Time"}
-                            heading={"End Time"}
+                            heading={translate("order.end Time")}
                         />
                         <Input
                             defaultValue="10:30:00"
@@ -180,10 +181,11 @@ function ScheduleMeeting() {
                 <div className='col-sm-6'>
                     <Card style={{ height: dynamicHeight.dynamicWidth <= 1400 ? dynamicHeight.dynamicHeight + 330 : dynamicHeight.dynamicHeight - 50 }}>
                         <div className='mb-4 d-flex justify-content-between mr-3'>
-                            <h3 className=''>{"Employee list"}</h3>
+                            <h3 className=''>{translate("order.Employee list")}</h3>
                             <div className=''>
                                 <Button
-                                    text={"Select All"}
+                                    text={translate("order.Select All")}
+                                    size={'sm'}
                                     onClick={() => {
                                         addSelectedEmployeeDetails(employeesl, 'Select All')
                                     }}
@@ -194,7 +196,7 @@ function ScheduleMeeting() {
                             <div className='col-sm-8 ml--3  mt--4'>
                                 <Input
                                     // heading={'Search Student'}
-                                    placeholder={'Search student'}
+                                    placeholder={translate('order.Search student')}
                                     value={searchAddedStudent}
                                     onChange={(e) => {
                                         setSearchAddedStudent(e.target.value)
@@ -249,7 +251,7 @@ function ScheduleMeeting() {
                 <div className='col-sm-6'>
                     <Card style={{ height: dynamicHeight.dynamicWidth <= 1400 ? dynamicHeight.dynamicHeight + 330 : dynamicHeight.dynamicHeight - 50 }}>
                         <div className='mb-4 d-flex justify-content-between mr-3'>
-                            <h3 className='mb-4'>{"Selected List"}</h3>
+                            <h3 className='mb-4'>{translate("order.Selected List")}</h3>
                             <div className=''>
                                 <Button
                                     text={"Remove All"}
@@ -300,7 +302,7 @@ function ScheduleMeeting() {
                         </div>
                         <div className='text-right mb--3'>
                             <Button
-                                text={"Submit"}
+                                text={translate("common.submit")}
                                 size='lg'
                                 onClick={() => {
                                     addEmployeeDetailsToScheduleMeeting()

@@ -56,6 +56,7 @@
         "addSubTask": "துணைப் பணியைச் சேர்க்கவும்",
         "createTask": "உருவாக்குபணி",
         "addNew": "புதிதாக சேர்க்கவும்",
+        "addCompany": "நிறுவனத்தைச் சேர்",
         "assignedTo": "ஒதுக்கப்பட்டது",
         "codeTitle": "குறியீடு தலைப்பு",
         "Priority" : "முன்னுரிமை",
@@ -211,7 +212,34 @@
         "yesterday": "நேற்று",
         "allEmployeesAreRequestedSurvey": "அனைத்து ஊழியர்களும் கணக்கெடுப்பு கோரப்படுகிறார்கள்",
         "showTheQRCodeForEasyCheckin": "எளிதாக செக் -இன் செய்ய  QR  கோட் காட்டுங்கள்",
-        "paulRaymond": "paul_raymond"
+        "paulRaymond": "paul_raymond",
+        "please select a task priority...":"பணி முன்னுரிமையைத் தேர்ந்தெடுக்கவும்...",
+        "Select a company":"ஒரு நிறுவனத்தைத் தேர்ந்தெடுக்கவும்",
+        "Select a Designation":"ஒரு பதவியைத் தேர்ந்தெடுக்கவும்",
+        "Select a Department":"ஒரு துறையைத் தேர்ந்தெடுக்கவும்",
+        "please select a user":"ஒரு பயனரைத் தேர்ந்தெடுக்கவும்",
+        "Select a Group":"ஒரு குழுவைத் தேர்ந்தெடுக்கவும்",
+        "please select a ticket priority":"டிக்கெட் முன்னுரிமையைத் தேர்ந்தெடுக்கவும்",
+        "Can't find Company?":"நிறுவனத்தைக் கண்டுபிடிக்க முடியவில்லையா?",
+        "SELECTED COMPANIES :":"தேர்ந்தெடுக்கப்பட்ட நிறுவனங்கள்:",
+        "CREATE POST":"இடுகையை உருவாக்கவும்",
+        "CREATE EVENT":"நிகழ்வை உருவாக்கவும்",
+        "ADD EVENT":"நிகழ்வைச் சேர்",
+        "Place":"இடம்",
+        "Start Time":"ஆரம்பிக்கும் நேரம்",
+        "end Time":"இறுதி நேரம்",
+        "Create Meeting":"கூட்டத்தை உருவாக்கவும்",
+        "Title":"தலைப்பு",
+        "Meeting Schedule":"சந்திப்பு அட்டவணை",
+        "Schedule Date":"அட்டவணை தேதி",
+        "Employee list":"பணியாளர் பட்டியல்",
+        "Select All":"அனைத்தையும் தெரிவுசெய்",
+        "Search student":"மாணவர் தேடு",
+        "Selected List":"தேர்ந்தெடுக்கப்பட்ட பட்டியல்",
+        "Session":"அமர்வு",
+        "Members":"உறுப்பினர்கள்",
+        "Add":"கூட்டு",
+        "Write your comment":"உங்கள் கருத்தை எழுதுங்கள்"
     },
     "course": {
         "course": "நிச்சயமாக",
@@ -219,4 +247,5 @@
         "hide": "மறை",
         "start": "தொடங்கு"
     }
+   
 }

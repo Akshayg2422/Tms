@@ -90,10 +90,10 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
             <Card className={'h-100'}>
                 <div className='row'>
                     <div className='col'>
-                        <h5 className="h3 mb-0">{'Members'}</h5>
+                        <h5 className="h3 mb-0">{translate('order.Members')}</h5>
                     </div>
                     <div className='col-auto'>
-                        <Button text={'Add'} size='sm' onClick={() => {
+                        <Button text={translate('order.Add')} size='sm' onClick={() => {
                             addUserModal.show()
 
 
