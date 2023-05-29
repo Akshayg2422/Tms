@@ -4,7 +4,7 @@ import { getMomentObjFromServer, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_H
 import {
   addEmployeeTimeline,
   getAssignedTask,
-  getEmployeesl,
+  // getEmployeesl,
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
@@ -13,8 +13,8 @@ import { icons } from '@Assets';
 import AutoSearchInput from '@Components//Core/AutoSearchInput';
 import { ROUTES } from '@Routes'
 import { useNavigation } from '@Hooks'
-import { INITIAL_PAGE } from '@Utils'
-import InfiniteScroll from 'react-infinite-scroll-component';
+// import { INITIAL_PAGE } from '@Utils'
+// import InfiniteScroll from 'react-infinite-scroll-component';
 import { translate } from "@I18n";
 import moment from 'moment';
 function MyTimeSheet() {
@@ -36,18 +36,12 @@ function MyTimeSheet() {
   let currentDate = getDisplayDateFromMoment(getMomentObjFromServer(new Date()))
   const [formattedShift, setFormattedShift] = useState<any>('')
 
-
-
   //start date
   const [startDate, setStartDate] = useState(moment().startOf('week'))
   const [endDate, setEndDate] = useState(moment().endOf('week'))
-  const [currentWeek, setCurrentWeek] = useState(0)
+  const [currentDates, setCurrentDates] = useState(new Date());
 
-
-
-
-  const { employeeTimeline, employeeTimelineCurrentPages } = useSelector((state: any) => state.UserCompanyReducer);
-  const [employeeTimelineDisplayData, setEmployeeTimelineDisplayData] = useState({ keys: [], data: {} })
+  const { employeeTimeline} = useSelector((state: any) => state.UserCompanyReducer);
   const getGroupMenuItem = [
     { id: '0', name: "Edit", icon: icons.edit },
 
@@ -57,7 +51,7 @@ function MyTimeSheet() {
   useEffect(() => {
 
     getEmployeesTimeList()
-  }, [currentWeek])
+  }, [startDate])
 
   useEffect(() => {
     getAssignedTaskList()
@@ -83,12 +77,13 @@ function MyTimeSheet() {
       dates.push(currentDate.format("YYYY-MM-DD"));
       currentDate.add(1, "day");
     }
+   
     return dates;
+    
   };
 
   //shift with date
   const dateWithTask = () => {
-
     const convertedShift: any = []
     getDatesBetween(startDate, endDate) && getDatesBetween(startDate, endDate).length > 0 &&
       getDatesBetween(startDate, endDate).map((date: any) => {
@@ -102,38 +97,39 @@ function MyTimeSheet() {
 
     return convertedShift
   }
-  //previous week
-  const getPreviousWeekDates = () => {
-    const currentDate = moment();
-    console.log(currentDate, "current previous")
-    const week = 1 - currentWeek
-    console.log(week, "previous week")
-    const startOfWeek = currentDate.clone().startOf("isoWeek").subtract(week, "week");
-    const endOfWeek = currentDate.clone().endOf("isoWeek").subtract(week, "week");
-    setStartDate(startOfWeek)
-    setEndDate(endOfWeek)
-    setCurrentWeek(week)
+
+
+///working tester
+
+
+  const getPreviousWeekDates  = () => {
+    const updatedDate = new Date(currentDates);
+    updatedDate.setDate(updatedDate.getDate() - 7);
+    setCurrentDates(updatedDate);
+    displayWeekDates(updatedDate);
   };
 
-  //current weekl
   const getNextWeekDates = () => {
-    const currentDate = moment();
-    const week = 1 - currentWeek
-    const startOfWeek = currentDate.clone().startOf("isoWeek").add(week, "week");
-    const endOfWeek = currentDate.clone().endOf("isoWeek").add(week, "week");
-    setStartDate(startOfWeek)
-    setEndDate(endOfWeek)
-    setCurrentWeek(week)
+    const updatedDate = new Date(currentDates);
+    updatedDate.setDate(updatedDate.getDate() + 7);
+    setCurrentDates(updatedDate);
+    displayWeekDates(updatedDate);
+  };
+
+  const displayWeekDates = (date) => {
+    const currentDay = date.getDay();
+    const startDate = new Date(date);
+    startDate.setDate(startDate.getDate() - currentDay);
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 6);
+     setStartDate(moment(startDate))
+      setEndDate(moment(endDate))
+
   };
 
 
-
-  //shift days
 
   const dateWithTasks = (response: any) => {
-
-
-
     const TaskWithDates = [...dateWithTask()]
     let modifiedData = [...TaskWithDates]
 
@@ -196,6 +192,8 @@ function MyTimeSheet() {
 
     )
   }
+
+
   function restValue() {
     setStatTimeEta('')
     setEndTimeEta('')
@@ -363,7 +361,6 @@ function MyTimeSheet() {
 
         <div>
           {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
-
 
             return (
 
