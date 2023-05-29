@@ -111,6 +111,8 @@ function AddSubTask() {
                         return { ...item, designation: item?.designation?.name, department: item?.department?.name }
                     });
                     setCompanyUsers(companiesUser);
+
+                    console.log(companiesUser,"lllllllnnnnnnn")
                 },
                 onError: (error) => () => {
                 },
@@ -268,7 +270,8 @@ function AddSubTask() {
 
 
 
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && <AutoSearchInput
+                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && 
+                <AutoSearchInput
                     heading={translate("common.user")!}
                     placeholder={'please select a user...'}
                     data={companyUsers}

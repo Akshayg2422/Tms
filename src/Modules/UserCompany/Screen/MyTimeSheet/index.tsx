@@ -4,7 +4,7 @@ import { getMomentObjFromServer, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_H
 import {
   addEmployeeTimeline,
   getAssignedTask,
-  getEmployeesl,
+  // getEmployeesl,
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
@@ -13,11 +13,11 @@ import { icons } from '@Assets';
 import AutoSearchInput from '@Components//Core/AutoSearchInput';
 import { ROUTES } from '@Routes'
 import { useNavigation } from '@Hooks'
-import { INITIAL_PAGE } from '@Utils'
-import InfiniteScroll from 'react-infinite-scroll-component';
+// import { INITIAL_PAGE } from '@Utils'
+// import InfiniteScroll from 'react-infinite-scroll-component';
 import { translate } from "@I18n";
 import moment from 'moment';
-function MyPortfolio() {
+function MyTimeSheet() {
   const dispatch = useDispatch();
   const addEtaTime = useModal(false);
   const editEtaTime = useModal(false);
@@ -34,15 +34,28 @@ function MyPortfolio() {
   const [selectedTask, setSelectedTask] = useState<any>('')
   const editDescriptions = useInput('')
   let currentDate = getDisplayDateFromMoment(getMomentObjFromServer(new Date()))
-  const { employeeTimeline, employeeTimelineCurrentPages } = useSelector((state: any) => state.UserCompanyReducer);
-  const [employeeTimelineDisplayData, setEmployeeTimelineDisplayData] = useState({ keys: [], data: {} })
+  const [formattedShift, setFormattedShift] = useState<any>('')
+
+  //start date
+  const [startDate, setStartDate] = useState(moment().startOf('week'))
+  const [endDate, setEndDate] = useState(moment().endOf('week'))
+  const [currentDates, setCurrentDates] = useState(new Date());
+
+  const { employeeTimeline} = useSelector((state: any) => state.UserCompanyReducer);
   const getGroupMenuItem = [
     { id: '0', name: "Edit", icon: icons.edit },
 
   ]
+
+
+  useEffect(() => {
+
+    getEmployeesTimeList()
+  }, [startDate])
+
   useEffect(() => {
     getAssignedTaskList()
-    getEmployeesTimeList(INITIAL_PAGE)
+    // getEmployeesTimeList(INITIAL_PAGE)
   }, [])
 
 
@@ -54,10 +67,84 @@ function MyPortfolio() {
     }
   }, [employeeTimeline])
 
+  //start  date end date
+
+  const getDatesBetween = (startDate, endDate) => {
+    const dates: any = [];
+    const currentDate = moment(startDate);
+
+    while (currentDate.isSameOrBefore(endDate, "day")) {
+      dates.push(currentDate.format("YYYY-MM-DD"));
+      currentDate.add(1, "day");
+    }
+   
+    return dates;
+    
+  };
+
+  //shift with date
+  const dateWithTask = () => {
+    const convertedShift: any = []
+    getDatesBetween(startDate, endDate) && getDatesBetween(startDate, endDate).length > 0 &&
+      getDatesBetween(startDate, endDate).map((date: any) => {
+        const normalizedShift = {
+          date: date,
+
+        }
+        convertedShift.push(normalizedShift)
+      })
 
 
-  
+    return convertedShift
+  }
 
+
+///working tester
+
+
+  const getPreviousWeekDates  = () => {
+    const updatedDate = new Date(currentDates);
+    updatedDate.setDate(updatedDate.getDate() - 7);
+    setCurrentDates(updatedDate);
+    displayWeekDates(updatedDate);
+  };
+
+  const getNextWeekDates = () => {
+    const updatedDate = new Date(currentDates);
+    updatedDate.setDate(updatedDate.getDate() + 7);
+    setCurrentDates(updatedDate);
+    displayWeekDates(updatedDate);
+  };
+
+  const displayWeekDates = (date) => {
+    const currentDay = date.getDay();
+    const startDate = new Date(date);
+    startDate.setDate(startDate.getDate() - currentDay);
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 6);
+     setStartDate(moment(startDate))
+      setEndDate(moment(endDate))
+
+  };
+
+
+
+  const dateWithTasks = (response: any) => {
+    const TaskWithDates = [...dateWithTask()]
+    let modifiedData = [...TaskWithDates]
+
+    let consolidatedShift = modifiedData.map(each => {
+
+      const taskListedArray = response?.filter(filter => {
+        return moment(filter?.created_at).format("YYYY-MM-DD") === each.date
+      })
+      return { ...each, taskListedArray }
+
+    })
+
+    setFormattedShift(consolidatedShift)
+
+  }
 
   const handleStartTimeEtaChange = (value: any) => {
     setStatTimeEta(value)
@@ -84,14 +171,19 @@ function MyPortfolio() {
 
   };
 
+  const getEmployeesTimeList = () => {
 
-  const getEmployeesTimeList = (page_number: number) => {
-
-    const params = { timeline_by: "", page_number }
+    const params = {
+      from_date: startDate.format("YYYY-MM-DD"),
+      to_date: endDate.format("YYYY-MM-DD")
+    }
     dispatch(
       getEmployeeTimeline({
         params,
         onSuccess: (response) => () => {
+
+
+          dateWithTasks(response.details)
         },
         onError: (error) => () => {
 
@@ -100,6 +192,8 @@ function MyPortfolio() {
 
     )
   }
+
+
   function restValue() {
     setStatTimeEta('')
     setEndTimeEta('')
@@ -133,8 +227,6 @@ function MyPortfolio() {
               text: item.title, id: item.id
             }
 
-
-
           })
 
           const assignedTaskDetails = assignedTasks.map((item) => {
@@ -166,10 +258,14 @@ function MyPortfolio() {
       }
     })
 
-    setEmployeeTimelineDisplayData({
-      keys: Object.keys(modifiedData),
-      data: modifiedData
-    } as never)
+
+
+    // setEmployeeTimelineDisplayData({
+    //   keys: Object.keys(modifiedData),
+    //   data: modifiedData
+    // } as never)
+
+
   }
 
 
@@ -195,7 +291,7 @@ function MyPortfolio() {
           onSuccess: (response) => () => {
 
             addEtaTime.hide()
-            getEmployeesTimeList(INITIAL_PAGE)
+            getEmployeesTimeList()
             restValue()
             editRestValue()
 
@@ -248,53 +344,52 @@ function MyPortfolio() {
 
 
 
-
   return (
     <div className='m-3'>
-      {employeeTimelineDisplayData?.keys.length > 0 ?
-        <InfiniteScroll
-          dataLength={employeeTimelineDisplayData?.keys.length}
-          hasMore={employeeTimelineDisplayData?.keys.length !== -1}
-          loader={<h4>
-            {employeeTimelineCurrentPages === -1 ? '' : <Spinner />}
-          </h4>}
-          next={() => {
-            if (employeeTimelineCurrentPages !== -1) {
-              getEmployeesTimeList(employeeTimelineCurrentPages)
-            }
-          }
-          }>
 
-          <div>
-            {employeeTimelineDisplayData?.keys && employeeTimelineDisplayData?.keys?.length > 0 && employeeTimelineDisplayData?.keys?.map((el, index) => {
 
-              const dataset = Object.values(employeeTimelineDisplayData?.data)
-              return (
-
-                <CollapseButton
-                  selectedIds={employeeTimelineDisplayData?.keys[index]}
-                  selectedId={currentDate}
-                  children={
-                    <h5>{employeeTimelineDisplayData?.keys[index]}
-                    </h5>}
-                  tableDataSet={dataset[index]}
-                  displayDataSet={normalizedTableDatas(dataset[index])}
-                  onClick={() => {
-                    addEtaTime.show()
-
-                  }}
-                  text={translate('common.add')!}
-
-                />
-              )
-            })}
-          </div>
-        </InfiniteScroll>
-        : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
-          <NoDataFound buttonText={translate('common.add')!} isButton />
+      <div className='card mx--2 p-4' style={{ flexDirection: 'row' }}>
+        <div className="h3">{'This Week'}</div>
+        <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
+        <div>
+          <Image className="mx-2" src={icons.previousBackArrow} height={20} width={20} onClick={() => { getPreviousWeekDates() }} />
+          <Image className="mx-2" src={icons.nextArrow} height={20} width={20} onClick={() => { getNextWeekDates() }} />
         </div>
-      }
+      </div>
 
+      <>
+
+        <div>
+          {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
+
+            return (
+
+              <CollapseButton
+                selectedIds={formattedShift[index]?.date}
+                selectedId={currentDate}
+                children={
+                  <h5>{formattedShift[index]?.date}
+                  </h5>}
+                tableDataSet={formattedShift[index].taskListedArray}
+                displayDataSet={normalizedTableDatas(formattedShift[index].taskListedArray)}
+                onClick={() => {
+                  addEtaTime.show()
+                }}
+                text={translate('common.add')!}
+
+              />
+            )
+          })}
+        </div>
+
+      </>
+
+
+
+
+
+
+      {/* add modal */}
       <Modal
         isOpen={addEtaTime.visible}
         size={'md'}
@@ -424,4 +519,4 @@ function MyPortfolio() {
   )
 }
 
-export { MyPortfolio }
+export { MyTimeSheet }
