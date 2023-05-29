@@ -46,14 +46,16 @@ function ReferenceTasks() {
 
   const normalizedTableData = (data: any) => {
 
-    return data?.map((el: any) => {
-      return {
-        issue: el.title,
-        "raised by": el?.by_user.name,
-        status: getStatusFromCode(dashboardDetails, el.task_status),
-        "raised by company": el?.raised_by_company?.name
-      };
-    });
+    if (data && data.length > 0) {
+      return data?.map((el: any) => {
+        return {
+          issue: el.title,
+          "raised by": el?.by_user.name,
+          status: getStatusFromCode(dashboardDetails, el.task_status),
+          "raised by company": el?.raised_by_company?.name
+        };
+      });
+    }
   };
 
 

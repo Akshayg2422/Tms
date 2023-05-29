@@ -429,7 +429,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       // console.log('pa',JSON.stringify( page_number))
       state = {
         ...state,
-        employeeTimeline: page_number === 1 ? [] : state.employeeTimeline
+        // employeeTimeline: page_number === 1 ? [] : state.employeeTimeline
       };
 
       break;
@@ -439,8 +439,9 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       state = {
         ...state,
-        employeeTimeline: [...state.employeeTimeline, ...action.payload?.details?.data],
-        employeeTimelineCurrentPages: action.payload?.details?.next_page
+        // employeeTimeline: [...state.employeeTimeline, ...action.payload?.details?.data],
+        employeeTimeline:action.payload.details,
+        // employeeTimelineCurrentPages: action.payload?.details?.next_page
       };
 
       // state = {

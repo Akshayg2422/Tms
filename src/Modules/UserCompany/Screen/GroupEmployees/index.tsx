@@ -40,7 +40,6 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
                         if (selectedUsers && selectedUsers.length > 0) {
                             setDefaultSelectedUser(selectedUsers)
                         }
-
                     },
                     onError: () => () => {
 

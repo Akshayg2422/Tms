@@ -51,7 +51,7 @@ export function Tabs({ tabs, selected, onChange, height }: TabsProps) {
                   padding: "1rem",
                   textDecoration: "none",
                   color: "#32325d",
-                  background: selected?.id === item.id ? "#ffddee" : "#ffffff",
+                  background: selected?.id === item.id ? "#ffffff" : "#ffffff",
                 }}
                 onClick={() => { changeTab(item) }}
                 data-tab={item}
