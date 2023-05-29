@@ -5,7 +5,7 @@ import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
-import { MyFeedItem } from "@Modules";
+import {MyFeedItem} from '@Modules'
 import { addBroadCastMessages, getAssociatedCompanyBranch, getBroadCastMessages } from "@Redux";
 import { CREATE_BROAD_CAST_EXTERNAL, CREATE_BROAD_CAST_INTERNAL, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
@@ -194,7 +194,7 @@ function AdminFeeds() {
       {broadCastDetails && broadCastDetails.length > 0 ?
         <div className="col-8 text-right my-1">
           <Button
-            text={'CREATE POST'}
+            text={translate('common.create Post')}
             className="text-white"
             size={"sm"}
             onClick={proceedCreatePost}

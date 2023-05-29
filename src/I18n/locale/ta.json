@@ -44,6 +44,7 @@
         "primaryContactPerson": "முதன்மை தொடர்பு நபர்",
         "addUser": "பயனரைச் சேர்க்கவும்",
         "createTicket": "டிக்கெட்டை உருவாக்கு",
+        "addTicket": "டிக்கெட் சேர்க்கவும்",
         "createCompany": "நிறுவனம் உருவாக்கு",
         "company": "நிறுவனம்",
         "Select Group":"குழுவைத் தேர்ந்தெடுக்கவும்",
@@ -72,7 +73,15 @@
         "createPost":"உருவாக்கு இடுகை",
         "add":"கூட்டு",
         "Profile":"சுயவிவரம்",
-        "Basic Information":"அடிப்படை தகவல்"
+        "Basic Information":"அடிப்படை தகவல்",
+        "ticket Status":"டிக்கெட் நிலை",
+        "addAttachment":"இணைப்பை சேர்க்கவும்",
+        "info":"தகவல்",
+        "tasks":"பணிகள்",
+        "issues":"சிக்கல்கள்",
+        "photo":"புகைப்படம்",
+        "Create post":"இடுகையை உருவாக்கவும்",
+        "attach":"இணைக்கவும்"
     },
     "errors": {
         "invalidEmail": "Invalid email address."
@@ -138,7 +147,10 @@
         "addTimeSheet":"கூடுதல் நேரத்தாள்",
         "associatedCompany":"தொடர்புடைய நிறுவனம்",
         "assignedTask":"ஒதுக்கப்பட்ட பணி",
-        "editTimeSheet":"திருத்த நேரத்தாள்"
+        "editTimeSheet":"திருத்த நேரத்தாள்",
+        "Task Priority":"பணி முன்னுரிமை",
+        "addBroadCast":"கூட்டுஒளிபரப்பு"
+        
     },
     "product": {
         "Store": "ஸ்டோர்",

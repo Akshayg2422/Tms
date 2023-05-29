@@ -43,6 +43,7 @@
     "addCompany": "ADD COMPANY",
     "primaryContactPerson": "PRIMARY CONTACT PERSON",
     "addUser": "ADD USER",
+    "createTicket":"createTicket",
     "addTicket": "ADD TICKET",
     "addCompany": "ADD COMPANY",
     "company": "Company",
@@ -84,7 +85,14 @@
     "note":"Note",
     "add":"Add",
     "Profile":"Profile",
-    "Basic Information":"Basic Information"
+    "Basic Information":"Basic Information",
+    "ticket Status":"TicketStatus",
+    "info":"Info",
+    "tasks":"Tasks",
+    "issues":"issues",
+    "photo":"photo",
+    "create Post":"CREATE POST",
+    "attach":"Attach"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
@@ -134,7 +142,7 @@
     "addBroadCast": "ADD BROADCAST",
     "attach": "Attach",
     "sector": "Sector",
-    "tags": "Tag",
+    "tag": "Tag",
     "city": "City",
     "task": "Task",
     "group": "Group",
@@ -151,10 +159,10 @@
     "noUserFound":"No User Found",
     "employees":"Employees",
     "addTimeSheet":"AddTimeSheet",
-    "createPost":"Create Post",
     "associatedCompany":"Associate Company",
     "assignedTask":"AssignedTask",
-    "editTimeSheet":"EditTimeSheet"
+    "editTimeSheet":"EditTimeSheet",
+    "Task Priority":"Task Priority"
     
   },
   "product": {
@@ -258,6 +266,7 @@
       "Video CallSubtext": "Our video call feature in a ticket managementsystem can be a powerful tool for improvingcustomer support and customer satisfaction,by allowing for more effective communicationand collaboration between customers andsupport agents.",
       "Reference Ticket": "Reference Ticket",
       "Reference TicketSubtext": "A reference ticket can be used to provideadditional information about a specific issue,such as previous solutions that wereattempted or any relevant documentation."
+      
     },
     "fourthScreen": {
       "security": "Security",

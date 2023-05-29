@@ -174,7 +174,7 @@ function AddUser() {
         />
 
         <DropDown
-          heading={'Designation'}
+          heading={translate('auth.designation')}
           data={getDropDownDisplayData(designations)}
           selected={designation.value}
           value={designation.value}
@@ -183,7 +183,7 @@ function AddUser() {
 
         <div >
           <label className={`form-control-label`}>
-            {'Photo'}
+            {translate('common.photo')}
           </label>
         </div>
         <div className=" pb-2 pt-1">

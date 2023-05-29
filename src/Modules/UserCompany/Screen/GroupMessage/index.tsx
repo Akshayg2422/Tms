@@ -10,18 +10,19 @@ import { useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { title } from 'process';
 
 function GroupMessage({ }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    // const [isConfirming, setIsConfirming] = useState(false);
     const { refreshGroupEvents, selectedGroupChatCode } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
     const imageModal = useModal(false)
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
 
 
     useEffect(() => {
@@ -107,14 +108,6 @@ function GroupMessage({ }: GroupMessageProps) {
         return modifiedData
     }
 
-    // const handleDelete = () => {
-    //     onDelete();
-    //     setIsConfirming(false);
-    // };
-
-    // const toggleConfirmation = () => {
-    //     setIsConfirming((prevState) => !prevState);
-    // };
 
     return (
         <>
@@ -161,9 +154,9 @@ function GroupMessage({ }: GroupMessageProps) {
                                     title={title} subTitle={subTitle}
                                     time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
-                                    <div className='pt-2' onClick={() => {
+                                    <div className='pt-2'  onClick={() => {
                                         imageModal.show()
-                                        setImage(imageUrls)
+                                        setImage(imageUrls) 
                                     }} >
                                         {
                                             imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
@@ -175,45 +168,38 @@ function GroupMessage({ }: GroupMessageProps) {
                                     <div>
                                         {
                                             imageUrls && imageUrls.length > 0 && (
-                                                <ImageDownloadButton Url={imageUrls} title={title} />
+                                                <ImageDownloadButton Url={imageUrls} title={title} className={"fa fa-download mt-1"} />
                                             )
 
                                         }
                                     </div>
-                                    {/* <div>
-                                        {!isConfirming ? (
-                                            <button onClick={toggleConfirmation}>Delete</button>
-                                        ) : (
-                                            <div>
-                                                <p>Are you sure you want to delete?</p>
-                                                <button onClick={handleDelete}>Yes</button>
-                                                <button onClick={toggleConfirmation}>No</button>
-                                            </div>
-                                        )}
-                                    </div> */}
-
-
-
                                 </TimeLine>)
                         })
                     }
                 </InfiniteScroll>
 
-
             </div>
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
                 <Carousel >
+
                     {
-                        image.map(each => {
-                            return <Image
-                                className='ml-1 mb-1'
-                                src={each}
-                                height={'100%'}
-                                width={'100%'}
-                            />
-                        })
+                        image.map((each, index) => (
+                            <div>
+                                <Image
+                                    className='ml-1 mb-1'
+                                    src={each}
+                                    height={'100%'}
+                                    width={'100%'}
+                                />
+                                <div className='d-flex justify-content-end'>
+                                    <ImageDownloadButton Url={each} title={each} className={'fa fa-download mr-5'} />
+                                </div>
+                            </div>
+                        ))
                     }
+
                 </Carousel>
+
             </Modal>
         </>
 
@@ -223,7 +209,4 @@ function GroupMessage({ }: GroupMessageProps) {
 
 export { GroupMessage }
 
-function onDelete() {
-    throw new Error('Function not implemented.');
-}
 

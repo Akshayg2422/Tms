@@ -248,7 +248,7 @@ function AddTicket() {
             <div className='col'>
                 <div className="row">
                     <Back />
-                    <h3 className="ml-3">{translate("common.addTicket")!}</h3>
+                    <h3 className="ml-3">{translate('common.addTicket')!}</h3>
                 </div>
             </div>
             <hr className='mt-3'></hr>
@@ -299,7 +299,7 @@ function AddTicket() {
                 )}
 
                 {getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
-                    heading={'Department'}
+                    heading={translate('common.department')}
                     placeHolder={'Select a Department...'}
                     data={getDropDownDisplayData(departments)}
                     onChange={(item) => {
@@ -310,7 +310,7 @@ function AddTicket() {
                 }
 
                 {getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
-                    heading={'Designation'}
+                    heading={translate('auth.description')}
                     placeHolder={'Select a Designation'}
                     data={getDropDownDisplayData(designations)}
                     onChange={(item) => {
@@ -371,7 +371,7 @@ function AddTicket() {
 
             <div className="col-md-9 col-lg-5 mt-3">
                 <label className={`form-control-label`}>
-                    {'Add Attachment'}
+                    {translate('common.addAttachment')}
                 </label>
                 <div>
                     {selectDropzone &&
