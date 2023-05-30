@@ -20,6 +20,7 @@ function AutoSearchInput({ value,
 }: AutoSearchInputProps) {
  
   const formateResult =(item)=>{
+    console.log('tested')
        
     return(
       
