@@ -1,4 +1,4 @@
-import { Image, Card, Modal, Button, Dropzone, showToast, ImageDownloadButton, H, Radio } from "@Components";
+import { Image, Card, Modal, Button, Dropzone, showToast, H, Radio } from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'

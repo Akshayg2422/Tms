@@ -134,7 +134,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
                         <div className="mr-3">
                             <div>
-                                <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'CREATED AT :'} />
+                                <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={translate('common.CREATED AT :')} />
                                 <h5 className="text-uppercase ">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
                             </div>
                             <div className="row mt-3">
