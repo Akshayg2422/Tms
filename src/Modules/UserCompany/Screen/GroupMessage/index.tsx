@@ -1,27 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
-import { getGroupMessage } from '@Redux'
-import { TimeLine, Spinner, Image, Modal, Card, ImageDownloadButton } from '@Components'
+import { addEvent, addGroupMessage, getGroupMessage } from '@Redux'
+import { TimeLine, Spinner, Image, Modal, Card, ImageDownloadButton, showToast, Button, Input, Dropzone } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
-import { useModal, useWindowDimensions } from '@Hooks'
+import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { translate } from 'i18n-js';
 
 function GroupMessage({ }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshGroupEvents, selectedGroupChatCode } = useSelector((state: any) => state.UserCompanyReducer);
+    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
     const imageModal = useModal(false)
+    const deleteModal = useModal(false)
+    const editModal = useModal(false)
+    const message = useInput('')
+    const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
+    const [photo, setPhoto] = useState<any>([]);
+    const [selectMessage, setSelectMessage] = useState<any>(undefined)
 
+
+ 
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
@@ -106,6 +115,69 @@ function GroupMessage({ }: GroupMessageProps) {
         return modifiedData
     }
 
+    let attach = photo.slice(-2, 4)
+
+    const handleImagePicker = (index: number, file: any) => {
+        let newUpdatedPhoto = [...photo, file];
+        setPhoto(newUpdatedPhoto);
+    };
+
+    const proceedEditHandler = () => {
+        const params = {
+            id: selectMessage?.id,
+            edited_message: message?.value
+        }
+
+        dispatch(
+            addGroupMessage({
+                params,
+                onSuccess: (response: any) => () => {
+                    if (response.success) {
+                        showToast(response.message, 'success')
+                        editModal.hide()
+                        getGroupMessageApi(INITIAL_PAGE)
+
+                    }
+                },
+                onError: (error) => () => {
+                    showToast(error.error_message)
+                },
+            })
+        );
+
+
+    }
+
+
+    console.log("====dashboard==", dashboardDetails)
+
+    function proceedDeleteHandler() {
+        const params = {
+            id: selectMessage?.id,
+            is_deleted: true
+        }
+
+        dispatch(
+            addGroupMessage({
+                params,
+                onSuccess: (response: any) => () => {
+                    if (response.success) {
+                        showToast(response.message, 'success')
+                        deleteModal.hide()
+                        getGroupMessageApi(INITIAL_PAGE)
+                    }
+                },
+                onError: (error) => () => {
+                    showToast(error.error_message)
+                },
+            })
+        );
+
+    }
+
+    console.log("selected Messge---->", selectMessage)
+
+
     return (
         <>
             <div
@@ -136,18 +208,33 @@ function GroupMessage({ }: GroupMessageProps) {
                     }>
 
                     {groupEvents && groupEvents.length > 0 &&
-                        groupEvents.map((task: any, index: number) => {
-                            const { icon, title, subTitle, created_at, attachments } = task
+                        groupEvents.map((item: any, index: number) => {
+                            const { icon, title, subTitle, created_at, attachments } = item
                             const showDotLine = index !== 0
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
-                            console.log("==============>Task", task);
-
                             return (
                                 <TimeLine
                                     icon={icon}
                                     showDotterLine={showDotLine}
                                     title={title} subTitle={subTitle}
-                                    time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
+                                    time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))}
+                                    isEdit
+                                    isDelete
+                                    editOnclick={() => {
+                                        setSelectMessage(item)
+                                        editModal.show()
+                                        message.set(title)
+                                        setSelectDropzone(attachments.attachments)
+
+                                    }}
+                                    deleteOnClick={() => {
+                                        setSelectMessage(item)
+                                        deleteModal.show()
+                                    }}
+                                    data={item}
+                                >
+
+
 
                                     <div className='pt-2' onClick={() => {
                                         imageModal.show()
@@ -190,6 +277,69 @@ function GroupMessage({ }: GroupMessageProps) {
                         })
                     }
                 </Carousel>
+            </Modal>
+
+            <Modal title='Edit Chat' isOpen={editModal.visible} onClose={editModal.hide} >
+
+                <div className="col-md-9 col-lg-7">
+                    <Input
+                        value={message.value}
+                        onChange={message.onChange}
+                    />
+
+
+
+                    <div className="col">
+                        <label className={`form-control-label`}>
+                            {/* {translate("auth.attach")} */}
+                            {'Attach'}
+                        </label>
+                    </div>
+
+
+                    <div className="col-md-9 col-lg-7 pb-4 ">
+                        {selectDropzone &&
+                            selectDropzone.map((el: any, index: number) => {
+                                return (
+                                    <Dropzone
+                                        variant="ICON"
+                                        icon={getPhoto(el?.attachment_file)}
+                                        size="xl"
+                                        onSelect={(image) => {
+                                            let file = image.toString().replace(/^data:(.*,)?/, "");
+                                            handleImagePicker(index, file);
+                                            setSelectDropzone([{ id: "1" }, { id: "2" }]);
+                                        }}
+                                    />
+                                );
+                            })}
+                    </div>
+                </div>
+
+                <div className="row justify-content-end">
+                    <div className="col-md-6 col-lg-4 ">
+                        <Button
+                            block
+                            text={'Update'}
+                            onClick={proceedEditHandler}
+                        />
+                    </div>
+                </div>
+
+
+
+
+            </Modal>
+            <Modal isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide}>
+                <div>
+                    <div className="h4"> Are you sure you want to delete? </div>
+                    <div className="row d-flex justify-content-end">
+                        <Button text={'Delete'}
+                            onClick={proceedDeleteHandler}
+                        />
+                    </div>
+                </div>
+
             </Modal>
         </>
 

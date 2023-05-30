@@ -9,4 +9,9 @@ export interface TimeLineProps {
     showDotterLine: boolean
     rtl?: boolean,
     subTitle?: string;
+    isEdit?: boolean;
+    isDelete?: boolean;
+    editOnclick?: () => void;
+    deleteOnClick?: () => void;
+    data?:any
 }
