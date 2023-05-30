@@ -240,11 +240,10 @@ function* sectorServiceTypesSaga(action) {
 }
 
 function* pushNotificationSaga(action) {
-  console.log('called');
+
   try {
 
     const response = yield call(addPushNotificationApi, action.payload.params);
-    console.log("responseeeeeesagaa==>", response)
     if (response.success) {
 
       yield put(addPushNotificationSuccess({...response}));

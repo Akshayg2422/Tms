@@ -117,9 +117,22 @@ export const getVideoConferenceListApi = (payload) => post(URL.GET_VIDEO_CONFERE
 
 export const getTokenByUserApi = (payload) => post(URL.GET_TOKEN_BY_USER, payload, {})
 
+/* GET ASSOCIATED COMPANY */
+
+export const getAssociatedCompanyApi = (payload) => post(URL.FETCH_ASSOCIATED_COMPANY, payload, {})
+
+/* ADD ASSOCIATED COMPANY */
+
+export const addAssociatedCompanyApi = (payload) => post(URL.ADDING_ASSOCIATED_COMPANY, payload, {})
 
 /* GET GROUP DETAILS */
 
 export const getGroupEmployeesApi = (payload) => post(URL.GET_GROUP_EMPLOYEES, payload, {})
 export const getGroupMessageApi = (payload) => post(URL.GET_GROUP_MESSAGE, payload, {})
 export const addGroupMessageApi = (payload) => post(URL.ADD_GROUP_MESSAGE, payload, {})
+
+export const getSubGroupApi = (payload) => post(URL.GET_SUB_GROUP, payload, {})
+
+
+export const addGroupUserApi = (payload) => post(URL.ADD_GROUP_USER, payload, {})
+export const getChatGroupsApi = (payload) => post(URL.GET_CHAT_GROUPS, payload, {})

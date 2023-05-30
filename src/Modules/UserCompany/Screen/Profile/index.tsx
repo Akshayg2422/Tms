@@ -1,10 +1,15 @@
-import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker } from "@Components";
+import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker,ImageDownloadButton  } from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
 import { getObjectFromArrayByKey, GENDER_LIST, } from '@Utils'
 import { addUpdateEmployeePhoto, getDashboard, userLogout } from '@Redux'
 import { ROUTES } from "@Routes"
+import { useState } from "react";
+import { translate } from "@I18n";
+import axios from 'axios';
+import { icons } from "@Assets";
+import { saveAs } from "file-saver"
 
 function Profile() {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
@@ -13,14 +18,9 @@ function Profile() {
   const logoutModal = useModal(false)
   const dispatch = useDispatch()
   const { goTo } = useNavigation()
-
-
-  console.log(JSON.stringify(dashboardDetails) + '====dashboardDetails');
-
-
+  const Url = 'https://res.cloudinary.com/demo/basketball_shot.jpg';
 
   const userProfileEdit = (item) => {
-
 
     const params = {
       attachment: item
@@ -50,7 +50,6 @@ function Profile() {
       })
     )
 
-
   }
 
   return (
@@ -59,9 +58,6 @@ function Profile() {
       <Card
         title={'Profile'}
         className="m-3"
-      //  style={{
-      //   height: height
-      // }}
       >
         <div>
           <div className="col text-right">
@@ -83,6 +79,7 @@ function Profile() {
               />
 
             </div>
+
             }
   
           </div> */}
@@ -217,3 +214,5 @@ function Profile() {
 }
 
 export { Profile }
+
+

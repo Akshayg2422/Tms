@@ -276,7 +276,7 @@ export const setSelectedTabPosition = (params: any) => {
 /* GET TASK DETAILS */
 
 export const getTaskDetails = (params: any) => {
-    console.log('action called')
+    
     return {
         type: ActionTypes.GET_TASK_DETAILS,
         payload: params
@@ -346,5 +346,16 @@ export const getAssignedTaskFailure = (error: any) => {
     return {
         type: ActionTypes.GET_ASSIGNED_TASK_FAILURE,
         payload: error
+    }
+}
+
+/**
+ * TASK FILTER PARAMS
+ */
+
+export const setTaskParams = (params: any) => {
+    return {
+        type: ActionTypes.TASK_DEFAULT_PARAMS,
+        payload: params
     }
 }

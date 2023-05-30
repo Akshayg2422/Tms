@@ -7,9 +7,17 @@ const useDropDown = (initialValue: any) => {
     setValue(option);
   };
 
+  const set = (value: any) => {
+    setValue(value)
+  }
+
+  
+  
+
   return {
     value,
-    onChange: handleChange
+    onChange: handleChange,
+    set
   }
 };
 

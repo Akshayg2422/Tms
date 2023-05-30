@@ -4,10 +4,12 @@ import { Card } from '@Components'
 
 function Comments() {
   return (
-    <Card>
-      <TaskChat />
-      <AddChat />
-    </Card>
+    <div className="h-100">
+      <Card>
+        <TaskChat />
+        <AddChat />
+      </Card>
+    </div>
   );
 }
 

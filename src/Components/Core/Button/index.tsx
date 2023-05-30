@@ -4,8 +4,9 @@ import { ButtonProps } from './interfaces';
 import { Image } from '@Components'
 
 function Button({
-  text, color = 'primary', variant = 'default', size = 'md', icon, ...rest
+  text, color = 'primary', variant = 'default', size = 'md', icon, onEnter, ...rest
 }: ButtonProps) {
+
   return (
     <>
       {variant === 'default' && <RSButton type={'button'} size={size} color={color} {...rest} >{text}</RSButton>}
@@ -25,7 +26,7 @@ function Button({
       }
 
       {variant === 'icon-rounded' &&
-        <RSButton type={'button'} size={size} className={'btn-icon-only rounded-circle d-flex align-items-center justify-content-center'} color={color} {...rest} >
+        <RSButton type={'button'} size={size} className={'btn-icon-only rounded-circle d-flex align-items-center justify-content-center'} color={color}  {...rest} >
           {/* <span className={'btn-inner--icon'}>
             <i className='ni ni-atom' />
           </span> */}

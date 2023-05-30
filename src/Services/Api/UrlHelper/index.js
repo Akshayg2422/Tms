@@ -12,6 +12,15 @@ const AUTHENTICATION = '/authentication/'
 
 export const GET_ASSOCIATED_COMPANIES = COMPANY + 'getAssociatedCompanies';
 export const GET_ASSOCIATED_COMPANIES_L = COMPANY + 'getAssociatedCompaniesl';
+
+/* GET ASSOCIATED COMPANY */
+
+export const FETCH_ASSOCIATED_COMPANY = COMPANY + 'getCompanies'
+
+/* ADD ASSOCIATED COMPANIES */
+
+export const ADDING_ASSOCIATED_COMPANY = COMPANY + 'addAssociatedCompanies'
+
 export const URL_GET_DASHBOARD = AUTH + 'dashboard';
 
 export const RAISE_NEW_TICKET = TICKET + 'raiseNewTicket';
@@ -32,9 +41,9 @@ export const VALIDATE_USER_BUSINESS = AUTH + 'validateUserBusiness';
 export const BUSINESS_PLACES_DETAILS = AUTH + 'getBusinessPlaceDetails';
 export const REGISTER_COMPANY = AUTH + 'registerCompany';
 export const REGISTER_ADMIN = AUTH + 'registerAdmin';
-export const GET_EMPLOYEES = EMPLOYEE +'getEmployees';
+export const GET_EMPLOYEES = EMPLOYEE + 'getEmployees';
 export const ADD_EMPLOYEE = EMPLOYEE + 'addEmployee';
-export const GET_EMPLOYEESL = EMPLOYEE +'getEmployeesl';
+export const GET_EMPLOYEESL = EMPLOYEE + 'getEmployeesl';
 export const URL_GET_TASKS = TASK + 'getTasks';
 export const FETCH_TASK_USERS = TASK + 'getTaskUsers';
 export const FETCH_TASK_EVENTS = TASK + 'getTaskEvents';
@@ -97,10 +106,10 @@ export const URL_GET_TICKET_EVENT_HISTORY = TICKET + 'getTicketHistory'
 /* GET TASK DETAILS */
 
 export const FETCH_TASK_DETAILS = TASK + 'getTaskDetails';
-export const URL_SUB_TASK_GROUPS = TASK +'getTaskSubGroupl';
+export const URL_SUB_TASK_GROUPS = TASK + 'getTaskSubGroupl';
 
-export const ADD_EMPLOYEE_TIMELINE = TASK +'addEmployeeTimeline';
-export const GET_EMPLOYEE_TIMELINE = TASK +'getEmployeeTimeline';
+export const ADD_EMPLOYEE_TIMELINE = TASK + 'addEmployeeTimeline';
+export const GET_EMPLOYEE_TIMELINE = TASK + 'getEmployeeTimeline';
 
 /* GET TICKET DETAILS */
 
@@ -124,13 +133,25 @@ export const GET_TOKEN_BY_USER = TASK + 'getTokenByUser';
 
 /* GET GROUPS EMPLOYEES*/
 
-export const GET_GROUP_EMPLOYEES= TASK + 'getGroupEmployees'
+export const GET_GROUP_EMPLOYEES = TASK + 'getGroupEmployees'
 
 /* GET GROUP MESSAGE*/
 
-export const GET_GROUP_MESSAGE= TASK + 'getGroupMessage'
+export const GET_GROUP_MESSAGE = TASK + 'getGroupMessage'
 
 /* ADD GROUP MESSAGE*/
 
-export const ADD_GROUP_MESSAGE= TASK + 'addGroupMessage'
+export const ADD_GROUP_MESSAGE = TASK + 'addGroupMessage'
+
+// get subTaskGroup
+export const GET_SUB_GROUP = TASK + 'getSubGroup'
+
+//add group user
+export const ADD_GROUP_USER = TASK + 'addGroupUser'
+
+//get group
+export const GET_CHAT_GROUPS = TASK + 'getGroup'
+
+
+
 

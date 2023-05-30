@@ -6,12 +6,11 @@ import {
     Dropzone,
     showToast,
     DateTimePicker,
+    AutoCompleteDropDownImage,
     Card,
     Back,
-    Image,
     ImagePicker
 } from "@Components";
-
 import { translate } from "@I18n";
 import {
     getEmployees,
@@ -29,23 +28,24 @@ import {
     type,
     validate,
     PRIORITY,
-    getPhoto,
-    imagePickerConvertBase64
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
-import AutoSearchInput from "@Components//Core/AutoSearchInput";
 
 function AddTask() {
+
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
+
+
     const { dashboardDetails, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
+
     const title = useInput("");
     const description = useInput("");
     const referenceNo = useInput("");
@@ -53,6 +53,9 @@ function AddTask() {
     const [disableTaskType, setDisableTaskType] = useState([]);
     const [companies, setCompanies] = useState([])
     const [companyUsers, setCompanyUsers] = useState([])
+
+
+
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
@@ -62,11 +65,9 @@ function AddTask() {
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
-    const selectedTicketPriority = useDropDown("");
+    const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
     let attach = photo.slice(-4, 9)
-    const [imagePicker, setImagePicker] = useState<any>()
-console.log(photo,"pppppp")
 
     useEffect(() => {
         getAssociatedCompaniesApi();
@@ -75,7 +76,7 @@ console.log(photo,"pppppp")
 
     useEffect(() => {
         getCompanyEmployeeApi()
-    }, [designation.value, department.value])
+    }, [designation.value, department.value, company.value,])
 
 
     useEffect(() => {
@@ -90,8 +91,8 @@ console.log(photo,"pppppp")
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = ( file: any) => {
-        let newUpdatedPhoto = [ file];
+    const handleImagePicker = (index: number, file: any) => {
+        let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
 
@@ -114,8 +115,7 @@ console.log(photo,"pppppp")
                     });
                     setCompanyUsers(companiesUser);
                 },
-                onError: (error) => () => {
-                },
+                onError: () => () => { },
             })
         );
     }
@@ -126,7 +126,6 @@ console.log(photo,"pppppp")
             description: description?.value,
             reference_number: referenceNo?.value,
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
-            // assigned_to_id: selectedUserId?.id,
             ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
@@ -250,14 +249,9 @@ console.log(photo,"pppppp")
     const handleEtaChange = (value: any) => {
         setEta(value);
     };
-    const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
-  
-   const array = [
-            { id: 3, photo: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' },
-            { id: 2, photo: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' },
-            { id: 1, photo: '/media/employee/file-34c8a923-59c8-4b1f-8e6c-ac36acce730b.jpg' }
-        ];
+
+    const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
 
     return (
@@ -271,6 +265,48 @@ console.log(photo,"pppppp")
             <hr className='mt-3'></hr>
 
             <div className="col-md-9 col-lg-5">
+
+                <div className="col-md-9 col-lg-5 ml--1">
+                    <label className={`form-control-label ml--2`}>
+                        {translate("common.addAttachment")}
+                    </label>
+                    <span className="row">
+                        {selectDropzone &&
+                            selectDropzone.map((el, index) => {
+                                return (
+                                    <div className="mb-2" >
+                                        <Dropzone
+                                            variant="ICON"
+                                            icon={image}
+                                            size="xl"
+                                            onSelect={(image) => {
+                                                let file = image.toString().replace(/^data:(.*,)?/, "");
+                                                handleImagePicker(index, file);
+                                                { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
+                                                { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
+                                                { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
+                                            }}
+                                        />
+                                    </div>
+                                );
+                            })}
+                    </span>
+                </div>
+
+                {/* <div className="row pb-3">
+                <ImagePicker
+                    icon={image}
+                    // noOfFileImagePickers={1}
+                    size='xl'
+                    onSelect={(image) => {
+                        let file = image.toString().replace(/^data:(.*,)?/, "")
+                    }}
+                    heading={translate("common.addAttachment")!}
+                />
+
+            </div> */}
+
+
                 <Input
                     heading={translate("common.title")}
                     value={title.value}
@@ -287,6 +323,14 @@ console.log(photo,"pppppp")
                     value={referenceNo.value}
                     onChange={referenceNo.onChange}
                 />
+
+                <DropDown
+                    heading={translate("common.taskPriority")!}
+                    selected={selectedTicketPriority.value}
+                    placeHolder={'please select a task priority...'}
+                    data={PRIORITY}
+                    onChange={selectedTicketPriority.onChange} />
+
                 <div className="mb-2">
                     <Radio
                         data={type}
@@ -308,7 +352,7 @@ console.log(photo,"pppppp")
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={'Select a company'}
-                        data={companies}
+                        data={getDropDownDisplayData(companies)}
                         onChange={(item) => {
                             company.onChange(item)
                         }}
@@ -338,7 +382,7 @@ console.log(photo,"pppppp")
                 />
                 }
 
-                {/* {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
+                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
                     <AutoCompleteDropDownImage
                         heading={translate("common.user")!}
                         placeholder={'please select a user...'}
@@ -352,22 +396,7 @@ console.log(photo,"pppppp")
                             setSelectedUser(value);
                             setSelectedUserId(item)
                         }}
-                    />} */}
-                <div className="mt--2">
-
-                    {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && <AutoSearchInput
-                        heading={translate("common.user")!}
-                        placeholder={'please select a user...'}
-                        data={companyUsers}
-                        variant={true}
-                        onSelect={(item) => {
-                            // setSelectedUser(item.name);
-                            setSelectedUserId(item)
-
-                        }}
-                    />
-                    }
-                </div>
+                    />}
 
                 {subTaskGroups && subTaskGroups.length > 0 && <DropDown
                     heading={translate("common.selectGroup")}
@@ -378,12 +407,6 @@ console.log(photo,"pppppp")
                 />
                 }
 
-                <DropDown
-                    heading={translate("common.taskPriority")!}
-                    selected={selectedTicketPriority.value}
-                    placeHolder={'please select a task priority...'}
-                    data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange} />
 
                 <DateTimePicker
                     heading={'ETA'}
@@ -431,7 +454,7 @@ console.log(photo,"pppppp")
                     noOfFileImagePickers={4}
                     onSelect={(image) => {
                         let file = image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker( file);
+                       console.log(image,"ppppp>>>")
                       
                     }}
                 />
@@ -449,7 +472,6 @@ console.log(photo,"pppppp")
                     onClick={submitTaskHandler}
                 />
             </div>
-
 
         </Card >
 

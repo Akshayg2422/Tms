@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Modal, Input, Dropzone } from '@Components'
 import { icons } from '@Assets'
-import { addTaskEvent, refreshTaskEvents,} from '@Redux'
+import { addTaskEvent, refreshTaskEvents, } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { useModal, useInput } from '@Hooks'
 import { TEM, MEA } from '@Utils'
@@ -46,8 +46,6 @@ function AddChat() {
         }
     };
 
-
-
     const addTaskEventAttachment = () => {
         const params = {
             event_type: MEA,
@@ -79,15 +77,19 @@ function AddChat() {
         setSelectDropzone(updatedPhoto)
         setPhoto(newUpdatedPhoto)
     }
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            proceedTaskEventsApiHandler()
+        }
+    }
 
     return (
         <>
             <div className='col'>
                 <div className='row justify-content-center align-items-center'>
-
-                    <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show}/>
+                    <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
-                        <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
+                        <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={proceedTaskEventsApiHandler} />
                 </div >
@@ -95,7 +97,6 @@ function AddChat() {
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
                 <div className='col-6'>
-                    <Input heading={'Name'} value={attachmentName.value} onChange={attachmentName.onChange} />
                     <div className='col'>
                         <div className='row'>
                             {selectDropzone && selectDropzone.map((el, index) => {
@@ -116,7 +117,9 @@ function AddChat() {
                             })}
                         </div>
                     </div>
-                    <div className=' pt-4'>
+
+                    <div className='mt-3'> <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /> </div>
+                    <div className=' pt-2'>
                         <Button text={translate("common.submit")} onClick={addTaskEventAttachment} />
                     </div>
                 </div>

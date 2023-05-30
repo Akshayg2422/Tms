@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AddMessageProps } from './interfaces';
-import { Button, Modal, Input, Dropzone } from '@Components'
+import { Button, Modal, Input, Dropzone, ImageDownloadButton } from '@Components'
 import { icons } from '@Assets'
 import { addGroupMessage, refreshGroupEvents } from '@Redux'
 import { useDispatch } from 'react-redux'
@@ -26,15 +26,13 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                 event_type: TEM,
             }
 
-            console.log('======>>>params', JSON.stringify(params));
-
             dispatch(
                 addGroupMessage({
                     params,
                     onSuccess: (response) => () => {
                         message.set('')
                         dispatch(refreshGroupEvents())
-                
+
                     },
                     onError: () => () => { },
                 })
@@ -51,7 +49,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             group_attachments: [{ name: attachmentName.value, attachments: photo }],
             // name: attachmentName.value,
         };
-        console.log('============>>',JSON.stringify(params))
+        
         dispatch(
             addGroupMessage({
                 params,
@@ -59,7 +57,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                     resetValues();
                     attachmentModal.hide()
                     dispatch(refreshGroupEvents())
-                      console.log('============>>>',response)
+                    
                 },
                 onError: (error) => () => { },
             }),
@@ -78,42 +76,49 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         setPhoto(newUpdatedPhoto)
     }
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            addGroupMessageApiHandler()
+        }
+    }
+
     return (
         <>
             <div className='col'>
                 <div className='row justify-content-center align-items-center'>
-
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
-                        <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
+                        <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={addGroupMessageApiHandler} />
+                    
                 </div >
             </div >
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
-                <div className='col-6'>
-                    <Input heading={'Name'} value={attachmentName.value} onChange={attachmentName.onChange} />
-                    <div className='col'>
-                        <div className='row'>
-                            {selectDropzone && selectDropzone.map((el, index) => {
+                <div className='col ml-3'>
+                    <div className='row'>
+                        {selectDropzone && selectDropzone.map((el, index) => {
 
-                                return (
-                                    <div className={`${index !== 0 && 'ml-2'}`}>
-                                        <Dropzone variant='ICON'
+                            return (
+                                <div className={`${index !== 0 && 'ml-2'}`}>
+                                    <Dropzone variant='ICON'
 
-                                            icon={image}
-                                            size='xl'
-                                            onSelect={(image) => {
-                                                let file = image.toString().replace(/^data:(.*,)?/, '');
-                                                handleImagePicker(index, file)
-                                            }}
-                                        />
-                                    </div>
-                                )
-                            })}
-                        </div>
+                                        icon={image}
+                                        size='xl'
+                                        onSelect={(image) => {
+                                            let file = image.toString().replace(/^data:(.*,)?/, '');
+                                            handleImagePicker(index, file)
+                                        }}
+                                    />
+                                    
+                                </div>
+                            )
+                        })}
                     </div>
+                </div>
+                <div className='col-6 pt-1'>
+                    <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
                     <div className=' pt-4'>
                         <Button text={translate("common.submit")} onClick={addGroupEventAttachment} />
                     </div>

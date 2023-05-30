@@ -133,6 +133,7 @@
         "noTextFound":"உரை எதுவும் இல்லை",
         "employees":"ஊழியர்கள்",
         "addTimeSheet":"கூடுதல் நேரத்தாள்",
+        "associatedCompany":"தொடர்புடைய நிறுவனம்",
         "assignedTask":"ஒதுக்கப்பட்ட பணி",
         "editTimeSheet":"திருத்த நேரத்தாள்"
     },

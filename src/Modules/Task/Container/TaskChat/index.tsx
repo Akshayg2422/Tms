@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TaskChatProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { getTaskEvents } from '@Redux'
-import { TimeLine, Spinner, Image, Modal } from '@Components'
+import { TimeLine, Spinner, Image, Modal, ImageDownloadButton } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TASK_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
@@ -67,7 +67,7 @@ function TaskChat({ }: TaskChatProps) {
 
     function getIconsFromStatus(each: any) {
 
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status, end_time, start_time } = each
         let modifiedData = {}
         switch (event_type) {
             case 'TEM':
@@ -95,6 +95,13 @@ function TaskChat({ }: TaskChatProps) {
             case 'EVS':
                 modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status).text }
                 break;
+            case 'ETE':
+                modifiedData = { ...each, icon: icons.endTime, subTitle: by_user?.name, title: 'Task End time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(end_time)) }
+                break;
+            case 'ETS':
+                modifiedData = { ...each, icon: icons.startTime, subTitle: by_user?.name, title: 'Task Start time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(start_time)) }
+                break;
+
         }
         return modifiedData
     }
@@ -104,7 +111,7 @@ function TaskChat({ }: TaskChatProps) {
         <div
             id="scrollableDiv"
             style={{
-                height: height - 100,
+                height: height - 186,
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
@@ -114,7 +121,8 @@ function TaskChat({ }: TaskChatProps) {
                 dataLength={taskEvents.length}
                 hasMore={taskEventsCurrentPage !== -1}
                 scrollableTarget="scrollableDiv"
-                style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                className='overflow-auto overflow-hide'
+                style={{ display: 'flex', flexDirection: 'column-reverse', overflowY: 'auto' }}
                 inverse={true}
                 loader={<h4>
                     {/* <Spinner /> */}
@@ -153,24 +161,34 @@ function TaskChat({ }: TaskChatProps) {
                                         }
                                     </div>
                                 </div>
+                                
+                                <div>
+                                        {
+                                            imageUrls && imageUrls.length > 0 && (
+                                                <ImageDownloadButton Url={imageUrls} title={title} />
+                                            )
+
+                                        }
+                                    </div>
                             </TimeLine>)
                     })
                 }
             </InfiniteScroll>
 
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
+                <div className={'mb--6 mt--5 mx--2'}>
                 <Carousel >
                     {
                         image.map(each => {
                             return <Image
                                 className='ml-1 mb-1'
                                 src={each}
-                                height={'100%'}
-                                width={'100%'}
+                                style={{ height: '450px', width: '850px' }}
                             />
                         })
                     }
                 </Carousel>
+                </div>
             </Modal>
         </div>
 

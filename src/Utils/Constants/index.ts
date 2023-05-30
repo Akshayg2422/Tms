@@ -1,5 +1,6 @@
 import { icons } from "@Assets";
 
+export const DEFAULT_TASK_GROUP = { id: 'ALL', Photo: null, code: "ALL" }
 
 export const ERRORS = {
   SOMETHING_WENT_WRONG: 'Something went wrong, please try again later',
@@ -47,7 +48,7 @@ export const ERROR_MESSAGE_SHORT_TOAST = 'S';
 export const ERROR_MESSAGE_LONG_TOAST = 'L';
 export const ERROR_MESSAGE_MEDIUM_TOAST = 'M';
 
-export const OTP_RESEND_DEFAULT_TIME = 9;
+export const OTP_RESEND_DEFAULT_TIME = 59;
 
 /* Event types Status Code */
 

@@ -1,34 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
-import { getGroupMessage } from '@Redux'
-import { TimeLine, Spinner, Image, Modal, Card } from '@Components'
+import { addEvent, addGroupMessage, getGroupMessage } from '@Redux'
+import { TimeLine, Spinner, Image, Modal, Card, ImageDownloadButton, showToast, Button, Input, Dropzone } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
-import { useModal, useWindowDimensions } from '@Hooks'
+import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { translate } from 'i18n-js';
 
-function GroupMessage({selectedGroup
-}: GroupMessageProps) {
+function GroupMessage({ }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshGroupEvents } = useSelector((state: any) => state.UserCompanyReducer);
+    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
     const imageModal = useModal(false)
+    const deleteModal = useModal(false)
+    const editModal = useModal(false)
+    const message = useInput('')
+    const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
+    const [photo, setPhoto] = useState<any>([]);
+    const [selectMessage, setSelectMessage] = useState<any>(undefined)
 
-    
 
+ 
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
-    }, [refreshGroupEvents,selectedGroup])
+    }, [refreshGroupEvents, selectedGroupChatCode])
 
     function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -43,128 +49,222 @@ function GroupMessage({selectedGroup
 
     const getGroupMessageApi = (page_number: number) => {
         const params = {
-            group_id:selectedGroup,
+            group_id: selectedGroupChatCode,
             page_number
         }
 
-   
-
-        dispatch(
-            getGroupMessage({
-                params,
-                onSuccess: (response: any) => () => {
-                    const groupEventsResponse = response.details
-                    let updatedData = []
-                    if (groupEventsResponse.data && groupEventsResponse.data.length > 0) {
-                        if (page_number === 1) {
-                            updatedData = getGroupEventsDisplayData(groupEventsResponse.data)
-                        } else {
-                            updatedData = getGroupEventsDisplayData([...groupEvents, ...groupEventsResponse.data] as any)
+        if (selectedGroupChatCode) {
+            dispatch(
+                getGroupMessage({
+                    params,
+                    onSuccess: (response: any) => () => {
+                        const groupEventsResponse = response.details
+                        let updatedData = []
+                        if (groupEventsResponse.data && groupEventsResponse.data.length > 0) {
+                            if (page_number === 1) {
+                                updatedData = getGroupEventsDisplayData(groupEventsResponse.data)
+                            } else {
+                                updatedData = getGroupEventsDisplayData([...groupEvents, ...groupEventsResponse.data] as any)
+                            }
                         }
-                    }
-                    setGroupEvents(updatedData)
-                    setGroupCurrentPage(groupEventsResponse.next_page)
+                        setGroupEvents(updatedData)
+                        setGroupCurrentPage(groupEventsResponse.next_page)
+                    },
+                    onError: () => () => { },
+                })
+            );
+        }
 
-                    console.log('response=====>',response)
-                },
-                onError: () => () => {},
-            })
-        );
     };
 
     function getIconsFromStatus(each: any) {
 
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, group_status } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, group_status, event_by } = each
         let modifiedData = {}
+
+        console.log(JSON.stringify(each));
+
 
         switch (event_type) {
             case 'TEM':
-                modifiedData = { ...each, icon: icons.message, subTitle: by_user?.name, title: message, }
+                modifiedData = { ...each, icon: icons.message, subTitle: event_by?.name, title: message, }
                 break;
             case 'ETA':
-                modifiedData = { ...each, icon: icons.clock, subTitle: by_user?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
+                modifiedData = { ...each, icon: icons.clock, subTitle: event_by?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
                 break;
             case 'TGU':
                 let names = tagged_users.map(function (item) {
                     return '@' + item['name'] + " ";
                 });
-                modifiedData = { ...each, icon: icons.taggedUserWhiteIcon, subTitle: by_user?.name, title: "tagged " + names }
+                modifiedData = { ...each, icon: icons.taggedUserWhiteIcon, subTitle: event_by?.name, title: "tagged " + names }
                 break;
 
             case 'RGU':
-                modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: by_user?.name, title: "Task Reassigned to " + assigned_to.name }
+                modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: event_by?.name, title: "Task Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
-                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: by_user?.name, title: attachments.name }
+                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: event_by?.name, title: attachments.name }
                 break;
             case 'RTS':
-                modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: by_user?.name, title: 'User Attached Reference Task' }
+                modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: event_by?.name, title: 'User Attached Reference Task' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(GROUP_STATUS_LIST, 'id', group_status).text }
+                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: event_by?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(GROUP_STATUS_LIST, 'id', group_status).text }
                 break;
         }
         return modifiedData
     }
 
-    return (
-        <div
-            id="scrollableDiv"
-            style={{
-                height: height - 100,
-                display: 'flex',
-                flexDirection: 'column-reverse',
-            }}
-            className={'overflow-auto overflow-hide '}
-        >
-            <InfiniteScroll
-                dataLength={groupEvents.length}
-                hasMore={GroupCurrentPage !== -1}
-                scrollableTarget="scrollableDiv"
-                style={{ display: 'flex', flexDirection: 'column-reverse' }}
-                inverse={true}
-                loader={<h4>
-                    <Spinner />
-                </h4>}
-                next={() => {
-                   
+    let attach = photo.slice(-2, 4)
 
-                    if (GroupCurrentPage !== -1) {
-                        getGroupMessageApi(GroupCurrentPage)
+    const handleImagePicker = (index: number, file: any) => {
+        let newUpdatedPhoto = [...photo, file];
+        setPhoto(newUpdatedPhoto);
+    };
+
+    const proceedEditHandler = () => {
+        const params = {
+            id: selectMessage?.id,
+            edited_message: message?.value
+        }
+
+        dispatch(
+            addGroupMessage({
+                params,
+                onSuccess: (response: any) => () => {
+                    if (response.success) {
+                        showToast(response.message, 'success')
+                        editModal.hide()
+                        getGroupMessageApi(INITIAL_PAGE)
+
                     }
-                }
-                }>
-                {groupEvents && groupEvents.length > 0 &&
-                    groupEvents.map((task: any, index: number) => {
-                        const { icon, title, subTitle, created_at, attachments } = task
-                        const showDotLine = index !== 0
-                        const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                },
+                onError: (error) => () => {
+                    showToast(error.error_message)
+                },
+            })
+        );
 
-                        return (
-                            <TimeLine
-                                icon={icon}
-                                showDotterLine={showDotLine}
-                                title={title} subTitle={subTitle}
-                                time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
-                                <div className='pt-2' onClick={() => {
-                                    imageModal.show() 
-                                    setImage(imageUrls)
-                                }} >
-                                    <div>
+    }
+
+
+    console.log("====dashboard==", dashboardDetails)
+
+    function proceedDeleteHandler() {
+        const params = {
+            id: selectMessage?.id,
+            is_deleted: true
+        }
+
+        dispatch(
+            addGroupMessage({
+                params,
+                onSuccess: (response: any) => () => {
+                    if (response.success) {
+                        showToast(response.message, 'success')
+                        deleteModal.hide()
+                        getGroupMessageApi(INITIAL_PAGE)
+                    }
+                },
+                onError: (error) => () => {
+                    showToast(error.error_message)
+                },
+            })
+        );
+
+    }
+
+    console.log("selected Messge---->", selectMessage)
+
+
+    return (
+        <>
+            <div
+                id="scrollableDiv"
+                style={{
+                    height: height - 185,
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                }}
+                className={'overflow-auto overflow-hide'}
+            >
+                <InfiniteScroll
+                    dataLength={groupEvents.length}
+                    hasMore={GroupCurrentPage !== -1}
+                    scrollableTarget="scrollableDiv"
+                    style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                    className={'overflow-auto overflow-hide'}
+                    inverse={true}
+                    loader={<h4>
+                        {/* <Spinner /> */}
+                    </h4>}
+                    next={() => {
+
+                        if (GroupCurrentPage !== -1) {
+                            getGroupMessageApi(GroupCurrentPage)
+                        }
+                    }
+                    }>
+
+                    {groupEvents && groupEvents.length > 0 &&
+                        groupEvents.map((item: any, index: number) => {
+                            const { icon, title, subTitle, created_at, attachments } = item
+                            const showDotLine = index !== 0
+                            const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                            return (
+                                <TimeLine
+                                    icon={icon}
+                                    showDotterLine={showDotLine}
+                                    title={title} subTitle={subTitle}
+                                    time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))}
+                                    isEdit
+                                    isDelete
+                                    editOnclick={() => {
+                                        setSelectMessage(item)
+                                        editModal.show()
+                                        message.set(title)
+                                        setSelectDropzone(attachments.attachments)
+
+                                    }}
+                                    deleteOnClick={() => {
+                                        setSelectMessage(item)
+                                        deleteModal.show()
+                                    }}
+                                    data={item}
+                                >
+
+
+
+                                    <div className='pt-2' onClick={() => {
+                                        imageModal.show()
+                                        setImage(imageUrls)
+                                    }} >
                                         {
                                             imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
                                                 return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
                                             })
                                         }
                                     </div>
-                                </div>
-                            </TimeLine>)
-                    })
-                }
-            </InfiniteScroll>
 
-             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
+                                    <div>
+                                        {
+                                            imageUrls && imageUrls.length > 0 && (
+                                                <ImageDownloadButton Url={imageUrls} title={title} />
+                                            )
+
+                                        }
+                                    </div>
+
+
+                                </TimeLine>)
+                        })
+                    }
+                </InfiniteScroll>
+
+
+            </div>
+            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
                 <Carousel >
                     {
                         image.map(each => {
@@ -177,8 +277,71 @@ function GroupMessage({selectedGroup
                         })
                     }
                 </Carousel>
-            </Modal> 
-        </div>
+            </Modal>
+
+            <Modal title='Edit Chat' isOpen={editModal.visible} onClose={editModal.hide} >
+
+                <div className="col-md-9 col-lg-7">
+                    <Input
+                        value={message.value}
+                        onChange={message.onChange}
+                    />
+
+
+
+                    <div className="col">
+                        <label className={`form-control-label`}>
+                            {/* {translate("auth.attach")} */}
+                            {'Attach'}
+                        </label>
+                    </div>
+
+
+                    <div className="col-md-9 col-lg-7 pb-4 ">
+                        {selectDropzone &&
+                            selectDropzone.map((el: any, index: number) => {
+                                return (
+                                    <Dropzone
+                                        variant="ICON"
+                                        icon={getPhoto(el?.attachment_file)}
+                                        size="xl"
+                                        onSelect={(image) => {
+                                            let file = image.toString().replace(/^data:(.*,)?/, "");
+                                            handleImagePicker(index, file);
+                                            setSelectDropzone([{ id: "1" }, { id: "2" }]);
+                                        }}
+                                    />
+                                );
+                            })}
+                    </div>
+                </div>
+
+                <div className="row justify-content-end">
+                    <div className="col-md-6 col-lg-4 ">
+                        <Button
+                            block
+                            text={'Update'}
+                            onClick={proceedEditHandler}
+                        />
+                    </div>
+                </div>
+
+
+
+
+            </Modal>
+            <Modal isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide}>
+                <div>
+                    <div className="h4"> Are you sure you want to delete? </div>
+                    <div className="row d-flex justify-content-end">
+                        <Button text={'Delete'}
+                            onClick={proceedDeleteHandler}
+                        />
+                    </div>
+                </div>
+
+            </Modal>
+        </>
 
 
     );

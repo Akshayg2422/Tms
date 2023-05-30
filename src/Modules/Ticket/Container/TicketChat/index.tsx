@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TicketChatProps } from './interface';
 import { useSelector, useDispatch } from 'react-redux'
 import { getTicketsEvents } from '@Redux'
-import { TimeLine, Spinner, Image, Modal, } from '@Components'
+import { TimeLine, Spinner, Image, Modal, ImageDownloadButton, } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TICKET_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
@@ -112,16 +112,18 @@ function TicketChat({ }: TicketChatProps) {
             id="scrollableDiv"
             style={{
                 height: height - 100,
-                overflow: 'auto',
+                overflowY: 'auto',
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
+            className={'overflow-auto overflow-hide'}
         >
             <InfiniteScroll
+                className={'overflow-auto overflow-hide'}
                 dataLength={ticketEvents.length}
                 hasMore={ticketEventsCurrentPage !== -1}
                 scrollableTarget="scrollableDiv"
-                style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                style={{ display: 'flex', flexDirection: 'column-reverse', overflowY: "auto" }}
                 inverse={true}
                 loader={<h4>
                     <Spinner />
@@ -160,7 +162,17 @@ function TicketChat({ }: TicketChatProps) {
 
                                         }
                                     </div>
+                                    
                                 </div>
+                                
+                                <div>
+                                        {
+                                            imageUrls && imageUrls.length > 0 && (
+                                                <ImageDownloadButton Url={imageUrls} title={title} />
+                                            )
+
+                                        }
+                                    </div>
                             </TimeLine>)
                     })
                 }

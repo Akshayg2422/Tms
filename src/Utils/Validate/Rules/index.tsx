@@ -96,9 +96,9 @@ export const CREATE_EXTERNAL = {
   reference_number: {
     presence: { allowEmpty: false, message: "reference no cannot be empty" },
   },
-  brand_branch_id: {
-    presence: { allowEmpty: false, message: "Please select company" },
-  },
+  // brand_branch_id: {
+  //   presence: { allowEmpty: false, message: "Please select company" },
+  // },
 
   // assigned_to_id: {
   //   presence: { allowEmpty: false, message: "please select User" },
@@ -245,7 +245,7 @@ export const ADD_TAG = {
 export const ADD_TASK_GROUP = {
   name: {
     presence: { allowEmpty: false, message: "tag name cannot be empty" },
-     length: { maximum: 10, message: "we cannot not add more then 20 character" },
+    length: { maximum: 20, message: "we cannot not add more then 20 character" },
   },
   code: {
     presence: { allowEmpty: false, message: "code name cannot be empty" },
@@ -354,7 +354,13 @@ export const ADD_EVENT_INTERNAL_RULES = {
   },
   event_attachments:
   {
-    presence: {allowEmpty: false,  message: "attachments cannot be empty" },
+    presence: { allowEmpty: false, message: "attachments cannot be empty" },
+  },
+}
+
+export const ADD_GROUP_MESSAGE = {
+  group_attachments: {
+    presence: { allowEmpty: false, message: "name and attachment cannot be empty" },
   },
 }
 

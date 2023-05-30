@@ -150,6 +150,7 @@
     "employees":"Employees",
     "addTimeSheet":"AddTimeSheet",
     "createPost":"Create Post",
+    "associatedCompany":"Associate Company",
     "assignedTask":"AssignedTask",
     "editTimeSheet":"EditTimeSheet"
   },

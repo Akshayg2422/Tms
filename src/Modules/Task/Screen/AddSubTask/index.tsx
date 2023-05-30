@@ -77,7 +77,7 @@ function AddSubTask() {
 
     useEffect(() => {
         getCompanyEmployeeApi()
-    }, [designation.value, department.value])
+    }, [designation.value, department.value, company.value])
 
 
 
@@ -111,6 +111,8 @@ function AddSubTask() {
                         return { ...item, designation: item?.designation?.name, department: item?.department?.name }
                     });
                     setCompanyUsers(companiesUser);
+
+                    console.log(companiesUser,"lllllllnnnnnnn")
                 },
                 onError: (error) => () => {
                 },
@@ -266,21 +268,19 @@ function AddSubTask() {
                         }}
                     />} */}
 
-                    
 
-            { getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&  <AutoSearchInput 
+
+                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && 
+                <AutoSearchInput
                     heading={translate("common.user")!}
                     placeholder={'please select a user...'}
                     data={companyUsers}
                     variant={true}
-                    onSelect={( item)=>{
+                    onSelect={(item) => {
                         // setSelectedUser(item.name);
                         setSelectedUserId(item)
-                    
                     }}
-                
-
-                    />
+                />
                 }
 
                 <DropDown
@@ -323,8 +323,6 @@ function AddSubTask() {
                         })}
                 </div>
             </div>
-
-
 
             <div className="col mt-4">
                 <Button

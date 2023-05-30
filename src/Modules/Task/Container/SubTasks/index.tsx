@@ -3,7 +3,7 @@ import { SubTasksProps } from './interfaces'
 import { Card, H, Button, CommonTable, Priority, NoDataFound } from '@Components'
 import { getSubTasks, setSelectedTask, setSelectedTabPosition } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@Hooks'
+import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
 import { translate } from '@I18n'
@@ -15,13 +15,11 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     const { goTo } = useNavigation();
     const { subTasks } = useSelector((state: any) => state.TaskReducer);
     const dispatch = useDispatch()
+    const { height } = useWindowDimensions()
 
     useEffect(() => {
         getSubTasksApi()
     }, [id])
-
-
-    console.log("responsesubtask",subTasks)
 
     function getSubTasksApi() {
         const params = {
@@ -37,25 +35,27 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         }))
     }
     const normalizedTableData = (data: any) => {
-        return data.map((el: any) => {
-            return {
-                "Sub task":
-                    <div className='row'>
-                        <Priority priority={el?.priority} />
-                        <span className="ml-2">{el?.title}</span>
-                    </div>
-            };
-        });
+        if (data && data.length > 0) {
+            return data?.map((el: any) => {
+                return {
+                    "Sub task":
+                        <div className='row'>
+                            <Priority priority={el?.priority} />
+                            <span className="ml-2">{el?.title}</span>
+                        </div>
+                };
+            });
+        }
+        return []
     };
 
     return (
-        <Card style={{
-            height: cardHeight
-        }} >
-            <div className='row justify-content-between px-3'>
+
+        <Card className="h-100">
+            {(subTasks && subTasks.length > 0) && <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={translate("auth.subTask")} />
                 <Button
-                    className={'shadow-none'}
+                    className={'text-white'}
                     size={"sm"}
                     text={translate("common.addSubTask")}
                     onClick={() => {
@@ -63,6 +63,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                     }}
                 />
             </div>
+            }
 
             <Card className='h-100 mt-1 mx--4 overflow-auto overflow-hide shadow-none' style={{ maxHeight: '39vh' }}>
                 {subTasks && subTasks.length > 0 ?

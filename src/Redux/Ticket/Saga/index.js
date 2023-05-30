@@ -20,12 +20,9 @@ function* raiseNewTicketSaga(action) {
 }
 
 function* getTicketsSaga(action) {
-  console.log("saga--ddddddddddddddddddddddddd->",action)
   try {
     const response = yield call(Services.getTicketsApi, action.payload.params);
-    console.log("response--->",response)
     if (response.success) {
-      console.log('+++++++++',response)
       yield put(Action.getTicketsSuccess({ ...response }));
       yield call(action.payload.onSuccess(response));
     } else {
@@ -73,12 +70,12 @@ function* addTicketEventSaga(action) {
 }
 
 function* getTicketTagsSaga(action) {
- 
+
   try {
     const response = yield call(Services.getTicketTagsApi, action.payload.params);
-    
+
     if (response.success) {
-    
+
       yield put(Action.getTicketTagsSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
@@ -137,36 +134,36 @@ function* getTicketUsersSaga(action) {
  * GET TASK EVENT HISTORY
  */
 
- function* getTicketEventHistorySaga(action) {
+function* getTicketEventHistorySaga(action) {
   try {
-      const response = yield call(Services.getTicketEventHistoryApi, action.payload.params);
-      if (response.success) {
-          yield put(Action.getTicketEventHistorySuccess(response));
-          yield call(action.payload.onSuccess(response));
-      } else {
-          yield put(Action.getTicketEventHistoryFailure(response.error_message));
-          yield call(action.payload.onError(response));
-      }
+    const response = yield call(Services.getTicketEventHistoryApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getTicketEventHistorySuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getTicketEventHistoryFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
   } catch (error) {
-      yield put(Action.getTicketEventHistoryFailure("Invalid Request"));
-      yield call(action.payload.onError);
+    yield put(Action.getTicketEventHistoryFailure("Invalid Request"));
+    yield call(action.payload.onError);
   }
 }
 
 
 function* getTicketDetailsSaga(action) {
   try {
-      const response = yield call(Services.getTicketDetailsApi, action.payload.params);
-      if (response.success) {
-          yield put(Action.getTicketDetailsSuccess(response));
-          yield call(action.payload.onSuccess(response));
-      } else {
-          yield put(Action.getTicketDetailsFailure(response.error_message));
-          yield call(action.payload.onError(response));
-      }
+    const response = yield call(Services.getTicketDetailsApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getTicketDetailsSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getTicketDetailsFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
   } catch (error) {
-      yield put(Action.getTicketDetailsFailure("Invalid Request"));
-      yield call(action.payload.onError(error));
+    yield put(Action.getTicketDetailsFailure("Invalid Request"));
+    yield call(action.payload.onError(error));
   }
 }
 
@@ -174,19 +171,19 @@ function* getTicketDetailsSaga(action) {
  * get Task Event Attachments
  */
 
- function* getTicketEventAttachmentsSaga(action) {
+function* getTicketEventAttachmentsSaga(action) {
   try {
-      const response = yield call(Services.getTicketEventsApi, action.payload.params);
-      if (response.success) {
-          yield put(Action.getTicketEventAttachmentsSuccess(response));
-          yield call(action.payload.onSuccess(response));
-      } else {
-          yield put(Action.getTicketEventAttachmentsFailure(response.error_message));
-          yield call(action.payload.onError(response));
-      }
+    const response = yield call(Services.getTicketEventsApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getTicketEventAttachmentsSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getTicketEventAttachmentsFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
   } catch (error) {
-      yield put(Action.getTicketEventAttachmentsFailure(error));
-      yield call(action.payload.onError(error));
+    yield put(Action.getTicketEventAttachmentsFailure(error));
+    yield call(action.payload.onError(error));
   }
 }
 

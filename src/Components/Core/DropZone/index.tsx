@@ -64,7 +64,7 @@ const Dropzone = ({
             onChange={handleChange}
             accept="image/*"
           />
-          <div>
+          <div >
             <Image
               src={image || icons.addFillSquare}
               variant={imageVariant}

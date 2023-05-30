@@ -72,12 +72,11 @@ function AddTicket() {
 
     useEffect(() => {
         getAssociatedCompaniesApi();
-        // console.log('========>>>')
     }, [])
 
     useEffect(() => {
         getCompanyEmployeeApi()
-        // console.log('=======><><>')
+        
     }, [designation.value, department.value])
 
 

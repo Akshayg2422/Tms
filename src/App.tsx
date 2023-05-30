@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react'
 import { PageNotFound, ScreenWrapper } from "@Components";
 import { Route, Routes } from "react-router-dom";
 import { HOME_ROUTES, AUTH_ROUTES, TASK_ROUTES, TICKET_ROUTES, USER_COMPANY_ROTES, MESSAGE_ROUTES, RequireAuth, RequireHome } from "@Routes";
 import { ToastContainer } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { icons } from '@Assets'
+import { useSelector } from "react-redux";
 import { changeLanguage } from "@I18n";
 /**
  *  select-react  - important need to add this app.js
@@ -23,7 +21,6 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function App() {
 
-  const { loginDetails } = useSelector((state: any) => state.AppReducer);
   const { language } = useSelector((state: any) => state.AuthReducer);
 
   changeLanguage(language?.value);
@@ -49,8 +46,9 @@ function App() {
 
     });
   };
-
-
+  /**
+   * kjasja
+   */
 
   return (
     <ScreenWrapper>

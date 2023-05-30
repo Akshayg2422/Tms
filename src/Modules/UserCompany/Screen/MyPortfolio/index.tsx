@@ -16,6 +16,7 @@ import { useNavigation } from '@Hooks'
 import { INITIAL_PAGE } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { translate } from "@I18n";
+import moment from 'moment';
 function MyPortfolio() {
   const dispatch = useDispatch();
   const addEtaTime = useModal(false);
@@ -32,16 +33,13 @@ function MyPortfolio() {
   const [assignedTaskDetails, setAssignedTaskDetails] = useState([])
   const [selectedTask, setSelectedTask] = useState<any>('')
   const editDescriptions = useInput('')
-  let currentDate =getDisplayDateFromMoment(getMomentObjFromServer(new Date())) 
-
+  let currentDate = getDisplayDateFromMoment(getMomentObjFromServer(new Date()))
   const { employeeTimeline, employeeTimelineCurrentPages } = useSelector((state: any) => state.UserCompanyReducer);
   const [employeeTimelineDisplayData, setEmployeeTimelineDisplayData] = useState({ keys: [], data: {} })
   const getGroupMenuItem = [
     { id: '0', name: "Edit", icon: icons.edit },
 
   ]
-
-
   useEffect(() => {
     getAssignedTaskList()
     getEmployeesTimeList(INITIAL_PAGE)
@@ -54,11 +52,11 @@ function MyPortfolio() {
       getDropDownDisplayData()
 
     }
-
   }, [employeeTimeline])
 
 
 
+  
 
 
   const handleStartTimeEtaChange = (value: any) => {
@@ -188,7 +186,7 @@ function MyPortfolio() {
     }
 
     const validation = validate(ADD_TIME_SHEET_DETAILS, params);
-    console.log("validation",validation)
+    console.log("validation", validation)
 
     if (ifObjectExist(validation)) {
       dispatch(
@@ -241,8 +239,6 @@ function MyPortfolio() {
               handleEditDescription(description)
             }
           }} />
-
-
 
         }
       }
@@ -350,9 +346,10 @@ function MyPortfolio() {
             color={"secondary"}
             text={translate('common.cancel')}
             onClick={() => restValue()}
-            className='text-center'
+            className='text-center text-white'
           />
           <Button
+            className={'text-white'}
             text={translate('common.submit')}
             onClick={() => {
               addEmployeeTimeSheet()
@@ -391,7 +388,6 @@ function MyPortfolio() {
         <div className="row">
           <div className="col-6">
             <DateTimePicker
-
               placeholder={'Start Time'}
               type="both"
               initialValue={editStartTimeEta}
@@ -400,7 +396,6 @@ function MyPortfolio() {
           </div>
           <div className="col-6">
             <DateTimePicker
-
               type="both"
               initialValue={editEndTimeEta}
               placeholder={'End Time'}
@@ -413,9 +408,10 @@ function MyPortfolio() {
             color={"secondary"}
             text={translate("common.cancel")}
             onClick={() => editRestValue()}
-            className='text-center'
+            className='text-center text-white'
           />
           <Button
+            className={'text-white'}
             text={translate('common.submit')}
             onClick={() => {
               addEmployeeTimeSheet()
