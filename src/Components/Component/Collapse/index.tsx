@@ -11,16 +11,14 @@ import { NoRecordsFound, Table, Button } from '@Components';
 
 function CollapseButton({ title, children, displayDataSet, tableDataSet, tableOnClick, text, onClick, childrenS, selectedIds, selectedId }: AuthContainerProps) {
   const [openedCollapses, setOpenedCollapses] = useState<any>([selectedId])
-  console.log(selectedId,'sseeelle')
-let currentDate=new Date
+let currentDate=new Date()
   let currentDay=currentDate.getDate()
   let currentMonth=currentDate.getMonth()
   let currentYear=currentDate.getFullYear()
  
-  let dateFormate=`${currentYear}-${currentMonth}-${currentDay}`
-  console.log(dateFormate,"lll")
+  let dateFormate=`${currentYear}-${0}${currentMonth+1}-${currentDay}`
   useEffect(()=>{
-    collapsesToggle('2023-05-29')
+    collapsesToggle(dateFormate)
 
   },[])
   const collapsesToggle = (collapse) => {

@@ -131,7 +131,7 @@ function Tasks() {
         />
       </div>
       <div className="row mt-3">
-        <div className="mx-2 col">
+        <div className="mx-3 col">
           <TaskGroups onClick={(code) => {
             dispatch(setTaskParams({ ...taskParams, group: code }))
             setParams({ ...params, group: code } as any)

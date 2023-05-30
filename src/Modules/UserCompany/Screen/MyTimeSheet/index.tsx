@@ -348,7 +348,7 @@ function MyTimeSheet() {
     <div className='m-3'>
 
 
-      <div className='card mx--2 p-4' style={{ flexDirection: 'row' }}>
+      <div className='card  p-4' style={{ flexDirection: 'row' }}>
         <div className="h3">{'This Week'}</div>
         <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
         <div>
