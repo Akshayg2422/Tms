@@ -19,11 +19,22 @@ const ImagePicker = ({
   const initialValue = { id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }
   const [photo, setPhoto] = useState<any>()
 
+  console.log(photo,"ppppp")
+
+  console.log(defaultValue,"defaultValue====>")
   useEffect(() => {
     if( defaultValue ){
     imagePickerConvertBase64(defaultValue)
       .then((result) => {
+        console.log(result,"result--->")
+        if(defaultValue>1)
+        {
         setPhoto([...result, initialValue])
+        }
+        else{
+          setPhoto([...result])
+
+        }
       })
       .catch((error) => {
         console.error(error);

@@ -1,13 +1,10 @@
-import { Image, Card, Modal, Button, Dropzone, showToast } from "@Components";
+import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker } from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
 import { getObjectFromArrayByKey, GENDER_LIST, } from '@Utils'
 import { addUpdateEmployeePhoto, getDashboard, userLogout } from '@Redux'
 import { ROUTES } from "@Routes"
-import { useState } from "react";
-import { translate } from "@I18n";
-import { icons } from "@Assets";
 
 function Profile() {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
@@ -70,7 +67,7 @@ function Profile() {
           <div className="col text-right">
             <Button color={'white'} size={'sm'} text={'Logout'} onClick={logoutModal.show} />
           </div>
-          <div className="text-center mb-5">
+          {/* <div className="text-center mb-5">
 
             {user_details && <div className="pb-3">
               <Dropzone
@@ -87,7 +84,29 @@ function Profile() {
 
             </div>
             }
-          </div>
+  
+          </div> */}
+        
+
+          {user_details && <div className="pb-4">
+           <ImagePicker
+          
+                    size='xxl'
+                    defaultValue={[{id:'1', photo:user_details?.profile_photo}]}
+                    className="text-center"
+                    noOfFileImagePickers={1}
+                    imageVariant={'rounded'}
+                   
+                    onSelect={(image) => {
+                        let file = image.toString().replace(/^data:(.*,)?/, "")
+                        // handleImagePicker( file);
+                        userProfileEdit(file)
+                      
+                    }}
+                />
+                 </div>
+            }
+           
 
           <h3 className="ct-title undefined">Basic Information</h3>
 

@@ -92,6 +92,7 @@ export const getDeviceInfo = () => {
 export  async function imagePickerConvertBase64(array) {
   const promises = array.map(async (each) => {
     let photo = await getPhoto(each. photo);
+    console.log(photo,"photo")
     const base64 = await fetch(photo)
 .then(response => response.blob())
   .then(blob => {

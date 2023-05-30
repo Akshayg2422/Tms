@@ -428,7 +428,7 @@ console.log(photo,"pppppp")
                     icon={image}
                     size='xl'
                     heading={translate("common.addAttachment")!}
-                    noOfFileImagePickers={1}
+                    noOfFileImagePickers={4}
                     onSelect={(image) => {
                         let file = image.toString().replace(/^data:(.*,)?/, "")
                         handleImagePicker( file);

@@ -121,9 +121,9 @@ function Tasks() {
     <div className="mx-3 mt-3 ">
       <div className="row ">
         <div className="mx-2 mb--3  col">
-          <TaskGroups onClick={(code) => {
+          {/* <TaskGroups onClick={(code) => {
             setParams({ ...params, group: code } as any)
-          }} />
+          }} /> */}
         </div>
 
         <div className="col-auto  ">
