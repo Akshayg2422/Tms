@@ -1,20 +1,18 @@
 import React from 'react'
-import { TimeLineProps } from './interfaces'
+import { GroupChatProps } from './interfaces'
 import { Image } from '@Components'
 import { icons } from '@Assets'
 
 
-function TimeLine({ showDotterLine, children, title, time, icon, color = 'white', rtl, subTitle }: TimeLineProps) {
+function GroupChat({ children, title, time, color = 'white', rtl, subTitle, isEdit, isDelete, editOnclick, deleteOnClick }: GroupChatProps) {
 
     return (
         <div
-            className={`${showDotterLine && 'timeline '} timeline-one-side  `}
-            data-timeline-axis-style="dashed"
-            data-timeline-content="axis"
+            className={''}
         >
             <div className="timeline-block" dir={rtl ? "rtl" : undefined}>
-                <span className={`timeline-step badge-${color} bg-primary`}>
-                    {icon ? <Image src={icon} width={15} height={15} /> : <i className="ni ni-bell-55" />}
+                <span className={''}>
+                    {/* {icon ? <Image src={icon} width={15} height={15} /> : <i className="ni ni-bell-55" />} */}
                 </span>
 
                 <div className="timeline-content">
@@ -30,6 +28,16 @@ function TimeLine({ showDotterLine, children, title, time, icon, color = 'white'
                                 <i className={`fas fa-clock mr-1 ${rtl && 'ml-1'}`} />
                                 {time}
                             </small>
+                            {isEdit && <small>
+                                <div className=' mx-2 pointer  d-inline-flex  justify-content-center align-items-center'>
+                                    <Image src={icons.editEta} onClick={editOnclick} width={12} height={12} style={{ objectFit: 'contain' }} />
+                                </div>
+                            </small>}
+                            {isDelete && <small>
+                                <div className='pointer d-inline-flex justify-content-center align-items-center'>
+                                    <Image src={icons.deleteCurve} onClick={deleteOnClick} width={12} height={12} style={{ objectFit: 'contain' }} />
+                                </div>
+                            </small>}
                         </div>
                     </div>
                     <div className='mb-4'>
@@ -43,4 +51,4 @@ function TimeLine({ showDotterLine, children, title, time, icon, color = 'white'
     )
 }
 
-export { TimeLine }
+export { GroupChat }

@@ -49,6 +49,7 @@ function Broadcast() {
         <InfiniteScroll
           dataLength={broadCastDetails.length}
           hasMore={broadCastCurrentPage !== -1}
+          className={'overflow-auto overflow-hide'}
           loader={<h4>
             <Spinner />
           </h4>}
@@ -59,7 +60,7 @@ function Broadcast() {
           }
           }>
 
-          <div className={''} >
+          <div>
             {
               broadCastDetails?.map((company: any, index: number) => {
                 return (
