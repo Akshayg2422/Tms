@@ -123,7 +123,7 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
                                     </div>
                                 </div>
 
-                                <div className={'mx--4'}>
+                                <div className={'mx--4 my--2'}>
                                     {index !== employees.length - 1 && <Divider space={'3'} />}
                                 </div>
                             </div>)
