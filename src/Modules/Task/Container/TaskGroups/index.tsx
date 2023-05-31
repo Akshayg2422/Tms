@@ -28,10 +28,8 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
 
     return (
 
-        <div className='row mb-2 overflow-hide' style={{
-            overflowX: 'auto'
-        }} >
-            <div className='col d-flex ml--2'>
+        <div className='row overflow-auto  overflow-hide' >
+            <div className='d-flex'>
                 {taskGroups && taskGroups.length > 0 && taskGroups &&
              [DEFAULT_TASK_GROUP  ,...taskGroups].map((el: any, index: number) => {
                         const bgColor = selectedTaskGroupCode === el.id ? "bg-primary" : "bg-white"

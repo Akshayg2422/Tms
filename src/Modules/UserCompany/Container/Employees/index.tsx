@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getEmployees } from '@Redux'
 import { capitalizeFirstLetter, getPhoto } from '@Utils'
 import { icons } from '@Assets'
-import { translate } from 'i18n-js'
+
 
 function Employees({ otherParams, selection = 'none', onSelected, defaultSelect }: EmployeesProps) {
 
@@ -29,7 +29,6 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
             ...(otherParams && { ...otherParams }),
             q_many
         }
-
         dispatch(
             getEmployees({
                 params,
@@ -124,7 +123,7 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
                                     </div>
                                 </div>
 
-                                <div className={'mx--4'}>
+                                <div className={'mx--4 my--2'}>
                                     {index !== employees.length - 1 && <Divider space={'3'} />}
                                 </div>
                             </div>)

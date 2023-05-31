@@ -67,6 +67,7 @@ function Login() {
             onChange={mobileNumber.onChange}
             value={mobileNumber.value}
             maxLength={10}
+            
           />
           <H tag={"h5"} text={translate("auth.chooseLanguge")} />
           <Radio

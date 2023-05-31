@@ -31,7 +31,7 @@ function GroupMessage({ }: GroupMessageProps) {
     const { user_details } = dashboardDetails
 
 
- 
+
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
@@ -88,29 +88,29 @@ function GroupMessage({ }: GroupMessageProps) {
 
         switch (event_type) {
             case 'TEM':
-                modifiedData = { ...each, icon: icons.message, subTitle: event_by?.name, title: message, }
+                modifiedData = { ...each, subTitle: event_by?.name, title: message, }
                 break;
             case 'ETA':
-                modifiedData = { ...each, icon: icons.clock, subTitle: event_by?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
+                modifiedData = { ...each, subTitle: event_by?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
                 break;
             case 'TGU':
                 let names = tagged_users.map(function (item) {
                     return '@' + item['name'] + " ";
                 });
-                modifiedData = { ...each, icon: icons.taggedUserWhiteIcon, subTitle: event_by?.name, title: "tagged " + names }
+                modifiedData = { ...each, subTitle: event_by?.name, title: "tagged " + names }
                 break;
 
             case 'RGU':
-                modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: event_by?.name, title: "Task Reassigned to " + assigned_to.name }
+                modifiedData = { ...each, subTitle: event_by?.name, title: "Task Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
-                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: event_by?.name, title: attachments.name }
+                modifiedData = { ...each, subTitle: event_by?.name, title: attachments.name }
                 break;
             case 'RTS':
-                modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: event_by?.name, title: 'User Attached Reference Task' }
+                modifiedData = { ...each, subTitle: event_by?.name, title: 'User Attached Reference Task' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: event_by?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(GROUP_STATUS_LIST, 'id', group_status).text }
+                modifiedData = { ...each, subTitle: event_by?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(GROUP_STATUS_LIST, 'id', group_status).text }
                 break;
         }
         return modifiedData
@@ -145,7 +145,6 @@ function GroupMessage({ }: GroupMessageProps) {
                 },
             })
         );
-
 
     }
 
@@ -237,8 +236,6 @@ function GroupMessage({ }: GroupMessageProps) {
                                     }}
                                 >
 
-
-
                                     <div className='pt-2' onClick={() => {
                                         imageModal.show()
                                         setImage(imageUrls)
@@ -290,15 +287,12 @@ function GroupMessage({ }: GroupMessageProps) {
                         onChange={message.onChange}
                     />
 
-
-
                     <div className="col">
                         <label className={`form-control-label`}>
                             {/* {translate("auth.attach")} */}
                             {'Attach'}
                         </label>
                     </div>
-
 
                     <div className="col-md-9 col-lg-7 pb-4 ">
                         {selectDropzone &&
@@ -328,9 +322,6 @@ function GroupMessage({ }: GroupMessageProps) {
                         />
                     </div>
                 </div>
-
-
-
 
             </Modal>
             <Modal isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide}>

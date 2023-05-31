@@ -10,9 +10,12 @@ import { Employees } from '@Modules'
 import { translate } from '@I18n'
 
 
-function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps) {
+function GroupEmployees({  groupCode,height, otherParams }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
     const { groupEmployees } = useSelector((state: any) => state.UserCompanyReducer);
+
+
+
     useEffect(() => {
         getGroupEmployees()
     }, [Employees])
@@ -27,11 +30,11 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
     const getGroupEmployees = (q: string = '') => {
 
         const params = {
-            group_id: Employees,
+            group_id: groupCode,
             ...(otherParams && { ...otherParams }),
             q
         }
-        if (Employees) {
+        if (groupCode) {
             dispatch(
                 getGroupsEmployees({
                     params,
@@ -54,7 +57,7 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
         console.log(addUsers, "pppppuuuuuuuuuu")
 
         const params = {
-            group_id: Employees,
+            group_id: groupCode,
             users_id: addUsers.tagged_users
         }
 
@@ -74,13 +77,6 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
         )
 
     }
-    // function proceedTaskStatusChangeHandler() {
-    //     const params = {
-    //         event_type: EVS,
-    //         taskstatus_changeto: status.value?.id,
-    //     }
-    //     addGroupUsers(params)
-    // }
 
 
 
@@ -89,24 +85,23 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
 
             <Card className={'h-100'}>
                 <div className='row'>
-                    <div className='col'>
-                        <h5 className="h3 mb-0">{'Members'}</h5>
+                    <div className='mx--1'>
+                        <span className="h4 col-3">{'Members'}</span>
                     </div>
-                    <div className='col-auto'>
-                        <Button text={'Add'} size='sm' onClick={() => {
-                            addUserModal.show()
-
-
-                        }} />
-                    </div>
-                </div>
-
-                <div className='h-100 overflow-auto scroll-hidden pb-3'>
-                    <div className='mt-3'>
+                    <div className='col-6 my--1 p-0'>
                         <SearchInput onSearch={(search) => {
                             getGroupEmployees(search)
                         }} />
                     </div>
+                    <div className='col-1'>
+                        <Button className={'text-white'} text={'Add'} size='sm' onClick={() => {
+                            addUserModal.show()
+                        }} />
+                    </div>
+                </div>
+
+                <div className='h-100 overflow-auto overflow-hide pb-3'>
+
                     <div className='mt-3'>
                         {
                             groupEmployees && groupEmployees.length > 0 ? groupEmployees.map((el: any, index: number) => {
