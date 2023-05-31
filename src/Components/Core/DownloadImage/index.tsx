@@ -6,7 +6,6 @@ import { Button } from '@Components';
 
 function ImageDownloadButton({ Url, size = 'sm', color = 'primary', title }: DownloadImageProps) {
 
-  console.log("==========titile", title);
 
   const handleDownload = async () => {
     try {

@@ -10,9 +10,12 @@ import { Employees } from '@Modules'
 import { translate } from '@I18n'
 
 
-function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps) {
+function GroupEmployees({  groupCode,height, otherParams }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
     const { groupEmployees } = useSelector((state: any) => state.UserCompanyReducer);
+
+
+
     useEffect(() => {
         getGroupEmployees()
     }, [Employees])
@@ -27,11 +30,11 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
     const getGroupEmployees = (q: string = '') => {
 
         const params = {
-            group_id: Employees,
+            group_id: groupCode,
             ...(otherParams && { ...otherParams }),
             q
         }
-        if (Employees) {
+        if (groupCode) {
             dispatch(
                 getGroupsEmployees({
                     params,
@@ -54,7 +57,7 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
         console.log(addUsers, "pppppuuuuuuuuuu")
 
         const params = {
-            group_id: Employees,
+            group_id: groupCode,
             users_id: addUsers.tagged_users
         }
 
@@ -74,13 +77,6 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
         )
 
     }
-    // function proceedTaskStatusChangeHandler() {
-    //     const params = {
-    //         event_type: EVS,
-    //         taskstatus_changeto: status.value?.id,
-    //     }
-    //     addGroupUsers(params)
-    // }
 
 
 

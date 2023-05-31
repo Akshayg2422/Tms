@@ -34,7 +34,7 @@ function Groups() {
                 <div className='col ml--3' style={{
                     height: infoHeight - 30
                 }}>
-                    <GroupEmployees Employees={selectedGroupChatCode} />
+                    <GroupEmployees groupCode={selectedGroupChatCode} />
                 </div>
             </div>
                 : <div className='d-flex h-100vh justify-content-center align-items-center'>
