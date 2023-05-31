@@ -93,6 +93,21 @@ function EmployeesList() {
                     }
                     }
 
+                    isPagination
+                    //     noOfPage={}
+                    //  currentPage={}
+                    // paginationNumberClick={(currentPage) => {
+                    //     getTaskHandler(paginationHandler("current", currentPage));
+                    // }}
+                    // previousClick={() => {
+                    //     getTaskHandler(paginationHandler("prev", taskCurrentPages))
+                    // }
+                    // }
+                    // nextClick={() => {
+                    //     getTaskHandler(paginationHandler("next", taskCurrentPages));
+                    // }
+                    // }
+
                 />
             </div>
 
