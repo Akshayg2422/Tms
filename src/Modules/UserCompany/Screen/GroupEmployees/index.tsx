@@ -89,24 +89,23 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
 
             <Card className={'h-100'}>
                 <div className='row'>
-                    <div className='col'>
-                        <h5 className="h3 mb-0">{'Members'}</h5>
+                    <div className='mx--1'>
+                        <span className="h4 col-3">{'Members'}</span>
                     </div>
-                    <div className='col-auto'>
-                        <Button text={'Add'} size='sm' onClick={() => {
-                            addUserModal.show()
-
-
-                        }} />
-                    </div>
-                </div>
-
-                <div className='h-100 overflow-auto scroll-hidden pb-3'>
-                    <div className='mt-3'>
+                    <div className='col-6 my--1 p-0'>
                         <SearchInput onSearch={(search) => {
                             getGroupEmployees(search)
                         }} />
                     </div>
+                    <div className='col-1'>
+                        <Button className={'text-white'} text={'Add'} size='sm' onClick={() => {
+                            addUserModal.show()
+                        }} />
+                    </div>
+                </div>
+
+                <div className='h-100 overflow-auto overflow-hide pb-3'>
+
                     <div className='mt-3'>
                         {
                             groupEmployees && groupEmployees.length > 0 ? groupEmployees.map((el: any, index: number) => {
