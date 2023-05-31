@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { addEvent, addGroupMessage, getGroupMessage } from '@Redux'
-import { TimeLine, Spinner, Image, Modal, Card, ImageDownloadButton, showToast, Button, Input, Dropzone } from '@Components'
+import { Spinner, Image, Modal, Card, ImageDownloadButton, showToast, Button, Input, Dropzone, GroupChat } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
@@ -212,13 +212,13 @@ function GroupMessage({ }: GroupMessageProps) {
                             const { icon, title, subTitle, created_at, attachments } = item
                             const showDotLine = index !== 0
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
-                            const loginUser = user_details?.id===item?.event_by?.id 
-                        
-                            
+                            const loginUser = user_details?.id === item?.event_by?.id
+
+
                             return (
-                                <TimeLine
-                                    icon={icon}
-                                    showDotterLine={showDotLine}
+                                <GroupChat
+                                    // icon={icon}
+                                    // showDotterLine={showDotLine}
                                     title={title} subTitle={subTitle}
                                     time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))}
                                     isEdit={loginUser}
@@ -257,7 +257,7 @@ function GroupMessage({ }: GroupMessageProps) {
                                     </div>
 
 
-                                </TimeLine>)
+                                </GroupChat>)
                         })
                     }
                 </InfiniteScroll>
@@ -279,13 +279,13 @@ function GroupMessage({ }: GroupMessageProps) {
                 </Carousel>
             </Modal>
 
-            <Modal title='Edit Chat' isOpen={editModal.visible} onClose={editModal.hide} >
+            <Modal size={'lg'} title='Edit Chat' isOpen={editModal.visible} onClose={editModal.hide} >
 
-                <div className="col-md-9 col-lg-7">
-                    <Input
-                        value={message.value}
-                        onChange={message.onChange}
-                    />
+                <div className="col-md col-lg">
+
+                    <div className='col-md col-lg'>
+                        <textarea value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
+                    </div>
 
                     <div className="col">
                         <label className={`form-control-label`}>
@@ -294,7 +294,7 @@ function GroupMessage({ }: GroupMessageProps) {
                         </label>
                     </div>
 
-                    <div className="col-md-9 col-lg-7 pb-4 ">
+                    <div className="row col-8 mx-1 ">
                         {selectDropzone &&
                             selectDropzone.map((el: any, index: number) => {
                                 return (
@@ -314,7 +314,7 @@ function GroupMessage({ }: GroupMessageProps) {
                 </div>
 
                 <div className="row justify-content-end">
-                    <div className="col-md-6 col-lg-4 ">
+                    <div className="col-md-5 col-lg-3 ">
                         <Button
                             block
                             text={'Update'}
