@@ -28,6 +28,7 @@ function GroupMessage({ }: GroupMessageProps) {
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
+    const { user_details } = dashboardDetails
 
 
  
@@ -212,14 +213,17 @@ function GroupMessage({ }: GroupMessageProps) {
                             const { icon, title, subTitle, created_at, attachments } = item
                             const showDotLine = index !== 0
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                            const loginUser = user_details?.id===item?.event_by?.id 
+                        
+                            
                             return (
                                 <TimeLine
                                     icon={icon}
                                     showDotterLine={showDotLine}
                                     title={title} subTitle={subTitle}
                                     time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))}
-                                    isEdit
-                                    isDelete
+                                    isEdit={loginUser}
+                                    isDelete={loginUser}
                                     editOnclick={() => {
                                         setSelectMessage(item)
                                         editModal.show()
@@ -231,7 +235,6 @@ function GroupMessage({ }: GroupMessageProps) {
                                         setSelectMessage(item)
                                         deleteModal.show()
                                     }}
-                                    data={item}
                                 >
 
 

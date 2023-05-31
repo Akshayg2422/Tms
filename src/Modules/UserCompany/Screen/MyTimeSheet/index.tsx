@@ -69,6 +69,8 @@ function MyTimeSheet() {
 
   //start  date end date
 
+  console.log('formattedShift---->',formattedShift)
+
   const getDatesBetween = (startDate, endDate) => {
     const dates: any = [];
     const currentDate = moment(startDate);
@@ -131,6 +133,7 @@ function MyTimeSheet() {
 
   const dateWithTasks = (response: any) => {
     const TaskWithDates = [...dateWithTask()]
+    console.log("TaskWithDates",TaskWithDates)
     let modifiedData = [...TaskWithDates]
 
     let consolidatedShift = modifiedData.map(each => {

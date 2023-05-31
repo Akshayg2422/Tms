@@ -2,13 +2,10 @@ import React from 'react'
 import { TimeLineProps } from './interfaces'
 import { Image } from '@Components'
 import { icons } from '@Assets'
-import { useSelector } from 'react-redux';
 
 
-function TimeLine({ showDotterLine, children, title, time, icon, color = 'white', rtl, subTitle,isEdit,isDelete,editOnclick,deleteOnClick,data  }: TimeLineProps) {
+function TimeLine({ showDotterLine, children, title, time, icon, color = 'white', rtl, subTitle,isEdit,isDelete,editOnclick,deleteOnClick}: TimeLineProps) {
 
-    const {  dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    const { user_details } = dashboardDetails
     return (
         <div
             className={`${showDotterLine && 'timeline '} timeline-one-side  `}
@@ -33,14 +30,14 @@ function TimeLine({ showDotterLine, children, title, time, icon, color = 'white'
                                 <i className={`fas fa-clock mr-1 ${rtl && 'ml-1'}`} />
                                 {time}
                             </small>
-                            {user_details?.id===data?.event_by?.id && isEdit && <small>
+                            {isEdit && <small>
                                 <div className=' mx-2  d-inline-flex  justify-content-center align-items-center'>
-                                    <Image src={icons.edit} onClick={editOnclick} width={17} height={17} style={{ objectFit: 'contain' }} />
+                                    <Image src={icons.edit} onClick={editOnclick} width={15} height={15} style={{ objectFit: 'contain' }} />
                                 </div>
                             </small>}
-                            {user_details?.id===data?.event_by?.id && isDelete && <small>
+                            {isDelete && <small>
                                 <div className='  d-inline-flex justify-content-center align-items-center'>
-                                    <Image src={icons.deleteCurve} onClick={deleteOnClick} width={17} height={17} style={{ objectFit: 'contain'}} />
+                                    <Image src={icons.deleteCurve} onClick={deleteOnClick} width={15} height={15} style={{ objectFit: 'contain'}} />
                                 </div>
                             </small>}
                         </div>
