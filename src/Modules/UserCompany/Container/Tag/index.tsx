@@ -9,6 +9,7 @@ import {
   showToast,
   Dropzone,
   Image,
+  ImagePicker,
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -31,10 +32,6 @@ function Tag() {
   const [tagPhoto, setTagPhoto] = useState("");
   const [tagCode, setTagCode] = useState('');
   const [description, setDescription] = useState("");
-  let tagAttach = [tagPhoto]
-  let tagPhotoAttach = tagAttach.slice(-1, 4)
-
-
   const getTicketTagList = (page_number: number) => {
 
     const params = {
@@ -58,7 +55,7 @@ function Tag() {
       name: tagName,
       description: description,
       code: tagCode.trim(),
-      photo: tagPhotoAttach[0]
+      photo: tagPhoto
     };
 
     const validation = validate(ADD_TASK_GROUP, params)
@@ -208,7 +205,7 @@ function Tag() {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div className="pb-3">
+        {/* <div className="pb-3">
           <Dropzone
             variant="ICON"
             icon={tagPhoto}
@@ -219,7 +216,25 @@ function Tag() {
 
             }}
           />
-        </div>
+        </div> */}
+        <div className="ml--2">
+             
+                <ImagePicker
+                  
+                    size='xl'
+                    noOfFileImagePickers={1}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        setTagPhoto(file)
+                    }}
+                    onSelectImagePicker={(el)=>{
+                        
+
+                    }}
+                />
+               
+                </div>
+        
         <div className="text-right">
           <Button
             color={"secondary"}

@@ -63,28 +63,8 @@ function Profile() {
           <div className="col text-right">
             <Button color={'white'} size={'sm'} text={'Logout'} onClick={logoutModal.show} />
           </div>
-          {/* <div className="text-center mb-5">
-
-            {user_details && <div className="pb-3">
-              <Dropzone
-                variant="ICON"
-                imageVariant={'rounded'}
-                icon={user_details?.profile_photo ? getPhoto(user_details?.profile_photo) : icons.profilePick}
-                size='xxl'
-                onSelect={(image) => {
-                  let encoded = image.toString().replace(/^data:(.*,)?/, "");
-                  userProfileEdit(encoded)
-                }}
-                imagePicker={true}
-              />
-
-            </div>
-
-            }
-  
-          </div> */}
-        
-
+      
+      
           {user_details && <div className="pb-4">
            <ImagePicker
           
@@ -93,12 +73,16 @@ function Profile() {
                     className="text-center"
                     noOfFileImagePickers={1}
                     imageVariant={'rounded'}
+                    defaultPicker={true}
                    
                     onSelect={(image) => {
                         let file = image.toString().replace(/^data:(.*,)?/, "")
-                        // handleImagePicker( file);
                         userProfileEdit(file)
                       
+                    }}
+
+                    onSelectImagePicker={()=>{
+
                     }}
                 />
                  </div>
@@ -149,44 +133,7 @@ function Profile() {
         </div>
       </Card>
 
-      {/* <Modal
-        isOpen={editProfileModal.visible}
-        onClose={() => {
-          editProfileModal.hide()
-        }}
-        title={'Profile Edit'}
-        size={'sm'}
-      >
-
-        <div className="pb-3">
-          <Dropzone
-            variant="ICON"
-            icon={getPhoto(editPhoto)}
-            size="xl"
-            onSelect={(image) => {
-              let encoded = image.toString().replace(/^data:(.*,)?/, "");
-               setPhoto(encoded);
-            }}
-          />
-        </div>
-        <div className="text-right">
-          <Button
-          size={'sm'}
-            color={"secondary"}
-            text={translate("common.cancel")}
-            onClick={() => {
-            }}
-          />
-          <Button
-          size={'sm'}
-            text={translate("common.submit")}
-            onClick={() => {
-               userProfileEdit();
-            }}
-          />
-        </div>
-      </Modal> */}
-
+      
       <Modal title={'Are you sure want to Logout?'} size={'md'} isOpen={logoutModal.visible} fade={false} onClose={logoutModal.hide}  >
         <div className='row'>
           <div className="col">

@@ -61,13 +61,13 @@ function AddTask() {
     const designation = useDropDown({})
     const company = useDropDown({})
     const taskGroup = useDropDown({})
-    const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
+    const [selectNoPickers, setSelectNoPickers] = useState<any>();
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
-    let attach = photo.slice(-4, 9)
+    let attach = photo.slice(-selectNoPickers)
 
     useEffect(() => {
         getAssociatedCompaniesApi();
@@ -91,7 +91,7 @@ function AddTask() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = (index: number, file: any) => {
+    const handleImagePicker = ( file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
@@ -264,9 +264,33 @@ function AddTask() {
             </div>
             <hr className='mt-3'></hr>
 
+            <div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                    icon={image}
+                    size='xl'
+                    heading={translate("common.addAttachment")!}
+                    noOfFileImagePickers={4}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker(file)
+                       
+                    
+                    }}
+                    onSelectImagePicker={(el)=>{
+                        setSelectNoPickers(el?.length)
+
+                    }}
+                />
+
+                </div>
+              
+
+            </div>
+
             <div className="col-md-9 col-lg-5">
 
-                <div className="col-md-9 col-lg-5 ml--1">
+                {/* <div className="col-md-9 col-lg-5 ml--1">
                     <label className={`form-control-label ml--2`}>
                         {translate("common.addAttachment")}
                     </label>
@@ -291,7 +315,8 @@ function AddTask() {
                                 );
                             })}
                     </span>
-                </div>
+                </div> */}
+            
 
                 {/* <div className="row pb-3">
                 <ImagePicker
@@ -416,55 +441,6 @@ function AddTask() {
                     onChange={handleEtaChange}
                 />
             </div>
-
-
-            {/* <div className="col-md-9 col-lg-5 mt-3">
-                <label className={`form-control-label`}>
-                    {translate("common.addAttachment")}
-                </label>
-                <div className="row">
-                    {selectDropzone &&
-                        selectDropzone.map((el, index) => {
-                            return (
-                                <div className="ml-2">
-                                    <Dropzone
-                                        variant="ICON"
-                                        icon={image}
-                                        size="xl"
-                                        onSelect={(image) => {
-                                            let file = image.toString().replace(/^data:(.*,)?/, "");
-                                            handleImagePicker(index, file);
-                                            { selectDropzone.length && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
-                                            { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
-                                            { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
-                                        }}
-                                    />
-                                </div>
-                            );
-                        })}
-                </div>
-            </div> */}
-
-            <div className="col">
-                <div className="row">
-                <ImagePicker
-                    icon={image}
-                    size='xl'
-                    heading={translate("common.addAttachment")!}
-                    noOfFileImagePickers={4}
-                    onSelect={(image) => {
-                        let file = image.toString().replace(/^data:(.*,)?/, "")
-                       console.log(image,"ppppp>>>")
-                      
-                    }}
-                />
-
-                </div>
-              
-
-            </div>
-
-
 
             <div className="col mt-4">
                 <Button

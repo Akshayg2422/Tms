@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Input, DropDown, Button, showToast, AutoCompleteDropDown, Dropzone, Back, Card
+  Input, DropDown, Button, showToast, AutoCompleteDropDown, Dropzone, Back, Card, ImagePicker
 } from "@Components";
 import {
   GENDER_LIST,
@@ -181,12 +181,12 @@ function AddUser() {
           onChange={designation.onChange}
         />
 
-        <div >
+        {/* <div >
           <label className={`form-control-label`}>
             {'Photo'}
           </label>
-        </div>
-        <div className=" pb-2 pt-1">
+        </div> */}
+        {/* <div className=" pb-2 pt-1">
           <Dropzone
             variant="ICON"
             icon={photo}
@@ -196,8 +196,25 @@ function AddUser() {
               setPhoto(encoded);
             }}
           />
-        </div>
+        </div> */}
       </div>
+      <div className="ml--2">
+             <ImagePicker
+               
+                 size='xl'
+                 heading="photo"
+                 noOfFileImagePickers={1}
+                 onSelect={(image) => {
+                     let file =image.toString().replace(/^data:(.*,)?/, "")
+                     setPhoto(file)
+                 }}
+                 onSelectImagePicker={(el)=>{
+                     
+
+                 }}
+             />
+            
+             </div>
 
       <div className="col mt-4">
         <Button

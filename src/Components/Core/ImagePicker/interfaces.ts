@@ -10,4 +10,6 @@ export interface DropZoneImageProps {
     className?:string,
     heading?:string,
     noOfFileImagePickers?:number,
+    onSelectImagePicker:any,
+    defaultPicker?:any,
 }

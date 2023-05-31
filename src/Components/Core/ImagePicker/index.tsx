@@ -12,7 +12,8 @@ const ImagePicker = ({
   defaultValue,
   className='row',
   heading,
-  
+  onSelectImagePicker,
+  defaultPicker=false
 }: DropZoneImageProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [count, setCount] = useState(1)
@@ -21,9 +22,14 @@ const ImagePicker = ({
 
   console.log(photo,"ppppp")
 
+  const updatedProfile=photo && photo.filter((element:any)=>element.id!==0)
+  onSelectImagePicker(updatedProfile)
+
+
   console.log(defaultValue,"defaultValue====>")
   useEffect(() => {
-    if( defaultValue ){
+    
+    if( defaultValue && defaultPicker ){
     imagePickerConvertBase64(defaultValue)
       .then((result) => {
         console.log(result,"result--->")
