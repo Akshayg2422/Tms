@@ -69,12 +69,11 @@ function Profile() {
            <ImagePicker
           
                     size='xxl'
-                    defaultValue={[{id:'1', photo:user_details?.profile_photo}]}
+                    defaultValue={[{id:1, photo:user_details?.profile_photo}]}
                     className="text-center"
                     noOfFileImagePickers={1}
                     imageVariant={'rounded'}
                     defaultPicker={true}
-                   
                     onSelect={(image) => {
                         let file = image.toString().replace(/^data:(.*,)?/, "")
                         userProfileEdit(file)

@@ -42,10 +42,10 @@ function AdminFeeds() {
   const editFeedModal = useModal(false)
 
 
-  let AttachmentEdit = selectDropzone &&selectDropzone.map(el=>{
+  let AttachmentEdit = selectDropzone &&selectDropzone.map((el,index)=>{
   const {id,attachment_file}=el
   return {
-   id: id, photo: attachment_file,
+   id:index+1, photo: attachment_file,
 }
 
  })
@@ -118,7 +118,7 @@ function AdminFeeds() {
 
 
 
-  let attach = photo.slice(-2, 4)
+  let attach = photo.slice(-selectedNoOfPickers)
 
   const handleImagePicker = ( file: any) => {
     let newUpdatedPhoto = [...photo, file];

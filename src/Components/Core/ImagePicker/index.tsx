@@ -20,19 +20,17 @@ const ImagePicker = ({
   const initialValue = { id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }
   const [photo, setPhoto] = useState<any>()
 
-  console.log(photo,"ppppp")
+
 
   const updatedProfile=photo && photo.filter((element:any)=>element.id!==0)
   onSelectImagePicker(updatedProfile)
 
-
-  console.log(defaultValue,"defaultValue====>")
   useEffect(() => {
-    
+  
     if( defaultValue && defaultPicker ){
     imagePickerConvertBase64(defaultValue)
       .then((result) => {
-        console.log(result,"result--->")
+      
         if(defaultValue>1)
         {
         setPhoto([...result, initialValue])
@@ -50,7 +48,7 @@ const ImagePicker = ({
       setPhoto([initialValue])
     }
      
-  }, [defaultValue]);
+  }, []);
 
   
 
@@ -64,9 +62,11 @@ const ImagePicker = ({
 
   }
   const imagePickers = (value: any) => {
+  
     const updatedSelectedImage = [...photo];
     const updatedImageArray = updatedSelectedImage.filter((filterItem: any) => filterItem.id !== value.id);
     setPhoto(updatedImageArray);
+  
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +84,7 @@ const ImagePicker = ({
           updatedPhoto = { id: count, base64: e.target?.result }
 
           let updatedSelectedPhotos: any = [...photo];
-
+//no of length=-
           if(updatedSelectedPhotos.length===noOfFileImagePickers){
             updatedSelectedPhotos = updatedSelectedPhotos.filter(
               (filterItem: any) => filterItem.id !== 0
@@ -93,19 +93,28 @@ const ImagePicker = ({
             
 
           }
+     
 
           const ifExist = updatedSelectedPhotos.some(
             (el: any) => el.id === updatedPhoto?.id
           );
+
+          ///remove the edit image  entre fixe new image
           if (ifExist) {
+            
             updatedSelectedPhotos = updatedSelectedPhotos.filter(
               (filterItem: any) => filterItem.id !== updatedPhoto?.id
             );
             updatedSelectedPhotos = [{ id: updatedPhoto?.id, base64: e.target?.result }, ...updatedSelectedPhotos]
+         
           }
+
+
+          ///without add new image
           else {
             setCount(count + 1)
             updatedSelectedPhotos = [updatedPhoto, ...updatedSelectedPhotos];
+           
           }
 
           setPhoto(updatedSelectedPhotos)
