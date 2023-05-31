@@ -193,7 +193,7 @@ function Events() {
 
     <>
       {events && events.length > 0 ?
-        <div className="col-9 text-right my-1">
+        <div className="col-7 text-right my-1">
           <Button
             text={'CREATE EVENT'}
             className="text-white"
@@ -205,7 +205,7 @@ function Events() {
         <InfiniteScroll
           dataLength={events.length}
           hasMore={eventsCurrentPages !== -1}
-          className='overflow-auto scroll-hidden'
+          className='overflow-auto overflow-hide'
           style={{ overflowY: "auto" }}
           loader={<h4>
             <Spinner />
@@ -222,7 +222,7 @@ function Events() {
               events?.map((item: any, index: number) => {
                 return (
                   <div key={item.id}>
-                    <Card className={'shadow-none border m-3 col-9 mb--2'}>
+                    <Card className={'shadow-none border m-3 col-7 mb--2'}>
                       <div className="row d-flex justify-content-end mt-3">
                         <MenuBar menuData={MY_EVENT_MENU}
                           onClick={(element) => {

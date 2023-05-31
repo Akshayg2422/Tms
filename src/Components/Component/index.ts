@@ -18,6 +18,7 @@ export * from './SearchInput'
 export * from './TimeLine'
 export * from './Alert'
 export * from './Collapse'
+export * from './GroupChat'
 
 
 
