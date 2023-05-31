@@ -22,6 +22,7 @@ const axiosApi = axios.create({
   baseURL: SERVER,
 });
 
+
 axios.interceptors.request.use(function (config) {
   return config;
 });
@@ -30,8 +31,6 @@ const getHeaders = async () => {
   try {
 
     const value = await localStorage.getItem(USER_TOKEN);
-
-
 
     if (value) {
       return { Authorization: 'Token ' + value };

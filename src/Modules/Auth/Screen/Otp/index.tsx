@@ -84,6 +84,9 @@ function Otp() {
             onChange={otp.set}
             numInputs={4}
             inputStyle={'otp-input'}
+            shouldAutoFocus={true}
+            
+            
           />
         </div>
         <div className="mb-4">

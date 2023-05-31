@@ -1,6 +1,6 @@
 export interface AuthContainerProps {
     children?: React.ReactNode;
-    title?: string;
+    title?:any;
     data?:any;
     displayDataSet?:any;
     tableDataSet?:any;
