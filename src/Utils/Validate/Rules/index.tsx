@@ -191,7 +191,6 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
   broadcast_attachments:
   {
     presence: { allowEmpty: false, message: "attachments cannot be empty" },
-
   }
 }
 

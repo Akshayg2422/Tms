@@ -207,8 +207,8 @@ function AdminFeeds() {
           loader={<h4>
             <Spinner />
           </h4>}
-          className='overflow-auto scroll-hidden'
-          style={{ overflowY: "auto" }}
+          // className='overflow-auto scroll-hidden'
+          //  style={{ overflowY: "auto" }}
           next={() => {
             if (broadCastCurrentPage !== -1) {
               getBroadCastMessage(broadCastCurrentPage)
