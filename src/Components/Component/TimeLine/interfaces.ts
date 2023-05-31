@@ -13,5 +13,4 @@ export interface TimeLineProps {
     isDelete?: boolean;
     editOnclick?: () => void;
     deleteOnClick?: () => void;
-    data?:any
 }
