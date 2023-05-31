@@ -6,7 +6,7 @@ import {
     setSelectedEmployee
 } from "@Redux";
 import { useDropDown, useModal, useNavigation } from '@Hooks';
-import { Card, CommonTable, Button, Image } from '@Components';
+import { Card, CommonTable, Button, Image, SearchInput } from '@Components';
 import { translate } from "@I18n";
 import { HOME_PATH, ROUTES } from '@Routes';
 import { getPhoto } from '@Utils';
@@ -20,18 +20,18 @@ function EmployeesList() {
     const { employees, selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     console.log(employees)
     const { company_branch } = dashboardDetails || ''
-    console.log('11111111111111111111',);
 
-
-    useEffect(() => {
-        getCompanyEmployeesApi()
-    }, []);
+    // useEffect(() => {
+    //     getCompanyEmployeesApi()
+    // }, []);
 
 
 
-    function getCompanyEmployeesApi() {
+    function getCompanyEmployeesApi(q_many: string = '') {
 
-        const params = { branch_id: selectedCompany?.branch_id };
+        const params = { branch_id: selectedCompany?.branch_id,
+            q_many
+         };
         dispatch(getEmployees({
             params,
             onSuccess: (response) => () => {
@@ -64,20 +64,33 @@ function EmployeesList() {
 
     return (
         <div>
-            <div className=''>
+            <div className='pt-3'>
                 <CommonTable card title=
                     {
                         <div className={'row justify-content-between'}>
-                            <div className='h4 text-muted'>
+                            <div className='h4 text-muted pl-3'>
                                 {company_branch?.name}
                             </div>
+                            <div className='col-4 text-right'>
+                        <SearchInput onSearch={(search) => {
+                           getCompanyEmployeesApi(search)
+                        }} />
+                    </div>
 
                             <div>
                                 <Button className={'text-white'} text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.ADD_USER) }} />
                             </div>
                         </div>
                     }
-                    tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
+                    tableDataSet={employees} displayDataSet={normalizedTableData(employees)}
+                    tableOnClick={(id, index, item) => {
+                        dispatch(setSelectedEmployee(item));
+
+                        goTo(ROUTES['user-company-module']['employee-time-sheet'])
+                    }
+                    }
+
+                />
             </div>
 
 

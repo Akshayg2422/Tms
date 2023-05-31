@@ -95,13 +95,11 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
                     <div className='col-auto'>
                         <Button text={'Add'} size='sm' onClick={() => {
                             addUserModal.show()
-
-
                         }} />
                     </div>
                 </div>
 
-                <div className='h-100 overflow-auto scroll-hidden pb-3'>
+                <div className='h-100 overflow-auto  overflow-hide  pb-3 '>
                     <div className='mt-3'>
                         <SearchInput onSearch={(search) => {
                             getGroupEmployees(search)

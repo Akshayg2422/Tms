@@ -21,14 +21,27 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
                 onError: () => () => {
                 },
             }))
+
+         
     }, [])
+ 
+    useEffect(()=>{
+        
+        if(selectedGroupChatCode===undefined &&  chatGroups ){
+        
+            dispatch(setSelectedGroupChatCode(chatGroups[0].id))
+            }
+
+    },[])
+
+
 
 
     return (
 
         <div
-            className='row overflow-auto'>
-            <div className='d-flex scroll-hidden'>
+            className='row overflow-auto  overflow-hide'>
+            <div className='d-flex '>
                 {chatGroups && chatGroups.length > 0 &&
                     chatGroups.map((el: any, index: number) => {
                         const bgColor = (selectedGroupChatCode ? selectedGroupChatCode : chatGroups[0].id) === el.id ? "bg-primary" : "bg-white"
