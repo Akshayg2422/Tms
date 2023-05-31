@@ -7,7 +7,7 @@ import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
 import { EventItem } from "@Modules";
 import { addEvent, getAssociatedCompanyBranch, getEvents } from "@Redux";
-import { ADD_EVENT_EXTERNAL_RULES, ADD_EVENT_INTERNAL_RULES, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getValidateError, ifObjectExist, validate } from '@Utils'
+import { ADD_EVENT_EXTERNAL_RULES, ADD_EVENT_INTERNAL_RULES, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
 
 function Events() {
@@ -46,6 +46,8 @@ function Events() {
   const deleteEventModal = useModal(false)
   const editEventModal = useModal(false)
   const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
+
+  console.log("startTime--->",startTime)
 
 
   let attach = photo.slice(-selectedNoOfPickers)
@@ -129,8 +131,8 @@ function Events() {
       id: selectedEvent?.id,
       title: eventTitle?.value,
       place: eventPlace?.value,
-      start_time: startTime,
-      end_time: endTime,
+      start_time: getServerTimeFromMoment(getMomentObjFromServer(startTime)),
+      end_time:  getServerTimeFromMoment(getMomentObjFromServer(endTime)),
       description: eventDescription?.value,
       ...(selectedCompanies.length > 0 && {
         applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
@@ -200,7 +202,7 @@ function Events() {
 
     <>
       {events && events.length > 0 ?
-        <div className="col-9 text-right my-1">
+        <div className="col-7 text-right my-1">
           <Button
             text={'CREATE EVENT'}
             className="text-white"
@@ -212,7 +214,7 @@ function Events() {
         <InfiniteScroll
           dataLength={events.length}
           hasMore={eventsCurrentPages !== -1}
-          className='overflow-auto scroll-hidden'
+          className='overflow-auto overflow-hide'
           style={{ overflowY: "auto" }}
           loader={<h4>
             <Spinner />
@@ -229,7 +231,7 @@ function Events() {
               events?.map((item: any, index: number) => {
                 return (
                   <div key={item.id}>
-                    <Card className={'shadow-none border m-3 col-9 mb--2'}>
+                    <Card className={'shadow-none border m-3 col-7 mb--2'}>
                       <div className="row d-flex justify-content-end mt-3">
                         <MenuBar menuData={MY_EVENT_MENU}
                           onClick={(element) => {

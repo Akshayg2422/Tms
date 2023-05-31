@@ -44,6 +44,8 @@ function CreateCompany({ }: CreateCompanyProps) {
   // let PhotoAttach = attach.slice(-1, 4)
   // console.log(photo,"[[[[")
 
+ 
+
   const submitRegisteredAdminHandler = () => {
     const params = {
       first_name: fullName.value,
@@ -67,6 +69,7 @@ function CreateCompany({ }: CreateCompanyProps) {
       mobile_number2: companyContactNumber.value,
       attachment_logo: photo,
     });
+    console.log("validation",validation)
     if (ifObjectExist(validation)) {
       dispatch(
         registerAdmin({

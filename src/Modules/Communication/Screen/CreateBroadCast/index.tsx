@@ -52,8 +52,6 @@ function CreateBroadCast() {
     setPhoto(newUpdatedPhoto);
   };
 
-  console.log("photo-->",photo)
-
   const submitTicketHandler = () => {
 
     const params = {
@@ -68,17 +66,15 @@ function CreateBroadCast() {
     };
 
 
-    console.log(JSON.stringify(params));
 
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
     if (ifObjectExist(validation)) {
+      
       dispatch(
         addBroadCastMessages({
           params,
           onSuccess: (response: any) => () => {
             if (response.success) {
-              console.log('came');
-
               showToast(response.message, 'success')
               goBack()
             }
