@@ -257,14 +257,14 @@ function AddTask() {
     return (
         <Card className="m-3">
             <div className='col'>
-                <div className="row">
+                <div className="row mt--2">
                     <Back />
                     <h3 className="ml-3">{translate("common.addTask")!}</h3>
                 </div>
             </div>
-            <hr className='mt-3'></hr>
+            <hr className='mt-2'></hr>
 
-            <div className="col-auto pb-2">
+            <div className="col-auto pb-4 mt--3">
                 <div className="row">
                 <ImagePicker
                     icon={image}
@@ -274,7 +274,6 @@ function AddTask() {
                     onSelect={(image) => {
                         let file =image.toString().replace(/^data:(.*,)?/, "")
                         handleImagePicker(file)
-                       
                     
                     }}
                     onSelectImagePicker={(el)=>{
@@ -333,6 +332,7 @@ function AddTask() {
 
 
                 <Input
+                
                     heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
@@ -356,7 +356,7 @@ function AddTask() {
                     data={PRIORITY}
                     onChange={selectedTicketPriority.onChange} />
 
-                <div className="mb-2">
+                <div className="mb-1">
                     <Radio
                         data={type}
                         selectItem={taskType}

@@ -16,6 +16,8 @@ const initialState: UserCompanyStateProp = {
   departmentsCurrentPages: undefined,
   departmentsNumOfPages: undefined,
   employees: undefined,
+  employeesCurrentPages:undefined,
+  employeesNumOfPages:undefined,
   employeesl: undefined,
   employeeslCurrentPages: undefined,
   employeeslNumOfPages: undefined,
@@ -384,14 +386,21 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     case ActionTypes.GET_EMPLOYEES:
       state = {
-        ...state
+        ...state,
+        employees:undefined,
+        employeesCurrentPages:1,
+        employeesNumOfPages:0
       };
 
       break;
     case ActionTypes.GET_EMPLOYEES_SUCCESS:
       state = {
         ...state,
-        employees: action.payload.details,
+        employees: action.payload.details.data,
+        employeesCurrentPages:action.payload?.details.next_page === -1
+        ? action?.payload?.details.num_pages
+        : action?.payload?.details.next_page - 1,
+        employeesNumOfPages:action.payload.details.num_pages,
       };
       break;
     case ActionTypes.GET_EMPLOYEES_FAILURE:

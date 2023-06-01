@@ -86,10 +86,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
         }
     }, [advanceFilter]);
 
-    const getTaskDefaultParams = () => {
-
-    }
-
+ 
     const getDesignation = (items: any) => {
 
         if (items?.id) {

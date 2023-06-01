@@ -109,7 +109,7 @@ function Tickets() {
         <div className="row justify-content-end m-0 mb-3">
           <div className=" ">
             <Button
-              className={'text-white'}
+              className={'text-white shadow-none'}
               size={'sm'}
               text={'Create Ticket'}
               onClick={() => {
@@ -123,6 +123,8 @@ function Tickets() {
           <TicketFilter onParams={(filteredParams) => {
             setParams({ ...params, ...filteredParams })
           }} />
+
+          <div style={{marginRight:'-23px',marginLeft:'-23px'}}>
 
           {tickets && tickets.length > 0 ?
             <>
@@ -152,6 +154,7 @@ function Tickets() {
               />
             </> : <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} />
           }
+          </div>
 
         </HomeContainer>
       </div>

@@ -10,7 +10,7 @@ import { useDropDown, useModal, useNavigation } from '@Hooks';
 import { Card, CommonTable, Button, Image, SearchInput } from '@Components';
 import { translate } from "@I18n";
 import { HOME_PATH, ROUTES } from '@Routes';
-import { getPhoto } from '@Utils';
+import { getPhoto, paginationHandler } from '@Utils';
 import { icons } from '@Assets';
 
 function EmployeesList() {
@@ -18,23 +18,26 @@ function EmployeesList() {
     const { goTo, goBack } = useNavigation()
     const dispatch = useDispatch()
 
-    const { employees, selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    const { employees, employeesCurrentPages, employeesNumOfPages, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     console.log(employees)
     const { company_branch } = dashboardDetails || ''
 
     console.log('dashboardDetails------------>', dashboardDetails);
+    console.log(employeesCurrentPages, employeesNumOfPages,"pppsaas")
 
 
     useEffect(() => {
-        getCompanyEmployeesApi()
+        getCompanyEmployeesApi(employeesCurrentPages)
     }, []);
 
 
-    function getCompanyEmployeesApi(q_many: string = '') {
+    function getCompanyEmployeesApi(page_number: number,q_many:string = '') {
 
         const params = {
             branch_id: company_branch?.id,
-            q_many
+            q_many,
+            page_number
+            
         };
         dispatch(getEmployees({
             params,
@@ -73,8 +76,8 @@ function EmployeesList() {
                                 {company_branch?.name}
                             </div>
                             <div className='col-4 text-right'>
-                                <SearchInput onSearch={(search) => {
-                                    getCompanyEmployeesApi(search)
+                                <SearchInput onSearch={(search:any) => {
+                                    getCompanyEmployeesApi(employeesCurrentPages,search)
                                 }} />
                             </div>
 
@@ -86,27 +89,28 @@ function EmployeesList() {
                             </div>
                         </div>
                     }
-                    tableDataSet={employees} displayDataSet={normalizedTableData(employees)}
+                    isPagination
+
+                    tableDataSet={employees} 
+                    displayDataSet={normalizedTableData(employees)}
+                    noOfPage={ employeesNumOfPages}
+                    currentPage={employeesCurrentPages}
                     tableOnClick={(id, index, item) => {
                         dispatch(setSelectedEmployee(item));
                         goTo(ROUTES['user-company-module']['employee-time-sheet'])
                     }
                     }
-
-                    isPagination
-                    //     noOfPage={}
-                    //  currentPage={}
-                    // paginationNumberClick={(currentPage) => {
-                    //     getTaskHandler(paginationHandler("current", currentPage));
-                    // }}
-                    // previousClick={() => {
-                    //     getTaskHandler(paginationHandler("prev", taskCurrentPages))
-                    // }
-                    // }
-                    // nextClick={() => {
-                    //     getTaskHandler(paginationHandler("next", taskCurrentPages));
-                    // }
-                    // }
+                    paginationNumberClick={(currentPage) => {
+                        getCompanyEmployeesApi(paginationHandler("current", currentPage));
+                    }}
+                    previousClick={() => {
+                        getCompanyEmployeesApi(paginationHandler("prev", employeesCurrentPages))
+                    }
+                    }
+                    nextClick={() => {
+                        getCompanyEmployeesApi(paginationHandler("next", employeesCurrentPages));
+                    }
+                    }
 
                 />
             </div>

@@ -27,6 +27,8 @@ export interface UserCompanyStateProp {
     addEmployeeDetails: any,
     updateEmployeeProfile: any,
     employees: any,
+    employeesCurrentPages:any,
+  employeesNumOfPages:any,
     response: any,
     registerAdminResponse: any,
     associatedCompaniesL: any,

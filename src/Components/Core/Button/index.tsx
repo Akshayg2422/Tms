@@ -30,7 +30,7 @@ function Button({
           {/* <span className={'btn-inner--icon'}>
             <i className='ni ni-atom' />
           </span> */}
-          <Image src={icon} height={15} width={15} />
+          <Image src={icon} height={15} width={15}  />
         </RSButton>
       }
     </>

@@ -51,11 +51,11 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
     return (
 
-        <Card className="h-100">
+        <Card className="h-100  shadow-none" style={{ maxHeight: '44vh' }}>
             {(subTasks && subTasks.length > 0) && <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={translate("auth.subTask")} />
                 <Button
-                    className={'text-white'}
+                    className={'text-white shadow-none'}
                     size={"sm"}
                     text={translate("common.addSubTask")}
                     onClick={() => {
@@ -65,7 +65,8 @@ function SubTasks({ cardHeight }: SubTasksProps) {
             </div>
             }
 
-            <Card className='h-100 mt-1 mx--4 overflow-auto overflow-hide shadow-none' style={{ maxHeight: '39vh' }}>
+            {/* <Card className='h-100 mt-1 mx--4 overflow-auto overflow-hide shadow-none' style={{ maxHeight: '39vh' }}> */}
+            <div className='pt-2  overflow-auto overflow-hide' style={{marginRight:'-21px',marginLeft:'-21px'}}>
                 {subTasks && subTasks.length > 0 ?
                     <CommonTable
                         tableDataSet={subTasks}
@@ -79,7 +80,8 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                     /> :
                     <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton /></div>
                 }
-            </Card>
+                </div>
+            {/* </Card> */}
         </Card>
     )
 }

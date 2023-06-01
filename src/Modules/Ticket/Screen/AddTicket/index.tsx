@@ -254,7 +254,7 @@ function AddTicket() {
                 </div>
             </div>
             <hr className='mt-3'></hr>
-            <div className="col-md-9 col-lg-5">
+            <div className="col-md-9 col-lg-5 mt--2">
                 <Input
                     heading={translate("common.title")}
                     value={title.value}
@@ -271,7 +271,7 @@ function AddTicket() {
                     value={referenceNo.value}
                     onChange={referenceNo.onChange}
                 />
-                <div className="mb-2">
+                <div className="mb-1">
                     <Radio
                         data={type}
                         selectItem={ticketType}
@@ -395,7 +395,7 @@ function AddTicket() {
                         })}
                 </div>
             </div> */}
-  <div className="col-auto pb-2">
+  <div className="col-auto pb-2 mt--2">
                 <div className="row">
                 <ImagePicker
                     icon={image}

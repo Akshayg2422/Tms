@@ -6,7 +6,7 @@ import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal } from '@Comp
 import { addGroupUser, getGroupsEmployees } from '@Redux'
 import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArrayByKey } from '@Utils';
 import { useDropDown, useModal } from '@Hooks';
-import { Employees } from '@Modules'
+import { Employees, GroupEmployeeList } from '@Modules'
 import { translate } from '@I18n'
 
 
@@ -54,7 +54,6 @@ function GroupEmployees({  groupCode,height, otherParams }: EmployeeGroupsProps)
 
 
     const addGroupUsers = (addUsers: any) => {
-        console.log(addUsers, "pppppuuuuuuuuuu")
 
         const params = {
             group_id: groupCode,
@@ -143,8 +142,8 @@ function GroupEmployees({  groupCode,height, otherParams }: EmployeeGroupsProps)
                  */
             }
 
-            <Modal fade={false} isOpen={addUserModal.visible} onClose={addUserModal.hide} style={{ maxHeight: '80vh' }}>
-                <Employees selection={'multiple'}
+            <Modal fade={false} isOpen={addUserModal.visible} onClose={addUserModal.hide} style={{ maxHeight: '90vh' }}>
+                <GroupEmployeeList selection={'multiple'}
                     defaultSelect={defaultSelectedUsers}
                     onSelected={(users) => {
                         const taggedUserIds = getArrayFromArrayOfObject(users, 'id')

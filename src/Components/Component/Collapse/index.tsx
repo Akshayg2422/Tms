@@ -16,7 +16,7 @@ let currentDate=new Date()
   let currentMonth=currentDate.getMonth()
   let currentYear=currentDate.getFullYear()
  
-  let dateFormate=`${currentYear}-${0}${currentMonth+1}-${currentDay}`
+  let dateFormate=`${currentYear}-${0}${currentMonth+1}-${0}${currentDay}`
   useEffect(()=>{
     collapsesToggle(dateFormate)
 
@@ -37,14 +37,18 @@ const year = title.getFullYear();
 const month = title.toLocaleString('default', { month: 'long' });
 const date = title.getDate();
 
-const formattedDate = `${month} ${date}, ${year}`;
+const formattedDate = `${month} ${date}, ${year}`
 
   return (
     <div className="accordion">
 
       <Card className="card-plain">
-
-        <CardHeader
+      {/* <div className='col-auto mr-4'>
+              <Button className={'text-white'} text={text} size='sm' onClick={onClick} />
+            </div> */}
+<div>
+ 
+    <CardHeader
           role="tab"
           onClick={() => collapsesToggle(selectedIds)}
 
@@ -62,6 +66,8 @@ const formattedDate = `${month} ${date}, ${year}`;
           </div>
         </CardHeader>
 
+</div>
+      
         <Collapse
           role="tabpanel"
           isOpen={openedCollapses.includes(selectedIds)}
@@ -80,7 +86,6 @@ const formattedDate = `${month} ${date}, ${year}`;
         </Collapse>
 
       </Card>
-
 
     </div>
 

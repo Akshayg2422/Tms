@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, CommonTable, Image, MenuBar, Dropzone, Modal } from '@Components'
+import { Button, CommonTable, Image, MenuBar, Dropzone, Modal, SearchInput } from '@Components'
 import { getEmployees, addUpdateEmployeePhoto } from '@Redux'
 import { useModal, useNavigation } from '@Hooks'
 import { HOME_PATH } from '@Routes'
 import { translate } from "@I18n";
-import { getPhoto, } from "@Utils";
+import { getPhoto, paginationHandler, } from "@Utils";
 import { icons } from '@Assets'
 
 
@@ -14,15 +14,18 @@ function CompanyUsers() {
   const { goTo } = useNavigation()
   const dispatch = useDispatch()
 
-  const { employees, selectedCompany } = useSelector((state: any) => state.UserCompanyReducer);
+  const { employees, selectedCompany ,employeesNumOfPages,employeesCurrentPages} = useSelector((state: any) => state.UserCompanyReducer);
 
   useEffect(() => {
-    getCompanyEmployeesApi()
+    getCompanyEmployeesApi(employeesCurrentPages)
   }, []);
 
-  function getCompanyEmployeesApi() {
+  function getCompanyEmployeesApi(page_number: number,q_many:string = '') {
 
-    const params = { branch_id: selectedCompany.branch_id };
+    const params = { branch_id: selectedCompany.branch_id ,
+      page_number,
+      q_many
+    };
     dispatch(getEmployees({
       params,
       onSuccess: (response) => () => {
@@ -55,7 +58,31 @@ function CompanyUsers() {
         <Button text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.ADD_USER) }} />
       </div>
       <div className='mx--3 mt-3'>
-        <CommonTable card title='User' tableDataSet={employees} displayDataSet={normalizedTableData(employees?.data)} />
+        <CommonTable card title={<div className='row'><div className='h3 '>{'Users'}</div>
+         <div className='col-4 text-right '>
+         <SearchInput onSearch={(search:any) => {
+             getCompanyEmployeesApi(employeesCurrentPages,search)
+         }} />
+     </div> 
+     </div>}
+        isPagination
+        tableDataSet={employees} 
+        displayDataSet={normalizedTableData(employees)} 
+        noOfPage={ employeesNumOfPages}
+        currentPage={employeesCurrentPages}
+        paginationNumberClick={(currentPage) => {
+          getCompanyEmployeesApi(paginationHandler("current", currentPage));
+      }}
+      previousClick={() => {
+          getCompanyEmployeesApi(paginationHandler("prev", employeesCurrentPages))
+      }
+      }
+      nextClick={() => {
+          getCompanyEmployeesApi(paginationHandler("next", employeesCurrentPages));
+      }
+      }
+        
+        />
       </div>
 
     
