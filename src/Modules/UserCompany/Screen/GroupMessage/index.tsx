@@ -209,21 +209,31 @@ function GroupMessage({ }: GroupMessageProps) {
 
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
-                            const { icon, title, subTitle, created_at, attachments } = item
-                            const showDotLine = index !== 0
-                            const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
-                            const loginUser = user_details?.id === item?.event_by?.id
+                            const { icon, title, subTitle, created_at, attachments, event_by } = item
+                            console.log('iteme111111111111111----------->', JSON.stringify(item));
 
+                            const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                            const loginUser = user_details?.id === event_by?.id
+
+                            const timeString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
+                            const time = timeString.split(',')[1].trim();
+
+                            const dateString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
+                            const date = dateString.split(',')[0].trim();
+
+                            console.log(date);
+                            
 
                             return (
                                 <GroupChat
-                                    // icon={icon}
-                                    // showDotterLine={showDotLine}
-                                    title={title} subTitle={subTitle}
-                                    time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))}
+                                    profileImage={event_by?.profile_image}
+                                    title={title}
+                                    subTitle={subTitle}
+                                    time={time}
+                                    date={date}
                                     isEdit={loginUser}
                                     isDelete={loginUser}
-                                    editOnclick={() => {
+                                    editOnClick={() => {
                                         setSelectMessage(item)
                                         editModal.show()
                                         message.set(title)
