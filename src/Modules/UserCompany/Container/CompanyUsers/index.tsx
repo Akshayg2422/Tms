@@ -15,13 +15,10 @@ function CompanyUsers() {
   const dispatch = useDispatch()
 
   const { employees, selectedCompany } = useSelector((state: any) => state.UserCompanyReducer);
-  console.log(employees)
 
   useEffect(() => {
     getCompanyEmployeesApi()
   }, []);
-
-
 
   function getCompanyEmployeesApi() {
 
@@ -58,7 +55,7 @@ function CompanyUsers() {
         <Button text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.ADD_USER) }} />
       </div>
       <div className='mx--3 mt-3'>
-        <CommonTable card title='User' tableDataSet={employees} displayDataSet={normalizedTableData(employees)} />
+        <CommonTable card title='User' tableDataSet={employees} displayDataSet={normalizedTableData(employees?.data)} />
       </div>
 
     
