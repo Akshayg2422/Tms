@@ -166,29 +166,31 @@ function AdminFeeds() {
       broadcast_attachments: [{ attachments: attach }],
     };
 
+    console.log(JSON.stringify(params),"===---????")
+
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
 
-    if (ifObjectExist(validation)) {
-      dispatch(
-        addBroadCastMessages({
-          params,
-          onSuccess: (response: any) => () => {
-            if (response.success) {
-              showToast(response.message, 'success')
-              editFeedModal.hide()
-              getBroadCastMessage(INITIAL_PAGE)
+    // if (ifObjectExist(validation)) {
+    //   dispatch(
+    //     addBroadCastMessages({
+    //       params,
+    //       onSuccess: (response: any) => () => {
+    //         if (response.success) {
+    //           showToast(response.message, 'success')
+    //           editFeedModal.hide()
+    //           getBroadCastMessage(INITIAL_PAGE)
 
 
-            }
-          },
-          onError: (error) => () => {
-            showToast(error.error_message)
-          },
-        })
-      );
-    } else {
-      showToast(getValidateError(validation));
-    }
+    //         }
+    //       },
+    //       onError: (error) => () => {
+    //         showToast(error.error_message)
+    //       },
+    //     })
+    //   );
+    // } else {
+    //   showToast(getValidateError(validation));
+    // }
 
 
   }
