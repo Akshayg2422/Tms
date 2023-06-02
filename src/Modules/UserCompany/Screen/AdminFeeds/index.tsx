@@ -180,7 +180,6 @@ function AdminFeeds() {
               editFeedModal.hide()
               getBroadCastMessage(INITIAL_PAGE)
 
-
             }
           },
           onError: (error) => () => {
