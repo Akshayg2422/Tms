@@ -135,7 +135,7 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
                                     </div>
                                 )
                             }) : <div className='pt-6 mt-5'>
-                                <NoDataFound type={'text'} text={'No data found'} />
+                                <NoDataFound type={'text'}  />
                             </div>
                         }
                     </div>

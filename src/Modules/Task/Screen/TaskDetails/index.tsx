@@ -39,6 +39,7 @@ function TaskDetails() {
     })
 
     return (
+        
         <div className="h-100vh m-3">
             <div className="row">
                 <div className="col mr--3 h-100vh overflow-hide" style={{

@@ -69,8 +69,8 @@ function Profile() {
         </div>
         <div>
           <div className="col text-right">
-            <Button color={'white'} size={'sm'} text={'Logout'} onClick={logoutModal.show} />
-            <Button color={'white'} size={'sm'} text={'Language'} onClick={languageModal.show} />
+            <Button color={'white'} size={'sm'} text={translate('common.Logout')} onClick={logoutModal.show} />
+            <Button color={'white'} size={'sm'} text={translate('common.Language')} onClick={languageModal.show} />
           </div>
           <div className="text-center mb-5">
 

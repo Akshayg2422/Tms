@@ -20,6 +20,7 @@ function EmployeesList() {
     const { employees, selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     console.log(employees)
     const { company_branch } = dashboardDetails || ''
+
     console.log('11111111111111111111',);
 
 

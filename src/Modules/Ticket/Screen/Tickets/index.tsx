@@ -151,7 +151,7 @@ function Tickets() {
                 }
                 }
               />
-            </> : <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} />
+            </> : <NoDataFound  buttonText={translate("common.createTicket")!} />
           }
 
         </HomeContainer>

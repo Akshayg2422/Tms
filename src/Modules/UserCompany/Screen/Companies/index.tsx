@@ -154,7 +154,7 @@ function Companies() {
 
               }} />
             :
-            <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={translate("common.addCompany")!} onClick={() => {
+            <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text={translate("common.No Companies found")!} buttonText={translate("common.addCompany")!} onClick={() => {
               goTo(ROUTES["user-company-module"]["add-company"]);
             }} isButton /></div>
 

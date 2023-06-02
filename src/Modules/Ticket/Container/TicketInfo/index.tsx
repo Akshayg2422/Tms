@@ -209,13 +209,13 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
                 </div>
                 <div className="col text-right">
-                    <Button text={'Submit'} onClick={editEtaSubmitApiHandler} />
+                    <Button text={translate('common.submit')} onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
             {/**
              * show Event Time Line
              */}
-            <Modal title={"Latest Events"} size={'lg'} isOpen={ticketEventModal.visible} onClose={ticketEventModal.hide} >
+            <Modal title={translate("auth.Latest Events")!} size={'lg'} isOpen={ticketEventModal.visible} onClose={ticketEventModal.hide} >
                 <TicketEventHistory/>
             </Modal>
 

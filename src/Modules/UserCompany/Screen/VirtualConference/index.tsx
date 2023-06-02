@@ -110,7 +110,7 @@ function VirtualConference() {
                                     </div>
                                     <Button
                                         className={'text-white'}
-                                        text={"Join"}
+                                        text={translate("product.Join")}
                                         onClick={() => {
                                             getUserToken()
                                             goTo(ROUTES['user-company-module']['video-conference'], false)

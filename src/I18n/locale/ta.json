@@ -4,7 +4,6 @@
         "baseApp": "அடிப்படை பயன்பாடு",
         "தமிழ்": "தமிழ்",
         "ok": "சரி!",
-        "cancel": "ரத்து செய்",
         "back": "மீண்டும்",
         "title": "தலைப்பு",
         "data": "தகவல்கள்",
@@ -14,7 +13,7 @@
         "alreadyTamilSelected": "ஏற்கனவே தமிழ் தேர்ந்தெடுக்கப்பட்டுள்ளது",
         "alreadyEnglishSelected": "ஏற்கனவே ஆங்கிலம் தேர்ந்தெடுக்கப்பட்டது",
         "clearAll": "அனைத்தையும் நீக்கு",
-        "all": "அனைத்தும்",
+        "All": "அனைத்தும்",
         "submit": "சமர்ப்பிக்க",
         "accept": "ஏற்றுக்கொள்",
         "next": "அடுத்தது",
@@ -49,8 +48,8 @@
         "company": "நிறுவனம்",
         "Select Group": "குழுவைத் தேர்ந்தெடுக்கவும்",
         "user": "பயனர்",
-        "USER":"பயனர்",
-        "Tag User":"குறிச்சொல் பயனர்",
+        "USER": "பயனர்",
+        "Tag User": "குறிச்சொல் பயனர்",
         "ticketPriority": "டிக்கெட்முன்னுரிமை",
         "taskName": "பணி பெயர்",
         "addTask": "பணியைச் சேர்க்கவும்",
@@ -85,7 +84,23 @@
         "photo": "புகைப்படம்",
         "Create post": "இடுகையை உருவாக்கவும்",
         "attach": "இணைக்கவும்",
-        "CREATED AT :":"உருவாக்கப்பட்டது:"
+        "CREATED AT :": "உருவாக்கப்பட்டது:",
+        "No Data Found": "வேறு தகவல்கள் இல்லை",
+        "Basic": "அடிப்படை",
+        "Advance": "முன்னேறு",
+        "Logout": "வெளியேறு",
+        "Language": "மொழி",
+        "No Companies found":"நிறுவனங்கள் எதுவும் இல்லை",
+        "No Group Found":"குழு எதுவும் இல்லை",
+        "Edit":"தொகு",
+        "delete":"நீக்கு",
+        "Edit Event":"நிகழ்வைத் திருத்து",
+        "Place":"இடம்",
+        "Task Priority":"பணி முன்னுரிமை",
+        "Male":"ஆண்",
+        "Female":"பெண்",
+        "Others":"மற்றவைகள்"
+        
     },
     "errors": {
         "invalidEmail": "Invalid email address."
@@ -95,6 +110,7 @@
         "friendlySubtitle": "This is the screen that your users will see in production when an error is thrown. You'll want to customize this message (located in `app/i18n/en.json`) and probably the layout as well (`app/screens/error`). If you want to remove this entirely, check `app/app.tsx` for the <ErrorBoundary> component.",
         "traceTitle": "Error from %{name} stack",
         "reset": "RESET APP"
+        
     },
     "storybook": {
         "placeholder": "Placeholder",
@@ -153,7 +169,15 @@
         "assignedTask": "ஒதுக்கப்பட்ட பணி",
         "editTimeSheet": "திருத்த நேரத்தாள்",
         "Task Priority": "பணி முன்னுரிமை",
-        "addBroadCast": "கூட்டுஒளிபரப்பு"
+        "addBroadCast": "கூட்டுஒளிபரப்பு",
+        "please select a task":"ஒரு பணியைத் தேர்ந்தெடுக்கவும்",
+        "Tag User":"குறிச்சொல் பயனர்",
+        "Reassign User":"பயனரை மீண்டும் ஒதுக்கவும்",
+        "Change Ticket Status":"டிக்கெட் நிலையை மாற்றவும்",
+        "Edit task Details":"பணி விவரங்களைத் திருத்தவும்",
+        "Change Task Status":"பணி நிலையை மாற்றவும்",
+        "Edit eta time":"Eta நேரத்தை திருத்தவும்",
+        "Latest Events":"சமீபத்திய நிகழ்வுகள்"
     },
     "product": {
         "Store": "ஸ்டோர்",
@@ -167,7 +191,23 @@
         "addCustomProduct": "தயாரிப்பு கண்டுபிடிக்க முடியுமா?",
         "addItem": "சேர்க்கவும்",
         "addProduct": "பொருட்கள்  சேர்க்கவும் ",
-        "price": "விலை"
+        "price": "விலை",
+        "Edit Feed":"ஊட்டத்தைத் திருத்து",
+        "Join":"சேருங்கள்",
+        "Created by me": "என்னால் உருவாக்கப்பட்டது",
+        "assigned To Me": "எனக்கு ஒதுக்கப்பட்டது",
+        "tagged": "குறியிடப்பட்டது",
+        "Raised": "எழுப்பப்பட்ட",
+        "In-Progress": "செயல்பாட்டில் உள்ளது",
+        "cancel": "ரத்து செய்",
+        "Close": "நெருக்கமான",
+        "On-Hold": "நிறுத்தி வைக்கப்பட்டுள்ளது",
+        "Reject": "நிராகரிக்கவும்",
+        "Critical": "விமர்சனம்",
+        "High": "உயர்",
+        "Medium": "நடுத்தர",
+        "Low": "குறைந்த",
+        "Lowest": "குறைந்த"
     },
     "order": {
         "proceedScheduling": "திட்டமிடுதல்  தொடரவும் ",
@@ -180,6 +220,7 @@
         "sos": "SOS",
         "updateAddress": "புதுப்பிப்பு முகவரி",
         "home": "முகப்பு பக்கம்",
+        "Update":"புதுப்பிக்கவும்",
         "cartItem": "மொத்தம்",
         "itemDetails": "விவரங்கள்",
         "viewCart": "கார்ட்  பார்க்கவும்",
@@ -215,7 +256,7 @@
         "allEmployeesAreRequestedSurvey": "அனைத்து ஊழியர்களும் கணக்கெடுப்பு கோரப்படுகிறார்கள்",
         "showTheQRCodeForEasyCheckin": "எளிதாக செக் -இன் செய்ய  QR  கோட் காட்டுங்கள்",
         "paulRaymond": "paul_raymond",
-        "please select a task priority...": "பணி முன்னுரிமையைத் தேர்ந்தெடுக்கவும்...",
+        "please select a task priority": "பணி முன்னுரிமையைத் தேர்ந்தெடுக்கவும்",
         "Select a company": "ஒரு நிறுவனத்தைத் தேர்ந்தெடுக்கவும்",
         "Select a Designation": "ஒரு பதவியைத் தேர்ந்தெடுக்கவும்",
         "Select a Department": "ஒரு துறையைத் தேர்ந்தெடுக்கவும்",
@@ -243,18 +284,39 @@
         "Add": "கூட்டு",
         "Write your comment": "உங்கள் கருத்தை எழுதுங்கள்",
         "task": "பணி",
-        "attachments":"இணைப்புகள்",
-        "raised by":"மூலம் எழுப்பப்பட்டது",
-        "raised to":"வரை உயர்த்தப்பட்டது",
-        "Assigned At":"இல் ஒதுக்கப்பட்டது",
-        "Thread":"நூல்",
-        "ATTACH":"இணைக்கவும்",
-        "REFERENCE":"குறிப்பு"
+        "attachments": "இணைப்புகள்",
+        "raised by": "மூலம் எழுப்பப்பட்டது",
+        "raised to": "வரை உயர்த்தப்பட்டது",
+        "Assigned At": "இல் ஒதுக்கப்பட்டது",
+        "Thread": "நூல்",
+        "ATTACH": "இணைக்கவும்",
+        "REFERENCE": "குறிப்பு",
+        "Include Close": "மூடு அடங்கும்",
+        "Add Reference Ticket": "குறிப்பு டிக்கெட்டைச் சேர்க்கவும்",
+        "This Week":"இந்த வாரம்"
     },
     "course": {
         "course": "நிச்சயமாக",
         "view": "காண்க",
         "hide": "மறை",
-        "start": "தொடங்கு"
+        "start": "தொடங்கு",
+        "ASSIGNED TO ":"ஒதுக்கப்படும்",
+        "ASSIGNED BY":"மூலம் ஒதுக்கப்பட்டது",
+        "INVOLVED USER":"ஈடுபடுத்தப்பட்ட பயனர்"
+    },
+    "sideNav":{
+        "Tasks":"பணிகள்",
+        "Tickets":"டிக்கெட்டுகள்",
+        "Associations":"சங்கங்கள்",
+        "Feeds":"ஊட்டங்கள்",
+        "Profile":"சுயவிவரம்",
+        "Settings":"அமைப்புகள்",
+        "Admin":"நிர்வாகம்",
+        "Employee Portfolio":"பணியாளர் போர்ட்ஃபோலியோ",
+        "Admin Feeds":"நிர்வாக ஊட்டங்கள்",
+        "Events":"நிகழ்வுகள்",
+        "Virtual Conference":"மெய்நிகர் மாநாடு",
+        "MyTimeSheet":"எனது நேர தாள்",
+        "Groups":"குழுக்கள்"
     }
 }

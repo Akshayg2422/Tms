@@ -6,6 +6,7 @@ import { NoDataFound, Card, CommonTable, Button } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
+import { translate } from "@I18n";
 
 
 function ReferenceTickets() {
@@ -61,7 +62,7 @@ function ReferenceTickets() {
 
         <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
             <div className="col text-right">
-                <Button size={'sm'} text={'Add Reference Ticket'} onClick={() => {
+                <Button size={'sm'} text={translate('order.Add Reference Ticket')} onClick={() => {
                     goTo(ROUTES['ticket-module']['reference-ticket'])
                 }} />
             </div>
@@ -88,7 +89,7 @@ function ReferenceTickets() {
                         goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item.id)
                     }}
 
-                /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={'Add Reference Ticket'} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton /></div>}
+                /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton /></div>}
         </Card>
 
 

@@ -327,7 +327,7 @@ function AddTask() {
                 <DropDown
                     heading={translate("auth.Task Priority")!}
                     selected={selectedTicketPriority.value}
-                    placeHolder={translate('order.please select a task priority...')!}
+                    placeHolder={translate('order.please select a task priority')!}
                     data={PRIORITY}
                     onChange={selectedTicketPriority.onChange} />
 

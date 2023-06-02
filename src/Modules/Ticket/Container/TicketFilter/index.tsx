@@ -11,10 +11,10 @@ import { icons } from '@Assets'
 
 const FILTER_MENU = [
     {
-        id: 0, name: 'Basic', icon: icons.basic,
+        id: 0, name: translate('auth.basic'), icon: icons.basic,
     },
     {
-        id: 1, name: 'Advance', icon: icons.advanceFilter,
+        id: 1, name: translate('auth.advance'), icon: icons.advanceFilter,
     }
 ]
 
