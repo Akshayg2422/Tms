@@ -1,28 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
-import { getGroupMessage } from '@Redux'
-import { TimeLine, Spinner, Image, Modal, Card, ImageDownloadButton } from '@Components'
+import { addEvent, addGroupMessage, getGroupMessage } from '@Redux'
+import { Spinner, Image, Modal, Card, ImageDownloadButton, showToast, Button, Input, Dropzone, GroupChat } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
-import { useModal, useWindowDimensions } from '@Hooks'
+import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { title } from 'process';
+import { translate } from '@I18n';
 
 function GroupMessage({ }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshGroupEvents, selectedGroupChatCode } = useSelector((state: any) => state.UserCompanyReducer);
+    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
     const imageModal = useModal(false)
-    const [activeImageIndex, setActiveImageIndex] = useState(0);
+    const deleteModal = useModal(false)
+    const editModal = useModal(false)
+    const message = useInput('')
+    const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
+    const [photo, setPhoto] = useState<any>([]);
+    const [selectMessage, setSelectMessage] = useState<any>(undefined)
+    const { user_details } = dashboardDetails
+
+
 
 
     useEffect(() => {
@@ -80,33 +89,94 @@ function GroupMessage({ }: GroupMessageProps) {
 
         switch (event_type) {
             case 'TEM':
-                modifiedData = { ...each, icon: icons.message, subTitle: event_by?.name, title: message, }
+                modifiedData = { ...each, subTitle: event_by?.name, title: message, }
                 break;
             case 'ETA':
-                modifiedData = { ...each, icon: icons.clock, subTitle: event_by?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
+                modifiedData = { ...each, subTitle: event_by?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
                 break;
             case 'TGU':
                 let names = tagged_users.map(function (item) {
                     return '@' + item['name'] + " ";
                 });
-                modifiedData = { ...each, icon: icons.taggedUserWhiteIcon, subTitle: event_by?.name, title: "tagged " + names }
+                modifiedData = { ...each, subTitle: event_by?.name, title: "tagged " + names }
                 break;
 
             case 'RGU':
-                modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: event_by?.name, title: "Task Reassigned to " + assigned_to.name }
+                modifiedData = { ...each, subTitle: event_by?.name, title: "Task Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
-                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: event_by?.name, title: attachments.name }
+                modifiedData = { ...each, subTitle: event_by?.name, title: attachments.name }
                 break;
             case 'RTS':
-                modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: event_by?.name, title: 'User Attached Reference Task' }
+                modifiedData = { ...each, subTitle: event_by?.name, title: 'User Attached Reference Task' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: event_by?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(GROUP_STATUS_LIST, 'id', group_status).text }
+                modifiedData = { ...each, subTitle: event_by?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(GROUP_STATUS_LIST, 'id', group_status).text }
                 break;
         }
         return modifiedData
     }
+
+    let attach = photo.slice(-2, 4)
+
+    const handleImagePicker = (index: number, file: any) => {
+        let newUpdatedPhoto = [...photo, file];
+        setPhoto(newUpdatedPhoto);
+    };
+
+    const proceedEditHandler = () => {
+        const params = {
+            id: selectMessage?.id,
+            edited_message: message?.value
+        }
+
+        dispatch(
+            addGroupMessage({
+                params,
+                onSuccess: (response: any) => () => {
+                    if (response.success) {
+                        showToast(response.message, 'success')
+                        editModal.hide()
+                        getGroupMessageApi(INITIAL_PAGE)
+
+                    }
+                },
+                onError: (error) => () => {
+                    showToast(error.error_message)
+                },
+            })
+        );
+
+    }
+
+
+    console.log("====dashboard==", dashboardDetails)
+
+    function proceedDeleteHandler() {
+        const params = {
+            id: selectMessage?.id,
+            is_deleted: true
+        }
+
+        dispatch(
+            addGroupMessage({
+                params,
+                onSuccess: (response: any) => () => {
+                    if (response.success) {
+                        showToast(response.message, 'success')
+                        deleteModal.hide()
+                        getGroupMessageApi(INITIAL_PAGE)
+                    }
+                },
+                onError: (error) => () => {
+                    showToast(error.error_message)
+                },
+            })
+        );
+
+    }
+
+    console.log("selected Messge---->", selectMessage)
 
 
     return (
@@ -139,20 +209,44 @@ function GroupMessage({ }: GroupMessageProps) {
                     }>
 
                     {groupEvents && groupEvents.length > 0 &&
-                        groupEvents.map((task: any, index: number) => {
-                            const { icon, title, subTitle, created_at, attachments } = task
-                            const showDotLine = index !== 0
+                        groupEvents.map((item: any, index: number) => {
+                            const { icon, title, subTitle, created_at, attachments, event_by } = item
+                            console.log('iteme111111111111111----------->', JSON.stringify(item));
+
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
-                            console.log("==============>Task", task);
+                            const loginUser = user_details?.id === event_by?.id
+
+                            const timeString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
+                            const time = timeString.split(',')[1].trim();
+
+                            const dateString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
+                            const date = dateString.split(',')[0].trim();
+
+                            console.log(date);
 
 
 
                             return (
-                                <TimeLine
-                                    icon={icon}
-                                    showDotterLine={showDotLine}
-                                    title={title} subTitle={subTitle}
-                                    time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
+                                <GroupChat
+                                    profileImage={event_by?.profile_image}
+                                    title={title}
+                                    subTitle={subTitle}
+                                    time={time}
+                                    date={date}
+                                    isEdit={loginUser}
+                                    isDelete={loginUser}
+                                    editOnClick={() => {
+                                        setSelectMessage(item)
+                                        editModal.show()
+                                        message.set(title)
+                                        setSelectDropzone(attachments.attachments)
+
+                                    }}
+                                    deleteOnClick={() => {
+                                        setSelectMessage(item)
+                                        deleteModal.show()
+                                    }}
+                                >
 
                                     <div className='pt-2'  onClick={() => {
                                         imageModal.show()
@@ -173,7 +267,9 @@ function GroupMessage({ }: GroupMessageProps) {
 
                                         }
                                     </div>
-                                </TimeLine>)
+
+
+                                </GroupChat>)
                         })
                     }
                 </InfiniteScroll>
@@ -199,6 +295,63 @@ function GroupMessage({ }: GroupMessageProps) {
                     }
 
                 </Carousel>
+
+            </Modal>
+
+            <Modal size={'lg'} title={translate('common.Edit Chat')!} isOpen={editModal.visible} onClose={editModal.hide} >
+
+                <div className="col-md col-lg">
+
+                    <div className='col-md col-lg'>
+                        <textarea value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
+                    </div>
+
+                    <div className="col">
+                        <label className={`form-control-label`}>
+                            {/* {translate("auth.attach")} */}
+                            {translate("common.attach")}
+                        </label>
+                    </div>
+
+                    <div className="row col-8 mx-1 ">
+                        {selectDropzone &&
+                            selectDropzone.map((el: any, index: number) => {
+                                return (
+                                    <Dropzone
+                                        variant="ICON"
+                                        icon={getPhoto(el?.attachment_file)}
+                                        size="xl"
+                                        onSelect={(image) => {
+                                            let file = image.toString().replace(/^data:(.*,)?/, "");
+                                            handleImagePicker(index, file);
+                                            setSelectDropzone([{ id: "1" }, { id: "2" }]);
+                                        }}
+                                    />
+                                );
+                            })}
+                    </div>
+                </div>
+
+                <div className="row justify-content-end">
+                    <div className="col-md-5 col-lg-3 ">
+                        <Button
+                            block
+                            text={translate("order.Update")}
+                            onClick={proceedEditHandler}
+                        />
+                    </div>
+                </div>
+
+            </Modal>
+            <Modal isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide}>
+                <div>
+                    <div className="h4"> {translate("errors.Are you sure you want to delete?")} </div>
+                    <div className="row d-flex justify-content-end">
+                        <Button text={translate('common.delete')}
+                            onClick={proceedDeleteHandler}
+                        />
+                    </div>
+                </div>
 
             </Modal>
         </>

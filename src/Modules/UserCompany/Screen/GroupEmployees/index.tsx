@@ -2,17 +2,21 @@
 import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { EmployeeGroupsProps } from './interfaces'
-import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal } from '@Components'
+import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image } from '@Components'
 import { addGroupUser, getGroupsEmployees } from '@Redux'
 import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArrayByKey } from '@Utils';
 import { useDropDown, useModal } from '@Hooks';
 import { Employees } from '@Modules'
 import { translate } from '@I18n'
+import { icons } from '@Assets';
 
 
-function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps) {
+function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
     const { groupEmployees } = useSelector((state: any) => state.UserCompanyReducer);
+
+
+
     useEffect(() => {
         getGroupEmployees()
     }, [Employees])
@@ -27,11 +31,11 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
     const getGroupEmployees = (q: string = '') => {
 
         const params = {
-            group_id: Employees,
+            group_id: groupCode,
             ...(otherParams && { ...otherParams }),
             q
         }
-        if (Employees) {
+        if (groupCode) {
             dispatch(
                 getGroupsEmployees({
                     params,
@@ -54,7 +58,7 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
         console.log(addUsers, "pppppuuuuuuuuuu")
 
         const params = {
-            group_id: Employees,
+            group_id: groupCode,
             users_id: addUsers.tagged_users
         }
 
@@ -74,13 +78,6 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
         )
 
     }
-    // function proceedTaskStatusChangeHandler() {
-    //     const params = {
-    //         event_type: EVS,
-    //         taskstatus_changeto: status.value?.id,
-    //     }
-    //     addGroupUsers(params)
-    // }
 
 
 
@@ -89,24 +86,23 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
 
             <Card className={'h-100'}>
                 <div className='row'>
-                    <div className='col'>
-                        <h5 className="h3 mb-0">{translate('order.Members')}</h5>
+                    <div className='mx--1'>
+                        <span className="h4 col-3">{'Members'}</span>
                     </div>
-                    <div className='col-auto'>
-                        <Button text={translate('order.Add')} size='sm' onClick={() => {
-                            addUserModal.show()
-
-
-                        }} />
-                    </div>
-                </div>
-
-                <div className='h-100 overflow-auto scroll-hidden pb-3'>
-                    <div className='mt-3'>
+                    <div className='col-6 my--1 p-0'>
                         <SearchInput onSearch={(search) => {
                             getGroupEmployees(search)
                         }} />
                     </div>
+                    <div className='col-1'>
+                        <Button className={'text-white'} text={translate("common.add")} size='sm' onClick={() => {
+                            addUserModal.show()
+                        }} />
+                    </div>
+                </div>
+
+                <div className='h-100 overflow-auto overflow-hide pb-3'>
+
                     <div className='mt-3'>
                         {
                             groupEmployees && groupEmployees.length > 0 ? groupEmployees.map((el: any, index: number) => {
@@ -125,11 +121,11 @@ function GroupEmployees({ Employees, height, otherParams }: EmployeeGroupsProps)
                                             </div>
                                             <div className={'row col mt--2'}>
                                                 <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
-                                                <div className={'h5 mb-0 text-uppercase text-muted px-1'}>{'|'}</div>
+                                                <div className='text-muted mt--1'><Image src={icons.verticalLine} height={12} width={7} /></div>
                                                 <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
                                             </div>
                                         </div>
-                                        <div className={'mx--2 '}>
+                                        <div className={'mx--2 my--2'}>
                                             {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
                                         </div>
                                     </div>

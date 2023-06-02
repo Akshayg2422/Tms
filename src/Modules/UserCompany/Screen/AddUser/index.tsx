@@ -25,7 +25,8 @@ function AddUser() {
   const { goBack } = useNavigation();
 
 
-  const { selectedCompany } = useSelector((state: any) => state.UserCompanyReducer);
+  const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+  const { company_branch } = dashboardDetails || ''
 
   const { designations, departments } = useSelector(
     (state: any) => state.UserCompanyReducer
@@ -43,7 +44,7 @@ function AddUser() {
   useEffect(() => {
 
     const params = {
-      branch_id: selectedCompany?.branch_id,
+      branch_id: selectedCompany?.branch_id ? selectedCompany?.branch_id : company_branch?.id,
     };
 
     dispatch(
@@ -61,7 +62,7 @@ function AddUser() {
   useEffect(() => {
 
     const params = {
-      branch_id: selectedCompany?.branch_id,
+      branch_id: selectedCompany?.branch_id ? selectedCompany?.branch_id : company_branch?.id,
     };
 
     dispatch(
@@ -89,7 +90,7 @@ function AddUser() {
   const submitAddUserHandler = () => {
 
     const params = {
-      branch_id: selectedCompany?.branch_id,
+      branch_id: selectedCompany?.branch_id ? selectedCompany?.branch_id : company_branch?.id,
       first_name: firstName.value,
       mobile_number: contactNumber.value,
       email: email.value,

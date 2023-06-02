@@ -192,7 +192,7 @@ function AdminFeeds() {
 
     <>
       {broadCastDetails && broadCastDetails.length > 0 ?
-        <div className="col-8 text-right my-1">
+        <div className="col-7 text-right my-1">
           <Button
             text={translate("order.CREATE POST")}
             className="text-white"
@@ -207,7 +207,7 @@ function AdminFeeds() {
           loader={<h4>
             <Spinner />
           </h4>}
-          className='overflow-auto scroll-hidden'
+          className={'overflow-auto overflow-hide'}
           style={{ overflowY: "auto" }}
           next={() => {
             if (broadCastCurrentPage !== -1) {
@@ -221,7 +221,7 @@ function AdminFeeds() {
               broadCastDetails?.map((item: any, index: number) => {
                 return (
                   <div key={index}>
-                    <Card className={'shadow-none border m-3 col-8 mt-4 mb--2'}>
+                    <Card className={'shadow-none border m-3 col-7 mt-4 mb--2'}>
                       <div className="row d-flex justify-content-end mt-3">
                         <MenuBar menuData={MY_FEED_MENU}
                           onClick={(element) => {

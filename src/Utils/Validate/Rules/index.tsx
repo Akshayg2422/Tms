@@ -191,7 +191,6 @@ export const CREATE_BROAD_CAST_EXTERNAL = {
   broadcast_attachments:
   {
     presence: { allowEmpty: false, message: "attachments cannot be empty" },
-
   }
 }
 
@@ -309,6 +308,19 @@ export const ADD_TIME_SHEET_DETAILS = {
   },
 }
 
+
+export const EDIT_TIME_SHEET_DETAILS = {
+  task_id: {
+    presence: { allowEmpty: false, message: "  Task cannot be empty" },
+  },
+  start_time: {
+    presence: { allowEmpty: false, message: " StartTime cannot be empty" },
+  },
+
+  description: {
+    presence: { allowEmpty: false, message: " EndTime cannot be empty" },
+  },
+}
 
 export const ADD_EVENT_EXTERNAL_RULES = {
 

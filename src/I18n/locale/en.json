@@ -106,10 +106,12 @@
     "Place":"Place",
     "Male":"Male",
     "Female":"Female",
-    "Others":"Others"
+    "Others":"Others",
+    "Edit Chat":"Edit Chat"
   },
   "errors": {
-    "invalidEmail": "Invalid email address."
+    "invalidEmail": "Invalid email address.",
+    "Are you sure you want to delete?":"Are you sure you want to delete?"
   },
   "errorScreen": {
     "title": "Something went wrong!",

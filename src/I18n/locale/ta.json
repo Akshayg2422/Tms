@@ -99,11 +99,13 @@
         "Task Priority":"பணி முன்னுரிமை",
         "Male":"ஆண்",
         "Female":"பெண்",
-        "Others":"மற்றவைகள்"
+        "Others":"மற்றவைகள்",
+        "Edit Chat":"அரட்டையைத் திருத்து"
         
     },
     "errors": {
-        "invalidEmail": "Invalid email address."
+        "invalidEmail": "Invalid email address.",
+        "Are you sure you want to delete?":"இதை நீக்க வேண்டும் என்பதில் உறுதியாக இருக்கிறீர்களா?"
     },
     "errorScreen": {
         "title": "Something went wrong!",

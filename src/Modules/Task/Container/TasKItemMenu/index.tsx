@@ -24,8 +24,6 @@ import { useDynamicHeight } from "@Hooks";
 
 function TaskItemMenu() {
 
-
-
     const dynamicHeight: any = useDynamicHeight()
     const TASK_STATUS_MENU = [
         {

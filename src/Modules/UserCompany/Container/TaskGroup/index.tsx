@@ -261,14 +261,12 @@ function TaskGroup() {
   // ADD MEMBER
 
   const addGroupUsers = (addUsers: any) => {
-    console.log(addUsers, "111111111111111111111111111111111111111")
 
     const params = {
       group_id: selectedGroupChatCode,
       users_id: addUsers.tagged_users
     }
 
-    console.log('paramsssssssss------------>', params);
     dispatch(
       addGroupUser({
         params,

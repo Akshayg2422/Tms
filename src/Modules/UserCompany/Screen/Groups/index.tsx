@@ -20,7 +20,7 @@ function Groups() {
 
     return (
         <div className='m-3 v-100vh'>
-            <div className='mx-3 mt-3' >
+            <div className='mx-3 mt-3 mb-0' >
                 <TaskChatGroup onClick={(code) => { dispatch(setSelectedGroupChatCode(code)) }} showAll={false} />
             </div>
 
@@ -35,7 +35,7 @@ function Groups() {
                 <div className='col ml--3' style={{
                     height: infoHeight - 30
                 }}>
-                    <GroupEmployees Employees={selectedGroupChatCode} />
+                    <GroupEmployees groupCode={selectedGroupChatCode} />
                 </div>
             </div>
                 : <div className='d-flex h-100vh justify-content-center align-items-center'>

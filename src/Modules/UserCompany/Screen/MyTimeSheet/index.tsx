@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getMomentObjFromServer, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A, getDisplayDateFromMoment } from '@Utils'
+import { getMomentObjFromServer, getDisplayDateFromMomentByType, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A, getDisplayDateFromMoment, EDIT_TIME_SHEET_DETAILS } from '@Utils'
 import {
   addEmployeeTimeline,
   getAssignedTask,
@@ -34,7 +34,6 @@ function MyTimeSheet() {
   const [assignedTaskDetails, setAssignedTaskDetails] = useState([])
   const [selectedTask, setSelectedTask] = useState<any>('')
   const editDescriptions = useInput('')
-  let currentDate = getDisplayDateFromMoment(getMomentObjFromServer(new Date()))
   const [formattedShift, setFormattedShift] = useState<any>('')
 
   //start date
@@ -56,7 +55,6 @@ function MyTimeSheet() {
 
   useEffect(() => {
     getAssignedTaskList()
-    // getEmployeesTimeList(INITIAL_PAGE)
   }, [])
 
 
@@ -69,6 +67,8 @@ function MyTimeSheet() {
   }, [employeeTimeline])
 
   //start  date end date
+
+  console.log('formattedShift---->',formattedShift)
 
   const getDatesBetween = (startDate, endDate) => {
     const dates: any = [];
@@ -132,6 +132,7 @@ function MyTimeSheet() {
 
   const dateWithTasks = (response: any) => {
     const TaskWithDates = [...dateWithTask()]
+    console.log("TaskWithDates",TaskWithDates)
     let modifiedData = [...TaskWithDates]
 
     let consolidatedShift = modifiedData.map(each => {
@@ -281,7 +282,7 @@ function MyTimeSheet() {
       description: editDescriptions?.value || description?.value
     }
 
-    const validation = validate(ADD_TIME_SHEET_DETAILS, params);
+    const validation = validate(editEndTimeEta?EDIT_TIME_SHEET_DETAILS:ADD_TIME_SHEET_DETAILS, params);
     console.log("validation", validation)
 
     if (ifObjectExist(validation)) {
@@ -321,7 +322,8 @@ function MyTimeSheet() {
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
           Status: el?.is_completed ? "complete" : "",
-          "Edit": <MenuBar menuData={getGroupMenuItem} onClick={(element) => {
+          "Edit": 
+          <div ><MenuBar menuData={getGroupMenuItem} onClick={(element) => {
 
             const { start_time, end_time, task, id, description } = el
             const tasks = { id: task.id, text: task.name }
@@ -335,6 +337,7 @@ function MyTimeSheet() {
               handleEditDescription(description)
             }
           }} />
+          </div>
 
         }
       }
@@ -362,14 +365,13 @@ function MyTimeSheet() {
         <div>
           {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
 
+  
             return (
 
               <CollapseButton
                 selectedIds={formattedShift[index]?.date}
-                selectedId={currentDate}
-                children={
-                  <h5>{formattedShift[index]?.date}
-                  </h5>}
+                // selectedId={currentDate}
+                title={new Date(formattedShift[index]?.date)}
                 tableDataSet={formattedShift[index].taskListedArray}
                 displayDataSet={normalizedTableDatas(formattedShift[index].taskListedArray)}
                 onClick={() => {
@@ -486,7 +488,7 @@ function MyTimeSheet() {
           </div>
           <div className="col-6">
             <DateTimePicker
-              type="both"
+              type="time"
               initialValue={editEndTimeEta}
               placeholder={translate('order.end Time')!}
               onChange={handleEditEndTimeEtaChange}
