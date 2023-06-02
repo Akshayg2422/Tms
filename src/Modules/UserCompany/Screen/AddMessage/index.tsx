@@ -49,7 +49,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             group_attachments: [{ name: attachmentName.value, attachments: photo }],
             // name: attachmentName.value,
         };
-        
+
         dispatch(
             addGroupMessage({
                 params,
@@ -57,7 +57,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                     resetValues();
                     attachmentModal.hide()
                     dispatch(refreshGroupEvents())
-                    
+
                 },
                 onError: (error) => () => { },
             }),
@@ -77,10 +77,15 @@ function AddMessage({ AddGroup }: AddMessageProps) {
     }
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            addGroupMessageApiHandler()
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+
+            if (message.value.trim().length > 0) {
+                addGroupMessageApiHandler();
+            }
         }
-    }
+    };
+
 
     return (
         <>
@@ -91,7 +96,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                         <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={addGroupMessageApiHandler} />
-                    
+
                 </div >
             </div >
             <Modal isOpen={attachmentModal.visible}
@@ -111,7 +116,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                                             handleImagePicker(index, file)
                                         }}
                                     />
-                                    
+
                                 </div>
                             )
                         })}

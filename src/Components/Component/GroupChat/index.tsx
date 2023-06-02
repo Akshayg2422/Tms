@@ -1,54 +1,107 @@
-import React from 'react'
-import { GroupChatProps } from './interfaces'
-import { Image } from '@Components'
-import { icons } from '@Assets'
+import React, { useState } from 'react';
+import { GroupChatProps } from './interfaces';
+import { Image } from '@Components';
+import { icons } from '@Assets';
+import { getPhoto } from '@Utils';
 
+function GroupChat({
+    children,
+    title,
+    time,
+    date,
+    color = 'white',
+    rtl,
+    subTitle,
+    isEdit,
+    isDelete,
+    profileImage,
+    editOnClick,
+    deleteOnClick,
+}: GroupChatProps) {
+    const [editHover, setEditHover] = useState(false);
+    const [deleteHover, setDeleteHover] = useState(false);
 
-function GroupChat({ children, title, time, color = 'white', rtl, subTitle, isEdit, isDelete, editOnclick, deleteOnClick }: GroupChatProps) {
 
     return (
-        <div
-            className={''}
-        >
-            <div className="timeline-block" dir={rtl ? "rtl" : undefined}>
-                <span className={''}>
-                    {/* {icon ? <Image src={icon} width={15} height={15} /> : <i className="ni ni-bell-55" />} */}
-                </span>
 
-                <div className="timeline-content">
-                    <div className='d-flex justify-content-between'>
-                        <div>
-                            <h6 className="h5 mt-0 mb-0">{subTitle}</h6>
-                            <span className="text-muted text-sm font-weight-bold">
-                                {title}
+        <div className={'container'}>
+            <div className="row">
+                {profileImage ? (
+                    <Image variant={'rounded'} size={'sm'} className='border' src={getPhoto(profileImage)} width={15} height={15} />
+                ) : (
+                    ''
+                )}
+                <div className="col-11">
+                    <div className="mb-0">
+                        <h6 className="h5 mt-0 mb-0 d-flex justify-content-between text-primary">{subTitle}
+                            <div className="col">
+                                <small className="text-muted">
+                                    {time}
+                                </small>
+                            </div>
+                            <span>
+                                {isEdit && (
+                                    <small>
+                                        <div
+                                            className="col-auto pointer d-inline-flex justify-content-center align-items-center"
+                                            onMouseEnter={() => setEditHover(true)}
+                                            onMouseLeave={() => setEditHover(false)}
+                                        >
+                                            <Image
+                                                src={icons.editEta}
+                                                onClick={editOnClick}
+                                                width={12}
+                                                height={12}
+                                                style={{ objectFit: 'contain' }}
+                                            />
+                                            {editHover && <span className="button-label">Edit</span>}
+                                        </div>
+                                    </small>
+                                )}
+                                {isDelete && (
+                                    <small>
+                                        <div
+                                            className="pointer d-inline-flex justify-content-center align-items-center"
+                                            onMouseEnter={() => setDeleteHover(true)}
+                                            onMouseLeave={() => setDeleteHover(false)}
+                                        >
+                                            <Image
+                                                src={icons.deleteCurve}
+                                                onClick={deleteOnClick}
+                                                width={12}
+                                                height={12}
+                                                style={{ objectFit: 'contain' }}
+                                            />
+                                            {deleteHover && <span className="button-label">Delete</span>}
+                                        </div>
+                                    </small>
+                                )}
                             </span>
-                        </div>
-                        <div className="text-right">
-                            <small className="text-muted">
-                                <i className={`fas fa-clock mr-1 ${rtl && 'ml-1'}`} />
-                                {time}
-                            </small>
-                            {isEdit && <small>
-                                <div className=' mx-2 pointer  d-inline-flex  justify-content-center align-items-center'>
-                                    <Image src={icons.editEta} onClick={editOnclick} width={12} height={12} style={{ objectFit: 'contain' }} />
-                                </div>
-                            </small>}
-                            {isDelete && <small>
-                                <div className='pointer d-inline-flex justify-content-center align-items-center'>
-                                    <Image src={icons.deleteCurve} onClick={deleteOnClick} width={12} height={12} style={{ objectFit: 'contain' }} />
-                                </div>
-                            </small>}
-                        </div>
+                        </h6>
                     </div>
-                    <div className='mb-4'>
-                        {
-                            children
-                        }
+                    <div className="">
+                        <div className="text-muted text-sm font-weight-bold">{title}</div>
                     </div>
+
+                    <div className="text-center">
+                        <small className="text-muted ">
+                            <div className='row'>
+                                <div className={'col-5'}><hr />{ }</div>
+                                <div className={'col align-self-center mx--2'}>{date}</div>
+                                <div className={'col-5'}><hr /></div>
+                            </div>
+                        </small>
+                    </div>
+
                 </div>
             </div>
+            <div className="mb-4">
+                {children}
+            </div>
         </div>
-    )
+
+
+    );
 }
 
-export { GroupChat }
+export { GroupChat };
