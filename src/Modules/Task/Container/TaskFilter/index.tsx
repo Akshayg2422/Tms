@@ -39,6 +39,8 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
     const search = useInput('')
+    const modifiedDepartment=[{id:'ALL',text:'All'},...departments]
+    const modifiedDesignation=[{id:'ALL',text:'All'},...designations]
 
 
 
@@ -146,6 +148,9 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
     }
 
+    console.log(departments,"ddepartments")
+
+
     function proceedParams(object: any) {
         const updatedParams = { ...params, ...object }
         if (onParams) {
@@ -153,12 +158,6 @@ function TaskFilter({ onParams }: TaskFilterProps) {
         }
         setParams(updatedParams)
     }
-
-
-
-
-
-
     return (
         < >
             <div className="row">
@@ -252,7 +251,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
-                        data={departments}
+                        data={modifiedDepartment}
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
@@ -267,7 +266,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                     <DropDown
                         className="form-control-sm"
                         heading={translate("auth.designation")}
-                        data={designations}
+                        data={modifiedDesignation}
                         selected={designation.value}
                         onChange={(item) => {
                             designation.onChange(item)

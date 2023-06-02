@@ -134,13 +134,8 @@ export const HOME_ROUTES = [
     layout: "",
     component: <Profile />
   },
-  {
-    path: ROUTES['user-company-module'].setting,
-    name: "Settings",
-    icon: icons.setting,
-    layout: "",
-    component: <Setting/>
-  }, {
+  
+   {
     collapse: true,
     name: "Admin",
     icon: icons.task,
@@ -201,6 +196,13 @@ export const HOME_ROUTES = [
     icon: icons.company,
     layout: "",
     component: <Groups />
+  },
+  {
+    path: ROUTES['user-company-module'].setting,
+    name: "Settings",
+    icon: icons.setting,
+    layout: "",
+    component: <Setting/>
   },
 ];
 
