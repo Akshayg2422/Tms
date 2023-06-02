@@ -2,15 +2,16 @@
 import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { EmployeeGroupsProps } from './interfaces'
-import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal } from '@Components'
+import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image } from '@Components'
 import { addGroupUser, getGroupsEmployees } from '@Redux'
 import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArrayByKey } from '@Utils';
 import { useDropDown, useModal } from '@Hooks';
 import { Employees, GroupEmployeeList } from '@Modules'
 import { translate } from '@I18n'
+import { icons } from '@Assets';
 
 
-function GroupEmployees({  groupCode,height, otherParams }: EmployeeGroupsProps) {
+function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
     const { groupEmployees } = useSelector((state: any) => state.UserCompanyReducer);
 
@@ -119,11 +120,11 @@ function GroupEmployees({  groupCode,height, otherParams }: EmployeeGroupsProps)
                                             </div>
                                             <div className={'row col mt--2'}>
                                                 <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
-                                                <div className={'h5 mb-0 text-uppercase text-muted px-1'}>{'|'}</div>
+                                                <div className='text-muted mt--1'><Image src={icons.verticalLine} height={12} width={7} /></div>
                                                 <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
                                             </div>
                                         </div>
-                                        <div className={'mx--2 '}>
+                                        <div className={'mx--2 my--2'}>
                                             {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
                                         </div>
                                     </div>

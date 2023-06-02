@@ -78,10 +78,14 @@ function AddChat() {
         setPhoto(newUpdatedPhoto)
     }
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            proceedTaskEventsApiHandler()
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+
+            if (message.value.trim().length > 0) {
+                proceedTaskEventsApiHandler();
+            }
         }
-    }
+    };
 
     return (
         <>
