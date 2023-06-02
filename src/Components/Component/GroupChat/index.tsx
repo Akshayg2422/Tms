@@ -21,8 +21,8 @@ function GroupChat({
     const [editHover, setEditHover] = useState(false);
     const [deleteHover, setDeleteHover] = useState(false);
 
-    return (
 
+    return (
 
         <div className={'container'}>
             <div className="row">
@@ -86,7 +86,7 @@ function GroupChat({
                     <div className="text-center">
                         <small className="text-muted ">
                             <div className='row'>
-                                <div className={'col-5'}><hr /></div>
+                                <div className={'col-5'}><hr />{ }</div>
                                 <div className={'col align-self-center mx--2'}>{date}</div>
                                 <div className={'col-5'}><hr /></div>
                             </div>
