@@ -222,7 +222,6 @@ function GroupMessage({ }: GroupMessageProps) {
                             const date = dateString.split(',')[0].trim();
 
                             console.log(date);
-                            
 
                             return (
                                 <GroupChat
