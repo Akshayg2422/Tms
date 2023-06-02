@@ -7,7 +7,7 @@ import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
 import { EventItem } from "@Modules";
 import { addEvent, getAssociatedCompanyBranch, getEvents } from "@Redux";
-import { ADD_EVENT_EXTERNAL_RULES, ADD_EVENT_INTERNAL_RULES, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getValidateError, ifObjectExist, validate } from '@Utils'
+import { ADD_EVENT_EXTERNAL_RULES, ADD_EVENT_INTERNAL_RULES, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
 
 function Events() {
@@ -45,6 +45,8 @@ function Events() {
   const [selectedEvent, setSelectedEvent] = useState<any>(undefined)
   const deleteEventModal = useModal(false)
   const editEventModal = useModal(false)
+
+  console.log("startTime--->",startTime)
 
 
   let attach = photo.slice(-2, 4)
@@ -122,8 +124,8 @@ function Events() {
       id: selectedEvent?.id,
       title: eventTitle?.value,
       place: eventPlace?.value,
-      start_time: startTime,
-      end_time: endTime,
+      start_time: getServerTimeFromMoment(getMomentObjFromServer(startTime)),
+      end_time:  getServerTimeFromMoment(getMomentObjFromServer(endTime)),
       description: eventDescription?.value,
       ...(selectedCompanies.length > 0 && {
         applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
