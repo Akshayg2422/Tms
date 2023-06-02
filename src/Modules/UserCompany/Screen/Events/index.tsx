@@ -385,7 +385,6 @@ function Events() {
                         let file =image.toString().replace(/^data:(.*,)?/, "")
                         handleImagePicker(file)
                        
-                    
                     }}
                     onSelectImagePicker={(el)=>{
                       setSelectedNoOfPickers(el?.length)

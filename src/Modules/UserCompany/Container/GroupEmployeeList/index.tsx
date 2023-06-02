@@ -11,7 +11,7 @@ import { useDropDown } from '@Hooks'
 
 function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaultSelect }:GroupEmployeesProps) {
 
-    const { employees } = useSelector((state: any) => state.UserCompanyReducer);
+    const {   employeesDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const [selectedEmployee, setSelectedEmployee] = useState<any>(defaultSelect)
     const [companies,setCompanies]=useState<any>()
     const [designations,setDesignations]=useState<any>([])
@@ -118,7 +118,7 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
         const params = {
             ...(otherParams && { ...otherParams }),
             q_many,
-            page_number:-1
+            per_page_count:-1
         }
         dispatch(
             getEmployees({
@@ -219,7 +219,7 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
         
             <Card className='m-1 mt-2 shadow-none overflow-auto overflow-hide ' style={{ maxHeight: '50vh' }}>
                 {
-                    employees && employees.length > 0 ? employees.map((employee: any, index: number) => {
+                      employeesDetails &&   employeesDetails.length > 0 ?   employeesDetails.map((employee: any, index: number) => {
                         const { profile_image, name, designation, department, id } = employee
 
                         const isSelected = selectedEmployee && selectedEmployee.length > 0 && selectedEmployee.some((each: any) => {
@@ -253,7 +253,7 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
                                 </div>
 
                                 <div className={'mx--4 my--2'}>
-                                    {index !== employees.length - 1 && <Divider space={'3'} />}
+                                    {index !==  employeesDetails.length - 1 && <Divider space={'3'} />}
                                 </div>
                             </div>)
                     }) : <NoDataFound type={'text'} text={''} />

@@ -59,4 +59,5 @@ export interface UserCompanyStateProp {
     selectedGroupChatCode: any,
     chatGroups: any,
     selectedTaskGroupCode: any,
+    employeesDetails:any,
 }

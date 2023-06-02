@@ -65,6 +65,7 @@ const initialState: UserCompanyStateProp = {
   selectedGroupChatCode: undefined,
   chatGroups: undefined,
   selectedTaskGroupCode: "ALL",
+  employeesDetails:undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -389,7 +390,8 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         ...state,
         employees:undefined,
         employeesCurrentPages:1,
-        employeesNumOfPages:0
+        employeesNumOfPages:0,
+        employeesDetails:undefined,
       };
 
       break;
@@ -397,6 +399,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = {
         ...state,
         employees: action.payload.details.data,
+        employeesDetails:action.payload.details,
         employeesCurrentPages:action.payload?.details.next_page === -1
         ? action?.payload?.details.num_pages
         : action?.payload?.details.next_page - 1,

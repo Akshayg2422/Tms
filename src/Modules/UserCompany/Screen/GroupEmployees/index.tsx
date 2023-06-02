@@ -33,7 +33,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
         const params = {
             group_id: groupCode,
             ...(otherParams && { ...otherParams }),
-            q
+            q,
         }
         if (groupCode) {
             dispatch(

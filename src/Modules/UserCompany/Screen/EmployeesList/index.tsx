@@ -36,7 +36,7 @@ function EmployeesList() {
         const params = {
             branch_id: company_branch?.id,
             q_many,
-            page_number
+            page_number,
             
         };
         dispatch(getEmployees({
