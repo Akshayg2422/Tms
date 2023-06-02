@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
 import { icons } from "@Assets";
-import { Employees } from '@Modules'
+import { Employees, GroupEmployeeList } from '@Modules'
 
 
 
@@ -619,12 +619,22 @@ function TaskGroup() {
       }
 
       <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '80vh' }}>
-        <Employees selection={'multiple'}
+        
+        {/* <Employees selection={'multiple'}
           defaultSelect={defaultSelectedUsers}
           onSelected={(users) => {
             const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
             setTaggedUsers(taggedUserIds)
-          }} />
+          }}
+          
+          /> */}
+          <GroupEmployeeList
+          selection={'multiple'}
+          defaultSelect={defaultSelectedUsers}
+          onSelected={(users) => {
+            const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
+            setTaggedUsers(taggedUserIds)
+          }}/>
         <div className="pt-3 mr-2 text-right">
           <Button
             size={'sm'}

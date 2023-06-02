@@ -59,7 +59,7 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
  
     const getDesignation = (items: any) => {
 
-      
+      if(items.id){
             const params = {
                 branch_id: items.id
             };
@@ -81,9 +81,11 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
                 })
 
             );
+      }
     }
 
     const getDepartment = (items: any) => {
+        if(items.id){
             const params = {
                 branch_id: items.id
             };
@@ -106,6 +108,7 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
                     },
                 })
             );
+        }
 
     }
 
@@ -113,12 +116,15 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
     useEffect(() => {
         getEmployeeApi()
     }, [])
-
-    const getEmployeeApi = (q_many: string = '') => {
+console.log(company.value,"vvvvvv")
+    const getEmployeeApi = (item:any='', q_many: string = '') => {
         const params = {
             ...(otherParams && { ...otherParams }),
             q_many,
-            per_page_count:-1
+            per_page_count:-1,
+            ...(item.id &&  {branch_id :item?.id}),
+            ...(department && { department_id: department?.value?.id }),
+            ...(designation && { designation_id: designation?.value?.id })
         }
         dispatch(
             getEmployees({
@@ -178,6 +184,7 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
                             company.onChange(item)
                             getDesignation(item)
                             getDepartment(item)
+                            getEmployeeApi(item)
                         }}
                     />
                 </div>
@@ -191,6 +198,7 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
+                            getEmployeeApi()
 
                         }}
                     />
@@ -205,6 +213,7 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
                         selected={designation.value}
                         onChange={(item) => {
                             designation.onChange(item)
+                            getEmployeeApi()
                     
                         }}
                     />
