@@ -4,7 +4,7 @@ export interface GroupChatProps {
     children?: React.ReactNode;
     title?: string,
     time?: string,
-    date?: string,
+    date?: any,
     profileImage?: any,
     color?: Color,
     rtl?: boolean,

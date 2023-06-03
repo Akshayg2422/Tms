@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GroupChatProps } from './interfaces';
 import { Image } from '@Components';
 import { icons } from '@Assets';
-import { getPhoto } from '@Utils';
+import { HDD_MMMM_YYYY_HH_MM_A, getCurrentDay, getMomentObjFromServer, getPhoto } from '@Utils';
+import moment from 'moment';
+
 
 function GroupChat({
     children,
@@ -21,6 +23,7 @@ function GroupChat({
     const [editHover, setEditHover] = useState(false);
     const [deleteHover, setDeleteHover] = useState(false);
 
+    const isEndOfDay = getCurrentDay(date)
 
     return (
 
@@ -54,7 +57,7 @@ function GroupChat({
                                                 height={12}
                                                 style={{ objectFit: 'contain' }}
                                             />
-                                            {editHover && <span className="button-label">Edit</span>}
+                                            {editHover && <span className="button-label" onClick={editOnClick}>Edit</span>}
                                         </div>
                                     </small>
                                 )}
@@ -72,7 +75,7 @@ function GroupChat({
                                                 height={12}
                                                 style={{ objectFit: 'contain' }}
                                             />
-                                            {deleteHover && <span className="button-label">Delete</span>}
+                                            {deleteHover && <span className="button-label" onClick={deleteOnClick}>Delete</span>}
                                         </div>
                                     </small>
                                 )}
@@ -85,11 +88,17 @@ function GroupChat({
 
                     <div className="text-center">
                         <small className="text-muted ">
-                            <div className='row'>
-                                <div className={'col-5'}><hr />{ }</div>
-                                <div className={'col align-self-center mx--2'}>{date}</div>
-                                <div className={'col-5'}><hr /></div>
-                            </div>
+                            {date &&
+                                <div className='row'>
+                                    <div className={'col-5'}>
+                                        <hr />
+                                    </div>
+                                    <div className={'col align-self-center mx--2'}>{date}</div>
+                                    <div className={'col-5'}>
+                                        <hr />
+                                    </div>
+                                </div>
+                            }
                         </small>
                     </div>
 

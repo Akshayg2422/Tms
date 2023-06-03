@@ -3,7 +3,7 @@ import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { addEvent, addGroupMessage, getGroupMessage } from '@Redux'
 import { Spinner, Image, Modal, Card, ImageDownloadButton, showToast, Button, Input, Dropzone, GroupChat } from '@Components'
-import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
+import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDay } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useInput, useModal, useWindowDimensions } from '@Hooks'
@@ -210,7 +210,7 @@ function GroupMessage({ }: GroupMessageProps) {
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
                             const { icon, title, subTitle, created_at, attachments, event_by } = item
-                            console.log('iteme111111111111111----------->', JSON.stringify(item));
+                            // console.log('iteme111111111111111----------->', JSON.stringify(item));
 
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
                             const loginUser = user_details?.id === event_by?.id
@@ -220,8 +220,9 @@ function GroupMessage({ }: GroupMessageProps) {
 
                             const dateString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
                             const date = dateString.split(',')[0].trim();
+                            let isEndOfDay = getCurrentDay(date)
+                            // console.log('isEndOfDay---->', date);
 
-                            console.log(date);
 
                             return (
                                 <GroupChat
@@ -229,7 +230,7 @@ function GroupMessage({ }: GroupMessageProps) {
                                     title={title}
                                     subTitle={subTitle}
                                     time={time}
-                                    date={date}
+                                    date={isEndOfDay}
                                     isEdit={loginUser}
                                     isDelete={loginUser}
                                     editOnClick={() => {

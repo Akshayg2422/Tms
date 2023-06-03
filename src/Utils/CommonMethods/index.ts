@@ -1,6 +1,7 @@
 import {
   getPhoto,
 } from "@Utils";
+import moment from "moment";
 
 export function ifObjectExist(value: object) {
   let is_valid = true;
@@ -89,20 +90,20 @@ export const getDeviceInfo = () => {
 }
 
 
-export  async function imagePickerConvertBase64(array) {
+export async function imagePickerConvertBase64(array) {
   const promises = array.map(async (each) => {
-    let photo = await getPhoto(each. photo);
+    let photo = await getPhoto(each.photo);
     const base64 = await fetch(photo)
-.then(response => response.blob())
-  .then(blob => {
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      return new Promise((res) => {
+      .then(response => response.blob())
+      .then(blob => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        return new Promise((res) => {
           reader.onloadend = () => {
-              res(reader.result);
+            res(reader.result);
           }
+        })
       })
-  })
     return {
       ...each,
       base64: base64
@@ -112,4 +113,36 @@ export  async function imagePickerConvertBase64(array) {
 
   return Promise.all(promises);
 }
+
+
+export const getDate = date => {
+  return moment(date).format('DD');
+};
+
+export const getTime = (time: any) => {
+  return moment(time).format('MMMM DD YYYY');
+};
+
+export const getCurrentDay = (dataTime: any) => {
+  const findDate: any = moment(dataTime).format('DD');
+  console.log('findDate---------------->', findDate);
+
+  const todayDate: any = moment().format('DD');
+  console.log('todayDate---------------->', todayDate);
+
+  const findCurrentDate = moment(findDate).diff(todayDate, 'days');
+
+  console.log('findCurrentDate------------>', findCurrentDate);
+
+  if (findCurrentDate === 0) {
+    return 'Today';
+  } else if (findCurrentDate === -1) {
+    return 'Yesterday';
+  } else {
+    console.log('dataTime-------->', dataTime);
+    return getTime(dataTime);
+  }
+};
+
+
 
