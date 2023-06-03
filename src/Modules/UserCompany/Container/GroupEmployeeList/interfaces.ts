@@ -3,5 +3,6 @@ export interface GroupEmployeesProps {
     selection?: 'single' | 'multiple' | 'none';
     onSelected?: (selected: any) => void,
     defaultSelect?:any,
+    selectedCode?:any,
 
 }

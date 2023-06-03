@@ -15,7 +15,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
     const dispatch = useDispatch()
     const { groupEmployees } = useSelector((state: any) => state.UserCompanyReducer);
 
-
+    console.log(groupCode,"groupCode")
 
     useEffect(() => {
         getGroupEmployees()
@@ -28,12 +28,19 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
 
     // const status = useDropDown(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', selectedTask?.task_status));
 
+
+    useEffect(()=>{
+        getGroupEmployees()
+
+    },[ groupCode])
+
     const getGroupEmployees = (q: string = '') => {
 
         const params = {
             group_id: groupCode,
             ...(otherParams && { ...otherParams }),
             q,
+        
         }
         if (groupCode) {
             dispatch(

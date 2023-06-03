@@ -9,6 +9,7 @@ import {
   validate,
   ifObjectExist,
   getValidateError,
+  getDropDownDisplayData
 } from "@Utils";
 
 import { useInput, useDropDown, useNavigation } from "@Hooks";
@@ -27,10 +28,13 @@ function AddUser() {
 
   const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch } = dashboardDetails || ''
+ 
 
   const { designations, departments } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+
+  console.log(designations,"designationsdesignationsdesignations")
 
 
   const firstName = useInput("");
@@ -45,6 +49,7 @@ function AddUser() {
 
     const params = {
       branch_id: selectedCompany?.branch_id ? selectedCompany?.branch_id : company_branch?.id,
+      per_page_count: -1,
     };
 
     dispatch(
@@ -63,6 +68,7 @@ function AddUser() {
 
     const params = {
       branch_id: selectedCompany?.branch_id ? selectedCompany?.branch_id : company_branch?.id,
+      per_page_count: -1,
     };
 
     dispatch(
@@ -77,14 +83,14 @@ function AddUser() {
   }, []);
 
 
-  function getDropDownDisplayData(data: any) {
-    return data && data?.map((item: any) => {
-      return {
-        ...item,
-        text: item.name
-      }
-    })
-  }
+  // function getDropDownDisplayData(data: any) {
+  //   return data && data?.map((item: any) => {
+  //     return {
+  //       ...item,
+  //       text: item.name
+  //     }
+  //   })
+  // }
 
 
   const submitAddUserHandler = () => {

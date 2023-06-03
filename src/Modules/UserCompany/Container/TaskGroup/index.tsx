@@ -81,6 +81,7 @@ function TaskGroup() {
   const addMemberModal = useModal(false);
   const [taggedUsers, setTaggedUsers] = useState([])
   const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
+  const [addGroupId,setGroupId]=useState<any>()
 
   const startDate = new Date(startTimeEta)
   const startTime = startDate.getHours()
@@ -231,7 +232,6 @@ function TaskGroup() {
 
   const getGroupEmployees = (q: string = '') => {
 
-
     const params = {
       group_id: selectedGroupChatCode,
       // ...(otherParams && { ...otherParams }),
@@ -263,7 +263,7 @@ function TaskGroup() {
   const addGroupUsers = (addUsers: any) => {
 
     const params = {
-      group_id: selectedGroupChatCode,
+      group_id: addGroupId,
       users_id: addUsers.tagged_users
     }
 
@@ -337,8 +337,11 @@ function TaskGroup() {
           }
           else if (el.id === '4') {
             const { id } = taskGroup
-            addGroupUsers(id)
+            console.log(taskGroup,"eeeee")
+            // addGroupUsers(id)
             addMemberModal.show()
+            setGroupId(taskGroup.id)
+           
           }
         }} />
 
@@ -618,7 +621,7 @@ function TaskGroup() {
          */
       }
 
-      <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '80vh' }}>
+      <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '90vh', }}>
         
         {/* <Employees selection={'multiple'}
           defaultSelect={defaultSelectedUsers}
@@ -631,6 +634,7 @@ function TaskGroup() {
           <GroupEmployeeList
           selection={'multiple'}
           defaultSelect={defaultSelectedUsers}
+          selectedCode={addGroupId}
           onSelected={(users) => {
             const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
             setTaggedUsers(taggedUserIds)

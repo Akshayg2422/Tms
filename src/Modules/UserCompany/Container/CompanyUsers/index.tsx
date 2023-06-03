@@ -24,7 +24,8 @@ function CompanyUsers() {
 
     const params = { branch_id: selectedCompany.branch_id ,
       page_number,
-      q_many
+      q_many,
+      
     };
     dispatch(getEmployees({
       params,

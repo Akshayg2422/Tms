@@ -6,7 +6,8 @@ import { setSelectedGroupChatCode, } from '@Redux'
 
 function Groups() {
     const { taskGroups, } = useSelector((state: any) => state.TaskReducer);
-    const { selectedGroupChatCode } = useSelector((state: any) => state.UserCompanyReducer);
+    const { selectedGroupChatCode,chatGroups } = useSelector((state: any) => state.UserCompanyReducer);
+    console.log(chatGroups,"vvvvvvvvvvvvv")
     const dispatch = useDispatch()
     const ref = useRef<HTMLDivElement>(null)
     const [infoHeight, setInfoHeight] = useState(0)
@@ -26,15 +27,15 @@ function Groups() {
             {taskGroups && taskGroups.length > 0 ? <div className='row'>
                 <div className='col-8' ref={ref}>
                     <Card>
-                        <GroupMessage selectedGroup={selectedGroupChatCode} />
-                        <AddMessage AddGroup={selectedGroupChatCode} />
+                        <GroupMessage selectedGroup={selectedGroupChatCode?selectedGroupChatCode: chatGroups && chatGroups[0]?.id } />
+                        <AddMessage AddGroup={selectedGroupChatCode?selectedGroupChatCode:chatGroups &&chatGroups[0]?.id } />
                     </Card>
 
                 </div>
                 <div className='col ml--3' style={{
                     height: infoHeight - 30
                 }}>
-                    <GroupEmployees groupCode={selectedGroupChatCode} />
+                    <GroupEmployees groupCode={selectedGroupChatCode?selectedGroupChatCode:chatGroups && chatGroups[0]?.id } />
                 </div>
             </div>
                 : <div className='d-flex h-100vh justify-content-center align-items-center'>

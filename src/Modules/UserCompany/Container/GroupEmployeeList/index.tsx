@@ -2,109 +2,131 @@ import React, { useEffect, useState } from 'react'
 import { GroupEmployeesProps } from './interfaces'
 import { SearchInput, H, Image, Divider, NoDataFound, Card, DropDown } from '@Components'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAssociatedCompaniesL, getDepartments, getDesignations, getEmployees } from '@Redux'
-import { capitalizeFirstLetter, getPhoto } from '@Utils'
+import { getAssociatedCompaniesL, getDepartments, getDesignations, getEmployees, getGroupsEmployees } from '@Redux'
+import { capitalizeFirstLetter, getDropDownDisplayData, getPhoto } from '@Utils'
 import { icons } from '@Assets'
 import { translate } from '@I18n'
 import { useDropDown } from '@Hooks'
 
 
-function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaultSelect }:GroupEmployeesProps) {
+function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaultSelect ,selectedCode}: GroupEmployeesProps) {
 
-    const {   employeesDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    const { employees,  departments, designations } = useSelector((state: any) => state.UserCompanyReducer);
+     console.log(designations,"=====>")
     const [selectedEmployee, setSelectedEmployee] = useState<any>(defaultSelect)
-    const [companies,setCompanies]=useState<any>()
-    const [designations,setDesignations]=useState<any>([])
-    const [departments,setDepartments]=useState<any>([])
+    const [companies, setCompanies] = useState<any>()
     const company = useDropDown({})
     const department = useDropDown({})
-    const designation= useDropDown({})
+    const designation = useDropDown({})
     const dispatch = useDispatch()
+useEffect(()=>{
+    getGroupEmployees() 
+},[])
+
+    const getGroupEmployees = () => {
+
+        const params = {
+            group_id: selectedCode,
+        
+        }
+        if (selectedCode) {
+            dispatch(
+                getGroupsEmployees({
+                    params,
+                    onSuccess: (response) => () => {
+                        const selectedUsers = response.details
+                        if (selectedUsers && selectedUsers.length > 0) {
+                            setSelectedEmployee(selectedUsers)
+                        }
+                    },
+                    onError: () => () => {
+
+                    }
+                })
+            )
+        }
+    }
 
 
     useEffect(() => {
         setSelectedEmployee(defaultSelect)
+      
     }, [defaultSelect])
 
     useEffect(() => {
-        const params = { q: '' };
+   
+        getEmployeeApi()
+   
        
-            dispatch(
-                getAssociatedCompaniesL({
-                    params,
-                    onSuccess: (response) => () => {
+    }, [company.value.id,department.value,designation.value])
 
-                        const companies = response.details
 
-                        let modifiedCompanies = []
-                        modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
-                        if (companies && companies.length > 0) {
-                            modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
-                                return {
-                                    id: each.id,
-                                    text: each.display_name,
-                                    name: each.display_name,
-                                }
-                            }) as never]
-                        }
-                        setCompanies(modifiedCompanies)
-                    },
-                    onError: () => () => {
-                    },
-                })
-            );
-        
+    useEffect(() => {
+        const params = { q: '' };
+
+        dispatch(
+            getAssociatedCompaniesL({
+                params,
+                onSuccess: (response) => () => {
+
+                    const companies = response.details
+
+                    let modifiedCompanies = []
+                    modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
+                    if (companies && companies.length > 0) {
+                        modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
+                            return {
+                                id: each.id,
+                                text: each.display_name,
+                                name: each.display_name,
+                            }
+                        }) as never]
+                    }
+                    setCompanies(modifiedCompanies)
+                },
+                onError: () => () => {
+                },
+            })
+        );
+
     }, []);
 
- 
+
     const getDesignation = (items: any) => {
 
-      if(items.id){
+        if (items.id) {
             const params = {
-                branch_id: items.id
+                branch_id: items.id,
+                per_page_count: -1,
             };
 
             dispatch(
                 getDesignations({
                     params,
                     onSuccess: (response) => () => {
-                        let designations: any = [];
-                        const designation = response.details.data
-                        designation.forEach((item) => {
-                            designations = [...designations, { ...item, text: item.name }]
-                        })
-                        setDesignations(designations)
+                       
                     },
                     onError: () => () => {
-                        setDesignations([])
                     },
                 })
 
             );
-      }
+        }
     }
 
     const getDepartment = (items: any) => {
-        if(items.id){
+        if (items.id) {
             const params = {
-                branch_id: items.id
+                branch_id: items.id,
+                per_page_count: -1,
             };
             dispatch(
                 getDepartments({
                     params,
                     onSuccess: (response: any) => () => {
-
-                        let departments: any = [];
-                        const department = response.details.data
-                        department.forEach((item) => {
-                            departments = [...departments, { ...item, text: item.name }]
-                        })
-
-                        setDepartments(departments)
                     },
                     onError: (error) => () => {
-                        setDepartments([])
-
+                       
                     },
                 })
             );
@@ -113,25 +135,24 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
     }
 
 
-    useEffect(() => {
-        getEmployeeApi()
-    }, [])
-console.log(company.value,"vvvvvv")
-    const getEmployeeApi = (item:any='', q_many: string = '') => {
+    const getEmployeeApi = (q_many: string = '') => {
         const params = {
             ...(otherParams && { ...otherParams }),
             q_many,
-            per_page_count:-1,
-            ...(item.id &&  {branch_id :item?.id}),
-            ...(department && { department_id: department?.value?.id }),
-            ...(designation && { designation_id: designation?.value?.id })
+            per_page_count: -1,
+            ...(company?.value?.id && { branch_id: company.value.id }),
+            ...(department?.value?.id&& { department_id: department?.value?.id }),
+            ...(designation?.value?.id && { designation_id: designation?.value?.id })
         }
         dispatch(
             getEmployees({
                 params,
                 onSuccess: () => () => {
+                  
                 },
-                onError: () => () => { }
+                onError: () => () => { 
+                   
+                }
             })
         )
 
@@ -139,7 +160,7 @@ console.log(company.value,"vvvvvv")
 
     function proceedSelectEmployee(item: any) {
 
-        let updatedSelectedEmployee = (selectedEmployee && selectedEmployee.length) ? [...selectedEmployee] : []
+        let updatedSelectedEmployee = (selectedEmployee && selectedEmployee.length>0) ? [...selectedEmployee] : []
         if (selection === 'single') {
             updatedSelectedEmployee = [item] as never
             if (onSelected) {
@@ -168,13 +189,13 @@ console.log(company.value,"vvvvvv")
 
     return (
         <div  >
-            <div className='row mt--4'>     
-            <div className='col-4 mt-1 '>
+            <div className='row mt--4'>
+                <div className='col-4 mt-1 '>
                     <SearchInput onSearch={(search) => {
                         getEmployeeApi(search)
                     }} />
                 </div>
-             <div className='col-4 mt--4'>
+                <div className='col-4 mt--4'>
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.company")}
@@ -184,22 +205,19 @@ console.log(company.value,"vvvvvv")
                             company.onChange(item)
                             getDesignation(item)
                             getDepartment(item)
-                            getEmployeeApi(item)
+                           
                         }}
                     />
                 </div>
-                
 
-                {departments && departments.length > 0 && <div className='col-4 mt--4'>
+                {departments && departments?.length > 0 && <div className='col-4 mt--4'>
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
-                        data={departments}
+                        data={ getDropDownDisplayData(departments)}
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
-                            getEmployeeApi()
-
                         }}
                     />
                 </div>
@@ -209,26 +227,23 @@ console.log(company.value,"vvvvvv")
                     <DropDown
                         className="form-control-sm"
                         heading={translate("auth.designation")}
-                        data={designations}
+                        data={getDropDownDisplayData(designations)}
                         selected={designation.value}
                         onChange={(item) => {
                             designation.onChange(item)
-                            getEmployeeApi()
                     
                         }}
                     />
                 </div>
                 }
-            
-         
+
+
 
             </div>
 
-
-        
             <Card className='m-1 mt-2 shadow-none overflow-auto overflow-hide ' style={{ maxHeight: '50vh' }}>
                 {
-                      employeesDetails &&   employeesDetails.length > 0 ?   employeesDetails.map((employee: any, index: number) => {
+                    employees && employees?.length > 0 ? employees?.map((employee: any, index: number) => {
                         const { profile_image, name, designation, department, id } = employee
 
                         const isSelected = selectedEmployee && selectedEmployee.length > 0 && selectedEmployee.some((each: any) => {
@@ -262,7 +277,7 @@ console.log(company.value,"vvvvvv")
                                 </div>
 
                                 <div className={'mx--4 my--2'}>
-                                    {index !==  employeesDetails.length - 1 && <Divider space={'3'} />}
+                                    {index !== employees.length - 1 && <Divider space={'3'} />}
                                 </div>
                             </div>)
                     }) : <NoDataFound type={'text'} text={''} />
@@ -271,4 +286,4 @@ console.log(company.value,"vvvvvv")
         </div >
     )
 }
-export {GroupEmployeeList }
+export { GroupEmployeeList }
