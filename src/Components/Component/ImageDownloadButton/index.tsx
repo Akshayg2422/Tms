@@ -4,7 +4,7 @@ import { saveAs } from 'file-saver';
 import { DownloadImageProps } from './interfaces';
 import { Button } from '@Components';
 
-function ImageDownloadButton({ Url, size = 'sm', color = 'primary', title }: DownloadImageProps) {
+function ImageDownloadButton({ Url, size = 'sm', color = 'primary', title ,className}: DownloadImageProps) {
 
 
   const handleDownload = async () => {
@@ -26,7 +26,7 @@ function ImageDownloadButton({ Url, size = 'sm', color = 'primary', title }: Dow
   };
 
   return (
-    <Button onClick={handleDownload} className="fa fa-download mt-1" size={'sm'} >
+    <Button onClick={handleDownload} className={className} size={'sm'} >
       {Array.isArray(Url) ? 'All' : 'Image'}
     </Button>
   );

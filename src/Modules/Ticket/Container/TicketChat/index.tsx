@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TicketChatProps } from './interface';
 import { useSelector, useDispatch } from 'react-redux'
 import { getTicketsEvents } from '@Redux'
-import { TimeLine, Spinner, Image, Modal, ImageDownloadButton, } from '@Components'
+import { TimeLine, Spinner, Image, Modal,  ImageDownloadButton} from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TICKET_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'

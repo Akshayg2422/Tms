@@ -3,6 +3,7 @@ import { GroupMessage, AddMessage, GroupEmployees, TaskChatGroup } from '@Module
 import { Card, NoDataFound, } from '@Components'
 import { useSelector, useDispatch } from 'react-redux'
 import { setSelectedGroupChatCode, } from '@Redux'
+import { translate } from '@I18n'
 
 function Groups() {
     const { taskGroups, } = useSelector((state: any) => state.TaskReducer);
@@ -38,7 +39,7 @@ function Groups() {
                 </div>
             </div>
                 : <div className='d-flex h-100vh justify-content-center align-items-center'>
-                    <NoDataFound text={'No Group Found'} />
+                    <NoDataFound text={translate('common.No Group Found')!} />
                 </div>
             }
 

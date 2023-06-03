@@ -95,7 +95,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                         }} />
                     </div>
                     <div className='col-1'>
-                        <Button className={'text-white'} text={'Add'} size='sm' onClick={() => {
+                        <Button className={'text-white'} text={translate("common.add")} size='sm' onClick={() => {
                             addUserModal.show()
                         }} />
                     </div>
@@ -131,7 +131,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                                     </div>
                                 )
                             }) : <div className='pt-6 mt-5'>
-                                <NoDataFound type={'text'} text={'No data found'} />
+                                <NoDataFound type={'text'}  />
                             </div>
                         }
                     </div>

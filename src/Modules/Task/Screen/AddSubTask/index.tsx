@@ -284,9 +284,9 @@ function AddSubTask() {
                 }
 
                 <DropDown
-                    heading={translate("common.taskPriority")!}
+                    heading={translate("auth.Task Priority")!}
                     selected={selectedTicketPriority.value}
-                    placeHolder={'please select a task priority...'}
+                    placeHolder={translate('order.please select a task priority')!}
                     data={PRIORITY}
                     onChange={selectedTicketPriority.onChange} />
 

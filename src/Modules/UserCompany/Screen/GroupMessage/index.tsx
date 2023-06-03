@@ -10,7 +10,8 @@ import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { translate } from 'i18n-js';
+import { title } from 'process';
+import { translate } from '@I18n';
 
 function GroupMessage({ }: GroupMessageProps) {
 
@@ -223,6 +224,8 @@ function GroupMessage({ }: GroupMessageProps) {
 
                             console.log(date);
 
+
+
                             return (
                                 <GroupChat
                                     profileImage={event_by?.profile_image}
@@ -245,9 +248,9 @@ function GroupMessage({ }: GroupMessageProps) {
                                     }}
                                 >
 
-                                    <div className='pt-2' onClick={() => {
+                                    <div className='pt-2'  onClick={() => {
                                         imageModal.show()
-                                        setImage(imageUrls)
+                                        setImage(imageUrls) 
                                     }} >
                                         {
                                             imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
@@ -259,7 +262,7 @@ function GroupMessage({ }: GroupMessageProps) {
                                     <div>
                                         {
                                             imageUrls && imageUrls.length > 0 && (
-                                                <ImageDownloadButton Url={imageUrls} title={title} />
+                                                <ImageDownloadButton Url={imageUrls} title={title} className={"fa fa-download mt-1"} />
                                             )
 
                                         }
@@ -271,24 +274,31 @@ function GroupMessage({ }: GroupMessageProps) {
                     }
                 </InfiniteScroll>
 
-
             </div>
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
                 <Carousel >
+
                     {
-                        image.map(each => {
-                            return <Image
-                                className='ml-1 mb-1'
-                                src={each}
-                                height={'100%'}
-                                width={'100%'}
-                            />
-                        })
+                        image.map((each, index) => (
+                            <div>
+                                <Image
+                                    className='ml-1 mb-1'
+                                    src={each}
+                                    height={'100%'}
+                                    width={'100%'}
+                                />
+                                <div className='d-flex justify-content-end'>
+                                    <ImageDownloadButton Url={each} title={each} className={'fa fa-download mr-5'} />
+                                </div>
+                            </div>
+                        ))
                     }
+
                 </Carousel>
+
             </Modal>
 
-            <Modal size={'lg'} title='Edit Chat' isOpen={editModal.visible} onClose={editModal.hide} >
+            <Modal size={'lg'} title={translate('common.Edit Chat')!} isOpen={editModal.visible} onClose={editModal.hide} >
 
                 <div className="col-md col-lg">
 
@@ -299,7 +309,7 @@ function GroupMessage({ }: GroupMessageProps) {
                     <div className="col">
                         <label className={`form-control-label`}>
                             {/* {translate("auth.attach")} */}
-                            {'Attach'}
+                            {translate("common.attach")}
                         </label>
                     </div>
 
@@ -326,7 +336,7 @@ function GroupMessage({ }: GroupMessageProps) {
                     <div className="col-md-5 col-lg-3 ">
                         <Button
                             block
-                            text={'Update'}
+                            text={translate("order.Update")}
                             onClick={proceedEditHandler}
                         />
                     </div>
@@ -335,9 +345,9 @@ function GroupMessage({ }: GroupMessageProps) {
             </Modal>
             <Modal isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide}>
                 <div>
-                    <div className="h4"> Are you sure you want to delete? </div>
+                    <div className="h4"> {translate("errors.Are you sure you want to delete?")} </div>
                     <div className="row d-flex justify-content-end">
-                        <Button text={'Delete'}
+                        <Button text={translate('common.delete')}
                             onClick={proceedDeleteHandler}
                         />
                     </div>
@@ -351,4 +361,5 @@ function GroupMessage({ }: GroupMessageProps) {
 }
 
 export { GroupMessage }
+
 

@@ -6,6 +6,7 @@ import { TicketFilter } from '@Modules';
 import { ROUTES } from '@Routes'
 import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter, getDates } from "@Utils";
 import { getTickets, setSelectedTicket, setSelectedTicketTabPosition } from "@Redux";
+import { translate } from '@I18n'
 
 
 function Tickets() {
@@ -111,7 +112,7 @@ function Tickets() {
             <Button
               className={'text-white'}
               size={'sm'}
-              text={'Create Ticket'}
+              text={translate("common.createTicket")}
               onClick={() => {
                 goTo(ROUTES["ticket-module"]["add-ticket"])
               }}
@@ -150,7 +151,7 @@ function Tickets() {
                 }
                 }
               />
-            </> : <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} />
+            </> : <NoDataFound  buttonText={translate("common.createTicket")!} />
           }
 
         </HomeContainer>
