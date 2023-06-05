@@ -6,8 +6,6 @@ export interface GroupChatProps {
     time?: string,
     date?: any,
     profileImage?: any,
-    color?: Color,
-    rtl?: boolean,
     subTitle?: string;
     isEdit?: boolean;
     isDelete?: boolean;

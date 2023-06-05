@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
-import { addEvent, addGroupMessage, getGroupMessage } from '@Redux'
-import { Spinner, Image, Modal, Card, ImageDownloadButton, showToast, Button, Input, Dropzone, GroupChat } from '@Components'
+import { addGroupMessage, getGroupMessage } from '@Redux'
+import { Image, Modal, ImageDownloadButton, showToast, Button, Dropzone, GroupChat } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDay } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { icons } from '@Assets'
 import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { translate } from 'i18n-js';
+import moment from 'moment';
 
 function GroupMessage({ }: GroupMessageProps) {
 
@@ -32,7 +31,6 @@ function GroupMessage({ }: GroupMessageProps) {
 
 
 
-
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
     }, [refreshGroupEvents, selectedGroupChatCode])
@@ -45,7 +43,6 @@ function GroupMessage({ }: GroupMessageProps) {
                 }
             })
         }
-
     }
 
     const getGroupMessageApi = (page_number: number) => {
@@ -210,7 +207,6 @@ function GroupMessage({ }: GroupMessageProps) {
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
                             const { icon, title, subTitle, created_at, attachments, event_by } = item
-                            // console.log('iteme111111111111111----------->', JSON.stringify(item));
 
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
                             const loginUser = user_details?.id === event_by?.id
@@ -219,9 +215,10 @@ function GroupMessage({ }: GroupMessageProps) {
                             const time = timeString.split(',')[1].trim();
 
                             const dateString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
+                            console.log('dateString------------>', dateString);
                             const date = dateString.split(',')[0].trim();
-                            let isEndOfDay = getCurrentDay(date)
-                            // console.log('isEndOfDay---->', date);
+
+                            let isEndOfDay: any = getCurrentDay(date);
 
 
                             return (
@@ -265,7 +262,6 @@ function GroupMessage({ }: GroupMessageProps) {
 
                                         }
                                     </div>
-
 
                                 </GroupChat>)
                         })
@@ -326,6 +322,7 @@ function GroupMessage({ }: GroupMessageProps) {
                 <div className="row justify-content-end">
                     <div className="col-md-5 col-lg-3 ">
                         <Button
+                            className={'text-white'}
                             block
                             text={'Update'}
                             onClick={proceedEditHandler}
@@ -338,7 +335,7 @@ function GroupMessage({ }: GroupMessageProps) {
                 <div>
                     <div className="h4"> Are you sure you want to delete? </div>
                     <div className="row d-flex justify-content-end">
-                        <Button text={'Delete'}
+                        <Button className={'text-white'} text={'Delete'}
                             onClick={proceedDeleteHandler}
                         />
                     </div>

@@ -158,4 +158,5 @@ export const icons = {
   myTimeSheet: require('./MyTimeSheet/icons.png'),
   previousBackArrow: require('./PreviousBackArrow/icons.png'),
   nextArrow: require('./NextArrow/icons.png'),
+  download: require('./Download/icon.png'),
 };

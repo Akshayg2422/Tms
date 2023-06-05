@@ -82,7 +82,6 @@ const PushNotification = () => {
         else {
             goTo(ROUTES['user-company-module'].Groups)
         }
-
     }
 
     onMessageListener()

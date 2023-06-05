@@ -12,7 +12,7 @@ function Button({
       {variant === 'default' && <RSButton type={'button'} size={size} color={color} {...rest} >{text}</RSButton>}
 
       {(variant === 'icon' || variant === 'icon-with-text') &&
-        <RSButton type={'button'} ize={size} className={'btn-icon'} color={color} {...rest} >
+        <RSButton type={'button'} size={size} className={'btn-icon'} color={color} {...rest} >
           {
             <span className={`btn-inner--icon ${variant === 'icon-with-text' && 'mr-1'}`}>
               <i className='ni ni-atom' />

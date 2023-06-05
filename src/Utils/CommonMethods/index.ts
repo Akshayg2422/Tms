@@ -130,19 +130,37 @@ export const getCurrentDay = (dataTime: any) => {
   const todayDate: any = moment().format('DD');
   console.log('todayDate---------------->', todayDate);
 
-  const findCurrentDate = moment(findDate).diff(todayDate, 'days');
+  const findCurrentDate = findDate - new Date().getDate();
+
+  console.log('new Date().getDate()------>', new Date().getDate());
+
 
   console.log('findCurrentDate------------>', findCurrentDate);
 
   if (findCurrentDate === 0) {
     return 'Today';
-  } else if (findCurrentDate === -1) {
+  } else if (findCurrentDate === -2) {
     return 'Yesterday';
   } else {
     console.log('dataTime-------->', dataTime);
     return getTime(dataTime);
   }
 };
+
+
+export const checkDayEnd = () => {
+  const currentDate = new Date();
+  const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
+
+  if (currentDate.getTime() > endOfDay.getTime()) {
+    return true
+  } else {
+    return false
+  }
+};
+
+console.log(checkDayEnd())
+
 
 
 

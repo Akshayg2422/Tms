@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GroupChatProps } from './interfaces';
 import { Image } from '@Components';
 import { icons } from '@Assets';
-import { HDD_MMMM_YYYY_HH_MM_A, getCurrentDay, getMomentObjFromServer, getPhoto } from '@Utils';
-import moment from 'moment';
-
+import { checkDayEnd, getPhoto } from '@Utils';
 
 function GroupChat({
     children,
     title,
     time,
     date,
-    color = 'white',
-    rtl,
     subTitle,
     isEdit,
     isDelete,
@@ -23,24 +19,26 @@ function GroupChat({
     const [editHover, setEditHover] = useState(false);
     const [deleteHover, setDeleteHover] = useState(false);
 
-    const isEndOfDay = getCurrentDay(date)
 
     return (
-
         <div className={'container'}>
             <div className="row">
-                {profileImage ? (
-                    <Image variant={'rounded'} size={'sm'} className='border' src={getPhoto(profileImage)} width={15} height={15} />
-                ) : (
-                    ''
+                {profileImage && (
+                    <Image
+                        variant={'rounded'}
+                        size={'sm'}
+                        className='border'
+                        src={getPhoto(profileImage)}
+                        width={15}
+                        height={15}
+                    />
                 )}
                 <div className="col-11">
                     <div className="mb-0">
-                        <h6 className="h5 mt-0 mb-0 d-flex justify-content-between text-primary">{subTitle}
+                        <h6 className="h5 mt-0 mb-0 d-flex justify-content-between text-primary">
+                            {subTitle}
                             <div className="col">
-                                <small className="text-muted">
-                                    {time}
-                                </small>
+                                <small className="text-muted">{time}</small>
                             </div>
                             <span>
                                 {isEdit && (
@@ -57,7 +55,11 @@ function GroupChat({
                                                 height={12}
                                                 style={{ objectFit: 'contain' }}
                                             />
-                                            {editHover && <span className="button-label" onClick={editOnClick}>Edit</span>}
+                                            {editHover && (
+                                                <span className="button-label" onClick={editOnClick}>
+                                                    Edit
+                                                </span>
+                                            )}
                                         </div>
                                     </small>
                                 )}
@@ -75,7 +77,11 @@ function GroupChat({
                                                 height={12}
                                                 style={{ objectFit: 'contain' }}
                                             />
-                                            {deleteHover && <span className="button-label" onClick={deleteOnClick}>Delete</span>}
+                                            {deleteHover && (
+                                                <span className="button-label" onClick={deleteOnClick}>
+                                                    Delete
+                                                </span>
+                                            )}
                                         </div>
                                     </small>
                                 )}
@@ -87,8 +93,8 @@ function GroupChat({
                     </div>
 
                     <div className="text-center">
-                        <small className="text-muted ">
-                            {date &&
+                        <small className="text-muted">
+                            {
                                 <div className='row'>
                                     <div className={'col-5'}>
                                         <hr />
@@ -101,15 +107,10 @@ function GroupChat({
                             }
                         </small>
                     </div>
-
                 </div>
             </div>
-            <div className="mb-4">
-                {children}
-            </div>
+            <div className="mb-4">{children}</div>
         </div>
-
-
     );
 }
 
