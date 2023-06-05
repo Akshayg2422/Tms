@@ -167,25 +167,25 @@ export const PRIORITY_DROPDOWN_LIST = [
   { id: 5, text: "Critical", color: "gray" },
 ];
 export const PRIORITY = [
-  { id: 1, text: "Lowest", color: "black" },
-  { id: 2, text: "Low", color: "black" },
-  { id: 3, text: "Medium", color: "orange" },
-  { id: 4, text: "High", color: "red" },
-  { id: 5, text: "Critical", color: "gray" },
+  { id: 1, text: translate("product.Lowest")!, color: "black" },
+  { id: 2, text: translate("product.Low")!, color: "black" },
+  { id: 3, text: translate("product.Medium")!, color: "orange" },
+  { id: 4, text: translate("product.High")!, color: "red" },
+  { id: 5, text: translate("product.Critical")!, color: "gray" },
 ];
 
 export const PRIORITY_DROPDOWNICON_LIST = [
-  { id: 'ALL', text: "All" },
-  { id: 1, text: "Lowest", icon: icons.eye, color: "black" },
-  { id: 2, text: "Low", icon: icons.eye, color: "black" },
-  { id: 3, text: "Medium", icon: icons.eye, color: "orange" },
-  { id: 3, text: "High", icon: icons.eye, color: "red" },
-  { id: 3, text: "Critical", icon: icons.eye, color: "gray" }
+  { id: 'ALL', text: translate("common.All")! },
+  { id: 1, text: translate("product.Lowest")!, icon: icons.eye, color: "black" },
+  { id: 2, text: translate("product.Low")!, icon: icons.eye, color: "black" },
+  { id: 3, text: translate("product.Medium")!, icon: icons.eye, color: "orange" },
+  { id: 3, text: translate("product.High")!, icon: icons.eye, color: "red" },
+  { id: 3, text: translate("product.Critical")!, icon: icons.eye, color: "gray" }
 ];
 
 
 export const COMPANY_TYPE = [
-  { id: '', text: "Self" },
+  { id: '', text: translate("common.Self")! },
 ]
 
 

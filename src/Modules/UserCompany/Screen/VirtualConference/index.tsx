@@ -1,5 +1,5 @@
 import { icons } from '@Assets'
-import { Back, Button, Card, Image } from '@Components'
+import { Back, Button, Card, Dropzone, Image } from '@Components'
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { translate } from '@I18n'
 import { getTokenByUser, getVideoConferenceList } from '@Redux'
@@ -9,6 +9,8 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Nav, NavItem, NavLink } from 'reactstrap'
+import { VideoConference } from '../../Container'
+import { join } from 'path'
 
 
 const LIST_ITEMS = [
@@ -88,36 +90,73 @@ function VirtualConference() {
                             }}
                         />
                     </div>
-                    <div className='col-sm-4'>
+                    <div className='row d-flex justify-content-center' >
                         {scheduledListData && scheduledListData.length > 0 && scheduledListData.map((el: any) => {
                             return (
-                                <Card className='col' style={{ backgroundColor: "#ffff" }}>
-                                    <div className=''>
-                                        <Image src={icons.videoConference} width={50} height={50} />
-                                        <span className='text-black h4 ml-3'>{el.room_name}</span>
+                                <div style={{width:'300px'}}>
+                                <Card className='shadow-sm mt-3 m-4' style={{ backgroundColor: 'rgb(246, 248, 253)' }} >
+
+                                    <div className='text-center mb-3'>
+                                        <Image size={'xl'} variant={'rounded'} src={icons.videoConference} />
                                     </div>
-                                    <div>
-                                        <span className='text-black text-uppercase font-weight-600'>{"Date :"}</span>
-                                        <span className='text-black'> {moment(el.start_time).format('MMMM Do YYYY')}</span>
+
+                                    <div className='text-center '>
+                                        <span className='text-black h4'>{el.room_name}</span>
                                     </div>
-                                    <div>
-                                        <span className='text-black'>{"Start Time :"}</span>
-                                        <span className='text-black'> {moment(el.start_time).format('h:mm a')}</span>
+
+                                    <div className=' mt-2 ml-4 text-center' style={{fontSize:'15px'}}>
+                                        <div className='text-left '>
+                                            <span className='text-black text-uppercase font-weight-600'>{"Date :"}</span>
+                                            <span className='text-black'> {moment(el.start_time).format('MMMM Do YYYY')}</span>
+                                        </div>
+                                        <div className='text-left '>
+                                            <span className='text-black'>{"Start Time :"}</span>
+                                            <span className='text-black'> {moment(el.start_time).format('h:mm a')}</span>
+                                        </div>
+                                        <div className='text-left'>
+                                            <span className='text-black'>{"End Time :"}</span>
+                                            <span className='text-black'> {moment(el.end_time).format('h:mm a')}</span>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span className='text-black'>{"End Time :"}</span>
-                                        <span className='text-black'> {moment(el.end_time).format('h:mm a')}</span>
+                                    <div className=' pt-3 d-flex justify-content-center'>
+                                        <Button
+                                            size='lg'
+                                            icon={icons.VideoImage}
+                                            variant='icon-rounded'
+                                            height="25px"
+                                            width="25px"
+                                            onClick={() => {
+                                                getUserToken()
+                                                goTo(ROUTES['user-company-module']['video-conference'], false)
+
+                                            }} />
                                     </div>
-                                    <Button
+
+                                    {/* </Image> */}
+                                    {/* <Button
                                         className={'text-white'}
-                                        text={translate("product.Join")}
+                                        // text={translate("product.Join")}
+                                        style={{color:'red'}}
                                         onClick={() => {
                                             getUserToken()
                                             goTo(ROUTES['user-company-module']['video-conference'], false)
 
                                         }}
-                                    />
+                                    ><i className="tim-icons icon-delivery-fast" /></Button> */}
+                                    {/* <div className="buttons">
+                                        <Button
+                                            className="btn-round mr-3 pulse"
+                                            color="primary"
+                                            href="#pablo"
+                                            onClick={(e) => e.preventDefault()}
+                                            size="lg"
+                                        >
+                                            <i className="tim-icons icon-delivery-fast" />
+                                        </Button>
+                                        <p>Watch now!</p>
+                                    </div> */}
                                 </Card>
+                                </div>
                             )
                         })
                         }

@@ -16,9 +16,6 @@ export function Tabs({ tabs, selected, onChange, height }: TabsProps) {
   const getSelectedTabIndex = () =>
     tabs.findIndex((item) => item.id === selected?.id);
 
-
-
-
   return (
     <div>
       <nav
