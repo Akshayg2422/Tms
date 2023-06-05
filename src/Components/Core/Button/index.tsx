@@ -4,7 +4,7 @@ import { ButtonProps } from './interfaces';
 import { Image } from '@Components'
 
 function Button({
-  text, color = 'primary', variant = 'default', size = 'md', icon, onEnter, ...rest
+  text, color = 'primary', variant = 'default', size = 'md', height="15",width="15", icon, onEnter, ...rest
 }: ButtonProps) {
 
   return (
@@ -30,7 +30,7 @@ function Button({
           {/* <span className={'btn-inner--icon'}>
             <i className='ni ni-atom' />
           </span> */}
-          <Image src={icon} height={15} width={15} />
+          <Image src={icon} height={height} width={width} />
         </RSButton>
       }
     </>

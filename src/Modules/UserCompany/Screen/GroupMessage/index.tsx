@@ -176,7 +176,7 @@ function GroupMessage({ }: GroupMessageProps) {
 
     }
 
-    console.log("selected Messge---->", selectMessage)
+    console.log("selected Message---->", selectMessage)
 
 
     return (
@@ -211,7 +211,8 @@ function GroupMessage({ }: GroupMessageProps) {
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
                             const { icon, title, subTitle, created_at, attachments, event_by } = item
-                            console.log('iteme111111111111111----------->', JSON.stringify(item));
+
+                            console.log('item111111111111111----------->', JSON.stringify(item));
 
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
                             const loginUser = user_details?.id === event_by?.id
@@ -248,9 +249,9 @@ function GroupMessage({ }: GroupMessageProps) {
                                     }}
                                 >
 
-                                    <div className='pt-2'  onClick={() => {
+                                    <div className='pt-2' onClick={() => {
                                         imageModal.show()
-                                        setImage(imageUrls) 
+                                        setImage(imageUrls)
                                     }} >
                                         {
                                             imageUrls && imageUrls.length > 0 && imageUrls.map(each => {

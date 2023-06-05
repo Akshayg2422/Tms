@@ -107,7 +107,8 @@
     "Male":"Male",
     "Female":"Female",
     "Others":"Others",
-    "Edit Chat":"Edit Chat"
+    "Edit Chat":"Edit Chat",
+    "Self":"Self"
   },
   "errors": {
     "invalidEmail": "Invalid email address.",

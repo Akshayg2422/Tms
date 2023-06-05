@@ -118,7 +118,8 @@ function Profile() {
 
           <hr></hr>
           <div className="text-center mb-5">
-            {company && company?.attachment_logo && <Image size={'xxl'} variant={'rounded'} src={getPhoto(company?.attachment_logo)} />}
+            {company && company?.attachment_logo && 
+            <Image size={'xxl'} variant={'rounded'} src={getPhoto(company?.attachment_logo)} />}
           </div>
 
           <h3 className="ct-title undefined">{translate('common.companyDetails')}</h3>
