@@ -12,13 +12,45 @@ import { useDropDown } from '@Hooks'
 function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaultSelect ,selectedCode}: GroupEmployeesProps) {
 
     const { employees,  departments, designations } = useSelector((state: any) => state.UserCompanyReducer);
-     console.log(designations,"=====>")
     const [selectedEmployee, setSelectedEmployee] = useState<any>(defaultSelect)
     const [companies, setCompanies] = useState<any>()
     const company = useDropDown({})
     const department = useDropDown({})
     const designation = useDropDown({})
     const dispatch = useDispatch()
+const [select,setSelect]=useState(false)
+
+
+
+    useEffect(() => {
+        const params = { q: '' };
+
+        dispatch(
+            getAssociatedCompaniesL({
+                params,
+                onSuccess: (response) => () => {
+
+                    const companies = response.details
+
+                    let modifiedCompanies = []
+                    modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
+                    if (companies && companies.length > 0) {
+                        modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
+                            return {
+                                id: each.id,
+                                text: each.display_name,
+                                name: each.display_name,
+                            }
+                        }) as never]
+                    }
+                    setCompanies(modifiedCompanies)
+                },
+                onError: () => () => {
+                },
+            })
+        );
+
+    }, []);
 useEffect(()=>{
     getGroupEmployees() 
 },[])
@@ -54,47 +86,20 @@ useEffect(()=>{
     }, [defaultSelect])
 
     useEffect(() => {
-   
         getEmployeeApi()
+    }, [select])
+
+    // if(company?.value){
+    //     setSelect(true)
+
+    // }
    
-       
-    }, [company.value.id,department.value,designation.value])
-
-
-    useEffect(() => {
-        const params = { q: '' };
-
-        dispatch(
-            getAssociatedCompaniesL({
-                params,
-                onSuccess: (response) => () => {
-
-                    const companies = response.details
-
-                    let modifiedCompanies = []
-                    modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
-                    if (companies && companies.length > 0) {
-                        modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
-                            return {
-                                id: each.id,
-                                text: each.display_name,
-                                name: each.display_name,
-                            }
-                        }) as never]
-                    }
-                    setCompanies(modifiedCompanies)
-                },
-                onError: () => () => {
-                },
-            })
-        );
-
-    }, []);
-
 
     const getDesignation = (items: any) => {
 
         if (items.id) {
+
+            setSelect(true)
             const params = {
                 branch_id: items.id,
                 per_page_count: -1,
@@ -116,6 +121,7 @@ useEffect(()=>{
 
     const getDepartment = (items: any) => {
         if (items.id) {
+            setSelect(true)
             const params = {
                 branch_id: items.id,
                 per_page_count: -1,
@@ -205,7 +211,7 @@ useEffect(()=>{
                             company.onChange(item)
                             getDesignation(item)
                             getDepartment(item)
-                           
+
                         }}
                     />
                 </div>
@@ -223,7 +229,8 @@ useEffect(()=>{
                 </div>
                 }
 
-                {designations && designations?.length > 0 && <div className='col-4 mt--2 '>
+                {designations && designations?.length > 0 &&
+                 <div className='col-4 mt--2 '>
                     <DropDown
                         className="form-control-sm"
                         heading={translate("auth.designation")}

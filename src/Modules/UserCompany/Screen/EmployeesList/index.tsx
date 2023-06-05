@@ -19,10 +19,8 @@ function EmployeesList() {
     const dispatch = useDispatch()
 
     const { employees, employeesCurrentPages, employeesNumOfPages, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    console.log(employees,"pppppp")
-    const { company_branch } = dashboardDetails || ''
-
    
+    const { company_branch } = dashboardDetails || ''
 
 
     useEffect(() => {

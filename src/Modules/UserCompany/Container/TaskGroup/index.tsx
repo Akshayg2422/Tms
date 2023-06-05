@@ -40,7 +40,7 @@ function TaskGroup() {
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-
+console.log(taskGroups,"taskGroups")
   const dynamicHeight: any = useDynamicHeight()
   useEffect(() => {
     getGroupEmployees()
@@ -118,6 +118,7 @@ function TaskGroup() {
   };
 
   const addTaskGroupApiHandler = async () => {
+   
 
     toDataUrl(photo, function (myBase64) {
 
@@ -134,6 +135,7 @@ function TaskGroup() {
         code: taskGroupCode.value.trim(),
         photo: updatedPhoto
       };
+
       const validation = validate(ADD_TASK_GROUP, params)
       if (ifObjectExist(validation)) {
         dispatch(

@@ -10,7 +10,6 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
 
     const { selectedGroupChatCode, chatGroups } = useSelector((state: any) => state.UserCompanyReducer);
     const dispatch = useDispatch()
-    
 
     useEffect(() => {
         const params = {}
