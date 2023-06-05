@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image, MenuBar, Modal, Input, DateTimePicker, Checkbox, MultiSelectDropDown, Dropzone, showToast } from "@Components";
+import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image, MenuBar, Modal, Input, DateTimePicker, Checkbox, MultiSelectDropDown, Dropzone, showToast, ImagePicker } from "@Components";
 import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
@@ -34,12 +34,23 @@ function AdminFeeds() {
   const [internalCheck, setInternalCheck] = useState(false)
   const [externalCheck, setExternalCheck] = useState(false)
   const [isExternalDisable, setExternalDisable] = useState(false)
-
+  const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
   const [selectedFeed, setSelectedFeed] = useState<any>(undefined)
 
   const deleteFeedModal = useModal(false)
+
   const editFeedModal = useModal(false)
 
+
+  let AttachmentEdit = selectDropzone &&selectDropzone.map((el,index)=>{
+  const {id,attachment_file}=el
+  return {
+   id:index+1, photo: attachment_file,
+}
+
+ })
+
+ console.log(AttachmentEdit,"ppppp")
 
   const MY_FEED_MENU = [
     {
@@ -107,9 +118,9 @@ function AdminFeeds() {
 
 
 
-  let attach = photo.slice(-2, 4)
+  let attach = photo.slice(-selectedNoOfPickers)
 
-  const handleImagePicker = (index: number, file: any) => {
+  const handleImagePicker = ( file: any) => {
     let newUpdatedPhoto = [...photo, file];
     setPhoto(newUpdatedPhoto);
   };
@@ -155,6 +166,8 @@ function AdminFeeds() {
       broadcast_attachments: [{ attachments: attach }],
     };
 
+    console.log(JSON.stringify(params),"===---????")
+
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
 
     if (ifObjectExist(validation)) {
@@ -166,7 +179,6 @@ function AdminFeeds() {
               showToast(response.message, 'success')
               editFeedModal.hide()
               getBroadCastMessage(INITIAL_PAGE)
-
 
             }
           },
@@ -233,7 +245,15 @@ function AdminFeeds() {
                               feedDescription.set(description)
                               setInternalCheck(for_internal_company)
                               setExternalCheck(for_external_company)
+                            //   AttachmentEdit = attachments &&attachments.map(el=>{
+                            //    const {id,attachment_file}=el
+                            //    return {
+                            //     id: id, photo: attachment_file,
+                            // }
+
+                            //   })
                               setSelectDropzone(attachments)
+                              console.log(attachments,"aattacchhmmm")
 
 
                               const updatedData = applicable_branches.map(item => {
@@ -316,13 +336,13 @@ function AdminFeeds() {
         </div>
 
 
-        <div className="col">
+        {/* <div className="col">
           <label className={`form-control-label`}>
             {translate("auth.attach")}
           </label>
-        </div>
+        </div> */}
 
-        <div className="col-md-9 col-lg-7 pb-4 ">
+        {/* <div className="col-md-9 col-lg-7 pb-4 ">
           {selectDropzone &&
             selectDropzone.map((el: any, index: number) => {
               return (
@@ -338,7 +358,35 @@ function AdminFeeds() {
                 />
               );
             })}
-        </div>
+        </div> */}
+           <div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                   defaultPicker={true}
+                   defaultValue={AttachmentEdit}
+                    size='xl'
+                    heading= {translate("auth.attach")!}
+                    noOfFileImagePickers={2}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker(file)
+                       
+                    
+                    }}
+                    onSelectImagePicker={(el)=>{
+                      setSelectedNoOfPickers(el?.length)
+
+                    }}
+                />
+
+                </div>
+              
+
+            </div>
+
+        
+
+
 
         <div className="row justify-content-end">
           <div className="col-md-6 col-lg-4 ">
@@ -367,7 +415,4 @@ function AdminFeeds() {
 
 export { AdminFeeds }
 
-// function goBack() {
-//   throw new Error("Function not implemented.");
-// }
 

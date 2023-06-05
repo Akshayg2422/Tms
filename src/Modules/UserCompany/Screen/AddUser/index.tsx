@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Input, DropDown, Button, showToast, AutoCompleteDropDown, Dropzone, Back, Card
+  Input, DropDown, Button, showToast, AutoCompleteDropDown, Dropzone, Back, Card, ImagePicker
 } from "@Components";
 import {
   GENDER_LIST,
@@ -9,6 +9,7 @@ import {
   validate,
   ifObjectExist,
   getValidateError,
+  getDropDownDisplayData
 } from "@Utils";
 
 import { useInput, useDropDown, useNavigation } from "@Hooks";
@@ -27,10 +28,13 @@ function AddUser() {
 
   const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch } = dashboardDetails || ''
+ 
 
   const { designations, departments } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+
+  console.log(designations,"designationsdesignationsdesignations")
 
 
   const firstName = useInput("");
@@ -45,6 +49,7 @@ function AddUser() {
 
     const params = {
       branch_id: selectedCompany?.branch_id ? selectedCompany?.branch_id : company_branch?.id,
+      per_page_count: -1,
     };
 
     dispatch(
@@ -63,6 +68,7 @@ function AddUser() {
 
     const params = {
       branch_id: selectedCompany?.branch_id ? selectedCompany?.branch_id : company_branch?.id,
+      per_page_count: -1,
     };
 
     dispatch(
@@ -77,14 +83,14 @@ function AddUser() {
   }, []);
 
 
-  function getDropDownDisplayData(data: any) {
-    return data && data?.map((item: any) => {
-      return {
-        ...item,
-        text: item.name
-      }
-    })
-  }
+  // function getDropDownDisplayData(data: any) {
+  //   return data && data?.map((item: any) => {
+  //     return {
+  //       ...item,
+  //       text: item.name
+  //     }
+  //   })
+  // }
 
 
   const submitAddUserHandler = () => {
@@ -182,12 +188,12 @@ function AddUser() {
           onChange={designation.onChange}
         />
 
-        <div >
+        {/* <div >
           <label className={`form-control-label`}>
             {translate('common.photo')}
           </label>
-        </div>
-        <div className=" pb-2 pt-1">
+        </div> */}
+        {/* <div className=" pb-2 pt-1">
           <Dropzone
             variant="ICON"
             icon={photo}
@@ -197,8 +203,25 @@ function AddUser() {
               setPhoto(encoded);
             }}
           />
-        </div>
+        </div> */}
       </div>
+      <div className="ml--2">
+             <ImagePicker
+               
+                 size='xl'
+                 heading="photo"
+                 noOfFileImagePickers={1}
+                 onSelect={(image) => {
+                     let file =image.toString().replace(/^data:(.*,)?/, "")
+                     setPhoto(file)
+                 }}
+                 onSelectImagePicker={(el)=>{
+                     
+
+                 }}
+             />
+            
+             </div>
 
       <div className="col mt-4">
         <Button

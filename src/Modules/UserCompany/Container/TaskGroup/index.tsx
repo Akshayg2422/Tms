@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
 import { icons } from "@Assets";
-import { Employees } from '@Modules'
+import { Employees, GroupEmployeeList } from '@Modules'
 
 
 
@@ -40,7 +40,7 @@ function TaskGroup() {
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-
+console.log(taskGroups,"taskGroups")
   const dynamicHeight: any = useDynamicHeight()
   useEffect(() => {
     getGroupEmployees()
@@ -81,6 +81,7 @@ function TaskGroup() {
   const addMemberModal = useModal(false);
   const [taggedUsers, setTaggedUsers] = useState([])
   const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
+  const [addGroupId,setGroupId]=useState<any>()
 
   const startDate = new Date(startTimeEta)
   const startTime = startDate.getHours()
@@ -117,6 +118,7 @@ function TaskGroup() {
   };
 
   const addTaskGroupApiHandler = async () => {
+   
 
     toDataUrl(photo, function (myBase64) {
 
@@ -133,6 +135,7 @@ function TaskGroup() {
         code: taskGroupCode.value.trim(),
         photo: updatedPhoto
       };
+
       const validation = validate(ADD_TASK_GROUP, params)
       if (ifObjectExist(validation)) {
         dispatch(
@@ -231,7 +234,6 @@ function TaskGroup() {
 
   const getGroupEmployees = (q: string = '') => {
 
-
     const params = {
       group_id: selectedGroupChatCode,
       // ...(otherParams && { ...otherParams }),
@@ -263,7 +265,7 @@ function TaskGroup() {
   const addGroupUsers = (addUsers: any) => {
 
     const params = {
-      group_id: selectedGroupChatCode,
+      group_id: addGroupId,
       users_id: addUsers.tagged_users
     }
 
@@ -337,8 +339,11 @@ function TaskGroup() {
           }
           else if (el.id === '4') {
             const { id } = taskGroup
-            addGroupUsers(id)
+            console.log(taskGroup,"eeeee")
+            // addGroupUsers(id)
             addMemberModal.show()
+            setGroupId(taskGroup.id)
+           
           }
         }} />
 
@@ -618,13 +623,24 @@ function TaskGroup() {
          */
       }
 
-      <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '80vh' }}>
-        <Employees selection={'multiple'}
+      <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '90vh', }}>
+        
+        {/* <Employees selection={'multiple'}
           defaultSelect={defaultSelectedUsers}
           onSelected={(users) => {
             const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
             setTaggedUsers(taggedUserIds)
-          }} />
+          }}
+          
+          /> */}
+          <GroupEmployeeList
+          selection={'multiple'}
+          defaultSelect={defaultSelectedUsers}
+          selectedCode={addGroupId}
+          onSelected={(users) => {
+            const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
+            setTaggedUsers(taggedUserIds)
+          }}/>
         <div className="pt-3 mr-2 text-right">
           <Button
             size={'sm'}

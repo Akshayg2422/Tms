@@ -9,6 +9,7 @@ import {
   DropDownIcon,
   Image,
   AutoCompleteDropDownImage,
+  ImagePicker,
 } from '@Components';
 import { translate } from "@I18n";
 import {
@@ -61,19 +62,19 @@ function IssueCreate() {
   const [image, setImage] = useState("");
   const [departmentDataList, setDepartmentDatalist] = useState<any>();
   const [selectDepartment, setSelectDepartment] = useState<any>({})
-
+const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
   const referenceNo = useInput("");
   const title = useInput("");
   const description = useInput("");
   const selectedTicketPriority = useDropDown("");
-  let attach = photo.slice(-4, 9)
+  let attach = photo.slice(-selectNoOfPickers)
 
 
 
-  const handleImagePicker = (index: number, file: any) => {
-    // let updatedPhoto = [...selectDropzone, file];
+  const handleImagePicker = ( file: any) => {
+ 
     let newUpdatedPhoto = [...photo, file];
-    // setSelectDropzone(updatedPhoto);
+  
     setPhoto(newUpdatedPhoto);
   };
 
@@ -317,7 +318,7 @@ function IssueCreate() {
         </div>
 
 
-        <div className="col-md-9 col-lg-7 pb-4 ">
+        {/* <div className="col-md-9 col-lg-7 pb-4 ">
           {selectDropzone &&
             selectDropzone.map((el, index) => {
               return (
@@ -335,7 +336,27 @@ function IssueCreate() {
                 />
               );
             })}
-        </div>
+        </div> */}
+
+        <div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                    icon={image}
+                    size='xl'
+                    heading={translate("common.addAttachment")!}
+                    noOfFileImagePickers={4}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker(file)
+                    }}
+                    onSelectImagePicker={(el)=>{
+                        setSelectNoOfPickers(el?.length)
+
+                    }}
+                />
+
+                </div>
+                </div>
 
         <div className="row justify-content-end">
           <div className="col-md-6 col-lg-4  my-4">

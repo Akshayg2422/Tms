@@ -162,7 +162,8 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
                         <div>
                             <div className="row">
-                                {raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}
+                                {raised_by_company?.attachment_logo && <Image variant={'rounded'} 
+                                src={getPhoto(raised_by_company?.attachment_logo)} />}
                                 <div className="ml-2">
                                     <h4 className="mb-0">{raised_by_company?.display_name} </h4>
                                     <div className="mt--2">

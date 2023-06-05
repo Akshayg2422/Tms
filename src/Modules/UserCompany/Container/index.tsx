@@ -10,6 +10,7 @@ export * from './MyFeedItem'
 export * from './EventItems'
 export * from './ScheduleMeeting'
 export * from './VideoConference'
+export * from './GroupEmployeeList'
 
 
 

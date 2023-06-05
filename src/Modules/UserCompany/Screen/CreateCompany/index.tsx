@@ -10,7 +10,8 @@ import {
   Button,
   showToast,
   Dropzone,
-  Back
+  Back,
+  ImagePicker
 } from "@Components";
 import {
   GENDER_LIST,
@@ -39,8 +40,9 @@ function CreateCompany({ }: CreateCompanyProps) {
   const city = useInput("");
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
-  let attach = [photo]
-  let PhotoAttach = attach.slice(-1, 4)
+  // let attach = [photo]
+  // let PhotoAttach = attach.slice(-1, 4)
+  // console.log(photo,"[[[[")
 
  
 
@@ -65,7 +67,7 @@ function CreateCompany({ }: CreateCompanyProps) {
       pincode: pinCode.value,
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
-      attachment_logo: PhotoAttach[0],
+      attachment_logo: photo,
     });
     console.log("validation",validation)
     if (ifObjectExist(validation)) {
@@ -96,7 +98,7 @@ function CreateCompany({ }: CreateCompanyProps) {
       pincode: pinCode.value,
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
-      attachment_logo: PhotoAttach[0],
+      attachment_logo:photo,
     };
 
     dispatch(
@@ -132,9 +134,9 @@ function CreateCompany({ }: CreateCompanyProps) {
           className="heading mb-3"
           text={translate("common.companyDetails")}
         />
-        <label className={`form-control-label`}>{translate("auth.logo")}</label>
+        {/* <label className={`form-control-label`}>{translate("auth.logo")}</label> */}
       </div>
-      <div className="col-md-9 col-lg-7 pb-4 pt-3">
+      {/* <div className="col-md-9 col-lg-7 pb-4 pt-3">
         <Dropzone
           variant="ICON"
           icon={photo}
@@ -144,7 +146,31 @@ function CreateCompany({ }: CreateCompanyProps) {
             setPhoto(encoded);
           }}
         />
-      </div>
+      </div> */}
+        <div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                    // icon={image}
+                    size='xl'
+                    heading={translate("auth.logo")!}
+                    noOfFileImagePickers={1}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        setPhoto(file);
+                       
+                    
+                    }}
+                    onSelectImagePicker={(el)=>{
+                       
+
+                    }}
+                />
+
+                </div>
+              
+
+            </div>
+
       <div className="col-md-9 col-lg-5">
         <Input
           heading={translate("common.name")}

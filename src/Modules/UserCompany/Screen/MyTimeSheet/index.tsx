@@ -258,9 +258,6 @@ function MyTimeSheet() {
         modifiedData[date] = [each]
       }
     })
-
-
-
     // setEmployeeTimelineDisplayData({
     //   keys: Object.keys(modifiedData),
     //   data: modifiedData
@@ -364,10 +361,7 @@ function MyTimeSheet() {
 
         <div>
           {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
-
-  
             return (
-
               <CollapseButton
                 selectedIds={formattedShift[index]?.date}
                 // selectedId={currentDate}

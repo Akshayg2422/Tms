@@ -13,11 +13,11 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { title } from 'process';
 import { translate } from '@I18n';
 
-function GroupMessage({ }: GroupMessageProps) {
+function GroupMessage({selectedGroup }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails,chatGroups } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
@@ -36,7 +36,7 @@ function GroupMessage({ }: GroupMessageProps) {
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
-    }, [refreshGroupEvents, selectedGroupChatCode])
+    }, [refreshGroupEvents, selectedGroupChatCode,selectedGroup])
 
     function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -51,11 +51,12 @@ function GroupMessage({ }: GroupMessageProps) {
 
     const getGroupMessageApi = (page_number: number) => {
         const params = {
-            group_id: selectedGroupChatCode,
+            group_id:selectedGroup,
             page_number
         }
+         console.log( selectedGroupChatCode,"kkkkkkvvv")
 
-        if (selectedGroupChatCode) {
+        if (selectedGroup) {
             dispatch(
                 getGroupMessage({
                     params,

@@ -8,7 +8,8 @@ import {
     DateTimePicker,
     AutoCompleteDropDownImage,
     Card,
-    Back
+    Back,
+    ImagePicker
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -67,7 +68,8 @@ function AddTicket() {
     const [, setDesignations] = useState([])
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
-    let attach = photo.slice(-4, 9)
+    const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
+    let attach = photo.slice(-selectNoOfPickers)
 
 
     useEffect(() => {
@@ -90,7 +92,7 @@ function AddTicket() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = (index: number, file: any) => {
+    const handleImagePicker = ( file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
@@ -252,7 +254,7 @@ function AddTicket() {
                 </div>
             </div>
             <hr className='mt-3'></hr>
-            <div className="col-md-9 col-lg-5">
+            <div className="col-md-9 col-lg-5 mt--2">
                 <Input
                     heading={translate("common.title")}
                     value={title.value}
@@ -269,7 +271,7 @@ function AddTicket() {
                     value={referenceNo.value}
                     onChange={referenceNo.onChange}
                 />
-                <div className="mb-2">
+                <div className="mb-1">
                     <Radio
                         data={type}
                         selectItem={ticketType}
@@ -369,7 +371,7 @@ function AddTicket() {
                 />
             </div>
 
-            <div className="col-md-9 col-lg-5 mt-3">
+            {/* <div className="col-md-9 col-lg-5 mt-3">
                 <label className={`form-control-label`}>
                     {translate('common.addAttachment')}
                 </label>
@@ -392,7 +394,27 @@ function AddTicket() {
                             );
                         })}
                 </div>
-            </div>
+            </div> */}
+  <div className="col-auto pb-2 mt--2">
+                <div className="row">
+                <ImagePicker
+                    icon={image}
+                    size='xl'
+                    heading={translate("common.addAttachment")!}
+                    noOfFileImagePickers={4}
+                    onSelect={(image) => {
+                        
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker(file)
+                    }}
+                    onSelectImagePicker={(el)=>{
+                        setSelectNoOfPickers(el?.length)
+
+                    }}
+                />
+
+                </div>
+                </div>
 
 
 

@@ -6,7 +6,7 @@ import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image } from
 import { addGroupUser, getGroupsEmployees } from '@Redux'
 import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArrayByKey } from '@Utils';
 import { useDropDown, useModal } from '@Hooks';
-import { Employees } from '@Modules'
+import { Employees, GroupEmployeeList } from '@Modules'
 import { translate } from '@I18n'
 import { icons } from '@Assets';
 
@@ -15,7 +15,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
     const dispatch = useDispatch()
     const { groupEmployees } = useSelector((state: any) => state.UserCompanyReducer);
 
-
+    console.log(groupCode,"groupCode")
 
     useEffect(() => {
         getGroupEmployees()
@@ -28,12 +28,19 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
 
     // const status = useDropDown(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', selectedTask?.task_status));
 
+
+    useEffect(()=>{
+        getGroupEmployees()
+
+    },[ groupCode])
+
     const getGroupEmployees = (q: string = '') => {
 
         const params = {
             group_id: groupCode,
             ...(otherParams && { ...otherParams }),
-            q
+            q,
+        
         }
         if (groupCode) {
             dispatch(
@@ -55,7 +62,6 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
 
 
     const addGroupUsers = (addUsers: any) => {
-        console.log(addUsers, "pppppuuuuuuuuuu")
 
         const params = {
             group_id: groupCode,
@@ -144,8 +150,8 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                  */
             }
 
-            <Modal fade={false} isOpen={addUserModal.visible} onClose={addUserModal.hide} style={{ maxHeight: '80vh' }}>
-                <Employees selection={'multiple'}
+            <Modal fade={false} isOpen={addUserModal.visible} onClose={addUserModal.hide} style={{ maxHeight: '90vh' }}>
+                <GroupEmployeeList selection={'multiple'}
                     defaultSelect={defaultSelectedUsers}
                     onSelected={(users) => {
                         const taggedUserIds = getArrayFromArrayOfObject(users, 'id')

@@ -12,6 +12,10 @@ export function ifObjectExist(value: object) {
 }
 
 
+export function ifObjectKeyExist(object: any, key: string) {
+  return object["key"] !== undefined
+}
+
 export function changeDropDownDataKey(arr: any) {
   if (arr && arr.length > 0) {
     return arr.map((elm: any) => ({ id: elm.id, text: elm.name }));
@@ -92,6 +96,7 @@ export const getDeviceInfo = () => {
 export  async function imagePickerConvertBase64(array) {
   const promises = array.map(async (each) => {
     let photo = await getPhoto(each. photo);
+    console.log(photo,"photo")
     const base64 = await fetch(photo)
 .then(response => response.blob())
   .then(blob => {
@@ -112,4 +117,25 @@ export  async function imagePickerConvertBase64(array) {
 
   return Promise.all(promises);
 }
+
+
+// export function displayDropDownData(dropdownData: any, key: string) {
+//   if (dropdownData && dropdownData.length > 0) {
+//     console.log(dropdownData,"ppppp")
+//     return dropdownData.forEach((item: any) => {
+//       dropdownData = [...dropdownData, { ...item, text: item[key] }]
+     
+//     })
+    
+//   }
+// }
+export function getDropDownDisplayData(data: any) {
+  return data && data?.map((item: any) => {
+    return {
+      ...item,
+      text: item.name
+    }
+  })
+}
+
 

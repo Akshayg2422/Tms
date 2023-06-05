@@ -1,4 +1,4 @@
-import { Image, Card, Modal, Button, Dropzone, showToast, H, Radio } from "@Components";
+import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker,ImageDownloadButton, H, Radio} from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
@@ -72,25 +72,30 @@ function Profile() {
             <Button color={'white'} size={'sm'} text={translate('common.Logout')} onClick={logoutModal.show} />
             <Button color={'white'} size={'sm'} text={translate('common.Language')} onClick={languageModal.show} />
           </div>
-          <div className="text-center mb-5">
+      
+      
+          {user_details && <div className="pb-4">
+           <ImagePicker
+          
+                    size='xxl'
+                    defaultValue={[{id:1, photo:user_details?.profile_photo}]}
+                    className="text-center"
+                    noOfFileImagePickers={1}
+                    imageVariant={'rounded'}
+                    defaultPicker={true}
+                    onSelect={(image) => {
+                        let file = image.toString().replace(/^data:(.*,)?/, "")
+                        userProfileEdit(file)
+                      
+                    }}
 
-            {user_details && <div className="pb-3">
-              <Dropzone
-                variant="ICON"
-                imageVariant={'rounded'}
-                icon={user_details?.profile_photo ? getPhoto(user_details?.profile_photo) : icons.profilePick}
-                size='xxl'
-                onSelect={(image) => {
-                  let encoded = image.toString().replace(/^data:(.*,)?/, "");
-                  userProfileEdit(encoded)
-                }}
-                imagePicker={true}
-              />
+                    onSelectImagePicker={()=>{
 
-            </div>
-
+                    }}
+                />
+                 </div>
             }
-          </div>
+           
 
           <h3 className="ct-title undefined">{translate('common.Basic Information')}</h3>
 

@@ -42,6 +42,7 @@ function* addBrandSector(action) {
 */
 
 function* addDesignation(action) {
+
   try {
     const response = yield call(Api.postAddDesignationApi, action.payload.params);
 
@@ -86,18 +87,21 @@ function* addTicketTag(action) {
 */
 
 function* getDesignation(action) {
+  console.log(action,"acgtttttt")
   try {
 
     const response = yield call(Api.fetchDesignationDataApi, action.payload.params);
 
     if (response.success) {
-      yield put(Action.getDesignationsSuccess(response.details));
+      console.log(JSON.stringify(response.details),'success')
+      yield put(Action.getDesignationsSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(Action.getDesignationsFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
+    console.log('eerrroerr')
     yield put(Action.getDesignationsFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
