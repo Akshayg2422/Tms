@@ -350,9 +350,9 @@ function AddTask() {
                 />
 
                 <DropDown
-                    heading={translate("common.taskPriority")!}
+                    heading={translate("auth.Task Priority")!}
                     selected={selectedTicketPriority.value}
-                    placeHolder={'please select a task priority...'}
+                    placeHolder={translate('order.please select a task priority')!}
                     data={PRIORITY}
                     onChange={selectedTicketPriority.onChange} />
 
@@ -376,7 +376,7 @@ function AddTask() {
                 {taskType && taskType?.id === "1" && (
                     <DropDown
                         heading={translate("common.company")!}
-                        placeHolder={'Select a company'}
+                        placeHolder={translate('order.Select a company')!}
                         data={getDropDownDisplayData(companies)}
                         onChange={(item) => {
                             company.onChange(item)
@@ -386,8 +386,8 @@ function AddTask() {
                 )}
 
                 {getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
-                    heading={translate("common.department")}
-                    placeHolder={'Select a Department...'}
+                    heading={translate("common.department")!}
+                    placeHolder={translate("order.Select a Department")!}
                     data={getDropDownDisplayData(departments)}
                     onChange={(item) => {
                         department.onChange(item)
@@ -398,7 +398,7 @@ function AddTask() {
 
                 {getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
                     heading={translate("auth.designation")}
-                    placeHolder={'Select a Designation'}
+                    placeHolder={translate('order.Select a Designation')!}
                     data={getDropDownDisplayData(designations)}
                     onChange={(item) => {
                         designation.onChange(item)
@@ -410,7 +410,7 @@ function AddTask() {
                 {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
                     <AutoCompleteDropDownImage
                         heading={translate("common.user")!}
-                        placeholder={'please select a user...'}
+                        placeholder={translate("order.please select a user")!}
                         value={selectedUser}
                         getItemValue={(item) => item.name}
                         item={companyUsers}
@@ -425,7 +425,7 @@ function AddTask() {
 
                 {subTaskGroups && subTaskGroups.length > 0 && <DropDown
                     heading={translate("common.selectGroup")}
-                    placeHolder={'Select a Group'}
+                    placeHolder={translate('order.Select a Group')!}
                     data={getDropDownDisplayData(subTaskGroups)}
                     onChange={taskGroup.onChange}
                     selected={taskGroup.value}

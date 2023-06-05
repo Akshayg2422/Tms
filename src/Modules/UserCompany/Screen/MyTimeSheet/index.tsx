@@ -17,6 +17,7 @@ import { useNavigation } from '@Hooks'
 // import InfiniteScroll from 'react-infinite-scroll-component';
 import { translate } from "@I18n";
 import moment from 'moment';
+
 function MyTimeSheet() {
   const dispatch = useDispatch();
   const addEtaTime = useModal(false);
@@ -42,7 +43,7 @@ function MyTimeSheet() {
 
   const { employeeTimeline} = useSelector((state: any) => state.UserCompanyReducer);
   const getGroupMenuItem = [
-    { id: '0', name: "Edit", icon: icons.edit },
+    { id: '0', name: translate("common.Edit"), icon: icons.edit },
 
   ]
 
@@ -193,7 +194,6 @@ function MyTimeSheet() {
 
     )
   }
-
 
   function restValue() {
     setStatTimeEta('')
@@ -348,8 +348,8 @@ function MyTimeSheet() {
     <div className='m-3'>
 
 
-      <div className='card  p-4' style={{ flexDirection: 'row' }}>
-        <div className="h3">{'This Week'}</div>
+      <div className='card mx--2 p-4' style={{ flexDirection: 'row' }}>
+        <div className="h3">{translate('order.This Week')}</div>
         <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
         <div>
           <Image className="mx-2" src={icons.previousBackArrow} height={20} width={20} onClick={() => { getPreviousWeekDates() }} />
@@ -380,11 +380,6 @@ function MyTimeSheet() {
 
       </>
 
-
-
-
-
-
       {/* add modal */}
       <Modal
         isOpen={addEtaTime.visible}
@@ -395,8 +390,8 @@ function MyTimeSheet() {
         title={translate('auth.addTimeSheet')!}
       >
         {<AutoSearchInput
-          heading={'Task'}
-          placeholder={'please select a task...'}
+          heading={translate('auth.task')!}
+          placeholder={translate("auth.please select a task")!}
           data={assignedTaskDetails}
           // variant={true}
           onSelect={(item) => {
@@ -407,8 +402,8 @@ function MyTimeSheet() {
         }
         <div>
           <Input
-            heading={'description'}
-            placeHolder={'description'}
+            heading={translate('auth.description')}
+            placeHolder={translate('auth.description')}
             value={description.value}
             onChange={description.onChange} />
         </div>
@@ -416,7 +411,7 @@ function MyTimeSheet() {
           <div className="col-6">
             <DateTimePicker
               id="eta-picker"
-              placeholder={'Start Time'}
+              placeholder={translate('order.Start Time')!}
               type="both"
               initialValue={startTimeEta}
               onChange={handleStartTimeEtaChange}
@@ -427,7 +422,7 @@ function MyTimeSheet() {
               id="eta-picker"
               type="both"
               initialValue={endTimeEta}
-              placeholder={'End Time'}
+              placeholder={translate('order.end Time')!}
               onChange={handleEndTimeEtaChange}
             />
           </div>
@@ -435,7 +430,7 @@ function MyTimeSheet() {
         <div className='text-right'>
           <Button
             color={"secondary"}
-            text={translate('common.cancel')}
+            text={translate("product.cancel")}
             onClick={() => restValue()}
             className='text-center text-white'
           />
@@ -472,15 +467,15 @@ function MyTimeSheet() {
         <div>
           <Input
             heading={translate('auth.description')}
-            placeHolder={'description'}
+            placeHolder={translate('auth.description')}
             value={editDescriptions.value}
             onChange={editDescriptions.onChange} />
         </div>
         <div className="row">
           <div className="col-6">
             <DateTimePicker
-              placeholder={'Start Time'}
-              type="time"
+              placeholder={translate('order.Start Time')!}
+              type="both"
               initialValue={editStartTimeEta}
               onChange={handleEditStartTimeEtaChange}
             />
@@ -489,7 +484,7 @@ function MyTimeSheet() {
             <DateTimePicker
               type="time"
               initialValue={editEndTimeEta}
-              placeholder={'End Time'}
+              placeholder={translate('order.end Time')!}
               onChange={handleEditEndTimeEtaChange}
             />
           </div>

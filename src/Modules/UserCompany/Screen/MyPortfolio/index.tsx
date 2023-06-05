@@ -17,6 +17,7 @@ import { INITIAL_PAGE } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { translate } from "@I18n";
 import moment from 'moment';
+
 function MyPortfolio() {
   const dispatch = useDispatch();
   const addEtaTime = useModal(false);
@@ -54,14 +55,8 @@ function MyPortfolio() {
     }
   }, [employeeTimeline])
 
-
-
-  
-
-
   const handleStartTimeEtaChange = (value: any) => {
     setStatTimeEta(value)
-
   };
 
   const handleEndTimeEtaChange = (value: any) => {
@@ -304,8 +299,8 @@ function MyPortfolio() {
         title={translate('auth.addTimeSheet')!}
       >
         {<AutoSearchInput
-          heading={'Task'}
-          placeholder={'please select a task...'}
+          heading={translate("auth.task")!}
+          placeholder={translate("auth.please select a task")!}
           data={assignedTaskDetails}
           // variant={true}
           onSelect={(item) => {
@@ -316,8 +311,8 @@ function MyPortfolio() {
         }
         <div>
           <Input
-            heading={'description'}
-            placeHolder={'description'}
+            heading={translate('auth.description')}
+            placeHolder={translate('auth.description')}
             value={description.value}
             onChange={description.onChange} />
         </div>
@@ -325,7 +320,7 @@ function MyPortfolio() {
           <div className="col-6">
             <DateTimePicker
               id="eta-picker"
-              placeholder={'Start Time'}
+              placeholder={translate('order.Start Time')!}
               type="both"
               initialValue={startTimeEta}
               onChange={handleStartTimeEtaChange}
@@ -336,7 +331,7 @@ function MyPortfolio() {
               id="eta-picker"
               type="both"
               initialValue={endTimeEta}
-              placeholder={'End Time'}
+              placeholder={translate("order.end Time")!}
               onChange={handleEndTimeEtaChange}
             />
           </div>

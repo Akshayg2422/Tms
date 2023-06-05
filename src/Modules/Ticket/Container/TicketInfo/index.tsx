@@ -134,7 +134,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
                         <div className="mr-3">
                             <div>
-                                <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'CREATED AT :'} />
+                                <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={translate('common.CREATED AT :')} />
                                 <h5 className="text-uppercase ">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
                             </div>
                             <div className="row mt-3">
@@ -210,13 +210,13 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
                 </div>
                 <div className="col text-right">
-                    <Button text={'Submit'} onClick={editEtaSubmitApiHandler} />
+                    <Button text={translate('common.submit')} onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
             {/**
              * show Event Time Line
              */}
-            <Modal title={"Latest Events"} size={'lg'} isOpen={ticketEventModal.visible} onClose={ticketEventModal.hide} >
+            <Modal title={translate("auth.Latest Events")!} size={'lg'} isOpen={ticketEventModal.visible} onClose={ticketEventModal.hide} >
                 <TicketEventHistory/>
             </Modal>
 

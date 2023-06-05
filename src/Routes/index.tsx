@@ -3,6 +3,7 @@ import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
 import { MyTimeSheet } from '@Modules//UserCompany/Screen/MyTimeSheet'
+import { translate } from '@I18n'
 
 
 export const HOME_PATH = {
@@ -101,35 +102,35 @@ export const AUTH_ROUTES = [
 export const HOME_ROUTES = [
   {
     path: ROUTES['task-module'].tasks,
-    name: "Tasks",
+    name:translate("sideNav.Tasks") ,
     icon: icons.task,
     layout: "",
     component: <Tasks />
   },
   {
     path: ROUTES['ticket-module'].tickets,
-    name: "Tickets",
+    name: translate("sideNav.Tickets"),
     icon: icons.issue,
     layout: "",
     component: <Tickets />
   },
   {
     path: ROUTES['user-company-module'].companies,
-    name: "Associations",
+    name: translate("sideNav.Associations"),
     icon: icons.company,
     layout: "",
     component: <Companies />
   },
   {
     path: ROUTES['message-module'].broadcast,
-    name: "Feeds",
+    name: translate("sideNav.Feeds"),
     icon: icons.broadCast,
     layout: "",
     component: <Broadcast />
   },
   {
     path: ROUTES['user-company-module'].profile,
-    name: "Profile",
+    name: translate("sideNav.Profile"),
     icon: icons.profile,
     layout: "",
     component: <Profile />
@@ -137,13 +138,13 @@ export const HOME_ROUTES = [
   
    {
     collapse: true,
-    name: "Admin",
+    name: translate("sideNav.Admin"),
     icon: icons.task,
     state: "dashboardsCollapse",
     views: [
       {
         path: ROUTES['user-company-module'].employee,
-        name: "Employee Portfolio",
+        name: translate("sideNav.Employee Portfolio"),
         // icon:icons.protfolio,
         miniName: "EP",
         component: <EmployeesList />,
@@ -158,21 +159,21 @@ export const HOME_ROUTES = [
       // },
       {
         path: ROUTES['user-company-module']['admin-feeds'],
-        name: "Admin Feeds",
+        name: translate("sideNav.Admin Feeds"),
         miniName: "MF",
         component: <AdminFeeds />,
         layout: '/admin',
       },
       {
         path: ROUTES['user-company-module'].Events,
-        name: "Events",
+        name: translate("sideNav.Events"),
         miniName: "ET",
         component: <Events />,
         layout: '/admin',
       },
       {
         path: ROUTES['user-company-module']['virtual-conference'],
-        name: "Virtual Conference",
+        name: translate("sideNav.Virtual Conference"),
         miniName: "VC",
         component: <VirtualConference />,
         layout: '/admin',
@@ -184,7 +185,7 @@ export const HOME_ROUTES = [
 
   {
     path: ROUTES['user-company-module']['my-portfolio'],
-    name: "MyTimeSheet",
+    name: translate("sideNav.MyTimeSheet"),
     miniName: "TS",
     icon:icons.myTimeSheet,
     component: <MyTimeSheet />,
@@ -192,7 +193,7 @@ export const HOME_ROUTES = [
   },
   {
     path: ROUTES['user-company-module'].Groups,
-    name: "Groups",
+    name: translate("sideNav.Groups"),
     icon: icons.company,
     layout: "",
     component: <Groups />

@@ -5,7 +5,7 @@ import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
-import { MyFeedItem } from "@Modules";
+import {MyFeedItem} from '@Modules'
 import { addBroadCastMessages, getAssociatedCompanyBranch, getBroadCastMessages } from "@Redux";
 import { CREATE_BROAD_CAST_EXTERNAL, CREATE_BROAD_CAST_INTERNAL, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
@@ -54,10 +54,10 @@ function AdminFeeds() {
 
   const MY_FEED_MENU = [
     {
-      id: 0, name: 'Edit', icon: icons.edit,
+      id: 0, name: translate('common.Edit'), icon: icons.edit,
     },
     {
-      id: 1, name: 'delete', icon: icons.deleteCurve,
+      id: 1, name: translate('common.delete'), icon: icons.deleteCurve,
     },
   ]
 
@@ -206,7 +206,7 @@ function AdminFeeds() {
       {broadCastDetails && broadCastDetails.length > 0 ?
         <div className="col-7 text-right my-1">
           <Button
-            text={'CREATE POST'}
+            text={translate("order.CREATE POST")}
             className="text-white"
             size={"sm"}
             onClick={proceedCreatePost}
@@ -286,7 +286,7 @@ function AdminFeeds() {
         </div>
       }
 
-      <Modal title={"Edit Feed "} size={'lg'} isOpen={editFeedModal.visible} onClose={editFeedModal.hide}  >
+      <Modal title={translate("product.Edit Feed")!} size={'lg'} isOpen={editFeedModal.visible} onClose={editFeedModal.hide}  >
 
         <div className="col-md-9 col-lg-7">
           <Input
@@ -392,7 +392,7 @@ function AdminFeeds() {
           <div className="col-md-6 col-lg-4 ">
             <Button
               block
-              text={'Update'}
+              text={translate('order.Update')}
               onClick={proceedEditHandler}
             />
           </div>
@@ -404,7 +404,7 @@ function AdminFeeds() {
         <div>
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
-            <Button text={'Delete'} onClick={proceedDeleteHandler} />
+            <Button text={translate('common.delete')} onClick={proceedDeleteHandler} />
           </div>
         </div>
       </Modal>

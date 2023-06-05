@@ -394,7 +394,7 @@ console.log(taskGroups,"taskGroups")
             <h3>{translate("auth.group")}</h3>
           </div>
           <div className="col mb--4">
-            <Checkbox id={'group'} text={'Include Close'} onCheckChange={(checked) => {
+            <Checkbox id={'group'} text={translate('order.Include Close')!} onCheckChange={(checked) => {
               getTaskGroupList(taskGroupCurrentPages, checked);
             }} />
           </div>

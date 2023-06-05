@@ -250,7 +250,7 @@ function AddTicket() {
             <div className='col'>
                 <div className="row">
                     <Back />
-                    <h3 className="ml-3">{translate("common.addTicket")!}</h3>
+                    <h3 className="ml-3">{translate('common.addTicket')!}</h3>
                 </div>
             </div>
             <hr className='mt-3'></hr>
@@ -291,7 +291,7 @@ function AddTicket() {
                 {ticketType && ticketType?.id === "1" && (
                     <DropDown
                         heading={translate("common.company")!}
-                        placeHolder={'Select a company'}
+                        placeHolder={translate('order.Select a company')!}
                         data={companies}
                         onChange={(item) => {
                             company.onChange(item)
@@ -301,8 +301,8 @@ function AddTicket() {
                 )}
 
                 {getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
-                    heading={'Department'}
-                    placeHolder={'Select a Department...'}
+                    heading={translate('common.department')}
+                    placeHolder={translate('order.Select a Department')!}
                     data={getDropDownDisplayData(departments)}
                     onChange={(item) => {
                         department.onChange(item)
@@ -312,8 +312,8 @@ function AddTicket() {
                 }
 
                 {getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
-                    heading={'Designation'}
-                    placeHolder={'Select a Designation'}
+                    heading={translate('auth.description')}
+                    placeHolder={translate('order.Select a Designation')!}
                     data={getDropDownDisplayData(designations)}
                     onChange={(item) => {
                         designation.onChange(item)
@@ -341,7 +341,7 @@ function AddTicket() {
 
 { getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&  <AutoSearchInput 
                     heading={translate("common.user")!}
-                    placeholder={'please select a user...'}
+                    placeholder={translate('order.please select a user')!}
                     data={companyUsers}
                     variant={true}
                     onSelect={( item)=>{
@@ -358,7 +358,7 @@ function AddTicket() {
                 <DropDown
                     heading={translate("common.ticketPriority")!}
                     selected={selectedTicketPriority.value}
-                    placeHolder={'please select a ticket priority...'}
+                    placeHolder={translate('order.please select a ticket priority')!}
                     data={PRIORITY}
                     onChange={selectedTicketPriority.onChange} />
 
@@ -373,7 +373,7 @@ function AddTicket() {
 
             {/* <div className="col-md-9 col-lg-5 mt-3">
                 <label className={`form-control-label`}>
-                    {'Add Attachment'}
+                    {translate('common.addAttachment')}
                 </label>
                 <div>
                     {selectDropzone &&

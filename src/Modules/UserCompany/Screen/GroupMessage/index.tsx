@@ -10,7 +10,8 @@ import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { translate } from 'i18n-js';
+import { title } from 'process';
+import { translate } from '@I18n';
 
 function GroupMessage({selectedGroup }: GroupMessageProps) {
 
@@ -176,7 +177,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
 
     }
 
-    console.log("selected Messge---->", selectMessage)
+    console.log("selected Message---->", selectMessage)
 
 
     return (
@@ -211,7 +212,8 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
                             const { icon, title, subTitle, created_at, attachments, event_by } = item
-                            console.log('iteme111111111111111----------->', JSON.stringify(item));
+
+                            console.log('item111111111111111----------->', JSON.stringify(item));
 
                             const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
                             const loginUser = user_details?.id === event_by?.id
@@ -223,6 +225,8 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                             const date = dateString.split(',')[0].trim();
 
                             console.log(date);
+
+
 
                             return (
                                 <GroupChat
@@ -260,7 +264,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                                     <div>
                                         {
                                             imageUrls && imageUrls.length > 0 && (
-                                                <ImageDownloadButton Url={imageUrls} title={title} />
+                                                <ImageDownloadButton Url={imageUrls} title={title} className={"fa fa-download mt-1"} />
                                             )
 
                                         }
@@ -272,24 +276,31 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                     }
                 </InfiniteScroll>
 
-
             </div>
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
                 <Carousel >
+
                     {
-                        image.map(each => {
-                            return <Image
-                                className='ml-1 mb-1'
-                                src={each}
-                                height={'100%'}
-                                width={'100%'}
-                            />
-                        })
+                        image.map((each, index) => (
+                            <div>
+                                <Image
+                                    className='ml-1 mb-1'
+                                    src={each}
+                                    height={'100%'}
+                                    width={'100%'}
+                                />
+                                <div className='d-flex justify-content-end'>
+                                    <ImageDownloadButton Url={each} title={each} className={'fa fa-download mr-5'} />
+                                </div>
+                            </div>
+                        ))
                     }
+
                 </Carousel>
+
             </Modal>
 
-            <Modal size={'lg'} title='Edit Chat' isOpen={editModal.visible} onClose={editModal.hide} >
+            <Modal size={'lg'} title={translate('common.Edit Chat')!} isOpen={editModal.visible} onClose={editModal.hide} >
 
                 <div className="col-md col-lg">
 
@@ -300,7 +311,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                     <div className="col">
                         <label className={`form-control-label`}>
                             {/* {translate("auth.attach")} */}
-                            {'Attach'}
+                            {translate("common.attach")}
                         </label>
                     </div>
 
@@ -327,7 +338,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                     <div className="col-md-5 col-lg-3 ">
                         <Button
                             block
-                            text={'Update'}
+                            text={translate("order.Update")}
                             onClick={proceedEditHandler}
                         />
                     </div>
@@ -336,9 +347,9 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
             </Modal>
             <Modal isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide}>
                 <div>
-                    <div className="h4"> Are you sure you want to delete? </div>
+                    <div className="h4"> {translate("errors.Are you sure you want to delete?")} </div>
                     <div className="row d-flex justify-content-end">
-                        <Button text={'Delete'}
+                        <Button text={translate('common.delete')}
                             onClick={proceedDeleteHandler}
                         />
                     </div>
@@ -352,4 +363,5 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
 }
 
 export { GroupMessage }
+
 

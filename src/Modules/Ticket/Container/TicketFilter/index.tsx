@@ -11,10 +11,10 @@ import { icons } from '@Assets'
 
 const FILTER_MENU = [
     {
-        id: 0, name: 'Basic', icon: icons.basic,
+        id: 0, name: translate('auth.basic'), icon: icons.basic,
     },
     {
-        id: 1, name: 'Advance', icon: icons.advanceFilter,
+        id: 1, name: translate('auth.advance'), icon: icons.advanceFilter,
     }
 ]
 
@@ -141,7 +141,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
             <div className="row">
                 <div className="row col ">
                     <div className="col-lg-3  col-md-3 col-sm-12">
-                        <SearchInput heading={'Code/Title'} onSearch={
+                        <SearchInput heading={translate("common.codeTitle")!} onSearch={
                             (text) => {
                                 proceedParams({ q_many: text })
                             }
@@ -163,7 +163,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                     <div className="col-lg-3 col-md-3 col-sm-12">
                         <DropDown
                             className="form-control-sm"
-                            heading={translate("common.ticketStatus")}
+                            heading={translate("common.ticket Status")}
                             data={TICKET_STATUS_LIST}
                             selected={ticketStatus.value}
                             onChange={(item) => {

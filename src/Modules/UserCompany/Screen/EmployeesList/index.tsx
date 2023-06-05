@@ -55,8 +55,9 @@ function EmployeesList() {
                             <div className='col mt--3 '> <div className='row h5 mb-0 '>{el.name}</div>
                             </div>
                         </div>,
-                    department: el?.department?.name,
-                    designation: el?.designation?.name,
+                    phone: el?.mobile_number,
+                    email: el?.email,
+                    '': <Button className={'text-white'} text={translate("course.view")} size='sm' onClick={() => { goTo(ROUTES['user-company-module']['employee-time-sheet']); }} />
 
                 };
             });

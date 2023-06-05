@@ -106,7 +106,7 @@ function Tag() {
       <Card style={{ height: showTags ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
         <div className="row">
           <div className="col">
-            <h3>{translate("auth.tags")}</h3>
+            <h3>{translate("auth.tag")}</h3>
           </div>
           <div className="text-right mr-3 ">
             <Button
@@ -178,12 +178,12 @@ function Tag() {
           resetValue()
         }
         }
-        title={translate("auth.tags")!}
+        title={translate("auth.tag")!}
       >
         <div className="row">
           <div className="col-6">
             <Input
-              placeholder={translate("auth.tags")}
+              placeholder={translate("auth.tag")}
               value={tagName}
               onChange={(e) => {
                 setTagName(e.target.value)

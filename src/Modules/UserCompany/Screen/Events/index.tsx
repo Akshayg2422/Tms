@@ -20,10 +20,10 @@ function Events() {
 
   const MY_EVENT_MENU = [
     {
-      id: 0, name: 'Edit', icon: icons.edit,
+      id: 0, name: translate('common.Edit'), icon: icons.edit,
     },
     {
-      id: 1, name: 'delete', icon: icons.deleteCurve,
+      id: 1, name: translate('common.delete'), icon: icons.deleteCurve,
     },
 
   ]
@@ -204,7 +204,7 @@ function Events() {
       {events && events.length > 0 ?
         <div className="col-7 text-right my-1">
           <Button
-            text={'CREATE EVENT'}
+            text={translate('order.CREATE EVENT')}
             className="text-white"
             size={"sm"}
             onClick={proceedCreateEvent}
@@ -277,7 +277,7 @@ function Events() {
           <NoDataFound buttonText={'CREATE EVENT'} onClick={proceedCreateEvent} isButton />
         </div>
       }
-      <Modal title={'Edit Event'} isOpen={editEventModal.visible} onClose={editEventModal.hide}>
+      <Modal title={translate('common.Edit Event')!} isOpen={editEventModal.visible} onClose={editEventModal.hide}>
 
         <div className="col-md-9 col-lg-7">
           <Input
@@ -291,7 +291,7 @@ function Events() {
             onChange={eventDescription.onChange}
           />
           <Input
-            heading={'Place'}
+            heading={translate('common.Place')}
             value={eventPlace.value}
             onChange={eventPlace.onChange}
           />
@@ -403,7 +403,7 @@ function Events() {
           <div className="col-md-6 col-lg-4 ">
             <Button
               block
-              text={'Update'}
+              text={translate('order.Update')}
               onClick={submitAddEventHandler}
             />
           </div>
