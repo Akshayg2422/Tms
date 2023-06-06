@@ -9,6 +9,8 @@ import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
 import { refreshGroupEvents, refreshTaskEvents } from '@Redux'
 import { useDispatch } from 'react-redux'
+import { Groups } from "../UserCompany";
+
 
 const MAX_LENGTH = 70
 
@@ -19,7 +21,6 @@ const PushNotification = () => {
     const NOTIFICATION_BROADCAST_MESSAGE = 'BROADCAST_MESSAGE'
     const NOTIFICATION_GROUP_MESSAGE = 'GROUP_MESSAGE'
     const NOTIFICATION_TASK_CHANNEL_EVENT = 'TASK_CHANNEL_EVENT'
-
     const { goTo } = useNavigation();
     const [notification, setNotification] = useState<any>([]);
     const dispatch = useDispatch()
@@ -65,7 +66,11 @@ const PushNotification = () => {
 
     const routingHandler = (payload: any) => {
 
+           console.log('payload=====>',JSON.stringify(payload))
+        
         const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
+        
+            console.log('route_type======>1111111',JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
 
         if (route_type === NOTIFICATION_GROUP_MESSAGE) {
             goTo(ROUTES['user-company-module'].Groups);
@@ -82,11 +87,13 @@ const PushNotification = () => {
         else {
             goTo(ROUTES['user-company-module'].Groups)
         }
-
+         
+        
     }
 
     onMessageListener()
         .then((payload: any) => {
+
             setNotification(payload)
             const title = payload?.data?.title;
             const options = {
@@ -95,6 +102,7 @@ const PushNotification = () => {
             };
 
             const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
+            
 
             if (route_type === NOTIFICATION_GROUP_MESSAGE) {
                 try {
@@ -113,16 +121,20 @@ const PushNotification = () => {
 
             new Notification(title, options).addEventListener('click', function () {
                 routingHandler(payload)
+
                 console.log("foreground message--------------->", payload);
+                
                 this.close()
             });
 
         })
         .catch((err: any) => console.log('failed: ', err));
 
+
+
     return (
         <>
-            {/* <Toaster /> */}
+            {/* <Toaster /> */} 
             <GetToken />
         </>
     )

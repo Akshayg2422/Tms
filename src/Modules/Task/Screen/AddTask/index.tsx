@@ -9,7 +9,8 @@ import {
     AutoCompleteDropDownImage,
     Card,
     Back,
-    ImagePicker
+    ImagePicker,
+    Spinner
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -55,7 +56,7 @@ function AddTask() {
     const [companyUsers, setCompanyUsers] = useState([])
 
 
-
+    const [loading, setLoading] = useState(false)
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
@@ -91,7 +92,7 @@ function AddTask() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = ( file: any) => {
+    const handleImagePicker = (file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
@@ -121,6 +122,7 @@ function AddTask() {
     }
 
     const submitTaskHandler = () => {
+        setLoading(true)
         const params = {
             title: title?.value,
             description: description?.value,
@@ -147,10 +149,12 @@ function AddTask() {
                             goBack();
                             showToast(response.message, "success");
                         }
+                        setLoading(false)
 
                     },
                     onError: (error) => () => {
                         showToast(error.error_message);
+                        setLoading(false)
                     },
                 })
             );
@@ -190,14 +194,16 @@ function AddTask() {
 
 
     function getSubTaskGroupsApi() {
+        // setLoading(true)
         const params = {};
         dispatch(
             getSubTaskGroups({
                 params,
                 onSuccess: (response: any) => () => {
-
+                    // setLoading(false)
                 },
                 onError: () => () => {
+                    // setLoading(false)
                 },
             })
         );
@@ -266,24 +272,24 @@ function AddTask() {
 
             <div className="col-auto pb-4 mt--3">
                 <div className="row">
-                <ImagePicker
-                    icon={image}
-                    size='xl'
-                    heading={translate("common.addAttachment")!}
-                    noOfFileImagePickers={4}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
-                    
-                    }}
-                    onSelectImagePicker={(el)=>{
-                        setSelectNoPickers(el?.length)
+                    <ImagePicker
+                        icon={image}
+                        size='xl'
+                        heading={translate("common.addAttachment")!}
+                        noOfFileImagePickers={4}
+                        onSelect={(image) => {
+                            let file = image.toString().replace(/^data:(.*,)?/, "")
+                            handleImagePicker(file)
 
-                    }}
-                />
+                        }}
+                        onSelectImagePicker={(el) => {
+                            setSelectNoPickers(el?.length)
+
+                        }}
+                    />
 
                 </div>
-              
+
 
             </div>
 
@@ -315,7 +321,7 @@ function AddTask() {
                             })}
                     </span>
                 </div> */}
-            
+
 
                 {/* <div className="row pb-3">
                 <ImagePicker
@@ -332,7 +338,7 @@ function AddTask() {
 
 
                 <Input
-                
+
                     heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
@@ -442,12 +448,38 @@ function AddTask() {
                 />
             </div>
 
-            <div className="col mt-4">
-                <Button
+            {/* <div className="col mt-4">
+                {loading ? (
+                    <div className="">
+                        <Spinner />
+                    </div>
+                ) : (
+                    <Button
+                        text={translate("common.submit")}
+                        onClick={submitTaskHandler}
+                        disabled={loading}
+                    />
+                )}
+            </div> */}
+
+
+
+             <div className="col mt-4">
+
+             <div className="">
+                {
+                    loading && <Spinner/>            
+                    
+                }
+                </div>
+            
+               <Button
                     text={translate("common.submit")}
                     onClick={submitTaskHandler}
+                    disabled={loading}
                 />
-            </div>
+                
+            </div>  
 
         </Card >
 
