@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { addGroupMessage, getGroupMessage } from '@Redux'
-import { Image, Modal, ImageDownloadButton, showToast, Button, Dropzone, GroupChat } from '@Components'
+import { Image, Modal, ImageDownloadButton, showToast, Button, Dropzone, GroupChat, Spinner } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDay } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import moment from 'moment';
 
 function GroupMessage({ }: GroupMessageProps) {
 
@@ -28,6 +27,18 @@ function GroupMessage({ }: GroupMessageProps) {
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
     const { user_details } = dashboardDetails
+
+    const [showDateHr, setShowDateHr] = useState(false);
+
+    // useEffect(() => {
+    //     const checkDayStart = () => {
+
+    //     };
+
+    //     const interval = setInterval(checkDayStart, 60000); // Check every minute
+
+    //     return () => clearInterval(interval); // Cleanup interval on component unmount
+    // }, [currentDate, date]);
 
 
 
@@ -171,9 +182,8 @@ function GroupMessage({ }: GroupMessageProps) {
         );
 
     }
-
-    console.log("selected Messge---->", selectMessage)
-
+    let previousDate = ''; // Variable to track the previous date
+    let isFirstMessageOfDay = true;
 
     return (
         <>
@@ -194,7 +204,7 @@ function GroupMessage({ }: GroupMessageProps) {
                     className={'overflow-auto overflow-hide'}
                     inverse={true}
                     loader={<h4>
-                        {/* <Spinner /> */}
+                        <div className={'d-flex justify-content-center'}><Spinner /></div>
                     </h4>}
                     next={() => {
 
@@ -204,22 +214,30 @@ function GroupMessage({ }: GroupMessageProps) {
                     }
                     }>
 
+
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
-                            const { icon, title, subTitle, created_at, attachments, event_by } = item
+                            const { title, subTitle, created_at, attachments, event_by } = item
 
-                            const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                            const imageUrls = attachments?.attachments?.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
                             const loginUser = user_details?.id === event_by?.id
 
                             const timeString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
                             const time = timeString.split(',')[1].trim();
 
                             const dateString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
-                            console.log('dateString------------>', dateString);
                             const date = dateString.split(',')[0].trim();
 
-                            let isEndOfDay: any = getCurrentDay(date);
+                            if (date !== previousDate) {
+                                isFirstMessageOfDay = true;
+                            }
 
+                            const renderDate = isFirstMessageOfDay ? date : '';
+                            const startDay = getCurrentDay(renderDate)
+                            
+                            previousDate = date;
+                            isFirstMessageOfDay = false;
+                            
 
                             return (
                                 <GroupChat
@@ -227,7 +245,7 @@ function GroupMessage({ }: GroupMessageProps) {
                                     title={title}
                                     subTitle={subTitle}
                                     time={time}
-                                    date={isEndOfDay}
+                                    date={startDay}
                                     isEdit={loginUser}
                                     isDelete={loginUser}
                                     editOnClick={() => {
@@ -340,11 +358,8 @@ function GroupMessage({ }: GroupMessageProps) {
                         />
                     </div>
                 </div>
-
             </Modal>
         </>
-
-
     );
 }
 

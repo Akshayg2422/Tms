@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GroupChatProps } from './interfaces';
 import { Image } from '@Components';
 import { icons } from '@Assets';
-import { checkDayEnd, getPhoto } from '@Utils';
+import { getPhoto } from '@Utils';
 
 function GroupChat({
     children,
@@ -22,6 +22,21 @@ function GroupChat({
 
     return (
         <div className={'container'}>
+            <div className="text-center">
+                <small className="text-muted">
+                    {
+                        <div className='row'>
+                            <div className={'col-5'}>
+                                <hr />
+                            </div>
+                            <div className={'col align-self-center mx--2'}>{date}</div>
+                            <div className={'col-5'}>
+                                <hr />
+                            </div>
+                        </div>
+                    }
+                </small>
+            </div>
             <div className="row">
                 {profileImage && (
                     <Image
@@ -88,25 +103,10 @@ function GroupChat({
                             </span>
                         </h6>
                     </div>
-                    <div className="">
+                    <div>
                         <div className="text-muted text-sm font-weight-bold">{title}</div>
                     </div>
 
-                    <div className="text-center">
-                        <small className="text-muted">
-                            {
-                                <div className='row'>
-                                    <div className={'col-5'}>
-                                        <hr />
-                                    </div>
-                                    <div className={'col align-self-center mx--2'}>{date}</div>
-                                    <div className={'col-5'}>
-                                        <hr />
-                                    </div>
-                                </div>
-                            }
-                        </small>
-                    </div>
                 </div>
             </div>
             <div className="mb-4">{children}</div>

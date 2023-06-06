@@ -139,7 +139,7 @@ export const getCurrentDay = (dataTime: any) => {
 
   if (findCurrentDate === 0) {
     return 'Today';
-  } else if (findCurrentDate === -2) {
+  } else if (findCurrentDate === -1) {
     return 'Yesterday';
   } else {
     console.log('dataTime-------->', dataTime);
@@ -148,18 +148,23 @@ export const getCurrentDay = (dataTime: any) => {
 };
 
 
-export const checkDayEnd = () => {
-  const currentDate = new Date();
-  const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
 
-  if (currentDate.getTime() > endOfDay.getTime()) {
-    return true
-  } else {
-    return false
-  }
-};
+// export const checkDayEnd = () => {
+//   const currentDate = new Date();
+//   const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
 
-console.log(checkDayEnd())
+//   if (currentDate.getTime() > endOfDay.getTime()) {
+//     return true
+//   } else {
+//     return false
+//   }
+// };
+
+// console.log(checkDayEnd())
+
+
+
+
 
 
 
