@@ -6,11 +6,13 @@ import { setSelectedGroupChatCode, } from '@Redux'
 import { translate } from '@I18n'
 
 function Groups() {
-    const { taskGroups, } = useSelector((state: any) => state.TaskReducer);
+ 
     const { selectedGroupChatCode,chatGroups } = useSelector((state: any) => state.UserCompanyReducer);
     const dispatch = useDispatch()
     const ref = useRef<HTMLDivElement>(null)
     const [infoHeight, setInfoHeight] = useState(0)
+    console.log(selectedGroupChatCode,"selectedGroupChatCode")
+   
 
     useEffect(() => {
         if (ref.current) {
@@ -24,7 +26,7 @@ function Groups() {
                 <TaskChatGroup onClick={(code) => { dispatch(setSelectedGroupChatCode(code)) }} showAll={false} />
             </div>
 
-            {taskGroups && taskGroups.length > 0 ? <div className='row'>
+            { chatGroups &&  chatGroups.length > 0 ? <div className='row'>
                 <div className='col-8' ref={ref}>
                     <Card>
                         <GroupMessage selectedGroup={selectedGroupChatCode?selectedGroupChatCode: chatGroups && chatGroups[0]?.id } />

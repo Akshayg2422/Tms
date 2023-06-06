@@ -15,12 +15,17 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
     const [selectedEmployee, setSelectedEmployee] = useState<any>(defaultSelect)
     const [companies, setCompanies] = useState<any>()
     const company = useDropDown({})
-    const department = useDropDown({})
-    const designation = useDropDown({})
+    const department = useDropDown({id:'ALL',text:'All'})
+    const designation = useDropDown({id:'ALL',text:'All'})
     const dispatch = useDispatch()
 const [select,setSelect]=useState(false)
 
+const modifiedDepartmentData= departments && [{id:'ALL',name:'All'},...departments]
+const modifiedDesignationData= designations && [{id:'ALL',name:'All'},...designations]
 
+
+console.log(modifiedDepartmentData,"modifiedDepartmentData====>")
+console.log(selectedCode,"selectedCode")
 
     useEffect(() => {
         const params = { q: '' };
@@ -52,6 +57,7 @@ const [select,setSelect]=useState(false)
 
     }, []);
 useEffect(()=>{
+
     getGroupEmployees() 
 },[])
 
@@ -86,20 +92,24 @@ useEffect(()=>{
     }, [defaultSelect])
 
     useEffect(() => {
+        console.log('console')
+        if(company?.value?.id===''||company?.value?.id){
+     
         getEmployeeApi()
-    }, [select])
+        console.log('console===>')
+        }
+    
+       
+    }, [company?.value?.id,department?.value?.id,designation?.value?.id])
 
-    // if(company?.value){
-    //     setSelect(true)
 
-    // }
-   
 
     const getDesignation = (items: any) => {
+   
 
         if (items.id) {
 
-            setSelect(true)
+       
             const params = {
                 branch_id: items.id,
                 per_page_count: -1,
@@ -120,8 +130,9 @@ useEffect(()=>{
     }
 
     const getDepartment = (items: any) => {
+     
         if (items.id) {
-            setSelect(true)
+       
             const params = {
                 branch_id: items.id,
                 per_page_count: -1,
@@ -140,8 +151,9 @@ useEffect(()=>{
 
     }
 
-
     const getEmployeeApi = (q_many: string = '') => {
+
+        
         const params = {
             ...(otherParams && { ...otherParams }),
             q_many,
@@ -208,33 +220,39 @@ useEffect(()=>{
                         data={companies}
                         selected={company.value}
                         onChange={(item) => {
+                            console.log(item,"iioooo===>")
                             company.onChange(item)
                             getDesignation(item)
                             getDepartment(item)
+                            department.onChange({id:'ALL',text:'All'})
+                            designation.onChange({id:'ALL',text:'All'})
+                         
+                        
 
                         }}
                     />
                 </div>
 
-                {departments && departments?.length > 0 && <div className='col-4 mt--4'>
+                {departments &&  modifiedDepartmentData?.length > 0 && <div className='col-4 mt--4'>
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
-                        data={ getDropDownDisplayData(departments)}
+                        data={ getDropDownDisplayData( modifiedDepartmentData)}
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
+                        console.log(item,"iuitittiitti=--->")
                         }}
                     />
                 </div>
                 }
 
-                {designations && designations?.length > 0 &&
+                {designations &&  modifiedDesignationData?.length > 0 &&
                  <div className='col-4 mt--2 '>
                     <DropDown
                         className="form-control-sm"
                         heading={translate("auth.designation")}
-                        data={getDropDownDisplayData(designations)}
+                        data={getDropDownDisplayData( modifiedDesignationData)}
                         selected={designation.value}
                         onChange={(item) => {
                             designation.onChange(item)

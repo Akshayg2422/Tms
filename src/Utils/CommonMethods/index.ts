@@ -138,4 +138,15 @@ export function getDropDownDisplayData(data: any) {
   })
 }
 
+export function getDropDownCompanyDisplayData(data: any) {
+  return data && data?.map((item: any) => {
+    return {
+      ...item,
+      text:item.display_name
+    }
+  })
+}
+
+
+
 

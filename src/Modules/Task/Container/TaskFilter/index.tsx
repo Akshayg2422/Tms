@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { TaskFilterProps } from './interfaces'
 import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
-import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, getObjectFromArrayByKey, } from '@Utils'
+import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, getObjectFromArrayByKey, getDropDownCompanyDisplayData, } from '@Utils'
 import { useDropDown, useInput } from '@Hooks'
 import { getAssociatedCompaniesL, getDepartments, getDesignations, setTaskParams } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +23,8 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
 
     const { taskParams } = useSelector((state: any) => state.TaskReducer);
+    const { associatedCompaniesL } = useSelector((state: any) => state.UserCompanyReducer);
+    
 
 
     const dispatch = useDispatch()
@@ -30,8 +32,8 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const taskStatus = useDropDown(TASK_STATUS_LIST[2]);
     const taskPriority = useDropDown(TASK_PRIORITY_LIST[0]);
     const company = useDropDown({})
-    const department = useDropDown({})
-    const designation = useDropDown({})
+    const department = useDropDown({id:'ALL',text:'All'})
+    const designation = useDropDown({id:'ALL',text:'All'})
     const [departments, setDepartments] = useState([])
     const [designations, setDesignations] = useState([])
     const [companies, setCompanies] = useState([])
@@ -39,9 +41,9 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
     const search = useInput('')
-    const modifiedDepartment=[{id:'ALL',text:'All'},...departments]
-    const modifiedDesignation=[{id:'ALL',text:'All'},...designations]
-
+    const modifiedDepartment=departments &&[{id:'ALL',text:'All'},...departments]
+    const modifiedDesignation=designations && [{id:'ALL',text:'All'},...designations]
+    const modifiedCompany=associatedCompaniesL && associatedCompaniesL.length>0 &&[{ id: '',display_name: '𝗦𝗘𝗟𝗙', name: 'self' },...associatedCompaniesL ]
 
 
     useEffect(() => {
@@ -55,7 +57,8 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             setIncludeSubTask(include_subtask)
         }
 
-    }, [taskParams, companies])
+    }, [taskParams])
+    console.log(company?.value,"ccccccccc")
 
 
     useEffect(() => {
@@ -103,9 +106,11 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                         let designations: any = [];
                         const designation = response.details.data
                         designation.forEach((item) => {
-                            designations = [...designations, { ...item, text: item.name }]
+                            designations = [...designations, {...item, text: item.name }]
                         })
                         setDesignations(designations)
+                        // proceedParams({ designation_id: 'ALL' })
+                   
                     },
                     onError: () => () => {
                         setDesignations([])
@@ -136,6 +141,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                         })
 
                         setDepartments(departments)
+                        // proceedParams({ department_id: 'ALL'})
                     },
                     onError: (error) => () => {
                         setDepartments([])
@@ -152,6 +158,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
 
     function proceedParams(object: any) {
+        console.log(object,"oppp")
         const updatedParams = { ...params, ...object }
         if (onParams) {
             onParams(updatedParams)
@@ -231,17 +238,21 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                         setIncludeSubTask(checked)
                     }} />
                 </div>
-                {advanceFilter && <div className="col-lg-3 col-md-3 col-sm-12">
+                {advanceFilter && modifiedCompany &&<div className="col-lg-3 col-md-3 col-sm-12">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.company")}
-                        data={companies}
+                        data={getDropDownCompanyDisplayData(modifiedCompany)}
                         selected={company.value}
                         onChange={(item) => {
+                            console.log(item,"ppttt")
                             company.onChange(item)
-                            proceedParams({ company: item.id })
                             getDesignation(item)
                             getDepartment(item)
+                            proceedParams({ company :item.id })
+                            // proceedParams({ designation_id: 'ALL' })
+                            // proceedParams({ department_id: 'ALL'})
+                            
                         }}
                     />
                 </div>
