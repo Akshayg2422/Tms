@@ -18,10 +18,10 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
     const department = useDropDown({id:'ALL',text:'All'})
     const designation = useDropDown({id:'ALL',text:'All'})
     const dispatch = useDispatch()
-const [select,setSelect]=useState(false)
 
-const modifiedDepartmentData= departments && [{id:'ALL',name:'All'},...departments]
-const modifiedDesignationData= designations && [{id:'ALL',name:'All'},...designations]
+
+const modifiedDepartmentData= departments ? [{id:'ALL',name:'All'},...departments]: [{id:'ALL',name:'All'}]
+const modifiedDesignationData= designations ? [{id:'ALL',name:'All'},...designations]:[{id:'ALL',name:'All'}]
 
 
     useEffect(() => {
