@@ -13,6 +13,10 @@ export function ifObjectExist(value: object) {
 }
 
 
+export function ifObjectKeyExist(object: any, key: string) {
+  return object["key"] !== undefined
+}
+
 export function changeDropDownDataKey(arr: any) {
   if (arr && arr.length > 0) {
     return arr.map((elm: any) => ({ id: elm.id, text: elm.name }));
@@ -123,37 +127,48 @@ export const getTime = (time: any) => {
   return moment(time).format('MMMM DD YYYY');
 };
 
-// export const getCurrentDays = (dataTime: any) => {
-//   const findDate: any = moment(dataTime).format('DD');
-//   console.log('findDate---------------->', findDate);
+export const getCurrentDays = (dataTime: any) => {
+  const findDate: any = moment(dataTime).format('DD');
+  console.log('findDate---------------->', findDate);
 
-//   const todayDate: any = moment().format('DD');
-//   console.log('todayDate---------------->', todayDate);
+  const todayDate: any = moment().format('DD');
+  console.log('todayDate---------------->', todayDate);
 
-//   const findCurrentDate = findDate - new Date().getDate();
+  const findCurrentDate = findDate - new Date().getDate();
 
-//   console.log('new Date().getDate()------>', new Date().getDate());
-
-
-//   console.log('findCurrentDate------------>', findCurrentDate);
-
-//   if (findCurrentDate === 0) {
-//     return 'Today';
-//   } else if (findCurrentDate === -1) {
-//     return 'Yesterday';
-//   } else {
-//     console.log('dataTime-------->', dataTime);
-//     return getTime(dataTime);
-//   }
-// };
+  console.log('new Date().getDate()------>', new Date().getDate());
 
 
-// export const getCurrentDay = () => {
-//   const currentDate = new Date();
-//   const options: any = { weekday: 'long', month: 'long', day: 'numeric' };
-//   return currentDate.toLocaleDateString('en-US', options);
-// };
+  console.log('findCurrentDate------------>', findCurrentDate);
 
+  if (findCurrentDate === 0) {
+    return 'Today';
+  } else if (findCurrentDate === -1) {
+    return 'Yesterday';
+  } else {
+    console.log('dataTime-------->', dataTime);
+    return getTime(dataTime);
+  }
+};
+
+
+export function getDropDownDisplayData(data: any) {
+  return data && data?.map((item: any) => {
+    return {
+      ...item,
+      text: item.name
+    }
+  })
+}
+
+export function getDropDownCompanyDisplayData(data: any) {
+  return data && data?.map((item: any) => {
+    return {
+      ...item,
+      text:item.display_name
+    }
+  })
+}
 
 
 

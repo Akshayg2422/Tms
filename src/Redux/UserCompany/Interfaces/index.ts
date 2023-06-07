@@ -27,6 +27,8 @@ export interface UserCompanyStateProp {
     addEmployeeDetails: any,
     updateEmployeeProfile: any,
     employees: any,
+    employeesCurrentPages:any,
+  employeesNumOfPages:any,
     response: any,
     registerAdminResponse: any,
     associatedCompaniesL: any,
@@ -57,4 +59,5 @@ export interface UserCompanyStateProp {
     selectedGroupChatCode: any,
     chatGroups: any,
     selectedTaskGroupCode: any,
+    employeesDetails:any,
 }

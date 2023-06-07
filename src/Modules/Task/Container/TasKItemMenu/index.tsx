@@ -27,13 +27,13 @@ function TaskItemMenu() {
     const dynamicHeight: any = useDynamicHeight()
     const TASK_STATUS_MENU = [
         {
-            id: 0, name: 'Tag User', icon: icons.tagUser,
+            id: 0, name: translate('auth.Tag User'), icon: icons.tagUser,
         },
         {
-            id: 1, name: 'Reassign User', icon: icons.reassignUser,
+            id: 1, name:translate('auth.Reassign User'), icon: icons.reassignUser,
         },
         {
-            id: 2, name: 'Change Task Status', icon: icons.taskStatus,
+            id: 2, name: translate('auth.Change Task Status'), icon: icons.taskStatus,
         }
     ]
 

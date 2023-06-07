@@ -134,7 +134,7 @@ export const icons = {
   Comments: require('./Comments/icon.png'),
   CommentsPink: require('./CommentsPink/icon.png'),
   attachments: require('./Attachments/icon.png'),
-  attachmentsPink:require('./AttachmentsPink/icon.png'),
+  attachmentsPink: require('./AttachmentsPink/icon.png'),
   reference: require('./Reference/icon.png'),
   referencePink: require('./ReferencePink/icon.png'),
   timeline: require('./TimelineHistoty/icon.png'),
@@ -159,4 +159,5 @@ export const icons = {
   previousBackArrow: require('./PreviousBackArrow/icons.png'),
   nextArrow: require('./NextArrow/icons.png'),
   download: require('./Download/icon.png'),
+  VideoImage: require('./VideoImage/Icon.png'),
 };

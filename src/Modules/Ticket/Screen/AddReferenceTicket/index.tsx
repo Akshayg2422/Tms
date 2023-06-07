@@ -4,6 +4,7 @@ import { addTicketEvent, getTickets } from "@Redux";
 import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back } from "@Components";
 import { useInput, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, paginationHandler, SEARCH_PAGE, INITIAL_PAGE, ADD_REFERENCE_TICKET } from "@Utils";
+import { translate } from "@I18n";
 
 
 function AddReferenceTicket() {
@@ -129,7 +130,7 @@ function AddReferenceTicket() {
               getTicketsApiHandler(INITIAL_PAGE, text)
             }} />
 
-            <Button className="ml-3" size={'sm'} text={'Submit'} onClick={addReferenceTicketHandler} />
+            <Button className="ml-3" size={'sm'} text={translate('common.submit')!} onClick={addReferenceTicketHandler} />
           </div>
         </div>
 

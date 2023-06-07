@@ -147,7 +147,7 @@ function AddEvent() {
             <HomeContainer type={'card'} className="m-3">
                 <div className='row mx-3 d-inline-flex justify-content-center'>
                     <Back />
-                    <div className='ml-2 text-center'><h3>{'ADD EVENT'}</h3></div>
+                    <div className='ml-2 text-center'><h3>{translate('order.ADD EVENT')}</h3></div>
                 </div>
                 <hr className='mt-3'></hr>
                 <div className="col-md-9 col-lg-7">
@@ -162,14 +162,14 @@ function AddEvent() {
                         onChange={description.onChange}
                     />
                     <Input
-                        heading={'Place'}
+                        heading={translate('order.Place')}
                         value={place.value}
                         onChange={place.onChange}
                     />
 
                     <DateTimePicker
                         id="time-picker"
-                        placeholder={'Start Time'}
+                        placeholder={translate('order.Start Time')!}
                         type="both"
                         initialValue={startTime}
                         onChange={handleStartTimeEtaChange}
@@ -177,7 +177,8 @@ function AddEvent() {
 
                     <DateTimePicker
                         id="time-picker"
-                        placeholder={'end Time'}
+                        // placeholder={'end Time'}
+                        placeholder={translate('order.end Time')!}
                         type={'both'}
                         initialValue={endTime}
                         onChange={handleEndTimeEtaChange}
@@ -222,7 +223,7 @@ function AddEvent() {
 
                 <div className="col">
                     <label className={`form-control-label`}>
-                        {translate("auth.attach")}
+                        {translate("common.attach")}
                     </label>
                 </div>
 

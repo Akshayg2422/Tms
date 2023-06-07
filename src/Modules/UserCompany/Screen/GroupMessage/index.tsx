@@ -2,19 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { addGroupMessage, getGroupMessage } from '@Redux'
-import { Image, Modal, ImageDownloadButton, showToast, Button, Dropzone, GroupChat, Spinner } from '@Components'
+import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner,ImageDownloadButton } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { title } from 'process';
+import { translate } from '@I18n';
 
-function GroupMessage({ }: GroupMessageProps) {
+function GroupMessage({selectedGroup }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails,chatGroups } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
@@ -32,10 +34,8 @@ function GroupMessage({ }: GroupMessageProps) {
 
 
     useEffect(() => {
-        getGroupMessageApi(INITIAL_PAGE);
-        // setCurrentDay(getCurrentDay());
-    }, [refreshGroupEvents, selectedGroupChatCode]);
-
+        getGroupMessageApi(INITIAL_PAGE)
+    }, [refreshGroupEvents, selectedGroupChatCode,selectedGroup])
 
     function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -49,11 +49,13 @@ function GroupMessage({ }: GroupMessageProps) {
 
     const getGroupMessageApi = (page_number: number) => {
         const params = {
-            group_id: selectedGroupChatCode,
+            group_id:selectedGroup,
             page_number
         }
+         console.log( selectedGroupChatCode,"kkkkkkvvv")
+         console.log(params,"ppppppppp")
 
-        if (selectedGroupChatCode) {
+        if (selectedGroup) {
             dispatch(
                 getGroupMessage({
                     params,
@@ -228,6 +230,8 @@ function GroupMessage({ }: GroupMessageProps) {
                             previousDate = date;
                             const startDay = getCurrentDay(renderDate);
 
+
+
                             return (
                                 <GroupChat
                                     profileImage={event_by?.profile_image}
@@ -264,7 +268,7 @@ function GroupMessage({ }: GroupMessageProps) {
                                     <div>
                                         {
                                             imageUrls && imageUrls.length > 0 && (
-                                                <ImageDownloadButton Url={imageUrls} title={title} />
+                                                <ImageDownloadButton Url={imageUrls} title={title} className={"fa fa-download mt-1"} />
                                             )
 
                                         }
@@ -275,24 +279,31 @@ function GroupMessage({ }: GroupMessageProps) {
                     }
                 </InfiniteScroll>
 
-
             </div>
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
                 <Carousel >
+
                     {
-                        image.map(each => {
-                            return <Image
-                                className='ml-1 mb-1'
-                                src={each}
-                                height={'100%'}
-                                width={'100%'}
-                            />
-                        })
+                        image.map((each, index) => (
+                            <div>
+                                <Image
+                                    className='ml-1 mb-1'
+                                    src={each}
+                                    height={'100%'}
+                                    width={'100%'}
+                                />
+                                <div className='d-flex justify-content-end'>
+                                    <ImageDownloadButton Url={each} title={each} className={'fa fa-download mr-5'} />
+                                </div>
+                            </div>
+                        ))
                     }
+
                 </Carousel>
+
             </Modal>
 
-            <Modal size={'lg'} title='Edit Chat' isOpen={editModal.visible} onClose={editModal.hide} >
+            <Modal size={'lg'} title={translate('common.Edit Chat')!} isOpen={editModal.visible} onClose={editModal.hide} >
 
                 <div className="col-md col-lg">
 
@@ -303,7 +314,7 @@ function GroupMessage({ }: GroupMessageProps) {
                     <div className="col">
                         <label className={`form-control-label`}>
                             {/* {translate("auth.attach")} */}
-                            {'Attach'}
+                            {translate("common.attach")}
                         </label>
                     </div>
 
@@ -331,7 +342,7 @@ function GroupMessage({ }: GroupMessageProps) {
                         <Button
                             className={'text-white'}
                             block
-                            text={'Update'}
+                            text={translate("order.Update")}
                             onClick={proceedEditHandler}
                         />
                     </div>
@@ -340,7 +351,7 @@ function GroupMessage({ }: GroupMessageProps) {
             </Modal>
             <Modal isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide}>
                 <div>
-                    <div className="h4"> Are you sure you want to delete? </div>
+                    <div className="h4"> {translate("errors.Are you sure you want to delete?")} </div>
                     <div className="row d-flex justify-content-end">
                         <Button className={'text-white'} text={'Delete'}
                             onClick={proceedDeleteHandler}
@@ -353,4 +364,5 @@ function GroupMessage({ }: GroupMessageProps) {
 }
 
 export { GroupMessage }
+
 

@@ -130,12 +130,14 @@ function Tasks() {
           }}
         />
       </div>
-      <div className="row mt-3">
+      <div className="row mt-3 mb-2">
         <div className="mx-3 col">
           <TaskGroups onClick={(code) => {
+            console.log(taskParams,"ttnkfnvknkn")
+            console.log(params,"===>0p")
             dispatch(setTaskParams({ ...taskParams, group: code }))
             setParams({ ...params, group: code } as any)
-          }} />
+          }} /> 
         </div>
       </div>
 
@@ -174,7 +176,7 @@ function Tasks() {
               }
             />
             :
-            <NoDataFound type={'action'} buttonText={translate("auth.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
+            <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
           }
         </div>
       </HomeContainer>

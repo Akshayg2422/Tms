@@ -8,57 +8,81 @@ const ImagePicker = ({
   onSelect,
   size = "lg",
   imageVariant = 'avatar',
-  noOfFileImagePickers ,
+  noOfFileImagePickers,
   defaultValue,
-  className='row',
+  className = 'row',
   heading,
-  
+  onSelectImagePicker,
+  defaultPicker = false
 }: DropZoneImageProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [count, setCount] = useState(1)
   const initialValue = { id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }
   const [photo, setPhoto] = useState<any>()
 
+  const updatedProfile = photo && photo.filter((element: any) => element.id !== 0)
+  onSelectImagePicker(updatedProfile)
+
   useEffect(() => {
-    if( defaultValue ){
-    imagePickerConvertBase64(defaultValue)
-      .then((result) => {
-        setPhoto([...result, initialValue])
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+
+    if (defaultValue && defaultPicker) {
+      imagePickerConvertBase64(defaultValue)
+        .then((result) => {
+
+          if (defaultValue > 1) {
+            setPhoto([...result, initialValue])
+          }
+          else {
+            setPhoto([...result])
+
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-    else{
+    else {
       setPhoto([initialValue])
     }
-     
-  }, [defaultValue]);
 
-  
+  }, []);
+
+
 
   const handleRefClick = (el) => {
     console.log(fileInputRef)
     fileInputRef?.current?.click();
+
     if (el.id > 0) {
+
       setCount(el.id)
 
     }
 
+
   }
+
+  //we have to this for edit
   const imagePickers = (value: any) => {
     const updatedSelectedImage = [...photo];
     const updatedImageArray = updatedSelectedImage.filter((filterItem: any) => filterItem.id !== value.id);
+    setCount(value.id)
+
     setPhoto(updatedImageArray);
+
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-
-      const reader = new FileReader();
+      // const reader = new FileReader();
       let updatedPhoto
+
+      new Compressor(file, {
+        quality: 0.6,
+        success: (file) => {
+          const reader = new FileReader();
       reader.onload = (e) => {
 
         if (onSelect && e.target) {
@@ -68,34 +92,46 @@ const ImagePicker = ({
 
           let updatedSelectedPhotos: any = [...photo];
 
-          if(updatedSelectedPhotos.length===noOfFileImagePickers){
+          //no of length=-
+          if (updatedSelectedPhotos.length > noOfFileImagePickers) {
             updatedSelectedPhotos = updatedSelectedPhotos.filter(
               (filterItem: any) => filterItem.id !== 0
             );
             setPhoto(updatedSelectedPhotos)
-            
 
           }
-
           const ifExist = updatedSelectedPhotos.some(
             (el: any) => el.id === updatedPhoto?.id
           );
+
+          ///remove the edit image  entre fixe new image
           if (ifExist) {
+
             updatedSelectedPhotos = updatedSelectedPhotos.filter(
               (filterItem: any) => filterItem.id !== updatedPhoto?.id
             );
             updatedSelectedPhotos = [{ id: updatedPhoto?.id, base64: e.target?.result }, ...updatedSelectedPhotos]
+            setCount(photo.length + 1 - 1)
+
           }
+
+
+          ///without add new image
           else {
             setCount(count + 1)
-            updatedSelectedPhotos = [updatedPhoto, ...updatedSelectedPhotos];
+            updatedSelectedPhotos = [updatedPhoto, ...updatedSelectedPhotos]
+
           }
 
           setPhoto(updatedSelectedPhotos)
 
         }
+
       };
       reader.readAsDataURL(file);
+
+    },
+  });
     }
   };
   return (
@@ -111,44 +147,44 @@ const ImagePicker = ({
       {photo && photo.map((el, index) => {
 
         return (
-        
-            <div className={`${className} col-auto ml-0  pr-3`}>
+
+          <div className={`${className} col-auto ml-0  pr-3`}>
+            <div >
               <div >
-                <div >
-                  <Image
-                    src={photo[index]?.base64}
-                    variant={imageVariant}
-                    onClick={() => handleRefClick(el)}
-                    size={size}
-                    style={{ backgroundColor: "#e3e5e8" }}
-                  />
+                <Image
+                  src={photo[index]?.base64}
+                  variant={imageVariant}
+                  onClick={() => handleRefClick(el)}
+                  size={size}
+                  style={{ backgroundColor: "#e3e5e8" }}
+                />
+              </div>
+            </div>
+            {index !== photo.length - 1 && (
+              <div
+                className="justify-content-top"
+                style={{ marginLeft: "-13px", marginTop: "-7px" }}
+                onClick={() => imagePickers(el)}
+              >
+                <div
+                  className="text-center"
+                  style={{
+                    width: "21px",
+                    height: "21px",
+                    borderRadius: "16px",
+                    backgroundColor: "#d7d8d9"
+                  }}
+                >
+                  <i
+                    className="bi bi-trash text-black text-sm"
+                  ></i>
                 </div>
               </div>
-              {index !== photo.length - 1 && (
-                <div
-                  className="justify-content-top"
-                  style={{ marginLeft: "-13px", marginTop: "-7px" }}
-                  onClick={() => imagePickers(el)}
-                >
-                  <div
-                    className="text-center"
-                    style={{
-                      width: "21px",
-                      height: "21px",
-                      borderRadius: "16px",
-                      backgroundColor: "#d7d8d9"
-                    }}
-                  >
-                    <i
-                      className="bi bi-trash text-black text-sm"
-                    ></i>
-                  </div>
-                </div>
-              )}
+            )}
 
 
-            </div>
-       
+          </div>
+
         )
 
       })

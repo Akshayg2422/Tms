@@ -2,37 +2,39 @@ import React, { useEffect, useState } from 'react'
 import { TicketFilterProps } from './interface'
 import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
-import { TICKET_FILTER_LIST, TICKET_STATUS_LIST, TICKET_PRIORITY_LIST, } from '@Utils'
+import { TICKET_FILTER_LIST, TICKET_STATUS_LIST, TICKET_PRIORITY_LIST, getDropDownDisplayData, } from '@Utils'
 import { useDropDown } from '@Hooks'
 import { getAssociatedCompaniesL, getDepartments, getDesignations } from '@Redux'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { icons } from '@Assets'
 
 
 const FILTER_MENU = [
     {
-        id: 0, name: 'Basic', icon: icons.basic,
+        id: 0, name: translate('auth.basic'), icon: icons.basic,
     },
     {
-        id: 1, name: 'Advance', icon: icons.advanceFilter,
+        id: 1, name: translate('auth.advance'), icon: icons.advanceFilter,
     }
 ]
 
 
 function TicketFilter({ onParams }: TicketFilterProps) {
 
+    const { departments, designations } = useSelector((state: any) => state.UserCompanyReducer);
+
     const dispatch = useDispatch()
     const filteredTicket = useDropDown(TICKET_FILTER_LIST[0]);
     const ticketStatus = useDropDown(TICKET_STATUS_LIST[0]);
     const ticketPriority = useDropDown(TICKET_PRIORITY_LIST[0]);
     const company = useDropDown({})
-    const department = useDropDown({})
-    const designation = useDropDown({})
-    const [departments, setDepartments] = useState([])
-    const [designations, setDesignations] = useState([])
+    const department = useDropDown({ id: 'ALL', text: 'All', name: 'All' })
+    const designation = useDropDown({ id: 'ALL', text: 'All', name: 'All' })
     const [companies, setCompanies] = useState([])
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
+    const modifiedDepartment = departments && [{ id: 'ALL', text: 'All', name: 'All' }, ...departments]
+    const modifiedDesignation = designations && [{ id: 'ALL', text: 'All', name: 'All' }, ...designations]
 
 
     useEffect(() => {
@@ -76,15 +78,10 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                 getDesignations({
                     params,
                     onSuccess: (response) => () => {
-                        let designations: any = [];
-                        const designation = response.details.data
-                        designation.forEach((item) => {
-                            designations = [...designations, { ...item, text: item.name }]
-                        })
-                        setDesignations(designations)
+
                     },
                     onError: () => () => {
-                        setDesignations([])
+
                     },
                 })
             );
@@ -101,16 +98,10 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                     params,
                     onSuccess: (response: any) => () => {
 
-                        let departments: any = [];
-                        const department = response.details.data
-                        department.forEach((item) => {
-                            departments = [...departments, { ...item, text: item.name }]
-                        })
 
-                        setDepartments(departments)
                     },
                     onError: (error) => () => {
-                        setDepartments([])
+
 
                     },
                 })
@@ -124,7 +115,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
 
     function proceedParams(object: any) {
         const updatedParams = { ...params, ...object }
-        console.log("updatedParams",updatedParams)
+        console.log("updatedParams", updatedParams)
         if (onParams) {
             onParams(updatedParams)
         }
@@ -141,7 +132,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
             <div className="row">
                 <div className="row col ">
                     <div className="col-lg-3  col-md-3 col-sm-12">
-                        <SearchInput heading={'Code/Title'} onSearch={
+                        <SearchInput heading={translate("common.codeTitle")!} onSearch={
                             (text) => {
                                 proceedParams({ q_many: text })
                             }
@@ -163,7 +154,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                     <div className="col-lg-3 col-md-3 col-sm-12">
                         <DropDown
                             className="form-control-sm"
-                            heading={translate("common.ticketStatus")}
+                            heading={translate("common.ticket Status")}
                             data={TICKET_STATUS_LIST}
                             selected={ticketStatus.value}
                             onChange={(item) => {
@@ -190,15 +181,13 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                     <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
                         if (el.id === FILTER_MENU[1].id) {
                             setAdvanceFilter(true)
-                            setDepartments([])
-                            setDesignations([])
+
                             company.onChange({})
 
                         } else {
                             setAdvanceFilter(false)
                             company.onChange({})
-                            setDepartments([])
-                            setDesignations([])
+
                         }
                     }} />
 
@@ -224,11 +213,11 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                 </div>
                 }
 
-                {departments.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+                {advanceFilter &&modifiedDepartment&&  modifiedDepartment.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
-                        data={departments}
+                        data={getDropDownDisplayData(modifiedDepartment)}
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
@@ -239,11 +228,11 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                 </div>
                 }
 
-                {designations.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+                {advanceFilter &&modifiedDepartment &&  modifiedDesignation.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("auth.designation")}
-                        data={designations}
+                        data={getDropDownDisplayData(modifiedDesignation)}
                         selected={designation.value}
                         onChange={(item) => {
                             designation.onChange(item)

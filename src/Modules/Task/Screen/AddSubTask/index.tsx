@@ -8,7 +8,8 @@ import {
     DateTimePicker,
     AutoCompleteDropDownImage,
     Card,
-    Back
+    Back,
+    ImagePicker
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -67,7 +68,8 @@ function AddSubTask() {
     const [, setDesignations] = useState([])
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
-    let attach = photo.slice(-4, 9)
+    const [selectedNoOfPickers,setSelectNoOfPickers]=useState<any>()
+    let attach = photo.slice(-selectedNoOfPickers)
 
 
     useEffect(() => {
@@ -86,7 +88,7 @@ function AddSubTask() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = (index: number, file: any) => {
+    const handleImagePicker = ( file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
@@ -284,9 +286,9 @@ function AddSubTask() {
                 }
 
                 <DropDown
-                    heading={translate("common.taskPriority")!}
+                    heading={translate("auth.Task Priority")!}
                     selected={selectedTicketPriority.value}
-                    placeHolder={'please select a task priority...'}
+                    placeHolder={translate('order.please select a task priority')!}
                     data={PRIORITY}
                     onChange={selectedTicketPriority.onChange} />
 
@@ -299,29 +301,30 @@ function AddSubTask() {
                 />
             </div>
 
-            <div className="col-md-9 col-lg-5 mt-3">
-                <label className={`form-control-label`}>
-                    {translate("common.addAttachment")}
-                </label>
-                <div>
-                    {selectDropzone &&
-                        selectDropzone.map((el, index) => {
-                            return (
-                                <Dropzone
-                                    variant="ICON"
-                                    icon={image}
-                                    size="xl"
-                                    onSelect={(image) => {
-                                        let file = image.toString().replace(/^data:(.*,)?/, "");
-                                        handleImagePicker(index, file);
-                                        { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
-                                        { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
-                                        { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
-                                    }}
-                                />
-                            );
-                        })}
+        
+
+            <div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                    icon={image}
+                    size='xl'
+                    heading={translate("common.addAttachment")!}
+                    noOfFileImagePickers={4}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker(file)
+                       
+                    
+                    }}
+                    onSelectImagePicker={(el)=>{
+                        setSelectNoOfPickers(el?.length)
+
+                    }}
+                />
+
                 </div>
+              
+
             </div>
 
             <div className="col mt-4">

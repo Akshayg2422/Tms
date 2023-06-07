@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
 import { icons } from "@Assets";
-import { Employees } from '@Modules'
+import { Employees, GroupEmployeeList } from '@Modules'
 
 
 
@@ -36,19 +36,18 @@ function TaskGroup() {
     taskGroups,
     taskGroupCurrentPages,
     taskGroupNumOfPages,
-    selectedGroupChatCode
+    selectedGroupChatCode,
+    dashboardDetails
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+
+  const { company } = dashboardDetails || ''
 
   const dynamicHeight: any = useDynamicHeight()
   useEffect(() => {
     getGroupEmployees()
   }, [selectedGroupChatCode])
-  console.log('selectedGroupChatCode', JSON.stringify(selectedGroupChatCode));
-
-
-
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
     ...(is_parent ? [{ id: '1', name: "Create Sub Group", icon: icons.addSub }] : []),
@@ -81,6 +80,7 @@ function TaskGroup() {
   const addMemberModal = useModal(false);
   const [taggedUsers, setTaggedUsers] = useState([])
   const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
+  const [addGroupId,setGroupId]=useState<any>()
 
   const startDate = new Date(startTimeEta)
   const startTime = startDate.getHours()
@@ -117,6 +117,7 @@ function TaskGroup() {
   };
 
   const addTaskGroupApiHandler = async () => {
+   
 
     toDataUrl(photo, function (myBase64) {
 
@@ -127,12 +128,16 @@ function TaskGroup() {
       }
 
       const params = {
+        
         ...(selectedTaskGroup && { id: selectedTaskGroup.id }),
+        branch_id:company?.id,
         name: taskGroupName.value,
         description: taskGroupDescription.value,
         code: taskGroupCode.value.trim(),
         photo: updatedPhoto
       };
+      console.log(params,"pppooodck  ")
+
       const validation = validate(ADD_TASK_GROUP, params)
       if (ifObjectExist(validation)) {
         dispatch(
@@ -191,6 +196,7 @@ function TaskGroup() {
       const params = {
         name: convertToUpperCase(subTaskGroupName.value),
         description: convertToUpperCase(subTaskGroupDescription.value),
+        branch_id:company?.id,
         code: subTaskGroupCode.value.trim(),
         photo: updatedPhoto,
         parent_id: selectedSubTaskGroup?.id,
@@ -231,7 +237,6 @@ function TaskGroup() {
 
   const getGroupEmployees = (q: string = '') => {
 
-
     const params = {
       group_id: selectedGroupChatCode,
       // ...(otherParams && { ...otherParams }),
@@ -263,7 +268,7 @@ function TaskGroup() {
   const addGroupUsers = (addUsers: any) => {
 
     const params = {
-      group_id: selectedGroupChatCode,
+      group_id: addGroupId,
       users_id: addUsers.tagged_users
     }
 
@@ -337,8 +342,11 @@ function TaskGroup() {
           }
           else if (el.id === '4') {
             const { id } = taskGroup
-            addGroupUsers(id)
+           
+            // addGroupUsers(id)
             addMemberModal.show()
+            setGroupId(taskGroup.id)
+           
           }
         }} />
 
@@ -389,7 +397,7 @@ function TaskGroup() {
             <h3>{translate("auth.group")}</h3>
           </div>
           <div className="col mb--4">
-            <Checkbox id={'group'} text={'Include Close'} onCheckChange={(checked) => {
+            <Checkbox id={'group'} text={translate('order.Include Close')!} onCheckChange={(checked) => {
               getTaskGroupList(taskGroupCurrentPages, checked);
             }} />
           </div>
@@ -618,13 +626,24 @@ function TaskGroup() {
          */
       }
 
-      <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '80vh' }}>
-        <Employees selection={'multiple'}
+      <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '90vh', }}>
+        
+        {/* <Employees selection={'multiple'}
           defaultSelect={defaultSelectedUsers}
           onSelected={(users) => {
             const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
             setTaggedUsers(taggedUserIds)
-          }} />
+          }}
+          
+          /> */}
+          <GroupEmployeeList
+          selection={'multiple'}
+          defaultSelect={defaultSelectedUsers}
+          selectedCode={addGroupId}
+          onSelected={(users) => {
+            const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
+            setTaggedUsers(taggedUserIds)
+          }}/>
         <div className="pt-3 mr-2 text-right">
           <Button
             size={'sm'}

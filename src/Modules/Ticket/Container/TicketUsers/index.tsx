@@ -5,6 +5,7 @@ import { UserItem } from "@Modules";
 import { getTicketUsers } from "@Redux";
 import { useWindowDimensions } from "@Hooks";
 import { useParams } from 'react-router-dom'
+import { translate } from "@I18n";
 
 function TicketUsers() {
   const { id } = useParams();
@@ -37,7 +38,7 @@ function TicketUsers() {
     <div className={'overflow-auto overflow-hide'}>
       {ticketUsers && ticketUsers.length > 0 && <div>
         <div>
-          <h5 className="text-muted mt-4">ASSIGNED TO </h5>
+          <h5 className="text-muted mt-4">{translate("course.ASSIGNED TO ")}</h5>
         </div>
         {ticketUsers[0].assigned_to &&
           <Card className="mt-1 py-2 shadow-none" >
@@ -45,7 +46,7 @@ function TicketUsers() {
           </Card>}
 
         {ticketUsers && <> <div>
-          <h5 className="text-muted">ASSIGNED BY</h5>
+          <h5 className="text-muted">{translate('course.ASSIGNED BY')}</h5>
         </div>
 
           <Card className={"mt-1 py-2 shadow-none"} >
@@ -53,7 +54,7 @@ function TicketUsers() {
           </Card></>}
 
         {ticketUsers && ticketUsers[0].tagged_to.length > 0 && <> <div>
-          <h5 className="text-muted">INVOLVED USER</h5>
+          <h5 className="text-muted">{translate("course.INVOLVED USER")}</h5>
         </div>
           <Card className="mt-1 py-2 shadow-none" >
             {ticketUsers &&

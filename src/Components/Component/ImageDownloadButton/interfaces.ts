@@ -5,4 +5,5 @@ export interface DownloadImageProps {
     size?: 'xs' | 'sm' | 'md'
     color?: Color;
     title: string
+    className?:any
 }

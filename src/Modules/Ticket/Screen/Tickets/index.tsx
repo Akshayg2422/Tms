@@ -6,6 +6,7 @@ import { TicketFilter } from '@Modules';
 import { ROUTES } from '@Routes'
 import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter, getDates } from "@Utils";
 import { getTickets, setSelectedTicket, setSelectedTicketTabPosition } from "@Redux";
+import { translate } from '@I18n'
 
 
 function Tickets() {
@@ -109,9 +110,9 @@ function Tickets() {
         <div className="row justify-content-end m-0 mb-3">
           <div className=" ">
             <Button
-              className={'text-white'}
+              className={'text-white shadow-none'}
               size={'sm'}
-              text={'Create Ticket'}
+              text={translate("common.createTicket")}
               onClick={() => {
                 goTo(ROUTES["ticket-module"]["add-ticket"])
               }}
@@ -123,6 +124,8 @@ function Tickets() {
           <TicketFilter onParams={(filteredParams) => {
             setParams({ ...params, ...filteredParams })
           }} />
+
+          <div style={{marginRight:'-23px',marginLeft:'-23px'}}>
 
           {tickets && tickets.length > 0 ?
             <>
@@ -150,8 +153,9 @@ function Tickets() {
                 }
                 }
               />
-            </> : <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} />
+            </> : <NoDataFound  buttonText={translate("common.createTicket")!} />
           }
+          </div>
 
         </HomeContainer>
       </div>

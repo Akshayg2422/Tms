@@ -170,7 +170,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                         onClick={(e) => e.preventDefault()}>
                                         <Image
                                             variant={'avatar'}
-                                            size={'lg'}
+                                            size={'md'}
                                             src={getPhoto(item?.attachment_file)}
                                         />
                                     </div>
@@ -184,8 +184,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 <div className="h5 mb-0"> {by_user?.name}</div>
                             </div>
                         </div>
-                        <div className="row mt-2 mr-3">
-                            <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
+                        <div className="row mt-4 mr-3">
+                            <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'}size={'sm'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
                             <div className="ml-2 align-self-center">
                                 <div className="h5 mb-0"> {raised_by_company?.display_name}</div>
                                 <div className="text-xs"><span>{`@ ${assigned_to?.name}`} </span></div>
@@ -246,7 +246,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             {/**
              * Edit Eta Modal
              */}
-            <Modal title="Edit eta time" isOpen={editEtaModal.visible}
+            <Modal title={translate("auth.Edit eta time")!} isOpen={editEtaModal.visible}
                 onClose={() => {
                     editEtaModal.hide()
                     resetValues()
@@ -268,17 +268,17 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                 </div>
                 <div className="col text-right">
-                    <Button text={'Update'} onClick={editEtaSubmitApiHandler} />
+                    <Button text={translate('order.Update')} onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
             {/**
              * show Event Time Line
              */}
-            <Modal title={"Latest Events"} size={'lg'} isOpen={taskEventModal.visible} onClose={taskEventModal.hide} >
+            <Modal title={translate("auth.Latest Events")!} size={'lg'} isOpen={taskEventModal.visible} onClose={taskEventModal.hide} >
                 <TaskEventHistory />
             </Modal>
             
-            <Modal title={'Edit task Details'} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
+            <Modal title={translate('auth.Edit task Details')!} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
 
                 <div className="col-6">
                     <Input
@@ -295,7 +295,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     />
                 </div>
                 <div className="text-right">
-                    <Button text={'Update'} onClick={editTaskDetailsHandler} />
+                    <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
                 </div>
 
             </Modal>

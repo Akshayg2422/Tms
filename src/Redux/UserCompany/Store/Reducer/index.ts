@@ -1,7 +1,7 @@
 
 import * as ActionTypes from '../ActionTypes'
 import { UserCompanyStateProp } from '../../Interfaces';
-import { DEFAULT_TASK_GROUP } from '@Utils'
+import { DEFAULT_TASK_GROUP, ifObjectKeyExist } from '@Utils'
 
 // import * as ActionTypes from '../ActionTypes'
 
@@ -16,6 +16,8 @@ const initialState: UserCompanyStateProp = {
   departmentsCurrentPages: undefined,
   departmentsNumOfPages: undefined,
   employees: undefined,
+  employeesCurrentPages:undefined,
+  employeesNumOfPages:undefined,
   employeesl: undefined,
   employeeslCurrentPages: undefined,
   employeeslNumOfPages: undefined,
@@ -63,6 +65,7 @@ const initialState: UserCompanyStateProp = {
   selectedGroupChatCode: undefined,
   chatGroups: undefined,
   selectedTaskGroupCode: "ALL",
+  employeesDetails:undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -123,11 +126,13 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ActionTypes.FETCH_DEPARTMENT_SUCCESS:
-
+      const department = action.payload.details
+      const isDepartments= ifObjectKeyExist(department, 'data')
+     
       state = {
         ...state,
         loading: false,
-        departments: action.payload?.details.data,
+        departments:action.payload?.details?.data?action.payload?.details?.data:action.payload?.details,
         departmentsNumOfPages: action.payload?.details.num_pages,
         departmentsCurrentPages:
           action.payload?.details.next_page === -1
@@ -155,12 +160,14 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       break;
     case ActionTypes.FETCH_DESIGNATION_SUCCESS:
-
+    const  designation = action.payload.details 
+    const isDesignations= ifObjectKeyExist(designation, 'data')
+  
       state = {
         ...state,
         loading: false,
-        designations: action?.payload?.data,
-        designationNumOfPages: action?.payload?.num_pages,
+        designations:action.payload?.details?.data?action.payload?.details?.data:action.payload?.details,
+        designationNumOfPages: action.payload?.details?.num_pages,
         designationCurrentPages:
           action?.payload?.next_page === -1
             ? action?.payload?.num_pages
@@ -384,18 +391,30 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     case ActionTypes.GET_EMPLOYEES:
       state = {
-        ...state
+        ...state,
+        employees:undefined,
+        employeesCurrentPages:1,
+        employeesNumOfPages:0,
       };
 
       break;
     case ActionTypes.GET_EMPLOYEES_SUCCESS:
+
+    const employeeResponse = action.payload.details
+    const isPagination = ifObjectKeyExist(employeeResponse,"data")
+    console.log(isPagination,"ppp")
+
       state = {
         ...state,
-        employees: action.payload.details,
+        employees:  action.payload?.details?.data?action.payload?.details?.data:action.payload?.details,
+        employeesCurrentPages:action.payload?.details.next_page === -1
+        ? action?.payload?.details.num_pages
+        : action?.payload?.details.next_page - 1,
+        employeesNumOfPages:action.payload.details.num_pages,
       };
       break;
     case ActionTypes.GET_EMPLOYEES_FAILURE:
-      state = { ...state, employees: action.payload };
+      state = { ...state, employees: undefined };
       break;
 
     // GET Employessl
@@ -444,16 +463,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         // employeeTimelineCurrentPages: action.payload?.details?.next_page
       };
 
-      // state = {
-      //   ...state,
-      //   employeeTimelineList: action.payload.details.data,
-      //   employeeTimelineCurrentPages: 
-      //    action.payload?.details.next_page === -1
-      //   ? action?.payload?.details.num_pages
-      //   : action?.payload?.details.next_page - 1,
-      //   employeeTimelineNumOfPages: action.payload.details.num_pages,
-
-      // };
+   
       break;
     case ActionTypes.GET_EMPLOYEE_TIMELINE_FAILURE:
       state = { ...state, employeeTimeline: action.payload };
