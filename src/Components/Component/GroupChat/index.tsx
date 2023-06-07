@@ -24,7 +24,7 @@ function GroupChat({
         <div className={'container'}>
             <div className="text-center">
                 <small className="text-muted">
-                    {
+                    {date === 'Invalid Date' ? '': 
                         <div className='row'>
                             <div className={'col-5'}>
                                 <hr />

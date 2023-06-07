@@ -123,44 +123,38 @@ export const getTime = (time: any) => {
   return moment(time).format('MMMM DD YYYY');
 };
 
-export const getCurrentDay = (dataTime: any) => {
-  const findDate: any = moment(dataTime).format('DD');
-  console.log('findDate---------------->', findDate);
+// export const getCurrentDays = (dataTime: any) => {
+//   const findDate: any = moment(dataTime).format('DD');
+//   console.log('findDate---------------->', findDate);
 
-  const todayDate: any = moment().format('DD');
-  console.log('todayDate---------------->', todayDate);
+//   const todayDate: any = moment().format('DD');
+//   console.log('todayDate---------------->', todayDate);
 
-  const findCurrentDate = findDate - new Date().getDate();
+//   const findCurrentDate = findDate - new Date().getDate();
 
-  console.log('new Date().getDate()------>', new Date().getDate());
-
-
-  console.log('findCurrentDate------------>', findCurrentDate);
-
-  if (findCurrentDate === 0) {
-    return 'Today';
-  } else if (findCurrentDate === -1) {
-    return 'Yesterday';
-  } else {
-    console.log('dataTime-------->', dataTime);
-    return getTime(dataTime);
-  }
-};
+//   console.log('new Date().getDate()------>', new Date().getDate());
 
 
+//   console.log('findCurrentDate------------>', findCurrentDate);
 
-// export const checkDayEnd = () => {
-//   const currentDate = new Date();
-//   const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
-
-//   if (currentDate.getTime() > endOfDay.getTime()) {
-//     return true
+//   if (findCurrentDate === 0) {
+//     return 'Today';
+//   } else if (findCurrentDate === -1) {
+//     return 'Yesterday';
 //   } else {
-//     return false
+//     console.log('dataTime-------->', dataTime);
+//     return getTime(dataTime);
 //   }
 // };
 
-// console.log(checkDayEnd())
+
+// export const getCurrentDay = () => {
+//   const currentDate = new Date();
+//   const options: any = { weekday: 'long', month: 'long', day: 'numeric' };
+//   return currentDate.toLocaleDateString('en-US', options);
+// };
+
+
 
 
 

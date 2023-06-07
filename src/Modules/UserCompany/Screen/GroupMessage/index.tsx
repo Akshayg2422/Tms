@@ -3,7 +3,7 @@ import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { addGroupMessage, getGroupMessage } from '@Redux'
 import { Image, Modal, ImageDownloadButton, showToast, Button, Dropzone, GroupChat, Spinner } from '@Components'
-import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDay } from '@Utils'
+import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
@@ -27,24 +27,15 @@ function GroupMessage({ }: GroupMessageProps) {
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
     const { user_details } = dashboardDetails
-
-    const [showDateHr, setShowDateHr] = useState(false);
-
-    // useEffect(() => {
-    //     const checkDayStart = () => {
-
-    //     };
-
-    //     const interval = setInterval(checkDayStart, 60000); // Check every minute
-
-    //     return () => clearInterval(interval); // Cleanup interval on component unmount
-    // }, [currentDate, date]);
+    const [currentDay, setCurrentDay] = useState('');
 
 
 
     useEffect(() => {
-        getGroupMessageApi(INITIAL_PAGE)
-    }, [refreshGroupEvents, selectedGroupChatCode])
+        getGroupMessageApi(INITIAL_PAGE);
+        // setCurrentDay(getCurrentDay());
+    }, [refreshGroupEvents, selectedGroupChatCode]);
+
 
     function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -182,8 +173,7 @@ function GroupMessage({ }: GroupMessageProps) {
         );
 
     }
-    let previousDate = ''; // Variable to track the previous date
-    let isFirstMessageOfDay = true;
+    let previousDate = '';
 
     return (
         <>
@@ -226,18 +216,17 @@ function GroupMessage({ }: GroupMessageProps) {
                             const time = timeString.split(',')[1].trim();
 
                             const dateString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
-                            const date = dateString.split(',')[0].trim();
+                            const date: any = dateString.split(',')[0].trim();
 
-                            if (date !== previousDate) {
-                                isFirstMessageOfDay = true;
-                            }
+                            const getCurrentDay = (date: any) => {
+                                const currentDate = new Date(date);
+                                const options: any = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                                return currentDate.toLocaleDateString('en-US', options);
+                            };
 
-                            const renderDate = isFirstMessageOfDay ? date : '';
-                            const startDay = getCurrentDay(renderDate)
-                            
+                            const renderDate = (date !== previousDate) ? date : '';
                             previousDate = date;
-                            isFirstMessageOfDay = false;
-                            
+                            const startDay = getCurrentDay(renderDate);
 
                             return (
                                 <GroupChat
