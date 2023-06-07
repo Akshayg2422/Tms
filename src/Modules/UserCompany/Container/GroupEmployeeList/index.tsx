@@ -24,9 +24,6 @@ const modifiedDepartmentData= departments && [{id:'ALL',name:'All'},...departmen
 const modifiedDesignationData= designations && [{id:'ALL',name:'All'},...designations]
 
 
-console.log(modifiedDepartmentData,"modifiedDepartmentData====>")
-console.log(selectedCode,"selectedCode")
-
     useEffect(() => {
         const params = { q: '' };
 
@@ -92,11 +89,11 @@ useEffect(()=>{
     }, [defaultSelect])
 
     useEffect(() => {
-        console.log('console')
+       
         if(company?.value?.id===''||company?.value?.id){
      
         getEmployeeApi()
-        console.log('console===>')
+      
         }
     
        
@@ -220,7 +217,7 @@ useEffect(()=>{
                         data={companies}
                         selected={company.value}
                         onChange={(item) => {
-                            console.log(item,"iioooo===>")
+                        
                             company.onChange(item)
                             getDesignation(item)
                             getDepartment(item)
@@ -233,7 +230,7 @@ useEffect(()=>{
                     />
                 </div>
 
-                {departments &&  modifiedDepartmentData?.length > 0 && <div className='col-4 mt--4'>
+                { modifiedDesignationData &&  modifiedDepartmentData?.length > 0 && <div className='col-4 mt--4'>
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
@@ -247,7 +244,7 @@ useEffect(()=>{
                 </div>
                 }
 
-                {designations &&  modifiedDesignationData?.length > 0 &&
+                { modifiedDesignationData &&  modifiedDesignationData?.length > 0 &&
                  <div className='col-4 mt--2 '>
                     <DropDown
                         className="form-control-sm"
