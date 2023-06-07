@@ -43,15 +43,11 @@ function TaskGroup() {
   );
 
   const { company } = dashboardDetails || ''
-console.log(taskGroups,"taskGroups")
+
   const dynamicHeight: any = useDynamicHeight()
   useEffect(() => {
     getGroupEmployees()
   }, [selectedGroupChatCode])
-  console.log('selectedGroupChatCode', JSON.stringify(selectedGroupChatCode));
-
-
-
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
     ...(is_parent ? [{ id: '1', name: "Create Sub Group", icon: icons.addSub }] : []),
@@ -208,7 +204,7 @@ console.log(taskGroups,"taskGroups")
         end_time: endTimeEta,
         ...(isEdit && { id: selectedSubTaskGroup.id }),
       };
-console.log('supppp',params)
+
       const validation = validate(ADD_SUB_TASK_GROUP, params)
 
 
@@ -346,7 +342,7 @@ console.log('supppp',params)
           }
           else if (el.id === '4') {
             const { id } = taskGroup
-            console.log(taskGroup,"eeeee")
+           
             // addGroupUsers(id)
             addMemberModal.show()
             setGroupId(taskGroup.id)

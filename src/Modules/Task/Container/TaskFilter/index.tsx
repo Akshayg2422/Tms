@@ -34,9 +34,6 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const company = useDropDown({})
     const department = useDropDown({id:'ALL',text:'All'})
     const designation = useDropDown({id:'ALL',text:'All'})
-    // const [departments, setDepartments] = useState([])
-    // const [designations, setDesignations] = useState([])
-    // const [companies, setCompanies] = useState([])
     const [includeSubTask, setIncludeSubTask] = useState(false)
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
@@ -58,9 +55,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
         }
 
     }, [taskParams])
-    console.log(company?.value,"ccccccccc")
-
-
+   
     useEffect(() => {
         const params = { q: '' };
         if (advanceFilter) {
@@ -159,7 +154,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
 
     function proceedParams(object: any) {
-        console.log(object,"oppp")
+    
         const updatedParams = { ...params, ...object }
         if (onParams) {
             onParams(updatedParams)
