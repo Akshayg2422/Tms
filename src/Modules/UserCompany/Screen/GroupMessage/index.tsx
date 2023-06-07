@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
-import { addEvent, addGroupMessage, getGroupMessage } from '@Redux'
-import { Spinner, Image, Modal, Card, ImageDownloadButton, showToast, Button, Input, Dropzone, GroupChat } from '@Components'
+import { addGroupMessage, getGroupMessage } from '@Redux'
+import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner,ImageDownloadButton } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { icons } from '@Assets'
 import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
@@ -30,7 +29,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
     const { user_details } = dashboardDetails
-
+    const [currentDay, setCurrentDay] = useState('');
 
 
 
@@ -46,7 +45,6 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                 }
             })
         }
-
     }
 
     const getGroupMessageApi = (page_number: number) => {
@@ -177,9 +175,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
         );
 
     }
-
-    console.log("selected Message---->", selectMessage)
-
+    let previousDate = '';
 
     return (
         <>
@@ -200,7 +196,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                     className={'overflow-auto overflow-hide'}
                     inverse={true}
                     loader={<h4>
-                        {/* <Spinner /> */}
+                        <div className={'d-flex justify-content-center'}><Spinner /></div>
                     </h4>}
                     next={() => {
 
@@ -210,22 +206,29 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                     }
                     }>
 
+
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
-                            const { icon, title, subTitle, created_at, attachments, event_by } = item
+                            const { title, subTitle, created_at, attachments, event_by } = item
 
-                            console.log('item111111111111111----------->', JSON.stringify(item));
-
-                            const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                            const imageUrls = attachments?.attachments?.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
                             const loginUser = user_details?.id === event_by?.id
 
                             const timeString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
                             const time = timeString.split(',')[1].trim();
 
                             const dateString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
-                            const date = dateString.split(',')[0].trim();
+                            const date: any = dateString.split(',')[0].trim();
 
-                            console.log(date);
+                            const getCurrentDay = (date: any) => {
+                                const currentDate = new Date(date);
+                                const options: any = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                                return currentDate.toLocaleDateString('en-US', options);
+                            };
+
+                            const renderDate = (date !== previousDate) ? date : '';
+                            previousDate = date;
+                            const startDay = getCurrentDay(renderDate);
 
 
 
@@ -235,7 +238,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                                     title={title}
                                     subTitle={subTitle}
                                     time={time}
-                                    date={date}
+                                    date={startDay}
                                     isEdit={loginUser}
                                     isDelete={loginUser}
                                     editOnClick={() => {
@@ -270,7 +273,6 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
 
                                         }
                                     </div>
-
 
                                 </GroupChat>)
                         })
@@ -338,6 +340,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                 <div className="row justify-content-end">
                     <div className="col-md-5 col-lg-3 ">
                         <Button
+                            className={'text-white'}
                             block
                             text={translate("order.Update")}
                             onClick={proceedEditHandler}
@@ -350,16 +353,13 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                 <div>
                     <div className="h4"> {translate("errors.Are you sure you want to delete?")} </div>
                     <div className="row d-flex justify-content-end">
-                        <Button text={translate('common.delete')}
+                        <Button className={'text-white'} text={'Delete'}
                             onClick={proceedDeleteHandler}
                         />
                     </div>
                 </div>
-
             </Modal>
         </>
-
-
     );
 }
 

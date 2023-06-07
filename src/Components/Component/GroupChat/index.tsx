@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GroupChatProps } from './interfaces';
 import { Image } from '@Components';
 import { icons } from '@Assets';
@@ -9,8 +9,6 @@ function GroupChat({
     title,
     time,
     date,
-    color = 'white',
-    rtl,
     subTitle,
     isEdit,
     isDelete,
@@ -23,21 +21,39 @@ function GroupChat({
 
 
     return (
-
         <div className={'container'}>
+            <div className="text-center">
+                <small className="text-muted">
+                    {date === 'Invalid Date' ? '': 
+                        <div className='row'>
+                            <div className={'col-5'}>
+                                <hr />
+                            </div>
+                            <div className={'col align-self-center mx--2'}>{date}</div>
+                            <div className={'col-5'}>
+                                <hr />
+                            </div>
+                        </div>
+                    }
+                </small>
+            </div>
             <div className="row">
-                {profileImage ? (
-                    <Image variant={'rounded'} size={'sm'} className='border' src={getPhoto(profileImage)} width={15} height={15} />
-                ) : (
-                    ''
+                {profileImage && (
+                    <Image
+                        variant={'rounded'}
+                        size={'sm'}
+                        className='border'
+                        src={getPhoto(profileImage)}
+                        width={15}
+                        height={15}
+                    />
                 )}
                 <div className="col-11">
                     <div className="mb-0">
-                        <h6 className="h5 mt-0 mb-0 d-flex justify-content-between text-primary">{subTitle}
+                        <h6 className="h5 mt-0 mb-0 d-flex justify-content-between text-primary">
+                            {subTitle}
                             <div className="col">
-                                <small className="text-muted">
-                                    {time}
-                                </small>
+                                <small className="text-muted">{time}</small>
                             </div>
                             <span>
                                 {isEdit && (
@@ -54,7 +70,11 @@ function GroupChat({
                                                 height={12}
                                                 style={{ objectFit: 'contain' }}
                                             />
-                                            {editHover && <span className="button-label">Edit</span>}
+                                            {editHover && (
+                                                <span className="button-label" onClick={editOnClick}>
+                                                    Edit
+                                                </span>
+                                            )}
                                         </div>
                                     </small>
                                 )}
@@ -72,35 +92,25 @@ function GroupChat({
                                                 height={12}
                                                 style={{ objectFit: 'contain' }}
                                             />
-                                            {deleteHover && <span className="button-label">Delete</span>}
+                                            {deleteHover && (
+                                                <span className="button-label" onClick={deleteOnClick}>
+                                                    Delete
+                                                </span>
+                                            )}
                                         </div>
                                     </small>
                                 )}
                             </span>
                         </h6>
                     </div>
-                    <div className="">
+                    <div>
                         <div className="text-muted text-sm font-weight-bold">{title}</div>
-                    </div>
-
-                    <div className="text-center">
-                        <small className="text-muted ">
-                            <div className='row'>
-                                <div className={'col-5'}><hr />{ }</div>
-                                <div className={'col align-self-center mx--2'}>{date}</div>
-                                <div className={'col-5'}><hr /></div>
-                            </div>
-                        </small>
                     </div>
 
                 </div>
             </div>
-            <div className="mb-4">
-                {children}
-            </div>
+            <div className="mb-4">{children}</div>
         </div>
-
-
     );
 }
 
