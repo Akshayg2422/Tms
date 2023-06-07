@@ -230,7 +230,7 @@ function CreateBroadCast() {
             </div>
 
         <div className="row justify-content-end">
-          <div className="col-md-6 col-lg-4 ">
+          <div className="">
             <Button
               block
               text={translate("common.submit")}

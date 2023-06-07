@@ -10,7 +10,8 @@ import {
     Card,
     Back,
     ImagePicker,
-    Spinner
+    Spinner,
+    LoadingButton,
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -33,6 +34,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
+import { text } from "stream/consumers";
 
 function AddTask() {
 
@@ -194,16 +196,16 @@ function AddTask() {
 
 
     function getSubTaskGroupsApi() {
-        // setLoading(true)
+
         const params = {};
         dispatch(
             getSubTaskGroups({
                 params,
                 onSuccess: (response: any) => () => {
-                    // setLoading(false)
+
                 },
                 onError: () => () => {
-                    // setLoading(false)
+
                 },
             })
         );
@@ -448,38 +450,26 @@ function AddTask() {
                 />
             </div>
 
+
             {/* <div className="col mt-4">
-                {loading ? (
-                    <div className="">
-                        <Spinner />
-                    </div>
-                ) : (
-                    <Button
-                        text={translate("common.submit")}
-                        onClick={submitTaskHandler}
-                        disabled={loading}
-                    />
-                )}
-            </div> */}
-
-
-
-             <div className="col mt-4">
-
-             <div className="">
-                {
-                    loading && <Spinner/>            
-                    
-                }
-                </div>
-            
-               <Button
-                    text={translate("common.submit")}
+                <Button
+                    text={loading ? "Loading..." : translate("common.submit")}
                     onClick={submitTaskHandler}
                     disabled={loading}
-                />
-                
-            </div>  
+                >
+                    {loading && <Spinner/>}
+                </Button>
+            </div>  */}
+
+            <div className="col mt-4">
+
+                <LoadingButton size={'md'}
+                    text={translate('common.submit')}
+                    loading={loading}
+                    onClick={submitTaskHandler} />
+
+            </div>
+
 
         </Card >
 

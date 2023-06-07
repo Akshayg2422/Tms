@@ -2,7 +2,7 @@
 import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { EmployeeGroupsProps } from './interfaces'
-import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image } from '@Components'
+import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image, Spinner } from '@Components'
 import { addGroupUser, getGroupsEmployees } from '@Redux'
 import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArrayByKey } from '@Utils';
 import { useDropDown, useModal } from '@Hooks';
@@ -16,7 +16,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
     const { groupEmployees } = useSelector((state: any) => state.UserCompanyReducer);
 
     console.log(groupCode,"groupCode")
-
+    const [loading,setLoading]=useState(false)
     useEffect(() => {
         getGroupEmployees()
     }, [Employees])
@@ -35,7 +35,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
     },[ groupCode])
 
     const getGroupEmployees = (q: string = '') => {
-
+      setLoading(true)
         const params = {
             group_id: groupCode,
             ...(otherParams && { ...otherParams }),
@@ -51,9 +51,10 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                         if (selectedUsers && selectedUsers.length > 0) {
                             setDefaultSelectedUser(selectedUsers)
                         }
+                        setLoading(false)
                     },
                     onError: () => () => {
-
+                       setLoading(false)
                     }
                 })
             )
@@ -108,8 +109,15 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                 </div>
 
                 <div className='h-100 overflow-auto overflow-hide pb-3'>
+                    {
+                        loading && (
+                            <div className='d-flex justify-content-center align-item-center' style={{marginTop:'200px'}}>
+                                <Spinner/>
+                            </div>
+                        )
+                    }
 
-                    <div className='mt-3'>
+                    {! loading && <div className='mt-3'>
                         {
                             groupEmployees && groupEmployees.length > 0 ? groupEmployees.map((el: any, index: number) => {
                                 const { name, mobile_number, designation, department, } = el
@@ -140,7 +148,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                                 <NoDataFound type={'text'}  />
                             </div>
                         }
-                    </div>
+                    </div>}
                 </div>
             </Card >
 

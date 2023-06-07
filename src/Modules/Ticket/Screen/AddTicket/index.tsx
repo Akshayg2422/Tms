@@ -9,7 +9,8 @@ import {
     AutoCompleteDropDownImage,
     Card,
     Back,
-    ImagePicker
+    ImagePicker,
+    LoadingButton
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -69,6 +70,7 @@ function AddTicket() {
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
     const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
+    const [loading,setLoading] = useState(false)
     let attach = photo.slice(-selectNoOfPickers)
 
 
@@ -126,6 +128,7 @@ function AddTicket() {
     }
 
     const submitTicketHandler = () => {
+        setLoading(true)
         const params = {
             title: title?.value,
             description: description?.value,
@@ -150,10 +153,13 @@ function AddTicket() {
                             goBack();
                             showToast(response.message, "success");
                         }
-                        console.log('+++++++++++')
+                        setLoading(false)
+                        // console.log('+++++++++++')
+
                     },
                     onError: (error) => () => {
                         showToast(error.error_message);
+                        setLoading(false)
                     },
                 })
             );
@@ -161,7 +167,6 @@ function AddTicket() {
             showToast(getValidateError(validation));
         }
     };
-
 
 
     function getAssociatedCompaniesApi() {
@@ -416,14 +421,22 @@ function AddTicket() {
                 </div>
                 </div>
 
-
-
             <div className="col mt-4">
                 <Button
-                    text={translate("common.submit")}
+                    text={loading ? 'Loading...' :translate("common.submit")}
                     onClick={submitTicketHandler}
+                    disabled={loading}
                 />
-            </div>
+            </div> 
+
+            {/* <div className="col mt-4">
+                <LoadingButton text={translate('common.submit')} 
+                               size={'md'}  
+                               loading={loading}
+                               onClick={submitTicketHandler}/>
+
+
+            </div> */}
 
         </Card >
 
