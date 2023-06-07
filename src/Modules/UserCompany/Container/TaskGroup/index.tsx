@@ -36,10 +36,13 @@ function TaskGroup() {
     taskGroups,
     taskGroupCurrentPages,
     taskGroupNumOfPages,
-    selectedGroupChatCode
+    selectedGroupChatCode,
+    dashboardDetails
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+
+  const { company } = dashboardDetails || ''
 console.log(taskGroups,"taskGroups")
   const dynamicHeight: any = useDynamicHeight()
   useEffect(() => {
@@ -129,12 +132,15 @@ console.log(taskGroups,"taskGroups")
       }
 
       const params = {
+        
         ...(selectedTaskGroup && { id: selectedTaskGroup.id }),
+        branch_id:company?.id,
         name: taskGroupName.value,
         description: taskGroupDescription.value,
         code: taskGroupCode.value.trim(),
         photo: updatedPhoto
       };
+      console.log(params,"pppooodck  ")
 
       const validation = validate(ADD_TASK_GROUP, params)
       if (ifObjectExist(validation)) {
@@ -194,6 +200,7 @@ console.log(taskGroups,"taskGroups")
       const params = {
         name: convertToUpperCase(subTaskGroupName.value),
         description: convertToUpperCase(subTaskGroupDescription.value),
+        branch_id:company?.id,
         code: subTaskGroupCode.value.trim(),
         photo: updatedPhoto,
         parent_id: selectedSubTaskGroup?.id,
@@ -201,7 +208,7 @@ console.log(taskGroups,"taskGroups")
         end_time: endTimeEta,
         ...(isEdit && { id: selectedSubTaskGroup.id }),
       };
-
+console.log('supppp',params)
       const validation = validate(ADD_SUB_TASK_GROUP, params)
 
 
