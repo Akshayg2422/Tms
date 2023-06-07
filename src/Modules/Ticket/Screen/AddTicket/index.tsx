@@ -134,6 +134,8 @@ function AddTicket() {
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             ticket_attachments: [{ attachments: attach }],
+            ...(department && { department_id: department?.value?.id }),
+            ...(designation && { designation_id: designation?.value?.id }),
              eta_time: eta,
         };
         console.log('==========>',params )
@@ -312,7 +314,7 @@ function AddTicket() {
                 }
 
                 {getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
-                    heading={translate('auth.description')}
+                    heading={translate("common.department")!}
                     placeHolder={translate('order.Select a Designation')!}
                     data={getDropDownDisplayData(designations)}
                     onChange={(item) => {

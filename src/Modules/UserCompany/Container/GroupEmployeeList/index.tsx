@@ -3,7 +3,7 @@ import { GroupEmployeesProps } from './interfaces'
 import { SearchInput, H, Image, Divider, NoDataFound, Card, DropDown } from '@Components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAssociatedCompaniesL, getDepartments, getDesignations, getEmployees, getGroupsEmployees } from '@Redux'
-import { capitalizeFirstLetter, getDropDownDisplayData, getPhoto } from '@Utils'
+import { capitalizeFirstLetter, getDropDownCompanyDisplayData, getDropDownDisplayData, getPhoto } from '@Utils'
 import { icons } from '@Assets'
 import { translate } from '@I18n'
 import { useDropDown } from '@Hooks'
@@ -11,7 +11,7 @@ import { useDropDown } from '@Hooks'
 
 function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaultSelect ,selectedCode}: GroupEmployeesProps) {
 
-    const { employees,  departments, designations } = useSelector((state: any) => state.UserCompanyReducer);
+    const { employees,  departments, designations , associatedCompaniesL} = useSelector((state: any) => state.UserCompanyReducer);
     const [selectedEmployee, setSelectedEmployee] = useState<any>(defaultSelect)
     const [companies, setCompanies] = useState<any>()
     const company = useDropDown({})
@@ -22,6 +22,7 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
 
 const modifiedDepartmentData= departments ? [{id:'ALL',name:'All'},...departments]: [{id:'ALL',name:'All'}]
 const modifiedDesignationData= designations ? [{id:'ALL',name:'All'},...designations]:[{id:'ALL',name:'All'}]
+const modifiedCompany=associatedCompaniesL && associatedCompaniesL.length>0 &&[{ id: '',display_name: '𝗦𝗘𝗟𝗙', name: 'self' },...associatedCompaniesL ]
 
 
     useEffect(() => {
@@ -214,7 +215,7 @@ useEffect(()=>{
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.company")}
-                        data={companies}
+                        data={getDropDownCompanyDisplayData(modifiedCompany)}
                         selected={company.value}
                         onChange={(item) => {
                         
@@ -238,7 +239,7 @@ useEffect(()=>{
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
-                        console.log(item,"iuitittiitti=--->")
+                      
                         }}
                     />
                 </div>

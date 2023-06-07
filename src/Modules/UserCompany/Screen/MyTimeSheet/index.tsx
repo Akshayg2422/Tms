@@ -4,17 +4,14 @@ import { getMomentObjFromServer, getDisplayDateFromMomentByType, validate, ADD_T
 import {
   addEmployeeTimeline,
   getAssignedTask,
-  // getEmployeesl,
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
-import { Button, Card, CommonTable, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, Spinner, NoDataFound } from '@Components';
+import { Button, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, } from '@Components';
 import { icons } from '@Assets';
 import AutoSearchInput from '@Components//Core/AutoSearchInput';
 import { ROUTES } from '@Routes'
 import { useNavigation } from '@Hooks'
-// import { INITIAL_PAGE } from '@Utils'
-// import InfiniteScroll from 'react-infinite-scroll-component';
 import { translate } from "@I18n";
 import moment from 'moment';
 
@@ -41,13 +38,14 @@ function MyTimeSheet() {
   const [endDate, setEndDate] = useState(moment().endOf('week'))
   const [currentDates, setCurrentDates] = useState(new Date());
 
-  const { employeeTimeline} = useSelector((state: any) => state.UserCompanyReducer);
+  const { employeeTimeline } = useSelector((state: any) => state.UserCompanyReducer);
   const getGroupMenuItem = [
     { id: '0', name: translate("common.Edit"), icon: icons.edit },
 
   ]
 
-
+console.log(assignedTaskDetails,"assignedTaskDetails")
+console.log(assignedTaskList,"assignedTaskList")
   useEffect(() => {
 
     getEmployeesTimeList()
@@ -68,8 +66,6 @@ function MyTimeSheet() {
 
   //start  date end date
 
-  console.log('formattedShift---->',formattedShift)
-
   const getDatesBetween = (startDate, endDate) => {
     const dates: any = [];
     const currentDate = moment(startDate);
@@ -78,9 +74,9 @@ function MyTimeSheet() {
       dates.push(currentDate.format("YYYY-MM-DD"));
       currentDate.add(1, "day");
     }
-   
+
     return dates;
-    
+
   };
 
   //shift with date
@@ -100,10 +96,10 @@ function MyTimeSheet() {
   }
 
 
-///working tester
+  ///working tester
 
 
-  const getPreviousWeekDates  = () => {
+  const getPreviousWeekDates = () => {
     const updatedDate = new Date(currentDates);
     updatedDate.setDate(updatedDate.getDate() - 7);
     setCurrentDates(updatedDate);
@@ -123,8 +119,8 @@ function MyTimeSheet() {
     startDate.setDate(startDate.getDate() - currentDay);
     const endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + 6);
-     setStartDate(moment(startDate))
-      setEndDate(moment(endDate))
+    setStartDate(moment(startDate))
+    setEndDate(moment(endDate))
 
   };
 
@@ -132,7 +128,7 @@ function MyTimeSheet() {
 
   const dateWithTasks = (response: any) => {
     const TaskWithDates = [...dateWithTask()]
-    console.log("TaskWithDates",TaskWithDates)
+
     let modifiedData = [...TaskWithDates]
 
     let consolidatedShift = modifiedData.map(each => {
@@ -222,7 +218,7 @@ function MyTimeSheet() {
         params,
         onSuccess: (response: any) => () => {
 
-          const assignedTasks = response?.details
+          const assignedTasks = response?.details?.data
           const assignedDetails = assignedTasks.map((item) => {
             return {
               text: item.title, id: item.id
@@ -258,11 +254,6 @@ function MyTimeSheet() {
         modifiedData[date] = [each]
       }
     })
-    // setEmployeeTimelineDisplayData({
-    //   keys: Object.keys(modifiedData),
-    //   data: modifiedData
-    // } as never)
-
 
   }
 
@@ -279,7 +270,7 @@ function MyTimeSheet() {
       description: editDescriptions?.value || description?.value
     }
 
-    const validation = validate(editEndTimeEta?EDIT_TIME_SHEET_DETAILS:ADD_TIME_SHEET_DETAILS, params);
+    const validation = validate(editEndTimeEta ? EDIT_TIME_SHEET_DETAILS : ADD_TIME_SHEET_DETAILS, params);
     console.log("validation", validation)
 
     if (ifObjectExist(validation)) {
@@ -319,22 +310,22 @@ function MyTimeSheet() {
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
           Status: el?.is_completed ? "complete" : "",
-          "Edit": 
-          <div ><MenuBar menuData={getGroupMenuItem} onClick={(element) => {
+          "Edit":
+            <div ><MenuBar menuData={getGroupMenuItem} onClick={(element) => {
 
-            const { start_time, end_time, task, id, description } = el
-            const tasks = { id: task.id, text: task.name }
+              const { start_time, end_time, task, id, description } = el
+              const tasks = { id: task.id, text: task.name }
 
-            if (element.id === '0') {
-              setEditStatTimeEta(getDisplayDateFromMoment(getMomentObjFromServer(start_time)))
-              setEditEndTimeEta(getDisplayDateFromMoment(getMomentObjFromServer(end_time)))
-              editAssignedTaskSelect.onChange(tasks)
-              setAssignedTaskId(id)
-              editEtaTime.show()
-              handleEditDescription(description)
-            }
-          }} />
-          </div>
+              if (element.id === '0') {
+                setEditStatTimeEta(getDisplayDateFromMoment(getMomentObjFromServer(start_time)))
+                setEditEndTimeEta(getDisplayDateFromMoment(getMomentObjFromServer(end_time)))
+                editAssignedTaskSelect.onChange(tasks)
+                setAssignedTaskId(id)
+                editEtaTime.show()
+                handleEditDescription(description)
+              }
+            }} />
+            </div>
 
         }
       }
@@ -364,7 +355,6 @@ function MyTimeSheet() {
             return (
               <CollapseButton
                 selectedIds={formattedShift[index]?.date}
-                // selectedId={currentDate}
                 title={new Date(formattedShift[index]?.date)}
                 tableDataSet={formattedShift[index].taskListedArray}
                 displayDataSet={normalizedTableDatas(formattedShift[index].taskListedArray)}
@@ -412,7 +402,7 @@ function MyTimeSheet() {
             <DateTimePicker
               id="eta-picker"
               placeholder={translate('order.Start Time')!}
-              type="both"
+              type="time"
               initialValue={startTimeEta}
               onChange={handleStartTimeEtaChange}
             />
@@ -420,7 +410,7 @@ function MyTimeSheet() {
           <div className="col-6">
             <DateTimePicker
               id="eta-picker"
-              type="both"
+              type="time"
               initialValue={endTimeEta}
               placeholder={translate('order.end Time')!}
               onChange={handleEndTimeEtaChange}
@@ -475,7 +465,7 @@ function MyTimeSheet() {
           <div className="col-6">
             <DateTimePicker
               placeholder={translate('order.Start Time')!}
-              type="both"
+              type="time"
               initialValue={editStartTimeEta}
               onChange={handleEditStartTimeEtaChange}
             />

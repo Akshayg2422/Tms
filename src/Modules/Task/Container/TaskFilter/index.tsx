@@ -32,14 +32,14 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const taskStatus = useDropDown(TASK_STATUS_LIST[2]);
     const taskPriority = useDropDown(TASK_PRIORITY_LIST[0]);
     const company = useDropDown({})
-    const department = useDropDown({id:'ALL',text:'All'})
-    const designation = useDropDown({id:'ALL',text:'All'})
+    const department = useDropDown({id:'ALL',name:'All'})
+    const designation = useDropDown({id:'ALL',name:'All'})
     const [includeSubTask, setIncludeSubTask] = useState(false)
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
     const search = useInput('')
-    const modifiedDepartment=departments &&[{id:'ALL',name:'All'},...departments]
-    const modifiedDesignation=designations && [{id:'ALL',name:'All'},...designations]
+    const modifiedDepartment=departments?[{id:'ALL',name:'All'},...departments]:[{id:'ALL',name:'All'}]
+    const modifiedDesignation=designations ?[{id:'ALL',name:'All'},...designations]:[{id:'ALL',name:'All'}]
     const modifiedCompany=associatedCompaniesL && associatedCompaniesL.length>0 &&[{ id: '',display_name: '𝗦𝗘𝗟𝗙', name: 'self' },...associatedCompaniesL ]
 
 
@@ -149,8 +149,6 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
 
     }
-
-    
 
 
     function proceedParams(object: any) {

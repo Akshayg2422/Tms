@@ -52,9 +52,6 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
             group_id:selectedGroup,
             page_number
         }
-         console.log( selectedGroupChatCode,"kkkkkkvvv")
-         console.log(params,"ppppppppp")
-
         if (selectedGroup) {
             dispatch(
                 getGroupMessage({
