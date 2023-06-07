@@ -2,21 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { addGroupMessage, getGroupMessage } from '@Redux'
-import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner,ImageDownloadButton } from '@Components'
-import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
+import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner, ImageDownloadButton } from '@Components'
+import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDayAndDate } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { title } from 'process';
 import { translate } from '@I18n';
 
-function GroupMessage({selectedGroup }: GroupMessageProps) {
+function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails,chatGroups } = useSelector((state: any) => state.UserCompanyReducer);
+    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails,groupMessage, refreshGroupChat } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
@@ -28,14 +27,12 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
-    const { user_details } = dashboardDetails
-    const [currentDay, setCurrentDay] = useState('');
-
+    const { user_details } = dashboardDetails    
 
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
-    }, [refreshGroupEvents, selectedGroupChatCode,selectedGroup])
+    }, [refreshGroupEvents, selectedGroupChatCode,refreshGroupChat, selectedGroup])
 
     function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -49,17 +46,18 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
 
     const getGroupMessageApi = (page_number: number) => {
         const params = {
-            group_id:selectedGroup,
+            group_id: selectedGroup,
             page_number
         }
-         console.log( selectedGroupChatCode,"kkkkkkvvv")
-         console.log(params,"ppppppppp")
+        console.log(selectedGroupChatCode, "kkkkkkvvv")
+        console.log(params, "ppppppppp")
 
         if (selectedGroup) {
             dispatch(
                 getGroupMessage({
                     params,
                     onSuccess: (response: any) => () => {
+                        
                         const groupEventsResponse = response.details
                         let updatedData = []
                         if (groupEventsResponse.data && groupEventsResponse.data.length > 0) {
@@ -220,16 +218,9 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                             const dateString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
                             const date: any = dateString.split(',')[0].trim();
 
-                            const getCurrentDay = (date: any) => {
-                                const currentDate = new Date(date);
-                                const options: any = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-                                return currentDate.toLocaleDateString('en-US', options);
-                            };
-
                             const renderDate = (date !== previousDate) ? date : '';
                             previousDate = date;
-                            const startDay = getCurrentDay(renderDate);
-
+                            const startDay = getCurrentDayAndDate(renderDate);
 
 
                             return (
@@ -241,6 +232,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                                     date={startDay}
                                     isEdit={loginUser}
                                     isDelete={loginUser}
+                                    isLoginUser={loginUser}
                                     editOnClick={() => {
                                         setSelectMessage(item)
                                         editModal.show()
@@ -293,7 +285,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                                     width={'100%'}
                                 />
                                 <div className='d-flex justify-content-end'>
-                                    <ImageDownloadButton Url={each} title={each} className={'fa fa-download mr-5'} />
+                                    <ImageDownloadButton Url={each} title={each} className={'mr-5'} />
                                 </div>
                             </div>
                         ))

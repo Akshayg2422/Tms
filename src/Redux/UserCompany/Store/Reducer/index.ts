@@ -16,8 +16,8 @@ const initialState: UserCompanyStateProp = {
   departmentsCurrentPages: undefined,
   departmentsNumOfPages: undefined,
   employees: undefined,
-  employeesCurrentPages:undefined,
-  employeesNumOfPages:undefined,
+  employeesCurrentPages: undefined,
+  employeesNumOfPages: undefined,
   employeesl: undefined,
   employeeslCurrentPages: undefined,
   employeeslNumOfPages: undefined,
@@ -65,7 +65,8 @@ const initialState: UserCompanyStateProp = {
   selectedGroupChatCode: undefined,
   chatGroups: undefined,
   selectedTaskGroupCode: "ALL",
-  employeesDetails:undefined
+  employeesDetails: undefined,
+  refreshGroupChat:undefined
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -127,12 +128,12 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
     case ActionTypes.FETCH_DEPARTMENT_SUCCESS:
       const department = action.payload.details
-      const isDepartments= ifObjectKeyExist(department, 'data')
-     
+      const isDepartments = ifObjectKeyExist(department, 'data')
+
       state = {
         ...state,
         loading: false,
-        departments:action.payload?.details?.data?action.payload?.details?.data:action.payload?.details,
+        departments: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
         departmentsNumOfPages: action.payload?.details.num_pages,
         departmentsCurrentPages:
           action.payload?.details.next_page === -1
@@ -160,13 +161,13 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       break;
     case ActionTypes.FETCH_DESIGNATION_SUCCESS:
-    const  designation = action.payload.details 
-    const isDesignations= ifObjectKeyExist(designation, 'data')
-  
+      const designation = action.payload.details
+      const isDesignations = ifObjectKeyExist(designation, 'data')
+
       state = {
         ...state,
         loading: false,
-        designations:action.payload?.details?.data?action.payload?.details?.data:action.payload?.details,
+        designations: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
         designationNumOfPages: action.payload?.details?.num_pages,
         designationCurrentPages:
           action?.payload?.next_page === -1
@@ -392,25 +393,25 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.GET_EMPLOYEES:
       state = {
         ...state,
-        employees:undefined,
-        employeesCurrentPages:1,
-        employeesNumOfPages:0,
+        employees: undefined,
+        employeesCurrentPages: 1,
+        employeesNumOfPages: 0,
       };
 
       break;
     case ActionTypes.GET_EMPLOYEES_SUCCESS:
 
-    const employeeResponse = action.payload.details
-    const isPagination = ifObjectKeyExist(employeeResponse,"data")
-    console.log(isPagination,"ppp")
+      const employeeResponse = action.payload.details
+      const isPagination = ifObjectKeyExist(employeeResponse, "data")
+      console.log(isPagination, "ppp")
 
       state = {
         ...state,
-        employees:  action.payload?.details?.data?action.payload?.details?.data:action.payload?.details,
-        employeesCurrentPages:action.payload?.details.next_page === -1
-        ? action?.payload?.details.num_pages
-        : action?.payload?.details.next_page - 1,
-        employeesNumOfPages:action.payload.details.num_pages,
+        employees: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
+        employeesCurrentPages: action.payload?.details.next_page === -1
+          ? action?.payload?.details.num_pages
+          : action?.payload?.details.next_page - 1,
+        employeesNumOfPages: action.payload.details.num_pages,
       };
       break;
     case ActionTypes.GET_EMPLOYEES_FAILURE:
@@ -459,11 +460,11 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = {
         ...state,
         // employeeTimeline: [...state.employeeTimeline, ...action.payload?.details?.data],
-        employeeTimeline:action.payload.details,
+        employeeTimeline: action.payload.details,
         // employeeTimelineCurrentPages: action.payload?.details?.next_page
       };
 
-   
+
       break;
     case ActionTypes.GET_EMPLOYEE_TIMELINE_FAILURE:
       state = { ...state, employeeTimeline: action.payload };
@@ -761,6 +762,14 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
  */
     case ActionTypes.SELECTED_TASK_GROUP_CODE:
       state = { ...state, selectedTaskGroupCode: action.payload };
+      break;
+
+    /**
+* refresh Group Chat
+*/
+
+    case ActionTypes.REFRESH_GROUP_CHAT:
+      state = { ...state, refreshGroupChat: !state.refreshGroupChat }
       break;
 
     default:
