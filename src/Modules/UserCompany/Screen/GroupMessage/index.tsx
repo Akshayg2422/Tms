@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { addGroupMessage, getGroupMessage } from '@Redux'
-import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner, ImageDownloadButton } from '@Components'
+import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner, ImageDownloadButton, ProfileCard } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDayAndDate } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInput, useModal, useWindowDimensions } from '@Hooks'
@@ -15,7 +15,8 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails,groupMessage, refreshGroupChat } = useSelector((state: any) => state.UserCompanyReducer);
+    const { taskDetails } = useSelector((state: any) => state.TaskReducer);
+    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails, refreshGroupChat } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
@@ -27,12 +28,15 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
-    const { user_details } = dashboardDetails    
+    const { user_details } = dashboardDetails || {}
+    const { raised_by_company } = taskDetails || {};
+    const userModal = useModal(false)
+    console.log('dashboardDetails---------->', dashboardDetails);
 
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
-    }, [refreshGroupEvents, selectedGroupChatCode,refreshGroupChat, selectedGroup])
+    }, [refreshGroupEvents, selectedGroupChatCode, refreshGroupChat, selectedGroup])
 
     function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -43,21 +47,19 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
             })
         }
     }
-
+    console.log("====dashboard==", dashboardDetails)
     const getGroupMessageApi = (page_number: number) => {
         const params = {
             group_id: selectedGroup,
             page_number
         }
-        console.log(selectedGroupChatCode, "kkkkkkvvv")
-        console.log(params, "ppppppppp")
 
         if (selectedGroup) {
             dispatch(
                 getGroupMessage({
                     params,
                     onSuccess: (response: any) => () => {
-                        
+
                         const groupEventsResponse = response.details
                         let updatedData = []
                         if (groupEventsResponse.data && groupEventsResponse.data.length > 0) {
@@ -81,8 +83,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
         const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, group_status, event_by } = each
         let modifiedData = {}
-
-        console.log(JSON.stringify(each));
 
 
         switch (event_type) {
@@ -148,7 +148,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     }
 
 
-    console.log("====dashboard==", dashboardDetails)
 
     function proceedDeleteHandler() {
         const params = {
@@ -244,6 +243,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                         setSelectMessage(item)
                                         deleteModal.show()
                                     }}
+                                    subtitleOnclick={() => { userModal.show() }}
                                 >
 
                                     <div className='pt-2' onClick={() => {
@@ -350,6 +350,20 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         />
                     </div>
                 </div>
+            </Modal>
+
+
+            <Modal size={'sm'} isOpen={userModal.visible} onClose={userModal.hide}>
+
+                <ProfileCard
+                    coverPhoto={user_details?.profile_photo}
+                    profilePhoto={user_details?.profile_photo}
+                    name={user_details?.name}
+                    department={user_details?.department}
+                    designation={user_details?.designation}
+                    company={raised_by_company?.display_name}
+                />
+
             </Modal>
         </>
     );

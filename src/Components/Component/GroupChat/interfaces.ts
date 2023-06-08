@@ -10,4 +10,5 @@ export interface GroupChatProps {
     isLoginUser?: boolean;
     editOnClick?: () => void;
     deleteOnClick?: () => void;
+    subtitleOnclick?: () => void;
 }
