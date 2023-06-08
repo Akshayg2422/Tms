@@ -26,6 +26,7 @@ import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getVali
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
 import { icons } from "@Assets";
 import { Employees, GroupEmployeeList } from '@Modules'
+import moment from "moment";
 
 
 
@@ -41,7 +42,6 @@ function TaskGroup() {
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-
   const { company } = dashboardDetails || ''
 
   const dynamicHeight: any = useDynamicHeight()
@@ -55,10 +55,8 @@ function TaskGroup() {
     ...(is_parent ? [{ id: '4', name: "Add Member ", icon: icons.addSub }] : []),
   ]
   const [showTaskGroup, setShowTaskGroup] = useState(false);
-
   const [inCludeSubGroup, setIncludeSubGroup] = useState(false)
   const addTaskGroupModal = useModal(false);
-
   const taskGroupName = useInput("");
   const taskGroupCode = useInput("");
   const taskGroupDescription = useInput("");
@@ -81,21 +79,21 @@ function TaskGroup() {
   const [taggedUsers, setTaggedUsers] = useState([])
   const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
   const [addGroupId,setGroupId]=useState<any>()
-
   const startDate = new Date(startTimeEta)
   const startTime = startDate.getHours()
+  const [date, setDate] = useState<any>(moment().format())
+  const [endDate, setEndDate] = useState<any>(moment().format())
 
 
   const handleStartTimeEtaChange = (value: any) => {
     setStatTimeEta(value)
+    setDate(value)
   };
 
   const handleEndTimeEtaChange = (value: any) => {
     setEndTimeEta(value)
+    setEndDate(value)
   };
-
-
-
 
   const getTaskGroupList = (page_number: number, include: boolean = inCludeSubGroup) => {
 
@@ -136,8 +134,6 @@ function TaskGroup() {
         code: taskGroupCode.value.trim(),
         photo: updatedPhoto
       };
-      console.log(params,"pppooodck  ")
-
       const validation = validate(ADD_TASK_GROUP, params)
       if (ifObjectExist(validation)) {
         dispatch(
@@ -531,9 +527,6 @@ function TaskGroup() {
           />
         </div>
       </Modal>
-
-
-
       <Modal
         isOpen={addSubTaskGroupModal.visible}
         onClose={() => {
@@ -571,6 +564,7 @@ function TaskGroup() {
                 type="both"
                 initialValue={(getMomentObjFromServer(startTimeEta))}
                 onChange={handleStartTimeEtaChange}
+                value={date ? getMomentObjFromServer(date) : null!}
               />
             </div>
             <div className="col-6">
@@ -579,6 +573,7 @@ function TaskGroup() {
                 initialValue={(getMomentObjFromServer(endTimeEta))}
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
+                value={endDate ? getMomentObjFromServer(endDate) : null!}
               />
             </div>
           </div>

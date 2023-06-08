@@ -29,11 +29,14 @@ import {
     type,
     validate,
     PRIORITY,
+    getMomentObjFromServer,
+    getDropDownCompanyDisplayData,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
 import AutoSearchInput from "@Components//Core/AutoSearchInput";
+import moment from "moment";
 
 function AddSubTask() {
 
@@ -42,7 +45,7 @@ function AddSubTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations } = useSelector(
+    const { dashboardDetails, departments, designations,associatedCompaniesL } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { selectedTask } = useSelector(
@@ -60,13 +63,14 @@ function AddSubTask() {
     const department = useDropDown({})
     const designation = useDropDown({})
     const company = useDropDown({})
-    const taskGroup = useDropDown({})
-    const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
+    // const taskGroup = useDropDown({})
+    // const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
-    const [, setDesignations] = useState([])
+    // const [, setDesignations] = useState([])
     const selectedTicketPriority = useDropDown("");
+    const [date, setDate] = useState<any>(moment().format())
     const [eta, setEta] = useState("")
     const [selectedNoOfPickers,setSelectNoOfPickers]=useState<any>()
     let attach = photo.slice(-selectedNoOfPickers)
@@ -80,8 +84,6 @@ function AddSubTask() {
     useEffect(() => {
         getCompanyEmployeeApi()
     }, [designation.value, department.value, company.value])
-
-
 
     const getBranchId = () =>
         taskType?.id === type[1].id
@@ -101,8 +103,6 @@ function AddSubTask() {
             ...(designation && { designation_id: designation?.value?.id })
         };
 
-
-
         dispatch(
             getEmployees({
                 params,
@@ -114,7 +114,6 @@ function AddSubTask() {
                     });
                     setCompanyUsers(companiesUser);
 
-                    console.log(companiesUser,"lllllllnnnnnnn")
                 },
                 onError: (error) => () => {
                 },
@@ -169,13 +168,13 @@ function AddSubTask() {
                 onSuccess: (response: any) => () => {
                     const companies = response.details
                     if (companies && companies.length > 0) {
-                        const displayCompanyDropdown = companies.map(each => {
-                            const { id, display_name } = each
-                            return {
-                                id: id, text: display_name, name: display_name,
-                            }
-                        })
-                        setCompanies(displayCompanyDropdown)
+                        // const displayCompanyDropdown = companies.map(each => {
+                        //     const { id, display_name } = each
+                        //     return {
+                        //         id: id, text: display_name, name: display_name,
+                        //     }
+                        // })
+                        // setCompanies(displayCompanyDropdown)
                         setDisableTaskType([]);
 
                     } else {
@@ -192,6 +191,7 @@ function AddSubTask() {
 
     const handleEtaChange = (value: any) => {
         setEta(value);
+        setDate(value)
     };
 
 
@@ -246,7 +246,7 @@ function AddSubTask() {
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={'Select a company'}
-                        data={companies}
+                        data={getDropDownCompanyDisplayData( associatedCompaniesL )}
                         onChange={(item) => {
                             company.onChange(item)
                         }}
@@ -298,6 +298,7 @@ function AddSubTask() {
                     placeholder={'Select ETA'}
                     type="both"
                     onChange={handleEtaChange}
+                    value={date ? getMomentObjFromServer(date) : null!}
                 />
             </div>
 

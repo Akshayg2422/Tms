@@ -61,6 +61,7 @@ function TimeApproval() {
         addEmployeeTimeline({
           params,
           onSuccess: (response) => () => {
+            
             getEmployeesTimeList()
 
           },
@@ -206,11 +207,11 @@ function TimeApproval() {
           Status: el?.is_completed ? "complete" : "",
           '':
           <div>
-          {el?.PENDING_APPROVAL ?
+          {el?.timeline_status==='PAL' ?
               <div>
               <Button size={'sm'} text={'Approved'} onClick={() => {
                 setSelectApproval(true)
-                console.log(el.id,"ee")
+                
                 addEmployeeTimeSheet(el.id,'APT')
               }} />
               <Button size={'sm'} text={'Reject'} onClick={() => {
@@ -219,10 +220,8 @@ function TimeApproval() {
                
               }} />
             </div>
-      :el?.timeline_status==='APT'?<div>Accept</div>:<div>Reject</div>}
+      :el?.timeline_status==='APT'?<div className='text-primary h5'>Accept</div>:<div className='text-primary h5'>Reject</div>}
       </div>
-
-
 
       }
         
