@@ -119,38 +119,11 @@ export async function imagePickerConvertBase64(array) {
 }
 
 
-export const getDate = date => {
-  return moment(date).format('DD');
+export const getCurrentDayAndDate = (date: any) => {
+  const currentDate = new Date(date);
+  const options: any = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+  return currentDate.toLocaleDateString('en-US', options);
 };
-
-export const getTime = (time: any) => {
-  return moment(time).format('MMMM DD YYYY');
-};
-
-export const getCurrentDays = (dataTime: any) => {
-  const findDate: any = moment(dataTime).format('DD');
-  console.log('findDate---------------->', findDate);
-
-  const todayDate: any = moment().format('DD');
-  console.log('todayDate---------------->', todayDate);
-
-  const findCurrentDate = findDate - new Date().getDate();
-
-  console.log('new Date().getDate()------>', new Date().getDate());
-
-
-  console.log('findCurrentDate------------>', findCurrentDate);
-
-  if (findCurrentDate === 0) {
-    return 'Today';
-  } else if (findCurrentDate === -1) {
-    return 'Yesterday';
-  } else {
-    console.log('dataTime-------->', dataTime);
-    return getTime(dataTime);
-  }
-};
-
 
 export function getDropDownDisplayData(data: any) {
   return data && data?.map((item: any) => {
@@ -165,7 +138,7 @@ export function getDropDownCompanyDisplayData(data: any) {
   return data && data?.map((item: any) => {
     return {
       ...item,
-      text:item.display_name
+      text: item.display_name
     }
   })
 }
