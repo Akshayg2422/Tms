@@ -310,6 +310,13 @@ console.log(assignedTaskList,"assignedTaskList")
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
           Status: el?.is_completed ? "complete" : "",
+          '': <div>
+          {el?.timeline_status==='PAL' ?
+             <div className='text-primary h5'>
+              Pending Approval
+              </div>
+      :el?.timeline_status==='APT'?<div className='text-primary h5'>APProved</div>:<div className='text-primary h5'>Rejected</div>}
+      </div>,
           "Edit":
             <div ><MenuBar menuData={getGroupMenuItem} onClick={(element) => {
 

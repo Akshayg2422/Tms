@@ -60,4 +60,5 @@ export interface UserCompanyStateProp {
     chatGroups: any,
     selectedTaskGroupCode: any,
     employeesDetails:any,
+    refreshGroupChat:any
 }

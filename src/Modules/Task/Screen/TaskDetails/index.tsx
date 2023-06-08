@@ -32,7 +32,6 @@ function TaskDetails() {
         { id: "4", title: <div className="text-center"><Image src={selectedTabPositions.id==='4' ? icons.usersPink : icons.users} height={16} width={16} /></div>, component: <TaskUsers /> },
     ];
 
-    console.log("selectedTabPositions", selectedTabPositions)
 
     useEffect(() => {
         if (ref.current) {

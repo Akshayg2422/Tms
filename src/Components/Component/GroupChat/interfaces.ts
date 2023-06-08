@@ -7,6 +7,8 @@ export interface GroupChatProps {
     subTitle?: string;
     isEdit?: boolean;
     isDelete?: boolean;
+    isLoginUser?: boolean;
     editOnClick?: () => void;
     deleteOnClick?: () => void;
+    subtitleOnclick?: () => void;
 }

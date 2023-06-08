@@ -9,7 +9,8 @@ import {
     AutoCompleteDropDownImage,
     Card,
     Back,
-    ImagePicker
+    ImagePicker,
+    AutoCompleteDropDownSearch
 } from "@Components";
 import { translate } from "@I18n";
 import {

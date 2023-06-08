@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import { GroupChatProps } from './interfaces';
 import { Image } from '@Components';
 import { icons } from '@Assets';
 import { getPhoto } from '@Utils';
+
 
 function GroupChat({
     children,
@@ -13,23 +13,22 @@ function GroupChat({
     isEdit,
     isDelete,
     profileImage,
+    isLoginUser,
     editOnClick,
     deleteOnClick,
+    subtitleOnclick
 }: GroupChatProps) {
-    const [editHover, setEditHover] = useState(false);
-    const [deleteHover, setDeleteHover] = useState(false);
-
 
     return (
         <div className={'container'}>
             <div className="text-center">
                 <small className="text-muted">
-                    {date === 'Invalid Date' ? '': 
+                    {date === 'Invalid Date' ? '' :
                         <div className='row'>
                             <div className={'col-5'}>
                                 <hr />
                             </div>
-                            <div className={'col align-self-center mx--2'}>{date}</div>
+                            <div className={'col align-self-center font-weight-600 mx--4'}>{date}</div>
                             <div className={'col-5'}>
                                 <hr />
                             </div>
@@ -38,7 +37,7 @@ function GroupChat({
                 </small>
             </div>
             <div className="row">
-                {profileImage && (
+                {profileImage ? (
                     <Image
                         variant={'rounded'}
                         size={'sm'}
@@ -47,11 +46,24 @@ function GroupChat({
                         width={15}
                         height={15}
                     />
-                )}
+                ) :
+                    <Image
+                        variant={'rounded'}
+                        size={'sm'}
+                        className='border'
+                        src={icons.profilePick}
+                        width={15}
+                        height={15}
+                    />
+                }
                 <div className="col-11">
                     <div className="mb-0">
                         <h6 className="h5 mt-0 mb-0 d-flex justify-content-between text-primary">
-                            {subTitle}
+                            {isLoginUser ?
+                                <div className={'text-primary pointer'} onClick={subtitleOnclick}>{subTitle ? subTitle : 'Add your user name'}</div> :
+                                <div className={'text-black'}>{subTitle ? subTitle : 'Add your user name'}</div>
+                            }
+
                             <div className="col">
                                 <small className="text-muted">{time}</small>
                             </div>
@@ -60,8 +72,6 @@ function GroupChat({
                                     <small>
                                         <div
                                             className="col-auto pointer d-inline-flex justify-content-center align-items-center"
-                                            onMouseEnter={() => setEditHover(true)}
-                                            onMouseLeave={() => setEditHover(false)}
                                         >
                                             <Image
                                                 src={icons.editEta}
@@ -70,11 +80,6 @@ function GroupChat({
                                                 height={12}
                                                 style={{ objectFit: 'contain' }}
                                             />
-                                            {editHover && (
-                                                <span className="button-label" onClick={editOnClick}>
-                                                    Edit
-                                                </span>
-                                            )}
                                         </div>
                                     </small>
                                 )}
@@ -82,8 +87,6 @@ function GroupChat({
                                     <small>
                                         <div
                                             className="pointer d-inline-flex justify-content-center align-items-center"
-                                            onMouseEnter={() => setDeleteHover(true)}
-                                            onMouseLeave={() => setDeleteHover(false)}
                                         >
                                             <Image
                                                 src={icons.deleteCurve}
@@ -92,11 +95,6 @@ function GroupChat({
                                                 height={12}
                                                 style={{ objectFit: 'contain' }}
                                             />
-                                            {deleteHover && (
-                                                <span className="button-label" onClick={deleteOnClick}>
-                                                    Delete
-                                                </span>
-                                            )}
                                         </div>
                                     </small>
                                 )}

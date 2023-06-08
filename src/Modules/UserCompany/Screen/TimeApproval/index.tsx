@@ -220,7 +220,7 @@ function TimeApproval() {
                
               }} />
             </div>
-      :el?.timeline_status==='APT'?<div className='text-primary h5'>Accept</div>:<div className='text-primary h5'>Reject</div>}
+      :el?.timeline_status==='APT'?<div className='text-primary h5'>Approved</div>:<div className='text-primary h5'>Rejected</div>}
       </div>
 
       }
