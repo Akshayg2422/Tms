@@ -64,7 +64,7 @@ function AutoSearchInput({ value,
             showClear={false}
             styling={{ borderRadius: "4px", boxShadow: "none", zIndex: 2, backgroundColor:'white',color:"#b3b5b3",fontSize:"16px",
           placeholderColor:"#b3b5b3",
-        fontFamily:"sans-serif"   }}
+        fontFamily:"sans-serif"  }}
             className={className}
           />
         </div>
