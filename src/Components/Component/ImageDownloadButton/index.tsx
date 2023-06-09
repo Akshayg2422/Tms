@@ -3,6 +3,7 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { DownloadImageProps } from './interfaces';
 import { Button } from '@Components';
+import { icons } from '@Assets';
 
 function ImageDownloadButton({ Url, size = 'sm', color = 'primary', title ,className}: DownloadImageProps) {
 
@@ -26,7 +27,7 @@ function ImageDownloadButton({ Url, size = 'sm', color = 'primary', title ,class
   };
 
   return (
-    <Button onClick={handleDownload} className={className} size={'sm'} >
+    <Button icon={icons.download} variant={"icon-rounded"} onClick={handleDownload} className="mt-1" size={'sm'} >
       {Array.isArray(Url) ? 'All' : 'Image'}
     </Button>
   );

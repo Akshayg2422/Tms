@@ -137,6 +137,8 @@ function Tasks() {
       <div className="row mt-3 mb-2">
         <div className="mx-3 col">
           <TaskGroups onClick={(code) => {
+            console.log(taskParams,"ttnkfnvknkn")
+            console.log(params,"===>0p")
             dispatch(setTaskParams({ ...taskParams, group: code }))
             setParams({ ...params, group: code } as any)
           }} />

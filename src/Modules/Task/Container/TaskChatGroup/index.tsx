@@ -29,7 +29,7 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
  
     useEffect(()=>{
         
-        if(selectedGroupChatCode===undefined &&  chatGroups ){
+        if(selectedGroupChatCode===undefined && chatGroups &&  chatGroups.length>0 ){
         
             dispatch(setSelectedGroupChatCode(chatGroups[0].id))
             }

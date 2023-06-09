@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { TicketFilterProps } from './interface'
 import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
-import { TICKET_FILTER_LIST, TICKET_STATUS_LIST, TICKET_PRIORITY_LIST, } from '@Utils'
+import { TICKET_FILTER_LIST, TICKET_STATUS_LIST, TICKET_PRIORITY_LIST, getDropDownDisplayData, getDropDownCompanyDisplayData, } from '@Utils'
 import { useDropDown } from '@Hooks'
 import { getAssociatedCompaniesL, getDepartments, getDesignations } from '@Redux'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { icons } from '@Assets'
 
 
@@ -21,20 +21,23 @@ const FILTER_MENU = [
 
 function TicketFilter({ onParams }: TicketFilterProps) {
 
+    const { departments, designations, associatedCompaniesL } = useSelector((state: any) => state.UserCompanyReducer);
+
     const dispatch = useDispatch()
     const filteredTicket = useDropDown(TICKET_FILTER_LIST[0]);
     const ticketStatus = useDropDown(TICKET_STATUS_LIST[0]);
     const ticketPriority = useDropDown(TICKET_PRIORITY_LIST[0]);
     const company = useDropDown({})
-    const department = useDropDown({})
-    const designation = useDropDown({})
-    const [departments, setDepartments] = useState([])
-    const [designations, setDesignations] = useState([])
-    const [companies, setCompanies] = useState([])
+    const department = useDropDown({ id: 'ALL', name: 'All' })
+    const designation = useDropDown({ id: 'ALL', name: 'All' })
+    // const [companies, setCompanies] = useState([])
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
+    const modifiedDepartment = departments ? [{ id: 'ALL', name: 'All' }, ...departments] : [{ id: 'ALL', name: 'All' }]
+    const modifiedDesignation = designations ? [{ id: 'ALL', name: 'All' }, ...designations] : [{ id: 'ALL', name: 'All' }]
+    const modifiedCompany = associatedCompaniesL && associatedCompaniesL.length > 0 && [{ id: '', display_name: '𝗦𝗘𝗟𝗙', name: 'self' }, ...associatedCompaniesL]
 
-
+console.log(associatedCompaniesL,"associatedCompaniesL==>")
     useEffect(() => {
         const params = { q: '' };
         if (advanceFilter) {
@@ -43,19 +46,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                     params,
                     onSuccess: (response) => () => {
 
-                        const companies = response.details
-                        let modifiedCompanies = []
-                        modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
-                        if (companies && companies.length > 0) {
-                            modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
-                                return {
-                                    id: each.id,
-                                    text: each.display_name,
-                                    name: each.display_name,
-                                }
-                            }) as never]
-                        }
-                        setCompanies(modifiedCompanies)
+
                     },
                     onError: () => () => {
                     },
@@ -76,15 +67,10 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                 getDesignations({
                     params,
                     onSuccess: (response) => () => {
-                        let designations: any = [];
-                        const designation = response.details.data
-                        designation.forEach((item) => {
-                            designations = [...designations, { ...item, text: item.name }]
-                        })
-                        setDesignations(designations)
+
                     },
                     onError: () => () => {
-                        setDesignations([])
+
                     },
                 })
             );
@@ -101,16 +87,10 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                     params,
                     onSuccess: (response: any) => () => {
 
-                        let departments: any = [];
-                        const department = response.details.data
-                        department.forEach((item) => {
-                            departments = [...departments, { ...item, text: item.name }]
-                        })
 
-                        setDepartments(departments)
                     },
                     onError: (error) => () => {
-                        setDepartments([])
+
 
                     },
                 })
@@ -124,7 +104,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
 
     function proceedParams(object: any) {
         const updatedParams = { ...params, ...object }
-        console.log("updatedParams",updatedParams)
+
         if (onParams) {
             onParams(updatedParams)
         }
@@ -190,15 +170,14 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                     <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
                         if (el.id === FILTER_MENU[1].id) {
                             setAdvanceFilter(true)
-                            setDepartments([])
-                            setDesignations([])
+
                             company.onChange({})
+                            proceedParams({ company: '', designation_id: 'ALL', department_id: 'ALL' })
 
                         } else {
                             setAdvanceFilter(false)
                             company.onChange({})
-                            setDepartments([])
-                            setDesignations([])
+
                         }
                     }} />
 
@@ -208,27 +187,29 @@ function TicketFilter({ onParams }: TicketFilterProps) {
 
             <div className="row mt-2">
 
-
                 {advanceFilter && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.company")}
-                        data={companies}
+                        data={getDropDownCompanyDisplayData(modifiedCompany)}
                         selected={company.value}
                         onChange={(item) => {
                             company.onChange(item)
                             getDesignation(item)
                             getDepartment(item)
+                            proceedParams({ company: item.id, designation_id: 'ALL', department_id: 'ALL' })
+                            department.onChange({ id: 'ALL', text: 'All' })
+                            designation.onChange({ id: 'ALL', text: 'All' })
                         }}
                     />
                 </div>
                 }
 
-                {departments.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+                {advanceFilter && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
-                        data={departments}
+                        data={getDropDownDisplayData(modifiedDepartment)}
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
@@ -239,11 +220,11 @@ function TicketFilter({ onParams }: TicketFilterProps) {
                 </div>
                 }
 
-                {designations.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
+                {advanceFilter && <div className="col-lg-3 col-md-3 col-sm-12 mt--2">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("auth.designation")}
-                        data={designations}
+                        data={getDropDownDisplayData(modifiedDesignation)}
                         selected={designation.value}
                         onChange={(item) => {
                             designation.onChange(item)

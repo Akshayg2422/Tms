@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
-import { addEvent, addGroupMessage, getGroupMessage } from '@Redux'
-import { Spinner, Image, Modal, Card, ImageDownloadButton, showToast, Button, Input, Dropzone, GroupChat } from '@Components'
-import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST } from '@Utils'
+import { addGroupMessage, getGroupMessage } from '@Redux'
+import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner, ImageDownloadButton, ProfileCard } from '@Components'
+import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDayAndDate } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { icons } from '@Assets'
 import { useInput, useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { title } from 'process';
 import { translate } from '@I18n';
 
-function GroupMessage({selectedGroup }: GroupMessageProps) {
+function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails,chatGroups } = useSelector((state: any) => state.UserCompanyReducer);
+    const { taskDetails } = useSelector((state: any) => state.TaskReducer);
+    const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails, refreshGroupChat } = useSelector((state: any) => state.UserCompanyReducer);
     const [groupEvents, setGroupEvents] = useState([])
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
@@ -30,14 +29,15 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
-    const { user_details } = dashboardDetails
-
-
+    const { user_details } = dashboardDetails || {}
+    const { raised_by_company } = taskDetails || {};
+    const userModal = useModal(false)
+    console.log('dashboardDetails---------->', dashboardDetails);
 
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
-    }, [refreshGroupEvents, selectedGroupChatCode,selectedGroup])
+    }, [refreshGroupEvents, selectedGroupChatCode, refreshGroupChat, selectedGroup])
 
     function getGroupEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -47,22 +47,20 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                 }
             })
         }
-
     }
-
+    console.log("====dashboard==", dashboardDetails)
     const getGroupMessageApi = (page_number: number) => {
         setLoading(true)
         const params = {
-            group_id:selectedGroup,
+            group_id: selectedGroup,
             page_number
         }
-         console.log( selectedGroupChatCode,"kkkkkkvvv")
-
         if (selectedGroup) {
             dispatch(
                 getGroupMessage({
                     params,
                     onSuccess: (response: any) => () => {
+
                         const groupEventsResponse = response.details
                         let updatedData = []
                         if (groupEventsResponse.data && groupEventsResponse.data.length > 0) {
@@ -89,8 +87,6 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
 
         const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, group_status, event_by } = each
         let modifiedData = {}
-
-        console.log(JSON.stringify(each));
 
 
         switch (event_type) {
@@ -156,7 +152,6 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
     }
 
 
-    console.log("====dashboard==", dashboardDetails)
 
     function proceedDeleteHandler() {
         const params = {
@@ -181,9 +176,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
         );
 
     }
-
-    console.log("selected Message---->", selectMessage)
-
+    let previousDate = '';
 
     return (
         <>
@@ -204,7 +197,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                     className={'overflow-auto overflow-hide'}
                     inverse={true}
                     loader={<h4>
-                        {/* <Spinner /> */}
+                        <div className={'d-flex justify-content-center'}><Spinner /></div>
                     </h4>}
                     next={() => {
 
@@ -221,23 +214,23 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                             )
                         }
 
+
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
-                            const { icon, title, subTitle, created_at, attachments, event_by } = item
+                            const { title, subTitle, created_at, attachments, event_by } = item
 
-                            console.log('item111111111111111----------->', JSON.stringify(item));
-
-                            const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                            const imageUrls = attachments?.attachments?.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
                             const loginUser = user_details?.id === event_by?.id
 
                             const timeString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
                             const time = timeString.split(',')[1].trim();
 
                             const dateString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
-                            const date = dateString.split(',')[0].trim();
+                            const date: any = dateString.split(',')[0].trim();
 
-                            console.log(date);
-
+                            const renderDate = (date !== previousDate) ? date : '';
+                            previousDate = date;
+                            const startDay = getCurrentDayAndDate(renderDate);
 
 
                             return (
@@ -246,9 +239,10 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                                     title={title}
                                     subTitle={subTitle}
                                     time={time}
-                                    date={date}
+                                    date={startDay}
                                     isEdit={loginUser}
                                     isDelete={loginUser}
+                                    isLoginUser={loginUser}
                                     editOnClick={() => {
                                         setSelectMessage(item)
                                         editModal.show()
@@ -260,6 +254,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                                         setSelectMessage(item)
                                         deleteModal.show()
                                     }}
+                                    subtitleOnclick={() => { userModal.show() }}
                                 >
 
                                     <div className='pt-2' onClick={() => {
@@ -282,7 +277,6 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                                         }
                                     </div>
 
-
                                 </GroupChat>)
                         })
                     }
@@ -302,7 +296,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                                     width={'100%'}
                                 />
                                 <div className='d-flex justify-content-end'>
-                                    <ImageDownloadButton Url={each} title={each} className={'fa fa-download mr-5'} />
+                                    <ImageDownloadButton Url={each} title={each} className={'mr-5'} />
                                 </div>
                             </div>
                         ))
@@ -349,6 +343,7 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                 <div className="row justify-content-end">
                     <div className="col-md-5 col-lg-3 ">
                         <Button
+                            className={'text-white'}
                             block
                             text={translate("order.Update")}
                             onClick={proceedEditHandler}
@@ -361,16 +356,27 @@ function GroupMessage({selectedGroup }: GroupMessageProps) {
                 <div>
                     <div className="h4"> {translate("errors.Are you sure you want to delete?")} </div>
                     <div className="row d-flex justify-content-end">
-                        <Button text={translate('common.delete')}
+                        <Button className={'text-white'} text={'Delete'}
                             onClick={proceedDeleteHandler}
                         />
                     </div>
                 </div>
+            </Modal>
+
+
+            <Modal size={'sm'} isOpen={userModal.visible} onClose={userModal.hide}>
+
+                <ProfileCard
+                    coverPhoto={user_details?.profile_photo}
+                    profilePhoto={user_details?.profile_photo}
+                    name={user_details?.name}
+                    department={user_details?.department}
+                    designation={user_details?.designation}
+                    company={raised_by_company?.display_name}
+                />
 
             </Modal>
         </>
-
-
     );
 }
 

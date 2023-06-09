@@ -27,6 +27,7 @@ import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getVali
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
 import { icons } from "@Assets";
 import { Employees, GroupEmployeeList } from '@Modules'
+import moment from "moment";
 
 
 
@@ -37,19 +38,17 @@ function TaskGroup() {
     taskGroups,
     taskGroupCurrentPages,
     taskGroupNumOfPages,
-    selectedGroupChatCode
+    selectedGroupChatCode,
+    dashboardDetails
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-console.log(taskGroups,"taskGroups")
+  const { company } = dashboardDetails || ''
+
   const dynamicHeight: any = useDynamicHeight()
   useEffect(() => {
     getGroupEmployees()
   }, [selectedGroupChatCode])
-  console.log('selectedGroupChatCode', JSON.stringify(selectedGroupChatCode));
-
-
-
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
     ...(is_parent ? [{ id: '1', name: "Create Sub Group", icon: icons.addSub }] : []),
@@ -57,7 +56,6 @@ console.log(taskGroups,"taskGroups")
     ...(is_parent ? [{ id: '4', name: "Add Member ", icon: icons.addSub }] : []),
   ]
   const [showTaskGroup, setShowTaskGroup] = useState(false);
-
   const [inCludeSubGroup, setIncludeSubGroup] = useState(false)
   const addTaskGroupModal = useModal(false);
   const [loading,setLoading] =useState(false)
@@ -83,21 +81,21 @@ console.log(taskGroups,"taskGroups")
   const [taggedUsers, setTaggedUsers] = useState([])
   const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
   const [addGroupId,setGroupId]=useState<any>()
-
   const startDate = new Date(startTimeEta)
   const startTime = startDate.getHours()
+  const [date, setDate] = useState<any>(moment().format())
+  const [endDate, setEndDate] = useState<any>(moment().format())
 
 
   const handleStartTimeEtaChange = (value: any) => {
     setStatTimeEta(value)
+    setDate(value)
   };
 
   const handleEndTimeEtaChange = (value: any) => {
     setEndTimeEta(value)
+    setEndDate(value)
   };
-
-
-
 
   const getTaskGroupList = (page_number: number, include: boolean = inCludeSubGroup) => {
       setLoading(true)
@@ -131,13 +129,14 @@ console.log(taskGroups,"taskGroups")
       }
 
       const params = {
+        
         ...(selectedTaskGroup && { id: selectedTaskGroup.id }),
+        branch_id:company?.id,
         name: taskGroupName.value,
         description: taskGroupDescription.value,
         code: taskGroupCode.value.trim(),
         photo: updatedPhoto
       };
-
       const validation = validate(ADD_TASK_GROUP, params)
       if (ifObjectExist(validation)) {
         dispatch(
@@ -196,6 +195,7 @@ console.log(taskGroups,"taskGroups")
       const params = {
         name: convertToUpperCase(subTaskGroupName.value),
         description: convertToUpperCase(subTaskGroupDescription.value),
+        branch_id:company?.id,
         code: subTaskGroupCode.value.trim(),
         photo: updatedPhoto,
         parent_id: selectedSubTaskGroup?.id,
@@ -341,7 +341,7 @@ console.log(taskGroups,"taskGroups")
           }
           else if (el.id === '4') {
             const { id } = taskGroup
-            console.log(taskGroup,"eeeee")
+           
             // addGroupUsers(id)
             addMemberModal.show()
             setGroupId(taskGroup.id)
@@ -537,9 +537,6 @@ console.log(taskGroups,"taskGroups")
           />
         </div>
       </Modal>
-
-
-
       <Modal
         isOpen={addSubTaskGroupModal.visible}
         onClose={() => {
@@ -577,6 +574,7 @@ console.log(taskGroups,"taskGroups")
                 type="both"
                 initialValue={(getMomentObjFromServer(startTimeEta))}
                 onChange={handleStartTimeEtaChange}
+                value={date ? getMomentObjFromServer(date) : null!}
               />
             </div>
             <div className="col-6">
@@ -585,6 +583,7 @@ console.log(taskGroups,"taskGroups")
                 initialValue={(getMomentObjFromServer(endTimeEta))}
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
+                value={endDate ? getMomentObjFromServer(endDate) : null!}
               />
             </div>
           </div>

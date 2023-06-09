@@ -892,4 +892,15 @@ export const setSelectedTaskGroupCode = (value: any) => {
   };
 };
 
+/**
+ * refresh Group Chat
+ */
+
+
+export const refreshGroupChat = () => {
+  return {
+      type: ActionTypes.REFRESH_GROUP_CHAT,
+  }
+}
+
 

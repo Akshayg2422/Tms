@@ -30,11 +30,14 @@ import {
     type,
     validate,
     PRIORITY,
+    getMomentObjFromServer,
+    getDropDownCompanyDisplayData,
+    getDropDownDisplayData
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
-import { text } from "stream/consumers";
+import moment from "moment";
 
 function AddTask() {
 
@@ -42,7 +45,7 @@ function AddTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations } = useSelector(
+    const { dashboardDetails, departments, designations , associatedCompaniesL } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { subTaskGroups } = useSelector(
@@ -54,7 +57,7 @@ function AddTask() {
     const referenceNo = useInput("");
     const [taskType, setTaskType] = useState(type[1]);
     const [disableTaskType, setDisableTaskType] = useState([]);
-    const [companies, setCompanies] = useState([])
+    // const [companies, setCompanies] = useState([])
     const [companyUsers, setCompanyUsers] = useState([])
 
 
@@ -71,6 +74,7 @@ function AddTask() {
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
     let attach = photo.slice(-selectNoPickers)
+    const [date, setDate] = useState<any>(moment().format())
 
     useEffect(() => {
         getAssociatedCompaniesApi();
@@ -104,7 +108,8 @@ function AddTask() {
         const params = {
             branch_id: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
-            ...(designation && { designation_id: designation?.value?.id })
+            ...(designation && { designation_id: designation?.value?.id }),
+            per_page_count: -1,
         };
 
         dispatch(
@@ -173,16 +178,18 @@ function AddTask() {
                 onSuccess: (response: any) => () => {
                     const companies = response.details
                     if (companies && companies.length > 0) {
-                        const displayCompanyDropdown = companies.map(each => {
-                            const { id, display_name } = each
-                            return {
-                                id: id, text: display_name, name: display_name,
-                            }
-                        })
-                        setCompanies(displayCompanyDropdown)
+                        // const displayCompanyDropdown = companies.map(each => {
+                        //     const { id, display_name } = each
+                        //     return {
+                        //         id: id, text: display_name, name: display_name,
+                        //     }
+                        // })
+                        // setCompanies(displayCompanyDropdown)
                         setDisableTaskType([]);
 
-                    } else {
+                    }
+                    
+                    else {
                         setTaskType(type[1]);
                         setDisableTaskType([type[0]] as never);
                     }
@@ -246,16 +253,17 @@ function AddTask() {
         }))
     }
 
-    function getDropDownDisplayData(data: any, key: string = 'name') {
-        if (data && data.length > 0) {
-            return data.map(each => {
-                return { ...each, text: each[key] }
-            })
-        }
-    }
+    // function getDropDownDisplayData(data: any, key: string = 'name') {
+    //     if (data && data.length > 0) {
+    //         return data.map(each => {
+    //             return { ...each, text: each[key] }
+    //         })
+    //     }
+    // }
 
     const handleEtaChange = (value: any) => {
         setEta(value);
+        setDate(value)
     };
 
 
@@ -325,19 +333,6 @@ function AddTask() {
                 </div> */}
 
 
-                {/* <div className="row pb-3">
-                <ImagePicker
-                    icon={image}
-                    // noOfFileImagePickers={1}
-                    size='xl'
-                    onSelect={(image) => {
-                        let file = image.toString().replace(/^data:(.*,)?/, "")
-                    }}
-                    heading={translate("common.addAttachment")!}
-                />
-
-            </div> */}
-
 
                 <Input
 
@@ -385,7 +380,7 @@ function AddTask() {
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={translate('order.Select a company')!}
-                        data={getDropDownDisplayData(companies)}
+                        data={getDropDownCompanyDisplayData( associatedCompaniesL )}
                         onChange={(item) => {
                             company.onChange(item)
                         }}
@@ -440,14 +435,15 @@ function AddTask() {
                 />
                 }
 
-
                 <DateTimePicker
                     heading={'ETA'}
                     id="eta-picker"
                     placeholder={'Select ETA'}
                     type="both"
                     onChange={handleEtaChange}
-                />
+                    value={date ? getMomentObjFromServer(date) : null!}
+                    
+                         />
             </div>
 
 

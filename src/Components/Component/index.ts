@@ -20,6 +20,7 @@ export * from './Alert'
 export * from './Collapse'
 export * from './GroupChat'
 export * from './ImageDownloadButton'
+export * from './ProfileCard'
 
 
 

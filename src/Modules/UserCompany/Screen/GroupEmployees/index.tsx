@@ -161,9 +161,11 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
             <Modal fade={false} isOpen={addUserModal.visible} onClose={addUserModal.hide} style={{ maxHeight: '90vh' }}>
                 <GroupEmployeeList selection={'multiple'}
                     defaultSelect={defaultSelectedUsers}
+                    selectedCode={groupCode}
                     onSelected={(users) => {
                         const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
                         setTaggedUsers(taggedUserIds)
+
                     }} />
                 <div className="pt-3 mr-2 text-right">
                     <Button

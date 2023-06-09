@@ -162,15 +162,15 @@ function TaskChat({ }: TaskChatProps) {
                                         }
                                     </div>
                                 </div>
-                                
-                                <div>
-                                        {
-                                            imageUrls && imageUrls.length > 0 && (
-                                                <ImageDownloadButton Url={imageUrls} title={title} />
-                                            )
 
-                                        }
-                                    </div>
+                                <div>
+                                    {
+                                        imageUrls && imageUrls.length > 0 && (
+                                            <ImageDownloadButton Url={imageUrls} title={title} />
+                                        )
+
+                                    }
+                                </div>
                             </TimeLine>)
                     })
                 }
@@ -178,17 +178,17 @@ function TaskChat({ }: TaskChatProps) {
 
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
                 <div className={'mb--6 mt--5 mx--2'}>
-                <Carousel >
-                    {
-                        image.map(each => {
-                            return <Image
-                                className='ml-1 mb-1'
-                                src={each}
-                                style={{ height: '450px', width: '850px' }}
-                            />
-                        })
-                    }
-                </Carousel>
+                    <Carousel >
+                        {
+                            image.map(each => {
+                                return <Image
+                                    className='ml-1 mb-1'
+                                    src={each}
+                                    style={{ height: '450px', width: '850px' }}
+                                />
+                            })
+                        }
+                    </Carousel>
                 </div>
             </Modal>
         </div>

@@ -195,8 +195,6 @@ function Companies() {
                 size={'sm'}
                 text={translate("common.submit")}
                 onClick={() => {
-                  console.log('caadsas');
-
                   addAssociatedCompanyApi()
                 }} />
             </div>
