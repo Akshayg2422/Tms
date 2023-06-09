@@ -69,8 +69,8 @@ function AddTicket() {
     const [, setDesignations] = useState([])
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
-    const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
-    const [loading,setLoading] = useState(false)
+    const [selectNoOfPickers, setSelectNoOfPickers] = useState<any>()
+    const [loading, setLoading] = useState(false)
     let attach = photo.slice(-selectNoOfPickers)
 
 
@@ -80,7 +80,7 @@ function AddTicket() {
 
     useEffect(() => {
         getCompanyEmployeeApi()
-        
+
     }, [designation.value, department.value])
 
 
@@ -94,7 +94,7 @@ function AddTicket() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = ( file: any) => {
+    const handleImagePicker = (file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
@@ -137,9 +137,9 @@ function AddTicket() {
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             ticket_attachments: [{ attachments: attach }],
-             eta_time: eta,
+            eta_time: eta,
         };
-        console.log('==========>',params )
+        console.log('==========>', params)
 
 
         const validation = validate(ticketType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
@@ -344,19 +344,19 @@ function AddTicket() {
                     />} */}
 
 
-{ getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&  <AutoSearchInput 
+                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && <AutoSearchInput
                     heading={translate("common.user")!}
                     placeholder={translate('order.please select a user')!}
                     data={companyUsers}
                     variant={true}
-                    onSelect={( item)=>{
+                    onSelect={(item) => {
                         // setSelectedUser(item.name);
                         setSelectedUserId(item)
-                    
-                    }}
-                
 
-                    />
+                    }}
+
+
+                />
                 }
 
 
@@ -400,34 +400,35 @@ function AddTicket() {
                         })}
                 </div>
             </div> */}
-  <div className="col-auto pb-2 mt--2">
+            <div className="col-auto pb-2 mt--2">
                 <div className="row">
-                <ImagePicker
-                    icon={image}
-                    size='xl'
-                    heading={translate("common.addAttachment")!}
-                    noOfFileImagePickers={4}
-                    onSelect={(image) => {
-                        
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
-                    }}
-                    onSelectImagePicker={(el)=>{
-                        setSelectNoOfPickers(el?.length)
+                    <ImagePicker
+                        icon={image}
+                        size='xl'
+                        heading={translate("common.addAttachment")!}
+                        noOfFileImagePickers={4}
+                        onSelect={(image) => {
 
-                    }}
-                />
+                            let file = image.toString().replace(/^data:(.*,)?/, "")
+                            handleImagePicker(file)
+                        }}
+                        onSelectImagePicker={(el) => {
+                            setSelectNoOfPickers(el?.length)
+
+                        }}
+                    />
 
                 </div>
-                </div>
+            </div>
 
             <div className="col mt-4">
-                <Button
-                    text={loading ? 'Loading...' :translate("common.submit")}
-                    onClick={submitTicketHandler}
-                    disabled={loading}
-                />
-            </div> 
+
+                <LoadingButton size={'md'}
+                    text={translate('common.submit')}
+                    loading={loading}
+                    onClick={submitTicketHandler} />
+
+            </div>
 
             {/* <div className="col mt-4">
                 <LoadingButton text={translate('common.submit')} 
