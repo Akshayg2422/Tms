@@ -230,6 +230,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                             const renderDate = (date !== previousDate) ? date : '';
                             previousDate = date;
+                            console.log('previousDate------------>',previousDate)
                             const startDay = getCurrentDayAndDate(renderDate);
 
 
