@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
-import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back } from "@Components";
+import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back, Spinner } from "@Components";
 import { useInput, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE, INITIAL_PAGE } from "@Utils";
 import { translate } from "@I18n";
@@ -14,7 +14,7 @@ function AddReferenceTask() {
   const { tasks, dashboardDetails, selectedTask, referencesTasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
   const { goBack } = useNavigation();
-
+  const [loading, setLoading] = useState(false)
   const search = useInput("");
 
   useEffect(() => {
@@ -23,7 +23,7 @@ function AddReferenceTask() {
 
 
   const addReferenceTaskHandler = () => {
-
+    
     const params = {
       id: selectedTask?.id,
       event_type: RTS,
@@ -41,9 +41,11 @@ function AddReferenceTask() {
               goBack()
               showToast(response.message, "success");
             }
+            // setLoading(false)
           },
           onError: (error) => () => {
             showToast(error.error_message);
+            
           },
         })
       );
@@ -75,6 +77,7 @@ function AddReferenceTask() {
 
 
   const getTasksApiHandler = (page_number: number, q_many: string = search.value) => {
+    setLoading(true)
     const params = {
       q_many,
       page_number,
@@ -87,8 +90,11 @@ function AddReferenceTask() {
       getTasks({
         params,
         onSuccess: () => () => {
+          setLoading(false)
         },
-        onError: () => () => { },
+        onError: () => () => {
+          setLoading(false)
+         },
       })
     );
   };
@@ -130,7 +136,14 @@ function AddReferenceTask() {
         </div>
 
         <div>
-          {tasks && tasks.length > 0 ? <CommonTable title={translate("auth.task")}
+          {
+            loading && (
+              <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px',marginTop:'250px'}}>
+                <Spinner />
+              </div>
+            )
+          }
+          {!loading && tasks && tasks.length > 0 ? <CommonTable title={translate("auth.task")}
             isPagination
             tableDataSet={tasks}
             currentPage={taskCurrentPages}

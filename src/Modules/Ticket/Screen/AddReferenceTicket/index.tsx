@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets } from "@Redux";
-import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back } from "@Components";
+import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back, Spinner } from "@Components";
 import { useInput, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, paginationHandler, SEARCH_PAGE, INITIAL_PAGE, ADD_REFERENCE_TICKET } from "@Utils";
 import { translate } from "@I18n";
@@ -16,7 +16,7 @@ function AddReferenceTicket() {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const [selectedReferenceTicket, setSelectedReferenceTicket] = useState([...referenceTickets])
   const { goBack } = useNavigation();
-
+  const [loading, setLoading] = useState(false)
   const search = useInput("");
 
   useEffect(() => {
@@ -75,8 +75,9 @@ function AddReferenceTicket() {
   };
 
 
-
+  
   const getTicketsApiHandler = (page_number: number, q_many: string = search.value) => {
+    setLoading(true)
     const params = {
       q_many,
       page_number,
@@ -88,8 +89,11 @@ function AddReferenceTicket() {
       getTickets({
         params,
         onSuccess: () => () => {
+          setLoading(false)
         },
-        onError: () => () => { },
+        onError: () => () => { 
+          setLoading(false)
+        },
       })
     );
   };
@@ -135,7 +139,14 @@ function AddReferenceTicket() {
         </div>
 
         <div>
-          {tickets && tickets.length > 0 ? <CommonTable title={'Tickets'}
+        {
+            loading && (
+              <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px',marginTop:'250px'}}>
+                <Spinner />
+              </div>
+            )
+          }
+          {!loading && tickets && tickets.length > 0 ? <CommonTable title={'Tickets'}
             isPagination
             tableDataSet={tickets}
             currentPage={ticketCurrentPages}

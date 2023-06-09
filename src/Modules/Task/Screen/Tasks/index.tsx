@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, HomeContainer, NoDataFound } from "@Components";
+import { Button, HomeContainer, NoDataFound, Spinner } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
@@ -17,10 +17,12 @@ function Tasks() {
   const { company } = dashboardDetails || ''
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const { goTo } = useNavigation();
+  const [loading, setLoading] = useState(false);
 
 
 
   useEffect(() => {
+
     getTaskHandler(taskCurrentPages)
   }, [params])
 
@@ -41,13 +43,16 @@ function Tasks() {
   }
 
   const getTaskHandler = (page_number: number) => {
+    setLoading(true);
     const updatedParams = { ...taskParams, page_number }
     dispatch(
       getTasks({
         params: updatedParams,
         onSuccess: () => () => {
+          setLoading(false);
         },
         onError: () => () => {
+          setLoading(false);
         },
       })
     );
@@ -119,7 +124,6 @@ function Tasks() {
 
   return (
     <div className="mx-3 mt-3">
-
       <div className="d-flex justify-content-end">
         <Button
           className="text-white"
@@ -137,19 +141,22 @@ function Tasks() {
             console.log(params,"===>0p")
             dispatch(setTaskParams({ ...taskParams, group: code }))
             setParams({ ...params, group: code } as any)
-          }} /> 
+          }} />
         </div>
       </div>
-
       <HomeContainer type={'card'}>
         <TaskFilter onParams={(filteredParams) => {
           dispatch(setTaskParams({ ...taskParams, ...filteredParams }))
           setParams({ ...params, ...filteredParams })
         }} />
-        <div style={{
-          marginLeft: "-23px",
-          marginRight: "-23px"
-        }}>
+        {loading && (
+          <div className="d-flex align-items-center justify-content-center" style={{ minHeight: '200px' }}>
+            <Spinner />
+          </div>
+        )}
+        
+        {!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
+
           {tasks && tasks.length > 0 ?
             <CommonTable
               isPagination
@@ -178,10 +185,11 @@ function Tasks() {
             :
             <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
           }
-        </div>
+        </div>}
+
+
       </HomeContainer>
 
-     
     </div>
 
   );

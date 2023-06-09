@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -7,7 +7,7 @@ import {
     setSelectedCompany
 } from "@Redux";
 import { useDropDown, useModal, useNavigation } from '@Hooks';
-import { Card, CommonTable, Button, Image, SearchInput } from '@Components';
+import { Card, CommonTable, Button, Image, SearchInput, Spinner } from '@Components';
 import { translate } from "@I18n";
 import { HOME_PATH, ROUTES } from '@Routes';
 import { getPhoto, paginationHandler } from '@Utils';
@@ -17,9 +17,9 @@ function EmployeesList() {
 
     const { goTo, goBack } = useNavigation()
     const dispatch = useDispatch()
-
+    const [loading, setLoading] = useState(false)
     const { employees, employeesCurrentPages, employeesNumOfPages, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-   
+
     const { company_branch } = dashboardDetails || ''
 
 
@@ -28,19 +28,22 @@ function EmployeesList() {
     }, []);
 
 
-    function getCompanyEmployeesApi(page_number: number,q_many:string = '') {
-
+    function getCompanyEmployeesApi(page_number: number, q_many: string = '') {
+        setLoading(true)
         const params = {
             branch_id: company_branch?.id,
             q_many,
             page_number,
-            
+
         };
         dispatch(getEmployees({
             params,
             onSuccess: (response) => () => {
+                setLoading(false)
             },
-            onError: () => () => { }
+            onError: () => () => {
+                setLoading(false)
+            }
         }));
     }
 
@@ -67,6 +70,13 @@ function EmployeesList() {
     return (
         <div>
             <div className='pt-3'>
+                {
+                    loading && (
+                        <div className='d-flex justify-content-center align-item-center' style={{ minHeight: '200px', marginTop: '250px' }}>
+                            <Spinner />
+                        </div>
+                    )
+                }
                 <CommonTable card title=
                     {
                         <div className={'row justify-content-between'}>
@@ -74,8 +84,8 @@ function EmployeesList() {
                                 {company_branch?.name}
                             </div>
                             <div className='col-4 text-right'>
-                                <SearchInput onSearch={(search:any) => {
-                                    getCompanyEmployeesApi(employeesCurrentPages,search)
+                                <SearchInput onSearch={(search: any) => {
+                                    getCompanyEmployeesApi(employeesCurrentPages, search)
                                 }} />
                             </div>
 
@@ -89,9 +99,9 @@ function EmployeesList() {
                     }
                     isPagination
 
-                    tableDataSet={employees} 
+                    tableDataSet={employees}
                     displayDataSet={normalizedTableData(employees)}
-                    noOfPage={ employeesNumOfPages}
+                    noOfPage={employeesNumOfPages}
                     currentPage={employeesCurrentPages}
                     tableOnClick={(id, index, item) => {
                         dispatch(setSelectedEmployee(item));

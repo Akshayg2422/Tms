@@ -9,6 +9,7 @@ import {
   Input,
   Modal,
   NoRecordsFound,
+  Spinner,
   showToast,
 
 } from "@Components";
@@ -33,9 +34,10 @@ function BrandSector() {
   const [showSector, setShowSector] = useState(false);
   const addSectorModal = useModal(false);
   const sector = useInput('')
-
+  const [loading, setLoading] = useState(false)
 
   const getBrandSectorList = (page_number: number) => {
+    setLoading(true)
     const params = {
       page_number
     };
@@ -44,9 +46,10 @@ function BrandSector() {
       getBrandSector({
         params,
         onSuccess: (success: any) => () => {
+          setLoading(false)
         },
         onError: (error: string) => () => {
-
+          setLoading(false)
         },
       })
     );
@@ -131,6 +134,13 @@ function BrandSector() {
             marginLeft: "-23px",
             marginRight: "-23px"
           }}>
+          {
+            loading && (
+              <div className='d-flex justify-content-center align-item-center' style={{ marginTop: '200px' }}>
+                <Spinner />
+              </div>
+            )
+          }
           {brandSector && brandSector?.length > 0 ? (
             <CommonTable
               isPagination
