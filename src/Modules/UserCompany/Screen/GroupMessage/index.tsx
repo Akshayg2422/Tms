@@ -53,7 +53,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
             group_id: selectedGroup,
             page_number
         }
-
         if (selectedGroup) {
             dispatch(
                 getGroupMessage({

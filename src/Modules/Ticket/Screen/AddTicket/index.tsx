@@ -9,7 +9,8 @@ import {
     AutoCompleteDropDownImage,
     Card,
     Back,
-    ImagePicker
+    ImagePicker,
+    AutoCompleteDropDownSearch
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -28,11 +29,15 @@ import {
     type,
     validate,
     PRIORITY,
+    getMomentObjFromServer,
+    getDropDownDisplayData,
+    getDropDownCompanyDisplayData,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
 import AutoSearchInput from "@Components//Core/AutoSearchInput";
+import moment from "moment";
 
 function AddTicket() {
 
@@ -41,7 +46,7 @@ function AddTicket() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations } = useSelector(
+    const { dashboardDetails, departments, designations ,associatedCompaniesL} = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     // const { ticketGroups } = useSelector(
@@ -53,7 +58,7 @@ function AddTicket() {
     const referenceNo = useInput("");
     const [ticketType, setTicketType] = useState(type[1]);
     const [disableTicketType, setDisableTicketType] = useState([]);
-    const [companies, setCompanies] = useState([])
+    // const [companies, setCompanies] = useState([])
     const [companyUsers, setCompanyUsers] = useState([])
 
     const [photo, setPhoto] = useState<any>([]);
@@ -61,7 +66,7 @@ function AddTicket() {
     const designation = useDropDown({})
     const company = useDropDown({})
     // const ticketGroup = useDropDown({})
-    const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
+    // const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
@@ -70,6 +75,7 @@ function AddTicket() {
     const [eta, setEta] = useState("")
     const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
     let attach = photo.slice(-selectNoOfPickers)
+    const [date, setDate] = useState<any>(moment().format())
 
 
     useEffect(() => {
@@ -102,11 +108,9 @@ function AddTicket() {
         const params = {
             branch_id: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
-            ...(designation && { designation_id: designation?.value?.id })
+            ...(designation && { designation_id: designation?.value?.id }),
+            per_page_count: -1,
         };
-
-
-        console.log('getCompanyEmployeeApi=====>' + JSON.stringify(params));
 
         dispatch(
             getEmployees({
@@ -134,14 +138,16 @@ function AddTicket() {
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             ticket_attachments: [{ attachments: attach }],
+            ...(department && { department_id: department?.value?.id }),
+            ...(designation && { designation_id: designation?.value?.id }),
              eta_time: eta,
         };
-        console.log('==========>',params )
+       
 
 
         const validation = validate(ticketType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
-            console.log('=======><')
+           
             dispatch(
                 raiseNewTicket({
                     params,
@@ -150,7 +156,7 @@ function AddTicket() {
                             goBack();
                             showToast(response.message, "success");
                         }
-                        console.log('+++++++++++')
+                    
                     },
                     onError: (error) => () => {
                         showToast(error.error_message);
@@ -172,13 +178,13 @@ function AddTicket() {
                 onSuccess: (response: any) => () => {
                     const companies = response.details
                     if (companies && companies.length > 0) {
-                        const displayCompanyDropdown = companies.map(each => {
-                            const { id, display_name } = each
-                            return {
-                                id: id, text: display_name, name: display_name,
-                            }
-                        })
-                        setCompanies(displayCompanyDropdown)
+                        // const displayCompanyDropdown = companies.map(each => {
+                        //     const { id, display_name } = each
+                        //     return {
+                        //         id: id, text: display_name, name: display_name,
+                        //     }
+                        // })
+                        // setCompanies(displayCompanyDropdown)
                         setDisableTicketType([]);
 
                     } else {
@@ -231,16 +237,17 @@ function AddTicket() {
 
 
 
-    function getDropDownDisplayData(data: any, key: string = 'name') {
-        if (data && data.length > 0) {
-            return data.map(each => {
-                return { ...each, text: each[key] }
-            })
-        }
-    }
+    // function getDropDownDisplayData(data: any, key: string = 'name') {
+    //     if (data && data.length > 0) {
+    //         return data.map(each => {
+    //             return { ...each, text: each[key] }
+    //         })
+    //     }
+    // }
 
     const handleEtaChange = (value: any) => {
         setEta(value);
+        setDate(value)
     };
 
 
@@ -292,7 +299,7 @@ function AddTicket() {
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={translate('order.Select a company')!}
-                        data={companies}
+                        data={ getDropDownCompanyDisplayData(associatedCompaniesL)}
                         onChange={(item) => {
                             company.onChange(item)
                         }}
@@ -312,7 +319,7 @@ function AddTicket() {
                 }
 
                 {getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
-                    heading={translate('auth.description')}
+                    heading={translate("common.department")!}
                     placeHolder={translate('order.Select a Designation')!}
                     data={getDropDownDisplayData(designations)}
                     onChange={(item) => {
@@ -368,6 +375,7 @@ function AddTicket() {
                     placeholder={'Select ETA'}
                     type="both"
                     onChange={handleEtaChange}
+                    value={date ? getMomentObjFromServer(date) : null!}
                 />
             </div>
 

@@ -7,7 +7,8 @@ import {
     showToast,
     MultiSelectDropDown,
     Back,
-    DateTimePicker
+    DateTimePicker,
+    ImagePicker
 } from "@Components";
 import { translate } from "@I18n";
 import { getAssociatedCompanyBranch, addEvent } from "@Redux";
@@ -43,6 +44,7 @@ function AddEvent() {
     const [internalCheck, setInternalCheck] = useState(true)
     const [externalCheck, setExternalCheck] = useState(false)
     const [isExternalDisable, setExternalDisable] = useState(false)
+    const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
 
 
 
@@ -55,12 +57,11 @@ function AddEvent() {
     };
 
 
-    let attach = [photo]
-    let PhotoAttach = photo.slice(-2, 4)
+    let attach = photo.slice(-selectedNoOfPickers)
 
-    const handleImagePicker = (index: number, file: any) => {
-        let newUpdatedPhoto = [...photo, file];
-        setPhoto(newUpdatedPhoto);
+    const handleImagePicker = ( file: any) => {
+      let newUpdatedPhoto = [...photo, file];
+      setPhoto(newUpdatedPhoto);
     };
 
 
@@ -79,7 +80,7 @@ function AddEvent() {
             }),
             ...(internalCheck && { for_internal_company: true }),
             ...(externalCheck && { for_external_company: true }),
-            event_attachments: [{ attachments: PhotoAttach }],
+            event_attachments: [{ attachments:  attach }],
         };
 
         const validation = validate(externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);
@@ -221,13 +222,13 @@ function AddEvent() {
                 </div>
 
 
-                <div className="col">
+                {/* <div className="col">
                     <label className={`form-control-label`}>
                         {translate("common.attach")}
                     </label>
-                </div>
+                </div> */}
 
-                <div className="col-md-9 col-lg-7 pb-4 ">
+                {/* <div className="col-md-9 col-lg-7 pb-4 row ">
                     {selectDropzone &&
                         selectDropzone.map((el: any, index: number) => {
                             return (
@@ -243,7 +244,28 @@ function AddEvent() {
                                 />
                             );
                         })}
+                </div> */}
+
+                <div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                    size='xl'
+                    heading= {translate("auth.attach")!}
+                    noOfFileImagePickers={1}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker(file)
+                    }}
+                    onSelectImagePicker={(el)=>{
+                      setSelectedNoOfPickers(el?.length)
+
+                    }}
+                />
+
                 </div>
+              
+
+            </div>
 
                 <div className="row justify-content-end">
                     <div className="col-md-6 col-lg-4 ">

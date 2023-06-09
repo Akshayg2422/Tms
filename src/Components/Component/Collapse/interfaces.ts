@@ -9,6 +9,7 @@ export interface AuthContainerProps {
     onClick?:any;
     childrenS?: React.ReactNode;
     selectedIds?:any;
-    selectedId?:string
+    selectedId?:string;
+    selectButton?:boolean;
   }
   

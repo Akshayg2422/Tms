@@ -83,6 +83,8 @@ const ImagePicker = ({
         quality: 0.6,
         success: (file) => {
           const reader = new FileReader();
+
+          console.log(file,"pppppp")
       reader.onload = (e) => {
 
         if (onSelect && e.target) {
