@@ -9,7 +9,7 @@ import {
 import { AuthContainerProps } from "./interfaces";
 import { NoRecordsFound, Table, Button } from '@Components';
 
-function CollapseButton({ title, children, displayDataSet, tableDataSet, tableOnClick, text, onClick, childrenS, selectedIds, selectedId }: AuthContainerProps) {
+function CollapseButton({ title, children, displayDataSet, tableDataSet, tableOnClick, text, onClick, childrenS, selectedIds, selectedId , selectButton=true}: AuthContainerProps) {
   const [openedCollapses, setOpenedCollapses] = useState<any>([selectedId])
 let currentDate=new Date()
   let currentDay=currentDate.getDate()
@@ -60,9 +60,10 @@ const formattedDate = `${month} ${date}, ${year}`
             <div className='col'>
              { formattedDate}
             </div>
-            <div className='col-auto mr-4'>
+          {selectButton &&  <div className='col-auto mr-4'>
               <Button className={'text-white'} text={text} size='sm' onClick={onClick} />
             </div>
+}
           </div>
         </CardHeader>
 

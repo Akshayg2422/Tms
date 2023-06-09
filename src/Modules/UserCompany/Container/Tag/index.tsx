@@ -10,6 +10,7 @@ import {
   Dropzone,
   Image,
   ImagePicker,
+  Spinner,
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -31,9 +32,11 @@ function Tag() {
   const [tagName, setTagName] = useState("");
   const [tagPhoto, setTagPhoto] = useState("");
   const [tagCode, setTagCode] = useState('');
+  const [loading, setLoading] = useState(false)
   const [description, setDescription] = useState("");
-  const getTicketTagList = (page_number: number) => {
 
+  const getTicketTagList = (page_number: number) => {
+    setLoading(true)
     const params = {
       page_number
     };
@@ -42,15 +45,17 @@ function Tag() {
       getTicketTag({
         params,
         onSuccess: (success: any) => () => {
+          setLoading(false)
         },
         onError: (error: string) => () => {
+          setLoading(false)
         },
       })
     );
   };
 
   const addTicketTagApiHandler = () => {
-
+    
     const params = {
       name: tagName,
       description: description,
@@ -67,9 +72,11 @@ function Tag() {
             addTagsModal.hide()
             showToast(success.message, "success");
             getTicketTagList(INITIAL_PAGE);
+            
           },
           onError: (error: string) => () => {
             showToast('Tags is already exists');
+            
           },
         })
       );
@@ -109,6 +116,7 @@ function Tag() {
             <h3>{translate("auth.tag")}</h3>
           </div>
           <div className="text-right mr-3 ">
+
             <Button
               className={'text-white'}
               text={
@@ -116,14 +124,17 @@ function Tag() {
                   ? translate("course.hide")
                   : translate("course.view")
               }
+
               size={"sm"}
               onClick={() => {
                 setShowTags(!showTags)
                 if (!showTags) {
                   getTicketTagList(INITIAL_PAGE);
                 }
+
               }}
             />
+            
             <Button
               className={'text-white'}
               text={translate("product.addItem")}
@@ -142,6 +153,12 @@ function Tag() {
             marginRight: "-23px"
           }}
         >
+         {loading && (
+              <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px', marginTop: '200px' }}>
+                <Spinner />
+              </div>
+            )}
+
           {ticketTag && ticketTag?.length > 0 ? (
             <CommonTable
               isPagination
@@ -218,23 +235,23 @@ function Tag() {
           />
         </div> */}
         <div className="ml--2">
-             
-                <ImagePicker
-                  
-                    size='xl'
-                    noOfFileImagePickers={1}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        setTagPhoto(file)
-                    }}
-                    onSelectImagePicker={(el)=>{
-                        
 
-                    }}
-                />
-               
-                </div>
-        
+          <ImagePicker
+
+            size='xl'
+            noOfFileImagePickers={1}
+            onSelect={(image) => {
+              let file = image.toString().replace(/^data:(.*,)?/, "")
+              setTagPhoto(file)
+            }}
+            onSelectImagePicker={(el) => {
+
+
+            }}
+          />
+
+        </div>
+
         <div className="text-right">
           <Button
             color={"secondary"}

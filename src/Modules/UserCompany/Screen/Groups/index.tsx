@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { GroupMessage, AddMessage, GroupEmployees, TaskChatGroup } from '@Modules'
-import { Card, NoDataFound, } from '@Components'
+import { Card, ComponentLoader, NoDataFound, Spinner, } from '@Components'
 import { useSelector, useDispatch } from 'react-redux'
 import { setSelectedGroupChatCode, } from '@Redux'
 import { translate } from '@I18n'
@@ -24,13 +24,16 @@ function Groups() {
         <div className='m-3 v-100vh  '>
             <div className='mx-3 mt-3 mb-0 ' >
                 <TaskChatGroup onClick={(code) => { dispatch(setSelectedGroupChatCode(code)) }} showAll={false} />
+                
             </div>
 
             { chatGroups &&  chatGroups.length > 0 ? <div className='row'>
                 <div className='col-8' ref={ref}>
                     <Card>
                         <GroupMessage selectedGroup={selectedGroupChatCode?selectedGroupChatCode: chatGroups && chatGroups[0]?.id } />
-                        <AddMessage AddGroup={selectedGroupChatCode?selectedGroupChatCode:chatGroups &&chatGroups[0]?.id } />
+                        <AddMessage AddGroup={selectedGroupChatCode?selectedGroupChatCode:chatGroups && chatGroups[0]?.id } />
+                        {/* <ComponentLoader loading={true} children={undefined}/> */}
+                        
                     </Card>
 
                 </div>
@@ -44,7 +47,7 @@ function Groups() {
                     <NoDataFound text={translate('common.No Group Found')!} />
                 </div>
             }
-
+            
         </div >
     )
 }

@@ -13,6 +13,7 @@ function DateTimePicker({ id, heading, placeholder, type = 'date', format = "", 
 
             <ReactDatetime
                 {...rest}
+                
 
                 inputProps={
                     {

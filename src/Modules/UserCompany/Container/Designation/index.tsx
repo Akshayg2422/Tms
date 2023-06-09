@@ -12,6 +12,7 @@ import {
   NoRecordsFound,
   showToast,
   Checkbox,
+  Spinner,
 } from "@Components";
 import { translate } from "@I18n";
 
@@ -29,7 +30,7 @@ function Designation() {
   const isUserAdmin = dashboardDetails?.permission_details?.is_admin
   const isUserSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
 
-
+  const [loading,setLoading] = useState(false)
   const dispatch = useDispatch();
 
 
@@ -46,6 +47,7 @@ function Designation() {
 
 
   const getDesignationApiHandler = (page_number: number) => {
+    setLoading(true)
     const params = {
       page_number
     };
@@ -54,9 +56,10 @@ function Designation() {
       getDesignations({
         params,
         onSuccess: (response: any) => () => {
+          setLoading(false)
         },
         onError: (error: string) => () => {
-
+          setLoading(false)
         },
       })
     );
@@ -143,6 +146,7 @@ function Designation() {
           <div className="col">
             <h3>{translate("auth.designation")}</h3>
           </div>
+
           <div className="text-right mr-3 ">
             <Button
               className={'text-white'}
@@ -176,6 +180,13 @@ function Designation() {
             marginLeft: "-23px",
             marginRight: "-23px"
           }}>
+            {
+              loading && (
+                <div className='d-flex justify-content-center align-item-center' style={{marginTop:'200px'}}>
+                  <Spinner/>
+                </div>
+              )
+            }
           {designations && designations?.length > 0 ? (
             <CommonTable
               isPagination
