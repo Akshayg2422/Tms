@@ -32,7 +32,8 @@ import {
     PRIORITY,
     getMomentObjFromServer,
     getDropDownCompanyDisplayData,
-    getDropDownDisplayData
+    getDropDownDisplayData,
+    assignedToType
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,7 +46,7 @@ function AddTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations , associatedCompaniesL } = useSelector(
+    const { dashboardDetails, departments, designations, associatedCompaniesL } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { subTaskGroups } = useSelector(
@@ -188,7 +189,7 @@ function AddTask() {
                         setDisableTaskType([]);
 
                     }
-                    
+
                     else {
                         setTaskType(type[1]);
                         setDisableTaskType([type[0]] as never);
@@ -377,12 +378,30 @@ function AddTask() {
                         }}
                     />
                 </div>
+                <div className={'h4'} style={{ color: '#525f7f' }}>Assigned To :</div>
+
+                <div className="mb-1">
+                    <Radio
+                        data={assignedToType}
+                        selectItem={taskType}
+                        disableId={disableTaskType}
+                        onRadioChange={(selected) => {
+                            setSelectedUser('')
+                            company.onChange({})
+                            department.onChange({})
+                            designation.onChange({})
+                            if (selected) {
+                                setTaskType(selected);
+                            }
+                        }}
+                    />
+                </div>
 
                 {taskType && taskType?.id === "1" && (
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={translate('order.Select a company')!}
-                        data={getDropDownCompanyDisplayData( associatedCompaniesL )}
+                        data={getDropDownCompanyDisplayData(associatedCompaniesL)}
                         onChange={(item) => {
                             company.onChange(item)
                         }}
@@ -444,8 +463,8 @@ function AddTask() {
                     type="both"
                     onChange={handleEtaChange}
                     value={date ? getMomentObjFromServer(date) : null!}
-                    
-                         />
+
+                />
             </div>
 
 
