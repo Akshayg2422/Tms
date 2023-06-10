@@ -221,7 +221,8 @@ function AddTask() {
     function getDepartmentsApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            branch_id: getBranchId(),
+            per_page_count: -1
         }
 
 
@@ -238,7 +239,8 @@ function AddTask() {
     function getDesignationApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            branch_id: getBranchId(),
+            per_page_count: -1
         }
 
 
