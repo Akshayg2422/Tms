@@ -45,7 +45,7 @@ function AddTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations , associatedCompaniesL } = useSelector(
+    const { dashboardDetails, departments, designations, associatedCompaniesL } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { subTaskGroups } = useSelector(
@@ -106,7 +106,7 @@ function AddTask() {
     function getCompanyEmployeeApi() {
 
         const params = {
-            branch_id: getBranchId(),
+            code: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id }),
             per_page_count: -1,
@@ -140,7 +140,7 @@ function AddTask() {
             task_attachments: [{ attachments: attach }],
             is_parent: true,
             eta_time: eta,
-            group_id: taskGroup?.value?.id,
+            code: taskGroup?.value?.id,
             ...(department?.value?.id && { department_id: department.value.id }),
             ...(designation?.value?.id && { designation_id: designation.value.id })
 
@@ -188,7 +188,7 @@ function AddTask() {
                         setDisableTaskType([]);
 
                     }
-                    
+
                     else {
                         setTaskType(type[1]);
                         setDisableTaskType([type[0]] as never);
@@ -221,7 +221,7 @@ function AddTask() {
     function getDepartmentsApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            code: getBranchId()
         }
 
 
@@ -238,7 +238,7 @@ function AddTask() {
     function getDesignationApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            code: getBranchId()
         }
 
 
@@ -340,11 +340,19 @@ function AddTask() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-                <Input
+                {/* <Input
                     heading={translate("auth.description")}
                     value={description.value}
                     onChange={description.onChange}
-                />
+                /> */}
+                <div >
+                    <h4 className="">{translate('auth.description')}</h4>
+                    <textarea style={{ width: '358px', height: '50px' }}
+                        value={description.value}
+                        onChange={description.onChange}
+                        className="form-control form-control-sm" />
+                </div>
+
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}
@@ -380,7 +388,7 @@ function AddTask() {
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={translate('order.Select a company')!}
-                        data={getDropDownCompanyDisplayData( associatedCompaniesL )}
+                        data={getDropDownCompanyDisplayData(associatedCompaniesL)}
                         onChange={(item) => {
                             company.onChange(item)
                         }}
@@ -442,8 +450,8 @@ function AddTask() {
                     type="both"
                     onChange={handleEtaChange}
                     value={date ? getMomentObjFromServer(date) : null!}
-                    
-                         />
+
+                />
             </div>
 
 

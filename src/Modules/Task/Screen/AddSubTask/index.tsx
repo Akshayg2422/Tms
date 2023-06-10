@@ -98,7 +98,7 @@ function AddSubTask() {
     function getCompanyEmployeeApi() {
 
         const params = {
-            branch_id: getBranchId(),
+            code: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id })
         };
@@ -132,7 +132,7 @@ function AddSubTask() {
             task_attachments: [{ attachments: attach }],
             is_parent: false,
             eta_time: eta,
-            parent_id: selectedTask?.id
+            code: selectedTask?.id
         };
 
 
@@ -214,11 +214,18 @@ function AddSubTask() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-                <Input
+                {/* <Input
                     heading={translate("auth.description")}
                     value={description.value}
                     onChange={description.onChange}
-                />
+                /> */}
+                 <div >
+                    <h4 className="">{translate('auth.description')}</h4>
+                    <textarea style={{ width: '358px', height: '50px' }}
+                        value={description.value}
+                        onChange={description.onChange}
+                        className="form-control form-control-sm" />
+                </div>
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}

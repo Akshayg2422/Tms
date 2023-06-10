@@ -178,7 +178,7 @@ function Tasks() {
               tableOnClick={(idx, index, item) => {
                 dispatch(setSelectedTask(item));
                 dispatch(setSelectedTabPosition({ id: '1' }))
-                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id);
+                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code);
               }
               }
             />

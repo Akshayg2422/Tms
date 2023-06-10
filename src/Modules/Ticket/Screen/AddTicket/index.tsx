@@ -271,11 +271,18 @@ function AddTicket() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-                <Input
+                {/* <Input
                     heading={translate("auth.description")}
                     value={description.value}
                     onChange={description.onChange}
-                />
+                /> */}
+                <div >
+                    <h4 className="">{translate('auth.description')}</h4>
+                    <textarea style={{ width: '358px', height: '50px' }}
+                        value={description.value}
+                        onChange={description.onChange}
+                        className="form-control form-control-sm" />
+                </div>
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}

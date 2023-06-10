@@ -16,6 +16,7 @@ function ReferenceTasks() {
     (state: any) => state.TaskReducer
   );
 
+
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { goTo } = useNavigation()
   const { height } = useWindowDimensions()
@@ -30,7 +31,7 @@ function ReferenceTasks() {
     
     const params = {
       page_number,
-      task_id: id,
+      code: id,
       q: ""
     };
 
@@ -48,16 +49,17 @@ function ReferenceTasks() {
 
 
   const normalizedTableData = (data: any) => {
-
+  console.log('oooooo',)
     if (data && data.length > 0) {
-      return data?.map((el: any) => {
-        return {
-          issue: el.title,
-          "raised by": el?.by_user.name,
-          status: getStatusFromCode(dashboardDetails, el.task_status),
-          "raised by company": el?.raised_by_company?.name
-        };
-      });
+
+      // return data?.map((el: any) => {
+      //   return {
+      //     issue: el.title,
+      //     "raised by": el?.by_user.name,
+      //     status: getStatusFromCode(dashboardDetails, el.task_status),
+      //     "raised by company": el?.raised_by_company?.name
+      //   };
+      // });
     }
   };
 
@@ -92,7 +94,7 @@ function ReferenceTasks() {
           }
           tableOnClick={(e, index, item) => {
             dispatch(setSelectedTask(item))
-            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item.id)
+            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item.code)
           }}
 
         /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} isButton /></div>}

@@ -23,7 +23,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
     function getSubTasksApi() {
         const params = {
-            task_id: id
+            code: id
         }
 
         dispatch(getSubTasks({
@@ -36,15 +36,18 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     }
     const normalizedTableData = (data: any) => {
         if (data && data.length > 0) {
-            return data?.map((el: any) => {
-                return {
-                    "Sub task":
-                        <div className='row'>
-                            <Priority priority={el?.priority} />
-                            <span className="ml-2">{el?.title}</span>
-                        </div>
-                };
-            });
+
+            // return data?.map((el: any) => {
+            //     console.log('=========>data',data);
+                
+            //     return {
+            //         "Sub task":
+            //             <div className='row'>
+            //                 <Priority priority={el?.priority} />
+            //                 <span className="ml-2">{el?.title}</span>
+            //             </div>
+            //     };
+            // });
         }
         return []
     };
@@ -74,7 +77,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                         tableOnClick={(e, index, item) => {
                             dispatch(setSelectedTask(item))
                             dispatch(setSelectedTabPosition({ id: '1' }))
-                            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id)
+                            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
 
                         }}
                     /> :

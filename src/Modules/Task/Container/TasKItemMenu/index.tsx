@@ -53,7 +53,7 @@ function TaskItemMenu() {
 
         const params = {
             ...(taskEventParams && { ...taskEventParams }),
-            id: selectedTask.id
+            code: selectedTask.id
         };
 
 
@@ -78,7 +78,7 @@ function TaskItemMenu() {
     function proceedTaskStatusChangeHandler() {
         const params = {
             event_type: EVS,
-            taskstatus_changeto: status.value?.id,
+            taskstatus_changeto: status.value?.code,
             reason: taskStatusReason.value,
         }
         proceedAddTaskEvents(params)

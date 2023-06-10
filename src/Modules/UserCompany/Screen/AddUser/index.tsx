@@ -179,7 +179,7 @@ function AddUser() {
           value={department.value}
           onChange={department.onChange}
         />
-
+         
         <DropDown
           heading={translate('auth.designation')}
           data={getDropDownDisplayData(designations)}
@@ -187,6 +187,8 @@ function AddUser() {
           value={designation.value}
           onChange={designation.onChange}
         />
+
+        
 
         {/* <div >
           <label className={`form-control-label`}>

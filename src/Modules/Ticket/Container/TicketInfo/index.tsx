@@ -195,18 +195,19 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
              */}
             <Modal isOpen={editEtaModal.visible} onClose={() => { editEtaModal.hide() }} >
                 <div className="col-6">
+                <Input
+                        type={"text"}
+                        heading={translate("common.reason")}
+                        value={editEtaReason.value}
+                        onChange={editEtaReason.onChange}
+                    />
                     <DateTimePicker
                         heading={'ETA'}
                         initialValue={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
                         type="both"
                         onChange={setEta}
                     />
-                    <Input
-                        type={"text"}
-                        heading={translate("common.reason")}
-                        value={editEtaReason.value}
-                        onChange={editEtaReason.onChange}
-                    />
+                    
 
                 </div>
                 <div className="col text-right">

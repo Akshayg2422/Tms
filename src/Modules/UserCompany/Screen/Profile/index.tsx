@@ -1,4 +1,4 @@
-import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker,ImageDownloadButton, H, Radio} from "@Components";
+import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker,ImageDownloadButton, H, Radio, Back} from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
@@ -59,7 +59,7 @@ function Profile() {
 
   return (
     <>
-
+       
       <Card
         title={translate("common.Profile")}
         className="m-3"

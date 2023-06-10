@@ -18,6 +18,8 @@ const END_TASK = 2
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const { id } = useParams()
+
+
     const dispatch = useDispatch()
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
@@ -55,7 +57,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const editEtaSubmitApiHandler = () => {
 
         const params = {
-            id,
+            code,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
@@ -78,13 +80,13 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const getTaskDetailsHandler = () => {
         const params = {
-            task_id: id,
+           code : id,
         }
         dispatch(
             getTaskDetails({
                 params,
-                onSuccess: (success) => () => { },
-                onError: (error) => () => { }
+                onSuccess: () => () => { },
+                onError: () => () => { }
             })
         )
     }
@@ -94,7 +96,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
         const params = {
             ...(actionTask === START_TASK ? { event_type: 'ETS', start_time: currentTime } : { event_type: 'ETE', end_time: currentTime }),
-            id: taskDetails?.id,
+            code: taskDetails?.code,
         }
         dispatch(
             addTaskEvent({
@@ -113,7 +115,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     function editTaskDetailsHandler() {
         const params = {
-            id,
+            code,
             title: editTitle.value,
             description: editDescription.value,
             event_type: "TKE"
@@ -255,18 +257,21 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 }}
             >
                 <div className="col-6">
+
+                <Input
+                        type={"text"}
+                        heading={translate("common.note")}
+                        value={editEtaReason.value}
+                        onChange={editEtaReason.onChange}
+                    />
+
                     <DateTimePicker
                         heading={'ETA'}
                         initialValue={getDisplayTimeDateMonthYearTime(getMomentObjFromServer(eta))}
                         type="both"
                         onChange={setEta}
                     />
-                    <Input
-                        type={"text"}
-                        heading={translate("common.note")}
-                        value={editEtaReason.value}
-                        onChange={editEtaReason.onChange}
-                    />
+                    
 
                 </div>
                 <div className="col text-right">
@@ -289,12 +294,19 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         value={editTitle.value}
                         onChange={editTitle.onChange}
                     />
-                    <Input
+                    {/* <Input
                         type={"text"}
                         heading={translate("auth.description")}
                         value={editDescription.value}
                         onChange={editDescription.onChange}
-                    />
+                    /> */}
+                    <div >
+                    <h4 className="">{translate('auth.description')}</h4>
+                    <textarea style={{ width: '345px', height: '45px' }}
+                        value={editDescription.value}
+                        onChange={editDescription.onChange}
+                        className="form-control form-control-sm" />
+                </div>
                 </div>
                 <div className="text-right">
                     <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
