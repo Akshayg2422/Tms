@@ -32,6 +32,8 @@ export * from './ImagePicker'
 export * from './ComponentLoader'
 export * from './DateTimePickers'
 export * from './AutoCompleteDropDownSearch'
+export * from './AutoCompleteV2'
+
 
 
 
