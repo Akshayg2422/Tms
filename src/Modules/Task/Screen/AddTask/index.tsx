@@ -128,13 +128,13 @@ function AddTask() {
         const params = {
             title: title?.value,
             description: description?.value,
-            reference_number: referenceNo?.value,
+            ...(referenceNo?.value && {reference_number: referenceNo?.value}),
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
-            eta_time: eta,
+           ...(eta && {eta_time: eta}),
             group_id: taskGroup?.value?.id,
             ...(department?.value?.id && { department_id: department.value.id }),
             ...(designation?.value?.id && { designation_id: designation.value.id })
@@ -283,34 +283,6 @@ function AddTask() {
             </div>
 
             <div className="col-md-9 col-lg-5">
-
-                {/* <div className="col-md-9 col-lg-5 ml--1">
-                    <label className={`form-control-label ml--2`}>
-                        {translate("common.addAttachment")}
-                    </label>
-                    <span className="row">
-                        {selectDropzone &&
-                            selectDropzone.map((el, index) => {
-                                return (
-                                    <div className="mb-2" >
-                                        <Dropzone
-                                            variant="ICON"
-                                            icon={image}
-                                            size="xl"
-                                            onSelect={(image) => {
-                                                let file = image.toString().replace(/^data:(.*,)?/, "");
-                                                handleImagePicker(index, file);
-                                                { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
-                                                { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
-                                                { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
-                                            }}
-                                        />
-                                    </div>
-                                );
-                            })}
-                    </span>
-                </div> */}
-
 
 
                 <Input
