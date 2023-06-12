@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, HomeContainer, NoDataFound, Spinner, AutoCompleteV2 } from "@Components";
+import { Button, HomeContainer, NoDataFound, Spinner, AutoComplete } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
@@ -125,8 +125,6 @@ function Tasks() {
       <div className="row mt-3 mb-2">
         <div className="mx-3 col">
           <TaskGroups onClick={(code) => {
-            console.log(taskParams, "ttnkfnvknkn")
-            console.log(params, "===>0p")
             dispatch(setTaskParams({ ...taskParams, group: code }))
             setParams({ ...params, group: code } as any)
           }} />

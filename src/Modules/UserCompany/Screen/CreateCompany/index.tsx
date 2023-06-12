@@ -153,7 +153,7 @@ function CreateCompany({ }: CreateCompanyProps) {
                     // icon={image}
                     size='xl'
                     heading={translate("auth.logo")!}
-                    noOfFileImagePickers={1}
+                    noOfFileImagePickers={0}
                     onSelect={(image) => {
                         let file =image.toString().replace(/^data:(.*,)?/, "")
                         setPhoto(file);

@@ -1,17 +1,16 @@
 import {
-    Button,
     DropDown,
     Input,
     Radio,
-    Dropzone,
     showToast,
     DateTimePicker,
-    AutoCompleteDropDownImage,
     Card,
     Back,
     ImagePicker,
     Spinner,
     LoadingButton,
+    AutoComplete,
+ 
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -32,7 +31,9 @@ import {
     PRIORITY,
     getMomentObjFromServer,
     getDropDownCompanyDisplayData,
-    getDropDownDisplayData
+    getDropDownDisplayData,
+    getPhoto,
+    getDropDownCompanyUser
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,9 +46,11 @@ function AddTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations , associatedCompaniesL } = useSelector(
+    const { dashboardDetails, departments, designations , associatedCompaniesL, employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
+
+    console.log(employees,"employees")
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
@@ -57,10 +60,6 @@ function AddTask() {
     const referenceNo = useInput("");
     const [taskType, setTaskType] = useState(type[1]);
     const [disableTaskType, setDisableTaskType] = useState([]);
-    // const [companies, setCompanies] = useState([])
-    const [companyUsers, setCompanyUsers] = useState([])
-
-
     const [loading, setLoading] = useState(false)
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
@@ -80,6 +79,7 @@ function AddTask() {
         getAssociatedCompaniesApi();
         getSubTaskGroupsApi();
     }, [])
+
 
     useEffect(() => {
         getCompanyEmployeeApi()
@@ -116,12 +116,7 @@ function AddTask() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
-                    let companiesUser: any = [];
-                    const companyDetails = response?.details
-                    companiesUser = companyDetails.map((item: any) => {
-                        return { ...item, designation: item?.designation?.name, department: item?.department?.name }
-                    });
-                    setCompanyUsers(companiesUser);
+                  
                 },
                 onError: () => () => { },
             })
@@ -178,15 +173,7 @@ function AddTask() {
                 onSuccess: (response: any) => () => {
                     const companies = response.details
                     if (companies && companies.length > 0) {
-                        // const displayCompanyDropdown = companies.map(each => {
-                        //     const { id, display_name } = each
-                        //     return {
-                        //         id: id, text: display_name, name: display_name,
-                        //     }
-                        // })
-                        // setCompanies(displayCompanyDropdown)
                         setDisableTaskType([]);
-
                     }
                     
                     else {
@@ -252,14 +239,6 @@ function AddTask() {
             },
         }))
     }
-
-    // function getDropDownDisplayData(data: any, key: string = 'name') {
-    //     if (data && data.length > 0) {
-    //         return data.map(each => {
-    //             return { ...each, text: each[key] }
-    //         })
-    //     }
-    // }
 
     const handleEtaChange = (value: any) => {
         setEta(value);
@@ -365,7 +344,6 @@ function AddTask() {
                         selectItem={taskType}
                         disableId={disableTaskType}
                         onRadioChange={(selected) => {
-                            setSelectedUser('')
                             company.onChange({})
                             department.onChange({})
                             designation.onChange({})
@@ -410,21 +388,18 @@ function AddTask() {
                 />
                 }
 
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
-                    <AutoCompleteDropDownImage
+{getExternalCompanyStatus() && employees && employees.length > 0 &&
+                    <AutoComplete
+                    variant={'custom'}
                         heading={translate("common.user")!}
-                        placeholder={translate("order.please select a user")!}
-                        value={selectedUser}
-                        getItemValue={(item) => item.name}
-                        item={companyUsers}
-                        onChange={(event, value) => {
-                            setSelectedUser(value)
-                        }}
-                        onSelect={(value, item) => {
-                            setSelectedUser(value);
-                            setSelectedUserId(item)
-                        }}
+                         data={getDropDownCompanyUser(employees)}
+                onChange={(item)=>{
+                    setSelectedUserId(item)
+
+                }} 
                     />}
+
+                    
 
                 {subTaskGroups && subTaskGroups.length > 0 && <DropDown
                     heading={translate("common.selectGroup")}

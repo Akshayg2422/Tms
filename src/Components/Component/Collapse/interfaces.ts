@@ -11,5 +11,14 @@ export interface AuthContainerProps {
     selectedIds?:any;
     selectedId?:string;
     selectButton?:boolean;
+    taskStatus?:any;
+    selectButtonReject?:boolean;
+    onClickReject?:any;
+    textReject?:any;
+    ApprovedStatus?:any
+    onClickEnable?:any
+    textEnable?:any
+    enableButton?:boolean;
+
   }
   

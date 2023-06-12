@@ -1,16 +1,15 @@
 import {
-    Button,
     DropDown,
     Input,
     Radio,
-    Dropzone,
     showToast,
     DateTimePicker,
-    AutoCompleteDropDownImage,
     Card,
     Back,
     ImagePicker,
-    LoadingButton
+    LoadingButton,
+    AutoComplete,
+    
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -32,26 +31,19 @@ import {
     getMomentObjFromServer,
     getDropDownDisplayData,
     getDropDownCompanyDisplayData,
+    getDropDownCompanyUser,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
-import AutoSearchInput from "@Components//Core/AutoSearchInput";
 import moment from "moment";
 
 function AddTicket() {
-
-
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
-
-
-    const { dashboardDetails, departments, designations ,associatedCompaniesL} = useSelector(
+    const { dashboardDetails, departments, designations, associatedCompaniesL,employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-    // const { ticketGroups } = useSelector(
-    //     (state: any) => state.TicketReducer
-    // );
 
     const title = useInput("");
     const description = useInput("");
@@ -60,7 +52,6 @@ function AddTicket() {
     const [disableTicketType, setDisableTicketType] = useState([]);
     // const [companies, setCompanies] = useState([])
     const [companyUsers, setCompanyUsers] = useState([])
-
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
@@ -117,12 +108,7 @@ function AddTicket() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
-                    let companiesUser: any = [];
-                    const companyDetails = response?.details
-                    companiesUser = companyDetails.map((item: any) => {
-                        return { ...item, designation: item?.designation?.name, department: item?.department?.name }
-                    });
-                    setCompanyUsers(companiesUser);
+          
                 },
                 onError: (error) => () => {
                 },
@@ -142,14 +128,14 @@ function AddTicket() {
             ticket_attachments: [{ attachments: attach }],
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id }),
-             eta_time: eta,
+            eta_time: eta,
         };
-       
+
 
 
         const validation = validate(ticketType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
-           
+
             dispatch(
                 raiseNewTicket({
                     params,
@@ -238,17 +224,6 @@ function AddTicket() {
         }))
     }
 
-
-
-
-    // function getDropDownDisplayData(data: any, key: string = 'name') {
-    //     if (data && data.length > 0) {
-    //         return data.map(each => {
-    //             return { ...each, text: each[key] }
-    //         })
-    //     }
-    // }
-
     const handleEtaChange = (value: any) => {
         setEta(value);
         setDate(value)
@@ -303,7 +278,7 @@ function AddTicket() {
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={translate('order.Select a company')!}
-                        data={ getDropDownCompanyDisplayData(associatedCompaniesL)}
+                        data={getDropDownCompanyDisplayData(associatedCompaniesL)}
                         onChange={(item) => {
                             company.onChange(item)
                         }}
@@ -332,38 +307,17 @@ function AddTicket() {
                     selected={designation.value}
                 />
                 }
-
-                {/* {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
-                    <AutoCompleteDropDownImage
+               
+{getExternalCompanyStatus()  && employees && employees.length > 0 &&
+                    <AutoComplete
+                    variant={'custom'}
                         heading={translate("common.user")!}
-                        placeholder={'please select a user...'}
-                        value={selectedUser}
-                        getItemValue={(item) => item.name}
-                        item={companyUsers}
-                        onChange={(event, value) => {
-                            setSelectedUser(value)
-                        }}
-                        onSelect={(value, item) => {
-                            setSelectedUser(value);
-                            setSelectedUserId(item)
-                        }}
-                    />} */}
+                         data={getDropDownCompanyUser(employees)}
+                onChange={(item)=>{
+                    setSelectedUserId(item)
 
-
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && <AutoSearchInput
-                    heading={translate("common.user")!}
-                    placeholder={translate('order.please select a user')!}
-                    data={companyUsers}
-                    variant={true}
-                    onSelect={(item) => {
-                        // setSelectedUser(item.name);
-                        setSelectedUserId(item)
-
-                    }}
-
-
-                />
-                }
+                }} 
+                    />}
 
 
                 <DropDown
@@ -427,7 +381,6 @@ function AddTicket() {
 
                 </div>
             </div>
-
             <div className="col mt-4">
 
                 <LoadingButton size={'md'}

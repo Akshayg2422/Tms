@@ -51,8 +51,7 @@ function App() {
 
   return (
     <ScreenWrapper>
-      <DateTimePicker />
-      {/* <Routes>
+      <Routes>
         {getRoutes(AUTH_ROUTES, AUTH)}
         {getRoutes(HOME_ROUTES, HOME)}
         {getRoutes(TASK_ROUTES, HOME)}
@@ -60,7 +59,7 @@ function App() {
         {getRoutes(MESSAGE_ROUTES, HOME)}
         {getRoutes(USER_COMPANY_ROTES, HOME)}
         <Route path={"*"} element={<PageNotFound />} />
-      </Routes> */}
+      </Routes>
       <ToastContainer />
     </ScreenWrapper>
 

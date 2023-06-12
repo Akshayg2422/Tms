@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Input, DropDown, Button, showToast, AutoCompleteDropDown, Dropzone, Back, Card, ImagePicker
+  Input, DropDown, Button, showToast,  Back, Card, ImagePicker
 } from "@Components";
 import {
   GENDER_LIST,
@@ -17,7 +17,7 @@ import { translate } from "@I18n";
 import { addEmployee, getDepartments, getDesignations, } from "@Redux";
 
 
-// import Autocomplete from "react-autocomplete";
+
 
 function AddUser() {
 
@@ -82,15 +82,6 @@ function AddUser() {
     );
   }, []);
 
-
-  // function getDropDownDisplayData(data: any) {
-  //   return data && data?.map((item: any) => {
-  //     return {
-  //       ...item,
-  //       text: item.name
-  //     }
-  //   })
-  // }
 
 
   const submitAddUserHandler = () => {

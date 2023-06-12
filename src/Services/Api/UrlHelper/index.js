@@ -151,6 +151,15 @@ export const ADD_GROUP_USER = TASK + 'addGroupUser'
 
 //get group
 export const GET_CHAT_GROUPS = TASK + 'getGroup'
+//change employee
+export const CHANG_EMPLOYEE_TIMELINE_STATUS = TASK + 'changeEmployeeTimelineStatus'
+
+export const  GET_TIME_LINE_ENABLE_REQUEST= TASK +'GetTimelineEnableRequest'
+
+export const  ADD_TIME_LINE_ENABLE_REQUEST= TASK +'AddTimelineEnableRequest'
+
+
+
 
 
 

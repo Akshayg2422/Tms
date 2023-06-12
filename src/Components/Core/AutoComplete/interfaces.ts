@@ -2,7 +2,7 @@
 
 import { Option, InputHeadingProps } from '@Components'
 
-export interface AutoCompleteV2Props extends InputHeadingProps {
+export interface AutoCompleteProps extends InputHeadingProps {
     variant?: 'default' | 'custom'
     data?: any
     placeHolder?: string;

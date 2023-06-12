@@ -4,11 +4,8 @@ import {
   HomeContainer,
   Input,
   Radio,
-  Dropzone,
   showToast,
-  DropDownIcon,
   Image,
-  AutoCompleteDropDownImage,
   ImagePicker,
 } from '@Components';
 import { translate } from "@I18n";
@@ -287,7 +284,7 @@ const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
           />
           }
 
-
+{/* 
 
           {companyUserDashboard && companyUserDashboard.length > 0 && <AutoCompleteDropDownImage
             heading={translate("common.user")!}
@@ -300,7 +297,7 @@ const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
               setSelectedUserId(item)
             }}
           />
-          }
+          } */}
           <div className='mt--3'>
             <DropDown
               selected={selectedTicketPriority.value}

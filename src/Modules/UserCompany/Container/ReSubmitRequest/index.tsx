@@ -4,7 +4,8 @@ import { getMomentObjFromServer, getDisplayDateFromMomentByType, DD_MMMM_YYYY, H
 import {
   addEmployeeTimeline,
   employeeTimeLineStatus,
-  getEmployeeTimeline
+  getEmployeeTimeline,
+  getEnableRequest
 } from "@Redux";
 import { Button, Image, CollapseButton,Modal,Input } from '@Components';
 import { icons } from '@Assets';
@@ -14,7 +15,7 @@ import { translate } from "@I18n";
 import moment from 'moment';
 
 
-function TimeApproval() {
+function ReSubmitRequest() {
   const dispatch = useDispatch();
   const { goTo } = useNavigation();
   const [formattedShift, setFormattedShift] = useState<any>('')
@@ -35,6 +36,8 @@ const reason = useInput("");
   useEffect(() => {
 
     getEmployeesTimeList()
+    getEnableList()
+
   }, [startDate])
 
 
@@ -45,6 +48,30 @@ const reason = useInput("");
 
     }
   }, [employeeTimeline])
+
+const getEnableList=()=>{
+
+    const params={
+
+    }
+
+    dispatch(
+        getEnableRequest({
+         params,
+         onSuccess: (response) => () => {
+       
+           
+        //    getEmployeesTimeList()
+
+         },
+         onError: (error) => () => {
+         }
+
+       })
+     )
+ 
+}
+  
 
 
   // add time sheet]
@@ -270,14 +297,6 @@ const reason = useInput("");
             </div>
     
           </Modal>
-          <div className='text-right pb-3'>
-
-            <Button text={'ReSubmitRequest'} size={'sm'} onClick={()=>{
-
-          goTo(ROUTES['user-company-module']['re-submit-request'])
-            }}/>
-
-          </div>
       <div className='card  p-4' style={{ flexDirection: 'row' }}>
         <div className="h3">{translate('order.This Week')}</div>
         <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
@@ -332,4 +351,4 @@ const reason = useInput("");
   )
 }
 
-export { TimeApproval }
+export {ReSubmitRequest }
