@@ -66,7 +66,11 @@ const initialState: UserCompanyStateProp = {
   chatGroups: undefined,
   selectedTaskGroupCode: "ALL",
   employeesDetails: undefined,
-  refreshGroupChat:undefined
+  refreshGroupChat:undefined,
+  timeStatus:undefined,
+  EnableRequestDataList:undefined,
+  EnableRequest:undefined,
+
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -748,6 +752,68 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.GET_CHAT_GROUPS_FAILURE:
       state = { ...state, chatGroups: undefined };
       break;
+
+      
+    // ADD EMPLOYEE TIMELINE STATUS
+
+    case ActionTypes.EMPLOYEE_TIMELINE_STATUS:
+      state = {
+        ...state,
+        timeStatus: undefined,
+      };
+      break;
+    case ActionTypes.EMPLOYEE_TIMELINE_STATUS_SUCCESS:
+      state = {
+        ...state,
+        timeStatus: action.payload.details,
+      };
+      break;
+    case ActionTypes.EMPLOYEE_TIMELINE_STATUS_FAILURE:
+      state = { ...state,   timeStatus: undefined };
+      break;
+
+
+
+       // add enable request
+
+    case ActionTypes.ADD_ENABLE_REQUEST:
+      state = {
+        ...state,
+        EnableRequest: undefined,
+      };
+      break;
+    case ActionTypes.ADD_ENABLE_REQUEST_SUCCESS:
+      state = {
+        ...state,
+        EnableRequest: action.payload.details,
+      };
+      break;
+    case ActionTypes.ADD_ENABLE_REQUEST_FAILURE:
+      state = { ...state,  EnableRequest: undefined };
+      break;
+
+
+
+
+       // get enable request
+
+    case ActionTypes.GET_ENABLE_REQUEST:
+      state = {
+        ...state,
+        EnableRequestDataList: undefined,
+      };
+      break;
+    case ActionTypes.GET_ENABLE_REQUEST_SUCCESS:
+      state = {
+        ...state,
+        EnableRequestDataList: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_ENABLE_REQUEST_FAILURE:
+      state = { ...state,   EnableRequestDataList: undefined };
+      break;
+
+
 
 
     /**

@@ -10,7 +10,6 @@ import {
     Card,
     Back,
     ImagePicker,
-    DateTimePickers
 } from "@Components";
 import { translate } from "@I18n";
 import {

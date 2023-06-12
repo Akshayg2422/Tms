@@ -10,7 +10,6 @@ import {
     Card,
     Back,
     ImagePicker,
-    AutoCompleteDropDownSearch
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -40,19 +39,14 @@ import AutoSearchInput from "@Components//Core/AutoSearchInput";
 import moment from "moment";
 
 function AddTicket() {
-
-
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
-
-
-    const { dashboardDetails, departments, designations ,associatedCompaniesL} = useSelector(
+    const { dashboardDetails, departments, designations, associatedCompaniesL } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     // const { ticketGroups } = useSelector(
     //     (state: any) => state.TicketReducer
     // );
-
     const title = useInput("");
     const description = useInput("");
     const referenceNo = useInput("");
@@ -60,7 +54,6 @@ function AddTicket() {
     const [disableTicketType, setDisableTicketType] = useState([]);
     // const [companies, setCompanies] = useState([])
     const [companyUsers, setCompanyUsers] = useState([])
-
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
@@ -73,7 +66,7 @@ function AddTicket() {
     const [, setDesignations] = useState([])
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
-    const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
+    const [selectNoOfPickers, setSelectNoOfPickers] = useState<any>()
     let attach = photo.slice(-selectNoOfPickers)
     const [date, setDate] = useState<any>(moment().format())
 
@@ -84,7 +77,7 @@ function AddTicket() {
 
     useEffect(() => {
         getCompanyEmployeeApi()
-        
+
     }, [designation.value, department.value])
 
 
@@ -98,7 +91,7 @@ function AddTicket() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = ( file: any) => {
+    const handleImagePicker = (file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
@@ -140,14 +133,14 @@ function AddTicket() {
             ticket_attachments: [{ attachments: attach }],
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id }),
-             eta_time: eta,
+            eta_time: eta,
         };
-       
+
 
 
         const validation = validate(ticketType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
-           
+
             dispatch(
                 raiseNewTicket({
                     params,
@@ -156,7 +149,7 @@ function AddTicket() {
                             goBack();
                             showToast(response.message, "success");
                         }
-                    
+
                     },
                     onError: (error) => () => {
                         showToast(error.error_message);
@@ -234,17 +227,6 @@ function AddTicket() {
         }))
     }
 
-
-
-
-    // function getDropDownDisplayData(data: any, key: string = 'name') {
-    //     if (data && data.length > 0) {
-    //         return data.map(each => {
-    //             return { ...each, text: each[key] }
-    //         })
-    //     }
-    // }
-
     const handleEtaChange = (value: any) => {
         setEta(value);
         setDate(value)
@@ -299,7 +281,7 @@ function AddTicket() {
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={translate('order.Select a company')!}
-                        data={ getDropDownCompanyDisplayData(associatedCompaniesL)}
+                        data={getDropDownCompanyDisplayData(associatedCompaniesL)}
                         onChange={(item) => {
                             company.onChange(item)
                         }}
@@ -346,19 +328,19 @@ function AddTicket() {
                     />} */}
 
 
-{ getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&  <AutoSearchInput 
+                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && <AutoSearchInput
                     heading={translate("common.user")!}
                     placeholder={translate('order.please select a user')!}
                     data={companyUsers}
                     variant={true}
-                    onSelect={( item)=>{
+                    onSelect={(item) => {
                         // setSelectedUser(item.name);
                         setSelectedUserId(item)
-                    
-                    }}
-                
 
-                    />
+                    }}
+
+
+                />
                 }
 
 
@@ -403,29 +385,26 @@ function AddTicket() {
                         })}
                 </div>
             </div> */}
-  <div className="col-auto pb-2 mt--2">
+            <div className="col-auto pb-2 mt--2">
                 <div className="row">
-                <ImagePicker
-                    icon={image}
-                    size='xl'
-                    heading={translate("common.addAttachment")!}
-                    noOfFileImagePickers={4}
-                    onSelect={(image) => {
-                        
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
-                    }}
-                    onSelectImagePicker={(el)=>{
-                        setSelectNoOfPickers(el?.length)
+                    <ImagePicker
+                        icon={image}
+                        size='xl'
+                        heading={translate("common.addAttachment")!}
+                        noOfFileImagePickers={4}
+                        onSelect={(image) => {
 
-                    }}
-                />
+                            let file = image.toString().replace(/^data:(.*,)?/, "")
+                            handleImagePicker(file)
+                        }}
+                        onSelectImagePicker={(el) => {
+                            setSelectNoOfPickers(el?.length)
+
+                        }}
+                    />
 
                 </div>
-                </div>
-
-
-
+            </div>
             <div className="col mt-4">
                 <Button
                     text={translate("common.submit")}
