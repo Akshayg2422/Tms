@@ -1,15 +1,15 @@
 import {
-    Button,
     DropDown,
     Input,
     Radio,
-    Dropzone,
     showToast,
     DateTimePicker,
-    AutoCompleteDropDownImage,
     Card,
     Back,
     ImagePicker,
+    LoadingButton,
+    AutoComplete,
+    
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -31,22 +31,20 @@ import {
     getMomentObjFromServer,
     getDropDownDisplayData,
     getDropDownCompanyDisplayData,
+    getDropDownCompanyUser,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
-import AutoSearchInput from "@Components//Core/AutoSearchInput";
 import moment from "moment";
 
 function AddTicket() {
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
-    const { dashboardDetails, departments, designations, associatedCompaniesL } = useSelector(
+    const { dashboardDetails, departments, designations, associatedCompaniesL,employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-    // const { ticketGroups } = useSelector(
-    //     (state: any) => state.TicketReducer
-    // );
+
     const title = useInput("");
     const description = useInput("");
     const referenceNo = useInput("");
@@ -67,6 +65,7 @@ function AddTicket() {
     const selectedTicketPriority = useDropDown("");
     const [eta, setEta] = useState("")
     const [selectNoOfPickers, setSelectNoOfPickers] = useState<any>()
+    const [loading, setLoading] = useState(false)
     let attach = photo.slice(-selectNoOfPickers)
     const [date, setDate] = useState<any>(moment().format())
 
@@ -109,12 +108,7 @@ function AddTicket() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
-                    let companiesUser: any = [];
-                    const companyDetails = response?.details
-                    companiesUser = companyDetails.map((item: any) => {
-                        return { ...item, designation: item?.designation?.name, department: item?.department?.name }
-                    });
-                    setCompanyUsers(companiesUser);
+          
                 },
                 onError: (error) => () => {
                 },
@@ -123,6 +117,7 @@ function AddTicket() {
     }
 
     const submitTicketHandler = () => {
+        setLoading(true)
         const params = {
             title: title?.value,
             description: description?.value,
@@ -149,10 +144,13 @@ function AddTicket() {
                             goBack();
                             showToast(response.message, "success");
                         }
+                        setLoading(false)
+                        // console.log('+++++++++++')
 
                     },
                     onError: (error) => () => {
                         showToast(error.error_message);
+                        setLoading(false)
                     },
                 })
             );
@@ -160,7 +158,6 @@ function AddTicket() {
             showToast(getValidateError(validation));
         }
     };
-
 
 
     function getAssociatedCompaniesApi() {
@@ -310,38 +307,17 @@ function AddTicket() {
                     selected={designation.value}
                 />
                 }
-
-                {/* {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
-                    <AutoCompleteDropDownImage
+               
+{getExternalCompanyStatus()  && employees && employees.length > 0 &&
+                    <AutoComplete
+                    variant={'custom'}
                         heading={translate("common.user")!}
-                        placeholder={'please select a user...'}
-                        value={selectedUser}
-                        getItemValue={(item) => item.name}
-                        item={companyUsers}
-                        onChange={(event, value) => {
-                            setSelectedUser(value)
-                        }}
-                        onSelect={(value, item) => {
-                            setSelectedUser(value);
-                            setSelectedUserId(item)
-                        }}
-                    />} */}
+                         data={getDropDownCompanyUser(employees)}
+                onChange={(item)=>{
+                    setSelectedUserId(item)
 
-
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && <AutoSearchInput
-                    heading={translate("common.user")!}
-                    placeholder={translate('order.please select a user')!}
-                    data={companyUsers}
-                    variant={true}
-                    onSelect={(item) => {
-                        // setSelectedUser(item.name);
-                        setSelectedUserId(item)
-
-                    }}
-
-
-                />
-                }
+                }} 
+                    />}
 
 
                 <DropDown
@@ -406,11 +382,22 @@ function AddTicket() {
                 </div>
             </div>
             <div className="col mt-4">
-                <Button
-                    text={translate("common.submit")}
-                    onClick={submitTicketHandler}
-                />
+
+                <LoadingButton size={'md'}
+                    text={translate('common.submit')}
+                    loading={loading}
+                    onClick={submitTicketHandler} />
+
             </div>
+
+            {/* <div className="col mt-4">
+                <LoadingButton text={translate('common.submit')} 
+                               size={'md'}  
+                               loading={loading}
+                               onClick={submitTicketHandler}/>
+
+
+            </div> */}
 
         </Card >
 

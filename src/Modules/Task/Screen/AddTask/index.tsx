@@ -1,15 +1,16 @@
 import {
-    Button,
     DropDown,
     Input,
     Radio,
-    Dropzone,
     showToast,
     DateTimePicker,
-    AutoCompleteDropDownImage,
     Card,
     Back,
     ImagePicker,
+    Spinner,
+    LoadingButton,
+    AutoComplete,
+ 
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -30,7 +31,9 @@ import {
     PRIORITY,
     getMomentObjFromServer,
     getDropDownCompanyDisplayData,
-    getDropDownDisplayData
+    getDropDownDisplayData,
+    getPhoto,
+    getDropDownCompanyUser
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,9 +46,11 @@ function AddTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations , associatedCompaniesL } = useSelector(
+    const { dashboardDetails, departments, designations , associatedCompaniesL, employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
+
+    console.log(employees,"employees")
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
@@ -55,8 +60,7 @@ function AddTask() {
     const referenceNo = useInput("");
     const [taskType, setTaskType] = useState(type[1]);
     const [disableTaskType, setDisableTaskType] = useState([]);
-    // const [companies, setCompanies] = useState([])
-    const [companyUsers, setCompanyUsers] = useState([])
+    const [loading, setLoading] = useState(false)
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
@@ -76,6 +80,7 @@ function AddTask() {
         getSubTaskGroupsApi();
     }, [])
 
+
     useEffect(() => {
         getCompanyEmployeeApi()
     }, [designation.value, department.value, company.value,])
@@ -93,7 +98,7 @@ function AddTask() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = ( file: any) => {
+    const handleImagePicker = (file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
@@ -111,12 +116,7 @@ function AddTask() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
-                    let companiesUser: any = [];
-                    const companyDetails = response?.details
-                    companiesUser = companyDetails.map((item: any) => {
-                        return { ...item, designation: item?.designation?.name, department: item?.department?.name }
-                    });
-                    setCompanyUsers(companiesUser);
+                  
                 },
                 onError: () => () => { },
             })
@@ -124,6 +124,7 @@ function AddTask() {
     }
 
     const submitTaskHandler = () => {
+        setLoading(true)
         const params = {
             title: title?.value,
             description: description?.value,
@@ -150,10 +151,12 @@ function AddTask() {
                             goBack();
                             showToast(response.message, "success");
                         }
+                        setLoading(false)
 
                     },
                     onError: (error) => () => {
                         showToast(error.error_message);
+                        setLoading(false)
                     },
                 })
             );
@@ -170,15 +173,7 @@ function AddTask() {
                 onSuccess: (response: any) => () => {
                     const companies = response.details
                     if (companies && companies.length > 0) {
-                        // const displayCompanyDropdown = companies.map(each => {
-                        //     const { id, display_name } = each
-                        //     return {
-                        //         id: id, text: display_name, name: display_name,
-                        //     }
-                        // })
-                        // setCompanies(displayCompanyDropdown)
                         setDisableTaskType([]);
-
                     }
                     
                     else {
@@ -195,6 +190,7 @@ function AddTask() {
 
 
     function getSubTaskGroupsApi() {
+
         const params = {};
         dispatch(
             getSubTaskGroups({
@@ -203,6 +199,7 @@ function AddTask() {
 
                 },
                 onError: () => () => {
+
                 },
             })
         );
@@ -243,14 +240,6 @@ function AddTask() {
         }))
     }
 
-    // function getDropDownDisplayData(data: any, key: string = 'name') {
-    //     if (data && data.length > 0) {
-    //         return data.map(each => {
-    //             return { ...each, text: each[key] }
-    //         })
-    //     }
-    // }
-
     const handleEtaChange = (value: any) => {
         setEta(value);
         setDate(value)
@@ -272,24 +261,24 @@ function AddTask() {
 
             <div className="col-auto pb-4 mt--3">
                 <div className="row">
-                <ImagePicker
-                    icon={image}
-                    size='xl'
-                    heading={translate("common.addAttachment")!}
-                    noOfFileImagePickers={4}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
-                    
-                    }}
-                    onSelectImagePicker={(el)=>{
-                        setSelectNoPickers(el?.length)
+                    <ImagePicker
+                        icon={image}
+                        size='xl'
+                        heading={translate("common.addAttachment")!}
+                        noOfFileImagePickers={4}
+                        onSelect={(image) => {
+                            let file = image.toString().replace(/^data:(.*,)?/, "")
+                            handleImagePicker(file)
 
-                    }}
-                />
+                        }}
+                        onSelectImagePicker={(el) => {
+                            setSelectNoPickers(el?.length)
+
+                        }}
+                    />
 
                 </div>
-              
+
 
             </div>
 
@@ -321,11 +310,11 @@ function AddTask() {
                             })}
                     </span>
                 </div> */}
-            
+
 
 
                 <Input
-                
+
                     heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
@@ -355,7 +344,6 @@ function AddTask() {
                         selectItem={taskType}
                         disableId={disableTaskType}
                         onRadioChange={(selected) => {
-                            setSelectedUser('')
                             company.onChange({})
                             department.onChange({})
                             designation.onChange({})
@@ -400,21 +388,18 @@ function AddTask() {
                 />
                 }
 
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
-                    <AutoCompleteDropDownImage
+{getExternalCompanyStatus() && employees && employees.length > 0 &&
+                    <AutoComplete
+                    variant={'custom'}
                         heading={translate("common.user")!}
-                        placeholder={translate("order.please select a user")!}
-                        value={selectedUser}
-                        getItemValue={(item) => item.name}
-                        item={companyUsers}
-                        onChange={(event, value) => {
-                            setSelectedUser(value)
-                        }}
-                        onSelect={(value, item) => {
-                            setSelectedUser(value);
-                            setSelectedUserId(item)
-                        }}
+                         data={getDropDownCompanyUser(employees)}
+                onChange={(item)=>{
+                    setSelectedUserId(item)
+
+                }} 
                     />}
+
+                    
 
                 {subTaskGroups && subTaskGroups.length > 0 && <DropDown
                     heading={translate("common.selectGroup")}
@@ -435,12 +420,27 @@ function AddTask() {
                     
                          />
             </div>
-            <div className="col mt-4">
+
+
+            {/* <div className="col mt-4">
                 <Button
-                    text={translate("common.submit")}
+                    text={loading ? "Loading..." : translate("common.submit")}
                     onClick={submitTaskHandler}
-                />
+                    disabled={loading}
+                >
+                    {loading && <Spinner/>}
+                </Button>
+            </div>  */}
+
+            <div className="col mt-4">
+
+                <LoadingButton size={'md'}
+                    text={translate('common.submit')}
+                    loading={loading}
+                    onClick={submitTaskHandler} />
+
             </div>
+
 
         </Card >
 

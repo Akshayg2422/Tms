@@ -14,6 +14,7 @@ function AdminFeeds() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
+  const [loading,setLoading]=useState(false)
   const { broadCastDetails, broadCastCurrentPage } = useSelector(
     (state: any) => state.CommunicationReducer
   );
@@ -67,6 +68,7 @@ function AdminFeeds() {
   }, []);
 
   function getBroadCastMessage(page_number: number) {
+    setLoading(true)
     const params = {
       id: user_details?.id,
       page_number
@@ -75,8 +77,10 @@ function AdminFeeds() {
       getBroadCastMessages({
         params,
         onSuccess: () => () => {
+          setLoading(false)
         },
         onError: () => () => {
+          setLoading(false)
         },
       })
     );
@@ -212,6 +216,13 @@ function AdminFeeds() {
             onClick={proceedCreatePost}
           />
         </div> : null}
+        {
+          loading && (
+            <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px',marginTop:'250px'}}>
+              <Spinner/>
+            </div>
+          )
+        }
       {broadCastDetails && broadCastDetails.length > 0 ?
         <InfiniteScroll
           dataLength={broadCastDetails.length}

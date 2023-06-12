@@ -9,9 +9,8 @@ import {
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
-import { Button, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, } from '@Components';
+import { Button, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton,  AutoComplete } from '@Components';
 import { icons } from '@Assets';
-import AutoSearchInput from '@Components//Core/AutoSearchInput';
 import { ROUTES } from '@Routes'
 import { useNavigation } from '@Hooks'
 import { translate } from "@I18n";
@@ -36,8 +35,8 @@ function MyTimeSheet() {
   const [selectedTask, setSelectedTask] = useState<any>('')
   const editDescriptions = useInput('')
   const [formattedShift, setFormattedShift] = useState<any>('')
-  const [approved,setApproved]=useState<any>(true)
-  const [Enable,setEnable]=useState<any>('')
+  const [approved, setApproved] = useState<any>(true)
+  const [Enable, setEnable] = useState<any>('')
 
   //start date
   const [startDate, setStartDate] = useState(moment().startOf('week'))
@@ -47,7 +46,7 @@ function MyTimeSheet() {
   const { employeeTimeline } = useSelector((state: any) => state.UserCompanyReducer);
   const getGroupMenuItem = [
     { id: '0', name: translate("common.Edit"), icon: icons.edit },
-    { id: '1', name:'Delete', icon:icons.delete},
+    { id: '1', name: 'Delete', icon: icons.delete },
 
   ]
   useEffect(() => {
@@ -196,52 +195,52 @@ function MyTimeSheet() {
   }
 
 
-  const reSubmitEmployeeTimeSheet = (item:any) => {
+  const reSubmitEmployeeTimeSheet = (item: any) => {
     const params = {
       // timeline_status:id,
-       date:item,
-       is_resubmitted :true
-    
+      date: item,
+      is_resubmitted: true
+
     }
- 
-      dispatch(
-         employeeTimeLineStatus({
-          params,
-          onSuccess: (response) => () => {
-         
-            getEmployeesTimeList()
 
-          },
-          onError: (error) => () => {
-          }
+    dispatch(
+      employeeTimeLineStatus({
+        params,
+        onSuccess: (response) => () => {
 
-        })
-      )
-  
+          getEmployeesTimeList()
+
+        },
+        onError: (error) => () => {
+        }
+
+      })
+    )
+
 
   }
 
-  const addTimelineEnableRequest =()=>{
+  const addTimelineEnableRequest = () => {
 
     const params = {
-      requested_date :Enable,
-      reason:reason.value
-    
+      requested_date: Enable,
+      reason: reason.value
+
     }
- 
-      dispatch(
-         addEnableRequest({
-          params,
-          onSuccess: (response) => () => {
-         
-            // getEmployeesTimeList()
 
-          },
-          onError: (error) => () => {
-          }
+    dispatch(
+      addEnableRequest({
+        params,
+        onSuccess: (response) => () => {
 
-        })
-      )
+          // getEmployeesTimeList()
+
+        },
+        onError: (error) => () => {
+        }
+
+      })
+    )
 
 
 
@@ -286,7 +285,7 @@ function MyTimeSheet() {
 
           const assignedTaskDetails = assignedTasks.map((item) => {
             return {
-              name: item.title, id: item.id
+              text: item.title, id: item.id
             }
           })
           setAssignedTaskDetails(assignedTaskDetails)
@@ -316,29 +315,29 @@ function MyTimeSheet() {
   }
 
 
-  const deleteTimeLineTask = (id:any) => {
+  const deleteTimeLineTask = (id: any) => {
     const params = {
       id: id,
-      is_deleted:true
+      is_deleted: true
     }
-      dispatch(
-        addEmployeeTimeline({
-          params,
-          onSuccess: (response) => () => {
+    dispatch(
+      addEmployeeTimeline({
+        params,
+        onSuccess: (response) => () => {
 
-            getEmployeesTimeList()
+          getEmployeesTimeList()
 
-          },
-          onError: (error) => () => {
-          }
+        },
+        onError: (error) => () => {
+        }
 
-        })
-      )
-  
+      })
+    )
+
 
   }
 
- 
+
 
   const addEmployeeTimeSheet = () => {
 
@@ -406,7 +405,7 @@ function MyTimeSheet() {
                 editEtaTime.show()
                 handleEditDescription(description)
               }
-              if(element.id === '1'){
+              if (element.id === '1') {
 
                 deleteTimeLineTask(id)
 
@@ -452,22 +451,22 @@ function MyTimeSheet() {
                   addEtaTime.show()
                 }}
                 // selectButtonReject={true}
-               selectButton={formattedShift[index]?.taskListedArray[0]?.timeline_status==='APT'?false:true}
-               selectButtonReject={formattedShift[index]?.taskListedArray[0]?.timeline_status==='APT'?false:true}
-               textReject={'Submit'}
-               onClickReject={()=>{
+                selectButton={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
+                selectButtonReject={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
+                textReject={'Submit'}
+                onClickReject={() => {
 
-                reSubmitEmployeeTimeSheet(formattedShift[index]?.date)
+                  reSubmitEmployeeTimeSheet(formattedShift[index]?.date)
 
-               }}
+                }}
                 text={translate('common.add')!}
-                 taskStatus={el?.taskListedArray[0]?.reason}
-                 textEnable={'Enable'}
-                 onClickEnable={()=>{
+                taskStatus={el?.taskListedArray[0]?.reason}
+                textEnable={'Enable'}
+                onClickEnable={() => {
 
                   setEnable(formattedShift[index]?.date)
-                   
-                 }}
+
+                }}
 
               />
             )
@@ -480,45 +479,45 @@ function MyTimeSheet() {
 
       <Modal
 
-isOpen={enableModal.visible}
-onClose={() => {
-  enableModal.hide()
-}}
-size='sm'
+        isOpen={enableModal.visible}
+        onClose={() => {
+          enableModal.hide()
+        }}
+        size='sm'
 
->
-  <div className='h4 col text-muted pb-3 '>
- 
-  </div>
-    <div className="col-12">
-        <Input
-          placeholder={'Enable Reason'}
-          value={reason.value}
-          onChange={reason.onChange}
-        />
-      </div>
+      >
+        <div className='h4 col text-muted pb-3 '>
 
-      <div className="text-right">
-    <Button
-      color={"secondary"}
-      text={translate("common.cancel")}
-      onClick={() => {
-       enableModal.hide()
-       
-      }}
-    />
-    <Button
-      text={translate("common.submit")}
-      onClick={() => {
+        </div>
+        <div className="col-12">
+          <Input
+            placeholder={'Enable Reason'}
+            value={reason.value}
+            onChange={reason.onChange}
+          />
+        </div>
 
-        addTimelineEnableRequest()
-   
-      
-      }}
-    />
-  </div>
+        <div className="text-right">
+          <Button
+            color={"secondary"}
+            text={translate("common.cancel")}
+            onClick={() => {
+              enableModal.hide()
 
-</Modal>
+            }}
+          />
+          <Button
+            text={translate("common.submit")}
+            onClick={() => {
+
+              addTimelineEnableRequest()
+
+
+            }}
+          />
+        </div>
+
+      </Modal>
 
 
 
@@ -531,17 +530,17 @@ size='sm'
         }}
         title={translate('auth.addTimeSheet')!}
       >
-        {<AutoSearchInput
-          heading={translate('auth.task')!}
-          placeholder={translate("auth.please select a task")!}
-          data={assignedTaskDetails}
-          // variant={true}
-          onSelect={(item) => {
-            setSelectedTask(item)
+      
 
-          }}
-        />
-        }
+        {
+          <AutoComplete 
+          heading={translate('auth.task')!}
+            data={assignedTaskDetails}
+            onChange={(item) => {
+              setSelectedTask(item)
+
+            }}
+          />}
         <div>
           <Input
             heading={translate('auth.description')}

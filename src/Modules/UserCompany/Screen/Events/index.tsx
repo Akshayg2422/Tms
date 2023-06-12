@@ -14,6 +14,7 @@ function Events() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
+  const [loading,setLoading]=useState(false)
   const { events, eventsCurrentPages } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
@@ -70,13 +71,17 @@ function Events() {
    })
 
   const getEventsApiHandler = (page_number: number) => {
+    setLoading(true)
     const params = { page_number }
     dispatch(
       getEvents({
         params,
         onSuccess: (response) => () => {
+          setLoading(false)
         },
-        onError: () => () => { },
+        onError: () => () => {
+          setLoading(false)
+         },
       })
     )
   }
@@ -210,7 +215,14 @@ function Events() {
             onClick={proceedCreateEvent}
           />
         </div> : null}
-      {events && events.length > 0 ?
+        {
+          loading && (
+            <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px',marginTop:'250px'}}>
+              <Spinner/>
+            </div>
+          )
+        }
+      {!loading && events && events.length > 0 ?
         <InfiniteScroll
           dataLength={events.length}
           hasMore={eventsCurrentPages !== -1}

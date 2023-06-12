@@ -61,7 +61,7 @@ function GroupChat({
                         <h6 className="h5 mt-0 mb-0 d-flex justify-content-between text-primary">
                             {isLoginUser ?
                                 <div className={'text-primary pointer'} onClick={subtitleOnclick}>{subTitle ? subTitle : 'Add your user name'}</div> :
-                                <div className={'text-black'}>{subTitle ? subTitle : 'Add your user name'}</div>
+                                <div className={'text-red'}>{subTitle ? subTitle : 'Add your user name'}</div>
                             }
 
                             <div className="col">

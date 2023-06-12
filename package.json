@@ -52,6 +52,7 @@
     "react-hot-toast": "^2.4.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-jvectormap": "^0.0.16",
+    "react-loader-component": "^2.0.1",
     "react-loading-overlay-ts": "^2.0.0",
     "react-notification-alert": "^0.0.13",
     "react-otp-input": "^2.4.0",
@@ -111,6 +112,7 @@
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
+    "@types/jquery": "^3.5.16",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "@types/reactstrap": "^8.7.2",

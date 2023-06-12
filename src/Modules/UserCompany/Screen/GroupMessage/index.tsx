@@ -25,6 +25,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const deleteModal = useModal(false)
     const editModal = useModal(false)
     const message = useInput('')
+    const [loading,setLoading]=useState(false)
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
@@ -49,6 +50,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     }
     console.log("====dashboard==", dashboardDetails)
     const getGroupMessageApi = (page_number: number) => {
+        setLoading(true)
         const params = {
             group_id: selectedGroup,
             page_number
@@ -70,8 +72,11 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         }
                         setGroupEvents(updatedData)
                         setGroupCurrentPage(groupEventsResponse.next_page)
+                        setLoading(false)
                     },
-                    onError: () => () => { },
+                    onError: () => () => { 
+                        setLoading(false)
+                    },
                 })
             );
         }
@@ -201,6 +206,13 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         }
                     }
                     }>
+                        {
+                            loading && (
+                                <div className='d-flex justify-content-center align-item-center'style={{marginBottom:'200px'}}>
+                                    <Spinner/>
+                                </div>
+                            )
+                        }
 
 
                     {groupEvents && groupEvents.length > 0 &&
@@ -218,6 +230,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                             const renderDate = (date !== previousDate) ? date : '';
                             previousDate = date;
+                            console.log('previousDate------------>',previousDate)
                             const startDay = getCurrentDayAndDate(renderDate);
 
 

@@ -11,7 +11,8 @@ import {
   Dropzone,
   Image,
   MenuBar,
-  DateTimePicker
+  DateTimePicker,
+  Spinner
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -57,6 +58,7 @@ function TaskGroup() {
   const [showTaskGroup, setShowTaskGroup] = useState(false);
   const [inCludeSubGroup, setIncludeSubGroup] = useState(false)
   const addTaskGroupModal = useModal(false);
+  const [loading,setLoading] =useState(false)
   const taskGroupName = useInput("");
   const taskGroupCode = useInput("");
   const taskGroupDescription = useInput("");
@@ -96,7 +98,7 @@ function TaskGroup() {
   };
 
   const getTaskGroupList = (page_number: number, include: boolean = inCludeSubGroup) => {
-
+      setLoading(true)
     const params = {
       page_number,
       include_closed_taskgroup: include
@@ -106,9 +108,10 @@ function TaskGroup() {
       getTaskGroup({
         params,
         onSuccess: (success: any) => () => {
+          setLoading(false)
         },
         onError: (error: string) => () => {
-
+               setLoading(false)
         },
       })
     );
@@ -436,6 +439,13 @@ function TaskGroup() {
             marginRight: "-23px"
           }}
         >
+          {
+              loading && (
+                <div className='d-flex justify-content-center align-item-center' style={{marginTop:'200px'}}>
+                  <Spinner/>
+                </div>
+              )
+            }
           {taskGroups && taskGroups?.length > 0 ? (
             <CommonTable
               isPagination
