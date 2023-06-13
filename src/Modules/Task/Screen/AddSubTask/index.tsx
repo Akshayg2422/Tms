@@ -66,7 +66,7 @@ function AddSubTask() {
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
     // const [, setDesignations] = useState([])
-    const selectedTicketPriority = useDropDown("");
+    const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [date, setDate] = useState<any>(moment().format())
     const [eta, setEta] = useState("")
     const [selectedNoOfPickers,setSelectNoOfPickers]=useState<any>()
@@ -115,13 +115,13 @@ function AddSubTask() {
         const params = {
             title: title?.value,
             description: description?.value,
-            reference_number: referenceNo?.value,
+           ...(referenceNo?.value &&{reference_number: referenceNo?.value}),
             brand_branch_id: company?.value ? company?.value?.id : '',
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: false,
-            eta_time: eta,
+            ...(eta && {eta_time: eta}),
             parent_id: selectedTask?.id
         };
 
@@ -192,6 +192,32 @@ function AddSubTask() {
             </div>
             <hr className='mt-3'></hr>
 
+
+
+            <div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                    icon={image}
+                    size='xl'
+                    heading={translate("common.addAttachment")!}
+                    noOfFileImagePickers={4}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker(file)
+                       
+                    
+                    }}
+                    onSelectImagePicker={(el)=>{
+                        setSelectNoOfPickers(el?.length)
+
+                    }}
+                />
+
+                </div>
+              
+
+            </div>
+
             <div className="col-md-9 col-lg-5">
                 <Input
                     heading={translate("common.title")}
@@ -203,6 +229,13 @@ function AddSubTask() {
                     value={description.value}
                     onChange={description.onChange}
                 />
+                 <DropDown
+                    heading={translate("auth.Task Priority")!}
+                    selected={selectedTicketPriority.value}
+                    placeHolder={translate('order.please select a task priority')!}
+                    data={PRIORITY}
+                    onChange={selectedTicketPriority.onChange} />
+
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}
@@ -250,13 +283,7 @@ function AddSubTask() {
                 }} 
                     />}
 
-                <DropDown
-                    heading={translate("auth.Task Priority")!}
-                    selected={selectedTicketPriority.value}
-                    placeHolder={translate('order.please select a task priority')!}
-                    data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange} />
-
+               
                 <DateTimePicker
                     heading={translate("auth.eta")}
                     id="eta-picker"
@@ -269,29 +296,7 @@ function AddSubTask() {
 
         
 
-            <div className="col-auto pb-2">
-                <div className="row">
-                <ImagePicker
-                    icon={image}
-                    size='xl'
-                    heading={translate("common.addAttachment")!}
-                    noOfFileImagePickers={4}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
-                       
-                    
-                    }}
-                    onSelectImagePicker={(el)=>{
-                        setSelectNoOfPickers(el?.length)
-
-                    }}
-                />
-
-                </div>
-              
-
-            </div>
+           
 
             <div className="col mt-4">
                 <Button
