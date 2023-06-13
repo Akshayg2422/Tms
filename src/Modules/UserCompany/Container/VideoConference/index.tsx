@@ -175,41 +175,6 @@ const VideoConference = () => {
                         maxFullResolutionParticipants: -1,
                         brandingRoomAlias: null,
 
-                        // securityUi: {
-                        //     hideLobbyButton: true,
-                        //     disableLobbyPassword: false
-                        // },
-
-                        // Disable measuring of audio levels.
-                        // disableAudioLevels: false,
-
-                        // Disables polls feature.
-                        // disablePolls: false,
-
-                        // Disables self-view tile. (hides it from tile view and from filmstrip)
-                        // disableSelfView: false,
-
-                        // Disables self-view settings in UI
-                        // disableSelfViewSettings: false,
-
-                        // screenshotCapture : {
-                        //  Enables the screensharing capture feature.
-                        //  enabled: true,
-
-                        //  The mode for the screenshot capture feature.
-                        //  Can be either 'recording' - screensharing screenshots are taken
-                        //  only when the recording is also on,
-                        //  or 'always' - screensharing screenshots are always taken.
-                        //  mode: 'recording',
-                        // },
-
-                        //to disable reaction icons
-                        // disableReactions: true,
-
-                        // recode params---------------
-                        // enableRecording:true
-
-                        //restrict buttons---------------
 
                         constraints: {
                             video: {
@@ -221,78 +186,17 @@ const VideoConference = () => {
                             }
                         },
 
-                        ...(dashboardDetails?.user_details?.is_faculty === false && { toolbarButtons: ['hangup', 'microphone', 'camera'] }),
+                        // ...(dashboardDetails?.user_details?.is_faculty === false && { toolbarButtons: ['hangup', 'microphone', 'camera'] }),
 
                         // Sets the preferred resolution (height) for local video. Defaults to 720.
                         resolution: 1080,
 
-                        // When 'true', the user cannot edit the display name.
-                        // (Mainly useful when used in conjunction with the JWT so the JWT name becomes read only.)
-                        // readOnlyName: true,
 
-                        // Every participant after the Nth will start video muted.
-                        // startVideoMuted: 10,
-
-                        // Optional desktop sharing frame rate options. Default value: min:5, max:5.
-                        // desktopSharingFrameRate: {
-                        //     min: 5,
-                        //     max: 5,
-                        // },
-
-                        // Local recording configuration.
-                        // localRecording: {
-                        //     // Whether to disable local recording or not.
-                        // disable: false,
-
-                        //     // Whether to notify all participants when a participant is recording locally.
-                        //     notifyAllParticipants: false,
-
-                        //     // Whether to disable the self recording feature (only local participant streams).
-                        //     disableSelfRecording: false,
-                        // },
-
-                        // videoQuality: {
-                        //     disabledCodec: 'H264',
-                        //     preferredCodec: 'VP8',
-                        //     maxBitratesVideo: {
-                        //         H264: {
-                        //             low: 200000,
-                        //             standard: 500000,
-                        //             high: 1500000
-                        //         },
-                        //         VP8: {
-                        //             low: 200000,
-                        //             standard: 500000,
-                        //             high: 1500000
-                        //         },
-                        //         VP9: {
-                        //             low: 100000,
-                        //             standard: 300000,
-                        //             high: 1200000
-                        //         }
-                        //     },
-                        //     minHeightForQualityLvl: {
-                        //         // 360: 'standard',
-                        //         720: 'high'
-                        //     },
-                        //     resizeDesktopForPresenter: false
-                        // }
                     }}
 
                     interfaceConfigOverwrite={{
                         DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
-                        // TOOLBAR_BUTTONS: [
-                        //     "microphone", 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-                        //     'fodeviceselection', 'hangup', 'profile', 'info', 'chat', 'recording',
-                        //     'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-                        //     'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
-                        //     'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone',
-                        //     'e2ee'
-                        // //     ],
-                        // TOOLBAR_BUTTONS: [
-                        //     "microphone", 'camera', 'fullscreen', 'hangup', 'chat', 'raisehand', 'filmstrip','tileview', 'e2ee',
-                        //     "desktop"
-                        // ],
+
                     }}
                     spinner={renderSpinner}
                     onApiReady={externalApi => handleApiReady(externalApi)}
@@ -302,15 +206,16 @@ const VideoConference = () => {
 
             </div>
                 :
-                <div className='d-flex h-100vh justify-content-center align-items-center'
-                    style={{
+                <>
+                    <div className='h-100vh d-flex justify-content-center align-items-center' style={{
                         backgroundColor: '#141414'
-                    }}
-                >
-                    <div className="spinner-border text-light" role="status">
-                        <span className="sr-only">Loading...</span>
+                    }}>
+                        <div
+                            className="spinner-border text-light fa-lg" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
                     </div>
-                </div>
+                </>
             }
         </>
     );
