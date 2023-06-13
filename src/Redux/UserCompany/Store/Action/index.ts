@@ -635,6 +635,7 @@ export const getTokenByUser = (params: any) => {
   };
 };
 export const getTokenByUserSuccess = (response: any) => {
+  console.log("response90909", response)
   return {
     type: ActionTypes.GET_TOKEN_BY_USER_SUCCESS,
     payload: response,
@@ -899,7 +900,7 @@ export const setSelectedTaskGroupCode = (value: any) => {
 
 export const refreshGroupChat = () => {
   return {
-      type: ActionTypes.REFRESH_GROUP_CHAT,
+    type: ActionTypes.REFRESH_GROUP_CHAT,
   }
 }
 
@@ -916,14 +917,14 @@ export const employeeTimeLineStatus = (params: any) => {
 
 export const employeeTimeLineStatusSuccess = (response: any) => {
   return {
-    type: ActionTypes. EMPLOYEE_TIMELINE_STATUS_SUCCESS,
+    type: ActionTypes.EMPLOYEE_TIMELINE_STATUS_SUCCESS,
     payload: response,
   };
 };
 
 export const employeeTimeLineStatusFailure = (error: any) => {
   return {
-    type: ActionTypes. EMPLOYEE_TIMELINE_STATUS_FAILURE,
+    type: ActionTypes.EMPLOYEE_TIMELINE_STATUS_FAILURE,
     payload: error,
   };
 };
@@ -940,14 +941,14 @@ export const addEnableRequest = (params: any) => {
 
 export const addEnableRequestSuccess = (response: any) => {
   return {
-    type: ActionTypes. ADD_ENABLE_REQUEST_SUCCESS,
+    type: ActionTypes.ADD_ENABLE_REQUEST_SUCCESS,
     payload: response,
   };
 };
 
 export const addEnableRequestFailure = (error: any) => {
   return {
-    type: ActionTypes. ADD_ENABLE_REQUEST_FAILURE,
+    type: ActionTypes.ADD_ENABLE_REQUEST_FAILURE,
     payload: error,
   };
 };
@@ -966,17 +967,44 @@ export const getEnableRequest = (params: any) => {
 
 export const getEnableRequestSuccess = (response: any) => {
   return {
-    type: ActionTypes. GET_ENABLE_REQUEST_SUCCESS,
+    type: ActionTypes.GET_ENABLE_REQUEST_SUCCESS,
     payload: response,
   };
 };
 
 export const getEnableRequestFailure = (error: any) => {
   return {
-    type: ActionTypes. GET_ENABLE_REQUEST_FAILURE,
+    type: ActionTypes.GET_ENABLE_REQUEST_FAILURE,
     payload: error,
   };
 };
+
+
+/**
+ * selected vc details
+ */
+
+
+export const selectedVcDetails = (response: any) => {
+  return {
+    type: ActionTypes.SELECTED_VC_DETAILS,
+    payload: response,
+  }
+}
+
+
+/**
+ * vc notification details
+ */
+
+
+export const vcNotificationDetails = (response: any) => {
+  console.log("response090909===>",response)
+  return {
+    type: ActionTypes.VC_NOTIFICATION_DETAILS,
+    payload: response,
+  }
+}
 
 
 
