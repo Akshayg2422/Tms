@@ -139,6 +139,7 @@ export const HOME_ROUTES = [
       {
         path: ROUTES['user-company-module'].employee,
         name: translate("sideNav.Employee Portfolio"),
+        // icon:icons.protfolio,
         miniName: "EP",
         component: <EmployeesList />,
         layout: '/admin',
@@ -294,27 +295,27 @@ export const USER_COMPANY_ROTES = [
     component: <AdminFeeds />
   },
   {
-    key: 7,
+    key: 6,
     path: ROUTES['user-company-module'].Events,
     component: <Events />
   },
   {
-    key: 8,
+    key: 7,
     path: ROUTES['user-company-module']['add-event'],
     component: <AddEvent />
   },
   {
-    key: 9,
+    key: 8,
     path: ROUTES['user-company-module']['schedule-meeting'],
     component: <ScheduleMeeting />
   },
   {
-    key: 10,
+    key: 9,
     path: ROUTES['user-company-module']['video-conference'],
     component: <VideoConference />
   },
   {
-    key: 11,
+    key: 10,
     path: ROUTES['user-company-module'].Groups,
     component: <Groups />
   },

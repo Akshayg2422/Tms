@@ -10,7 +10,7 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
     const { selectedTaskGroupCode } = useSelector((state: any) => state.UserCompanyReducer);
     const dispatch = useDispatch()
 
-    console.log(JSON.stringify(selectedTaskGroupCode)+'===');
+    console.log('TaskGroup=====>',JSON.stringify(selectedTaskGroupCode));
     
 
     useEffect(() => {

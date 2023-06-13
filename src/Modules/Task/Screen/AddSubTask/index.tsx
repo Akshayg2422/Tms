@@ -95,7 +95,7 @@ function AddSubTask() {
     function getCompanyEmployeeApi() {
 
         const params = {
-            branch_id: getBranchId(),
+            code: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id })
         };
@@ -121,8 +121,8 @@ function AddSubTask() {
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: false,
-            ...(eta && {eta_time: eta}),
-            parent_id: selectedTask?.id
+            eta_time: eta,
+            code: selectedTask?.id
         };
 
 
@@ -224,18 +224,18 @@ function AddSubTask() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-                <Input
+                {/* <Input
                     heading={translate("auth.description")}
                     value={description.value}
                     onChange={description.onChange}
-                />
-                 <DropDown
-                    heading={translate("auth.Task Priority")!}
-                    selected={selectedTicketPriority.value}
-                    placeHolder={translate('order.please select a task priority')!}
-                    data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange} />
-
+                /> */}
+                 <div >
+                    <h4 className="">{translate('auth.description')}</h4>
+                    <textarea style={{ width: '436px', height: '50px' }}
+                        value={description.value}
+                        onChange={description.onChange}
+                        className="form-control form-control-sm" />
+                </div>
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}
@@ -277,6 +277,7 @@ function AddSubTask() {
                     variant={'custom'}
                         heading={translate("common.user")!}
                          data={getDropDownCompanyUser(employees)}
+                         selected={selectedUserId}
                 onChange={(item)=>{
                     setSelectedUserId(item)
 

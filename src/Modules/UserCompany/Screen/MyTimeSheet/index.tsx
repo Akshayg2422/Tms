@@ -530,6 +530,7 @@ function MyTimeSheet() {
           <AutoComplete
             heading={translate('auth.task')!}
             data={assignedTaskDetails}
+            selected={selectedTask}
             onChange={(item) => {
               setSelectedTask(item)
 
