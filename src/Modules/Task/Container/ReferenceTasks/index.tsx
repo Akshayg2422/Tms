@@ -16,10 +16,13 @@ function ReferenceTasks() {
     (state: any) => state.TaskReducer
   );
 
+ 
+  
+
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { goTo } = useNavigation()
   const { height } = useWindowDimensions()
-  
+
 
   useEffect(() => {
     proceedgetReferenceTasks(referencesTasksCurrentPages);
@@ -27,27 +30,28 @@ function ReferenceTasks() {
 
 
   const proceedgetReferenceTasks = (page_number: number) => {
-    
+
     const params = {
       page_number,
-      task_id: id,
+      code: id,
       q: ""
     };
-
+    console.log(params, "pp==>")
     dispatch(
       getReferenceTasks({
         params,
         onSuccess: (response) => () => {
         },
         onError: () => () => {
-          
-         },
+
+        },
       })
     );
   }
 
 
   const normalizedTableData = (data: any) => {
+
 
     if (data && data.length > 0) {
       return data?.map((el: any) => {
@@ -58,9 +62,11 @@ function ReferenceTasks() {
           "raised by company": el?.raised_by_company?.name
         };
       });
+
     }
   };
 
+  console.log('referencesTasks===============>', JSON.stringify(referencesTasks));
 
   return (
 
@@ -71,8 +77,9 @@ function ReferenceTasks() {
         }} />
       </div>
       }
-      
+
       {referencesTasks && referencesTasks?.length > 0 ?
+
 
         <CommonTable
           tableDataSet={referencesTasks}
@@ -90,12 +97,15 @@ function ReferenceTasks() {
             proceedgetReferenceTasks(paginationHandler("next", referencesTasksCurrentPages));
           }
           }
-          tableOnClick={(e, index, item) => {
+          tableOnClick={(index,id,item) => {
+            console.log(item.code)
+    
             dispatch(setSelectedTask(item))
-            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item.id)
+            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
           }}
 
-        /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} isButton /></div>}
+        />
+        : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} isButton /></div>}
     </Card>
 
 

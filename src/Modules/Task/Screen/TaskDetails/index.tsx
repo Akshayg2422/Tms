@@ -26,10 +26,10 @@ function TaskDetails() {
     const [infoHeight, setInfoHeight] = useState(0)
 
     const TABS = [
-        { id: "1", title: <div className="text-center"><Image src={selectedTabPositions.id === '1' ? icons.CommentsPink : icons.Comments} height={16} width={16} /></div>, component: <Comments /> },
-        { id: "2", title: <div className="text-center"><Image src={selectedTabPositions.id === '2' ? icons.attachmentsPink : icons.attachments} height={16} width={16} /></div>, component: <TaskAttachments /> },
-        { id: "3", title: <div className="text-center"><Image src={selectedTabPositions.id === '3' ? icons.referencePink : icons.reference} height={16} width={16} /></div>, component: <ReferenceTasks /> },
-        { id: "4", title: <div className="text-center"><Image src={selectedTabPositions.id === '4' ? icons.usersPink : icons.users} height={16} width={16} /></div>, component: <TaskUsers /> },
+        { id: "1", title: <div className="text-center"><Image src={selectedTabPositions.id==='1' ? icons.CommentsPink : icons.Comments} height={16} width={16} /></div>, component: <Comments /> },
+        { id: "2", title: <div className="text-center"><Image src={selectedTabPositions.id==='2' ? icons.attachmentsPink : icons.attachments} height={16} width={16} /></div>, component: <TaskAttachments /> },
+        { id: "3", title: <div className="text-center"><Image src={selectedTabPositions.id==='3' ? icons.referencePink : icons.reference} height={16} width={16} /></div>, component: <ReferenceTasks /> },
+        { id: "4", title: <div className="text-center"><Image src={selectedTabPositions.id==='4' ? icons.usersPink : icons.users} height={16} width={16} /></div>, component: <TaskUsers /> },
     ];
 
 
@@ -40,7 +40,7 @@ function TaskDetails() {
     })
 
     return (
-
+        
         <div className="h-100vh m-3">
             <div className="row">
                 <div className="col mr--3 h-100vh overflow-hide" style={{
@@ -51,7 +51,7 @@ function TaskDetails() {
                     </div>
                     <div className="mt--3" style={{
                         height: height - (infoHeight + 45),
-                        minHeight: 30
+                        minHeight: 300
                     }}>
                         <SubTasks />
                     </div>

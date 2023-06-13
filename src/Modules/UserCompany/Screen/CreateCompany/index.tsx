@@ -40,9 +40,7 @@ function CreateCompany({ }: CreateCompanyProps) {
   const city = useInput("");
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
-  // let attach = [photo]
-  // let PhotoAttach = attach.slice(-1, 4)
-  // console.log(photo,"[[[[")
+
 
  
 

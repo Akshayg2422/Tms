@@ -160,7 +160,7 @@ function Tickets() {
                   tableOnClick={(idx, index, item) => {
                     dispatch(setSelectedTicket(item));
                     dispatch(setSelectedTicketTabPosition({ id: '1' }))
-                    goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item?.id);
+                    goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item?.code);
                   }
                   }
                 />

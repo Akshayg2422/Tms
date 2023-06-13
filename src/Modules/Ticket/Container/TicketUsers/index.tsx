@@ -20,7 +20,7 @@ function TicketUsers() {
 
   function getTicketUserApi() {
     const params = {
-      ticket_id: id,
+      code: id,
     };
 
     dispatch(
