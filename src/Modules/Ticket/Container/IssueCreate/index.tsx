@@ -59,7 +59,7 @@ function IssueCreate() {
   const [image, setImage] = useState("");
   const [departmentDataList, setDepartmentDatalist] = useState<any>();
   const [selectDepartment, setSelectDepartment] = useState<any>({})
-const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
+  const [selectNoOfPickers, setSelectNoOfPickers] = useState<any>()
   const referenceNo = useInput("");
   const title = useInput("");
   const description = useInput("");
@@ -68,10 +68,10 @@ const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
 
 
 
-  const handleImagePicker = ( file: any) => {
- 
+  const handleImagePicker = (file: any) => {
+
     let newUpdatedPhoto = [...photo, file];
-  
+
     setPhoto(newUpdatedPhoto);
   };
 
@@ -284,7 +284,7 @@ const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
           />
           }
 
-{/* 
+          {/* 
 
           {companyUserDashboard && companyUserDashboard.length > 0 && <AutoCompleteDropDownImage
             heading={translate("common.user")!}
@@ -336,24 +336,24 @@ const [selectNoOfPickers,setSelectNoOfPickers]=useState<any>()
         </div> */}
 
         <div className="col-auto pb-2">
-                <div className="row">
-                <ImagePicker
-                    icon={image}
-                    size='xl'
-                    heading={translate("common.addAttachment")!}
-                    noOfFileImagePickers={4}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
-                    }}
-                    onSelectImagePicker={(el)=>{
-                        setSelectNoOfPickers(el?.length)
+          <div className="row">
+            <ImagePicker
+              icon={image}
+              size='xl'
+              heading={translate("common.addAttachment")!}
+              noOfFileImagePickers={4}
+              onSelect={(image) => {
+                let file = image.toString().replace(/^data:(.*,)?/, "")
+                handleImagePicker(file)
+              }}
+              onSelectImagePicker={(el) => {
+                setSelectNoOfPickers(el?.length)
 
-                    }}
-                />
+              }}
+            />
 
-                </div>
-                </div>
+          </div>
+        </div>
 
         <div className="row justify-content-end">
           <div className="col-md-6 col-lg-4  my-4">

@@ -93,9 +93,9 @@ export const CREATE_EXTERNAL = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  reference_number: {
-    presence: { allowEmpty: false, message: "reference no cannot be empty" },
-  },
+  // reference_number: {
+  //   presence: { allowEmpty: false, message: "reference no cannot be empty" },
+  // },
   // brand_branch_id: {
   //   presence: { allowEmpty: false, message: "Please select company" },
   // },
@@ -115,9 +115,9 @@ export const CREATE_INTERNAL = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  reference_number: {
-    presence: { allowEmpty: false, message: "reference no cannot be empty" },
-  },
+  // reference_number: {
+  //   presence: { allowEmpty: false, message: "reference no cannot be empty" },
+  // },
 
   // assigned_to_id: {
   //   presence: { allowEmpty: false, message: "please select User" },
