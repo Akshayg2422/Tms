@@ -64,4 +64,6 @@ export interface UserCompanyStateProp {
     timeStatus:any,
     EnableRequestDataList:any,
     EnableRequest:any,
+    settingVcDetails:any,
+    vcNotificationData:any
 }
