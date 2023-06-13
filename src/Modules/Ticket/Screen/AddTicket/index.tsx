@@ -271,9 +271,9 @@ function AddTicket() {
                     value={description.value}
                     onChange={description.onChange}
                 /> */}
-                <div >
-                    <h4 className="">{translate('auth.description')}</h4>
-                    <textarea style={{ width: '436px', height: '50px' }}
+                <div className="col-lg-5">
+                    <h4 className="ml--3">{translate('auth.description')}</h4>
+                    <textarea 
                         value={description.value}
                         onChange={description.onChange}
                         className="form-control form-control-sm" />
@@ -340,6 +340,7 @@ function AddTicket() {
                     variant={'custom'}
                         heading={translate("common.user")!}
                          data={getDropDownCompanyUser(employees)}
+                          selected={selectedUserId}
                 onChange={(item)=>{
                     setSelectedUserId(item)
 

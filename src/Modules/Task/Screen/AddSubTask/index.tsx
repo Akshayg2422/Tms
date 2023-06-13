@@ -277,6 +277,7 @@ function AddSubTask() {
                     variant={'custom'}
                         heading={translate("common.user")!}
                          data={getDropDownCompanyUser(employees)}
+                         selected={selectedUserId}
                 onChange={(item)=>{
                     setSelectedUserId(item)
 

@@ -49,8 +49,6 @@ function AddTask() {
     const { dashboardDetails, departments, designations, associatedCompaniesL, employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-
-    console.log(employees, "employees")
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
@@ -68,7 +66,6 @@ function AddTask() {
     const taskGroup = useDropDown({})
     const [selectNoPickers, setSelectNoPickers] = useState<any>();
     const [image, setImage] = useState("");
-    const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
@@ -297,8 +294,8 @@ function AddTask() {
                     onChange={description.onChange}
                 /> */}
                 <div >
-                    <h4 className="">{translate('auth.description')}</h4>
-                    <textarea style={{ width: '436px', height: '50px' }}
+                    <h4 className="col-lg-5 ml--3">{translate('auth.description')}</h4>
+                    <textarea 
                         value={description.value}
                         onChange={description.onChange}
                         className="form-control form-control-sm" />
@@ -385,8 +382,10 @@ function AddTask() {
                         variant={'custom'}
                         heading={translate("common.user")!}
                         data={getDropDownCompanyUser(employees)}
+                        selected={selectedUserId}
                         onChange={(item) => {
                             setSelectedUserId(item)
+                    
 
                         }}
                     />
