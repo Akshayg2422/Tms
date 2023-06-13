@@ -10,7 +10,7 @@ import {
     Spinner,
     LoadingButton,
     AutoComplete,
- 
+
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -46,11 +46,11 @@ function AddTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations , associatedCompaniesL, employees } = useSelector(
+    const { dashboardDetails, departments, designations, associatedCompaniesL, employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
 
-    console.log(employees,"employees")
+    console.log(employees, "employees")
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
@@ -116,7 +116,7 @@ function AddTask() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
-                  
+
                 },
                 onError: () => () => { },
             })
@@ -124,17 +124,25 @@ function AddTask() {
     }
 
     const submitTaskHandler = () => {
-        setLoading(true)
+
         const params = {
             title: title?.value,
             description: description?.value,
+<<<<<<< HEAD
+            ...(referenceNo?.value && { reference_number: referenceNo?.value }),
+=======
             ...(referenceNo?.value && {reference_number: referenceNo?.value}),
+>>>>>>> 7b1881dae9306b940c201fffc989596be0f7477a
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
+<<<<<<< HEAD
+            ...(eta && { eta_time: eta }),
+=======
            ...(eta && {eta_time: eta}),
+>>>>>>> 7b1881dae9306b940c201fffc989596be0f7477a
             group_id: taskGroup?.value?.id,
             ...(department?.value?.id && { department_id: department.value.id }),
             ...(designation?.value?.id && { designation_id: designation.value.id })
@@ -143,6 +151,7 @@ function AddTask() {
 
         const validation = validate(taskType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
+            setLoading(true)
             dispatch(
                 addTask({
                     params,
@@ -175,7 +184,7 @@ function AddTask() {
                     if (companies && companies.length > 0) {
                         setDisableTaskType([]);
                     }
-                    
+
                     else {
                         setTaskType(type[1]);
                         setDisableTaskType([type[0]] as never);
@@ -284,7 +293,10 @@ function AddTask() {
 
             <div className="col-md-9 col-lg-5">
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 7b1881dae9306b940c201fffc989596be0f7477a
                 <Input
 
                     heading={translate("common.title")}
@@ -296,12 +308,7 @@ function AddTask() {
                     value={description.value}
                     onChange={description.onChange}
                 />
-                <Input
-                    type={"text"}
-                    heading={translate("auth.referenceNo")}
-                    value={referenceNo.value}
-                    onChange={referenceNo.onChange}
-                />
+
 
                 <DropDown
                     heading={translate("auth.Task Priority")!}
@@ -310,7 +317,14 @@ function AddTask() {
                     data={PRIORITY}
                     onChange={selectedTicketPriority.onChange} />
 
-                <div className="mb-1">
+                <Input
+                    type={"text"}
+                    heading={translate("auth.referenceNo")}
+                    value={referenceNo.value}
+                    onChange={referenceNo.onChange}
+                />
+
+                <div className="my-3">
                     <Radio
                         data={type}
                         selectItem={taskType}
@@ -330,7 +344,7 @@ function AddTask() {
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={translate('order.Select a company')!}
-                        data={getDropDownCompanyDisplayData( associatedCompaniesL )}
+                        data={getDropDownCompanyDisplayData(associatedCompaniesL)}
                         onChange={(item) => {
                             company.onChange(item)
                         }}
@@ -360,18 +374,18 @@ function AddTask() {
                 />
                 }
 
-{getExternalCompanyStatus() && employees && employees.length > 0 &&
+                {getExternalCompanyStatus() && employees && employees.length > 0 &&
                     <AutoComplete
-                    variant={'custom'}
+                        variant={'custom'}
                         heading={translate("common.user")!}
-                         data={getDropDownCompanyUser(employees)}
-                onChange={(item)=>{
-                    setSelectedUserId(item)
+                        data={getDropDownCompanyUser(employees)}
+                        onChange={(item) => {
+                            setSelectedUserId(item)
 
-                }} 
+                        }}
                     />}
 
-                    
+
 
                 {subTaskGroups && subTaskGroups.length > 0 && <DropDown
                     heading={translate("common.selectGroup")}
@@ -381,7 +395,6 @@ function AddTask() {
                     selected={taskGroup.value}
                 />
                 }
-
                 <DateTimePicker
                     heading={'ETA'}
                     id="eta-picker"
@@ -389,31 +402,16 @@ function AddTask() {
                     type="both"
                     onChange={handleEtaChange}
                     value={date ? getMomentObjFromServer(date) : null!}
-                    
-                         />
+
+                />
             </div>
 
-
-            {/* <div className="col mt-4">
-                <Button
-                    text={loading ? "Loading..." : translate("common.submit")}
-                    onClick={submitTaskHandler}
-                    disabled={loading}
-                >
-                    {loading && <Spinner/>}
-                </Button>
-            </div>  */}
-
             <div className="col mt-4">
-
                 <LoadingButton size={'md'}
                     text={translate('common.submit')}
                     loading={loading}
                     onClick={submitTaskHandler} />
-
             </div>
-
-
         </Card >
 
     );
