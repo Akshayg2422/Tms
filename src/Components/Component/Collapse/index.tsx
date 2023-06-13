@@ -85,12 +85,12 @@ function CollapseButton({ title, children, displayDataSet, tableDataSet, tableOn
                 </div>
                 }
 
-                {selectButton && <div className='col-auto mr-4'>
+                {selectButton && <div className='col-auto '>
                   <Button className={'text-white'} text={text} size='sm' onClick={onClick} />
                 </div>
                 }
 
-{enableButton&& <div className='col-auto mr-4'>
+{enableButton&& <div className='col-auto'>
                   <Button className={'text-white'} text={textEnable} size='sm' onClick={onClickEnable} />
                 </div>
                 }

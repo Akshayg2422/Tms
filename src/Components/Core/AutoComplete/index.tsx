@@ -35,6 +35,9 @@ function  AutoComplete ({ variant = 'default', data, id, heading, selected, clas
     function proceedOnChange(e: any) {
         const selectedId = e.target.value
 
+        console.log(selectedId);
+        
+
         if (onChange) {
 
             const selectedItemById = data?.find((option: Option) => {

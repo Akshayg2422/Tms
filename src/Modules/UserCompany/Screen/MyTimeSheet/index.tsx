@@ -419,7 +419,6 @@ function MyTimeSheet() {
   return (
     <div className='m-3'>
 
-
       <div className='card  p-4' style={{ flexDirection: 'row' }}>
         <div className="h3">{translate('order.This Week')}</div>
         <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
@@ -445,7 +444,7 @@ function MyTimeSheet() {
                 onClick={() => {
                   addEtaTime.show()
                 }}
-                // enableButton={formattedShift[index]?.date!=}
+                enableButton={formattedShift[index]?.date==='2023-06-13'?false:true}
                 // selectButtonReject={true}
                 selectButton={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
                 selectButtonReject={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
@@ -461,6 +460,7 @@ function MyTimeSheet() {
                 onClickEnable={() => {
 
                   setEnable(formattedShift[index]?.date)
+                  enableModal.show()
 
                 }}
 
@@ -480,11 +480,9 @@ function MyTimeSheet() {
           enableModal.hide()
         }}
         size='sm'
+        title={'Enable Request'}
 
-      >
-        <div className='h4 col text-muted pb-3 '>
-
-        </div>
+      > 
         <div className="col-12">
           <Input
             placeholder={'Enable Reason'}
