@@ -106,7 +106,7 @@ function AddTask() {
     function getCompanyEmployeeApi() {
 
         const params = {
-            branch_id: getBranchId(),
+            code: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id }),
             per_page_count: -1,
@@ -134,8 +134,8 @@ function AddTask() {
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
-            ...(eta && { eta_time: eta }),
-            group_id: taskGroup?.value?.id,
+            eta_time: eta,
+            code: taskGroup?.value?.id,
             ...(department?.value?.id && { department_id: department.value.id }),
             ...(designation?.value?.id && { designation_id: designation.value.id })
 
@@ -209,7 +209,7 @@ function AddTask() {
     function getDepartmentsApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            code: getBranchId()
         }
 
 
@@ -226,7 +226,7 @@ function AddTask() {
     function getDesignationApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            code: getBranchId()
         }
 
 
@@ -291,12 +291,25 @@ function AddTask() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-                <Input
+                {/* <Input
                     heading={translate("auth.description")}
                     value={description.value}
                     onChange={description.onChange}
-                />
+                /> */}
+                <div >
+                    <h4 className="">{translate('auth.description')}</h4>
+                    <textarea style={{ width: '436px', height: '50px' }}
+                        value={description.value}
+                        onChange={description.onChange}
+                        className="form-control form-control-sm" />
+                </div>
 
+                <Input
+                    type={"text"}
+                    heading={translate("auth.referenceNo")}
+                    value={referenceNo.value}
+                    onChange={referenceNo.onChange}
+                />
 
                 <DropDown
                     heading={translate("auth.Task Priority")!}

@@ -28,7 +28,7 @@ function ReferenceTickets() {
     const proceedgetReferenceTickets = (page_number: number) => {
         const params = {
             page_number,
-            ticket_id: id,
+            code: id,
             q: ""
         };
 
@@ -45,7 +45,8 @@ function ReferenceTickets() {
 
 
     const normalizedTableData = (data: any) => {
-        console.log("data",data)
+
+        console.log("data>>>>>>>>",data)
 
         return data?.map((el: any) => {
             return {
@@ -85,11 +86,15 @@ function ReferenceTickets() {
                     }
                     }
                     tableOnClick={(e, index, item) => {
+
+                        console.log("item.code==>",item.code)
+
                         dispatch(setSelectedTicket(item))
-                        goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item.id)
+                        goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item.code)
                     }}
 
-                /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton /></div>}
+                /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton />
+                </div>}
         </Card>
 
 

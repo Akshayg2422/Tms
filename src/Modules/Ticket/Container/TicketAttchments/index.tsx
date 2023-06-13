@@ -27,7 +27,7 @@ function TicketAttachments() {
   function getTicketEventsApiHandler(page_number: number, q_many?: string) {
 
     const params = {
-      ticket_id: id,
+      code: id,
       event_type: MEA,
       q_many,
       page_number

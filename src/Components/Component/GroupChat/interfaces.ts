@@ -11,4 +11,5 @@ export interface GroupChatProps {
     editOnClick?: () => void;
     deleteOnClick?: () => void;
     subtitleOnclick?: () => void;
+    onClick?:()=>void;
 }
