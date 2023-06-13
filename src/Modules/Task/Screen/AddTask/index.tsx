@@ -128,21 +128,13 @@ function AddTask() {
         const params = {
             title: title?.value,
             description: description?.value,
-<<<<<<< HEAD
             ...(referenceNo?.value && { reference_number: referenceNo?.value }),
-=======
-            ...(referenceNo?.value && {reference_number: referenceNo?.value}),
->>>>>>> 7b1881dae9306b940c201fffc989596be0f7477a
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
-<<<<<<< HEAD
             ...(eta && { eta_time: eta }),
-=======
-           ...(eta && {eta_time: eta}),
->>>>>>> 7b1881dae9306b940c201fffc989596be0f7477a
             group_id: taskGroup?.value?.id,
             ...(department?.value?.id && { department_id: department.value.id }),
             ...(designation?.value?.id && { designation_id: designation.value.id })
@@ -293,10 +285,6 @@ function AddTask() {
 
             <div className="col-md-9 col-lg-5">
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 7b1881dae9306b940c201fffc989596be0f7477a
                 <Input
 
                     heading={translate("common.title")}
@@ -340,41 +328,46 @@ function AddTask() {
                     />
                 </div>
 
-                {taskType && taskType?.id === "1" && (
-                    <DropDown
-                        heading={translate("common.company")!}
-                        placeHolder={translate('order.Select a company')!}
-                        data={getDropDownCompanyDisplayData(associatedCompaniesL)}
+                {
+                    taskType && taskType?.id === "1" && (
+                        <DropDown
+                            heading={translate("common.company")!}
+                            placeHolder={translate('order.Select a company')!}
+                            data={getDropDownCompanyDisplayData(associatedCompaniesL)}
+                            onChange={(item) => {
+                                company.onChange(item)
+                            }}
+                            selected={company.value}
+                        />
+                    )
+                }
+
+                {
+                    getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
+                        heading={translate("common.department")!}
+                        placeHolder={translate("order.Select a Department")!}
+                        data={getDropDownDisplayData(departments)}
                         onChange={(item) => {
-                            company.onChange(item)
+                            department.onChange(item)
                         }}
-                        selected={company.value}
+                        selected={department.value}
                     />
-                )}
-
-                {getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
-                    heading={translate("common.department")!}
-                    placeHolder={translate("order.Select a Department")!}
-                    data={getDropDownDisplayData(departments)}
-                    onChange={(item) => {
-                        department.onChange(item)
-                    }}
-                    selected={department.value}
-                />
                 }
 
-                {getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
-                    heading={translate("auth.designation")}
-                    placeHolder={translate('order.Select a Designation')!}
-                    data={getDropDownDisplayData(designations)}
-                    onChange={(item) => {
-                        designation.onChange(item)
-                    }}
-                    selected={designation.value}
-                />
+                {
+                    getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
+                        heading={translate("auth.designation")}
+                        placeHolder={translate('order.Select a Designation')!}
+                        data={getDropDownDisplayData(designations)}
+                        onChange={(item) => {
+                            designation.onChange(item)
+                        }}
+                        selected={designation.value}
+                    />
                 }
 
-                {getExternalCompanyStatus() && employees && employees.length > 0 &&
+                {
+                    getExternalCompanyStatus() && employees && employees.length > 0 &&
                     <AutoComplete
                         variant={'custom'}
                         heading={translate("common.user")!}
@@ -383,17 +376,19 @@ function AddTask() {
                             setSelectedUserId(item)
 
                         }}
-                    />}
+                    />
+                }
 
 
 
-                {subTaskGroups && subTaskGroups.length > 0 && <DropDown
-                    heading={translate("common.selectGroup")}
-                    placeHolder={translate('order.Select a Group')!}
-                    data={getDropDownDisplayData(subTaskGroups)}
-                    onChange={taskGroup.onChange}
-                    selected={taskGroup.value}
-                />
+                {
+                    subTaskGroups && subTaskGroups.length > 0 && <DropDown
+                        heading={translate("common.selectGroup")}
+                        placeHolder={translate('order.Select a Group')!}
+                        data={getDropDownDisplayData(subTaskGroups)}
+                        onChange={taskGroup.onChange}
+                        selected={taskGroup.value}
+                    />
                 }
                 <DateTimePicker
                     heading={'ETA'}
@@ -404,7 +399,7 @@ function AddTask() {
                     value={date ? getMomentObjFromServer(date) : null!}
 
                 />
-            </div>
+            </div >
 
             <div className="col mt-4">
                 <LoadingButton size={'md'}
