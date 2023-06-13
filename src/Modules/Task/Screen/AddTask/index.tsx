@@ -128,13 +128,21 @@ function AddTask() {
         const params = {
             title: title?.value,
             description: description?.value,
+<<<<<<< HEAD
             ...(referenceNo?.value && { reference_number: referenceNo?.value }),
+=======
+            ...(referenceNo?.value && {reference_number: referenceNo?.value}),
+>>>>>>> 7b1881dae9306b940c201fffc989596be0f7477a
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
+<<<<<<< HEAD
             ...(eta && { eta_time: eta }),
+=======
+           ...(eta && {eta_time: eta}),
+>>>>>>> 7b1881dae9306b940c201fffc989596be0f7477a
             group_id: taskGroup?.value?.id,
             ...(department?.value?.id && { department_id: department.value.id }),
             ...(designation?.value?.id && { designation_id: designation.value.id })
@@ -285,6 +293,10 @@ function AddTask() {
 
             <div className="col-md-9 col-lg-5">
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b1881dae9306b940c201fffc989596be0f7477a
                 <Input
 
                     heading={translate("common.title")}

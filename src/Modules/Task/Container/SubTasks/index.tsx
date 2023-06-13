@@ -17,6 +17,8 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
 
+    console.log(subTasks,"subTasks===>")
+
     useEffect(() => {
         getSubTasksApi()
     }, [id])
@@ -35,6 +37,8 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         }))
     }
     const normalizedTableData = (data: any) => {
+
+        console.log(data,"ddddd")
         if (data && data.length > 0) {
             return data?.map((el: any) => {
                 return {
@@ -51,11 +55,11 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
     return (
 
-        <Card className="h-100  shadow-none" style={{ maxHeight: '44vh' }}>
+        <Card className="h-100  shadow-none overflow-auto overflow-hide" style={{ maxHeight: '44vh' }}>
             {(subTasks && subTasks.length > 0) && <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={translate("auth.subTask")} />
                 <Button
-                    className={'text-white shadow-none'}
+                    className={'text-white shadow-none '}
                     size={"sm"}
                     text={translate("common.addSubTask")}
                     onClick={() => {
@@ -66,7 +70,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
             }
 
             {/* <Card className='h-100 mt-1 mx--4 overflow-auto overflow-hide shadow-none' style={{ maxHeight: '39vh' }}> */}
-            <div className='pt-2  overflow-auto overflow-hide' style={{marginRight:'-21px',marginLeft:'-21px'}}>
+            <div className='pt-2 ' style={{marginRight:'-21px',marginLeft:'-21px'}}>
                 {subTasks && subTasks.length > 0 ?
                     <CommonTable
                         tableDataSet={subTasks}

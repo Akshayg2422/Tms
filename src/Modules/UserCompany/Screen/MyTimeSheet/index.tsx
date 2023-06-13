@@ -9,7 +9,7 @@ import {
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
-import { Button, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton,  AutoComplete } from '@Components';
+import { Button, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, AutoComplete } from '@Components';
 import { icons } from '@Assets';
 import { ROUTES } from '@Routes'
 import { useNavigation } from '@Hooks'
@@ -242,9 +242,6 @@ function MyTimeSheet() {
       })
     )
 
-
-
-
   }
 
 
@@ -333,11 +330,7 @@ function MyTimeSheet() {
 
       })
     )
-
-
   }
-
-
 
   const addEmployeeTimeSheet = () => {
 
@@ -441,6 +434,8 @@ function MyTimeSheet() {
         <div>
           {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
 
+      
+
             return (
               <CollapseButton
                 selectedIds={formattedShift[index]?.date}
@@ -450,6 +445,7 @@ function MyTimeSheet() {
                 onClick={() => {
                   addEtaTime.show()
                 }}
+                // enableButton={formattedShift[index]?.date!=}
                 // selectButtonReject={true}
                 selectButton={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
                 selectButtonReject={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
@@ -530,11 +526,11 @@ function MyTimeSheet() {
         }}
         title={translate('auth.addTimeSheet')!}
       >
-      
+
 
         {
-          <AutoComplete 
-          heading={translate('auth.task')!}
+          <AutoComplete
+            heading={translate('auth.task')!}
             data={assignedTaskDetails}
             onChange={(item) => {
               setSelectedTask(item)

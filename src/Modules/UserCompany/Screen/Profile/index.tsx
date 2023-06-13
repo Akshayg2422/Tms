@@ -7,6 +7,7 @@ import { addUpdateEmployeePhoto, getDashboard, setLanguage, userLogout } from '@
 import { ROUTES } from "@Routes"
 import { translate } from "@I18n";
 import { useEffect } from "react";
+import { icons } from "@Assets";
 
 
 function Profile() {

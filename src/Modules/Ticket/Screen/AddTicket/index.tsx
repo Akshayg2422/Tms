@@ -61,8 +61,7 @@ function AddTicket() {
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
-    const [, setDesignations] = useState([])
-    const selectedTicketPriority = useDropDown("");
+    const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
     const [selectNoOfPickers, setSelectNoOfPickers] = useState<any>()
     const [loading, setLoading] = useState(false)
@@ -121,14 +120,14 @@ function AddTicket() {
         const params = {
             title: title?.value,
             description: description?.value,
-            reference_number: referenceNo?.value,
+           ...(referenceNo?.value &&{reference_number: referenceNo?.value}),
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             ticket_attachments: [{ attachments: attach }],
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id }),
-            eta_time: eta,
+           ...(eta && {eta_time: eta}),
         };
 
 
@@ -240,7 +239,28 @@ function AddTicket() {
                 </div>
             </div>
             <hr className='mt-3'></hr>
-            <div className="col-md-9 col-lg-5 mt--2">
+
+            <div className="col-auto pb-2 mt--2">
+                <div className="row">
+                    <ImagePicker
+                        icon={image}
+                        size='xl'
+                        heading={translate("common.addAttachment")!}
+                        noOfFileImagePickers={4}
+                        onSelect={(image) => {
+
+                            let file = image.toString().replace(/^data:(.*,)?/, "")
+                            handleImagePicker(file)
+                        }}
+                        onSelectImagePicker={(el) => {
+                            setSelectNoOfPickers(el?.length)
+
+                        }}
+                    />
+
+                </div>
+            </div>
+            <div className="col-md-9 col-lg-5 mt--1">
                 <Input
                     heading={translate("common.title")}
                     value={title.value}
@@ -251,6 +271,12 @@ function AddTicket() {
                     value={description.value}
                     onChange={description.onChange}
                 />
+                  <DropDown
+                    heading={translate("common.ticketPriority")!}
+                    selected={selectedTicketPriority.value}
+                    placeHolder={translate('order.please select a ticket priority')!}
+                    data={PRIORITY}
+                    onChange={selectedTicketPriority.onChange} />
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}
@@ -319,14 +345,6 @@ function AddTicket() {
                 }} 
                     />}
 
-
-                <DropDown
-                    heading={translate("common.ticketPriority")!}
-                    selected={selectedTicketPriority.value}
-                    placeHolder={translate('order.please select a ticket priority')!}
-                    data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange} />
-
                 <DateTimePicker
                     heading={'ETA'}
                     id="eta-picker"
@@ -361,26 +379,7 @@ function AddTicket() {
                         })}
                 </div>
             </div> */}
-            <div className="col-auto pb-2 mt--2">
-                <div className="row">
-                    <ImagePicker
-                        icon={image}
-                        size='xl'
-                        heading={translate("common.addAttachment")!}
-                        noOfFileImagePickers={4}
-                        onSelect={(image) => {
-
-                            let file = image.toString().replace(/^data:(.*,)?/, "")
-                            handleImagePicker(file)
-                        }}
-                        onSelectImagePicker={(el) => {
-                            setSelectNoOfPickers(el?.length)
-
-                        }}
-                    />
-
-                </div>
-            </div>
+        
             <div className="col mt-4">
 
                 <LoadingButton size={'md'}

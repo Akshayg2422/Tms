@@ -436,7 +436,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.GET_EMPLOYEESL_SUCCESS:
       state = {
         ...state,
-        employeesl: action.payload.details.data,
+        employeesl: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
         employeeslCurrentPages: action.payload?.details.next_page === -1
           ? action?.payload?.details.num_pages
           : action?.payload?.details.next_page - 1,

@@ -137,16 +137,16 @@ export const CREATE_SUB_TASK_EXTERNAL = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  reference_number: {
-    presence: { allowEmpty: false, message: "reference no cannot be empty" },
-  },
-  brand_branch_id: {
-    presence: { allowEmpty: false, message: "Please select company" },
-  },
+  // reference_number: {
+  //   presence: { allowEmpty: false, message: "reference no cannot be empty" },
+  // },
+  // brand_branch_id: {
+  //   presence: { allowEmpty: false, message: "Please select company" },
+  // },
 
-  assigned_to_id: {
-    presence: { allowEmpty: false, message: "please select User" },
-  },
+  // assigned_to_id: {
+  //   presence: { allowEmpty: false, message: "please select User" },
+  // },
   priority: {
     presence: { allowEmpty: false, message: "please select priority" },
 
@@ -162,13 +162,13 @@ export const CREATE_SUB_TASK_INTERNAL = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  reference_number: {
-    presence: { allowEmpty: false, message: "reference no cannot be empty" },
-  },
+  // reference_number: {
+  //   presence: { allowEmpty: false, message: "reference no cannot be empty" },
+  // },
 
-  assigned_to_id: {
-    presence: { allowEmpty: false, message: "please select User" },
-  },
+  // assigned_to_id: {
+  //   presence: { allowEmpty: false, message: "please select User" },
+  // },
   priority: {
     presence: { allowEmpty: false, message: "please select priority" },
 
