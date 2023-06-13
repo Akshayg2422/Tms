@@ -21,9 +21,6 @@ function TicketEventHistory({ }: TicketEventHistoryProps) {
             ticket_id: selectedTicket.id,
         }
 
-
-  
-
         dispatch(
             getTicketEventHistory({
                 params,
@@ -79,7 +76,12 @@ function TicketEventHistory({ }: TicketEventHistoryProps) {
                     const { icon, subTitle, title, created_at }: any = getIconsFromStatus(ticketEvent)
                     const show = index !== ticketEventHistories.length - 1
                     return (
-                        <TimeLine icon={icon} subTitle={subTitle} showDotterLine={show} title={title} time={getDisplayDateFromMoment(getMomentObjFromServer(created_at))}>  </TimeLine >
+                        <TimeLine icon={icon} 
+                                  subTitle={subTitle} 
+                                  showDotterLine={show} 
+                                  title={title} 
+                                  time={getDisplayDateFromMoment(getMomentObjFromServer(created_at))}>  
+                        </TimeLine >
                     )
                 })
             } 

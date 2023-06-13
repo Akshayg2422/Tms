@@ -12,6 +12,7 @@ const ImagePicker = ({
   defaultValue,
   className = 'row',
   heading,
+  onSelectImagePickers,
   onSelectImagePicker,
   defaultPicker = false
 }: DropZoneImageProps) => {
@@ -21,7 +22,6 @@ const ImagePicker = ({
   const [photo, setPhoto] = useState<any>()
 
   const updatedProfile = photo && photo.filter((element: any) => element.id !== 0)
-  onSelectImagePicker(updatedProfile)
 
   useEffect(() => {
 
@@ -30,10 +30,12 @@ const ImagePicker = ({
         .then((result) => {
 
           if (defaultValue > 1) {
-            setPhoto([...result, initialValue])
+            setPhoto([...result, initialValue]) 
+    
           }
           else {
             setPhoto([...result])
+         
 
           }
         })
@@ -47,6 +49,9 @@ const ImagePicker = ({
 
   }, []);
 
+  if (photo) {
+    onSelectImagePicker(updatedProfile)
+  }
 
 
   const handleRefClick = (el) => {
@@ -69,6 +74,7 @@ const ImagePicker = ({
     setCount(value.id)
 
     setPhoto(updatedImageArray);
+  
 
   };
 
@@ -83,57 +89,56 @@ const ImagePicker = ({
         quality: 0.6,
         success: (file) => {
           const reader = new FileReader();
+          reader.onload = (e) => {
 
-          console.log(file,"pppppp")
-      reader.onload = (e) => {
+            if (onSelect && e.target) {
+              onSelect(e.target?.result);
 
-        if (onSelect && e.target) {
-          onSelect(e.target?.result);
+              updatedPhoto = { id: count, base64: e.target?.result }
 
-          updatedPhoto = { id: count, base64: e.target?.result }
+              let updatedSelectedPhotos: any = [...photo];
 
-          let updatedSelectedPhotos: any = [...photo];
+              //no of length=-
+              if (updatedSelectedPhotos.length > noOfFileImagePickers) {
+                updatedSelectedPhotos = updatedSelectedPhotos.filter(
+                  (filterItem: any) => filterItem.id !== 0
+                );
+                setPhoto(updatedSelectedPhotos)
 
-          //no of length=-
-          if (updatedSelectedPhotos.length > noOfFileImagePickers) {
-            updatedSelectedPhotos = updatedSelectedPhotos.filter(
-              (filterItem: any) => filterItem.id !== 0
-            );
-            setPhoto(updatedSelectedPhotos)
+              }
+              const ifExist = updatedSelectedPhotos.some(
+                (el: any) => el.id === updatedPhoto?.id
+              );
 
-          }
-          const ifExist = updatedSelectedPhotos.some(
-            (el: any) => el.id === updatedPhoto?.id
-          );
+              ///remove the edit image  entre fixe new image
+              if (ifExist) {
 
-          ///remove the edit image  entre fixe new image
-          if (ifExist) {
+                updatedSelectedPhotos = updatedSelectedPhotos.filter(
+                  (filterItem: any) => filterItem.id !== updatedPhoto?.id
+                );
+                updatedSelectedPhotos = [{ id: updatedPhoto?.id, base64: e.target?.result }, ...updatedSelectedPhotos]
+                setCount(photo.length + 1 - 1)
+                onSelectImagePickers(updatedSelectedPhotos)
 
-            updatedSelectedPhotos = updatedSelectedPhotos.filter(
-              (filterItem: any) => filterItem.id !== updatedPhoto?.id
-            );
-            updatedSelectedPhotos = [{ id: updatedPhoto?.id, base64: e.target?.result }, ...updatedSelectedPhotos]
-            setCount(photo.length + 1 - 1)
-
-          }
+              }
 
 
-          ///without add new image
-          else {
-            setCount(count + 1)
-            updatedSelectedPhotos = [updatedPhoto, ...updatedSelectedPhotos]
+              ///without add new image
+              else {
+                setCount(count + 1)
+                updatedSelectedPhotos = [updatedPhoto, ...updatedSelectedPhotos]
 
-          }
+              }
 
-          setPhoto(updatedSelectedPhotos)
+              setPhoto(updatedSelectedPhotos)
 
-        }
+            }
 
-      };
-      reader.readAsDataURL(file);
+          };
+          reader.readAsDataURL(file);
 
-    },
-  });
+        },
+      });
     }
   };
   return (

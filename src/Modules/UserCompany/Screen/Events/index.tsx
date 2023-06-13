@@ -47,14 +47,11 @@ function Events() {
   const deleteEventModal = useModal(false)
   const editEventModal = useModal(false)
   const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
-
-  console.log("startTime--->",startTime)
-
-
+ 
   let attach = photo.slice(-selectedNoOfPickers)
 
   const handleImagePicker = ( file: any) => {
-    let newUpdatedPhoto = [ file];
+    let newUpdatedPhoto = [file];
     setPhoto(newUpdatedPhoto);
   };
 
@@ -128,7 +125,6 @@ function Events() {
   const handleEndTimeEtaChange = (value: any) => {
     setEndTime(value)
   };
-
 
   const submitAddEventHandler = () => {
 
@@ -395,12 +391,30 @@ function Events() {
                     noOfFileImagePickers={2}
                     onSelect={(image) => {
                         let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
+                         handleImagePicker(file)
                        
                     }}
                     onSelectImagePicker={(el)=>{
+                  
                       setSelectedNoOfPickers(el?.length)
 
+                    }}
+
+                    onSelectImagePickers={(el)=>{
+                    
+
+                      let array: any = []
+
+                      for (let i = 0; i <= el.length; i++) {
+          
+                        let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                        if(editPickers!==undefined){
+                        array.push(editPickers)
+                        }
+                        
+                      }
+                      setPhoto(array)
+        
                     }}
                 />
 

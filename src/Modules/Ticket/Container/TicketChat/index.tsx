@@ -47,7 +47,7 @@ function TicketChat({ }: TicketChatProps) {
     }
     const getTicketEventsApi = (page_number: number) => {
         const params = {
-            ticket_id: id,
+            code: id,
             page_number
         }
 

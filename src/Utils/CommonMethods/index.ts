@@ -148,8 +148,8 @@ export function getDropDownCompanyUser(data: any) {
   return data && data?.map((item: any) => {
     return {
       text:item.name,
+      id: item.id,
       title: JSON.stringify({ designation: item?.designation?.name, department: item?.department?.name,image:getPhoto(item?.profile_image)}),}
-    
   })
 }
 

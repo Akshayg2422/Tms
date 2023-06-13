@@ -8,8 +8,7 @@ import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
 import { translate } from '@I18n'
 
-
-
+    
 function SubTasks({ cardHeight }: SubTasksProps) {
     const { id } = useParams()
     const { goTo } = useNavigation();
@@ -25,12 +24,12 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
     function getSubTasksApi() {
         const params = {
-            task_id: id
+            code: id
         }
 
         dispatch(getSubTasks({
             params,
-            onSuccess: (response) => () => {
+            onSuccess: () => () => {
             },
             onError: () => () => {
             },
@@ -40,7 +39,10 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
         console.log(data,"ddddd")
         if (data && data.length > 0) {
+
             return data?.map((el: any) => {
+                console.log('=========>data',data);
+                
                 return {
                     "Sub task":
                         <div className='row'>
@@ -78,7 +80,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                         tableOnClick={(e, index, item) => {
                             dispatch(setSelectedTask(item))
                             dispatch(setSelectedTabPosition({ id: '1' }))
-                            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id)
+                            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
 
                         }}
                     /> :
