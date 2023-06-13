@@ -16,7 +16,8 @@ function GroupChat({
     isLoginUser,
     editOnClick,
     deleteOnClick,
-    subtitleOnclick
+    subtitleOnclick,
+    onClick,
 }: GroupChatProps) {
 
     return (

@@ -25,7 +25,7 @@ function AddReferenceTask() {
   const addReferenceTaskHandler = () => {
     
     const params = {
-      code: selectedTask?.id,
+      id: selectedTask?.id,
       event_type: RTS,
       reference_task: getArrayFromArrayOfObject(selectedReferenceTask, 'id'),
     };
@@ -81,7 +81,7 @@ function AddReferenceTask() {
     const params = {
       q_many,
       page_number,
-      code: selectedTask.id,
+      id: selectedTask.id,
     };
 
     console.log("params", params)

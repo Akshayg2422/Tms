@@ -106,7 +106,11 @@ function AddChat() {
                             {selectDropzone && selectDropzone.map((el, index) => {
 
                                 return (
+
                                     <div className={`${index !== 0 && 'ml-2'}`}>
+                                        <div className='mt-3'>
+                                            <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
+                                        </div>
                                         <Dropzone variant='ICON'
 
                                             icon={image}
@@ -122,7 +126,7 @@ function AddChat() {
                         </div>
                     </div>
 
-                    <div className='mt-3'> <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /> </div>
+
                     <div className=' pt-2'>
                         <Button text={translate("common.submit")} onClick={addTaskEventAttachment} />
                     </div>

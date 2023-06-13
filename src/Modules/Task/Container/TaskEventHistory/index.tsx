@@ -46,7 +46,7 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
 
     function getTaskEventsDisplayData(data: any) {
         if (data && data.length > 0) {
-            return data.map(each => {
+            return data?.map(each => {
                 return {
                     ...getIconsFromStatus(each)
                 }
@@ -57,7 +57,7 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
     const getTaskEventHistoryApi = (page_numbers: number) => {
 
         const params = {
-            task_id: id,
+            code: id,
             page_numbers,
         }
 

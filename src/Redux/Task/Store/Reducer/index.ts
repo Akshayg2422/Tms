@@ -196,7 +196,7 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_REFERENCE_TASKS_FAILURE:
       state = {
         ...state,
-        referencesTasks: action.payload,
+        referencesTasks:undefined,
       };
       break;
 

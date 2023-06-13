@@ -8,8 +8,7 @@ import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
 import { translate } from '@I18n'
 
-
-
+    
 function SubTasks({ cardHeight }: SubTasksProps) {
     const { id } = useParams()
     const { goTo } = useNavigation();
@@ -28,7 +27,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
         dispatch(getSubTasks({
             params,
-            onSuccess: (response) => () => {
+            onSuccess: () => () => {
             },
             onError: () => () => {
             },
@@ -37,17 +36,17 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     const normalizedTableData = (data: any) => {
         if (data && data.length > 0) {
 
-            // return data?.map((el: any) => {
-            //     console.log('=========>data',data);
+            return data?.map((el: any) => {
+                console.log('=========>data',data);
                 
-            //     return {
-            //         "Sub task":
-            //             <div className='row'>
-            //                 <Priority priority={el?.priority} />
-            //                 <span className="ml-2">{el?.title}</span>
-            //             </div>
-            //     };
-            // });
+                return {
+                    "Sub task":
+                        <div className='row'>
+                            <Priority priority={el?.priority} />
+                            <span className="ml-2">{el?.title}</span>
+                        </div>
+                };
+            });
         }
         return []
     };

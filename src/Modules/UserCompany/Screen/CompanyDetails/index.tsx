@@ -31,11 +31,11 @@ function CompanyDetails() {
     <div className="m-3">
       <div className='row ml-1 mt--2'>
                 <Back />
-                <h3 className=' ml-2'>{translate('common.back')}</h3>
+                {/* <h3 className=' ml-2'>{translate('common.back')}</h3> */}
             </div>
-    {/* <Tabs tabs={TABS} selected={selectedTabPositions} onChange={(item) => {
+    <Tabs tabs={TABS} selected={selectedTabPositions} onChange={(item) => {
                         dispatch(setSelectedTabPosition(item))
-                    }} /> */}
+                    }} />
     </div>
   )
 }

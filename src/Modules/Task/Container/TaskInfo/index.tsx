@@ -320,8 +320,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     coverPhoto={by_user?.profile_photo}
                     profilePhoto={by_user?.profile_photo}
                     name={by_user?.name}
-                    department={by_user?.department.name}
-                    designation={by_user?.designation.name}
+                    department={by_user?.department?.name}
+                    designation={by_user?.designation?.name}
                     company={raised_by_company?.display_name}
                 />
 
