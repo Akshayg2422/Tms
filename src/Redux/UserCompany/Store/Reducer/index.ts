@@ -66,10 +66,12 @@ const initialState: UserCompanyStateProp = {
   chatGroups: undefined,
   selectedTaskGroupCode: "ALL",
   employeesDetails: undefined,
-  refreshGroupChat:undefined,
-  timeStatus:undefined,
-  EnableRequestDataList:undefined,
-  EnableRequest:undefined,
+  refreshGroupChat: undefined,
+  timeStatus: undefined,
+  EnableRequestDataList: undefined,
+  EnableRequest: undefined,
+  settingVcDetails: undefined,
+  vcNotificationData: undefined,
 
 }
 
@@ -587,6 +589,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, userToken: undefined };
       break;
     case ActionTypes.GET_TOKEN_BY_USER_SUCCESS:
+      console.log("9999999999999999999999999", action.payload.details)
       state = { ...state, userToken: action.payload.details };
       break;
     case ActionTypes.GET_TOKEN_BY_USER_FAILURE:
@@ -753,7 +756,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, chatGroups: undefined };
       break;
 
-      
+
     // ADD EMPLOYEE TIMELINE STATUS
 
     case ActionTypes.EMPLOYEE_TIMELINE_STATUS:
@@ -769,12 +772,12 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ActionTypes.EMPLOYEE_TIMELINE_STATUS_FAILURE:
-      state = { ...state,   timeStatus: undefined };
+      state = { ...state, timeStatus: undefined };
       break;
 
 
 
-       // add enable request
+    // add enable request
 
     case ActionTypes.ADD_ENABLE_REQUEST:
       state = {
@@ -789,13 +792,13 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ActionTypes.ADD_ENABLE_REQUEST_FAILURE:
-      state = { ...state,  EnableRequest: undefined };
+      state = { ...state, EnableRequest: undefined };
       break;
 
 
 
 
-       // get enable request
+    // get enable request
 
     case ActionTypes.GET_ENABLE_REQUEST:
       state = {
@@ -810,7 +813,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ActionTypes.GET_ENABLE_REQUEST_FAILURE:
-      state = { ...state,   EnableRequestDataList: undefined };
+      state = { ...state, EnableRequestDataList: undefined };
       break;
 
 
@@ -836,6 +839,25 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     case ActionTypes.REFRESH_GROUP_CHAT:
       state = { ...state, refreshGroupChat: !state.refreshGroupChat }
+      break;
+
+
+    /**
+* selected vc details
+*/
+
+    case ActionTypes.SELECTED_VC_DETAILS:
+      state = { ...state, settingVcDetails: action.payload }
+      break;
+
+
+    /**
+* vc notification details
+*/
+
+    case ActionTypes.VC_NOTIFICATION_DETAILS:
+      console.log("action.payload===>",action)
+      state = { ...state, vcNotificationData: action.payload }
       break;
 
     default:
