@@ -142,28 +142,26 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         <div ref={ref} >
             <Card className={'px-3'}>
                 <div>
-                    <div className="col">
-                        <div className="row d-flex justify-content-between">
+                    <div className="row">
+                        <div className="col">
                             <div className="row">
                                 <Back />
-                                <div className={'col-9'}>
-                                    <div >
-                                        <span> {title && <H tag={"h4"} className="mb-0" text={title} />} </span>
-                                        {description && <p className="text-muted text-sm mb--2">{capitalizeFirstLetter(description)}</p>}
-                                        {code && <small>{`# ${code}`}</small>}
-                                    </div>
-                                </div>
-
-                                <div className="pointer" onClick={() => {
-                                    editTaskModal.show()
-                                    editTitle.set(title)
-                                    editDescription.set(description)
-                                }}>
-                                    <Image src={icons.editEta} height={16} width={16} />
+                                <div className="ml-2">
+                                    <div>{title && <H tag={"h4"} className="mb-0" text={title} />}</div>
+                                    {description && <p className="text-muted text-sm mb--2">{capitalizeFirstLetter(description)}</p>}
+                                    {code && <small>{`#${code}`}</small>}
                                 </div>
                             </div>
                         </div>
+                        <div className="pointer col-auto" onClick={() => {
+                            editTaskModal.show()
+                            editTitle.set(title)
+                            editDescription.set(description)
+                        }}>
+                            <Image src={icons.editEta} height={16} width={16} />
+                        </div>
                     </div>
+
                     <div className="row mt-3">
                         {
                             task_attachments &&

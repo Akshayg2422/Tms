@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, HomeContainer, NoDataFound, Spinner } from "@Components";
+import { Button, HomeContainer, NoDataFound, Spinner, AutoComplete } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
@@ -19,28 +19,13 @@ function Tasks() {
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
 
-
-
   useEffect(() => {
-
     getTaskHandler(taskCurrentPages)
   }, [params])
 
 
-  useEffect(() => {
-    getDashboardDetails()
-  }, [selectedTask])
 
 
-  function getDashboardDetails() {
-    const params = {}
-    dispatch(getDashboard({
-      params,
-      onSuccess: (response) => () => {
-      },
-      onError: () => () => { }
-    }));
-  }
 
   const getTaskHandler = (page_number: number) => {
     setLoading(true);
@@ -122,8 +107,11 @@ function Tasks() {
       });
   };
 
+
+
   return (
     <div className="mx-3 mt-3">
+
       <div className="d-flex justify-content-end">
         <Button
           className="text-white"
@@ -137,8 +125,6 @@ function Tasks() {
       <div className="row mt-3 mb-2">
         <div className="mx-3 col">
           <TaskGroups onClick={(code) => {
-            console.log(taskParams,"ttnkfnvknkn")
-            console.log(params,"===>0p")
             dispatch(setTaskParams({ ...taskParams, group: code }))
             setParams({ ...params, group: code } as any)
           }} />
@@ -154,7 +140,7 @@ function Tasks() {
             <Spinner />
           </div>
         )}
-        
+
         {!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
 
           {tasks && tasks.length > 0 ?

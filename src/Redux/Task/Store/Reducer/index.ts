@@ -136,7 +136,7 @@ const TaskReducer = (state = initialState, action: any) => {
       state = { ...state, subTasks: action.payload?.details.data }
       break;
     case ActionTypes.GET_SUB_TASKS_FAILURE:
-      state = { ...state, subTasks: action.payload }
+      state = { ...state, subTasks: undefined }
       break;
 
 

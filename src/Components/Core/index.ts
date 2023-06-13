@@ -20,18 +20,15 @@ export * from './NoRecordsFound'
 export * from './DropZone'
 export * from './MultiSelectDropDown'
 export * from './RadioGroup'
-export * from './AutoCompleteDropDown'
 export * from './DropdownIcon'
-export * from './AutoCompleteDropDownImage'
 export * from './PageNation'
 export * from './Back'
 export * from './BarChart'
-export * from './AutoSearchInput'
 export * from './Carousel'
 export * from './ImagePicker'
 export * from './ComponentLoader'
-export * from './DateTimePickers'
-export * from './AutoCompleteDropDownSearch'
+export * from './AutoComplete'
+
 
 
 
