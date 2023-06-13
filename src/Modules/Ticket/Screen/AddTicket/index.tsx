@@ -273,7 +273,7 @@ function AddTicket() {
                 /> */}
                 <div >
                     <h4 className="">{translate('auth.description')}</h4>
-                    <textarea style={{ width: '358px', height: '50px' }}
+                    <textarea style={{ width: '436px', height: '50px' }}
                         value={description.value}
                         onChange={description.onChange}
                         className="form-control form-control-sm" />
