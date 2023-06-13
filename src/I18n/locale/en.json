@@ -108,7 +108,10 @@
     "Female":"Female",
     "Others":"Others",
     "Edit Chat":"Edit Chat",
-    "Self":"Self"
+    "Self":"Self",
+    "Are you sure want to Logout?":"Are you sure want to Logout?",
+    "No":"No",
+    "Yes":"Yes"
   },
   "errors": {
     "invalidEmail": "Invalid email address.",

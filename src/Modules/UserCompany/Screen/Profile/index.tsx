@@ -161,14 +161,13 @@ function Profile() {
 
       </Modal>
 
-
-      <Modal title={' Are you sure want to Logout?'} size={'md'} isOpen={logoutModal.visible} fade={false} onClose={logoutModal.hide}  >
+      <Modal title={translate("common.Are you sure want to Logout?")!} size={'md'} isOpen={logoutModal.visible} fade={false} onClose={logoutModal.hide}  >
         <div className='row'>
           <div className="col">
-            <Button block text={'NO'} onClick={logoutModal.hide} />
+            <Button block text={translate("common.No")} onClick={logoutModal.hide} />
           </div>
           <div className="col">
-            <Button block text={'YES'} onClick={() => {
+            <Button block text={translate("common.Yes")} onClick={() => {
               dispatch(
                 userLogout({
                   onSuccess: () => {
