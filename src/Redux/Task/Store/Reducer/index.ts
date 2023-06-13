@@ -120,7 +120,7 @@ const TaskReducer = (state = initialState, action: any) => {
       };
       break;
     case ActionTypes.GET_TASK_EVENT_HISTORY_FAILURE:
-      state = { ...state, taskEventHistories: action.payload };
+      state = { ...state, taskEventHistories: undefined };
       break;
 
     /**

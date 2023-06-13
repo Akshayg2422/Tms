@@ -46,7 +46,7 @@ function ReferenceTickets() {
 
     const normalizedTableData = (data: any) => {
 
-        console.log("data;;;;;;",data)
+        console.log("data>>>>>>>>",data)
 
         return data?.map((el: any) => {
             return {
