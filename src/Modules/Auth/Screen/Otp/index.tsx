@@ -3,7 +3,7 @@ import { Button, AuthContainer, showToast, ComponentLoader } from "@Components";
 import { useInput, useTimer, useNavigation, useLoader } from "@Hooks";
 import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, OTP_RULES, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
 import { useSelector, useDispatch } from "react-redux";
-import { validateRegisterUser, otpLogin, userLoginDetails } from "@Redux";
+import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard } from "@Redux";
 import { ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
 
@@ -35,6 +35,20 @@ function Otp() {
     }));
   };
 
+
+
+  function getDashboardDetails() {
+    const params = {}
+    dispatch(getDashboard({
+      params,
+      onSuccess: () => () => {
+        goTo(ROUTES["auth-module"].splash)
+      },
+      onError: () => () => { }
+    }));
+  }
+
+
   const proceedOtpValidationApiHandler = () => {
 
     const params = {
@@ -60,7 +74,8 @@ function Otp() {
               }),
             );
             localStorage.setItem(USER_TOKEN, response.details.token);
-            goTo(ROUTES["auth-module"].splash)
+            getDashboardDetails();
+
           },
           onError: (error) => () => {
             otpLoader.hide()
@@ -84,6 +99,9 @@ function Otp() {
             onChange={otp.set}
             numInputs={4}
             inputStyle={'otp-input'}
+            shouldAutoFocus={true}
+
+
           />
         </div>
         <div className="mb-4">

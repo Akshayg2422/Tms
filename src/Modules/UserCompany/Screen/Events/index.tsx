@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button, Card, NoDataFound, Spinner, Image, Modal, MenuBar, showToast, Checkbox, DateTimePicker, Input, Dropzone, MultiSelectDropDown } from "@Components";
+import { Button, Card, NoDataFound, Spinner, Image, Modal, MenuBar, showToast, Checkbox, DateTimePicker, Input, Dropzone, MultiSelectDropDown, ImagePicker } from "@Components";
 import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
 import { EventItem } from "@Modules";
 import { addEvent, getAssociatedCompanyBranch, getEvents } from "@Redux";
-import { ADD_EVENT_EXTERNAL_RULES, ADD_EVENT_INTERNAL_RULES, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getValidateError, ifObjectExist, validate } from '@Utils'
+import { ADD_EVENT_EXTERNAL_RULES, ADD_EVENT_INTERNAL_RULES, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
 
 function Events() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
+  const [loading,setLoading]=useState(false)
   const { events, eventsCurrentPages } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
 
   const MY_EVENT_MENU = [
     {
-      id: 0, name: 'Edit', icon: icons.edit,
+      id: 0, name: translate('common.Edit'), icon: icons.edit,
     },
     {
-      id: 1, name: 'delete', icon: icons.deleteCurve,
+      id: 1, name: translate('common.delete'), icon: icons.deleteCurve,
     },
 
   ]
@@ -45,12 +46,15 @@ function Events() {
   const [selectedEvent, setSelectedEvent] = useState<any>(undefined)
   const deleteEventModal = useModal(false)
   const editEventModal = useModal(false)
+  const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
+
+  console.log("startTime--->",startTime)
 
 
-  let attach = photo.slice(-2, 4)
+  let attach = photo.slice(-selectedNoOfPickers)
 
-  const handleImagePicker = (index: number, file: any) => {
-    let newUpdatedPhoto = [...photo, file];
+  const handleImagePicker = ( file: any) => {
+    let newUpdatedPhoto = [ file];
     setPhoto(newUpdatedPhoto);
   };
 
@@ -58,16 +62,26 @@ function Events() {
   useEffect(() => {
     getEventsApiHandler(INITIAL_PAGE)
   }, []);
-
+  let AttachmentEdit = selectDropzone &&selectDropzone.map((el,index)=>{
+    const {id,attachment_file}=el
+    return {
+     id:index+1, photo: attachment_file,
+  }
+  
+   })
 
   const getEventsApiHandler = (page_number: number) => {
+    setLoading(true)
     const params = { page_number }
     dispatch(
       getEvents({
         params,
         onSuccess: (response) => () => {
+          setLoading(false)
         },
-        onError: () => () => { },
+        onError: () => () => {
+          setLoading(false)
+         },
       })
     )
   }
@@ -122,8 +136,8 @@ function Events() {
       id: selectedEvent?.id,
       title: eventTitle?.value,
       place: eventPlace?.value,
-      start_time: startTime,
-      end_time: endTime,
+      start_time: getServerTimeFromMoment(getMomentObjFromServer(startTime)),
+      end_time:  getServerTimeFromMoment(getMomentObjFromServer(endTime)),
       description: eventDescription?.value,
       ...(selectedCompanies.length > 0 && {
         applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
@@ -193,19 +207,26 @@ function Events() {
 
     <>
       {events && events.length > 0 ?
-        <div className="col-9 text-right my-1">
+        <div className="col-7 text-right my-1">
           <Button
-            text={'CREATE EVENT'}
+            text={translate('order.CREATE EVENT')}
             className="text-white"
             size={"sm"}
             onClick={proceedCreateEvent}
           />
         </div> : null}
-      {events && events.length > 0 ?
+        {
+          loading && (
+            <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px',marginTop:'250px'}}>
+              <Spinner/>
+            </div>
+          )
+        }
+      {!loading && events && events.length > 0 ?
         <InfiniteScroll
           dataLength={events.length}
           hasMore={eventsCurrentPages !== -1}
-          className='overflow-auto scroll-hidden'
+          className='overflow-auto overflow-hide'
           style={{ overflowY: "auto" }}
           loader={<h4>
             <Spinner />
@@ -222,7 +243,7 @@ function Events() {
               events?.map((item: any, index: number) => {
                 return (
                   <div key={item.id}>
-                    <Card className={'shadow-none border m-3 col-9 mb--2'}>
+                    <Card className={'shadow-none border m-3 col-7 mb--2'}>
                       <div className="row d-flex justify-content-end mt-3">
                         <MenuBar menuData={MY_EVENT_MENU}
                           onClick={(element) => {
@@ -268,7 +289,7 @@ function Events() {
           <NoDataFound buttonText={'CREATE EVENT'} onClick={proceedCreateEvent} isButton />
         </div>
       }
-      <Modal title={'Edit Event'} isOpen={editEventModal.visible} onClose={editEventModal.hide}>
+      <Modal title={translate('common.Edit Event')!} isOpen={editEventModal.visible} onClose={editEventModal.hide}>
 
         <div className="col-md-9 col-lg-7">
           <Input
@@ -282,7 +303,7 @@ function Events() {
             onChange={eventDescription.onChange}
           />
           <Input
-            heading={'Place'}
+            heading={translate('common.Place')}
             value={eventPlace.value}
             onChange={eventPlace.onChange}
           />
@@ -291,7 +312,7 @@ function Events() {
             id="time-picker"
             placeholder={'Start Time'}
             type="both"
-            initialValue={startTime}
+            initialValue={(getMomentObjFromServer(startTime))}
             onChange={handleStartTimeEtaChange}
           />
 
@@ -299,7 +320,7 @@ function Events() {
             id="time-picker"
             placeholder={'end Time'}
             type={'both'}
-            initialValue={endTime}
+            initialValue={(getMomentObjFromServer(endTime))}
             onChange={handleEndTimeEtaChange}
           />
 
@@ -340,14 +361,14 @@ function Events() {
 
         </div>
 
-
+{/* 
         <div className="col">
           <label className={`form-control-label`}>
             {translate("auth.attach")}
           </label>
-        </div>
+        </div> */}
 
-        <div className="col-md-9 col-lg-7 pb-4 ">
+        {/* <div className="col-md-9 col-lg-7 pb-4 ">
           {selectDropzone &&
             selectDropzone.map((el: any, index: number) => {
               return (
@@ -363,13 +384,38 @@ function Events() {
                 />
               );
             })}
-        </div>
+        </div> */}
+           <div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                   defaultPicker={true}
+                   defaultValue={AttachmentEdit}
+                    size='xl'
+                    heading= {translate("auth.attach")!}
+                    noOfFileImagePickers={2}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker(file)
+                       
+                    }}
+                    onSelectImagePicker={(el)=>{
+                      setSelectedNoOfPickers(el?.length)
+
+                    }}
+                />
+
+                </div>
+              
+
+            </div>
+
+
 
         <div className="row justify-content-end">
           <div className="col-md-6 col-lg-4 ">
             <Button
               block
-              text={'Update'}
+              text={translate('order.Update')}
               onClick={submitAddEventHandler}
             />
           </div>

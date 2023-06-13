@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, Divider } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, Divider, ProfileCard } from "@Components";
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
@@ -43,7 +43,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         setEta(eta_time)
     }, [taskDetails])
 
-    console.log('111111111111111111--------------->', JSON.stringify(taskDetails));
 
 
 
@@ -134,29 +133,33 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         )
     }
 
+    console.log('by_user.profile_photo', by_user?.profile_photo);
+
+
     return (
         <div ref={ref} >
             <Card className={'px-3'}>
                 <div>
-                    <div className="col">
-                        <div className="row d-flex justify-content-between">
+                    <div className="row">
+                        <div className="col">
                             <div className="row">
                                 <Back />
-                                <div className="ml-3">
-                                    <span> {title && <H tag={"h4"} className="mb-0" text={title} />} </span>
+                                <div className="ml-2">
+                                    <div>{title && <H tag={"h4"} className="mb-0" text={title} />}</div>
                                     {description && <p className="text-muted text-sm mb--2">{capitalizeFirstLetter(description)}</p>}
-                                    {code && <small>{`# ${code}`}</small>}
+                                    {code && <small>{`#${code}`}</small>}
                                 </div>
                             </div>
-                            <div className="pointer" onClick={() => {
-                                editTaskModal.show()
-                                editTitle.set(title)
-                                editDescription.set(description)
-                            }}>
-                                <Image src={icons.editEta} height={16} width={16} />
-                            </div>
+                        </div>
+                        <div className="pointer col-auto" onClick={() => {
+                            editTaskModal.show()
+                            editTitle.set(title)
+                            editDescription.set(description)
+                        }}>
+                            <Image src={icons.editEta} height={16} width={16} />
                         </div>
                     </div>
+
                     <div className="row mt-3">
                         {
                             task_attachments &&
@@ -167,7 +170,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                         onClick={(e) => e.preventDefault()}>
                                         <Image
                                             variant={'avatar'}
-                                            size={'lg'}
+                                            size={'md'}
                                             src={getPhoto(item?.attachment_file)}
                                         />
                                     </div>
@@ -181,8 +184,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 <div className="h5 mb-0"> {by_user?.name}</div>
                             </div>
                         </div>
-                        <div className="row mt-2 mr-3">
-                            <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
+                        <div className="row mt-4 mr-3">
+                            <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} size={'sm'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
                             <div className="ml-2 align-self-center">
                                 <div className="h5 mb-0"> {raised_by_company?.display_name}</div>
                                 <div className="text-xs"><span>{`@ ${assigned_to?.name}`} </span></div>
@@ -243,7 +246,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             {/**
              * Edit Eta Modal
              */}
-            <Modal title="Edit eta time" isOpen={editEtaModal.visible}
+            <Modal title={translate("auth.Edit eta time")!} isOpen={editEtaModal.visible}
                 onClose={() => {
                     editEtaModal.hide()
                     resetValues()
@@ -265,16 +268,17 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                 </div>
                 <div className="col text-right">
-                    <Button text={'Update'} onClick={editEtaSubmitApiHandler} />
+                    <Button text={translate('order.Update')} onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
             {/**
              * show Event Time Line
              */}
-            <Modal title={"Latest Events"} size={'lg'} isOpen={taskEventModal.visible} onClose={taskEventModal.hide} >
+            <Modal title={translate("auth.Latest Events")!} size={'lg'} isOpen={taskEventModal.visible} onClose={taskEventModal.hide} >
                 <TaskEventHistory />
             </Modal>
-            <Modal title={'Edit task Details'} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
+
+            <Modal title={translate('auth.Edit task Details')!} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
 
                 <div className="col-6">
                     <Input
@@ -291,66 +295,21 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     />
                 </div>
                 <div className="text-right">
-                    <Button text={'Update'} onClick={editTaskDetailsHandler} />
+                    <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
                 </div>
 
             </Modal>
 
             <Modal size={'sm'} isOpen={userModal.visible} onClose={userModal.hide}>
 
-                <div className="card-profile p-2 mx--3 mb--4 mt--5">
-                    <CardImg
-                        // style={{ maxHeight: '200px' }}
-                        src={by_user?.profile_photo && 'https://cdn.britannica.com/48/222648-050-F4D0A2D8/President-of-India-A-P-J-Abdul-Kalam-2007.jpg'}
-                    />
-                    <Row className="justify-content-center">
-                        <Col>
-                            <div className="card-profile-image">
-                                <Image
-                                    variant="rounded"
-                                    size={'xxl'}
-                                    className="rounded-circle pointer"
-                                    style={{ height: '150px', width: '150px' }}
-                                    src={by_user?.profile_photo ? by_user?.profile_photo : 'https://cdn.britannica.com/48/222648-050-F4D0A2D8/President-of-India-A-P-J-Abdul-Kalam-2007.jpg'}
-                                />
-                            </div>
-                        </Col>
-                    </Row>
-                    <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                        <div className="d-flex justify-content-between">
-                            <Button
-                                className={"mr-4 px-2 text-white"}
-                                text={'Connect'}
-                                color={'info'}
-                                onClick={() => { goTo(ROUTES["auth-module"].otp) }}
-                                size={'sm'}
-                            />
-                            <Button
-                                text={'Message'}
-                                className="float-right px-2"
-                                color="default"
-                                onClick={(e) => e.preventDefault()}
-                                size={'sm'}
-                            />
-                        </div>
-                    </CardHeader>
-                    <CardBody className="pt-0">
-
-                        <div className="text-center mt-3">
-                            <h5 className="h3">
-                                {by_user?.name}
-                            </h5>
-                            <div className="h5">
-                                <i className="ni business_briefcase-24 mr-2" />
-                                {by_user?.department.name} - {by_user?.designation.name}
-                            </div>
-                            <div>
-                                <i className="ni education_hat mr-2" />
-                                {raised_by_company?.display_name}
-                            </div>
-                        </div>
-                    </CardBody>
-                </div>
+                <ProfileCard
+                    coverPhoto={by_user?.profile_photo}
+                    profilePhoto={by_user?.profile_photo}
+                    name={by_user?.name}
+                    department={by_user?.department.name}
+                    designation={by_user?.designation.name}
+                    company={raised_by_company?.display_name}
+                />
 
             </Modal>
 

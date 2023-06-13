@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { TaskFilterProps } from './interfaces'
 import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
 import { translate } from '@I18n'
-import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, getObjectFromArrayByKey, } from '@Utils'
+import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, getObjectFromArrayByKey, getDropDownCompanyDisplayData, getDropDownDisplayData, } from '@Utils'
 import { useDropDown, useInput } from '@Hooks'
 import { getAssociatedCompaniesL, getDepartments, getDesignations, setTaskParams } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,10 +11,10 @@ import { icons } from '@Assets'
 
 const FILTER_MENU = [
     {
-        id: 0, name: 'Basic', icon: icons.basic,
+        id: 0, name: translate("auth.basic"), icon: icons.basic,
     },
     {
-        id: 1, name: 'Advance', icon: icons.advanceFilter,
+        id: 1, name: translate("auth.advance"), icon: icons.advanceFilter,
     }
 ]
 
@@ -23,6 +23,8 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
 
     const { taskParams } = useSelector((state: any) => state.TaskReducer);
+    const { associatedCompaniesL ,departments,designations} = useSelector((state: any) => state.UserCompanyReducer);
+    
 
 
     const dispatch = useDispatch()
@@ -30,16 +32,15 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const taskStatus = useDropDown(TASK_STATUS_LIST[2]);
     const taskPriority = useDropDown(TASK_PRIORITY_LIST[0]);
     const company = useDropDown({})
-    const department = useDropDown({})
-    const designation = useDropDown({})
-    const [departments, setDepartments] = useState([])
-    const [designations, setDesignations] = useState([])
-    const [companies, setCompanies] = useState([])
+    const department = useDropDown({id:'ALL',name:'All'})
+    const designation = useDropDown({id:'ALL',name:'All'})
     const [includeSubTask, setIncludeSubTask] = useState(false)
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
     const search = useInput('')
-
+    const modifiedDepartment=departments?[{id:'ALL',name:'All'},...departments]:[{id:'ALL',name:'All'}]
+    const modifiedDesignation=designations ?[{id:'ALL',name:'All'},...designations]:[{id:'ALL',name:'All'}]
+    const modifiedCompany=associatedCompaniesL && associatedCompaniesL.length>0 &&[{ id: '',display_name: '𝗦𝗘𝗟𝗙', name: 'self' },...associatedCompaniesL ]
 
 
     useEffect(() => {
@@ -53,9 +54,8 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             setIncludeSubTask(include_subtask)
         }
 
-    }, [taskParams, companies])
-
-
+    }, [taskParams])
+   
     useEffect(() => {
         const params = { q: '' };
         if (advanceFilter) {
@@ -64,20 +64,20 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                     params,
                     onSuccess: (response) => () => {
 
-                        const companies = response.details
+                        // const companies = response.details
 
-                        let modifiedCompanies = []
-                        modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
-                        if (companies && companies.length > 0) {
-                            modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
-                                return {
-                                    id: each.id,
-                                    text: each.display_name,
-                                    name: each.display_name,
-                                }
-                            }) as never]
-                        }
-                        setCompanies(modifiedCompanies)
+                        // let modifiedCompanies = []
+                        // modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
+                        // if (companies && companies.length > 0) {
+                        //     modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
+                        //         return {
+                        //             id: each.id,
+                        //             text: each.display_name,
+                        //             name: each.display_name,
+                        //         }
+                        //     }) as never]
+                        // }
+                        // setCompanies(modifiedCompanies)
                     },
                     onError: () => () => {
                     },
@@ -86,10 +86,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
         }
     }, [advanceFilter]);
 
-    const getTaskDefaultParams = () => {
-
-    }
-
+ 
     const getDesignation = (items: any) => {
 
         if (items?.id) {
@@ -101,15 +98,17 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                 getDesignations({
                     params,
                     onSuccess: (response) => () => {
-                        let designations: any = [];
-                        const designation = response.details.data
-                        designation.forEach((item) => {
-                            designations = [...designations, { ...item, text: item.name }]
-                        })
-                        setDesignations(designations)
+                        // let designations: any = [];
+                        // const designation = response.details.data
+                        // designation.forEach((item) => {
+                        //     designations = [...designations, {...item, text: item.name }]
+                        // })
+                        // setDesignations(designations)
+                  
+                   
                     },
                     onError: () => () => {
-                        setDesignations([])
+                        // setDesignations([])
                     },
                 })
 
@@ -130,16 +129,18 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                     params,
                     onSuccess: (response: any) => () => {
 
-                        let departments: any = [];
-                        const department = response.details.data
-                        department.forEach((item) => {
-                            departments = [...departments, { ...item, text: item.name }]
-                        })
+                        // let departments: any = [];
+                        // const department = response.details.data
+                        // department.forEach((item) => {
+                        //     departments = [...departments, { ...item, text: item.name }]
+                        // })
 
-                        setDepartments(departments)
+                        // setDepartments(departments)
+                       
+                        // proceedParams({ department_id: 'ALL'})
                     },
                     onError: (error) => () => {
-                        setDepartments([])
+                        // setDepartments([])
 
                     },
                 })
@@ -149,19 +150,15 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
     }
 
+
     function proceedParams(object: any) {
+    
         const updatedParams = { ...params, ...object }
         if (onParams) {
             onParams(updatedParams)
         }
         setParams(updatedParams)
     }
-
-
-
-
-
-
     return (
         < >
             <div className="row">
@@ -216,13 +213,15 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                     <MenuBar toggleIcon={icons.equalizer} menuData={FILTER_MENU} onClick={(el) => {
                         if (el.id === FILTER_MENU[1].id) {
                             setAdvanceFilter(true)
-                            setDepartments([])
-                            setDesignations([])
+                            // setDepartments([])
+                            // setDesignations([])
+                           
+                            proceedParams({ company :'',designation_id: 'ALL', department_id: 'ALL' })
                             company.onChange({})
                         } else {
                             setAdvanceFilter(false)
-                            setDepartments([])
-                            setDesignations([])
+                            // setDepartments([])
+                            // setDesignations([])
                             company.onChange({})
                         }
                     }} />
@@ -235,27 +234,32 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                         setIncludeSubTask(checked)
                     }} />
                 </div>
-                {advanceFilter && <div className="col-lg-3 col-md-3 col-sm-12">
+                {advanceFilter && modifiedCompany &&<div className="col-lg-3 col-md-3 col-sm-12">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.company")}
-                        data={companies}
+                        data={getDropDownCompanyDisplayData(modifiedCompany)}
                         selected={company.value}
                         onChange={(item) => {
+                         
                             company.onChange(item)
-                            proceedParams({ company: item.id })
                             getDesignation(item)
                             getDepartment(item)
+                            proceedParams({ company :item.id,designation_id: 'ALL', department_id: 'ALL' })
+                            department.onChange({id:'ALL',text:'All'})
+                            designation.onChange({id:'ALL',text:'All'})
+                           
+                            
                         }}
                     />
                 </div>
                 }
 
-                {departments.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12">
+                {advanceFilter  && <div className="col-lg-3 col-md-3 col-sm-12">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
-                        data={departments}
+                        data={ getDropDownDisplayData(modifiedDepartment)}
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
@@ -266,11 +270,11 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                 </div>
                 }
 
-                {designations.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12">
+                { advanceFilter   && <div className="col-lg-3 col-md-3 col-sm-12">
                     <DropDown
                         className="form-control-sm"
                         heading={translate("auth.designation")}
-                        data={designations}
+                        data={ getDropDownDisplayData(modifiedDesignation)}
                         selected={designation.value}
                         onChange={(item) => {
                             designation.onChange(item)

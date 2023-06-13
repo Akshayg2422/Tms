@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Card, NoDataFound, Spinner } from "@Components";
 import { useNavigation, useWindowDimensions } from "@Hooks";
@@ -13,6 +13,7 @@ import { INITIAL_PAGE } from '@Utils'
 function Broadcast() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
+  const [loading,setLoading]=useState(false)
   const { broadCastDetails, broadCastCurrentPage } = useSelector(
     (state: any) => state.CommunicationReducer
   );
@@ -22,15 +23,17 @@ function Broadcast() {
   }, []);
 
   function getBroadCastMessage(page_number: number) {
-
+     setLoading(true)
     const params = { page_number };
 
     dispatch(
       getBroadCastMessages({
         params,
         onSuccess: () => () => {
+          setLoading(false)
         },
         onError: () => () => {
+          setLoading(false)
         },
       })
     );
@@ -45,12 +48,14 @@ function Broadcast() {
 
   return (
     <>
+       
       {broadCastDetails && broadCastDetails.length > 0 ?
+      
         <InfiniteScroll
           dataLength={broadCastDetails.length}
           hasMore={broadCastCurrentPage !== -1}
+          className={'overflow-auto overflow-hide'}
           loader={<h4>
-            <Spinner />
           </h4>}
           next={() => {
             if (broadCastCurrentPage !== -1) {
@@ -58,8 +63,9 @@ function Broadcast() {
             }
           }
           }>
+         
 
-          <div className={''} >
+          <div>
             {
               broadCastDetails?.map((company: any, index: number) => {
                 return (
@@ -72,7 +78,14 @@ function Broadcast() {
 
         </InfiniteScroll>
         : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
-          <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />
+              {
+          loading && (
+            <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px'}}>
+            <Spinner/>
+            </div>
+          )
+        }
+          {!loading && <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />}
         </div>
       }
     </>

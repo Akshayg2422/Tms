@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getEmployees } from '@Redux'
 import { capitalizeFirstLetter, getPhoto } from '@Utils'
 import { icons } from '@Assets'
-import { translate } from 'i18n-js'
+
 
 function Employees({ otherParams, selection = 'none', onSelected, defaultSelect }: EmployeesProps) {
 
@@ -27,9 +27,9 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
     const getEmployeeApi = (q_many: string = '') => {
         const params = {
             ...(otherParams && { ...otherParams }),
-            q_many
+            q_many,
+            page_number:-1
         }
-
         dispatch(
             getEmployees({
                 params,
@@ -113,7 +113,7 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
                                         />
                                         <div className={'d-flex align-items-center mt--2'}>
                                             <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department.name : '-'}</div>
-                                            <div className='text-muted'><Image src={icons.verticalLine} height={12} width={10} /></div>
+                                            <div className='text-muted'><Image src={icons.verticalLine} height={12} width={7} /></div>
                                             <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation.name : '-'}</div>
                                         </div>
                                     </div>
@@ -124,7 +124,7 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
                                     </div>
                                 </div>
 
-                                <div className={'mx--4'}>
+                                <div className={'mx--4 my--2'}>
                                     {index !== employees.length - 1 && <Divider space={'3'} />}
                                 </div>
                             </div>)

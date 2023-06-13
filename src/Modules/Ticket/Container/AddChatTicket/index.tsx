@@ -5,6 +5,7 @@ import {  refreshTaskEvents, refreshTicketEvents, addTicketEvent, } from '@Redux
 import { useSelector, useDispatch } from 'react-redux'
 import {  useModal, useInput } from '@Hooks'
 import { TEM, MEA } from '@Utils'
+import { translate } from '@I18n'
 
 function AddChatTicket() {
 
@@ -87,7 +88,7 @@ function AddChatTicket() {
 
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
-                        <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
+                        <textarea placeholder={translate("order.Write your comment")!} value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={proceedTaskEventsApiHandler} />
                 </div >

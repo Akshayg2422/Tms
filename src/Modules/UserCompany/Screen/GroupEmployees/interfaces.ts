@@ -5,7 +5,7 @@ export type TaggedElementProps =
     }
 
 export interface EmployeeGroupsProps {
-    Employee?:any;
+    groupCode?:any;
     height?:string|number;
     otherParams?: object;
 }

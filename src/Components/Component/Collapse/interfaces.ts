@@ -1,6 +1,6 @@
 export interface AuthContainerProps {
     children?: React.ReactNode;
-    title?: string;
+    title?:any;
     data?:any;
     displayDataSet?:any;
     tableDataSet?:any;
@@ -9,6 +9,16 @@ export interface AuthContainerProps {
     onClick?:any;
     childrenS?: React.ReactNode;
     selectedIds?:any;
-    selectedId?:string
+    selectedId?:string;
+    selectButton?:boolean;
+    taskStatus?:any;
+    selectButtonReject?:boolean;
+    onClickReject?:any;
+    textReject?:any;
+    ApprovedStatus?:any
+    onClickEnable?:any
+    textEnable?:any
+    enableButton?:boolean;
+
   }
   

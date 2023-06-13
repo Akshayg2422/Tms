@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image, MenuBar, Modal, Input, DateTimePicker, Checkbox, MultiSelectDropDown, Dropzone, showToast } from "@Components";
+import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image, MenuBar, Modal, Input, DateTimePicker, Checkbox, MultiSelectDropDown, Dropzone, showToast, ImagePicker } from "@Components";
 import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
-import { MyFeedItem } from "@Modules";
+import {MyFeedItem} from '@Modules'
 import { addBroadCastMessages, getAssociatedCompanyBranch, getBroadCastMessages } from "@Redux";
 import { CREATE_BROAD_CAST_EXTERNAL, CREATE_BROAD_CAST_INTERNAL, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
@@ -14,6 +14,7 @@ function AdminFeeds() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
+  const [loading,setLoading]=useState(false)
   const { broadCastDetails, broadCastCurrentPage } = useSelector(
     (state: any) => state.CommunicationReducer
   );
@@ -34,19 +35,30 @@ function AdminFeeds() {
   const [internalCheck, setInternalCheck] = useState(false)
   const [externalCheck, setExternalCheck] = useState(false)
   const [isExternalDisable, setExternalDisable] = useState(false)
-
+  const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
   const [selectedFeed, setSelectedFeed] = useState<any>(undefined)
 
   const deleteFeedModal = useModal(false)
+
   const editFeedModal = useModal(false)
 
 
+  let AttachmentEdit = selectDropzone &&selectDropzone.map((el,index)=>{
+  const {id,attachment_file}=el
+  return {
+   id:index+1, photo: attachment_file,
+}
+
+ })
+
+ console.log(AttachmentEdit,"ppppp")
+
   const MY_FEED_MENU = [
     {
-      id: 0, name: 'Edit', icon: icons.edit,
+      id: 0, name: translate('common.Edit'), icon: icons.edit,
     },
     {
-      id: 1, name: 'delete', icon: icons.deleteCurve,
+      id: 1, name: translate('common.delete'), icon: icons.deleteCurve,
     },
   ]
 
@@ -56,6 +68,7 @@ function AdminFeeds() {
   }, []);
 
   function getBroadCastMessage(page_number: number) {
+    setLoading(true)
     const params = {
       id: user_details?.id,
       page_number
@@ -64,8 +77,10 @@ function AdminFeeds() {
       getBroadCastMessages({
         params,
         onSuccess: () => () => {
+          setLoading(false)
         },
         onError: () => () => {
+          setLoading(false)
         },
       })
     );
@@ -107,9 +122,9 @@ function AdminFeeds() {
 
 
 
-  let attach = photo.slice(-2, 4)
+  let attach = photo.slice(-selectedNoOfPickers)
 
-  const handleImagePicker = (index: number, file: any) => {
+  const handleImagePicker = ( file: any) => {
     let newUpdatedPhoto = [...photo, file];
     setPhoto(newUpdatedPhoto);
   };
@@ -155,6 +170,8 @@ function AdminFeeds() {
       broadcast_attachments: [{ attachments: attach }],
     };
 
+    console.log(JSON.stringify(params),"===---????")
+
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
 
     if (ifObjectExist(validation)) {
@@ -166,7 +183,6 @@ function AdminFeeds() {
               showToast(response.message, 'success')
               editFeedModal.hide()
               getBroadCastMessage(INITIAL_PAGE)
-
 
             }
           },
@@ -192,14 +208,21 @@ function AdminFeeds() {
 
     <>
       {broadCastDetails && broadCastDetails.length > 0 ?
-        <div className="col-8 text-right my-1">
+        <div className="col-7 text-right my-1">
           <Button
-            text={'CREATE POST'}
+            text={translate("order.CREATE POST")}
             className="text-white"
             size={"sm"}
             onClick={proceedCreatePost}
           />
         </div> : null}
+        {
+          loading && (
+            <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px',marginTop:'250px'}}>
+              <Spinner/>
+            </div>
+          )
+        }
       {broadCastDetails && broadCastDetails.length > 0 ?
         <InfiniteScroll
           dataLength={broadCastDetails.length}
@@ -207,7 +230,7 @@ function AdminFeeds() {
           loader={<h4>
             <Spinner />
           </h4>}
-          className='overflow-auto scroll-hidden'
+          className={'overflow-auto overflow-hide'}
           style={{ overflowY: "auto" }}
           next={() => {
             if (broadCastCurrentPage !== -1) {
@@ -221,7 +244,7 @@ function AdminFeeds() {
               broadCastDetails?.map((item: any, index: number) => {
                 return (
                   <div key={index}>
-                    <Card className={'shadow-none border m-3 col-8 mt-4 mb--2'}>
+                    <Card className={'shadow-none border m-3 col-7 mt-4 mb--2'}>
                       <div className="row d-flex justify-content-end mt-3">
                         <MenuBar menuData={MY_FEED_MENU}
                           onClick={(element) => {
@@ -233,7 +256,15 @@ function AdminFeeds() {
                               feedDescription.set(description)
                               setInternalCheck(for_internal_company)
                               setExternalCheck(for_external_company)
+                            //   AttachmentEdit = attachments &&attachments.map(el=>{
+                            //    const {id,attachment_file}=el
+                            //    return {
+                            //     id: id, photo: attachment_file,
+                            // }
+
+                            //   })
                               setSelectDropzone(attachments)
+                              console.log(attachments,"aattacchhmmm")
 
 
                               const updatedData = applicable_branches.map(item => {
@@ -266,7 +297,7 @@ function AdminFeeds() {
         </div>
       }
 
-      <Modal title={"Edit Feed "} size={'lg'} isOpen={editFeedModal.visible} onClose={editFeedModal.hide}  >
+      <Modal title={translate("product.Edit Feed")!} size={'lg'} isOpen={editFeedModal.visible} onClose={editFeedModal.hide}  >
 
         <div className="col-md-9 col-lg-7">
           <Input
@@ -316,13 +347,13 @@ function AdminFeeds() {
         </div>
 
 
-        <div className="col">
+        {/* <div className="col">
           <label className={`form-control-label`}>
             {translate("auth.attach")}
           </label>
-        </div>
+        </div> */}
 
-        <div className="col-md-9 col-lg-7 pb-4 ">
+        {/* <div className="col-md-9 col-lg-7 pb-4 ">
           {selectDropzone &&
             selectDropzone.map((el: any, index: number) => {
               return (
@@ -338,13 +369,41 @@ function AdminFeeds() {
                 />
               );
             })}
-        </div>
+        </div> */}
+           <div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                   defaultPicker={true}
+                   defaultValue={AttachmentEdit}
+                    size='xl'
+                    heading= {translate("auth.attach")!}
+                    noOfFileImagePickers={2}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker(file)
+                       
+                    
+                    }}
+                    onSelectImagePicker={(el)=>{
+                      setSelectedNoOfPickers(el?.length)
+
+                    }}
+                />
+
+                </div>
+              
+
+            </div>
+
+        
+
+
 
         <div className="row justify-content-end">
           <div className="col-md-6 col-lg-4 ">
             <Button
               block
-              text={'Update'}
+              text={translate('order.Update')}
               onClick={proceedEditHandler}
             />
           </div>
@@ -356,7 +415,7 @@ function AdminFeeds() {
         <div>
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
-            <Button text={'Delete'} onClick={proceedDeleteHandler} />
+            <Button text={translate('common.delete')} onClick={proceedDeleteHandler} />
           </div>
         </div>
       </Modal>
@@ -366,7 +425,5 @@ function AdminFeeds() {
 }
 
 export { AdminFeeds }
-function goBack() {
-  throw new Error("Function not implemented.");
-}
+
 

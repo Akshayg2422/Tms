@@ -42,6 +42,7 @@ function* addBrandSector(action) {
 */
 
 function* addDesignation(action) {
+
   try {
     const response = yield call(Api.postAddDesignationApi, action.payload.params);
 
@@ -86,18 +87,21 @@ function* addTicketTag(action) {
 */
 
 function* getDesignation(action) {
+  console.log(action,"acgtttttt")
   try {
 
     const response = yield call(Api.fetchDesignationDataApi, action.payload.params);
 
     if (response.success) {
-      yield put(Action.getDesignationsSuccess(response.details));
+      console.log(JSON.stringify(response.details),'success')
+      yield put(Action.getDesignationsSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
       yield put(Action.getDesignationsFailure(response.error_message));
       yield call(action.payload.onError(response));
     }
   } catch (error) {
+    console.log('eerrroerr')
     yield put(Action.getDesignationsFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
@@ -655,7 +659,63 @@ function* getChatGroupsSaga(action) {
   }
 }
 
+//employee time statu8s
 
+function* employeeTimeLineStatusSaga(action) {
+  try {
+    const response = yield call(Api.employeeTimeLineStatusApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.employeeTimeLineStatusSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.employeeTimeLineStatusFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.employeeTimeLineStatusFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
+
+//add enable request
+
+function* addEnableRequestSaga(action) {
+  try {
+    const response = yield call(Api.addEnableRequestApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.addEnableRequestSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.addEnableRequestFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.addEnableRequestFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
+//get enable request
+
+
+function* getEnableRequestSaga(action) {
+  try {
+    const response = yield call(Api.getEnableRequestApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getEnableRequestSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getEnableRequestFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getEnableRequestFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
 
 function* UserCompanySaga() {
 
@@ -693,6 +753,9 @@ function* UserCompanySaga() {
   yield takeLatest(Action.GET_SUB_GROUP, getSubGroupSaga);
   yield takeLatest(Action.ADD_GROUP_USER, addGroupUserSaga);
   yield takeLatest(Action.GET_CHAT_GROUPS, getChatGroupsSaga)
+  yield takeLatest(Action.EMPLOYEE_TIMELINE_STATUS, employeeTimeLineStatusSaga)
+  yield takeLatest(Action.GET_ENABLE_REQUEST, getEnableRequestSaga)
+  yield takeLatest(Action.ADD_ENABLE_REQUEST, addEnableRequestSaga)
 
 }
 

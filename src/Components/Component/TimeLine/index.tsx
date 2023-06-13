@@ -1,14 +1,17 @@
 import React from 'react'
 import { TimeLineProps } from './interfaces'
 import { Image } from '@Components'
+import { icons } from '@Assets'
+
 
 function TimeLine({ showDotterLine, children, title, time, icon, color = 'white', rtl, subTitle }: TimeLineProps) {
+
     return (
         <div
             className={`${showDotterLine && 'timeline '} timeline-one-side  `}
             data-timeline-axis-style="dashed"
             data-timeline-content="axis"
-            >
+        >
             <div className="timeline-block" dir={rtl ? "rtl" : undefined}>
                 <span className={`timeline-step badge-${color} bg-primary`}>
                     {icon ? <Image src={icon} width={15} height={15} /> : <i className="ni ni-bell-55" />}

@@ -13,6 +13,7 @@ import {
   showToast,
   Checkbox,
   MenuBar,
+  Spinner,
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -41,7 +42,7 @@ function Department() {
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState<any>(undefined);
   const [isSubTask, setIsSubTask] = useState(false);
-
+  const [loading, setLoading] = useState(false)
 
 
 
@@ -67,7 +68,7 @@ function Department() {
   const dispatch = useDispatch();
 
   const getDepartmentList = (pageNumber: number) => {
-
+    setLoading(true)
     const params = {
       page_number: pageNumber
     };
@@ -75,9 +76,10 @@ function Department() {
       getDepartments({
         params,
         onSuccess: (response: any) => () => {
+          setLoading(false)
         },
         onError: (error: string) => () => {
-
+          setLoading(false)
         },
       })
     );
@@ -199,6 +201,14 @@ function Department() {
 
           }}
         >
+          {
+            loading && (
+              <div className='d-flex justify-content-center align-item-center' style={{ marginTop: '200px' }}>
+                <Spinner />
+              </div>
+            )
+          } 
+          
           {departments && departments?.length > 0 ? (
             <CommonTable
               isPagination

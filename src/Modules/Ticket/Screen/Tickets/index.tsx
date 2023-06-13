@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { HomeContainer, Button, Image, CommonTable, Priority, Status, NoDataFound } from "@Components";
+import { HomeContainer, Button, Image, CommonTable, Priority, Status, NoDataFound, Spinner } from "@Components";
 import { useNavigation } from "@Hooks";
 import { TicketFilter } from '@Modules';
 import { ROUTES } from '@Routes'
 import { getPhoto, paginationHandler, getMomentObjFromServer, getDisplayDateTimeFromMoment, capitalizeFirstLetter, getDates } from "@Utils";
 import { getTickets, setSelectedTicket, setSelectedTicketTabPosition } from "@Redux";
+import { translate } from '@I18n'
 
 
 function Tickets() {
 
-  const DEFAULT_PARAMS = { q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", page_number: 1 }
+  const DEFAULT_PARAMS = { q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
   const { goTo } = useNavigation();
   const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.TicketReducer);
   const dispatch = useDispatch();
   const [params, setParams] = useState(DEFAULT_PARAMS)
+  const [loading, setLoading] = useState(false)
 
 
   useEffect(() => {
+    setLoading(true)
     getTicketHandler(ticketCurrentPages)
   }, [params])
 
@@ -29,9 +32,10 @@ function Tickets() {
       getTickets({
         params: updatedParams,
         onSuccess: (response) => () => {
+          setLoading(false)
         },
         onError: (error) => () => {
-
+          setLoading(false)
           console.log(JSON.stringify(error));
 
         },
@@ -109,9 +113,9 @@ function Tickets() {
         <div className="row justify-content-end m-0 mb-3">
           <div className=" ">
             <Button
-              className={'text-white'}
+              className={'text-white shadow-none'}
               size={'sm'}
-              text={'Create Ticket'}
+              text={translate("common.createTicket")}
               onClick={() => {
                 goTo(ROUTES["ticket-module"]["add-ticket"])
               }}
@@ -124,37 +128,49 @@ function Tickets() {
             setParams({ ...params, ...filteredParams })
           }} />
 
-          {tickets && tickets.length > 0 ?
-            <>
-              <CommonTable
-                isPagination
-                tableDataSet={tickets}
-                displayDataSet={normalizedTableData(tickets)}
-                noOfPage={ticketNumOfPages}
-                currentPage={ticketCurrentPages}
-                paginationNumberClick={(currentPage) => {
-                  getTicketHandler(paginationHandler("current", currentPage));
-                }}
-                previousClick={() => {
-                  getTicketHandler(paginationHandler("prev", ticketCurrentPages))
-                }
-                }
-                nextClick={() => {
-                  getTicketHandler(paginationHandler("next", ticketCurrentPages));
-                }
-                }
-                tableOnClick={(idx, index, item) => {
-                  dispatch(setSelectedTicket(item));
-                  dispatch(setSelectedTicketTabPosition({ id: '1' }))
-                  goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item?.id);
-                }
-                }
-              />
-            </> : <NoDataFound text={'No Ticket Found'} buttonText={'Create Ticket'} />
+          {
+            loading && (
+              <div className="d-flex justify-content-center align-item-center" style={{ minHeight: '200px' }}>
+                <Spinner />
+              </div>
+            )
           }
+
+          { !loading && <div style={{ marginRight: '-23px', marginLeft: '-23px' }}>
+
+            {tickets && tickets.length > 0 ?
+              <>
+                <CommonTable
+                  isPagination
+                  tableDataSet={tickets}
+                  displayDataSet={normalizedTableData(tickets)}
+                  noOfPage={ticketNumOfPages}
+                  currentPage={ticketCurrentPages}
+                  paginationNumberClick={(currentPage) => {
+                    getTicketHandler(paginationHandler("current", currentPage));
+                  }}
+                  previousClick={() => {
+                    getTicketHandler(paginationHandler("prev", ticketCurrentPages))
+                  }
+                  }
+                  nextClick={() => {
+                    getTicketHandler(paginationHandler("next", ticketCurrentPages));
+                  }
+                  }
+                  tableOnClick={(idx, index, item) => {
+                    dispatch(setSelectedTicket(item));
+                    dispatch(setSelectedTicketTabPosition({ id: '1' }))
+                    goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item?.id);
+                  }
+                  }
+                />
+              </> : <NoDataFound buttonText={translate("common.createTicket")!} />
+            }
+          </div>}
 
         </HomeContainer>
       </div>
+
     </>
   );
 }

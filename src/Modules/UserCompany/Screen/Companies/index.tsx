@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, refreshUserCompanies, setSelectedCompany } from "@Redux";
-import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton } from "@Components";
+import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton, Spinner } from "@Components";
 import { useNavigation, useModal, useDynamicHeight, useDropDown } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
@@ -19,7 +19,7 @@ function Companies() {
   const associatedCompanyModal = useModal(false);
   const associatedCompanyDropDown = useDropDown({})
   const dynamicHeight: any = useDynamicHeight()
-
+  const [loading, setLoading] = useState(false)
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany, dashboardDetails } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
@@ -29,10 +29,12 @@ function Companies() {
   useEffect(() => {
     getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
     getAssociatedCompanyApi()
+    // setLoading(true)
   }, [])
 
 
   const getAssociatedCompaniesHandler = (page_number: number) => {
+    setLoading(true)
     const params = {
       page_number
     };
@@ -40,8 +42,12 @@ function Companies() {
     dispatch(
       getAssociatedBranch({
         params,
-        onSuccess: () => () => { },
-        onError: () => () => { },
+        onSuccess: () => () => {
+          setLoading(false)
+        },
+        onError: () => () => {
+          setLoading(false)
+        },
       })
     );
 
@@ -49,6 +55,7 @@ function Companies() {
 
 
   const getAssociatedCompanyApi = () => {
+
     const params = {}
 
     dispatch(
@@ -63,6 +70,7 @@ function Companies() {
 
 
   const addAssociatedCompanyApi = () => {
+
     const params = {
       company_id: associatedCompanyDropDown.value.id,
       id: dashboardDetails.company.id
@@ -77,9 +85,11 @@ function Companies() {
           associatedCompanyModal.hide();
           associatedCompanyDropDown.set({})
           showToast(response.message)
+          // setLoading(false)
         },
         onError: (error) => () => {
           showToast(error.error_message)
+
         },
       })
     )
@@ -123,12 +133,16 @@ function Companies() {
             />
           </div> : null}
 
+        {
+          loading && (
+            <div className="d-flex justify-content-center align-item-center " style={{ minHeight: '200px' ,marginTop:'250px'}}>
+              <Spinner />
+            </div>
+          )
+        }
 
-        <div style={{
+        {!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
 
-          marginLeft: "-23px",
-          marginRight: "-23px"
-        }}>
           {associatedCompanies && associatedCompanies?.length > 0 ?
             <CommonTable
               isPagination
@@ -154,12 +168,12 @@ function Companies() {
 
               }} />
             :
-            <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text="No Companies found" buttonText={'Add Company'} onClick={() => {
+            <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text={translate("common.No Companies found")!} buttonText={translate("common.addCompany")!} onClick={() => {
               goTo(ROUTES["user-company-module"]["add-company"]);
             }} isButton /></div>
 
           }
-        </div>
+        </div>}
       </Card>
 
       <Modal size={"md"} fade={false} isOpen={associatedCompanyModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={associatedCompanyModal.hide}>
@@ -167,7 +181,7 @@ function Companies() {
         {
           <div className="col mt--4">
             <DropDown
-              heading={'SELECTED COMPANIES :'}
+              heading={translate('order.SELECTED COMPANIES :')}
               data={getAssociatedCompanyDropDownDisplayData(associatedCompany)}
               onChange={(item) => {
                 associatedCompanyDropDown.onChange(item)
@@ -181,13 +195,11 @@ function Companies() {
                 size={'sm'}
                 text={translate("common.submit")}
                 onClick={() => {
-                  console.log('caadsas');
-
                   addAssociatedCompanyApi()
                 }} />
             </div>
 
-            <div className={'text-xs text-muted mb-2'}>Can't find Company?</div>
+            <div className={'text-xs text-muted mb-2'}>{translate("order.Can't find Company?")}</div>
 
             <Button
               className={'text-white'}

@@ -1,6 +1,7 @@
 import { icons } from '@Assets';
-import { Back, Button, Card, DateTimePicker, Input, InputHeading, Image } from '@Components';
+import { Back, Button, Card, DateTimePicker, Input, InputHeading, Image, Divider } from '@Components';
 import { useDynamicHeight, useNavigation } from '@Hooks';
+import { translate } from '@I18n';
 import { getEmployeesl, postVideoConference } from '@Redux';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,9 +12,14 @@ function ScheduleMeeting() {
     const { employeesl, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const dynamicHeight: any = useDynamicHeight()
 
+    console.log( employeesl," employeesl")
+
     const { company_branch, user_details, company } = dashboardDetails || ''
 
     const [filteredData, setFilteredData] = useState<any>()
+    const [employeeFilteredData, setEmployeeFilteredData] = useState<any>()
+
+    
     const [searchAddedStudent, setSearchAddedStudent] = useState('')
     const [selectedEmployeeDetails, setSelectedEmployeeDetails] = useState<any>([])
     const [batchCode, setBatchCode] = useState('')
@@ -30,7 +36,7 @@ function ScheduleMeeting() {
         setSelectedEmployeeDetails([user_details])
     }, [])
 
-    console.log("employeesl", user_details)
+ 
 
     const addSelectedEmployeeDetails = (item: any, type: any) => {
         if (type === 'Select All') {
@@ -61,12 +67,13 @@ function ScheduleMeeting() {
 
     const getEmployeesHandler = ((page_number: any) => {
         const params = {
-            page_number
+            per_page_count: -1,
         }
         dispatch(
             getEmployeesl({
                 params,
                 onSuccess: (response: any) => () => {
+                    console.log(JSON.stringify(response))
 
                 },
                 onError: (error) => () => {
@@ -82,14 +89,20 @@ function ScheduleMeeting() {
 
     const filterEmployeeData = () => {
         let array: any = []
+        let employeeId:any=[]
         selectedEmployeeDetails.forEach((el) => {
             array.push({
                 emp_id: el?.id,
                 user_name: el?.name,
                 email_id: el?.email
             })
+
+            employeeId.push( el?.id)
         })
         setFilteredData(array)
+        setEmployeeFilteredData( employeeId)
+
+
     }
 
     const addEmployeeDetailsToScheduleMeeting = () => {
@@ -97,12 +110,14 @@ function ScheduleMeeting() {
             room_name: roomTitle,
             start_date: scheduleData + ' ' + startTime + ":00",
             end_date: scheduleData + ' ' + endTime + ":00",
-            emp_details: filteredData
+            emp_details: filteredData,
+            emp_ids:employeeFilteredData
         }
         dispatch(postVideoConference({
             params,
             onSuccess: (success: any) => () => {
                 console.log("success============>", success)
+                goBack()
             },
             onError: (error: string) => () => {
             },
@@ -115,7 +130,7 @@ function ScheduleMeeting() {
         <div className='container py-4'>
             <div className='row ml-1 mt--2'>
                 <Back />
-                <h3 className=' ml-2'>Meeting Schedule</h3>
+                <h3 className=' ml-2'>{translate('order.Meeting Schedule')}</h3>
             </div>
             <Card>
 
@@ -124,10 +139,10 @@ function ScheduleMeeting() {
                     <div className=' col-sm-3'>
                         <InputHeading
                             id={"Title"}
-                            heading={"Title"}
+                            heading={translate('order.Title')}
                         />
                         <Input
-                            placeholder='Title'
+                            placeholder={translate("order.Title")}
                             id='Title'
                             onChange={(e) => {
                                 setRoomTitle(e.target.value)
@@ -138,8 +153,8 @@ function ScheduleMeeting() {
                         <DateTimePicker
                             // disableFuture={true}
                             format='YYYY-MM-DD'
-                            heading={"Schedule Date"}
-                            placeholder={"Schedule Date"}
+                            heading={translate("order.Schedule Date")}
+                            placeholder={translate("order.Schedule Date")!}
                             value={''}
                             onChange={(e) => { setScheduleDate(e) }}
                         />
@@ -147,7 +162,7 @@ function ScheduleMeeting() {
                     <div className='col-sm-3'>
                         <InputHeading
                             id={"Start Time"}
-                            heading={"Start Time"}
+                            heading={translate("order.Start Time")}
                         />
                         <Input
                             defaultValue="10:30:00"
@@ -161,7 +176,7 @@ function ScheduleMeeting() {
                     <div className='col-sm-3'>
                         <InputHeading
                             id={"End Time"}
-                            heading={"End Time"}
+                            heading={translate("order.end Time")}
                         />
                         <Input
                             defaultValue="10:30:00"
@@ -180,10 +195,23 @@ function ScheduleMeeting() {
                 <div className='col-sm-6'>
                     <Card style={{ height: dynamicHeight.dynamicWidth <= 1400 ? dynamicHeight.dynamicHeight + 330 : dynamicHeight.dynamicHeight - 50 }}>
                         <div className='mb-4 d-flex justify-content-between mr-3'>
-                            <h3 className=''>{"Employee list"}</h3>
+                            <h3 className=''>{translate("order.Employee list")}</h3>
+                            
+                            <div className='col-sm-5 mt--2 ml--6'>
+                                <Input
+                                    // heading={'Search Student'}
+                                    placeholder={translate('order.Search student')}
+                                    value={searchAddedStudent}
+                                    // className="fas fa-search"
+                                    onChange={(e) => {
+                                        setSearchAddedStudent(e.target.value)
+                                    }}
+                                />
+                            </div>
                             <div className=''>
                                 <Button
-                                    text={"Select All"}
+                                    text={translate("order.Select All")}
+                                    size={'sm'}
                                     onClick={() => {
                                         addSelectedEmployeeDetails(employeesl, 'Select All')
                                     }}
@@ -191,51 +219,47 @@ function ScheduleMeeting() {
                             </div>
                         </div>
                         <div>
-                            <div className='col-sm-8 ml--3  mt--4'>
-                                <Input
-                                    // heading={'Search Student'}
-                                    placeholder={'Search student'}
-                                    value={searchAddedStudent}
-                                    onChange={(e) => {
-                                        setSearchAddedStudent(e.target.value)
-                                    }}
-                                />
-                            </div>
+                            
+
                         </div>
 
-                        <div className='overflow-auto scroll-hidden' style={{ height: dynamicHeight.dynamicWidth <= 1400 ? dynamicHeight.dynamicHeight + 170 : dynamicHeight.dynamicHeight - 50 }}>
+                        <div className='overflow-auto scroll-hidden overflow-hide' style={{ height: dynamicHeight.dynamicWidth <= 1400 ? dynamicHeight.dynamicHeight + 170 : dynamicHeight.dynamicHeight - 50 }}>
                             {
-                                employeesl && employeesl.length > 0 && employeesl.map((el: any) => {
+                                employeesl && employeesl.length > 0 && employeesl.map((el: any, index: number) => {
+
                                     console.log("data===>", el)
-                                    const isActive = selectedEmployeeDetails && selectedEmployeeDetails?.some((item: any) => item?.id === el?.id)
+                                    const isActive = selectedEmployeeDetails && selectedEmployeeDetails?.some((item: any, index: number) => item?.id === el?.id)
+
+
                                     return (
                                         <>
-                                            <div className='d-flex justify-content-between mb-4 ' >
+                                            <div className='d-flex justify-content-between pt-3  my-1' >
                                                 <div className='d-flex'>
                                                     {/* <Image
                                                         variant={'rounded'}
                                                         alt="..."
                                                         src={el.photo ? getImageUrl(el.photo) : icons.profile}
                                                     /> */}
-                                                    <h4 className='ml-2 mt-2'>{el?.name}</h4>
+                                                    <span className='ml-2 '>{el?.name}</span>
+
                                                 </div>
                                                 <div>
-                                                    <div className='mt--4'>
-                                                        <div className='d-flex justify-content-between my-4'>
-                                                            {/* <div className='col-xl-6 col-sm-0 '>
-                                                        <h3>{el.name}</h3>
-                                                    </div> */}
+                                                    <div >
+                                                        <div className='d-flex justify-content-between  '>
+                                                            
                                                             <td className="col-xl-2 col-sm-0 mt-sm-0" style={{ whiteSpace: "pre-wrap" }}>
-                                                                <i className={`bi bi-${isActive ? 'check-circle-fill pointer text-success' : 'circle-fill text-light'} pointer`}
+                                                                <i className={`bi bi-${isActive ? 'check-circle-fill pointer text-primary' : 'circle-fill text-light'} pointer`}
                                                                     onClick={() => {
                                                                         addSelectedEmployeeDetails(el, '')
                                                                     }}
                                                                 ></i>
                                                             </td>
-
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div className={' '}>
+                                                {index !== employeesl.length - 1 && <Divider space={'3'} />}
                                             </div>
                                         </>
                                     )
@@ -249,10 +273,11 @@ function ScheduleMeeting() {
                 <div className='col-sm-6'>
                     <Card style={{ height: dynamicHeight.dynamicWidth <= 1400 ? dynamicHeight.dynamicHeight + 330 : dynamicHeight.dynamicHeight - 50 }}>
                         <div className='mb-4 d-flex justify-content-between mr-3'>
-                            <h3 className='mb-4'>{"Selected List"}</h3>
+                            <h3 className='mb-4'>{translate("order.Selected List")}</h3>
                             <div className=''>
                                 <Button
                                     text={"Remove All"}
+                                    size='sm'
                                     onClick={() => {
                                         addSelectedEmployeeDetails('', 'Remove All')
                                     }}
@@ -260,28 +285,24 @@ function ScheduleMeeting() {
                             </div>
                         </div>
                         <div className='overflow-auto scroll-hidden' style={{ height: dynamicHeight.dynamicWidth <= 1400 ? dynamicHeight.dynamicHeight + 170 : dynamicHeight.dynamicHeight - 50 }}>
-                            {selectedEmployeeDetails && selectedEmployeeDetails.length > 0 && selectedEmployeeDetails.map((el:any) => {
-                                const isActive = selectedEmployeeDetails && selectedEmployeeDetails?.some((item: any) => item?.id === el?.id)
-
+                            {selectedEmployeeDetails && selectedEmployeeDetails.length > 0 && selectedEmployeeDetails.map((el: any, index: number) => {
+                                // const isActive = selectedEmployeeDetails && selectedEmployeeDetails?.some((item: any) => item?.id === el?.id)
                                 return (
                                     <>
-                                        <div className='d-flex justify-content-between mt-4'>
+                                        <div className='d-flex justify-content-between mt-4  '>
                                             <div className='d-flex'>
                                                 {/* <Image
                                                     variant={'rounded'}
                                                     alt="..."
                                                     src={el.photo ? getImageUrl(el.photo) : icons.profile}
                                                 /> */}
-                                                <h4 className='ml-2 mt-2'>{el?.name}</h4>
+                                                <span className='ml-2 mt-2'>{el?.name}</span>
                                             </div>
                                             <div>
-                                                <div className='mt--4'>
-                                                    <div className='d-flex justify-content-between my-4'>
-                                                        {/* <div className='col-xl-6 col-sm-0 '>
-                                                        <h3>{el.name}</h3>
-                                                    </div> */}
+                                                <div >
+                                                    <div className='d-flex justify-content-between '>
                                                         <td className="col-xl-2 col-sm-0 mt-sm-0" style={{ whiteSpace: "pre-wrap" }}>
-                                                            <i className={`bi bi-${'bi bi-x-circle-fill pointer text-danger'}`}
+                                                            <i className={`bi bi-${'bi bi-x-circle-fill pointer text-primary'}`}
                                                                 onClick={() => {
                                                                     addSelectedEmployeeDetails(el, '')
                                                                 }}
@@ -292,6 +313,9 @@ function ScheduleMeeting() {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className={''}>
+                                            {index !== selectedEmployeeDetails.length - 1 && <Divider space={'3'} />}
+                                        </div>
                                     </>
                                 )
                             })
@@ -300,8 +324,8 @@ function ScheduleMeeting() {
                         </div>
                         <div className='text-right mb--3'>
                             <Button
-                                text={"Submit"}
-                                size='lg'
+                                text={translate("common.submit")}
+                                size='md'
                                 onClick={() => {
                                     addEmployeeDetailsToScheduleMeeting()
                                 }}

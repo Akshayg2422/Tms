@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getReferenceTasks, setSelectedTask } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
-import { NoDataFound, Card, CommonTable, Button } from "@Components";
+import { NoDataFound, Card, CommonTable, Button, Spinner } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
@@ -19,6 +19,7 @@ function ReferenceTasks() {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { goTo } = useNavigation()
   const { height } = useWindowDimensions()
+  
 
   useEffect(() => {
     proceedgetReferenceTasks(referencesTasksCurrentPages);
@@ -26,6 +27,7 @@ function ReferenceTasks() {
 
 
   const proceedgetReferenceTasks = (page_number: number) => {
+    
     const params = {
       page_number,
       task_id: id,
@@ -36,9 +38,10 @@ function ReferenceTasks() {
       getReferenceTasks({
         params,
         onSuccess: (response) => () => {
-
         },
-        onError: () => () => { },
+        onError: () => () => {
+          
+         },
       })
     );
   }
@@ -46,14 +49,16 @@ function ReferenceTasks() {
 
   const normalizedTableData = (data: any) => {
 
-    return data?.map((el: any) => {
-      return {
-        issue: el.title,
-        "raised by": el?.by_user.name,
-        status: getStatusFromCode(dashboardDetails, el.task_status),
-        "raised by company": el?.raised_by_company?.name
-      };
-    });
+    if (data && data.length > 0) {
+      return data?.map((el: any) => {
+        return {
+          issue: el.title,
+          "raised by": el?.by_user.name,
+          status: getStatusFromCode(dashboardDetails, el.task_status),
+          "raised by company": el?.raised_by_company?.name
+        };
+      });
+    }
   };
 
 
@@ -66,7 +71,9 @@ function ReferenceTasks() {
         }} />
       </div>
       }
+      
       {referencesTasks && referencesTasks?.length > 0 ?
+
         <CommonTable
           tableDataSet={referencesTasks}
           currentPage={referencesTasksCurrentPages}

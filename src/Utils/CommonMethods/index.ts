@@ -2,6 +2,7 @@ import {
   getPhoto,
 } from "@Utils";
 
+
 export function ifObjectExist(value: object) {
   let is_valid = true;
 
@@ -11,6 +12,10 @@ export function ifObjectExist(value: object) {
   return is_valid;
 }
 
+
+export function ifObjectKeyExist(object: any, key: string) {
+  return object["key"] !== undefined
+}
 
 export function changeDropDownDataKey(arr: any) {
   if (arr && arr.length > 0) {
@@ -89,20 +94,20 @@ export const getDeviceInfo = () => {
 }
 
 
-export  async function imagePickerConvertBase64(array) {
+export async function imagePickerConvertBase64(array) {
   const promises = array.map(async (each) => {
-    let photo = await getPhoto(each. photo);
+    let photo = await getPhoto(each.photo);
     const base64 = await fetch(photo)
-.then(response => response.blob())
-  .then(blob => {
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      return new Promise((res) => {
+      .then(response => response.blob())
+      .then(blob => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        return new Promise((res) => {
           reader.onloadend = () => {
-              res(reader.result);
+            res(reader.result);
           }
+        })
       })
-  })
     return {
       ...each,
       base64: base64
@@ -112,4 +117,45 @@ export  async function imagePickerConvertBase64(array) {
 
   return Promise.all(promises);
 }
+
+
+export const getCurrentDayAndDate = (date: any) => {
+  const currentDate = new Date(date);
+  const options: any = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+  return currentDate.toLocaleDateString('en-US', options);
+};
+
+export function getDropDownDisplayData(data: any) {
+  return data && data?.map((item: any) => {
+    return {
+      ...item,
+      text: item.name
+    }
+  })
+}
+
+export function getDropDownCompanyDisplayData(data: any) {
+  return data && data?.map((item: any) => {
+    return {
+      ...item,
+      text: item.display_name
+    }
+  })
+}
+
+
+export function getDropDownCompanyUser(data: any) {
+  return data && data?.map((item: any) => {
+    return {
+      text:item.name,
+      title: JSON.stringify({ designation: item?.designation?.name, department: item?.department?.name,image:getPhoto(item?.profile_image)}),}
+    
+  })
+}
+
+
+
+
+
+
 

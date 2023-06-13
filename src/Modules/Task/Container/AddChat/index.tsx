@@ -78,10 +78,14 @@ function AddChat() {
         setPhoto(newUpdatedPhoto)
     }
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            proceedTaskEventsApiHandler()
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+
+            if (message.value.trim().length > 0) {
+                proceedTaskEventsApiHandler();
+            }
         }
-    }
+    };
 
     return (
         <>
@@ -89,7 +93,7 @@ function AddChat() {
                 <div className='row justify-content-center align-items-center'>
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
-                        <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
+                        <textarea placeholder={translate('order.Write your comment')!} value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={proceedTaskEventsApiHandler} />
                 </div >

@@ -17,12 +17,11 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
 
+    console.log(subTasks,"subTasks===>")
 
     useEffect(() => {
         getSubTasksApi()
     }, [id])
-
-
 
     function getSubTasksApi() {
         const params = {
@@ -38,24 +37,29 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         }))
     }
     const normalizedTableData = (data: any) => {
-        return data?.map((el: any) => {
-            return {
-                "Sub task":
-                    <div className='row'>
-                        <Priority priority={el?.priority} />
-                        <span className="ml-2">{el?.title}</span>
-                    </div>
-            };
-        });
+
+        console.log(data,"ddddd")
+        if (data && data.length > 0) {
+            return data?.map((el: any) => {
+                return {
+                    "Sub task":
+                        <div className='row'>
+                            <Priority priority={el?.priority} />
+                            <span className="ml-2">{el?.title}</span>
+                        </div>
+                };
+            });
+        }
+        return []
     };
 
     return (
 
-        <Card className="h-100">
+        <Card className="h-100  shadow-none overflow-auto overflow-hide" style={{ maxHeight: '44vh' }}>
             {(subTasks && subTasks.length > 0) && <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={translate("auth.subTask")} />
                 <Button
-                    className={'text-white'}
+                    className={'text-white shadow-none '}
                     size={"sm"}
                     text={translate("common.addSubTask")}
                     onClick={() => {
@@ -65,7 +69,8 @@ function SubTasks({ cardHeight }: SubTasksProps) {
             </div>
             }
 
-            <Card className='h-100 mt-1 mx--4 overflow-auto overflow-hide shadow-none' style={{ maxHeight: '39vh' }}>
+            {/* <Card className='h-100 mt-1 mx--4 overflow-auto overflow-hide shadow-none' style={{ maxHeight: '39vh' }}> */}
+            <div className='pt-2 ' style={{marginRight:'-21px',marginLeft:'-21px'}}>
                 {subTasks && subTasks.length > 0 ?
                     <CommonTable
                         tableDataSet={subTasks}
@@ -79,7 +84,8 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                     /> :
                     <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton /></div>
                 }
-            </Card>
+                </div>
+            {/* </Card> */}
         </Card>
     )
 }

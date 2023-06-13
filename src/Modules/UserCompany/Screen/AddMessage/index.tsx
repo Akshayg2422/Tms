@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AddMessageProps } from './interfaces';
-import { Button, Modal, Input, Dropzone } from '@Components'
+import { Button, Modal, Input, Dropzone, ImageDownloadButton } from '@Components'
 import { icons } from '@Assets'
 import { addGroupMessage, refreshGroupEvents } from '@Redux'
 import { useDispatch } from 'react-redux'
@@ -49,7 +49,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             group_attachments: [{ name: attachmentName.value, attachments: photo }],
             // name: attachmentName.value,
         };
-        
+
         dispatch(
             addGroupMessage({
                 params,
@@ -57,7 +57,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                     resetValues();
                     attachmentModal.hide()
                     dispatch(refreshGroupEvents())
-                    
+
                 },
                 onError: (error) => () => { },
             }),
@@ -77,10 +77,15 @@ function AddMessage({ AddGroup }: AddMessageProps) {
     }
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            addGroupMessageApiHandler()
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+
+            if (message.value.trim().length > 0) {
+                addGroupMessageApiHandler();
+            }
         }
-    }
+    };
+
 
     return (
         <>
@@ -88,9 +93,10 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                 <div className='row justify-content-center align-items-center'>
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
-                        <textarea placeholder="Write your comment" value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
+                        <textarea placeholder={translate("order.Write your comment")!} value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={addGroupMessageApiHandler} />
+
                 </div >
             </div >
             <Modal isOpen={attachmentModal.visible}
@@ -110,6 +116,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                                             handleImagePicker(index, file)
                                         }}
                                     />
+
                                 </div>
                             )
                         })}

@@ -1,4 +1,6 @@
+
 import React from 'react'
+import { translate } from "@I18n";
 
 interface TableProps {
   tableDataSet?: Array<{}>;

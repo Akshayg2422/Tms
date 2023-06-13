@@ -12,11 +12,10 @@ export const SERVER =
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_local'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
-        ? 'http://192.168.162.5:8001'
+        ? 'http://192.168.246.5:8003'
         : BUILD_TYPE === BUILD_TYPE_STAGING
           ? 'http://103.118.188.135:8003'
           : 'http://localhost:8000'
-
 
 const axiosApi = axios.create({
   baseURL: SERVER,
@@ -26,12 +25,12 @@ axios.interceptors.request.use(function (config) {
   return config;
 });
 
+
 const getHeaders = async () => {
+
   try {
 
     const value = await localStorage.getItem(USER_TOKEN);
-
-
 
     if (value) {
       return { Authorization: 'Token ' + value };
@@ -75,6 +74,7 @@ export async function post(url, data, config) {
 
 export async function postHeader(url, data, config) {
   let headers = { ...(await getHeaders()) };
+
   return await axiosApi
     .post(url, data, {
       ...config,

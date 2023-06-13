@@ -11,18 +11,23 @@ import {
   Dropzone,
   Image,
   MenuBar,
-  DateTimePicker
+  DateTimePicker,
+  Spinner
 } from "@Components";
 import { translate } from "@I18n";
 import {
 
   getTaskGroup,
-  addTaskGroup
+  addTaskGroup,
+  addGroupUser,
+  getGroupsEmployees
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices } from "@Utils";
+import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
 import { useModal, useDynamicHeight, useInput } from "@Hooks";
 import { icons } from "@Assets";
+import { Employees, GroupEmployeeList } from '@Modules'
+import moment from "moment";
 
 
 
@@ -32,24 +37,28 @@ function TaskGroup() {
   const {
     taskGroups,
     taskGroupCurrentPages,
-    taskGroupNumOfPages
+    taskGroupNumOfPages,
+    selectedGroupChatCode,
+    dashboardDetails
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+  const { company } = dashboardDetails || ''
 
   const dynamicHeight: any = useDynamicHeight()
-
-
+  useEffect(() => {
+    getGroupEmployees()
+  }, [selectedGroupChatCode])
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
     ...(is_parent ? [{ id: '1', name: "Create Sub Group", icon: icons.addSub }] : []),
     ...(marked_as_closed ? [{ id: '3', name: "Mark As Open", icon: icons.markAsOpen }] : [{ id: '2', name: "Mark As Closed", icon: icons.markAsClose }]),
+    ...(is_parent ? [{ id: '4', name: "Add Member ", icon: icons.addSub }] : []),
   ]
   const [showTaskGroup, setShowTaskGroup] = useState(false);
-
   const [inCludeSubGroup, setIncludeSubGroup] = useState(false)
   const addTaskGroupModal = useModal(false);
-
+  const [loading,setLoading] =useState(false)
   const taskGroupName = useInput("");
   const taskGroupCode = useInput("");
   const taskGroupDescription = useInput("");
@@ -68,25 +77,28 @@ function TaskGroup() {
   const [startTimeEta, setStatTimeEta] = useState<any>("")
   const [endTimeEta, setEndTimeEta] = useState<any>("")
   const [subTaskPhoto, setSubTaskPhoto] = useState("");
-
-
+  const addMemberModal = useModal(false);
+  const [taggedUsers, setTaggedUsers] = useState([])
+  const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
+  const [addGroupId,setGroupId]=useState<any>()
   const startDate = new Date(startTimeEta)
   const startTime = startDate.getHours()
+  const [date, setDate] = useState<any>(moment().format())
+  const [endDate, setEndDate] = useState<any>(moment().format())
 
 
   const handleStartTimeEtaChange = (value: any) => {
     setStatTimeEta(value)
+    setDate(value)
   };
 
   const handleEndTimeEtaChange = (value: any) => {
     setEndTimeEta(value)
+    setEndDate(value)
   };
 
-
-
-
   const getTaskGroupList = (page_number: number, include: boolean = inCludeSubGroup) => {
-
+      setLoading(true)
     const params = {
       page_number,
       include_closed_taskgroup: include
@@ -96,15 +108,17 @@ function TaskGroup() {
       getTaskGroup({
         params,
         onSuccess: (success: any) => () => {
+          setLoading(false)
         },
         onError: (error: string) => () => {
-
+               setLoading(false)
         },
       })
     );
   };
 
   const addTaskGroupApiHandler = async () => {
+   
 
     toDataUrl(photo, function (myBase64) {
 
@@ -115,7 +129,9 @@ function TaskGroup() {
       }
 
       const params = {
+        
         ...(selectedTaskGroup && { id: selectedTaskGroup.id }),
+        branch_id:company?.id,
         name: taskGroupName.value,
         description: taskGroupDescription.value,
         code: taskGroupCode.value.trim(),
@@ -179,6 +195,7 @@ function TaskGroup() {
       const params = {
         name: convertToUpperCase(subTaskGroupName.value),
         description: convertToUpperCase(subTaskGroupDescription.value),
+        branch_id:company?.id,
         code: subTaskGroupCode.value.trim(),
         photo: updatedPhoto,
         parent_id: selectedSubTaskGroup?.id,
@@ -214,6 +231,61 @@ function TaskGroup() {
 
 
   };
+
+  // EMPLOYEES
+
+  const getGroupEmployees = (q: string = '') => {
+
+    const params = {
+      group_id: selectedGroupChatCode,
+      // ...(otherParams && { ...otherParams }),
+      q
+    }
+
+
+    if (selectedGroupChatCode) {
+      dispatch(
+        getGroupsEmployees({
+          params,
+          onSuccess: (response) => () => {
+            const selectedUsers = response.details
+            if (selectedUsers && selectedUsers.length > 0) {
+              setDefaultSelectedUser(selectedUsers)
+            }
+
+          },
+          onError: () => () => {
+
+          }
+        })
+      )
+    }
+  }
+
+  // ADD MEMBER
+
+  const addGroupUsers = (addUsers: any) => {
+
+    const params = {
+      group_id: addGroupId,
+      users_id: addUsers.tagged_users
+    }
+
+    dispatch(
+      addGroupUser({
+        params,
+        onSuccess: (response) => () => {
+          addMemberModal.hide()
+          getGroupEmployees()
+          showToast('Member added successfully');
+        },
+        onError: () => () => {
+          // showToast('Add member not added');
+        }
+      })
+    )
+
+  }
 
   const normalizedTaskGroupData = (data: any) => {
     return data.map((taskGroup: any,) => {
@@ -267,8 +339,14 @@ function TaskGroup() {
             const { id } = taskGroup
             changeGroupStatusApiHandler(id, false)
           }
-
-
+          else if (el.id === '4') {
+            const { id } = taskGroup
+           
+            // addGroupUsers(id)
+            addMemberModal.show()
+            setGroupId(taskGroup.id)
+           
+          }
         }} />
 
       };
@@ -318,7 +396,7 @@ function TaskGroup() {
             <h3>{translate("auth.group")}</h3>
           </div>
           <div className="col mb--4">
-            <Checkbox id={'group'} text={'Include Close'} onCheckChange={(checked) => {
+            <Checkbox id={'group'} text={translate('order.Include Close')!} onCheckChange={(checked) => {
               getTaskGroupList(taskGroupCurrentPages, checked);
             }} />
           </div>
@@ -361,6 +439,13 @@ function TaskGroup() {
             marginRight: "-23px"
           }}
         >
+          {
+              loading && (
+                <div className='d-flex justify-content-center align-item-center' style={{marginTop:'200px'}}>
+                  <Spinner/>
+                </div>
+              )
+            }
           {taskGroups && taskGroups?.length > 0 ? (
             <CommonTable
               isPagination
@@ -452,9 +537,6 @@ function TaskGroup() {
           />
         </div>
       </Modal>
-
-
-
       <Modal
         isOpen={addSubTaskGroupModal.visible}
         onClose={() => {
@@ -492,6 +574,7 @@ function TaskGroup() {
                 type="both"
                 initialValue={(getMomentObjFromServer(startTimeEta))}
                 onChange={handleStartTimeEtaChange}
+                value={date ? getMomentObjFromServer(date) : null!}
               />
             </div>
             <div className="col-6">
@@ -500,6 +583,7 @@ function TaskGroup() {
                 initialValue={(getMomentObjFromServer(endTimeEta))}
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
+                value={endDate ? getMomentObjFromServer(endDate) : null!}
               />
             </div>
           </div>
@@ -538,6 +622,40 @@ function TaskGroup() {
               addSubTaskGroupApiHandler();
             }}
           />
+        </div>
+      </Modal>
+
+      {
+        /**
+         * Tag User
+         */
+      }
+
+      <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '90vh', }}>
+        
+        {/* <Employees selection={'multiple'}
+          defaultSelect={defaultSelectedUsers}
+          onSelected={(users) => {
+            const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
+            setTaggedUsers(taggedUserIds)
+          }}
+          
+          /> */}
+          <GroupEmployeeList
+          selection={'multiple'}
+          defaultSelect={defaultSelectedUsers}
+          selectedCode={addGroupId}
+          onSelected={(users) => {
+            const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
+            setTaggedUsers(taggedUserIds)
+          }}/>
+        <div className="pt-3 mr-2 text-right">
+          <Button
+            size={'sm'}
+            text={translate("common.submit")}
+            onClick={() => {
+              addGroupUsers({ event_type: TGU, tagged_users: taggedUsers })
+            }} />
         </div>
       </Modal>
     </div>
