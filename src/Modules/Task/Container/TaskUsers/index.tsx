@@ -19,7 +19,7 @@ function TaskUsers() {
 
   function getTaskUserApi() {
     const params = {
-      task_id: id,
+      code: id,
     };
 
     dispatch(

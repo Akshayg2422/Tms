@@ -118,7 +118,7 @@ function AddChatTicket() {
                         </div>
                     </div>
                     <div className=' pt-4'>
-                        <Button text={'Submit'} onClick={addTicketEventAttachment} />
+                        <Button text={translate("common.submit")}  onClick={addTicketEventAttachment} />
                     </div>
                 </div>
 

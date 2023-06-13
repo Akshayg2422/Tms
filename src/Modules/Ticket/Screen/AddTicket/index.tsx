@@ -266,17 +266,18 @@ function AddTicket() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-                <Input
+                {/* <Input
                     heading={translate("auth.description")}
                     value={description.value}
                     onChange={description.onChange}
-                />
-                  <DropDown
-                    heading={translate("common.ticketPriority")!}
-                    selected={selectedTicketPriority.value}
-                    placeHolder={translate('order.please select a ticket priority')!}
-                    data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange} />
+                /> */}
+                <div className="col-lg-5">
+                    <h4 className="ml--3">{translate('auth.description')}</h4>
+                    <textarea 
+                        value={description.value}
+                        onChange={description.onChange}
+                        className="form-control form-control-sm" />
+                </div>
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}
@@ -339,6 +340,7 @@ function AddTicket() {
                     variant={'custom'}
                         heading={translate("common.user")!}
                          data={getDropDownCompanyUser(employees)}
+                          selected={selectedUserId}
                 onChange={(item)=>{
                     setSelectedUserId(item)
 

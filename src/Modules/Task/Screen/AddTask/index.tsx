@@ -10,7 +10,7 @@ import {
     Spinner,
     LoadingButton,
     AutoComplete,
- 
+
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -46,11 +46,9 @@ function AddTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations , associatedCompaniesL, employees } = useSelector(
+    const { dashboardDetails, departments, designations, associatedCompaniesL, employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-
-    console.log(employees,"employees")
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
@@ -68,7 +66,6 @@ function AddTask() {
     const taskGroup = useDropDown({})
     const [selectNoPickers, setSelectNoPickers] = useState<any>();
     const [image, setImage] = useState("");
-    const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
@@ -106,7 +103,7 @@ function AddTask() {
     function getCompanyEmployeeApi() {
 
         const params = {
-            branch_id: getBranchId(),
+            code: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id }),
             per_page_count: -1,
@@ -116,7 +113,7 @@ function AddTask() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
-                  
+
                 },
                 onError: () => () => { },
             })
@@ -124,18 +121,18 @@ function AddTask() {
     }
 
     const submitTaskHandler = () => {
-        setLoading(true)
+
         const params = {
             title: title?.value,
             description: description?.value,
-            ...(referenceNo?.value && {reference_number: referenceNo?.value}),
+            ...(referenceNo?.value && { reference_number: referenceNo?.value }),
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: true,
-           ...(eta && {eta_time: eta}),
-            group_id: taskGroup?.value?.id,
+            eta_time: eta,
+            code: taskGroup?.value?.id,
             ...(department?.value?.id && { department_id: department.value.id }),
             ...(designation?.value?.id && { designation_id: designation.value.id })
 
@@ -143,6 +140,7 @@ function AddTask() {
 
         const validation = validate(taskType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
+            setLoading(true)
             dispatch(
                 addTask({
                     params,
@@ -175,7 +173,7 @@ function AddTask() {
                     if (companies && companies.length > 0) {
                         setDisableTaskType([]);
                     }
-                    
+
                     else {
                         setTaskType(type[1]);
                         setDisableTaskType([type[0]] as never);
@@ -208,7 +206,7 @@ function AddTask() {
     function getDepartmentsApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            code: getBranchId()
         }
 
 
@@ -225,7 +223,7 @@ function AddTask() {
     function getDesignationApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            code: getBranchId()
         }
 
 
@@ -284,18 +282,25 @@ function AddTask() {
 
             <div className="col-md-9 col-lg-5">
 
-
                 <Input
 
                     heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
                 />
-                <Input
+                {/* <Input
                     heading={translate("auth.description")}
                     value={description.value}
                     onChange={description.onChange}
-                />
+                /> */}
+                <div >
+                    <h4 className="col-lg-5 ml--3">{translate('auth.description')}</h4>
+                    <textarea 
+                        value={description.value}
+                        onChange={description.onChange}
+                        className="form-control form-control-sm" />
+                </div>
+
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}
@@ -310,7 +315,14 @@ function AddTask() {
                     data={PRIORITY}
                     onChange={selectedTicketPriority.onChange} />
 
-                <div className="mb-1">
+                <Input
+                    type={"text"}
+                    heading={translate("auth.referenceNo")}
+                    value={referenceNo.value}
+                    onChange={referenceNo.onChange}
+                />
+
+                <div className="my-3">
                     <Radio
                         data={type}
                         selectItem={taskType}
@@ -326,62 +338,70 @@ function AddTask() {
                     />
                 </div>
 
-                {taskType && taskType?.id === "1" && (
-                    <DropDown
-                        heading={translate("common.company")!}
-                        placeHolder={translate('order.Select a company')!}
-                        data={getDropDownCompanyDisplayData( associatedCompaniesL )}
+                {
+                    taskType && taskType?.id === "1" && (
+                        <DropDown
+                            heading={translate("common.company")!}
+                            placeHolder={translate('order.Select a company')!}
+                            data={getDropDownCompanyDisplayData(associatedCompaniesL)}
+                            onChange={(item) => {
+                                company.onChange(item)
+                            }}
+                            selected={company.value}
+                        />
+                    )
+                }
+
+                {
+                    getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
+                        heading={translate("common.department")!}
+                        placeHolder={translate("order.Select a Department")!}
+                        data={getDropDownDisplayData(departments)}
                         onChange={(item) => {
-                            company.onChange(item)
+                            department.onChange(item)
                         }}
-                        selected={company.value}
+                        selected={department.value}
                     />
-                )}
-
-                {getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
-                    heading={translate("common.department")!}
-                    placeHolder={translate("order.Select a Department")!}
-                    data={getDropDownDisplayData(departments)}
-                    onChange={(item) => {
-                        department.onChange(item)
-                    }}
-                    selected={department.value}
-                />
                 }
 
-                {getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
-                    heading={translate("auth.designation")}
-                    placeHolder={translate('order.Select a Designation')!}
-                    data={getDropDownDisplayData(designations)}
-                    onChange={(item) => {
-                        designation.onChange(item)
-                    }}
-                    selected={designation.value}
-                />
+                {
+                    getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
+                        heading={translate("auth.designation")}
+                        placeHolder={translate('order.Select a Designation')!}
+                        data={getDropDownDisplayData(designations)}
+                        onChange={(item) => {
+                            designation.onChange(item)
+                        }}
+                        selected={designation.value}
+                    />
                 }
 
-{getExternalCompanyStatus() && employees && employees.length > 0 &&
+                {
+                    getExternalCompanyStatus() && employees && employees.length > 0 &&
                     <AutoComplete
-                    variant={'custom'}
+                        variant={'custom'}
                         heading={translate("common.user")!}
-                         data={getDropDownCompanyUser(employees)}
-                onChange={(item)=>{
-                    setSelectedUserId(item)
-
-                }} 
-                    />}
-
+                        data={getDropDownCompanyUser(employees)}
+                        selected={selectedUserId}
+                        onChange={(item) => {
+                            setSelectedUserId(item)
                     
 
-                {subTaskGroups && subTaskGroups.length > 0 && <DropDown
-                    heading={translate("common.selectGroup")}
-                    placeHolder={translate('order.Select a Group')!}
-                    data={getDropDownDisplayData(subTaskGroups)}
-                    onChange={taskGroup.onChange}
-                    selected={taskGroup.value}
-                />
+                        }}
+                    />
                 }
 
+
+
+                {
+                    subTaskGroups && subTaskGroups.length > 0 && <DropDown
+                        heading={translate("common.selectGroup")}
+                        placeHolder={translate('order.Select a Group')!}
+                        data={getDropDownDisplayData(subTaskGroups)}
+                        onChange={taskGroup.onChange}
+                        selected={taskGroup.value}
+                    />
+                }
                 <DateTimePicker
                     heading={'ETA'}
                     id="eta-picker"
@@ -389,31 +409,16 @@ function AddTask() {
                     type="both"
                     onChange={handleEtaChange}
                     value={date ? getMomentObjFromServer(date) : null!}
-                    
-                         />
-            </div>
 
-
-            {/* <div className="col mt-4">
-                <Button
-                    text={loading ? "Loading..." : translate("common.submit")}
-                    onClick={submitTaskHandler}
-                    disabled={loading}
-                >
-                    {loading && <Spinner/>}
-                </Button>
-            </div>  */}
+                />
+            </div >
 
             <div className="col mt-4">
-
                 <LoadingButton size={'md'}
                     text={translate('common.submit')}
                     loading={loading}
                     onClick={submitTaskHandler} />
-
             </div>
-
-
         </Card >
 
     );

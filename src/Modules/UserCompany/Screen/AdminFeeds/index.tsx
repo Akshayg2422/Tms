@@ -5,7 +5,7 @@ import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
-import {MyFeedItem} from '@Modules'
+import { MyFeedItem } from '@Modules'
 import { addBroadCastMessages, getAssociatedCompanyBranch, getBroadCastMessages } from "@Redux";
 import { CREATE_BROAD_CAST_EXTERNAL, CREATE_BROAD_CAST_INTERNAL, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
@@ -14,7 +14,7 @@ function AdminFeeds() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false)
   const { broadCastDetails, broadCastCurrentPage } = useSelector(
     (state: any) => state.CommunicationReducer
   );
@@ -29,13 +29,12 @@ function AdminFeeds() {
   const [photo, setPhoto] = useState<any>([]);
   const [selectedCompanies, setSelectedCompanies] = useState<any>([]);
   const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
-  const [image, setImage] = useState("");
   const feedTitle = useInput('');
   const feedDescription = useInput("");
   const [internalCheck, setInternalCheck] = useState(false)
   const [externalCheck, setExternalCheck] = useState(false)
   const [isExternalDisable, setExternalDisable] = useState(false)
-  const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
+  const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
   const [selectedFeed, setSelectedFeed] = useState<any>(undefined)
 
   const deleteFeedModal = useModal(false)
@@ -43,15 +42,15 @@ function AdminFeeds() {
   const editFeedModal = useModal(false)
 
 
-  let AttachmentEdit = selectDropzone &&selectDropzone.map((el,index)=>{
-  const {id,attachment_file}=el
-  return {
-   id:index+1, photo: attachment_file,
-}
+  let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
+    const { id, attachment_file } = el
+    return {
+      id: index + 1, photo: attachment_file,
+    }
 
- })
+  })
 
- console.log(AttachmentEdit,"ppppp")
+  console.log(AttachmentEdit, "ppppp")
 
   const MY_FEED_MENU = [
     {
@@ -59,7 +58,7 @@ function AdminFeeds() {
     },
     {
       id: 1, name: translate('common.delete'), icon: icons.deleteCurve,
-    },
+    }
   ]
 
 
@@ -124,7 +123,7 @@ function AdminFeeds() {
 
   let attach = photo.slice(-selectedNoOfPickers)
 
-  const handleImagePicker = ( file: any) => {
+  const handleImagePicker = (file: any) => {
     let newUpdatedPhoto = [...photo, file];
     setPhoto(newUpdatedPhoto);
   };
@@ -154,7 +153,6 @@ function AdminFeeds() {
 
   }
 
-  console.log("image------>", image)
 
 
   function proceedEditHandler() {
@@ -170,7 +168,7 @@ function AdminFeeds() {
       broadcast_attachments: [{ attachments: attach }],
     };
 
-    console.log(JSON.stringify(params),"===---????")
+    console.log(JSON.stringify(params), "===---????")
 
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
 
@@ -216,13 +214,13 @@ function AdminFeeds() {
             onClick={proceedCreatePost}
           />
         </div> : null}
-        {
-          loading && (
-            <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px',marginTop:'250px'}}>
-              <Spinner/>
-            </div>
-          )
-        }
+      {
+        loading && (
+          <div className="d-flex justify-content-center align-item-center" style={{ minHeight: '200px', marginTop: '250px' }}>
+            <Spinner />
+          </div>
+        )
+      }
       {broadCastDetails && broadCastDetails.length > 0 ?
         <InfiniteScroll
           dataLength={broadCastDetails.length}
@@ -238,7 +236,6 @@ function AdminFeeds() {
             }
           }
           }>
-
           <div className={''} >
             {
               broadCastDetails?.map((item: any, index: number) => {
@@ -256,15 +253,15 @@ function AdminFeeds() {
                               feedDescription.set(description)
                               setInternalCheck(for_internal_company)
                               setExternalCheck(for_external_company)
-                            //   AttachmentEdit = attachments &&attachments.map(el=>{
-                            //    const {id,attachment_file}=el
-                            //    return {
-                            //     id: id, photo: attachment_file,
-                            // }
+                              //   AttachmentEdit = attachments &&attachments.map(el=>{
+                              //    const {id,attachment_file}=el
+                              //    return {
+                              //     id: id, photo: attachment_file,
+                              // }
 
-                            //   })
+                              //   })
                               setSelectDropzone(attachments)
-                              console.log(attachments,"aattacchhmmm")
+                              console.log(attachments, "aattacchhmmm")
 
 
                               const updatedData = applicable_branches.map(item => {
@@ -370,32 +367,48 @@ function AdminFeeds() {
               );
             })}
         </div> */}
-           <div className="col-auto pb-2">
-                <div className="row">
-                <ImagePicker
-                   defaultPicker={true}
-                   defaultValue={AttachmentEdit}
-                    size='xl'
-                    heading= {translate("auth.attach")!}
-                    noOfFileImagePickers={2}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
-                       
-                    
-                    }}
-                    onSelectImagePicker={(el)=>{
-                      setSelectedNoOfPickers(el?.length)
+        <div className="col-auto pb-2">
+          <div className="row">
+            <ImagePicker
+              defaultPicker={true}
+              defaultValue={AttachmentEdit}
+              size='xl'
+              heading={translate("auth.attach")!}
+              noOfFileImagePickers={1}
+              onSelect={(image) => {
+                let file = image.toString().replace(/^data:(.*,)?/, "")
+                handleImagePicker(file)
 
-                    }}
-                />
+              }}
+              onSelectImagePicker={(el) => {
+                setSelectedNoOfPickers(el?.length)
 
-                </div>
-              
+              }}
+              onSelectImagePickers={(el)=>{
+                let array: any = []
 
-            </div>
+                for (let i = 0; i <= el.length; i++) {
+    
+                  let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                  if(editPickers!==undefined){
+                  array.push(editPickers)
+                  }
+                  
+                }
+                setPhoto(array)
+  
+              }}
+            
 
-        
+            
+            />
+
+          </div>
+
+
+        </div>
+
+
 
 
 

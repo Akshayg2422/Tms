@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference,Groups, TimeApproval, ReSubmitRequest, } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -23,7 +23,7 @@ export const HOME_PATH = {
   TICKET_DETAILS: '/ticket-details',
   ADD_TICKET: './add-ticket',
   EMPLOYEE_TIME_SHEET: './employee-time-sheet',
-  GROUPS:'./groups'
+  GROUPS: './groups'
 }
 
 export const ROUTES = {
@@ -65,7 +65,7 @@ export const ROUTES = {
     'my-portfolio': '/my-portfolio',
     'admin-feeds': '/admin-feeds',
     Events: '/events',
-    Groups:'/groups',
+    Groups: '/groups',
     'add-event': '/add-event'
   },
   'message-module': {
@@ -104,7 +104,7 @@ export const AUTH_ROUTES = [
 export const HOME_ROUTES = [
   {
     path: ROUTES['task-module'].tasks,
-    name:translate("sideNav.Tasks") ,
+    name: translate("sideNav.Tasks"),
     icon: icons.task,
     layout: "",
     component: <Tasks />
@@ -131,14 +131,6 @@ export const HOME_ROUTES = [
     component: <Broadcast />
   },
   {
-    path: ROUTES['user-company-module'].profile,
-    name: translate("sideNav.Profile"),
-    icon: icons.profile,
-    layout: "",
-    component: <Profile />
-  },
-  
-   {
     collapse: true,
     name: translate("sideNav.Admin"),
     icon: icons.task,
@@ -147,6 +139,7 @@ export const HOME_ROUTES = [
       {
         path: ROUTES['user-company-module'].employee,
         name: translate("sideNav.Employee Portfolio"),
+        // icon:icons.protfolio,
         miniName: "EP",
         component: <EmployeesList />,
         layout: '/admin',
@@ -155,7 +148,7 @@ export const HOME_ROUTES = [
         path: ROUTES['user-company-module']['time-approval'],
         name: "TimeApproval",
         miniName: "TS",
-        component: <TimeApproval/>,
+        component: <TimeApproval />,
         layout: '/admin',
       },
       {
@@ -181,14 +174,14 @@ export const HOME_ROUTES = [
       },
     ],
 
-    
+
   },
 
   {
     path: ROUTES['user-company-module']['my-portfolio'],
     name: translate("sideNav.MyTimeSheet"),
     miniName: "TS",
-    icon:icons.myTimeSheet,
+    icon: icons.myTimeSheet,
     component: <MyTimeSheet />,
     layout: '',
   },
@@ -200,11 +193,18 @@ export const HOME_ROUTES = [
     component: <Groups />
   },
   {
+    path: ROUTES['user-company-module'].profile,
+    name: translate("sideNav.Profile"),
+    icon: icons.profile,
+    layout: "",
+    component: <Profile />
+  },
+  {
     path: ROUTES['user-company-module'].setting,
     name: "Settings",
     icon: icons.setting,
     layout: "",
-    component: <Setting/>
+    component: <Setting />
   },
 ];
 
@@ -287,7 +287,7 @@ export const USER_COMPANY_ROTES = [
   {
     key: 5,
     path: ROUTES['user-company-module']['time-approval'],
-    component: <TimeApproval/>
+    component: <TimeApproval />
   },
   {
     key: 6,
@@ -295,27 +295,27 @@ export const USER_COMPANY_ROTES = [
     component: <AdminFeeds />
   },
   {
-    key: 7,
+    key: 6,
     path: ROUTES['user-company-module'].Events,
     component: <Events />
   },
   {
-    key: 8,
+    key: 7,
     path: ROUTES['user-company-module']['add-event'],
     component: <AddEvent />
   },
   {
-    key: 9,
+    key: 8,
     path: ROUTES['user-company-module']['schedule-meeting'],
     component: <ScheduleMeeting />
   },
   {
-    key: 10,
+    key: 9,
     path: ROUTES['user-company-module']['video-conference'],
     component: <VideoConference />
   },
   {
-    key: 11,
+    key: 10,
     path: ROUTES['user-company-module'].Groups,
     component: <Groups />
   },
@@ -323,7 +323,7 @@ export const USER_COMPANY_ROTES = [
   {
     key: 12,
     path: ROUTES['user-company-module']['re-submit-request'],
-    component: <ReSubmitRequest/>
+    component: <ReSubmitRequest />
   },
 ];
 
