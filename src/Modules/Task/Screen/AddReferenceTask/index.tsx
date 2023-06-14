@@ -17,6 +17,7 @@ function AddReferenceTask() {
   const { goBack } = useNavigation();
   const [loading, setLoading] = useState(false)
   const search = useInput("");
+  console.log(selectedTask,"selectedTask")
 
   useEffect(() => {
     getTasksApiHandler(taskCurrentPages)

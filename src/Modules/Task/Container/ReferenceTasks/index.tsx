@@ -16,7 +16,7 @@ function ReferenceTasks() {
     (state: any) => state.TaskReducer
   );
 
- 
+ console.log(id,"iopppp")
   
 
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
@@ -73,8 +73,9 @@ function ReferenceTasks() {
     <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
       {referencesTasks && referencesTasks?.length > 0 && <div className="col text-right">
         <Button size={'sm'} className={'text-white'} text={translate("auth.addReferenceTask")} onClick={() => {
-          goTo(ROUTES["task-module"]["reference-task"])
           dispatch(setSelectedTask(id))
+          goTo(ROUTES["task-module"]["reference-task"])
+          
         }} />
       </div>
       }
@@ -100,7 +101,7 @@ function ReferenceTasks() {
           }
           tableOnClick={(index,id,item) => {
             console.log(item.code)
-    
+            dispatch(setSelectedTask(item?.code))
             // dispatch(setSelectedTask(item))
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
           }}
