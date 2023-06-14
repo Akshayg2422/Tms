@@ -116,7 +116,7 @@ function AddChat() {
                     <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
                     <div className='row mt--4'>
                         <ImagePicker
-                            noOfFileImagePickers={8}
+                            noOfFileImagePickers={0}
                             icon={image}
                             size='xl'
                             onSelect={(image) => {

@@ -352,7 +352,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                    defaultValue={ AttachmentEdit }
                     size='xl'
                     heading= {translate("auth.attach")!}
-                    noOfFileImagePickers={2}
+                    noOfFileImagePickers={3}
                     onSelect={(image) => {
                         let file =image.toString().replace(/^data:(.*,)?/, "")
                          handleImagePicker(file)
