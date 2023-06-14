@@ -13,7 +13,7 @@ function Tickets() {
 
   const DEFAULT_PARAMS = { q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
   const { goTo } = useNavigation();
-  const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.TicketReducer);
+  const { tickets, ticketNumOfPages, ticketCurrentPages ,selectedTicket} = useSelector((state: any) => state.TicketReducer);
   const dispatch = useDispatch();
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const [loading, setLoading] = useState(false)

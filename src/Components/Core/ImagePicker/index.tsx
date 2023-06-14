@@ -49,9 +49,6 @@ const ImagePicker = ({
 
   }, []);
 
-  if (photo) {
-    onSelectImagePicker(updatedProfile)
-  }
 
 
   const handleRefClick = (el) => {
@@ -118,7 +115,9 @@ const ImagePicker = ({
                 );
                 updatedSelectedPhotos = [{ id: updatedPhoto?.id, base64: e.target?.result }, ...updatedSelectedPhotos]
                 setCount(photo.length + 1 - 1)
+                if( onSelectImagePickers && onSelectImagePickers){
                 onSelectImagePickers(updatedSelectedPhotos)
+                }
 
               }
 
