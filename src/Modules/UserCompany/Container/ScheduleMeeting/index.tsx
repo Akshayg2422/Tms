@@ -3,6 +3,7 @@ import { Back, Button, Card, DateTimePicker, Input, InputHeading, Image, Divider
 import { useDynamicHeight, useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { getEmployeesl, postVideoConference } from '@Redux';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -108,8 +109,8 @@ function ScheduleMeeting() {
     const addEmployeeDetailsToScheduleMeeting = () => {
         const params = {
             room_name: roomTitle,
-            start_date: scheduleData + ' ' + startTime + ":00",
-            end_date: scheduleData + ' ' + endTime + ":00",
+            start_date: moment(scheduleData+"T"+startTime).format('YYYY-MM-DDTHH:mm:ss'),
+            end_date: moment(scheduleData+"T"+endTime).format('YYYY-MM-DDTHH:mm:ss'),
             emp_details: filteredData,
             emp_ids:employeeFilteredData
         }

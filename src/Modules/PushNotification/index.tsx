@@ -7,7 +7,7 @@ import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
-import { refreshGroupEvents, refreshTaskEvents } from '@Redux'
+import { refreshGroupEvents, refreshTaskEvents, vcNotificationDetails } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { Groups } from "../UserCompany";
 
@@ -21,11 +21,14 @@ const PushNotification = () => {
     const NOTIFICATION_BROADCAST_MESSAGE = 'BROADCAST_MESSAGE'
     const NOTIFICATION_GROUP_MESSAGE = 'GROUP_MESSAGE'
     const NOTIFICATION_TASK_CHANNEL_EVENT = 'TASK_CHANNEL_EVENT'
+    const NOTIFICATION_VIDEO_CONFERENCE = "VIDEO_CONFERENCE"
     const { goTo } = useNavigation();
     const [notification, setNotification] = useState<any>([]);
     const dispatch = useDispatch()
 
     const notify = () => {
+
+
         notification.forEach((message: any) => {
             toast(<ToastDisplay data={message} />, {
                 position: 'top-right', duration: 3000,
@@ -58,19 +61,22 @@ const PushNotification = () => {
         );
     };
 
+
+
     useEffect(() => {
         if (notification && notification.length > 0) {
+
             notify()
         }
     }, [notification])
 
     const routingHandler = (payload: any) => {
 
-           console.log('payload=====>',JSON.stringify(payload))
-        
+        console.log('payload=====>', JSON.stringify(payload))
+
         const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
-        
-            console.log('route_type======>1111111',JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
+
+        console.log('route_type======>1111111', JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
 
         if (route_type === NOTIFICATION_GROUP_MESSAGE) {
             goTo(ROUTES['user-company-module'].Groups);
@@ -84,14 +90,20 @@ const PushNotification = () => {
         else if (route_type === NOTIFICATION_BROADCAST_MESSAGE) {
             goTo(ROUTES['message-module'].broadcast)
         }
+        else if (route_type === NOTIFICATION_VIDEO_CONFERENCE) {
+            // console.log("908989898",JSON.parse(payload?.data?.extra_data?.replace(/'/g, '"')))
+            dispatch(vcNotificationDetails(JSON.parse(payload?.data?.extra_data?.replace(/'/g, '"'))))
+            goTo(ROUTES['user-company-module']['video-conference'], false)
+        }
         else {
             goTo(ROUTES['user-company-module'].Groups)
         }
+
     }
 
     onMessageListener()
         .then((payload: any) => {
-
+            console.log('payload=======>', payload);
             setNotification(payload)
             const title = payload?.data?.title;
             const options = {
@@ -100,7 +112,7 @@ const PushNotification = () => {
             };
 
             const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
-            
+
 
             if (route_type === NOTIFICATION_GROUP_MESSAGE) {
                 try {
@@ -121,7 +133,7 @@ const PushNotification = () => {
                 routingHandler(payload)
 
                 console.log("foreground message--------------->", payload);
-                
+
                 this.close()
             });
 
@@ -132,7 +144,7 @@ const PushNotification = () => {
 
     return (
         <>
-            {/* <Toaster /> */} 
+            {/* <Toaster /> */}
             <GetToken />
         </>
     )
