@@ -8,9 +8,8 @@ import {
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
-import { Button, Card, CommonTable, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, Spinner, NoDataFound } from '@Components';
+import { Button, Card, CommonTable, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, Spinner, NoDataFound,  AutoComplete} from '@Components';
 import { icons } from '@Assets';
-import AutoSearchInput from '@Components//Core/AutoSearchInput';
 import { ROUTES } from '@Routes'
 import { useNavigation } from '@Hooks'
 import { INITIAL_PAGE } from '@Utils'
@@ -298,17 +297,18 @@ function MyPortfolio() {
         }}
         title={translate('auth.addTimeSheet')!}
       >
-        {<AutoSearchInput
-          heading={translate("auth.task")!}
-          placeholder={translate("auth.please select a task")!}
-          data={assignedTaskDetails}
-          // variant={true}
-          onSelect={(item) => {
-            setSelectedTask(item)
 
-          }}
-        />
-        }
+
+{
+          <AutoComplete 
+          heading={translate('auth.task')!}
+            data={assignedTaskDetails}
+            selected={selectedTask}
+            onChange={(item) => {
+              setSelectedTask(item)
+
+            }}
+          />}
         <div>
           <Input
             heading={translate('auth.description')}

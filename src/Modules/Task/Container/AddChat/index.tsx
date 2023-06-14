@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Button, Modal, Input, Dropzone } from '@Components'
+import { Button, Modal, Input, Dropzone, showToast } from '@Components'
 import { icons } from '@Assets'
 import { addTaskEvent, refreshTaskEvents, } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { useModal, useInput } from '@Hooks'
-import { TEM, MEA } from '@Utils'
+import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
 
 
@@ -45,7 +45,10 @@ function AddChat() {
 
         }
     };
-
+    const validation = validate(GROUP_ATTACHMENT_RULES, {
+        attachments: [{ attachment: photo }],
+        name: attachmentName.value
+    })
     const addTaskEventAttachment = () => {
         const params = {
             event_type: MEA,
@@ -53,17 +56,21 @@ function AddChat() {
             attachments: [{ attachment: photo }],
             name: attachmentName.value
         };
-        dispatch(
-            addTaskEvent({
-                params,
-                onSuccess: () => () => {
-                    resetValues();
-                    attachmentModal.hide()
-                    dispatch(refreshTaskEvents())
-                },
-                onError: (error) => () => { },
-            }),
-        );
+        if (ifObjectExist(validation)) {
+            dispatch(
+                addTaskEvent({
+                    params,
+                    onSuccess: () => () => {
+                        resetValues();
+                        attachmentModal.hide()
+                        dispatch(refreshTaskEvents())
+                    },
+                    onError: (error) => () => { },
+                }),
+            );
+        } else {
+            showToast(getValidateError(validation));
+        }
     };
     const resetValues = () => {
         attachmentName.set('');
@@ -100,15 +107,17 @@ function AddChat() {
             </div >
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
-                <div className='col-6'>
+                <div className='col-6 mt--6'>
                     <div className='col'>
+                        <div className='ml--3 mb--3'>
+                            <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
+                        </div>
                         <div className='row'>
                             {selectDropzone && selectDropzone.map((el, index) => {
-
                                 return (
+
                                     <div className={`${index !== 0 && 'ml-2'}`}>
                                         <Dropzone variant='ICON'
-
                                             icon={image}
                                             size='xl'
                                             onSelect={(image) => {
@@ -122,7 +131,7 @@ function AddChat() {
                         </div>
                     </div>
 
-                    <div className='mt-3'> <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /> </div>
+
                     <div className=' pt-2'>
                         <Button text={translate("common.submit")} onClick={addTaskEventAttachment} />
                     </div>

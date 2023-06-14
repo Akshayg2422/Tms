@@ -3,20 +3,23 @@ import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { EmployeeGroupsProps } from './interfaces'
 import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image, Spinner } from '@Components'
-import { addGroupUser, getGroupsEmployees } from '@Redux'
+import { addGroupUser, getGroupsEmployees, getTokenByUser, selectedVcDetails } from '@Redux'
 import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArrayByKey } from '@Utils';
-import { useDropDown, useModal } from '@Hooks';
+import { useDropDown, useModal, useNavigation } from '@Hooks';
 import { Employees, GroupEmployeeList } from '@Modules'
 import { translate } from '@I18n'
 import { icons } from '@Assets';
+import { ROUTES } from '@Routes';
 
 
 function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
-    const { groupEmployees } = useSelector((state: any) => state.UserCompanyReducer);
+    const { groupEmployees, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    const { company_branch, user_details, company } = dashboardDetails || ''
+    const { goTo } = useNavigation()
 
-    console.log(groupCode,"groupCode")
-    const [loading,setLoading]=useState(false)
+    console.log(groupCode, "groupCode")
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
         getGroupEmployees()
     }, [Employees])
@@ -26,21 +29,20 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
     const [reassignUser, setReassignUser] = useState<any>({})
     const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
 
-    // const status = useDropDown(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', selectedTask?.task_status));
 
 
-    useEffect(()=>{
+    useEffect(() => {
         getGroupEmployees()
 
-    },[ groupCode])
+    }, [groupCode])
 
     const getGroupEmployees = (q: string = '') => {
-      setLoading(true)
+        setLoading(true)
         const params = {
             group_id: groupCode,
             ...(otherParams && { ...otherParams }),
             q,
-        
+
         }
         if (groupCode) {
             dispatch(
@@ -54,11 +56,32 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                         setLoading(false)
                     },
                     onError: () => () => {
-                       setLoading(false)
+                        setLoading(false)
                     }
                 })
             )
         }
+    }
+
+
+    const getUserToken = (data) => {
+
+        const params = {
+            id: data.id,
+            user_name: user_details.name,
+            email_id: user_details.email,
+        }
+        dispatch(getTokenByUser({
+            params,
+            onSuccess: (success: any) => () => {
+
+                console.log("success============>", success)
+            },
+            onError: (error: string) => () => {
+
+            },
+
+        }))
     }
 
 
@@ -91,7 +114,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
     return (
         <>
 
-            <Card className={'h-100'}>
+            <Card className={'h-100 '}>
                 <div className='row'>
                     <div className='mx--1'>
                         <span className="h4 col-3">{'Members'}</span>
@@ -108,44 +131,55 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                     </div>
                 </div>
 
-                <div className='h-100 overflow-auto overflow-hide pb-3'>
+                <div className='h-100 col overflow-auto overflow-hide  p-0 m-0'>
                     {
                         loading && (
-                            <div className='d-flex justify-content-center align-item-center' style={{marginTop:'200px'}}>
-                                <Spinner/>
+                            <div className='d-flex justify-content-center align-item-center' style={{ marginTop: '200px' }}>
+                                <Spinner />
                             </div>
                         )
                     }
 
-                    {! loading && <div className='mt-3'>
+                    {!loading && <div className='mt-3 '>
                         {
                             groupEmployees && groupEmployees.length > 0 ? groupEmployees.map((el: any, index: number) => {
                                 const { name, mobile_number, designation, department, } = el
                                 return (
-                                    <div >
-                                        <div className='align-items-center'>
-                                            <div className='row align-item-center justify-content-center'>
-                                                <div className='col pt-1'>
-                                                    <H
-                                                        tag={'h4'}
-                                                        text={name}
-                                                    />
-                                                </div>
+                                    <>
+                                        <div >
+                                            <div className='align-items-center'>
+                                                <div className='row  justify-content-center align-items-center'>
+                                                    <div className='col pt-1'>
+                                                        <H
+                                                            tag={'h4'}
+                                                            text={name}
+                                                        />
+                                                    </div>
+                                                    <div className='mr-3 pointer'
+                                                        onClick={() => {
+                                                            dispatch(selectedVcDetails(el.id))
+                                                            getUserToken(el)
+                                                            goTo(ROUTES['user-company-module']['video-conference'], false)
+                                                        }}
+                                                    >
+                                                        <i className="bi bi-telephone-fill"></i>
+                                                    </div>
 
+                                                </div>
+                                                <div className={'row col mt--2'}>
+                                                    <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
+                                                    <div className='text-muted mt--1'><Image src={icons.verticalLine} height={12} width={7} /></div>
+                                                    <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
+                                                </div>
                                             </div>
-                                            <div className={'row col mt--2'}>
-                                                <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
-                                                <div className='text-muted mt--1'><Image src={icons.verticalLine} height={12} width={7} /></div>
-                                                <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
+                                            <div className={'mx--2 my--2'}>
+                                                {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
                                             </div>
                                         </div>
-                                        <div className={'mx--2 my--2'}>
-                                            {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
-                                        </div>
-                                    </div>
+                                    </>
                                 )
                             }) : <div className='pt-6 mt-5'>
-                                <NoDataFound type={'text'}  />
+                                <NoDataFound type={'text'} />
                             </div>
                         }
                     </div>}

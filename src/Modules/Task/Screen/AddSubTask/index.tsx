@@ -3,13 +3,12 @@ import {
     DropDown,
     Input,
     Radio,
-    Dropzone,
     showToast,
     DateTimePicker,
-    AutoCompleteDropDownImage,
     Card,
     Back,
-    ImagePicker
+    ImagePicker,
+    AutoComplete,
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -31,11 +30,11 @@ import {
     PRIORITY,
     getMomentObjFromServer,
     getDropDownCompanyDisplayData,
+    getDropDownCompanyUser,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown } from "@Hooks";
-import AutoSearchInput from "@Components//Core/AutoSearchInput";
 import moment from "moment";
 
 function AddSubTask() {
@@ -45,7 +44,7 @@ function AddSubTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations,associatedCompaniesL } = useSelector(
+    const { dashboardDetails, departments, designations,associatedCompaniesL,employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { selectedTask } = useSelector(
@@ -57,8 +56,6 @@ function AddSubTask() {
     const referenceNo = useInput("");
     const [taskType, setTaskType] = useState(type[1]);
     const [disableTaskType, setDisableTaskType] = useState([]);
-    const [companies, setCompanies] = useState([])
-    const [companyUsers, setCompanyUsers] = useState([])
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
@@ -69,7 +66,7 @@ function AddSubTask() {
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
     // const [, setDesignations] = useState([])
-    const selectedTicketPriority = useDropDown("");
+    const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [date, setDate] = useState<any>(moment().format())
     const [eta, setEta] = useState("")
     const [selectedNoOfPickers,setSelectNoOfPickers]=useState<any>()
@@ -98,7 +95,7 @@ function AddSubTask() {
     function getCompanyEmployeeApi() {
 
         const params = {
-            branch_id: getBranchId(),
+            code: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id })
         };
@@ -107,13 +104,6 @@ function AddSubTask() {
             getEmployees({
                 params,
                 onSuccess: (response: any) => () => {
-                    let companiesUser: any = [];
-                    const companyDetails = response?.details
-                    companiesUser = companyDetails.map((item: any) => {
-                        return { ...item, designation: item?.designation?.name, department: item?.department?.name }
-                    });
-                    setCompanyUsers(companiesUser);
-
                 },
                 onError: (error) => () => {
                 },
@@ -125,14 +115,14 @@ function AddSubTask() {
         const params = {
             title: title?.value,
             description: description?.value,
-            reference_number: referenceNo?.value,
+           ...(referenceNo?.value &&{reference_number: referenceNo?.value}),
             brand_branch_id: company?.value ? company?.value?.id : '',
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: attach }],
             is_parent: false,
             eta_time: eta,
-            parent_id: selectedTask?.id
+            code: selectedTask?.id
         };
 
 
@@ -168,13 +158,7 @@ function AddSubTask() {
                 onSuccess: (response: any) => () => {
                     const companies = response.details
                     if (companies && companies.length > 0) {
-                        // const displayCompanyDropdown = companies.map(each => {
-                        //     const { id, display_name } = each
-                        //     return {
-                        //         id: id, text: display_name, name: display_name,
-                        //     }
-                        // })
-                        // setCompanies(displayCompanyDropdown)
+                      
                         setDisableTaskType([]);
 
                     } else {
@@ -208,17 +192,50 @@ function AddSubTask() {
             </div>
             <hr className='mt-3'></hr>
 
+
+
+            <div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                    icon={image}
+                    size='xl'
+                    heading={translate("common.addAttachment")!}
+                    noOfFileImagePickers={4}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                        handleImagePicker(file)
+                       
+                    
+                    }}
+                    onSelectImagePicker={(el)=>{
+                        setSelectNoOfPickers(el?.length)
+
+                    }}
+                />
+
+                </div>
+              
+
+            </div>
+
             <div className="col-md-9 col-lg-5">
                 <Input
                     heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
                 />
-                <Input
+                {/* <Input
                     heading={translate("auth.description")}
                     value={description.value}
                     onChange={description.onChange}
-                />
+                /> */}
+                 <div >
+                    <h4 className="">{translate('auth.description')}</h4>
+                    <textarea style={{ width: '436px', height: '50px' }}
+                        value={description.value}
+                        onChange={description.onChange}
+                        className="form-control form-control-sm" />
+                </div>
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}
@@ -254,44 +271,20 @@ function AddSubTask() {
                     />
                 )}
 
-                {/* {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 &&
-                    <AutoCompleteDropDownImage
+            
+{getExternalCompanyStatus() && employees && employees.length > 0 &&
+                    <AutoComplete
+                    variant={'custom'}
                         heading={translate("common.user")!}
-                        placeholder={'please select a user...'}
-                        value={selectedUser}
-                        getItemValue={(item) => item.name}
-                        item={companyUsers}
-                        onChange={(event, value) => {
-                            setSelectedUser(value)
-                        }}
-                        onSelect={(value, item) => {
-                            setSelectedUser(value);
-                            setSelectedUserId(item)
-                        }}
-                    />} */}
+                         data={getDropDownCompanyUser(employees)}
+                         selected={selectedUserId}
+                onChange={(item)=>{
+                    setSelectedUserId(item)
 
+                }} 
+                    />}
 
-
-                {getExternalCompanyStatus() && companyUsers && companyUsers.length > 0 && 
-                <AutoSearchInput
-                    heading={translate("common.user")!}
-                    placeholder={'please select a user...'}
-                    data={companyUsers}
-                    variant={true}
-                    onSelect={(item) => {
-                        // setSelectedUser(item.name);
-                        setSelectedUserId(item)
-                    }}
-                />
-                }
-
-                <DropDown
-                    heading={translate("auth.Task Priority")!}
-                    selected={selectedTicketPriority.value}
-                    placeHolder={translate('order.please select a task priority')!}
-                    data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange} />
-
+               
                 <DateTimePicker
                     heading={translate("auth.eta")}
                     id="eta-picker"
@@ -304,29 +297,7 @@ function AddSubTask() {
 
         
 
-            <div className="col-auto pb-2">
-                <div className="row">
-                <ImagePicker
-                    icon={image}
-                    size='xl'
-                    heading={translate("common.addAttachment")!}
-                    noOfFileImagePickers={4}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
-                       
-                    
-                    }}
-                    onSelectImagePicker={(el)=>{
-                        setSelectNoOfPickers(el?.length)
-
-                    }}
-                />
-
-                </div>
-              
-
-            </div>
+           
 
             <div className="col mt-4">
                 <Button

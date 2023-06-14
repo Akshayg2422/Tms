@@ -21,7 +21,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
     const dispatch = useDispatch()
     const { ticketDetails } = useSelector((state: any) => state.TicketReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    
+
     const { title, code, description, by_user, raised_by_company, ticket_attachments, assigned_to, created_at, eta_time, start_time, end_time } = ticketDetails || {};
     const [eta, setEta] = useState(eta_time)
     const editEtaModal = useModal(false)
@@ -43,7 +43,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
     const getTicketDetailsHandler = () => {
         const params = {
-        ticket_id: id,
+            code: id,
         }
         dispatch(
             getTicketDetails({
@@ -57,14 +57,14 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
     const editEtaSubmitApiHandler = () => {
         const params = {
-            id,
+            code,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
         }
 
         dispatch(
-          addTicketEvent({
+            addTicketEvent({
                 params,
                 onSuccess: () => () => {
                     editEtaReason.set('')
@@ -81,10 +81,10 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
         const params = {
             ...(actionTask === START_TASK ? { event_type: 'ETS', start_time: currentTime } : { event_type: 'ETE', end_time: currentTime }),
-            id: ticketDetails?.id,
+            code: ticketDetails?.id,
         }
         dispatch(
-          addTicketEvent({
+            addTicketEvent({
                 params,
                 onSuccess: (response) => () => {
                     alertModal.hide()
@@ -99,10 +99,10 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
     return (
         <div >
-            <Card className={'overflow-auto'} 
-            style={{
-                height: height / 2
-            }} 
+            <Card className={'overflow-auto'}
+                style={{
+                    height: height / 2
+                }}
             >
                 <div className="col">
                     <div className="row justify-content-between">
@@ -162,8 +162,8 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
                         <div>
                             <div className="row">
-                                {raised_by_company?.attachment_logo && <Image variant={'rounded'} 
-                                src={getPhoto(raised_by_company?.attachment_logo)} />}
+                                {raised_by_company?.attachment_logo && <Image variant={'rounded'}
+                                    src={getPhoto(raised_by_company?.attachment_logo)} />}
                                 <div className="ml-2">
                                     <h4 className="mb-0">{raised_by_company?.display_name} </h4>
                                     <div className="mt--2">
@@ -195,18 +195,19 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
              */}
             <Modal isOpen={editEtaModal.visible} onClose={() => { editEtaModal.hide() }} >
                 <div className="col-6">
-                    <DateTimePicker
-                        heading={'ETA'}
-                        initialValue={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
-                        type="both"
-                        onChange={setEta}
-                    />
                     <Input
                         type={"text"}
                         heading={translate("common.reason")}
                         value={editEtaReason.value}
                         onChange={editEtaReason.onChange}
                     />
+                    <DateTimePicker
+                        heading={'ETA'}
+                        initialValue={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
+                        type="both"
+                        onChange={setEta}
+                    />
+
 
                 </div>
                 <div className="col text-right">
@@ -217,7 +218,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
              * show Event Time Line
              */}
             <Modal title={translate("auth.Latest Events")!} size={'lg'} isOpen={ticketEventModal.visible} onClose={ticketEventModal.hide} >
-                <TicketEventHistory/>
+                <TicketEventHistory />
             </Modal>
 
             <Alert

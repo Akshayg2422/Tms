@@ -41,7 +41,7 @@ function TaskChat({ }: TaskChatProps) {
     }
     const getTaskEventsApi = (page_number: number) => {
         const params = {
-            task_id: id,
+            code: id,
             page_number
         }
 

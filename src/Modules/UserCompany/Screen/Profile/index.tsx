@@ -1,31 +1,31 @@
-import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker,ImageDownloadButton, H, Radio} from "@Components";
+import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker, ImageDownloadButton, H, Radio } from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
 import { getObjectFromArrayByKey, GENDER_LIST, LANGUAGES } from '@Utils'
 import { addUpdateEmployeePhoto, getDashboard, setLanguage, userLogout } from '@Redux'
 import { ROUTES } from "@Routes"
-import { useState } from "react";
 import { translate } from "@I18n";
-import axios from 'axios';
+import { useEffect } from "react";
 import { icons } from "@Assets";
-import { saveAs } from "file-saver"
+
 
 function Profile() {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch, user_details, company } = dashboardDetails || ''
-  const { height } = useWindowDimensions()
   const logoutModal = useModal(false)
   const languageModal = useModal(false)
   const { language } = useSelector(
     (state: any) => state.AuthReducer
   );
+
   const dispatch = useDispatch()
   const { goTo } = useNavigation()
-  
-  const Url = 'https://res.cloudinary.com/demo/basketball_shot.jpg';
 
-  const userProfileEdit = (item) => {
+
+
+
+  const userProfileEdit = (item: any) => {
 
     const params = {
       attachment: item
@@ -36,66 +36,59 @@ function Profile() {
         params,
         onSuccess: () => () => {
           showToast('Updated photo successfully');
-
-          const params = {}
-          dispatch(getDashboard({
-            params,
-            onSuccess: (response) => () => {
-
-
-            },
-            onError: () => () => { }
-          }));
-
+          getDashboardDetailsApiHandler()
         },
         onError: () => () => {
           showToast('Updated photo failure');
-
         }
       })
     )
 
   }
 
+
+  function getDashboardDetailsApiHandler() {
+    const params = {}
+    dispatch(getDashboard({
+      params,
+      onSuccess: () => () => {
+      },
+      onError: () => () => { }
+    }));
+  }
+
   return (
     <>
-
+       
       <Card
         title={translate("common.Profile")}
         className="m-3"
       >
-        <div className="mt-3">
-
-        </div>
         <div>
           <div className="col text-right">
             <Button color={'white'} size={'sm'} text={translate('common.Logout')} onClick={logoutModal.show} />
             <Button color={'white'} size={'sm'} text={translate('common.Language')} onClick={languageModal.show} />
           </div>
-      
-      
+
+
           {user_details && <div className="pb-4">
-           <ImagePicker
-          
-                    size='xxl'
-                    defaultValue={[{id:1, photo:user_details?.profile_photo}]}
-                    className="text-center"
-                    noOfFileImagePickers={1}
-                    imageVariant={'rounded'}
-                    defaultPicker={true}
-                    onSelect={(image) => {
-                        let file = image.toString().replace(/^data:(.*,)?/, "")
-                        userProfileEdit(file)
-                      
-                    }}
+            <ImagePicker
+              size='xxl'
+              defaultValue={[{ id: 1, photo: user_details?.profile_photo }]}
+              className="text-center"
+              noOfFileImagePickers={1}
+              imageVariant={'rounded'}
+              defaultPicker={true}
+              onSelect={(image) => {
+                let file = image.toString().replace(/^data:(.*,)?/, "")
+                userProfileEdit(file)
+              }}
+              onSelectImagePicker={() => {
+              }}
+            />
+          </div>
+          }
 
-                    onSelectImagePicker={()=>{
-
-                    }}
-                />
-                 </div>
-            }
-           
 
           <h3 className="ct-title undefined">{translate('common.Basic Information')}</h3>
 
@@ -123,8 +116,8 @@ function Profile() {
 
           <hr></hr>
           <div className="text-center mb-5">
-            {company && company?.attachment_logo && 
-            <Image size={'xxl'} variant={'rounded'} src={getPhoto(company?.attachment_logo)} />}
+            {company && company?.attachment_logo &&
+              <Image size={'xxl'} variant={'rounded'} src={getPhoto(company?.attachment_logo)} />}
           </div>
 
           <h3 className="ct-title undefined">{translate('common.companyDetails')}</h3>
@@ -161,14 +154,13 @@ function Profile() {
 
       </Modal>
 
-
-      <Modal title={' Are you sure want to Logout?'} size={'md'} isOpen={logoutModal.visible} fade={false} onClose={logoutModal.hide}  >
+      <Modal title={translate("common.Are you sure want to Logout?")!} size={'md'} isOpen={logoutModal.visible} fade={false} onClose={logoutModal.hide}  >
         <div className='row'>
           <div className="col">
-            <Button block text={'NO'} onClick={logoutModal.hide} />
+            <Button block text={translate("common.No")} onClick={logoutModal.hide} />
           </div>
           <div className="col">
-            <Button block text={'YES'} onClick={() => {
+            <Button block text={translate("common.Yes")} onClick={() => {
               dispatch(
                 userLogout({
                   onSuccess: () => {

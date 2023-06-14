@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMomentObjFromServer, getDisplayDateFromMomentByType, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A, getDisplayDateFromMoment, EDIT_TIME_SHEET_DETAILS } from '@Utils'
 import {
   addEmployeeTimeline,
+  addEnableRequest,
+  employeeTimeLineStatus,
   getAssignedTask,
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
-import { Button, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, } from '@Components';
+import { Button, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, AutoComplete } from '@Components';
 import { icons } from '@Assets';
-import AutoSearchInput from '@Components//Core/AutoSearchInput';
 import { ROUTES } from '@Routes'
 import { useNavigation } from '@Hooks'
 import { translate } from "@I18n";
@@ -19,7 +20,9 @@ function MyTimeSheet() {
   const dispatch = useDispatch();
   const addEtaTime = useModal(false);
   const editEtaTime = useModal(false);
+  const enableModal = useModal(false);
   const { goTo } = useNavigation();
+  const reason = useInput("");
   const [startTimeEta, setStatTimeEta] = useState<any>("")
   const [endTimeEta, setEndTimeEta] = useState<any>("")
   const editAssignedTaskSelect = useDropDown({})
@@ -32,6 +35,8 @@ function MyTimeSheet() {
   const [selectedTask, setSelectedTask] = useState<any>('')
   const editDescriptions = useInput('')
   const [formattedShift, setFormattedShift] = useState<any>('')
+  const [approved, setApproved] = useState<any>(true)
+  const [Enable, setEnable] = useState<any>('')
 
   //start date
   const [startDate, setStartDate] = useState(moment().startOf('week'))
@@ -41,11 +46,9 @@ function MyTimeSheet() {
   const { employeeTimeline } = useSelector((state: any) => state.UserCompanyReducer);
   const getGroupMenuItem = [
     { id: '0', name: translate("common.Edit"), icon: icons.edit },
+    { id: '1', name: 'Delete', icon: icons.delete },
 
   ]
-
-console.log(assignedTaskDetails,"assignedTaskDetails")
-console.log(assignedTaskList,"assignedTaskList")
   useEffect(() => {
 
     getEmployeesTimeList()
@@ -191,6 +194,57 @@ console.log(assignedTaskList,"assignedTaskList")
     )
   }
 
+
+  const reSubmitEmployeeTimeSheet = (item: any) => {
+    const params = {
+      // timeline_status:id,
+      date: item,
+      is_resubmitted: true
+
+    }
+
+    dispatch(
+      employeeTimeLineStatus({
+        params,
+        onSuccess: (response) => () => {
+
+          getEmployeesTimeList()
+
+        },
+        onError: (error) => () => {
+        }
+
+      })
+    )
+
+
+  }
+
+  const addTimelineEnableRequest = () => {
+
+    const params = {
+      requested_date: Enable,
+      reason: reason.value
+
+    }
+
+    dispatch(
+      addEnableRequest({
+        params,
+        onSuccess: (response) => () => {
+
+          // getEmployeesTimeList()
+
+        },
+        onError: (error) => () => {
+        }
+
+      })
+    )
+
+  }
+
+
   function restValue() {
     setStatTimeEta('')
     setEndTimeEta('')
@@ -228,7 +282,7 @@ console.log(assignedTaskList,"assignedTaskList")
 
           const assignedTaskDetails = assignedTasks.map((item) => {
             return {
-              name: item.title, id: item.id
+              text: item.title, id: item.id
             }
           })
           setAssignedTaskDetails(assignedTaskDetails)
@@ -257,6 +311,26 @@ console.log(assignedTaskList,"assignedTaskList")
 
   }
 
+
+  const deleteTimeLineTask = (id: any) => {
+    const params = {
+      id: id,
+      is_deleted: true
+    }
+    dispatch(
+      addEmployeeTimeline({
+        params,
+        onSuccess: (response) => () => {
+
+          getEmployeesTimeList()
+
+        },
+        onError: (error) => () => {
+        }
+
+      })
+    )
+  }
 
   const addEmployeeTimeSheet = () => {
 
@@ -310,13 +384,6 @@ console.log(assignedTaskList,"assignedTaskList")
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
           Status: el?.is_completed ? "complete" : "",
-          '': <div>
-          {el?.timeline_status==='PAL' ?
-             <div className='text-primary h5'>
-              Pending Approval
-              </div>
-      :el?.timeline_status==='APT'?<div className='text-primary h5'>APProved</div>:<div className='text-primary h5'>Rejected</div>}
-      </div>,
           "Edit":
             <div ><MenuBar menuData={getGroupMenuItem} onClick={(element) => {
 
@@ -331,6 +398,13 @@ console.log(assignedTaskList,"assignedTaskList")
                 editEtaTime.show()
                 handleEditDescription(description)
               }
+              if (element.id === '1') {
+
+                deleteTimeLineTask(id)
+
+              }
+
+
             }} />
             </div>
 
@@ -345,8 +419,7 @@ console.log(assignedTaskList,"assignedTaskList")
   return (
     <div className='m-3'>
 
-
-      <div className='card mx--2 p-4' style={{ flexDirection: 'row' }}>
+      <div className='card  p-4' style={{ flexDirection: 'row' }}>
         <div className="h3">{translate('order.This Week')}</div>
         <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
         <div>
@@ -359,6 +432,9 @@ console.log(assignedTaskList,"assignedTaskList")
 
         <div>
           {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
+
+      
+
             return (
               <CollapseButton
                 selectedIds={formattedShift[index]?.date}
@@ -368,7 +444,25 @@ console.log(assignedTaskList,"assignedTaskList")
                 onClick={() => {
                   addEtaTime.show()
                 }}
+                enableButton={formattedShift[index]?.date==='2023-06-13'?false:true}
+                // selectButtonReject={true}
+                selectButton={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
+                selectButtonReject={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
+                textReject={'Submit'}
+                onClickReject={() => {
+
+                  reSubmitEmployeeTimeSheet(formattedShift[index]?.date)
+
+                }}
                 text={translate('common.add')!}
+                taskStatus={el?.taskListedArray[0]?.reason}
+                textEnable={'Enable'}
+                onClickEnable={() => {
+
+                  setEnable(formattedShift[index]?.date)
+                  enableModal.show()
+
+                }}
 
               />
             )
@@ -376,6 +470,50 @@ console.log(assignedTaskList,"assignedTaskList")
         </div>
 
       </>
+
+      {/*enable modal  */}
+
+      <Modal
+
+        isOpen={enableModal.visible}
+        onClose={() => {
+          enableModal.hide()
+        }}
+        size='sm'
+        title={'Enable Request'}
+
+      > 
+        <div className="col-12">
+          <Input
+            placeholder={'Enable Reason'}
+            value={reason.value}
+            onChange={reason.onChange}
+          />
+        </div>
+
+        <div className="text-right">
+          <Button
+            color={"secondary"}
+            text={translate("common.cancel")}
+            onClick={() => {
+              enableModal.hide()
+
+            }}
+          />
+          <Button
+            text={translate("common.submit")}
+            onClick={() => {
+
+              addTimelineEnableRequest()
+
+
+            }}
+          />
+        </div>
+
+      </Modal>
+
+
 
       {/* add modal */}
       <Modal
@@ -386,17 +524,18 @@ console.log(assignedTaskList,"assignedTaskList")
         }}
         title={translate('auth.addTimeSheet')!}
       >
-        {<AutoSearchInput
-          heading={translate('auth.task')!}
-          placeholder={translate("auth.please select a task")!}
-          data={assignedTaskDetails}
-          // variant={true}
-          onSelect={(item) => {
-            setSelectedTask(item)
 
-          }}
-        />
-        }
+
+        {
+          <AutoComplete
+            heading={translate('auth.task')!}
+            data={assignedTaskDetails}
+            selected={selectedTask}
+            onChange={(item) => {
+              setSelectedTask(item)
+
+            }}
+          />}
         <div>
           <Input
             heading={translate('auth.description')}

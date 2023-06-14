@@ -42,12 +42,12 @@ function CreateBroadCast() {
   const [internalCheck, setInternalCheck] = useState(true)
   const [externalCheck, setExternalCheck] = useState(false)
   const [isExternalDisable, setExternalDisable] = useState(false)
-  const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
+  const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
 
 
   let attach = photo.slice(-selectedNoOfPickers)
 
-  const handleImagePicker = ( file: any) => {
+  const handleImagePicker = (file: any) => {
     let newUpdatedPhoto = [...photo, file];
     setPhoto(newUpdatedPhoto);
   };
@@ -69,7 +69,7 @@ function CreateBroadCast() {
 
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
     if (ifObjectExist(validation)) {
-      
+
       dispatch(
         addBroadCastMessages({
           params,
@@ -104,7 +104,7 @@ function CreateBroadCast() {
     );
   }, []);
 
-  console.log("selectedCompanies-->",selectedCompanies)
+  console.log("selectedCompanies-->", selectedCompanies)
 
 
   const getCompanyBranchDropdown = (details: any) => {
@@ -142,11 +142,18 @@ function CreateBroadCast() {
             value={title.value}
             onChange={title.onChange}
           />
-          <Input
+          {/* <Input
             heading={translate("auth.description")}
             value={description.value}
             onChange={description.onChange}
-          />
+          /> */}
+          <div >
+            <h4 className="">{translate('auth.description')}</h4>
+            <textarea style={{ width: '512px', height: '50px' }}
+              value={description.value}
+              onChange={description.onChange}
+              className="form-control form-control-sm" />
+          </div>
           <div className="row col ">
             <div className="pr-3">
               <Checkbox
@@ -181,7 +188,7 @@ function CreateBroadCast() {
             />
           )}
         </div>
-{/* 
+        {/* 
         <div className="col">
           <label className={`form-control-label`}>
             {translate("common.attach")}
@@ -207,27 +214,27 @@ function CreateBroadCast() {
         </div> */}
 
         <div className="col-auto pb-2">
-                <div className="row">
-                <ImagePicker
-                    size='xl'
-                    heading={translate("auth.attach")!}
-                    noOfFileImagePickers={2}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
-                       
-                    
-                    }}
-                    onSelectImagePicker={(el)=>{
-                      setSelectedNoOfPickers(el?.length)
+          <div className="row">
+            <ImagePicker
+              size='xl'
+              heading={translate("auth.attach")!}
+              noOfFileImagePickers={2}
+              onSelect={(image) => {
+                let file = image.toString().replace(/^data:(.*,)?/, "")
+                handleImagePicker(file)
 
-                    }}
-                />
 
-                </div>
-              
+              }}
+              onSelectImagePicker={(el) => {
+                setSelectedNoOfPickers(el?.length)
 
-            </div>
+              }}
+            />
+
+          </div>
+
+
+        </div>
 
         <div className="row justify-content-end">
           <div className="">

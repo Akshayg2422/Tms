@@ -40,9 +40,7 @@ function CreateCompany({ }: CreateCompanyProps) {
   const city = useInput("");
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
-  // let attach = [photo]
-  // let PhotoAttach = attach.slice(-1, 4)
-  // console.log(photo,"[[[[")
+
 
  
 
@@ -153,7 +151,7 @@ function CreateCompany({ }: CreateCompanyProps) {
                     // icon={image}
                     size='xl'
                     heading={translate("auth.logo")!}
-                    noOfFileImagePickers={1}
+                    noOfFileImagePickers={0}
                     onSelect={(image) => {
                         let file =image.toString().replace(/^data:(.*,)?/, "")
                         setPhoto(file);

@@ -3,6 +3,7 @@ import { Back, Button, Card, DateTimePicker, Input, InputHeading, Image, Divider
 import { useDynamicHeight, useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { getEmployeesl, postVideoConference } from '@Redux';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,9 +13,14 @@ function ScheduleMeeting() {
     const { employeesl, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const dynamicHeight: any = useDynamicHeight()
 
+    console.log( employeesl," employeesl")
+
     const { company_branch, user_details, company } = dashboardDetails || ''
 
     const [filteredData, setFilteredData] = useState<any>()
+    const [employeeFilteredData, setEmployeeFilteredData] = useState<any>()
+
+    
     const [searchAddedStudent, setSearchAddedStudent] = useState('')
     const [selectedEmployeeDetails, setSelectedEmployeeDetails] = useState<any>([])
     const [batchCode, setBatchCode] = useState('')
@@ -31,7 +37,7 @@ function ScheduleMeeting() {
         setSelectedEmployeeDetails([user_details])
     }, [])
 
-    console.log("employeesl", user_details)
+ 
 
     const addSelectedEmployeeDetails = (item: any, type: any) => {
         if (type === 'Select All') {
@@ -62,12 +68,13 @@ function ScheduleMeeting() {
 
     const getEmployeesHandler = ((page_number: any) => {
         const params = {
-            page_number
+            per_page_count: -1,
         }
         dispatch(
             getEmployeesl({
                 params,
                 onSuccess: (response: any) => () => {
+                    console.log(JSON.stringify(response))
 
                 },
                 onError: (error) => () => {
@@ -83,27 +90,35 @@ function ScheduleMeeting() {
 
     const filterEmployeeData = () => {
         let array: any = []
+        let employeeId:any=[]
         selectedEmployeeDetails.forEach((el) => {
             array.push({
                 emp_id: el?.id,
                 user_name: el?.name,
                 email_id: el?.email
             })
+
+            employeeId.push( el?.id)
         })
         setFilteredData(array)
+        setEmployeeFilteredData( employeeId)
+
+
     }
 
     const addEmployeeDetailsToScheduleMeeting = () => {
         const params = {
             room_name: roomTitle,
-            start_date: scheduleData + ' ' + startTime + ":00",
-            end_date: scheduleData + ' ' + endTime + ":00",
-            emp_details: filteredData
+            start_date: moment(scheduleData+"T"+startTime).format('YYYY-MM-DDTHH:mm:ss'),
+            end_date: moment(scheduleData+"T"+endTime).format('YYYY-MM-DDTHH:mm:ss'),
+            emp_details: filteredData,
+            emp_ids:employeeFilteredData
         }
         dispatch(postVideoConference({
             params,
             onSuccess: (success: any) => () => {
                 console.log("success============>", success)
+                goBack()
             },
             onError: (error: string) => () => {
             },
@@ -209,7 +224,7 @@ function ScheduleMeeting() {
 
                         </div>
 
-                        <div className='overflow-auto scroll-hidden' style={{ height: dynamicHeight.dynamicWidth <= 1400 ? dynamicHeight.dynamicHeight + 170 : dynamicHeight.dynamicHeight - 50 }}>
+                        <div className='overflow-auto scroll-hidden overflow-hide' style={{ height: dynamicHeight.dynamicWidth <= 1400 ? dynamicHeight.dynamicHeight + 170 : dynamicHeight.dynamicHeight - 50 }}>
                             {
                                 employeesl && employeesl.length > 0 && employeesl.map((el: any, index: number) => {
 
@@ -219,19 +234,19 @@ function ScheduleMeeting() {
 
                                     return (
                                         <>
-                                            <div className='d-flex justify-content-between pt-3  my--2' >
+                                            <div className='d-flex justify-content-between pt-3  my-1' >
                                                 <div className='d-flex'>
                                                     {/* <Image
                                                         variant={'rounded'}
                                                         alt="..."
                                                         src={el.photo ? getImageUrl(el.photo) : icons.profile}
                                                     /> */}
-                                                    <span className='ml-2 mt-2'>{el?.name}</span>
+                                                    <span className='ml-2 '>{el?.name}</span>
 
                                                 </div>
                                                 <div>
-                                                    <div className='mt--4'>
-                                                        <div className='d-flex justify-content-between my-4'>
+                                                    <div >
+                                                        <div className='d-flex justify-content-between  '>
                                                             
                                                             <td className="col-xl-2 col-sm-0 mt-sm-0" style={{ whiteSpace: "pre-wrap" }}>
                                                                 <i className={`bi bi-${isActive ? 'check-circle-fill pointer text-primary' : 'circle-fill text-light'} pointer`}
@@ -275,7 +290,7 @@ function ScheduleMeeting() {
                                 // const isActive = selectedEmployeeDetails && selectedEmployeeDetails?.some((item: any) => item?.id === el?.id)
                                 return (
                                     <>
-                                        <div className='d-flex justify-content-between mt-4  my-2'>
+                                        <div className='d-flex justify-content-between mt-4  '>
                                             <div className='d-flex'>
                                                 {/* <Image
                                                     variant={'rounded'}
@@ -285,8 +300,8 @@ function ScheduleMeeting() {
                                                 <span className='ml-2 mt-2'>{el?.name}</span>
                                             </div>
                                             <div>
-                                                <div className='mt--4'>
-                                                    <div className='d-flex justify-content-between my-4'>
+                                                <div >
+                                                    <div className='d-flex justify-content-between '>
                                                         <td className="col-xl-2 col-sm-0 mt-sm-0" style={{ whiteSpace: "pre-wrap" }}>
                                                             <i className={`bi bi-${'bi bi-x-circle-fill pointer text-primary'}`}
                                                                 onClick={() => {

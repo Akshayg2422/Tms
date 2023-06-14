@@ -17,28 +17,24 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
             getChatGroups({
                 params,
                 onSuccess: () => () => {
-                 
-                    
+
+
                 },
                 onError: () => () => {
                 },
             }))
 
-         
+
     }, [])
- 
-    useEffect(()=>{
-        
-        if(selectedGroupChatCode===undefined && chatGroups &&  chatGroups.length>0 ){
-        
+
+    useEffect(() => {
+
+        if (selectedGroupChatCode === undefined && chatGroups && chatGroups.length > 0) {
+
             dispatch(setSelectedGroupChatCode(chatGroups[0].id))
-            }
+        }
 
-    },[])
-   
-
-
-
+    }, [])
 
     return (
 
@@ -51,7 +47,7 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
                         const textColor = (selectedGroupChatCode ? selectedGroupChatCode : chatGroups[0].id) === el.id ? "text-white" : ""
                         return (
                             <div
-                                className={`card ${bgColor} ${index !== 0 && "ml-2"} pointer`}
+                                className={`card ${bgColor} ${index !== 0 && "ml-2"} pointer d-flex justify-content-center align-items-center`}
                                 key={el.code}
                                 onClick={() => {
                                     dispatch(setSelectedGroupChatCode(el.id))
@@ -62,9 +58,9 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
                                     height: 40,
                                 }}
                             >
-                                <div className='d-flex row justify-content-center align-items-center'>
+                                <div className='row align-items-center'>
                                     {el.photo && <Image variant={'rounded'} src={getPhoto(el.photo)} size={'xs'} />}
-                                    <div className={`ml-1 ${textColor}`}>
+                                    <div className={`flex-wrap ml-1 ${textColor}`}>
                                         <div className='text-xxs'>{el.name} </div>
                                         <div className='text-xs'>{stringToUpperCase('#' + el.code)}</div>
                                     </div>

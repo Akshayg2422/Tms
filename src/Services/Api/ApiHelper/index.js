@@ -10,9 +10,9 @@ export const SERVER =
   BUILD_TYPE === BUILD_TYPE_LIVE
     ? 'https://tmsprimary.quantaedat.com'
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
-      ? 'live_local'
+      ? 'live_staging'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
-        ? 'http://192.168.246.5:8005'
+        ? 'http://192.168.246.5:800'
         : BUILD_TYPE === BUILD_TYPE_STAGING
           ? 'http://103.118.188.135:8003'
           : 'http://localhost:8000'
@@ -21,12 +21,13 @@ const axiosApi = axios.create({
   baseURL: SERVER,
 });
 
-
 axios.interceptors.request.use(function (config) {
   return config;
 });
 
+
 const getHeaders = async () => {
+
   try {
 
     const value = await localStorage.getItem(USER_TOKEN);
@@ -67,12 +68,13 @@ export async function post(url, data, config) {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
     });
 }
 
 export async function postHeader(url, data, config) {
   let headers = { ...(await getHeaders()) };
+
   return await axiosApi
     .post(url, data, {
       ...config,

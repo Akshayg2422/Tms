@@ -31,7 +31,7 @@ export const addDepartmentFailure = (error) => {
 };
 
 export const addDesignation = (params) => {
-  console.log("designationparams--->", params)
+
   return {
     type: ActionTypes.ADD_DESIGNATION,
     payload: params,
@@ -635,6 +635,7 @@ export const getTokenByUser = (params: any) => {
   };
 };
 export const getTokenByUserSuccess = (response: any) => {
+  console.log("response90909", response)
   return {
     type: ActionTypes.GET_TOKEN_BY_USER_SUCCESS,
     payload: response,
@@ -899,8 +900,111 @@ export const setSelectedTaskGroupCode = (value: any) => {
 
 export const refreshGroupChat = () => {
   return {
-      type: ActionTypes.REFRESH_GROUP_CHAT,
+    type: ActionTypes.REFRESH_GROUP_CHAT,
   }
 }
+
+
+
+//GETgroup 
+
+export const employeeTimeLineStatus = (params: any) => {
+  return {
+    type: ActionTypes.EMPLOYEE_TIMELINE_STATUS,
+    payload: params,
+  };
+};
+
+export const employeeTimeLineStatusSuccess = (response: any) => {
+  return {
+    type: ActionTypes.EMPLOYEE_TIMELINE_STATUS_SUCCESS,
+    payload: response,
+  };
+};
+
+export const employeeTimeLineStatusFailure = (error: any) => {
+  return {
+    type: ActionTypes.EMPLOYEE_TIMELINE_STATUS_FAILURE,
+    payload: error,
+  };
+};
+
+
+//ADDENABLE REQUEST
+
+export const addEnableRequest = (params: any) => {
+  return {
+    type: ActionTypes.ADD_ENABLE_REQUEST,
+    payload: params,
+  };
+};
+
+export const addEnableRequestSuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_ENABLE_REQUEST_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addEnableRequestFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_ENABLE_REQUEST_FAILURE,
+    payload: error,
+  };
+};
+
+
+
+
+//GETENABLE REQUEST
+
+export const getEnableRequest = (params: any) => {
+  return {
+    type: ActionTypes.GET_ENABLE_REQUEST,
+    payload: params,
+  };
+};
+
+export const getEnableRequestSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_ENABLE_REQUEST_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getEnableRequestFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_ENABLE_REQUEST_FAILURE,
+    payload: error,
+  };
+};
+
+
+/**
+ * selected vc details
+ */
+
+
+export const selectedVcDetails = (response: any) => {
+  return {
+    type: ActionTypes.SELECTED_VC_DETAILS,
+    payload: response,
+  }
+}
+
+
+/**
+ * vc notification details
+ */
+
+
+export const vcNotificationDetails = (response: any) => {
+  console.log("response090909===>",response)
+  return {
+    type: ActionTypes.VC_NOTIFICATION_DETAILS,
+    payload: response,
+  }
+}
+
 
 

@@ -2,7 +2,7 @@ import { icons } from '@Assets'
 import { Back, Button, Card, Dropzone, Image, Spinner } from '@Components'
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { translate } from '@I18n'
-import { getTokenByUser, getVideoConferenceList } from '@Redux'
+import { getTokenByUser, getVideoConferenceList, selectedVcDetails } from '@Redux'
 import { ROUTES } from '@Routes'
 import classnames from 'classnames'
 import moment from 'moment'
@@ -24,8 +24,10 @@ function VirtualConference() {
 
     const [selectedNav, setSelectedNav] = useState<any>(1)
     const dispatch = useDispatch()
+    const { goTo } = useNavigation()
 
-    const { scheduledListData, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+
+    const { scheduledListData, dashboardDetails, vcNotificationData } = useSelector((state: any) => state.UserCompanyReducer);
     const { company_branch, user_details, company } = dashboardDetails || ''
     const { height } = useWindowDimensions()
     const [loading, setLoading] = useState(false)
@@ -49,11 +51,13 @@ function VirtualConference() {
         }))
     }
 
-    console.log("user_details", user_details)
+    console.log("vcNotificationData",vcNotificationData)
 
-    const getUserToken = () => {
+
+    const getUserToken = (data) => {
 
         const params = {
+            vc_id: data?.id,
             user_name: user_details.name,
             email_id: user_details.email,
         }
@@ -73,7 +77,6 @@ function VirtualConference() {
     console.log("scheduledListData", scheduledListData)
 
 
-    const { goTo } = useNavigation()
     return (
         <div
             style={{
@@ -101,15 +104,15 @@ function VirtualConference() {
                         {scheduledListData && scheduledListData.length > 0 && scheduledListData.map((el: any) => {
                             return (
                                 <div style={{ width: '300px' }}>
-                                    
+
                                     <Card className='shadow-sm mt-3 m-4' style={{ backgroundColor: 'rgb(246, 248, 253)' }} >
-                                    {
-                                        loading && (
-                                            <div className='d-flex justify-content-center align-item-center' style={{ minHeight: '200px', marginTop: '250px' }}>
-                                                <Spinner />
-                                            </div>
-                                        )
-                                    }
+                                        {
+                                            loading && (
+                                                <div className='d-flex justify-content-center align-item-center' style={{ minHeight: '200px', marginTop: '250px' }}>
+                                                    <Spinner />
+                                                </div>
+                                            )
+                                        }
 
                                         <div className='text-center mb-3'>
                                             <Image size={'xl'} variant={'rounded'} src={icons.videoConference} />
@@ -141,7 +144,8 @@ function VirtualConference() {
                                                 height="25px"
                                                 width="25px"
                                                 onClick={() => {
-                                                    getUserToken()
+                                                    dispatch(selectedVcDetails(el))
+                                                    getUserToken(el)
                                                     goTo(ROUTES['user-company-module']['video-conference'], false)
 
                                                 }} />

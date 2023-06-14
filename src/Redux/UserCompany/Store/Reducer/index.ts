@@ -66,7 +66,13 @@ const initialState: UserCompanyStateProp = {
   chatGroups: undefined,
   selectedTaskGroupCode: "ALL",
   employeesDetails: undefined,
-  refreshGroupChat:undefined
+  refreshGroupChat: undefined,
+  timeStatus: undefined,
+  EnableRequestDataList: undefined,
+  EnableRequest: undefined,
+  settingVcDetails: undefined,
+  vcNotificationData: undefined,
+
 }
 
 const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: any) => {
@@ -432,7 +438,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.GET_EMPLOYEESL_SUCCESS:
       state = {
         ...state,
-        employeesl: action.payload.details.data,
+        employeesl: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
         employeeslCurrentPages: action.payload?.details.next_page === -1
           ? action?.payload?.details.num_pages
           : action?.payload?.details.next_page - 1,
@@ -583,6 +589,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, userToken: undefined };
       break;
     case ActionTypes.GET_TOKEN_BY_USER_SUCCESS:
+      console.log("9999999999999999999999999", action.payload.details)
       state = { ...state, userToken: action.payload.details };
       break;
     case ActionTypes.GET_TOKEN_BY_USER_FAILURE:
@@ -750,6 +757,68 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
 
 
+    // ADD EMPLOYEE TIMELINE STATUS
+
+    case ActionTypes.EMPLOYEE_TIMELINE_STATUS:
+      state = {
+        ...state,
+        timeStatus: undefined,
+      };
+      break;
+    case ActionTypes.EMPLOYEE_TIMELINE_STATUS_SUCCESS:
+      state = {
+        ...state,
+        timeStatus: action.payload.details,
+      };
+      break;
+    case ActionTypes.EMPLOYEE_TIMELINE_STATUS_FAILURE:
+      state = { ...state, timeStatus: undefined };
+      break;
+
+
+
+    // add enable request
+
+    case ActionTypes.ADD_ENABLE_REQUEST:
+      state = {
+        ...state,
+        EnableRequest: undefined,
+      };
+      break;
+    case ActionTypes.ADD_ENABLE_REQUEST_SUCCESS:
+      state = {
+        ...state,
+        EnableRequest: action.payload.details,
+      };
+      break;
+    case ActionTypes.ADD_ENABLE_REQUEST_FAILURE:
+      state = { ...state, EnableRequest: undefined };
+      break;
+
+
+
+
+    // get enable request
+
+    case ActionTypes.GET_ENABLE_REQUEST:
+      state = {
+        ...state,
+        EnableRequestDataList: undefined,
+      };
+      break;
+    case ActionTypes.GET_ENABLE_REQUEST_SUCCESS:
+      state = {
+        ...state,
+        EnableRequestDataList: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_ENABLE_REQUEST_FAILURE:
+      state = { ...state, EnableRequestDataList: undefined };
+      break;
+
+
+
+
     /**
      * selected Group chat code
      */
@@ -770,6 +839,25 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     case ActionTypes.REFRESH_GROUP_CHAT:
       state = { ...state, refreshGroupChat: !state.refreshGroupChat }
+      break;
+
+
+    /**
+* selected vc details
+*/
+
+    case ActionTypes.SELECTED_VC_DETAILS:
+      state = { ...state, settingVcDetails: action.payload }
+      break;
+
+
+    /**
+* vc notification details
+*/
+
+    case ActionTypes.VC_NOTIFICATION_DETAILS:
+      console.log("action.payload===>",action)
+      state = { ...state, vcNotificationData: action.payload }
       break;
 
     default:
