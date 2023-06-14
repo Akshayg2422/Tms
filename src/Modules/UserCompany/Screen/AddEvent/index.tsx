@@ -26,12 +26,14 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useInput, useNavigation } from "@Hooks";
+import { useParams } from "react-router-dom";
 
 
 function AddEvent() {
 
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
+    const { id } = useParams();
     const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
     const [photo, setPhoto] = useState<any>([]);
     const [selectedCompanies, setSelectedCompanies] = useState<any>([]);

@@ -5,6 +5,7 @@ import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInp
 import { useInput, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE, INITIAL_PAGE } from "@Utils";
 import { translate } from "@I18n";
+import { useParams } from "react-router-dom";
 
 
 function AddReferenceTask() {
@@ -25,7 +26,8 @@ function AddReferenceTask() {
   const addReferenceTaskHandler = () => {
     
     const params = {
-      id: selectedTask?.id,
+      
+      code:selectedTask,
       event_type: RTS,
       reference_task: getArrayFromArrayOfObject(selectedReferenceTask, 'id'),
     };
@@ -81,7 +83,7 @@ function AddReferenceTask() {
     const params = {
       q_many,
       page_number,
-      id: selectedTask.id,
+      code:selectedTask,
     };
 
     console.log("params", params)

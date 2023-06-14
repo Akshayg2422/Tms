@@ -158,8 +158,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     }
 
-
-
     function proceedDeleteHandler() {
         const params = {
             id: selectMessage?.id,

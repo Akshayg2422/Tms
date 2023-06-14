@@ -58,7 +58,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const editEtaSubmitApiHandler = () => {
 
         const params = {
-            id: selectedTask?.id,
+            code:id,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
@@ -116,7 +116,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     function editTaskDetailsHandler() {
         const params = {
-            id:selectedTask?.id,
+            code:id,
             title: editTitle.value,
             description: editDescription.value,
             event_type: "TKE"
