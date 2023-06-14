@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Button, Modal, Input, Dropzone, showToast } from '@Components'
+import { Button, Modal, Input, Dropzone, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
 import { addTaskEvent, refreshTaskEvents, } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { useModal, useInput } from '@Hooks'
-import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
+import { TEM, MEA, validate, ifObjectExist, getValidateError, TASK_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
 
 
@@ -45,11 +45,14 @@ function AddChat() {
 
         }
     };
-    const validation = validate(GROUP_ATTACHMENT_RULES, {
-        attachments: [{ attachment: photo }],
-        name: attachmentName.value
-    })
+
+
+
     const addTaskEventAttachment = () => {
+        const validation = validate(TASK_ATTACHMENT_RULES, {
+            attachments: [{ attachment: photo }],
+            name: attachmentName.value
+        })
         const params = {
             event_type: MEA,
             id: selectedTask.id,
@@ -78,7 +81,7 @@ function AddChat() {
         setPhoto([])
     };
 
-    const handleImagePicker = (index: number, file: any) => {
+    const handleImagePicker = (file: any) => {
         let updatedPhoto = [...selectDropzone, file]
         let newUpdatedPhoto = [...photo, file]
         setSelectDropzone(updatedPhoto)
@@ -105,39 +108,30 @@ function AddChat() {
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={proceedTaskEventsApiHandler} />
                 </div >
             </div >
-            <Modal isOpen={attachmentModal.visible}
-                onClose={attachmentModal.hide}>
-                <div className='col-6 mt--6'>
-                    <div className='col'>
-                        <div className='ml--3 mb--3'>
-                            <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
-                        </div>
-                        <div className='row'>
-                            {selectDropzone && selectDropzone.map((el, index) => {
-                                return (
+            <Modal isOpen={attachmentModal.visible} onClose={attachmentModal.hide}>
 
-                                    <div className={`${index !== 0 && 'ml-2'}`}>
-                                        <Dropzone variant='ICON'
-                                            icon={image}
-                                            size='xl'
-                                            onSelect={(image) => {
-                                                let file = image.toString().replace(/^data:(.*,)?/, '');
-                                                handleImagePicker(index, file)
-                                            }}
-                                        />
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    </div>
-
-
-                    <div className=' pt-2'>
-                        <Button text={translate("common.submit")} onClick={addTaskEventAttachment} />
+                <div className='col-7 mt--6'>
+                    <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
+                    <div className='row mt--4'>
+                        <ImagePicker
+                            noOfFileImagePickers={8}
+                            icon={image}
+                            size='xl'
+                            onSelect={(image) => {
+                                let file = image.toString().replace(/^data:(.*,)?/, "")
+                                handleImagePicker(file)
+                            }}
+                        />
                     </div>
                 </div>
 
+                <div className='col-6 pt-2'>
+                    <Button text={translate("common.submit")}
+                        onClick={addTaskEventAttachment} />
+                </div>
+
             </Modal>
+
         </>
     )
 }

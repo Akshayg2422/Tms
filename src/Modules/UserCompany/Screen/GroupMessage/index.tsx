@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { addGroupMessage, getGroupMessage } from '@Redux'
-import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner, ImageDownloadButton, ProfileCard } from '@Components'
+import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner, ImageDownloadButton, ProfileCard, ImagePicker } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDayAndDate } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInput, useModal, useWindowDimensions } from '@Hooks'
@@ -33,7 +33,13 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const { raised_by_company } = taskDetails || {};
     const userModal = useModal(false)
     console.log('dashboardDetails---------->', dashboardDetails);
-
+    let AttachmentEdit = selectDropzone &&selectDropzone.map((el,index)=>{
+        const {id,attachment_file}=el
+        return {
+         id:index+1, photo: attachment_file,
+      }
+      
+       })
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
@@ -121,7 +127,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     let attach = photo.slice(-2, 4)
 
-    const handleImagePicker = (index: number, file: any) => {
+    const handleImagePicker = ( file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
@@ -129,7 +135,8 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const proceedEditHandler = () => {
         const params = {
             id: selectMessage?.id,
-            edited_message: message?.value
+            edited_message: message?.value,
+            group_attachments: [{ name: message?.value, attachments: photo }],
         }
 
         dispatch(
@@ -315,14 +322,14 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         <textarea value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
                     </div>
 
-                    <div className="col">
+                    {/* <div className="col">
                         <label className={`form-control-label`}>
-                            {/* {translate("auth.attach")} */}
+                          
                             {translate("common.attach")}
                         </label>
-                    </div>
+                    </div> */}
 
-                    <div className="row col-8 mx-1 ">
+                    {/* <div className="row col-8 mx-1 ">
                         {selectDropzone &&
                             selectDropzone.map((el: any, index: number) => {
                                 return (
@@ -338,7 +345,29 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                     />
                                 );
                             })}
-                    </div>
+                    </div> */}
+
+<div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                   defaultPicker={true}
+                   defaultValue={ AttachmentEdit }
+                    size='xl'
+                    heading= {translate("auth.attach")!}
+                    noOfFileImagePickers={2}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                         handleImagePicker(file)
+                       
+                    }}
+                
+                   
+                />
+
+                </div>
+              
+
+            </div>
                 </div>
 
                 <div className="row justify-content-end">

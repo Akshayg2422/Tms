@@ -10,6 +10,7 @@ import {
     Spinner,
     LoadingButton,
     AutoComplete,
+    InputHeading,
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -103,7 +104,7 @@ function AddTask() {
     function getCompanyEmployeeApi() {
 
         const params = {
-            code: getBranchId(),
+            branch_id: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id }),
             per_page_count: -1,
@@ -132,7 +133,7 @@ function AddTask() {
             task_attachments: [{ attachments: attach }],
             is_parent: true,
             eta_time: eta,
-            code: taskGroup?.value?.id,
+            group_id: taskGroup?.value?.id,
             ...(department?.value?.id && { department_id: department.value.id }),
             ...(designation?.value?.id && { designation_id: designation.value.id })
 
@@ -206,7 +207,7 @@ function AddTask() {
     function getDepartmentsApiHandler() {
 
         const params = {
-            code: getBranchId()
+            branch_id: getBranchId()
         }
 
 
@@ -223,7 +224,7 @@ function AddTask() {
     function getDesignationApiHandler() {
 
         const params = {
-            code: getBranchId()
+            branch_id: getBranchId()
         }
 
 
@@ -288,13 +289,9 @@ function AddTask() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-                {/* <Input
-                    heading={translate("auth.description")}
-                    value={description.value}
-                    onChange={description.onChange}
-                /> */}
+            
                 <div >
-                    <h4 className="col-lg-5 ml--3">{translate('auth.description')}</h4>
+                <InputHeading heading={translate('auth.description')}/>
                     <textarea 
                         value={description.value}
                         onChange={description.onChange}
@@ -314,14 +311,6 @@ function AddTask() {
                     placeHolder={translate('order.please select a task priority')!}
                     data={PRIORITY}
                     onChange={selectedTicketPriority.onChange} />
-
-                <Input
-                    type={"text"}
-                    heading={translate("auth.referenceNo")}
-                    value={referenceNo.value}
-                    onChange={referenceNo.onChange}
-                />
-
                 <div className="my-3">
                     <Radio
                         data={type}

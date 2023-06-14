@@ -362,17 +362,18 @@ export const TASK_ATTACHMENT_RULES = {
   name: {
     presence: { allowEmpty: false, message: "Note cannot be empty." }
   },
-  attachment_logo: {
+  attachments: {
     presence: { allowEmpty: false, message: "Attachment cannot be empty." }
   }
 }
 
 export const GROUP_ATTACHMENT_RULES = {
-  name: {
+  attachment_name: {
     presence: { allowEmpty: false, message: "Note cannot be empty." }
   },
   group_attachments: {
     presence: { allowEmpty: false, message: "Attachment cannot be empty." }
   }
 }
+
 
