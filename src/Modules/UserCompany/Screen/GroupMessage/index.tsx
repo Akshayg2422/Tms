@@ -192,7 +192,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                     display: 'flex',
                     flexDirection: 'column-reverse',
                 }}
-                className={'overflow-auto overflow-hide'}
+                className={'overflow-auto overflow-hide mt-4'}
             >
                 <InfiniteScroll
                     dataLength={groupEvents.length}

@@ -10,6 +10,7 @@ import { Employees, GroupEmployeeList } from '@Modules'
 import { translate } from '@I18n'
 import { icons } from '@Assets';
 import { ROUTES } from '@Routes';
+import { CardHeader } from 'reactstrap';
 
 
 function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps) {
@@ -130,7 +131,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                         }} />
                     </div>
                 </div>
-
+                <div className={'mt--4 mx--4'}><CardHeader /></div>
                 <div className='h-100 col overflow-auto overflow-hide  p-0 m-0'>
                     {
                         loading && (
@@ -162,7 +163,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                                                             goTo(ROUTES['user-company-module']['video-conference'], false)
                                                         }}
                                                     >
-                                                        <i className="bi bi-telephone-fill"></i>
+                                                        <Image src={icons.VideoCalling} width={15} height={15} />
                                                     </div>
 
                                                 </div>
@@ -192,7 +193,8 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                  */
             }
 
-            <Modal fade={false} isOpen={addUserModal.visible} onClose={addUserModal.hide} style={{ maxHeight: '90vh' }}>
+            <Modal Modal fade={false} isOpen={addUserModal.visible} onClose={addUserModal.hide} style={{ maxHeight: '90vh' }
+            }>
                 <GroupEmployeeList selection={'multiple'}
                     defaultSelect={defaultSelectedUsers}
                     selectedCode={groupCode}
@@ -209,7 +211,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                             addGroupUsers({ event_type: TGU, tagged_users: taggedUsers })
                         }} />
                 </div>
-            </Modal>
+            </Modal >
 
         </>
     )

@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { GroupMessage, AddMessage, GroupEmployees, TaskChatGroup } from '@Modules'
-import { Card, ComponentLoader, NoDataFound, Spinner, } from '@Components'
+import { Card, NoDataFound, Image } from '@Components'
 import { useSelector, useDispatch } from 'react-redux'
 import { getTokenByUser, selectedVcDetails, setSelectedGroupChatCode, } from '@Redux'
 import { translate } from '@I18n'
 import { CardHeader } from 'reactstrap'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
+import { icons } from '@Assets'
 
 function Groups() {
 
@@ -57,14 +58,14 @@ function Groups() {
             {chatGroups && chatGroups.length > 0 ? <div className='row'>
                 <div className='col-8' ref={ref}>
                     <Card>
-                        <CardHeader className='my--4'>
+                        <CardHeader className='my--4 mx--4'>
                             <div className='text-right pointer'
                                 onClick={() => {
                                     getUserToken()
                                     goTo(ROUTES['user-company-module']['video-conference'], false)
                                 }}
                             >
-                                <i className="bi bi-camera-video-fill fa-lg"></i>
+                                <Image className={'mr-5'} src={icons.videoCall} width={20} height={20} />
                             </div>
                         </CardHeader>
                         <GroupMessage selectedGroup={selectedGroupChatCode ? selectedGroupChatCode : chatGroups && chatGroups[0]?.id} />

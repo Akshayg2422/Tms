@@ -160,4 +160,6 @@ export const icons = {
   nextArrow: require('./NextArrow/icons.png'),
   download: require('./Download/icon.png'),
   VideoImage: require('./VideoImage/Icon.png'),
+  videoCall: require('./VideoCall/icon.png'),
+  VideoCalling: require('./VideoCalling/icon.png')
 };

@@ -18,7 +18,7 @@ import { Image } from '@Components'
 import { url } from "inspector";
 import { useSelector } from "react-redux";
 import { getPhoto } from "@Utils";
-function Sidebar({ toggleSideNav, sideNavOpen, routes, logo, rtlActive }: SidebarProps) {
+function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }: SidebarProps) {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { user_details, } = dashboardDetails || ''
   const [state, setState] = React.useState({});
