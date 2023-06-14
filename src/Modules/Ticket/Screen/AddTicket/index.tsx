@@ -167,13 +167,7 @@ function AddTicket() {
                 onSuccess: (response: any) => () => {
                     const companies = response.details
                     if (companies && companies.length > 0) {
-                        // const displayCompanyDropdown = companies.map(each => {
-                        //     const { id, display_name } = each
-                        //     return {
-                        //         id: id, text: display_name, name: display_name,
-                        //     }
-                        // })
-                        // setCompanies(displayCompanyDropdown)
+                     
                         setDisableTicketType([]);
 
                     } else {
@@ -271,8 +265,8 @@ function AddTicket() {
                     value={description.value}
                     onChange={description.onChange}
                 /> */}
-                <div className="col-lg-5">
-                    <h4 className="ml--3">{translate('auth.description')}</h4>
+                <div >
+                    <h4 className="text-muted">{translate('auth.description')}</h4>
                     <textarea 
                         value={description.value}
                         onChange={description.onChange}

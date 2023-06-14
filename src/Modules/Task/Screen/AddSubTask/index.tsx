@@ -122,7 +122,7 @@ function AddSubTask() {
             task_attachments: [{ attachments: attach }],
             is_parent: false,
             eta_time: eta,
-            code: selectedTask?.id
+            parent_id: selectedTask?.id
         };
 
 

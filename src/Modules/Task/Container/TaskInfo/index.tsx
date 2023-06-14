@@ -21,7 +21,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
     const dispatch = useDispatch()
-    const { taskDetails } = useSelector((state: any) => state.TaskReducer);
+    const { taskDetails, selectedTask } = useSelector((state: any) => state.TaskReducer);
+    console.log( selectedTask," selectedTask==>")
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time, } = taskDetails || {};
     const [eta, setEta] = useState(eta_time)
