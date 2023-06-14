@@ -6,12 +6,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useModal, useInput } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, TASK_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
+import { useParams } from 'react-router-dom'
 
 
 function AddChat() {
 
     const { selectedTask } = useSelector((state: any) => state.TaskReducer);
     const dispatch = useDispatch()
+    const { id } = useParams();
     const message = useInput('')
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
@@ -24,7 +26,7 @@ function AddChat() {
         if (message.value) {
 
             const params = {
-                id: selectedTask?.id,
+                code:id,
                 message: message.value,
                 event_type: TEM
             }
@@ -55,7 +57,7 @@ function AddChat() {
         })
         const params = {
             event_type: MEA,
-            id: selectedTask.id,
+          code:id,
             attachments: [{ attachment: photo }],
             name: attachmentName.value
         };

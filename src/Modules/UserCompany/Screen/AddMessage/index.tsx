@@ -7,10 +7,12 @@ import { useDispatch } from 'react-redux'
 import { useModal, useInput } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
+import { useParams } from 'react-router-dom';
 
 function AddMessage({ AddGroup }: AddMessageProps) {
     const dispatch = useDispatch()
     const message = useInput('')
+    const { id } = useParams();
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
@@ -21,7 +23,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
         if (message.value) {
             const params = {
-                group_id: AddGroup,
+                 group_id: AddGroup,
                 message: message.value,
                 event_type: TEM,
             }
@@ -51,7 +53,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
         const params = {
             event_type: MEA,
-            group_id: AddGroup,
+             group_id: AddGroup,
             group_attachments: [{ name: attachmentName.value, attachments: photo }],
         };
 
