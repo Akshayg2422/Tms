@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { AddMessageProps } from './interfaces';
-import { Button, Modal, Input, Dropzone, ImageDownloadButton, ImagePicker } from '@Components'
+import { Button, Modal, Input, Dropzone, ImageDownloadButton, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
 import { addGroupMessage, refreshGroupEvents } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { useModal, useInput } from '@Hooks'
-import { TEM, MEA } from '@Utils'
+import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
 
 function AddMessage({ AddGroup }: AddMessageProps) {
@@ -42,26 +42,37 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         }
     };
 
+
     const addGroupEventAttachment = () => {
+        const validation = validate(GROUP_ATTACHMENT_RULES, {
+            attachment_name: attachmentName.value,
+            group_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : ''
+        })
+
         const params = {
             event_type: MEA,
             group_id: AddGroup,
             group_attachments: [{ name: attachmentName.value, attachments: photo }],
-            // name: attachmentName.value,
         };
 
-        dispatch(
-            addGroupMessage({
-                params,
-                onSuccess: (response) => () => {
-                    resetValues();
-                    attachmentModal.hide()
-                    dispatch(refreshGroupEvents())
+        if (ifObjectExist(validation)) {
+            dispatch(
+                addGroupMessage({
+                    params,
+                    onSuccess: (response) => () => {
+                        resetValues();
+                        attachmentModal.hide()
+                        dispatch(refreshGroupEvents())
 
-                },
-                onError: (error) => () => { },
-            }),
-        );
+                    },
+                    onError: (error) => () => {
+
+                    },
+                }),
+            );
+        } else {
+            showToast(getValidateError(validation));
+        }
     };
     const resetValues = () => {
         attachmentName.set('');
@@ -101,42 +112,23 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             </div >
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
-                {/* <div className='col ml-3'>
-                    <div className='row'>
-                        {selectDropzone && selectDropzone.map((el, index) => {
-
-                            return (
-                                <div className={`${index !== 0 && 'ml-2'}`}>
-                                    <Dropzone variant='ICON'
-                                        icon={image}
-                                        size='xl'
-                                        onSelect={(image) => {
-                                            let file = image.toString().replace(/^data:(.*,)?/, '');
-                                            handleImagePicker(index, file)
-                                        }}
-                                    />
-
-                                </div>
-                            )
-                        })}
+                <div className='col-7 mt--6'>
+                    <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
+                    <div className='row mt--4'>
+                        <ImagePicker
+                            noOfFileImagePickers={8}
+                            icon={image}
+                            size='xl'
+                            onSelect={(image) => {
+                                let file = image.toString().replace(/^data:(.*,)?/, "")
+                                handleImagePicker(file)
+                            }}
+                        />
                     </div>
-                </div> */}
-                
-                               
-                                <ImagePicker
-                                 noOfFileImagePickers={0}
-                        icon={image}
-                        size='xl'
-                        onSelect={(image) => {
-                            let file = image.toString().replace(/^data:(.*,)?/, "")
-                            handleImagePicker(file)
-                        }}
-                      
-                    />
-                                    
-                <div className='col-6 pt-1'>
-                    <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
-                    <div className=' pt-4'>
+                </div>
+
+                <div className='col-6 pt-2'>
+                    <div className=''>
                         <Button text={translate("common.submit")} onClick={addGroupEventAttachment} />
                     </div>
                 </div>
