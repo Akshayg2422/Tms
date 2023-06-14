@@ -77,7 +77,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                         tableDataSet={subTasks}
                         displayDataSet={normalizedTableData(subTasks)}
                         tableOnClick={(e, index, item) => {
-                            // dispatch(setSelectedTask(item))
+                            dispatch(setSelectedTask(item?.code))
                             dispatch(setSelectedTabPosition({ id: '1' }))
                             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
 
