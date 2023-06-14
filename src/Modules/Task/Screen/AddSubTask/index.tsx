@@ -96,7 +96,7 @@ function AddSubTask() {
     function getCompanyEmployeeApi() {
 
         const params = {
-            code: getBranchId(),
+            branch_id: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id })
         };

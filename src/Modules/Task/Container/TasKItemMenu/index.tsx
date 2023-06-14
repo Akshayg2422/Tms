@@ -74,11 +74,11 @@ function TaskItemMenu() {
         }))
     }
 
-
+console.log(status.value,"lllll")
     function proceedTaskStatusChangeHandler() {
         const params = {
-            event_type: EVS,
-            taskstatus_changeto: status.value?.code,
+            event_type:EVS,
+            taskstatus_changeto:status.value?.id,
             reason: taskStatusReason.value,
         }
         proceedAddTaskEvents(params)
