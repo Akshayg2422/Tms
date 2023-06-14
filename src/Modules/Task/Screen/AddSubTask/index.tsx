@@ -9,6 +9,7 @@ import {
     Back,
     ImagePicker,
     AutoComplete,
+    InputHeading,
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -122,7 +123,7 @@ function AddSubTask() {
             task_attachments: [{ attachments: attach }],
             is_parent: false,
             eta_time: eta,
-            code: selectedTask?.id
+            parent_id: selectedTask?.id
         };
 
 
@@ -224,14 +225,11 @@ function AddSubTask() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-                {/* <Input
-                    heading={translate("auth.description")}
-                    value={description.value}
-                    onChange={description.onChange}
-                /> */}
+        
                  <div >
-                    <h4 className="">{translate('auth.description')}</h4>
-                    <textarea style={{ width: '436px', height: '50px' }}
+                    
+                    <InputHeading heading={translate('auth.description')}/>
+                    <textarea 
                         value={description.value}
                         onChange={description.onChange}
                         className="form-control form-control-sm" />

@@ -8,7 +8,8 @@ import {
     MultiSelectDropDown,
     Back,
     DateTimePicker,
-    ImagePicker
+    ImagePicker,
+    InputHeading
 } from "@Components";
 import { translate } from "@I18n";
 import { getAssociatedCompanyBranch, addEvent } from "@Redux";
@@ -157,14 +158,10 @@ function AddEvent() {
                         value={title.value}
                         onChange={title.onChange}
                     />
-                    {/* <Input
-                        heading={translate("auth.description")}
-                        value={description.value}
-                        onChange={description.onChange}
-                    /> */}
+                 
                     <div >
-                    <h4 className="">{translate('auth.description')}</h4>
-                    <textarea style={{ width: '515px', height: '50px' }}
+                    <InputHeading heading={translate('auth.description')}/>
+                    <textarea 
                         value={description.value}
                         onChange={description.onChange}
                         className="form-control form-control-sm" />

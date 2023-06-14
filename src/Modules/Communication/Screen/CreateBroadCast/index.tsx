@@ -7,7 +7,8 @@ import {
   showToast,
   MultiSelectDropDown,
   Back,
-  ImagePicker
+  ImagePicker,
+  InputHeading
 } from "@Components";
 import { translate } from "@I18n";
 import { addBroadCastMessages, setIsSync, getAssociatedCompanyBranch } from "@Redux";
@@ -148,8 +149,8 @@ function CreateBroadCast() {
             onChange={description.onChange}
           /> */}
           <div >
-            <h4 className="">{translate('auth.description')}</h4>
-            <textarea style={{ width: '512px', height: '50px' }}
+          <InputHeading heading={translate('auth.description')}/>
+            <textarea 
               value={description.value}
               onChange={description.onChange}
               className="form-control form-control-sm" />

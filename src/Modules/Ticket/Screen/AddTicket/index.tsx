@@ -9,6 +9,7 @@ import {
     ImagePicker,
     LoadingButton,
     AutoComplete,
+    InputHeading,
     
 } from "@Components";
 import { translate } from "@I18n";
@@ -167,13 +168,7 @@ function AddTicket() {
                 onSuccess: (response: any) => () => {
                     const companies = response.details
                     if (companies && companies.length > 0) {
-                        // const displayCompanyDropdown = companies.map(each => {
-                        //     const { id, display_name } = each
-                        //     return {
-                        //         id: id, text: display_name, name: display_name,
-                        //     }
-                        // })
-                        // setCompanies(displayCompanyDropdown)
+                     
                         setDisableTicketType([]);
 
                     } else {
@@ -266,13 +261,9 @@ function AddTicket() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-                {/* <Input
-                    heading={translate("auth.description")}
-                    value={description.value}
-                    onChange={description.onChange}
-                /> */}
-                <div className="col-lg-5">
-                    <h4 className="ml--3">{translate('auth.description')}</h4>
+           
+                <div >
+                <InputHeading heading={translate('auth.description')}/>
                     <textarea 
                         value={description.value}
                         onChange={description.onChange}

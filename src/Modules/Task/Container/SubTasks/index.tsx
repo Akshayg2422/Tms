@@ -16,7 +16,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
 
-    console.log(subTasks,"subTasks===>")
+  
 
     useEffect(() => {
         getSubTasksApi()
@@ -36,12 +36,10 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         }))
     }
     const normalizedTableData = (data: any) => {
-
-        console.log(data,"ddddd")
-        if (data && data.length > 0) {
+        if (data && data?.length > 0) {
 
             return data?.map((el: any) => {
-                console.log('=========>data',data);
+           
                 
                 return {
                     "Sub task":
