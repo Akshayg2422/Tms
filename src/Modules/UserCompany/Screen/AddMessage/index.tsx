@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AddMessageProps } from './interfaces';
-import { Button, Modal, Input, Dropzone, ImageDownloadButton } from '@Components'
+import { Button, Modal, Input, Dropzone, ImageDownloadButton, ImagePicker } from '@Components'
 import { icons } from '@Assets'
 import { addGroupMessage, refreshGroupEvents } from '@Redux'
 import { useDispatch } from 'react-redux'
@@ -69,7 +69,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         setPhoto([])
     };
 
-    const handleImagePicker = (index: number, file: any) => {
+    const handleImagePicker = (file: any) => {
         let updatedPhoto = [...selectDropzone, file]
         let newUpdatedPhoto = [...photo, file]
         setSelectDropzone(updatedPhoto)
@@ -101,14 +101,13 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             </div >
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
-                <div className='col ml-3'>
+                {/* <div className='col ml-3'>
                     <div className='row'>
                         {selectDropzone && selectDropzone.map((el, index) => {
 
                             return (
                                 <div className={`${index !== 0 && 'ml-2'}`}>
                                     <Dropzone variant='ICON'
-
                                         icon={image}
                                         size='xl'
                                         onSelect={(image) => {
@@ -121,7 +120,20 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                             )
                         })}
                     </div>
-                </div>
+                </div> */}
+                
+                               
+                                <ImagePicker
+                                 noOfFileImagePickers={0}
+                        icon={image}
+                        size='xl'
+                        onSelect={(image) => {
+                            let file = image.toString().replace(/^data:(.*,)?/, "")
+                            handleImagePicker(file)
+                        }}
+                      
+                    />
+                                    
                 <div className='col-6 pt-1'>
                     <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
                     <div className=' pt-4'>

@@ -9,6 +9,7 @@ import {
     ImagePicker,
     LoadingButton,
     AutoComplete,
+    InputHeading,
     
 } from "@Components";
 import { translate } from "@I18n";
@@ -260,13 +261,9 @@ function AddTicket() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-                {/* <Input
-                    heading={translate("auth.description")}
-                    value={description.value}
-                    onChange={description.onChange}
-                /> */}
+           
                 <div >
-                    <h4 className="text-muted">{translate('auth.description')}</h4>
+                <InputHeading heading={translate('auth.description')}/>
                     <textarea 
                         value={description.value}
                         onChange={description.onChange}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Modal, Input, Dropzone } from '@Components'
+import { Button, Modal, Input, Dropzone, ImagePicker } from '@Components'
 import { icons } from '@Assets'
 import { addTaskEvent, refreshTaskEvents, } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
@@ -71,7 +71,7 @@ function AddChat() {
         setPhoto([])
     };
 
-    const handleImagePicker = (index: number, file: any) => {
+    const handleImagePicker = ( file: any) => {
         let updatedPhoto = [...selectDropzone, file]
         let newUpdatedPhoto = [...photo, file]
         setSelectDropzone(updatedPhoto)
@@ -100,39 +100,60 @@ function AddChat() {
             </div >
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
-                <div className='col-6'>
+                <div className='col-6 mt--6'>
                     <div className='col'>
-                        <div className='row'>
-                            {selectDropzone && selectDropzone.map((el, index) => {
-
+                        <div className='ml--3 mb--3'>
+                            <Input heading={'Note'}
+                                value={attachmentName.value} onChange={attachmentName.onChange} />
+                        </div>
+                      
+                            {/* {selectDropzone && selectDropzone.map((el,
+                                index) => {
                                 return (
 
                                     <div className={`${index !== 0 && 'ml-2'}`}>
-                                        <div className='mt-3'>
-                                            <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
-                                        </div>
                                         <Dropzone variant='ICON'
-
                                             icon={image}
                                             size='xl'
                                             onSelect={(image) => {
-                                                let file = image.toString().replace(/^data:(.*,)?/, '');
+                                                let file =
+                                                    image.toString().replace(/^data:(.*,)?/, '');
                                                 handleImagePicker(index, file)
                                             }}
                                         />
                                     </div>
                                 )
-                            })}
-                        </div>
+                            })} */}
+
+                        
                     </div>
+                    <div className='row mb-1'>
+                                <div className='col-1g-5'>
+                                <ImagePicker
+                                 noOfFileImagePickers={0}
+                        icon={image}
+                        size='xl'
+                        onSelect={(image) => {
+                            let file = image.toString().replace(/^data:(.*,)?/, "")
+                            handleImagePicker(file)
+                        }}
+                      
+                    />
+                                    
+                                </div>
+                     
+
+                            </div>
 
 
                     <div className=' pt-2'>
-                        <Button text={translate("common.submit")} onClick={addTaskEventAttachment} />
+                        <Button text={translate("common.submit")}
+                            onClick={addTaskEventAttachment} />
                     </div>
                 </div>
 
             </Modal>
+
         </>
     )
 }

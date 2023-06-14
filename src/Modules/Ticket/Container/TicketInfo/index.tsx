@@ -19,7 +19,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
 
     const dispatch = useDispatch()
-    const { ticketDetails } = useSelector((state: any) => state.TicketReducer);
+    const { ticketDetails,selectedTicket } = useSelector((state: any) => state.TicketReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
 
     const { title, code, description, by_user, raised_by_company, ticket_attachments, assigned_to, created_at, eta_time, start_time, end_time } = ticketDetails || {};
@@ -30,6 +30,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
     const { height } = useWindowDimensions()
+    console.log(selectedTicket,"selectedTicket====>")
 
     useEffect(() => {
         getTicketDetailsHandler()
@@ -57,12 +58,14 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
     const editEtaSubmitApiHandler = () => {
         const params = {
-            code,
+            id:selectedTicket?.id,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
         }
 
+
+        console.log(eta,"eeee")
         dispatch(
             addTicketEvent({
                 params,

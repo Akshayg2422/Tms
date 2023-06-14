@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, Divider, ProfileCard } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, Divider, ProfileCard, InputHeading } from "@Components";
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
@@ -58,7 +58,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const editEtaSubmitApiHandler = () => {
 
         const params = {
-            code,
+            id: selectedTask?.id,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
@@ -116,7 +116,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     function editTaskDetailsHandler() {
         const params = {
-            code,
+            id:selectedTask?.id,
             title: editTitle.value,
             description: editDescription.value,
             event_type: "TKE"
@@ -300,8 +300,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         onChange={editDescription.onChange}
                     /> */}
                     <div >
-                    <h4 className="">{translate('auth.description')}</h4>
-                    <textarea style={{ width: '345px', height: '45px' }}
+                    <InputHeading heading={translate('auth.description')}/>
+                    <textarea 
                         value={editDescription.value}
                         onChange={editDescription.onChange}
                         className="form-control form-control-sm" />
