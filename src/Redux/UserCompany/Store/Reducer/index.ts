@@ -72,6 +72,8 @@ const initialState: UserCompanyStateProp = {
   EnableRequest: undefined,
   settingVcDetails: undefined,
   vcNotificationData: undefined,
+  chatMessageData: undefined,
+  employeeListData: undefined
 
 }
 
@@ -856,9 +858,80 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 */
 
     case ActionTypes.VC_NOTIFICATION_DETAILS:
-      console.log("action.payload===>",action)
+      console.log("action.payload===>", action)
       state = { ...state, vcNotificationData: action.payload }
       break;
+
+
+    //post chat message
+
+    case ActionTypes.POST_CHAT_MESSAGE:
+      state = {
+        ...state,
+      };
+      break;
+    case ActionTypes.POST_CHAT_MESSAGE_SUCCESS:
+      state = {
+        ...state,
+      };
+      break;
+    case ActionTypes.POST_CHAT_MESSAGE_FAILURE:
+      state = { ...state, };
+      break;
+
+
+    // GET chat message
+
+    case ActionTypes.FETCH_CHAT_MESSAGE:
+      state = {
+        ...state,
+        chatMessageData: undefined,
+      };
+      break;
+    case ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS:
+      state = {
+        ...state,
+        chatMessageData: action.payload.details,
+      };
+      break;
+    case ActionTypes.FETCH_CHAT_MESSAGE_FAILURE:
+      state = { ...state, chatMessageData: undefined };
+      break;
+
+
+    // get chat employee list
+
+    case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST:
+      state = {
+        ...state,
+        employeeListData: undefined,
+      };
+      break;
+    case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_SUCCESS:
+      state = {
+        ...state,
+        employeeListData: action.payload.details,
+      };
+      break;
+    case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_FAILURE:
+      state = { ...state, employeeListData: undefined };
+      break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     default:
       state = state;

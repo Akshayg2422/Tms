@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -66,6 +66,7 @@ export const ROUTES = {
     'admin-feeds': '/admin-feeds',
     Events: '/events',
     Groups: '/groups',
+    'individual-chat': '/chat',
     'add-event': '/add-event'
   },
   'message-module': {
@@ -192,6 +193,13 @@ export const HOME_ROUTES = [
     icon: icons.group,
     layout: "",
     component: <Groups />
+  },
+  {
+    path: ROUTES['user-company-module']['individual-chat'],
+    name: 'Chat',
+    icon: icons.company,
+    layout: "",
+    component: <IndividualChat />
   },
   {
     path: ROUTES['user-company-module'].profile,
