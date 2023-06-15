@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import { AddMessageProps } from './interfaces';
 import { Button, Modal, Input, Dropzone, ImageDownloadButton, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
-import { addGroupMessage, refreshGroupEvents } from '@Redux'
-import { useDispatch } from 'react-redux'
-import { useModal, useInput } from '@Hooks'
+import { addGroupMessage, getTokenByUser, refreshGroupEvents, selectedVcDetails } from '@Redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useModal, useInput, useNavigation } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
+import { ROUTES } from '@Routes';
 
 function AddMessage({ AddGroup }: AddMessageProps) {
+    const { selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    const { user_details } = dashboardDetails || ''
     const dispatch = useDispatch()
     const message = useInput('')
     const attachmentModal = useModal(false)
@@ -16,6 +19,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
+    const { goTo } = useNavigation()
 
     const addGroupMessageApiHandler = () => {
 
@@ -41,6 +45,26 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
         }
     };
+
+    const getUserToken = () => {
+        dispatch(selectedVcDetails(selectedGroupChatCode))
+        const params = {
+            room_id: selectedGroupChatCode,
+            user_name: user_details.name,
+            email_id: user_details.email,
+        }
+        dispatch(getTokenByUser({
+            params,
+            onSuccess: (success: any) => () => {
+
+                console.log("success============>", success)
+            },
+            onError: (error: string) => () => {
+
+            },
+
+        }))
+    }
 
 
     const addGroupEventAttachment = () => {
@@ -107,6 +131,16 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                         <textarea placeholder={translate("order.Write your comment")!} value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={addGroupMessageApiHandler} />
+                    <Button
+                        size={'lg'}
+                        color={'white'}
+                        variant={'icon-rounded'}
+                        icon={icons.videoCall}
+                        onClick={() => {
+                            getUserToken()
+                            goTo(ROUTES['user-company-module']['video-conference'], false)
+                        }}
+                    />
 
                 </div >
             </div >

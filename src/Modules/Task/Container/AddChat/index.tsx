@@ -50,14 +50,14 @@ function AddChat() {
 
     const addTaskEventAttachment = () => {
         const validation = validate(TASK_ATTACHMENT_RULES, {
-            attachments: [{ attachment: photo }],
-            name: attachmentName.value
+            name: attachmentName.value,
+            attachments: photo.length > 0 ? [{ attachment: photo }] : ''
         })
         const params = {
             event_type: MEA,
             id: selectedTask.id,
-            attachments: [{ attachment: photo }],
-            name: attachmentName.value
+            name: attachmentName.value,
+            attachments: [{ attachment: photo }]
         };
         if (ifObjectExist(validation)) {
             dispatch(

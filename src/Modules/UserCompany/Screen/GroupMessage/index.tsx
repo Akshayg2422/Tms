@@ -25,7 +25,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const deleteModal = useModal(false)
     const editModal = useModal(false)
     const message = useInput('')
-    const [loading,setLoading]=useState(false)
+    const [loading, setLoading] = useState(false)
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
@@ -33,13 +33,13 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const { raised_by_company } = taskDetails || {};
     const userModal = useModal(false)
     console.log('dashboardDetails---------->', dashboardDetails);
-    let AttachmentEdit = selectDropzone &&selectDropzone.map((el,index)=>{
-        const {id,attachment_file}=el
+    let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
+        const { id, attachment_file } = el
         return {
-         id:index+1, photo: attachment_file,
-      }
-      
-       })
+            id: index + 1, photo: attachment_file,
+        }
+
+    })
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
@@ -80,7 +80,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         setGroupCurrentPage(groupEventsResponse.next_page)
                         setLoading(false)
                     },
-                    onError: () => () => { 
+                    onError: () => () => {
                         setLoading(false)
                     },
                 })
@@ -127,7 +127,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     let attach = photo.slice(-2, 4)
 
-    const handleImagePicker = ( file: any) => {
+    const handleImagePicker = (file: any) => {
         let newUpdatedPhoto = [...photo, file];
         setPhoto(newUpdatedPhoto);
     };
@@ -147,7 +147,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         showToast(response.message, 'success')
                         editModal.hide()
                         getGroupMessageApi(INITIAL_PAGE)
-
                     }
                 },
                 onError: (error) => () => {
@@ -213,13 +212,13 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         }
                     }
                     }>
-                        {
-                            loading && (
-                                <div className='d-flex justify-content-center align-item-center'style={{marginBottom:'200px'}}>
-                                    <Spinner/>
-                                </div>
-                            )
-                        }
+                    {
+                        loading && (
+                            <div className='d-flex justify-content-center align-item-center' style={{ marginBottom: '200px' }}>
+                                <Spinner />
+                            </div>
+                        )
+                    }
 
 
                     {groupEvents && groupEvents.length > 0 &&
@@ -237,9 +236,8 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                             const renderDate = (date !== previousDate) ? date : '';
                             previousDate = date;
-                            console.log('previousDate------------>',previousDate)
+                            console.log('previousDate------------>', previousDate)
                             const startDay = getCurrentDayAndDate(renderDate);
-
 
                             return (
                                 <GroupChat
@@ -256,7 +254,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                         editModal.show()
                                         message.set(title)
                                         setSelectDropzone(attachments.attachments)
-
                                     }}
                                     deleteOnClick={() => {
                                         setSelectMessage(item)
@@ -264,7 +261,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                     }}
                                     subtitleOnclick={() => { userModal.show() }}
                                 >
-
                                     <div className='pt-2' onClick={() => {
                                         imageModal.show()
                                         setImage(imageUrls)
@@ -278,13 +274,12 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                                     <div>
                                         {
-                                            imageUrls && imageUrls.length > 0 && (
+                                            imageUrls && imageUrls.length > 0 &&
+                                            (
                                                 <ImageDownloadButton Url={imageUrls} title={title} className={"fa fa-download mt-1"} />
                                             )
-
                                         }
                                     </div>
-
                                 </GroupChat>)
                         })
                     }
@@ -347,27 +342,21 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             })}
                     </div> */}
 
-<div className="col-auto pb-2">
-                <div className="row">
-                <ImagePicker
-                   defaultPicker={true}
-                   defaultValue={ AttachmentEdit }
-                    size='xl'
-                    heading= {translate("auth.attach")!}
-                    noOfFileImagePickers={2}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                         handleImagePicker(file)
-                       
-                    }}
-                
-                   
-                />
-
-                </div>
-              
-
-            </div>
+                    <div className="col-auto pb-2">
+                        <div className="row">
+                            <ImagePicker
+                                defaultPicker={true}
+                                defaultValue={AttachmentEdit}
+                                size='xl'
+                                heading={translate("auth.attach")!}
+                                noOfFileImagePickers={2}
+                                onSelect={(image) => {
+                                    let file = image.toString().replace(/^data:(.*,)?/, "")
+                                    handleImagePicker(file)
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <div className="row justify-content-end">
