@@ -115,7 +115,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
     return (
         <>
 
-            <Card className={'h-100 '}>
+            <Card className={'h-100'}>
                 <div className='row'>
                     <div className='mx--1'>
                         <span className="h4 col-3">{'Members'}</span>
@@ -131,7 +131,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                         }} />
                     </div>
                 </div>
-                <div className={'mt--4 mx--4'}><CardHeader /></div>
+                
                 <div className='h-100 col overflow-auto overflow-hide  p-0 m-0'>
                     {
                         loading && (
@@ -163,7 +163,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                                                             goTo(ROUTES['user-company-module']['video-conference'], false)
                                                         }}
                                                     >
-                                                        <Image src={icons.VideoCalling} width={15} height={15} />
+                                                        <Image src={icons.VideoCalling} width={17} height={17} />
                                                     </div>
 
                                                 </div>

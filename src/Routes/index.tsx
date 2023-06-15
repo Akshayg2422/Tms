@@ -135,7 +135,7 @@ export const HOME_ROUTES = [
   {
     collapse: true,
     name: translate("sideNav.Admin"),
-    icon: icons.task,
+    icon: icons.admin,
     state: "dashboardsCollapse",
     views: [
       {
@@ -190,7 +190,7 @@ export const HOME_ROUTES = [
   {
     path: ROUTES['user-company-module'].Groups,
     name: translate("sideNav.Groups"),
-    icon: icons.company,
+    icon: icons.group,
     layout: "",
     component: <Groups />
   },

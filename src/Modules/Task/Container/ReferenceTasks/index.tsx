@@ -16,9 +16,6 @@ function ReferenceTasks() {
     (state: any) => state.TaskReducer
   );
 
- 
-  
-
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { goTo } = useNavigation()
   const { height } = useWindowDimensions()
@@ -66,14 +63,16 @@ function ReferenceTasks() {
     }
   };
 
-  console.log('referencesTasks===============>', JSON.stringify(referencesTasks));
+
 
   return (
 
     <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
       {referencesTasks && referencesTasks?.length > 0 && <div className="col text-right">
         <Button size={'sm'} className={'text-white'} text={translate("auth.addReferenceTask")} onClick={() => {
+          dispatch(setSelectedTask(id))
           goTo(ROUTES["task-module"]["reference-task"])
+          
         }} />
       </div>
       }
@@ -99,8 +98,8 @@ function ReferenceTasks() {
           }
           tableOnClick={(index,id,item) => {
             console.log(item.code)
-    
-            dispatch(setSelectedTask(item))
+            dispatch(setSelectedTask(item?.code))
+            // dispatch(setSelectedTask(item))
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
           }}
 
