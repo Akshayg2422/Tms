@@ -20,9 +20,12 @@ import { icons } from "@Assets";
 import { TGU, RGU, getArrayFromArrayOfObject, EVS, TASK_STATUS_LIST, getObjectFromArrayByKey } from '@Utils';
 import { translate } from '@I18n'
 import { useDynamicHeight } from "@Hooks";
+import { useParams } from "react-router-dom";
 
 
 function TaskItemMenu() {
+
+    const {id}=useParams()
 
     const dynamicHeight: any = useDynamicHeight()
     const TASK_STATUS_MENU = [
@@ -53,7 +56,8 @@ function TaskItemMenu() {
 
         const params = {
             ...(taskEventParams && { ...taskEventParams }),
-            id: selectedTask.id
+            // id: selectedTask.id
+            code:id
         };
 
 
@@ -74,11 +78,11 @@ function TaskItemMenu() {
         }))
     }
 
-
+console.log(status.value,"lllll")
     function proceedTaskStatusChangeHandler() {
         const params = {
-            event_type: EVS,
-            taskstatus_changeto: status.value?.code,
+            event_type:EVS,
+            taskstatus_changeto:status.value?.id,
             reason: taskStatusReason.value,
         }
         proceedAddTaskEvents(params)

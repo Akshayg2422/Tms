@@ -8,24 +8,27 @@ import { useModal, useInput, useNavigation } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
 import { ROUTES } from '@Routes';
+import { useParams } from 'react-router-dom';
 
 function AddMessage({ AddGroup }: AddMessageProps) {
     const { selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { user_details } = dashboardDetails || ''
     const dispatch = useDispatch()
     const message = useInput('')
+    const { id } = useParams();
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
     const { goTo } = useNavigation()
+    const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
 
     const addGroupMessageApiHandler = () => {
 
         if (message.value) {
             const params = {
-                group_id: AddGroup,
+                 group_id: AddGroup,
                 message: message.value,
                 event_type: TEM,
             }
@@ -75,8 +78,8 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
         const params = {
             event_type: MEA,
-            group_id: AddGroup,
-            group_attachments: [{ name: attachmentName.value, attachments: photo }],
+             group_id: AddGroup,
+            group_attachments: [{ name: attachmentName.value, attachments: attach }],
         };
 
         if (ifObjectExist(validation)) {
@@ -103,13 +106,20 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         setSelectDropzone([{}]);
         setPhoto([])
     };
-
+    let attach = photo.slice(-selectedNoOfPickers)
     const handleImagePicker = (file: any) => {
         let updatedPhoto = [...selectDropzone, file]
         let newUpdatedPhoto = [...photo, file]
         setSelectDropzone(updatedPhoto)
         setPhoto(newUpdatedPhoto)
     }
+
+    // let attach = photo.slice(-selectedNoOfPickers)
+
+    // const handleImagePicker = (file: any) => {
+    //   let newUpdatedPhoto = [...photo, file];
+    //   setPhoto(newUpdatedPhoto);
+    // };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -150,13 +160,18 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                     <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
                     <div className='row mt--4'>
                         <ImagePicker
-                            noOfFileImagePickers={8}
+                            noOfFileImagePickers={3}
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
                                 let file = image.toString().replace(/^data:(.*,)?/, "")
                                 handleImagePicker(file)
                             }}
+
+                            onSelectImagePicker={(el) => {
+                                setSelectedNoOfPickers(el?.length)
+                
+                              }}
                         />
                     </div>
                 </div>

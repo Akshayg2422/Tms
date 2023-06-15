@@ -65,7 +65,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
         }
 
 
-        console.log(eta,"eeee")
+        console.log(eta,"   ")
         dispatch(
             addTicketEvent({
                 params,

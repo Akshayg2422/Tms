@@ -96,7 +96,7 @@ function AddSubTask() {
     function getCompanyEmployeeApi() {
 
         const params = {
-            code: getBranchId(),
+            branch_id: getBranchId(),
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id })
         };
@@ -123,7 +123,7 @@ function AddSubTask() {
             task_attachments: [{ attachments: attach }],
             is_parent: false,
             eta_time: eta,
-            parent_id: selectedTask?.id
+            parent_code:selectedTask
         };
 
 

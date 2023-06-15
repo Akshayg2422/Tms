@@ -157,8 +157,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     }
 
-
-
     function proceedDeleteHandler() {
         const params = {
             id: selectMessage?.id,
@@ -342,21 +340,27 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             })}
                     </div> */}
 
-                    <div className="col-auto pb-2">
-                        <div className="row">
-                            <ImagePicker
-                                defaultPicker={true}
-                                defaultValue={AttachmentEdit}
-                                size='xl'
-                                heading={translate("auth.attach")!}
-                                noOfFileImagePickers={2}
-                                onSelect={(image) => {
-                                    let file = image.toString().replace(/^data:(.*,)?/, "")
-                                    handleImagePicker(file)
-                                }}
-                            />
-                        </div>
-                    </div>
+<div className="col-auto pb-2">
+                <div className="row">
+                <ImagePicker
+                   defaultPicker={true}
+                   defaultValue={ AttachmentEdit }
+                    size='xl'
+                    heading= {translate("auth.attach")!}
+                    noOfFileImagePickers={3}
+                    onSelect={(image) => {
+                        let file =image.toString().replace(/^data:(.*,)?/, "")
+                         handleImagePicker(file)
+                       
+                    }}
+                
+                   
+                />
+
+                </div>
+              
+
+            </div>
                 </div>
 
                 <div className="row justify-content-end">
