@@ -288,12 +288,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         value={editTitle.value}
                         onChange={editTitle.onChange}
                     />
-                    {/* <Input
-                        type={"text"}
-                        heading={translate("auth.description")}
-                        value={editDescription.value}
-                        onChange={editDescription.onChange}
-                    /> */}
+               
                     <div >
                     <InputHeading heading={translate('auth.description')}/>
                     <textarea 
