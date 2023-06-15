@@ -22,7 +22,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const dispatch = useDispatch()
     const { taskDetails, selectedTask } = useSelector((state: any) => state.TaskReducer);
-    console.log( selectedTask," selectedTask==>")
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time, } = taskDetails || {};
     const [eta, setEta] = useState(eta_time)
@@ -135,10 +134,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             })
         )
     }
-
-    console.log('by_user.profile_photo', by_user?.profile_photo);
-
-
     return (
         <div ref={ref} >
             <Card className={'px-3'}>
@@ -293,12 +288,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         value={editTitle.value}
                         onChange={editTitle.onChange}
                     />
-                    {/* <Input
-                        type={"text"}
-                        heading={translate("auth.description")}
-                        value={editDescription.value}
-                        onChange={editDescription.onChange}
-                    /> */}
+               
                     <div >
                     <InputHeading heading={translate('auth.description')}/>
                     <textarea 

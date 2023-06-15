@@ -16,9 +16,6 @@ function ReferenceTasks() {
     (state: any) => state.TaskReducer
   );
 
- console.log(id,"iopppp")
-  
-
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { goTo } = useNavigation()
   const { height } = useWindowDimensions()

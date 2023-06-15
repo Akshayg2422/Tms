@@ -244,10 +244,7 @@ function Tag() {
               let file = image.toString().replace(/^data:(.*,)?/, "")
               setTagPhoto(file)
             }}
-            onSelectImagePicker={(el) => {
-
-
-            }}
+       
           />
 
         </div>

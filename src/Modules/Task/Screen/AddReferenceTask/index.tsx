@@ -17,18 +17,13 @@ function AddReferenceTask() {
   const { goBack } = useNavigation();
   const [loading, setLoading] = useState(false)
   const search = useInput("");
-  console.log(selectedTask,"selectedTask")
-
   useEffect(() => {
     getTasksApiHandler(taskCurrentPages)
   }, [])
-
-
   const addReferenceTaskHandler = () => {
-    
+
     const params = {
-      
-      code:selectedTask,
+      code: selectedTask,
       event_type: RTS,
       reference_task: getArrayFromArrayOfObject(selectedReferenceTask, 'id'),
     };
@@ -48,7 +43,7 @@ function AddReferenceTask() {
           },
           onError: (error) => () => {
             showToast(error.error_message);
-            
+
           },
         })
       );
@@ -84,10 +79,8 @@ function AddReferenceTask() {
     const params = {
       q_many,
       page_number,
-      code:selectedTask,
+      code: selectedTask,
     };
-
-    console.log("params", params)
 
     dispatch(
       getTasks({
@@ -97,7 +90,7 @@ function AddReferenceTask() {
         },
         onError: () => () => {
           setLoading(false)
-         },
+        },
       })
     );
   };
@@ -141,7 +134,7 @@ function AddReferenceTask() {
         <div>
           {
             loading && (
-              <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px',marginTop:'250px'}}>
+              <div className="d-flex justify-content-center align-item-center" style={{ minHeight: '200px', marginTop: '250px' }}>
                 <Spinner />
               </div>
             )
