@@ -22,6 +22,7 @@ const ImagePicker = ({
   const [photo, setPhoto] = useState<any>()
 
   const updatedProfile = photo && photo.filter((element: any) => element.id !== 0)
+  onSelectImagePicker(updatedProfile)
 
   useEffect(() => {
 
@@ -71,6 +72,9 @@ const ImagePicker = ({
     setCount(value.id)
 
     setPhoto(updatedImageArray);
+    if( onSelectImagePickers && onSelectImagePickers){
+      onSelectImagePickers(updatedImageArray)
+      }
   
 
   };

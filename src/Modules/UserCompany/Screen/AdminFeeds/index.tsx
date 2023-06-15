@@ -50,7 +50,8 @@ function AdminFeeds() {
 
   })
 
-  console.log(AttachmentEdit, "ppppp")
+  console.log(photo,"pppppppppp")
+  console.log(AttachmentEdit, "aaaaaaaaaaaa")
 
   const MY_FEED_MENU = [
     {
@@ -378,10 +379,12 @@ function AdminFeeds() {
               onSelect={(image) => {
                 let file = image.toString().replace(/^data:(.*,)?/, "")
                 handleImagePicker(file)
+                console.log(file,"ffffffff")
 
               }}
               onSelectImagePicker={(el) => {
                 setSelectedNoOfPickers(el?.length)
+                console.log(el,"eeeeeeeeeeeee")
 
               }}
               onSelectImagePickers={(el)=>{
@@ -396,6 +399,7 @@ function AdminFeeds() {
                   
                 }
                 setPhoto(array)
+                console.log(array,"aaaaaaaaaaaa")
   
               }}
             
