@@ -4,8 +4,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Button, Divider, Dropzone, Image, Input, InputHeading, Modal, NoRecordsFound, SearchInput, Spinner } from '@Components'
 import moment from 'moment'
 import { convertToUpperCase, getDisplayTimeFromMoment, } from '@Utils'
-import { fetchChatEmployeeList, fetchChatMessage, getEmployees, postChatMessage } from '@Redux'
+import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, postChatMessage, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
+import { icons } from '@Assets'
+import { ROUTES } from '@Routes'
+import { useNavigation } from '@Hooks'
 
 function IndividualChat() {
 
@@ -20,6 +23,7 @@ function IndividualChat() {
         (state: any) => state.UserCompanyReducer
     );
     const { company_branch, user_details, company } = dashboardDetails || ''
+    const { goTo } = useNavigation()
 
 
     // const enterPress = useKeyPress('Enter')
@@ -57,7 +61,7 @@ function IndividualChat() {
         dispatch(fetchChatEmployeeList({
             params,
             onSuccess: (success: any) => () => {
-                let modifiedData:any = []
+                let modifiedData: any = []
                 success?.details?.data.map((el) => {
                     if (el.id !== user_details.id) {
                         modifiedData.push(el)
@@ -160,6 +164,26 @@ function IndividualChat() {
         else {
             return false
         }
+    }
+
+    const getUserToken = () => {
+        dispatch(selectedVcDetails(selectedUserDetails.id))
+        const params = {
+            id: selectedUserDetails.id,
+            user_name: user_details.name,
+            email_id: user_details.email,
+        }
+        dispatch(getTokenByUser({
+            params,
+            onSuccess: (success: any) => () => {
+
+                console.log("success============>", success)
+            },
+            onError: (error: string) => () => {
+
+            },
+
+        }))
     }
 
 
@@ -463,18 +487,13 @@ function IndividualChat() {
                             </CardBody>
                             <CardFooter className=''>
                                 <div className='d-flex'>
-                                    {/* <Image
-                                            variant='rounded'
-                                            size='md'
-                                            src={dashboardDetails?.user_details?.photo}
-                                            alt="avatar 1"
-                                        /> */}
                                     <div className=''>
-                                        <i className="bi bi-plus-circle-fill text-primary fa-2x pointer"
+                                        {/* <i className="bi bi-plus-circle-fill text-primary fa-2x pointer"
                                             onClick={() => {
                                                 setIsOpenUploadImageModal(!isOpenUploadImageModal)
                                             }}
-                                        ></i>
+                                        ></i> */}
+                                        <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={() => { }} />
                                     </div>
 
 
@@ -494,18 +513,33 @@ function IndividualChat() {
 
                                     <div className=" mr-1"
                                         style={{
-                                            marginTop: '9px'
+                                            marginTop: '2px'
                                         }}
-                                        onClick={() => {
-                                            addChatMessage()
-                                        }}
+
                                     >
                                         <div>
-
-                                            <i className={`fas fa-paper-plane text-info fa-lg pointer`}
-
-                                            ></i>
+                                            <Button
+                                                size={'lg'}
+                                                color={'white'}
+                                                variant={'icon-rounded'}
+                                                icon={icons.send}
+                                                onClick={() => {
+                                                    addChatMessage()
+                                                }} />
                                         </div>
+
+                                    </div>
+                                    <div
+                                        className=" mr-1 ml-2 pointer"
+                                        style={{
+                                            marginTop: '7px'
+                                        }}
+                                        onClick={() => {
+                                            getUserToken()
+                                            goTo(ROUTES['user-company-module']['video-conference'], false)
+                                        }}
+                                    >
+                                        <i className="bi bi-camera-video-fill fa-lg"></i>
                                     </div>
                                 </div>
                             </CardFooter>
