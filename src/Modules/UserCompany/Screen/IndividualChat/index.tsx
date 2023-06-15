@@ -35,8 +35,7 @@ function IndividualChat() {
 
     useEffect(() => {
 
-        getEmployesList('')
-        getChatEmployeeList()
+        getChatEmployeeList('')
 
     }, [])
 
@@ -50,14 +49,22 @@ function IndividualChat() {
         getChatMessage(selectedUserDetails?.id)
     }, [selectedUserDetails])
 
-    const getChatEmployeeList = () => {
-        const params = {
+    const getChatEmployeeList = (data) => {
 
+        const params = {
+            ...(data && { q_many: data })
         }
         dispatch(fetchChatEmployeeList({
             params,
             onSuccess: (success: any) => () => {
-                setEmployeeList(success?.details?.data)
+                let modifiedData:any = []
+                success?.details?.data.map((el) => {
+                    if (el.id !== user_details.id) {
+                        modifiedData.push(el)
+                    }
+                })
+
+                setEmployeeList(modifiedData)
                 getChatMessage(success?.details?.data[0]?.id)
                 setSelectedUserDetails(success?.details?.data[0])
 
@@ -66,6 +73,8 @@ function IndividualChat() {
             },
         }))
     }
+
+    console.log("employeeelist", employeeList)
 
     const getDisplayTimeFromMoment = (date) => {
         if (date) {
@@ -90,22 +99,22 @@ function IndividualChat() {
         }
     }
 
-    const getEmployesList = (data) => {
-        const params = {
-            "q_many": data
-        }
-        dispatch(getEmployees({
-            params,
-            onSuccess: (success: any) => () => {
-                setEmployeeList(success?.details?.data)
-                getChatMessage(success?.details?.data[0]?.id)
-                setSelectedUserDetails(success?.details?.data[0])
+    // const getEmployesList = (data) => {
+    //     const params = {
+    //         "q_many": data
+    //     }
+    //     dispatch(getEmployees({
+    //         params,
+    //         onSuccess: (success: any) => () => {
+    //             setEmployeeList(success?.details?.data)
+    //             getChatMessage(success?.details?.data[0]?.id)
+    //             setSelectedUserDetails(success?.details?.data[0])
 
-            },
-            onError: (error: string) => () => {
-            },
-        }))
-    }
+    //         },
+    //         onError: (error: string) => () => {
+    //         },
+    //     }))
+    // }
 
 
     const addChatMessage = () => {
@@ -515,7 +524,7 @@ function IndividualChat() {
                                 <h3>{"nottu"}</h3>
                                 <div className=''>
                                     <SearchInput onSearch={(search) => {
-                                        getEmployesList(search)
+                                        getChatEmployeeList(search)
                                     }} />
                                 </div>
                             </CardHeader>
