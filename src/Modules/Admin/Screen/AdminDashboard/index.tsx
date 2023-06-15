@@ -1,20 +1,13 @@
 import React, { useEffect } from "react";
-import { useLocation, Route, Routes, Navigate, redirect } from "react-router-dom";
+import { useLocation, Route } from "react-router-dom";
 import { Sidebar } from "@Components";
-import {
-
-  ADMIN_ROUTES,
-
-
-
-} from "@Routes";
+import { ADMIN_ROUTES, } from "@Routes";
 import { icons } from "@Assets";
-import { AddUser, CompanyInfo, CreateBroadCast, CreateCompany, CompanyDetails, AddReferenceTicket, AddTask, TaskDetails, AddSubTask, AddReferenceTask } from "@Modules";
 import { getDashboard, setIsSync, autoCompleteDropDown } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
 
 function AdminDashboard() {
-  const [sideNavOpen, setSideNavOpen] = React.useState(true);
+  const [sideNavOpen, setSideNavOpen] = React.useState(false);
   const location = useLocation();
   const mainContentRef = React.useRef<HTMLDivElement | null>(null);
   const { isSync } = useSelector(
@@ -96,26 +89,6 @@ function AdminDashboard() {
           imgAlt: "...",
         }}
       />
-
-      {/* <div className={"main-content"} ref={mainContentRef}>
-        <Routes> */}
-      {/* {getRoutes(ADMIN_ROUTES)}
-          <Route path={HOME_PATH.CREATE_COMPANY} element={<CreateCompany />} />
-          <Route path={HOME_PATH.COMPANY_INFO} element={<CompanyDetails />} />
-          <Route path={HOME_PATH.ADD_USER} element={<AddUser />} />
-          <Route path={HOME_PATH.ISSUE_DETAILS} element={<IssueDetails />} />
-          <Route path={HOME_PATH.ADD_REFERENCE_TICKET} element={<AddReferenceTicket />} />
-          <Route path={HOME_PATH.ADD_REFERENCE_TASK} element={<AddReferenceTask />} />
-          <Route path={HOME_PATH.CREATE_BROAD_CAST} element={<CreateBroadCast />} />
-          <Route path={HOME_PATH.ISSUE_TICKET} element={<IssueCreate />} />
-          <Route path={HOME_PATH.ADD_TASK} element={<AddTask />} />
-          <Route path={HOME_PATH.TASK_DETAILS+'/:id'} element={<TaskDetails />} />
-          <Route path={HOME_PATH.ADD_SUB_TASK} element={<AddSubTask />} /> */}
-      {/* <Route path={TAB_ISSUE_ATTACH_DETAILS. TAB_ISSUE_USER_DETAILS} element={<TabIssueDetails />} /> */}
-      {/* <Route path={CREATE_BROAD_CAST.BROAD_CAST} element={<CreateBroadCast/>} /> */}
-      {/* <Route path="*" element={<Navigate to="/admin/issues" />} /> */}
-      {/* </Routes>
-      </div> */}
 
       {sideNavOpen ? (
         <div className={""} onClick={toggleSideNav} />

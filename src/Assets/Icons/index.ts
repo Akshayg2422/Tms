@@ -160,4 +160,14 @@ export const icons = {
   nextArrow: require('./NextArrow/icons.png'),
   download: require('./Download/icon.png'),
   VideoImage: require('./VideoImage/Icon.png'),
+  videoCall: require('./VideoCall/icon.png'),
+  VideoCalling: require('./VideoCalling/icon.png'),
+  issues: require('./Issues/icon.png'),
+  issuesPink: require('./IssuesPink/icon.png'),
+  companyInfo: require('./CompanyInfo/icon.png'),
+  companyInfoPink: require('./CompanyInfoPink/icon.png'),
+  companyTask: require('./CompanyTask/icon.png'),
+  companyTaskPink: require('./CompanyTaskPink/icon.png'),
+  group: require('./Group/icon.png'),
+  admin: require('./Admin/icon.png')
 };

@@ -1,27 +1,30 @@
 import React, { useState } from 'react'
 import { AddMessageProps } from './interfaces';
-import { Button, Modal, Input, Dropzone, ImageDownloadButton, ImagePicker } from '@Components'
+import { Button, Modal, Input, Dropzone, ImageDownloadButton, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
 import { addGroupMessage, refreshGroupEvents } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { useModal, useInput } from '@Hooks'
-import { TEM, MEA } from '@Utils'
+import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
+import { useParams } from 'react-router-dom';
 
 function AddMessage({ AddGroup }: AddMessageProps) {
     const dispatch = useDispatch()
     const message = useInput('')
+    const { id } = useParams();
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
+    const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
 
     const addGroupMessageApiHandler = () => {
 
         if (message.value) {
             const params = {
-                group_id: AddGroup,
+                 group_id: AddGroup,
                 message: message.value,
                 event_type: TEM,
             }
@@ -42,39 +45,57 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         }
     };
 
+
     const addGroupEventAttachment = () => {
+        const validation = validate(GROUP_ATTACHMENT_RULES, {
+            attachment_name: attachmentName.value,
+            group_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : ''
+        })
+
         const params = {
             event_type: MEA,
-            group_id: AddGroup,
-            group_attachments: [{ name: attachmentName.value, attachments: photo }],
-            // name: attachmentName.value,
+             group_id: AddGroup,
+            group_attachments: [{ name: attachmentName.value, attachments: attach }],
         };
 
-        dispatch(
-            addGroupMessage({
-                params,
-                onSuccess: (response) => () => {
-                    resetValues();
-                    attachmentModal.hide()
-                    dispatch(refreshGroupEvents())
+        if (ifObjectExist(validation)) {
+            dispatch(
+                addGroupMessage({
+                    params,
+                    onSuccess: (response) => () => {
+                        resetValues();
+                        attachmentModal.hide()
+                        dispatch(refreshGroupEvents())
 
-                },
-                onError: (error) => () => { },
-            }),
-        );
+                    },
+                    onError: (error) => () => {
+
+                    },
+                }),
+            );
+        } else {
+            showToast(getValidateError(validation));
+        }
     };
     const resetValues = () => {
         attachmentName.set('');
         setSelectDropzone([{}]);
         setPhoto([])
     };
-
+    let attach = photo.slice(-selectedNoOfPickers)
     const handleImagePicker = (file: any) => {
         let updatedPhoto = [...selectDropzone, file]
         let newUpdatedPhoto = [...photo, file]
         setSelectDropzone(updatedPhoto)
         setPhoto(newUpdatedPhoto)
     }
+
+    // let attach = photo.slice(-selectedNoOfPickers)
+
+    // const handleImagePicker = (file: any) => {
+    //   let newUpdatedPhoto = [...photo, file];
+    //   setPhoto(newUpdatedPhoto);
+    // };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -101,42 +122,28 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             </div >
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
-                {/* <div className='col ml-3'>
-                    <div className='row'>
-                        {selectDropzone && selectDropzone.map((el, index) => {
+                <div className='col-7 mt--6'>
+                    <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
+                    <div className='row mt--4'>
+                        <ImagePicker
+                            noOfFileImagePickers={3}
+                            icon={image}
+                            size='xl'
+                            onSelect={(image) => {
+                                let file = image.toString().replace(/^data:(.*,)?/, "")
+                                handleImagePicker(file)
+                            }}
 
-                            return (
-                                <div className={`${index !== 0 && 'ml-2'}`}>
-                                    <Dropzone variant='ICON'
-                                        icon={image}
-                                        size='xl'
-                                        onSelect={(image) => {
-                                            let file = image.toString().replace(/^data:(.*,)?/, '');
-                                            handleImagePicker(index, file)
-                                        }}
-                                    />
-
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div> */}
+                            onSelectImagePicker={(el) => {
+                                setSelectedNoOfPickers(el?.length)
                 
-                               
-                                <ImagePicker
-                                 noOfFileImagePickers={0}
-                        icon={image}
-                        size='xl'
-                        onSelect={(image) => {
-                            let file = image.toString().replace(/^data:(.*,)?/, "")
-                            handleImagePicker(file)
-                        }}
-                      
-                    />
-                                    
-                <div className='col-6 pt-1'>
-                    <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
-                    <div className=' pt-4'>
+                              }}
+                        />
+                    </div>
+                </div>
+
+                <div className='col-6 pt-2'>
+                    <div className=''>
                         <Button text={translate("common.submit")} onClick={addGroupEventAttachment} />
                     </div>
                 </div>

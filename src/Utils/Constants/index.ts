@@ -17,11 +17,11 @@ export const FCM_TOKEN = 'FCM_TOKEN'
 //   { id: 'F', text: 'Female' },
 //   { id: 'O', text: 'Others' },
 // ];
- 
+
 export const GENDER_LIST = [
-  { id: 'M', text: translate('common.Male')!},
-  { id: 'F', text: translate('common.Female')!},
-  { id: 'O', text: translate('common.Others')!},
+  { id: 'M', text: translate('common.Male')! },
+  { id: 'F', text: translate('common.Female')! },
+  { id: 'O', text: translate('common.Others')! },
 ];
 export const DESIGNATION_LIST = [
   { id: 'true', text: 'Business Owner' },
@@ -36,6 +36,12 @@ export const LANGUAGES = [
 export const type = [
   { id: '1', text: 'External', value: 'Ext' },
   { id: '2', text: 'Internal', value: 'Int' },
+]
+
+export const assignedToType = [
+  { id: '1', text: 'User', value: 'usr' },
+  { id: '2', text: 'Department', value: 'dep' },
+  { id: '3', text: 'Designation', value: 'des' },
 ]
 
 export const DEFAULT_LANGUAGE = LANGUAGES[0]
@@ -70,58 +76,58 @@ export const ETA = 'ETA'
 
 
 export const TASK_FILTER_LIST = [
-  { id: 'ALL', text:translate('common.All')!},
-  { id: 'created_by', text:translate('product.Created by me')!},
-  { id: 'assigned_to', text:translate('product.assigned To Me')!},
-  { id: 'tagged', text:translate('product.tagged')!}
+  { id: 'ALL', text: translate('common.All')! },
+  { id: 'created_by', text: translate('product.Created by me')! },
+  { id: 'assigned_to', text: translate('product.assigned To Me')! },
+  { id: 'tagged', text: translate('product.tagged')! }
 ];
 
 
 export const TASK_STATUS_LIST = [
-  { id: 'ALL', text:translate('common.All')!},
-  { id: 'RAI', text:translate('product.Raised')!, color: "gray" },
-  { id: 'INP', text:translate('product.In-Progress')!, color: "yellow" },
-  { id: 'CAN', text:translate('product.cancel')!, color: "red" },
-  { id: "CLS", text:translate('product.Close')!, color: "red" },
-  { id: 'ONH', text:translate('product.On-Hold')!, color: "black" },
-  { id: 'REJ', text:translate('product.Reject')!, color: "red" }
+  { id: 'ALL', text: translate('common.All')! },
+  { id: 'RAI', text: translate('product.Raised')!, color: "gray" },
+  { id: 'INP', text: translate('product.In-Progress')!, color: "yellow" },
+  { id: 'CAN', text: translate('product.cancel')!, color: "red" },
+  { id: "CLS", text: translate('product.Close')!, color: "red" },
+  { id: 'ONH', text: translate('product.On-Hold')!, color: "black" },
+  { id: 'REJ', text: translate('product.Reject')!, color: "red" }
 
 ]
 
 
 export const TASK_PRIORITY_LIST = [
-  { id: 'ALL', text:translate('common.All')!},
-  { id: 1, text:translate('product.Lowest')!, color: "black"},
-  { id: 2, text:translate('product.Low')!, color: "black"},
-  { id: 3, text:translate('product.Medium')!, color: "orange"},
-  { id: 4, text:translate('product.High')!, color: "red"},
-  { id: 5, text:translate('product.Critical')!, color: "gray"},
+  { id: 'ALL', text: translate('common.All')! },
+  { id: 1, text: translate('product.Lowest')!, color: "black" },
+  { id: 2, text: translate('product.Low')!, color: "black" },
+  { id: 3, text: translate('product.Medium')!, color: "orange" },
+  { id: 4, text: translate('product.High')!, color: "red" },
+  { id: 5, text: translate('product.Critical')!, color: "gray" },
 ];
 
 export const TICKET_FILTER_LIST = [
-  { id: 'ALL', text:translate('common.All')!},
-  { id: 'created_by', text:translate('product.Created by me')!},
-  { id: 'assigned_to', text:translate('product.assigned To Me')!},
-  { id: 'tagged', text:translate('product.tagged')!}
+  { id: 'ALL', text: translate('common.All')! },
+  { id: 'created_by', text: translate('product.Created by me')! },
+  { id: 'assigned_to', text: translate('product.assigned To Me')! },
+  { id: 'tagged', text: translate('product.tagged')! }
 ];
 
 export const TICKET_STATUS_LIST = [
-  { id: 'ALL', text:translate('common.All')!},
-  { id: 'RAI', text:translate('product.Raised')!, color: "gray" },
-  { id: 'INP', text:translate('product.In-Progress')!, color: "yellow" },
-  { id: 'CAN', text:translate('product.cancel')!, color: "red" },
-  { id: "CLS", text:translate('product.Close')!, color: "red" },
-  { id: 'ONH', text:translate('product.On-Hold')!, color: "black" },
-  { id: 'REJ', text:translate('product.Reject')!, color: "red" }
+  { id: 'ALL', text: translate('common.All')! },
+  { id: 'RAI', text: translate('product.Raised')!, color: "gray" },
+  { id: 'INP', text: translate('product.In-Progress')!, color: "yellow" },
+  { id: 'CAN', text: translate('product.cancel')!, color: "red" },
+  { id: "CLS", text: translate('product.Close')!, color: "red" },
+  { id: 'ONH', text: translate('product.On-Hold')!, color: "black" },
+  { id: 'REJ', text: translate('product.Reject')!, color: "red" }
 ]
 
 export const TICKET_PRIORITY_LIST = [
-  { id: 'ALL', text:translate('common.All')!},
-  { id: 1, text:translate('product.Lowest')!, color: "black"},
-  { id: 2, text:translate('product.Low')!, color: "black"},
-  { id: 3, text:translate('product.Medium')!, color: "orange"},
-  { id: 4, text:translate('product.High')!, color: "red"},
-  { id: 5, text:translate('product.Critical')!, color: "gray"},
+  { id: 'ALL', text: translate('common.All')! },
+  { id: 1, text: translate('product.Lowest')!, color: "black" },
+  { id: 2, text: translate('product.Low')!, color: "black" },
+  { id: 3, text: translate('product.Medium')!, color: "orange" },
+  { id: 4, text: translate('product.High')!, color: "red" },
+  { id: 5, text: translate('product.Critical')!, color: "gray" },
 ];
 
 
