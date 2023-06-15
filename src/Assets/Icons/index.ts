@@ -169,5 +169,6 @@ export const icons = {
   companyTask: require('./CompanyTask/icon.png'),
   companyTaskPink: require('./CompanyTaskPink/icon.png'),
   group: require('./Group/icon.png'),
-  admin: require('./Admin/icon.png')
+  admin: require('./Admin/icon.png'),
+  deleteRounded: require('./DeleteRounded/icon.png')
 };

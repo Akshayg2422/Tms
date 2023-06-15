@@ -30,13 +30,11 @@ const ImagePicker = ({
         .then((result) => {
 
           if (defaultValue > 1) {
-            setPhoto([...result, initialValue]) 
-    
+            setPhoto([...result, initialValue])
+
           }
           else {
             setPhoto([...result])
-         
-
           }
         })
         .catch((error) => {
@@ -56,9 +54,7 @@ const ImagePicker = ({
     fileInputRef?.current?.click();
 
     if (el.id > 0) {
-
       setCount(el.id)
-
     }
 
 
@@ -69,10 +65,7 @@ const ImagePicker = ({
     const updatedSelectedImage = [...photo];
     const updatedImageArray = updatedSelectedImage.filter((filterItem: any) => filterItem.id !== value.id);
     setCount(value.id)
-
     setPhoto(updatedImageArray);
-  
-
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,24 +108,19 @@ const ImagePicker = ({
                 );
                 updatedSelectedPhotos = [{ id: updatedPhoto?.id, base64: e.target?.result }, ...updatedSelectedPhotos]
                 setCount(photo.length + 1 - 1)
-                if( onSelectImagePickers && onSelectImagePickers){
-                onSelectImagePickers(updatedSelectedPhotos)
+                if (onSelectImagePickers && onSelectImagePickers) {
+                  onSelectImagePickers(updatedSelectedPhotos)
                 }
 
               }
-
 
               ///without add new image
               else {
                 setCount(count + 1)
                 updatedSelectedPhotos = [updatedPhoto, ...updatedSelectedPhotos]
-
               }
-
               setPhoto(updatedSelectedPhotos)
-
             }
-
           };
           reader.readAsDataURL(file);
 
@@ -172,18 +160,8 @@ const ImagePicker = ({
                 style={{ marginLeft: "-13px", marginTop: "-7px" }}
                 onClick={() => imagePickers(el)}
               >
-                <div
-                  className="text-center"
-                  style={{
-                    width: "21px",
-                    height: "21px",
-                    borderRadius: "16px",
-                    backgroundColor: "#d7d8d9"
-                  }}
-                >
-                  <i
-                    className="bi bi-trash text-black text-sm"
-                  ></i>
+                <div className="text-center pointer">
+                  <Image src={icons.deleteRounded} width={14} height={14} />
                 </div>
               </div>
             )}

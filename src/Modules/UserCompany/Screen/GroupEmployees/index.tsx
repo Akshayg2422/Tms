@@ -163,7 +163,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                                                             goTo(ROUTES['user-company-module']['video-conference'], false)
                                                         }}
                                                     >
-                                                        <Image src={icons.VideoCalling} width={17} height={17} />
+                                                        <Image src={icons.Comments} width={17} height={17} />
                                                     </div>
 
                                                 </div>
