@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Card, CardBody, CardFooter, CardHeader, ListGroup, ListGroupItem } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Divider, Dropzone, Image, Input, InputHeading, Modal, NoRecordsFound, SearchInput, Spinner } from '@Components'
+import { Button, Divider, Dropzone, Image, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, SearchInput, Spinner } from '@Components'
 import moment from 'moment'
-import { convertToUpperCase, getDisplayTimeFromMoment, } from '@Utils'
+import { convertToUpperCase, getDisplayTimeFromMoment, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, postChatMessage, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
 import { ROUTES } from '@Routes'
-import { useNavigation } from '@Hooks'
+import { useInput, useModal, useNavigation } from '@Hooks'
+import { translate } from '@I18n'
 
 function IndividualChat() {
 
@@ -16,24 +17,34 @@ function IndividualChat() {
     const [chatText, setChatText] = useState<any>("")
     const [selectedBatchGroup, setSelectedBatchGroup] = useState<any>()
     const [selectedUserDetails, setSelectedUserDetails] = useState<any>()
+    const attachmentModal = useModal(false)
+    const attachmentName = useInput('')
     const [employeeList, setEmployeeList] = useState<any>()
-    const [isOpenUploadImageModal, setIsOpenUploadImageModal] = useState<any>(false)
     const dispatch = useDispatch()
-    const { employeeListData, employeesNumOfPages, chatMessageData, dashboardDetails } = useSelector(
+    const { chatMessageData, dashboardDetails } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { company_branch, user_details, company } = dashboardDetails || ''
     const { goTo } = useNavigation()
 
+    const [photo, setPhoto] = useState<any>([])
+    const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
+    const [selectDropzone, setSelectDropzone] = useState<any>([{}])
+
 
     // const enterPress = useKeyPress('Enter')
     const dynamicHeight: any = 100
-    const fileInputRef = useRef<any>();
     const [image, setImage] = useState<any>([])
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
 
-    const batchGroupChatDetails: any = [{}]
+    let attach = photo.slice(-selectedNoOfPickers)
+    const handleImagePicker = (file: any) => {
+        let updatedPhoto = [...selectDropzone, file]
+        let newUpdatedPhoto = [...photo, file]
+        setSelectDropzone(updatedPhoto)
+        setPhoto(newUpdatedPhoto)
+    }
 
 
 
@@ -119,6 +130,34 @@ function IndividualChat() {
     //         },
     //     }))
     // }
+
+    const addGroupEventAttachment = () => {
+        // const validation = validate(GROUP_ATTACHMENT_RULES, {
+        //     attachment_name: attachmentName.value,
+        //     group_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : ''
+        // })
+
+        const params = {
+            event_type: "MEA",
+            receiver_by: selectedUserDetails?.id,
+            chat_attachments: [{ name: attachmentName.value, attachments: attach }],
+        };
+
+        if (true) {
+            dispatch(postChatMessage({
+                params,
+                onSuccess: (success: any) => async () => {
+                    getChatMessage(selectedUserDetails?.id)
+                    setChatText('')
+
+                },
+                onError: (error: string) => () => {
+                },
+            }))
+        } else {
+
+        }
+    };
 
 
     const addChatMessage = () => {
@@ -247,13 +286,13 @@ function IndividualChat() {
                             <CardHeader>
                                 <div className='row justify-content-between mx-2'>
                                     <h3>{selectedUserDetails?.name}</h3>
-                                    <div className=''
+                                    {/* <div className=''
                                         onClick={() => {
                                             // setShowActiveStatus(!showActiveStatus)
                                         }}
                                     >
                                         <i className="bi bi-people-fill text-primary fa-lg pointer"></i>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </CardHeader>
                             <CardBody
@@ -395,7 +434,7 @@ function IndividualChat() {
                                                                 </div>
 
                                                             </div>}
-                                                        {alignChatMessage(el) && (el?.message || el?.attachments?.length > 0) && (
+                                                        {alignChatMessage(el) && (el?.message || el?.chat_attachments?.attachments?.length > 0) && (
                                                             <div className=''
                                                                 style={{
                                                                     display: "flex",
@@ -445,7 +484,7 @@ function IndividualChat() {
                                                                             </div>
                                                                         )}
 
-                                                                        {el?.message !== "" && <div className="p-1">{el?.message}</div>}
+                                                                        {el?.message !== null && <div className="p-1">{el?.message}</div>}
                                                                     </p>
 
 
@@ -458,19 +497,16 @@ function IndividualChat() {
                                                                     }}
                                                                 >
                                                                     {
-                                                                        el.attachments && el.attachments.map((it) => {
-                                                                            return (
-                                                                                <div className='mr-2 pt-2' style={{
+                                                                        el?.chat_attachments?.attachments &&
+                                                                        <div className='mr-2 pt-2' style={{
 
-                                                                                }}>
-                                                                                    <Image
-                                                                                        width={70}
-                                                                                        height={70}
-                                                                                        src={(it?.attachmgetImageUrlent_file)}
-                                                                                    />
-                                                                                </div>
-                                                                            )
-                                                                        })
+                                                                        }}>
+                                                                            <Image
+                                                                                width={70}
+                                                                                height={70}
+                                                                                src={SERVER + el?.chat_attachments?.attachment_file}
+                                                                            />
+                                                                        </div>
                                                                     }
                                                                 </div>}
                                                             </div>}
@@ -493,7 +529,7 @@ function IndividualChat() {
                                                 setIsOpenUploadImageModal(!isOpenUploadImageModal)
                                             }}
                                         ></i> */}
-                                        <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={() => { }} />
+                                        <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                                     </div>
 
 
@@ -642,6 +678,35 @@ function IndividualChat() {
                 </div >
 
             </ div >
+            <Modal isOpen={attachmentModal.visible}
+                onClose={attachmentModal.hide}>
+                <div className='col-7 mt--6'>
+                    <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
+                    <div className='row mt--4'>
+                        <ImagePicker
+                            noOfFileImagePickers={3}
+                            icon={image}
+                            size='xl'
+                            onSelect={(image) => {
+                                let file = image.toString().replace(/^data:(.*,)?/, "")
+                                handleImagePicker(file)
+                            }}
+
+                            onSelectImagePicker={(el) => {
+                                setSelectedNoOfPickers(el?.length)
+
+                            }}
+                        />
+                    </div>
+                </div>
+
+                <div className='col-6 pt-2'>
+                    <div className=''>
+                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment} />
+                    </div>
+                </div>
+
+            </Modal>
         </div >
     )
 }
