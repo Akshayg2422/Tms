@@ -236,7 +236,4 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
   );
 }
 
-
-
-
 export { Sidebar };
