@@ -18,6 +18,7 @@ export * from './GroupEmployees'
 export * from './SubTaskGroup'
 export * from './AdminFeeds'
 export * from './TimeApproval'
+export * from './IndividualChat'
 
 
 

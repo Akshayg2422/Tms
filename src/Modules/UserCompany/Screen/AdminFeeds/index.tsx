@@ -374,7 +374,7 @@ function AdminFeeds() {
               defaultValue={AttachmentEdit}
               size='xl'
               heading={translate("auth.attach")!}
-              noOfFileImagePickers={1}
+              noOfFileImagePickers={2}
               onSelect={(image) => {
                 let file = image.toString().replace(/^data:(.*,)?/, "")
                 handleImagePicker(file)

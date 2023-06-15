@@ -137,6 +137,19 @@ export const getSubGroupApi = (payload) => post(URL.GET_SUB_GROUP, payload, {})
 export const addGroupUserApi = (payload) => post(URL.ADD_GROUP_USER, payload, {})
 export const getChatGroupsApi = (payload) => post(URL.GET_CHAT_GROUPS, payload, {})
 export const employeeTimeLineStatusApi = (payload) => post(URL.CHANG_EMPLOYEE_TIMELINE_STATUS, payload, {})
-export const addEnableRequestApi= (payload) => post(URL.ADD_TIME_LINE_ENABLE_REQUEST, payload, {})
+export const addEnableRequestApi = (payload) => post(URL.ADD_TIME_LINE_ENABLE_REQUEST, payload, {})
 export const getEnableRequestApi = (payload) => post(URL.GET_TIME_LINE_ENABLE_REQUEST, payload, {})
+
+
+///  post chat message
+
+export const postChatMessageApi = (payload) => post(URL.POST_CHAT_MESSAGE, payload, {})
+
+/// get chat message
+
+export const fetchChatMessageApi = (payload) => post(URL.FETCH_CHAT_MESSAGE, payload, {})
+
+/// get chat employee list
+
+export const fetchChatEmployeeListApi = (payload) => post(URL.FETCH_CHAT_EMPLOYEE_LIST, payload, {})
 
