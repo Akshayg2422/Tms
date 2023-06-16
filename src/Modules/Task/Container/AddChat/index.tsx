@@ -26,7 +26,7 @@ function AddChat() {
         if (message.value) {
 
             const params = {
-                code:id,
+                code: id,
                 message: message.value,
                 event_type: TEM
             }
@@ -57,7 +57,7 @@ function AddChat() {
         })
         const params = {
             event_type: MEA,
-            id: selectedTask.id,
+            code: id,
             name: attachmentName.value,
             attachments: [{ attachment: photo }]
         };
