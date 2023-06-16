@@ -48,7 +48,7 @@ function AdminFeeds() {
 
   })
 
-  console.log(photo,"pppppppppp")
+  console.log(photo, "pppppppppp")
   // console.log(AttachmentEdit, "aaaaaaaaaaaa")
 
   const MY_FEED_MENU = [
@@ -371,6 +371,7 @@ function AdminFeeds() {
             <ImagePicker
               defaultPicker={true}
               defaultValue={AttachmentEdit}
+              noOfFileImagePickers={3}
               size='xl'
               heading={translate("auth.attach")!}
               onSelect={(image) => {
@@ -382,23 +383,23 @@ function AdminFeeds() {
                 setSelectedNoOfPickers(el?.length)
 
               }}
-              onSelectImagePickers={(el)=>{
+              onSelectImagePickers={(el) => {
                 let array: any = []
 
                 for (let i = 0; i <= el.length; i++) {
-    
+
                   let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                  if(editPickers!==undefined){
-                  array.push(editPickers)
+                  if (editPickers !== undefined) {
+                    array.push(editPickers)
                   }
-                  
+
                 }
                 setPhoto(array)
-  
-              }}
-            
 
-            
+              }}
+
+
+
             />
 
           </div>

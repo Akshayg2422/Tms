@@ -14,7 +14,8 @@ const ImagePicker = ({
   heading,
   onSelectImagePickers,
   onSelectImagePicker,
-  defaultPicker = false
+  defaultPicker = false,
+  trashIcons=true,
 }: DropZoneImageProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [count, setCount] = useState(1)
@@ -41,6 +42,11 @@ const ImagePicker = ({
           }
           else {
             setPhoto([...result])
+            console.log(result,"rrrrr===>")
+              if( onSelectImagePickers && onSelectImagePickers){
+    onSelectImagePickers(result)
+    }
+
 
 
           }
@@ -74,6 +80,7 @@ const ImagePicker = ({
     setPhoto(updatedImageArray);
 
     // test creation
+    
     if (onSelectImagePickers && onSelectImagePickers) {
       const updatedProfile = updatedImageArray&& updatedImageArray.filter((element: any) => element.id !== 0)
       onSelectImagePickers( updatedProfile)
@@ -142,7 +149,6 @@ const ImagePicker = ({
                 setCount(count + 1)
                 updatedSelectedPhotos = [updatedPhoto, ...updatedSelectedPhotos]
 
-
               }
               ///we have use this on elseout
 
@@ -190,7 +196,7 @@ const ImagePicker = ({
               </div>
             </div>
             {/* index !== photo.length - 1 */}
-            {el.id !==0 &&(
+            {index !== photo.length - 1  &&(
               <div
                 className="justify-content-top"
                 style={{ marginLeft: "-13px", marginTop: "-7px" }}
