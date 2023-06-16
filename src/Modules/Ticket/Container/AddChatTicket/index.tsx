@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Modal, Input, Dropzone } from '@Components'
+import { Button, Modal, Input, Dropzone, ImagePicker } from '@Components'
 import { icons } from '@Assets'
 import {  refreshTaskEvents, refreshTicketEvents, addTicketEvent, } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
@@ -74,12 +74,12 @@ function AddChatTicket() {
         setPhoto([])
     };
 
-    const handleImagePicker = (index: number, file: any) => {
-        let updatedPhoto = [...selectDropzone, file]
-        let newUpdatedPhoto = [...photo, file]
-        setSelectDropzone(updatedPhoto)
-        setPhoto(newUpdatedPhoto)
-    }
+    // const handleImagePicker = (index: number, file: any) => {
+    //     let updatedPhoto = [...selectDropzone, file]
+    //     let newUpdatedPhoto = [...photo, file]
+    //     setSelectDropzone(updatedPhoto)
+    //     setPhoto(newUpdatedPhoto)
+    // }
 
     return (
         <>
@@ -97,8 +97,8 @@ function AddChatTicket() {
                 onClose={attachmentModal.hide}>
                 <div className='col-6'>
                     <Input heading={'Name'} value={attachmentName.value} onChange={attachmentName.onChange} />
-                    <div className='col'>
-                        <div className='row'>
+                    <div >
+                        {/* <div className='row'>
                             {selectDropzone && selectDropzone.map((el, index) => {
 
                                 return (
@@ -115,7 +115,33 @@ function AddChatTicket() {
                                     </div>
                                 )
                             })}
-                        </div>
+                        </div> */}
+                          <div className='row mt--4'>
+                        <ImagePicker
+                            noOfFileImagePickers={3}
+                            icon={image}
+                            size='xl'
+                            onSelect={(image) => {
+                                // let file = image.toString().replace(/^data:(.*,)?/, "")
+                                // handleImagePicker(file)
+                            }}
+
+                            onSelectImagePickers={(el)=>{
+                                let array: any = []
+          
+                                for (let i = 0; i <= el.length; i++) {
+                                  let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                  if(eventPickers !==undefined){
+                                  array.push(eventPickers)
+                                  }
+                                  
+                                }
+                                setPhoto(array)
+        
+                  
+                              }}
+                        />
+                    </div>
                     </div>
                     <div className=' pt-4'>
                         <Button text={translate("common.submit")}  onClick={addTicketEventAttachment} />

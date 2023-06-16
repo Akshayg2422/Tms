@@ -999,7 +999,7 @@ export const selectedVcDetails = (response: any) => {
 
 
 export const vcNotificationDetails = (response: any) => {
-  console.log("response090909===>",response)
+  console.log("response090909===>", response)
   return {
     type: ActionTypes.VC_NOTIFICATION_DETAILS,
     payload: response,
@@ -1007,4 +1007,77 @@ export const vcNotificationDetails = (response: any) => {
 }
 
 
+
+
+//post chat message
+
+export const postChatMessage = (params: any) => {
+  return {
+    type: ActionTypes.POST_CHAT_MESSAGE,
+    payload: params,
+  };
+};
+
+export const postChatMessageSuccess = (response: any) => {
+  return {
+    type: ActionTypes.POST_CHAT_MESSAGE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const postChatMessageFailure = (error: any) => {
+  return {
+    type: ActionTypes.POST_CHAT_MESSAGE_FAILURE,
+    payload: error,
+  };
+};
+
+
+//GET chat message
+
+export const fetchChatMessage = (params: any) => {
+  return {
+    type: ActionTypes.FETCH_CHAT_MESSAGE,
+    payload: params,
+  };
+};
+
+export const fetchChatMessageSuccess = (response: any) => {
+  return {
+    type: ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const fetchChatMessageFailure = (error: any) => {
+  return {
+    type: ActionTypes.FETCH_CHAT_MESSAGE_FAILURE,
+    payload: error,
+  };
+};
+
+
+
+//get chat employee list
+
+export const fetchChatEmployeeList = (params: any) => {
+  return {
+    type: ActionTypes.FETCH_CHAT_EMPLOYEE_LIST,
+    payload: params,
+  };
+};
+
+export const fetchChatEmployeeListSuccess = (response: any) => {
+  return {
+    type: ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_SUCCESS,
+    payload: response,
+  };
+};
+
+export const fetchChatEmployeeListFailure = (error: any) => {
+  return {
+    type: ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_FAILURE,
+    payload: error,
+  };
+};
 

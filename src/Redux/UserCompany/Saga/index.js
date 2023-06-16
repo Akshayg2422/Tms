@@ -87,13 +87,13 @@ function* addTicketTag(action) {
 */
 
 function* getDesignation(action) {
-  console.log(action,"acgtttttt")
+  console.log(action, "acgtttttt")
   try {
 
     const response = yield call(Api.fetchDesignationDataApi, action.payload.params);
 
     if (response.success) {
-      console.log(JSON.stringify(response.details),'success')
+      console.log(JSON.stringify(response.details), 'success')
       yield put(Action.getDesignationsSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
@@ -716,6 +716,63 @@ function* getEnableRequestSaga(action) {
     yield call(action.payload.onError(error));
   }
 }
+// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+// post chat message
+
+function* postChatMessageSaga(action) {
+  try {
+    const response = yield call(Api.postChatMessageApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.postChatMessageSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.postChatMessageFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.postChatMessageFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
+//get chat message
+
+function* fetchChatMessageSaga(action) {
+  try {
+    const response = yield call(Api.fetchChatMessageApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.fetchChatMessageSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.fetchChatMessageFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.fetchChatMessageFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
+//get chat employee list
+
+function* fetchChatEmployeeListSaga(action) {
+  try {
+    const response = yield call(Api.fetchChatEmployeeListApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.fetchChatEmployeeListSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.fetchChatEmployeeListFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.fetchChatEmployeeListFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
 
 function* UserCompanySaga() {
 
@@ -756,6 +813,10 @@ function* UserCompanySaga() {
   yield takeLatest(Action.EMPLOYEE_TIMELINE_STATUS, employeeTimeLineStatusSaga)
   yield takeLatest(Action.GET_ENABLE_REQUEST, getEnableRequestSaga)
   yield takeLatest(Action.ADD_ENABLE_REQUEST, addEnableRequestSaga)
+
+  yield takeLatest(Action.POST_CHAT_MESSAGE, postChatMessageSaga)
+  yield takeLatest(Action.FETCH_CHAT_MESSAGE, fetchChatMessageSaga)
+  yield takeLatest(Action.FETCH_CHAT_EMPLOYEE_LIST, fetchChatEmployeeListSaga)
 
 }
 

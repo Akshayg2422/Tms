@@ -33,6 +33,10 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const { raised_by_company } = taskDetails || {};
     const userModal = useModal(false)
     console.log('dashboardDetails---------->', dashboardDetails);
+    const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
+
+
+
     let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
         const { id, attachment_file } = el
         return {
@@ -53,8 +57,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                 }
             })
         }
-    }
-    console.log("====dashboard==", dashboardDetails)
+    }   
     const getGroupMessageApi = (page_number: number) => {
         setLoading(true)
         const params = {
@@ -125,7 +128,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
         return modifiedData
     }
 
-    let attach = photo.slice(-2, 4)
+    let attach = photo.slice(-selectedNoOfPickers)
 
     const handleImagePicker = (file: any) => {
         let newUpdatedPhoto = [...photo, file];
@@ -136,7 +139,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
         const params = {
             id: selectMessage?.id,
             edited_message: message?.value,
-            group_attachments: [{ name: message?.value, attachments: photo }],
+            group_attachments: [{ name: message?.value, attachments: attach }],
         }
 
         dispatch(
@@ -340,27 +343,42 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             })}
                     </div> */}
 
-<div className="col-auto pb-2">
-                <div className="row">
-                <ImagePicker
-                   defaultPicker={true}
-                   defaultValue={ AttachmentEdit }
-                    size='xl'
-                    heading= {translate("auth.attach")!}
-                    noOfFileImagePickers={3}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                         handleImagePicker(file)
-                       
-                    }}
-                
-                   
-                />
+                    <div className="col-auto pb-2">
+                        <div className="row">
+                            <ImagePicker
+                                defaultPicker={true}
+                                defaultValue={AttachmentEdit}
+                                size='xl'
+                                heading={translate("auth.attach")!}
+                                onSelect={(image) => {
+                                    let file = image.toString().replace(/^data:(.*,)?/, "")
+                                    handleImagePicker(file)
+                                }}
 
-                </div>
-              
+                                onSelectImagePicker={(el) => {
+                                    setSelectedNoOfPickers(el?.length)
+                    
+                                  }}
+                                  onSelectImagePickers={(el)=>{
+                                    let array: any = []
+                    
+                                    for (let i = 0; i <= el.length; i++) {
+                        
+                                      let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                      if(editPickers!==undefined){
+                                      array.push(editPickers)
+                                      }
+                                      
+                                    }
+                                    setPhoto(array)
+                      
+                                  }}
+                            />
 
-            </div>
+                        </div>
+
+
+                    </div>
                 </div>
 
                 <div className="row justify-content-end">

@@ -64,9 +64,9 @@ function AddTicket() {
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
-    const [selectNoOfPickers, setSelectNoOfPickers] = useState<any>()
+    // const [selectNoOfPickers, setSelectNoOfPickers] = useState<any>()
     const [loading, setLoading] = useState(false)
-    let attach = photo.slice(-selectNoOfPickers)
+    // let attach = photo.slice(-selectNoOfPickers)
     const [date, setDate] = useState<any>(moment().format())
 
 
@@ -90,10 +90,10 @@ function AddTicket() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = (file: any) => {
-        let newUpdatedPhoto = [...photo, file];
-        setPhoto(newUpdatedPhoto);
-    };
+    // const handleImagePicker = (file: any) => {
+    //     let newUpdatedPhoto = [...photo, file];
+    //     setPhoto(newUpdatedPhoto);
+    // };
 
     function getCompanyEmployeeApi() {
 
@@ -125,7 +125,7 @@ function AddTicket() {
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
-            ticket_attachments: [{ attachments: attach }],
+            ticket_attachments: [{ attachments:photo}],
             ...(department && { department_id: department?.value?.id }),
             ...(designation && { designation_id: designation?.value?.id }),
            ...(eta && {eta_time: eta}),
@@ -241,16 +241,28 @@ function AddTicket() {
                         icon={image}
                         size='xl'
                         heading={translate("common.addAttachment")!}
-                        noOfFileImagePickers={4}
+                        noOfFileImagePickers={3}
                         onSelect={(image) => {
 
-                            let file = image.toString().replace(/^data:(.*,)?/, "")
-                            handleImagePicker(file)
+                            // let file = image.toString().replace(/^data:(.*,)?/, "")
+                            // handleImagePicker(file)
                         }}
-                        onSelectImagePicker={(el) => {
-                            setSelectNoOfPickers(el?.length)
+                        // onSelectImagePicker={(el) => {
+                        //     setSelectNoOfPickers(el?.length)
+                        // }}
+                        onSelectImagePickers={(el)=>{
+                            let array: any = []
+      
+                            for (let i = 0; i <= el.length; i++) {
+                              let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                              if(eventPickers !==undefined){
+                              array.push(eventPickers)
+                              }
+                              
+                            }
+                            setPhoto(array)
 
-                        }}
+                          }}
                     />
 
                 </div>

@@ -14,7 +14,8 @@ const ImagePicker = ({
   heading,
   onSelectImagePickers,
   onSelectImagePicker,
-  defaultPicker = false
+  defaultPicker = false,
+  trashIcons = false,
 }: DropZoneImageProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [count, setCount] = useState(1)
@@ -22,6 +23,12 @@ const ImagePicker = ({
   const [photo, setPhoto] = useState<any>()
 
   const updatedProfile = photo && photo.filter((element: any) => element.id !== 0)
+  if (onSelectImagePicker && onSelectImagePicker) {
+    onSelectImagePicker(updatedProfile)
+  }
+  // if( onSelectImagePickers && onSelectImagePickers){
+  //   onSelectImagePickers(updatedProfile)
+  //   }
 
   useEffect(() => {
 
@@ -35,6 +42,12 @@ const ImagePicker = ({
           }
           else {
             setPhoto([...result])
+            if (onSelectImagePickers && onSelectImagePickers) {
+              onSelectImagePickers(result)
+            }
+
+
+
           }
         })
         .catch((error) => {
@@ -56,16 +69,32 @@ const ImagePicker = ({
     if (el.id > 0) {
       setCount(el.id)
     }
-
-
   }
 
   //we have to this for edit
   const imagePickers = (value: any) => {
     const updatedSelectedImage = [...photo];
-    const updatedImageArray = updatedSelectedImage.filter((filterItem: any) => filterItem.id !== value.id);
+    const updatedImageArray: any = updatedSelectedImage.filter((filterItem: any) => filterItem.id !== value.id);
     setCount(value.id)
-    setPhoto(updatedImageArray);
+    const isSelected = updatedSelectedImage.some((filterItem: any) => filterItem.id === 0);
+    if (isSelected) {
+      setPhoto(updatedImageArray)
+
+    }
+    else {
+      setPhoto([...updatedImageArray, { id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }]);
+
+    }
+
+
+    // test creation
+
+    if (onSelectImagePickers && onSelectImagePickers) {
+      const updatedProfile = updatedImageArray && updatedImageArray.filter((element: any) => element.id !== 0)
+      onSelectImagePickers(updatedProfile)
+    }
+
+
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,8 +123,15 @@ const ImagePicker = ({
                   (filterItem: any) => filterItem.id !== 0
                 );
                 setPhoto(updatedSelectedPhotos)
+                //test creation
+                if (onSelectImagePickers && onSelectImagePickers) {
+
+                  const updatedProfile = updatedSelectedPhotos && updatedSelectedPhotos.filter((element: any) => element.id !== 0)
+                  onSelectImagePickers(updatedProfile)
+                }
 
               }
+
               const ifExist = updatedSelectedPhotos.some(
                 (el: any) => el.id === updatedPhoto?.id
               );
@@ -108,9 +144,11 @@ const ImagePicker = ({
                 );
                 updatedSelectedPhotos = [{ id: updatedPhoto?.id, base64: e.target?.result }, ...updatedSelectedPhotos]
                 setCount(photo.length + 1 - 1)
-                if (onSelectImagePickers && onSelectImagePickers) {
-                  onSelectImagePickers(updatedSelectedPhotos)
-                }
+
+                //this we not to use because is react some bucke
+                // if(  onSelectImagePickers  && onSelectImagePickers){
+                // onSelectImagePickers(updatedSelectedPhotos)
+                // }
 
               }
 
@@ -118,8 +156,19 @@ const ImagePicker = ({
               else {
                 setCount(count + 1)
                 updatedSelectedPhotos = [updatedPhoto, ...updatedSelectedPhotos]
+
               }
+              ///we have use this on elseout
+
               setPhoto(updatedSelectedPhotos)
+
+              if (onSelectImagePickers && onSelectImagePickers) {
+                const updatedProfile = updatedSelectedPhotos && updatedSelectedPhotos.filter((element: any) => element.id !== 0)
+                onSelectImagePickers(updatedProfile)
+              }
+
+
+
             }
           };
           reader.readAsDataURL(file);
@@ -154,7 +203,8 @@ const ImagePicker = ({
                 />
               </div>
             </div>
-            {index !== photo.length - 1 && (
+            {/* index !== photo.length - 1 */}
+            {trashIcons === true ? index !== photo.length - 1 : el.id !== 0 && (
               <div
                 className="justify-content-top"
                 style={{ marginLeft: "-13px", marginTop: "-7px" }}

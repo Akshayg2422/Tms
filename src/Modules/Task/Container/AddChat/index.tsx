@@ -83,12 +83,12 @@ function AddChat() {
         setPhoto([])
     };
 
-    const handleImagePicker = (file: any) => {
-        let updatedPhoto = [...selectDropzone, file]
-        let newUpdatedPhoto = [...photo, file]
-        setSelectDropzone(updatedPhoto)
-        setPhoto(newUpdatedPhoto)
-    }
+    // const handleImagePicker = (file: any) => {
+    //     let updatedPhoto = [...selectDropzone, file]
+    //     let newUpdatedPhoto = [...photo, file]
+    //     setSelectDropzone(updatedPhoto)
+    //     setPhoto(newUpdatedPhoto)
+    // }
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -116,13 +116,28 @@ function AddChat() {
                     <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
                     <div className='row mt--4'>
                         <ImagePicker
-                            noOfFileImagePickers={0}
+                            noOfFileImagePickers={3}
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-                                let file = image.toString().replace(/^data:(.*,)?/, "")
-                                handleImagePicker(file)
+                                // let file = image.toString().replace(/^data:(.*,)?/, "")
+                                // handleImagePicker(file)
                             }}
+
+                            onSelectImagePickers={(el)=>{
+                                let array: any = []
+          
+                                for (let i = 0; i <= el.length; i++) {
+                                  let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                  if(eventPickers !==undefined){
+                                  array.push(eventPickers)
+                                  }
+                                  
+                                }
+                                setPhoto(array)
+        
+                  
+                              }}
                         />
                     </div>
                 </div>

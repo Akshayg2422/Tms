@@ -79,7 +79,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         const params = {
             event_type: MEA,
              group_id: AddGroup,
-            group_attachments: [{ name: attachmentName.value, attachments: attach }],
+            group_attachments: [{ name: attachmentName.value, attachments: photo }],
         };
 
         if (ifObjectExist(validation)) {
@@ -106,13 +106,13 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         setSelectDropzone([{}]);
         setPhoto([])
     };
-    let attach = photo.slice(-selectedNoOfPickers)
-    const handleImagePicker = (file: any) => {
-        let updatedPhoto = [...selectDropzone, file]
-        let newUpdatedPhoto = [...photo, file]
-        setSelectDropzone(updatedPhoto)
-        setPhoto(newUpdatedPhoto)
-    }
+    // let attach = photo.slice(-selectedNoOfPickers)
+    // const handleImagePicker = (file: any) => {
+    //     let updatedPhoto = [...selectDropzone, file]
+    //     let newUpdatedPhoto = [...photo, file]
+    //     setSelectDropzone(updatedPhoto)
+    //     setPhoto(newUpdatedPhoto)
+    // }
 
     // let attach = photo.slice(-selectedNoOfPickers)
 
@@ -160,17 +160,30 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                     <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
                     <div className='row mt--4'>
                         <ImagePicker
-                            noOfFileImagePickers={3}
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-                                let file = image.toString().replace(/^data:(.*,)?/, "")
-                                handleImagePicker(file)
+                                // let file = image.toString().replace(/^data:(.*,)?/, "")
+                                // handleImagePicker(file)
                             }}
 
-                            onSelectImagePicker={(el) => {
-                                setSelectedNoOfPickers(el?.length)
+                            // onSelectImagePicker={(el) => {
+                            //     setSelectedNoOfPickers(el?.length)
                 
+                            //   }}
+
+                              onSelectImagePickers={(el)=>{
+                                let array: any = []
+          
+                                for (let i = 0; i <= el.length; i++) {
+                                  let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                  if(eventPickers !==undefined){
+                                  array.push(eventPickers)
+                                  }
+                                  
+                                }
+                                setPhoto(array)
+    
                               }}
                         />
                     </div>

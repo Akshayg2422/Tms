@@ -18,8 +18,8 @@ import {
     ifObjectExist,
     validate,
     getArrayFromArrayOfObject,
-    getMomentObjFromServer,
-    getServerTimeFromMoment,
+    // getMomentObjFromServer,
+    // getServerTimeFromMoment,
     ADD_EVENT_EXTERNAL_RULES,
     ADD_EVENT_INTERNAL_RULES
 } from "@Utils";
@@ -37,8 +37,8 @@ function AddEvent() {
     const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
     const [photo, setPhoto] = useState<any>([]);
     const [selectedCompanies, setSelectedCompanies] = useState<any>([]);
-    const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
-    const [image, setImage] = useState("");
+    // const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
+    // const [image, setImage] = useState("");
     const [startTime, setStartTime] = useState<any>("")
     const [endTime, setEndTime] = useState<any>("")
     const title = useInput("");
@@ -60,12 +60,12 @@ function AddEvent() {
     };
 
 
-    let attach = photo.slice(-selectedNoOfPickers)
+    // let attach = photo.slice(-selectedNoOfPickers)
 
-    const handleImagePicker = ( file: any) => {
-      let newUpdatedPhoto = [...photo, file];
-      setPhoto(newUpdatedPhoto);
-    };
+    // const handleImagePicker = ( file: any) => {
+    //   let newUpdatedPhoto = [...photo, file];
+    //   setPhoto(newUpdatedPhoto);
+    // };
 
 
 
@@ -83,7 +83,7 @@ function AddEvent() {
             }),
             ...(internalCheck && { for_internal_company: true }),
             ...(externalCheck && { for_external_company: true }),
-            event_attachments: [{ attachments:  attach }],
+            event_attachments: [{ attachments: photo}],
         };
 
         const validation = validate(externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);
@@ -257,15 +257,32 @@ function AddEvent() {
                 <ImagePicker
                     size='xl'
                     heading= {translate("auth.attach")!}
-                    noOfFileImagePickers={1}
+                    noOfFileImagePickers={3}
                     onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        handleImagePicker(file)
+                        // let file =image.toString().replace(/^data:(.*,)?/, "")
+                        // handleImagePicker(file)
                     }}
-                    onSelectImagePicker={(el)=>{
-                      setSelectedNoOfPickers(el?.length)
+                    // onSelectImagePicker={(el)=>{
+                    //   setSelectedNoOfPickers(el?.length)
 
-                    }}
+                    // }}
+
+                    onSelectImagePickers={(el)=>{
+                    
+
+                        let array: any = []
+  
+                        for (let i = 0; i <= el.length; i++) {
+                          let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                          if(eventPickers !==undefined){
+                          array.push(eventPickers)
+                          }
+                          
+                        }
+                        setPhoto(array)
+
+          
+                      }}
                 />
 
                 </div>
