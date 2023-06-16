@@ -74,9 +74,18 @@ const ImagePicker = ({
   //we have to this for edit
   const imagePickers = (value: any) => {
     const updatedSelectedImage = [...photo];
-    const updatedImageArray = updatedSelectedImage.filter((filterItem: any) => filterItem.id !== value.id);
+    const updatedImageArray :any= updatedSelectedImage.filter((filterItem: any) => filterItem.id !== value.id);
     setCount(value.id)
-    setPhoto(updatedImageArray);
+    const isSelected = updatedSelectedImage.some((filterItem: any) => filterItem.id ===0 );
+    if(isSelected){
+      setPhoto(updatedImageArray)
+
+    }
+    else{
+      setPhoto([...updatedImageArray,{ id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }]);
+
+    }
+  
 
     // test creation
     
