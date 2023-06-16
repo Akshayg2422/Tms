@@ -48,7 +48,7 @@ function AdminFeeds() {
 
   })
 
-  console.log(photo, "pppppppppp")
+  // console.log(photo, "pppppppppp")
   // console.log(AttachmentEdit, "aaaaaaaaaaaa")
 
   const MY_FEED_MENU = [
@@ -120,12 +120,12 @@ function AdminFeeds() {
 
 
 
-  let attach = photo.slice(-selectedNoOfPickers)
+  // let attach = photo.slice(-selectedNoOfPickers)
 
-  const handleImagePicker = (file: any) => {
-    let newUpdatedPhoto = [...photo, file];
-    setPhoto(newUpdatedPhoto);
-  };
+  // const handleImagePicker = (file: any) => {
+  //   let newUpdatedPhoto = [...photo, file];
+  //   setPhoto(newUpdatedPhoto);
+  // };
 
   function proceedDeleteHandler() {
     const params = {
@@ -164,7 +164,7 @@ function AdminFeeds() {
       }),
       ...(internalCheck && { for_internal_company: true }),
       ...(externalCheck && { for_external_company: true }),
-      broadcast_attachments: [{ attachments: attach }],
+      broadcast_attachments: [{ attachments: photo }],
     };
 
     console.log(JSON.stringify(params), "===---????")
@@ -366,7 +366,7 @@ function AdminFeeds() {
               );
             })}
         </div> */}
-        <div className="col-auto pb-2">
+        <div className="col-auto pb-2  mt--4">
           <div className="row">
             <ImagePicker
               defaultPicker={true}
@@ -375,14 +375,14 @@ function AdminFeeds() {
               size='xl'
               heading={translate("auth.attach")!}
               onSelect={(image) => {
-                let file = image.toString().replace(/^data:(.*,)?/, "")
-                handleImagePicker(file)
+                // let file = image.toString().replace(/^data:(.*,)?/, "")
+                // handleImagePicker(file)
 
               }}
-              onSelectImagePicker={(el) => {
-                setSelectedNoOfPickers(el?.length)
+              // onSelectImagePicker={(el) => {
+              //   setSelectedNoOfPickers(el?.length)
 
-              }}
+              // }}
               onSelectImagePickers={(el) => {
                 let array: any = []
 

@@ -15,7 +15,6 @@ function IndividualChat() {
 
 
     const [chatText, setChatText] = useState<any>("")
-    const [selectedBatchGroup, setSelectedBatchGroup] = useState<any>()
     const [selectedUserDetails, setSelectedUserDetails] = useState<any>()
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
@@ -38,17 +37,15 @@ function IndividualChat() {
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
 
-    console.log(photo,"ppp===>")
+    // let attach = photo.slice(-selectedNoOfPickers)
 
-    let attach = photo.slice(-selectedNoOfPickers)
-
-    console.log("aatta",attach)
-    const handleImagePicker = (file: any) => {
+    // console.log("aatta",attach)
+    // const handleImagePicker = (file: any) => {
         // let updatedPhoto = [...selectDropzone, file]
-        let newUpdatedPhoto = [...photo, file]
+        // let newUpdatedPhoto = [...photo, file]
         // setSelectDropzone(updatedPhoto)
-        setPhoto(newUpdatedPhoto)
-    }
+        // setPhoto(newUpdatedPhoto)
+    // }
     // console.log(photo,"ppppppppppp")
     // console.log(attach,"aaaaaaaa")
 
@@ -164,7 +161,7 @@ function IndividualChat() {
         const params = {
             event_type: "MEA",
             receiver_by: selectedUserDetails?.id,
-            chat_attachments: [{ name: attachmentName.value, attachments:attach }],
+            chat_attachments: [{ name: attachmentName.value, attachments:photo }],
         };
 
         if (true) {
@@ -714,10 +711,10 @@ function IndividualChat() {
                                 //  handleImagePicker(file)
                             }}
 
-                            onSelectImagePicker={(el) => {
-                                setSelectedNoOfPickers(el?.length)
+                            // onSelectImagePicker={(el) => {
+                            //     setSelectedNoOfPickers(el?.length)
 
-                            }}
+                            // }}
 
                             onSelectImagePickers={(el)=>{
                                 let array: any = []

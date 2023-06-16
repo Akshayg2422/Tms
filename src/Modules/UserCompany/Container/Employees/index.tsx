@@ -28,7 +28,7 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
         const params = {
             ...(otherParams && { ...otherParams }),
             q_many,
-            page_number:-1
+            per_page_count: -1,
         }
         dispatch(
             getEmployees({

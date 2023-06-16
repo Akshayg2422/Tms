@@ -35,23 +35,23 @@ function CreateBroadCast() {
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
   const [selectedCompanies, setSelectedCompanies] = useState<any>([]);
-  const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
-  const [image, setImage] = useState("");
+  // const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
+  // const [image, setImage] = useState("");
   const title = useInput("");
   const description = useInput("");
 
   const [internalCheck, setInternalCheck] = useState(true)
   const [externalCheck, setExternalCheck] = useState(false)
   const [isExternalDisable, setExternalDisable] = useState(false)
-  const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
+  // const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
 
 
-  let attach = photo.slice(-selectedNoOfPickers)
+  // let attach = photo.slice(-selectedNoOfPickers)
 
-  const handleImagePicker = (file: any) => {
-    let newUpdatedPhoto = [...photo, file];
-    setPhoto(newUpdatedPhoto);
-  };
+  // const handleImagePicker = (file: any) => {
+  //   let newUpdatedPhoto = [...photo, file];
+  //   setPhoto(newUpdatedPhoto);
+  // };
 
   const submitTicketHandler = () => {
 
@@ -63,7 +63,7 @@ function CreateBroadCast() {
       }),
       ...(internalCheck && { for_internal_company: true }),
       ...(externalCheck && { for_external_company: true }),
-      broadcast_attachments: [{ attachments: attach }],
+      broadcast_attachments: [{ attachments:photo }],
     };
 
 
@@ -104,8 +104,6 @@ function CreateBroadCast() {
       })
     );
   }, []);
-
-  console.log("selectedCompanies-->", selectedCompanies)
 
 
   const getCompanyBranchDropdown = (details: any) => {
@@ -214,20 +212,37 @@ function CreateBroadCast() {
             })}
         </div> */}
 
-        <div className="col-auto pb-2">
+        <div className="col-auto pb-2  mt--4">
           <div className="row">
             <ImagePicker
               size='xl'
               heading={translate("auth.attach")!}
               noOfFileImagePickers={3}
               onSelect={(image) => {
-                let file = image.toString().replace(/^data:(.*,)?/, "")
-                handleImagePicker(file)
+                // let file = image.toString().replace(/^data:(.*,)?/, "")
+                // handleImagePicker(file)
               }}
-              onSelectImagePicker={(el) => {
-                setSelectedNoOfPickers(el?.length)
+              // onSelectImagePicker={(el) => {
+              //   setSelectedNoOfPickers(el?.length)
+
+              // }}
+
+              onSelectImagePickers={(el) => {
+                let array: any = []
+
+                for (let i = 0; i <= el.length; i++) {
+
+                  let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                  if (editPickers !== undefined) {
+                    array.push(editPickers)
+                  }
+
+                }
+                setPhoto(array)
 
               }}
+
+
             />
 
           </div>

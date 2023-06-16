@@ -46,14 +46,14 @@ function Events() {
   const [selectedEvent, setSelectedEvent] = useState<any>(undefined)
   const deleteEventModal = useModal(false)
   const editEventModal = useModal(false)
-  const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
+  // const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
  
-  let attach = photo.slice(-selectedNoOfPickers)
+  // let attach = photo.slice(-selectedNoOfPickers)
 
-  const handleImagePicker = ( file: any) => {
-    let newUpdatedPhoto = [file];
-    setPhoto(newUpdatedPhoto);
-  };
+  // const handleImagePicker = ( file: any) => {
+  //   let newUpdatedPhoto = [file];
+  //   setPhoto(newUpdatedPhoto);
+  // };
 
 
   useEffect(() => {
@@ -140,7 +140,7 @@ function Events() {
       }),
       ...(internalCheck && { for_internal_company: true }),
       ...(externalCheck && { for_external_company: true }),
-      event_attachments: [{ attachments: attach }],
+      event_attachments: [{ attachments:photo }],
     };
 
     const validation = validate(externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);
@@ -388,17 +388,17 @@ function Events() {
                    defaultValue={AttachmentEdit}
                     size='xl'
                     heading= {translate("auth.attach")!}
-                    noOfFileImagePickers={2}
+                    noOfFileImagePickers={3}
                     onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                         handleImagePicker(file)
+                        // let file =image.toString().replace(/^data:(.*,)?/, "")
+                        //  handleImagePicker(file)
                        
                     }}
-                    onSelectImagePicker={(el)=>{
+                    // onSelectImagePicker={(el)=>{
                   
-                      setSelectedNoOfPickers(el?.length)
+                    //   setSelectedNoOfPickers(el?.length)
 
-                    }}
+                    // }}
 
                     onSelectImagePickers={(el)=>{
                     
@@ -406,7 +406,6 @@ function Events() {
                       let array: any = []
 
                       for (let i = 0; i <= el.length; i++) {
-          
                         let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
                         if(editPickers!==undefined){
                         array.push(editPickers)
