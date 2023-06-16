@@ -42,7 +42,7 @@ function CreateCompany({ }: CreateCompanyProps) {
   const companyContactNumber = useInput("");
 
 
- 
+
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -67,16 +67,13 @@ function CreateCompany({ }: CreateCompanyProps) {
       mobile_number2: companyContactNumber.value,
       attachment_logo: photo,
     });
-    console.log("validation",validation)
+    console.log("validation", validation)
     if (ifObjectExist(validation)) {
       dispatch(
         registerAdmin({
           params,
           onSuccess: (response: any) => () => {
             onRegisterCompany();
-            if (response.success) {
-              showToast(response.message, "success");
-            }
           },
           onError: (error) => {
             showToast(error.error_message, "info");
@@ -96,7 +93,7 @@ function CreateCompany({ }: CreateCompanyProps) {
       pincode: pinCode.value,
       mobile_number1: contactNumber.value,
       mobile_number2: companyContactNumber.value,
-      attachment_logo:photo,
+      attachment_logo: photo,
     };
 
     dispatch(
@@ -145,29 +142,29 @@ function CreateCompany({ }: CreateCompanyProps) {
           }}
         />
       </div> */}
-        <div className="col-auto pb-2">
-                <div className="row">
-                <ImagePicker
-                    // icon={image}
-                    size='xl'
-                    heading={translate("auth.logo")!}
-                    noOfFileImagePickers={0}
-                    onSelect={(image) => {
-                        let file =image.toString().replace(/^data:(.*,)?/, "")
-                        setPhoto(file);
-                       
-                    
-                    }}
-                    onSelectImagePicker={(el)=>{
-                       
+      <div className="col-auto pb-2">
+        <div className="row">
+          <ImagePicker
+            // icon={image}
+            size='xl'
+            heading={translate("auth.logo")!}
+            noOfFileImagePickers={0}
+            onSelect={(image) => {
+              let file = image.toString().replace(/^data:(.*,)?/, "")
+              setPhoto(file);
 
-                    }}
-                />
 
-                </div>
-              
+            }}
+            onSelectImagePicker={(el) => {
 
-            </div>
+
+            }}
+          />
+
+        </div>
+
+
+      </div>
 
       <div className="col-md-9 col-lg-5">
         <Input

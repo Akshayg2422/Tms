@@ -70,7 +70,7 @@ function AddTask() {
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
-    let attach = photo.slice(-selectNoPickers)
+    // let attach = photo.slice(-selectNoPickers)
     const [date, setDate] = useState<any>(moment().format())
 
     useEffect(() => {
@@ -96,10 +96,10 @@ function AddTask() {
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
 
-    const handleImagePicker = (file: any) => {
-        let newUpdatedPhoto = [...photo, file];
-        setPhoto(newUpdatedPhoto);
-    };
+    // const handleImagePicker = (file: any) => {
+    //     let newUpdatedPhoto = [...photo, file];
+    //     setPhoto(newUpdatedPhoto);
+    // };
 
     function getCompanyEmployeeApi() {
 
@@ -130,7 +130,7 @@ function AddTask() {
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
-            task_attachments: [{ attachments: attach }],
+            task_attachments: [{ attachments: photo }],
             is_parent: true,
             eta_time: eta,
             group_id: taskGroup?.value?.id,
@@ -264,16 +264,30 @@ function AddTask() {
                         icon={image}
                         size='xl'
                         heading={translate("common.addAttachment")!}
-                        noOfFileImagePickers={4}
+                        noOfFileImagePickers={3}
                         onSelect={(image) => {
-                            let file = image.toString().replace(/^data:(.*,)?/, "")
-                            handleImagePicker(file)
+                            // let file = image.toString().replace(/^data:(.*,)?/, "")
+                            // handleImagePicker(file)
 
                         }}
-                        onSelectImagePicker={(el) => {
-                            setSelectNoPickers(el?.length)
+                        // onSelectImagePicker={(el) => {
+                        //     setSelectNoPickers(el?.length)
 
-                        }}
+                        // }}
+
+                        onSelectImagePickers={(el)=>{
+                            let array: any = []
+      
+                            for (let i = 0; i <= el.length; i++) {
+                              let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                              if(eventPickers !==undefined){
+                              array.push(eventPickers)
+                              }
+                              
+                            }
+                            setPhoto(array)
+
+                          }}
                     />
 
                 </div>

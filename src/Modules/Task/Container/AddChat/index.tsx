@@ -26,7 +26,7 @@ function AddChat() {
         if (message.value) {
 
             const params = {
-                code:id,
+                code: id,
                 message: message.value,
                 event_type: TEM
             }
@@ -52,14 +52,14 @@ function AddChat() {
 
     const addTaskEventAttachment = () => {
         const validation = validate(TASK_ATTACHMENT_RULES, {
-            attachments: [{ attachment: photo }],
-            name: attachmentName.value
+            name: attachmentName.value,
+            attachments: photo.length > 0 ? [{ attachment: photo }] : ''
         })
         const params = {
             event_type: MEA,
-          code:id,
-            attachments: [{ attachment: photo }],
-            name: attachmentName.value
+            code: id,
+            name: attachmentName.value,
+            attachments: [{ attachment: photo }]
         };
         if (ifObjectExist(validation)) {
             dispatch(
@@ -83,12 +83,12 @@ function AddChat() {
         setPhoto([])
     };
 
-    const handleImagePicker = (file: any) => {
-        let updatedPhoto = [...selectDropzone, file]
-        let newUpdatedPhoto = [...photo, file]
-        setSelectDropzone(updatedPhoto)
-        setPhoto(newUpdatedPhoto)
-    }
+    // const handleImagePicker = (file: any) => {
+    //     let updatedPhoto = [...selectDropzone, file]
+    //     let newUpdatedPhoto = [...photo, file]
+    //     setSelectDropzone(updatedPhoto)
+    //     setPhoto(newUpdatedPhoto)
+    // }
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -116,13 +116,28 @@ function AddChat() {
                     <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
                     <div className='row mt--4'>
                         <ImagePicker
-                            noOfFileImagePickers={0}
+                            noOfFileImagePickers={3}
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-                                let file = image.toString().replace(/^data:(.*,)?/, "")
-                                handleImagePicker(file)
+                                // let file = image.toString().replace(/^data:(.*,)?/, "")
+                                // handleImagePicker(file)
                             }}
+
+                            onSelectImagePickers={(el)=>{
+                                let array: any = []
+          
+                                for (let i = 0; i <= el.length; i++) {
+                                  let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                  if(eventPickers !==undefined){
+                                  array.push(eventPickers)
+                                  }
+                                  
+                                }
+                                setPhoto(array)
+        
+                  
+                              }}
                         />
                     </div>
                 </div>

@@ -9,20 +9,20 @@ import { translate } from '@I18n'
 import { useDropDown } from '@Hooks'
 
 
-function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaultSelect ,selectedCode}: GroupEmployeesProps) {
+function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaultSelect, selectedCode }: GroupEmployeesProps) {
 
-    const { employees,  departments, designations , associatedCompaniesL} = useSelector((state: any) => state.UserCompanyReducer);
+    const { employees, departments, designations, associatedCompaniesL } = useSelector((state: any) => state.UserCompanyReducer);
     const [selectedEmployee, setSelectedEmployee] = useState<any>(defaultSelect)
     const [companies, setCompanies] = useState<any>()
     const company = useDropDown({})
-    const department = useDropDown({id:'ALL',text:'All'})
-    const designation = useDropDown({id:'ALL',text:'All'})
+    const department = useDropDown({ id: 'ALL', text: 'All' })
+    const designation = useDropDown({ id: 'ALL', text: 'All' })
     const dispatch = useDispatch()
 
 
-const modifiedDepartmentData= departments ? [{id:'ALL',name:'All'},...departments]: [{id:'ALL',name:'All'}]
-const modifiedDesignationData= designations ? [{id:'ALL',name:'All'},...designations]:[{id:'ALL',name:'All'}]
-const modifiedCompany=associatedCompaniesL && associatedCompaniesL.length>0 &&[{ id: '',display_name: '𝗦𝗘𝗟𝗙', name: 'self' },...associatedCompaniesL ]
+    const modifiedDepartmentData = departments ? [{ id: 'ALL', name: 'All' }, ...departments] : [{ id: 'ALL', name: 'All' }]
+    const modifiedDesignationData = designations ? [{ id: 'ALL', name: 'All' }, ...designations] : [{ id: 'ALL', name: 'All' }]
+    const modifiedCompany = associatedCompaniesL && associatedCompaniesL.length > 0 && [{ id: '', display_name: '𝗦𝗘𝗟𝗙', name: 'self' }, ...associatedCompaniesL]
 
 
     useEffect(() => {
@@ -54,16 +54,16 @@ const modifiedCompany=associatedCompaniesL && associatedCompaniesL.length>0 &&[{
         );
 
     }, []);
-useEffect(()=>{
+    useEffect(() => {
 
-    getGroupEmployees() 
-},[])
+        getGroupEmployees()
+    }, [])
 
     const getGroupEmployees = () => {
 
         const params = {
             group_id: selectedCode,
-        
+
         }
         if (selectedCode) {
             dispatch(
@@ -86,28 +86,28 @@ useEffect(()=>{
 
     useEffect(() => {
         setSelectedEmployee(defaultSelect)
-      
+
     }, [defaultSelect])
 
     useEffect(() => {
-       
-        if(company?.value?.id===''||company?.value?.id){
-     
-        getEmployeeApi()
-      
+
+        if (company?.value?.id === '' || company?.value?.id) {
+
+            getEmployeeApi()
+
         }
-    
-       
-    }, [company?.value?.id,department?.value?.id,designation?.value?.id])
+
+
+    }, [company?.value?.id, department?.value?.id, designation?.value?.id])
 
 
 
     const getDesignation = (items: any) => {
-   
+
 
         if (items.id) {
 
-       
+
             const params = {
                 branch_id: items.id,
                 per_page_count: -1,
@@ -117,7 +117,7 @@ useEffect(()=>{
                 getDesignations({
                     params,
                     onSuccess: (response) => () => {
-                       
+
                     },
                     onError: () => () => {
                     },
@@ -128,9 +128,9 @@ useEffect(()=>{
     }
 
     const getDepartment = (items: any) => {
-     
+
         if (items.id) {
-       
+
             const params = {
                 branch_id: items.id,
                 per_page_count: -1,
@@ -141,7 +141,7 @@ useEffect(()=>{
                     onSuccess: (response: any) => () => {
                     },
                     onError: (error) => () => {
-                       
+
                     },
                 })
             );
@@ -151,23 +151,23 @@ useEffect(()=>{
 
     const getEmployeeApi = (q_many: string = '') => {
 
-        
+
         const params = {
             ...(otherParams && { ...otherParams }),
             q_many,
             per_page_count: -1,
             ...(company?.value?.id && { branch_id: company.value.id }),
-            ...(department?.value?.id&& { department_id: department?.value?.id }),
+            ...(department?.value?.id && { department_id: department?.value?.id }),
             ...(designation?.value?.id && { designation_id: designation?.value?.id })
         }
         dispatch(
             getEmployees({
                 params,
                 onSuccess: () => () => {
-                  
+
                 },
-                onError: () => () => { 
-                   
+                onError: () => () => {
+
                 }
             })
         )
@@ -176,7 +176,7 @@ useEffect(()=>{
 
     function proceedSelectEmployee(item: any) {
 
-        let updatedSelectedEmployee = (selectedEmployee && selectedEmployee.length>0) ? [...selectedEmployee] : []
+        let updatedSelectedEmployee = (selectedEmployee && selectedEmployee.length > 0) ? [...selectedEmployee] : []
         if (selection === 'single') {
             updatedSelectedEmployee = [item] as never
             if (onSelected) {
@@ -218,46 +218,43 @@ useEffect(()=>{
                         data={getDropDownCompanyDisplayData(modifiedCompany)}
                         selected={company.value}
                         onChange={(item) => {
-                        
+
                             company.onChange(item)
                             getDesignation(item)
                             getDepartment(item)
-                            department.onChange({id:'ALL',text:'All'})
-                            designation.onChange({id:'ALL',text:'All'})
-                         
-                        
-
+                            department.onChange({ id: 'ALL', text: 'All' })
+                            designation.onChange({ id: 'ALL', text: 'All' })
                         }}
                     />
                 </div>
 
-                { modifiedDesignationData &&  modifiedDepartmentData?.length > 0 && <div className='col-4 mt--4'>
+                {modifiedDesignationData && modifiedDepartmentData?.length > 0 && <div className='col-4 mt--4'>
                     <DropDown
                         className="form-control-sm"
                         heading={translate("common.department")}
-                        data={ getDropDownDisplayData( modifiedDepartmentData)}
+                        data={getDropDownDisplayData(modifiedDepartmentData)}
                         selected={department.value}
                         onChange={(item) => {
                             department.onChange(item)
-                      
+
                         }}
                     />
                 </div>
                 }
 
-                { modifiedDesignationData &&  modifiedDesignationData?.length > 0 &&
-                 <div className='col-4 mt--2 '>
-                    <DropDown
-                        className="form-control-sm"
-                        heading={translate("auth.designation")}
-                        data={getDropDownDisplayData( modifiedDesignationData)}
-                        selected={designation.value}
-                        onChange={(item) => {
-                            designation.onChange(item)
-                    
-                        }}
-                    />
-                </div>
+                {modifiedDesignationData && modifiedDesignationData?.length > 0 &&
+                    <div className='col-4 mt--2 '>
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("auth.designation")}
+                            data={getDropDownDisplayData(modifiedDesignationData)}
+                            selected={designation.value}
+                            onChange={(item) => {
+                                designation.onChange(item)
+
+                            }}
+                        />
+                    </div>
                 }
 
 

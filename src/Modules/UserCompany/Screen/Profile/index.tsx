@@ -79,6 +79,7 @@ function Profile() {
               noOfFileImagePickers={1}
               imageVariant={'rounded'}
               defaultPicker={true}
+              trashIcons={true}
               onSelect={(image) => {
                 let file = image.toString().replace(/^data:(.*,)?/, "")
                 userProfileEdit(file)

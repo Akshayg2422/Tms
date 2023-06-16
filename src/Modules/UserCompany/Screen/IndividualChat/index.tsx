@@ -34,7 +34,7 @@ function IndividualChat() {
 
     const [photo, setPhoto] = useState<any>([])
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
-    const [selectDropzone, setSelectDropzone] = useState<any>([{}])
+    // const [selectDropzone, setSelectDropzone] = useState<any>([{}])
 
 
     // const enterPress = useKeyPress('Enter')
@@ -42,13 +42,17 @@ function IndividualChat() {
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
 
-    let attach = photo.slice(-selectedNoOfPickers)
-    const handleImagePicker = (file: any) => {
-        let updatedPhoto = [...selectDropzone, file]
-        let newUpdatedPhoto = [...photo, file]
-        setSelectDropzone(updatedPhoto)
-        setPhoto(newUpdatedPhoto)
-    }
+    // let attach = photo.slice(-selectedNoOfPickers)
+
+    // console.log("aatta",attach)
+    // const handleImagePicker = (file: any) => {
+    // let updatedPhoto = [...selectDropzone, file]
+    // let newUpdatedPhoto = [...photo, file]
+    // setSelectDropzone(updatedPhoto)
+    // setPhoto(newUpdatedPhoto)
+    // }
+    // console.log(photo,"ppppppppppp")
+    // console.log(attach,"aaaaaaaa")
 
     console.log("selectedUserId", selectedUserId)
 
@@ -127,11 +131,29 @@ function IndividualChat() {
     }
 
 
+    // const handleSelectImagePicker = (updatedProfile) => {
+
+    //     console.log(updatedProfile);
+    //         let array: any = []
+
+    //         for (let i = 0; i <= updatedProfile?.length; i++) {
+
+    //           let editPickers =updatedProfile[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+    //           if(editPickers!==undefined){
+    //           array.push(editPickers)
+    //           }
+
+    //         }
+    //          setPhoto(array)
+
+
+
+    //   };
     const addGroupEventAttachment = () => {
         const params = {
             event_type: "MEA",
             receiver_by: selectedUserDetails?.id,
-            chat_attachments: [{ name: attachmentName.value, attachments: attach }],
+            chat_attachments: [{ name: attachmentName.value, attachments: photo }],
         };
 
         if (true) {
@@ -322,7 +344,6 @@ function IndividualChat() {
 
 
 
-                                        console.log("999999999999", dateToShow)
                                         return (
                                             <>
                                                 <div className='col'>
@@ -640,11 +661,13 @@ function IndividualChat() {
                                                 }}
                                             >
                                                 {
-                                                    <ListGroup className={`list  `} flush>
-                                                        <ListGroupItem className={`pl--2  ${item?.id === selectedUserDetails?.id ? 'bg-primary ' : ''} mx-2`}
-                                                            style={{
-                                                                borderRadius: '10px'
-                                                            }}
+                                                    <div className={`mx-2 ${item?.id === selectedUserDetails?.id ? 'bg-primary ' : ''} pt-2 px-2`}
+                                                        style={{
+                                                            borderRadius: '10px'
+                                                        }}
+                                                    >
+                                                        <div className={`pl--2  `}
+
                                                         >
                                                             <div className={``}>
                                                                 <div className="row align-items-center ml-2">
@@ -668,8 +691,8 @@ function IndividualChat() {
                                                                     <div className={`h6 mb-0 text-uppercase ${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'}`}>{item?.designation ? item?.designation?.name : '-'}</div>
                                                                 </div>
                                                             </div>
-                                                        </ListGroupItem>
-                                                    </ListGroup >
+                                                        </div>
+                                                    </div >
 
                                                 }
                                             </div>
@@ -693,18 +716,33 @@ function IndividualChat() {
                     <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
                     <div className='row mt--4'>
                         <ImagePicker
-                            noOfFileImagePickers={3}
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
                                 let file = image.toString().replace(/^data:(.*,)?/, "")
-                                handleImagePicker(file)
+                                //  handleImagePicker(file)
                             }}
 
-                            onSelectImagePicker={(el) => {
-                                setSelectedNoOfPickers(el?.length)
+                            // onSelectImagePicker={(el) => {
+                            //     setSelectedNoOfPickers(el?.length)
+
+                            // }}
+
+                            onSelectImagePickers={(el) => {
+                                let array: any = []
+
+                                for (let i = 0; i <= el.length; i++) {
+
+                                    let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                    if (editPickers !== undefined) {
+                                        array.push(editPickers)
+                                    }
+
+                                }
+                                setPhoto(array)
 
                             }}
+
                         />
                     </div>
                 </div>

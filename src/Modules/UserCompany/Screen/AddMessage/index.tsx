@@ -2,14 +2,17 @@ import React, { useState } from 'react'
 import { AddMessageProps } from './interfaces';
 import { Button, Modal, Input, Dropzone, ImageDownloadButton, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
-import { addGroupMessage, refreshGroupEvents } from '@Redux'
-import { useDispatch } from 'react-redux'
-import { useModal, useInput } from '@Hooks'
+import { addGroupMessage, getTokenByUser, refreshGroupEvents, selectedVcDetails } from '@Redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useModal, useInput, useNavigation } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
+import { ROUTES } from '@Routes';
 import { useParams } from 'react-router-dom';
 
 function AddMessage({ AddGroup }: AddMessageProps) {
+    const { selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    const { user_details } = dashboardDetails || ''
     const dispatch = useDispatch()
     const message = useInput('')
     const { id } = useParams();
@@ -18,6 +21,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
+    const { goTo } = useNavigation()
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
 
     const addGroupMessageApiHandler = () => {
@@ -45,6 +49,26 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         }
     };
 
+    const getUserToken = () => {
+        dispatch(selectedVcDetails(selectedGroupChatCode))
+        const params = {
+            room_id: selectedGroupChatCode,
+            user_name: user_details.name,
+            email_id: user_details.email,
+        }
+        dispatch(getTokenByUser({
+            params,
+            onSuccess: (success: any) => () => {
+
+                console.log("success============>", success)
+            },
+            onError: (error: string) => () => {
+
+            },
+
+        }))
+    }
+
 
     const addGroupEventAttachment = () => {
         const validation = validate(GROUP_ATTACHMENT_RULES, {
@@ -55,7 +79,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         const params = {
             event_type: MEA,
              group_id: AddGroup,
-            group_attachments: [{ name: attachmentName.value, attachments: attach }],
+            group_attachments: [{ name: attachmentName.value, attachments: photo }],
         };
 
         if (ifObjectExist(validation)) {
@@ -82,13 +106,13 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         setSelectDropzone([{}]);
         setPhoto([])
     };
-    let attach = photo.slice(-selectedNoOfPickers)
-    const handleImagePicker = (file: any) => {
-        let updatedPhoto = [...selectDropzone, file]
-        let newUpdatedPhoto = [...photo, file]
-        setSelectDropzone(updatedPhoto)
-        setPhoto(newUpdatedPhoto)
-    }
+    // let attach = photo.slice(-selectedNoOfPickers)
+    // const handleImagePicker = (file: any) => {
+    //     let updatedPhoto = [...selectDropzone, file]
+    //     let newUpdatedPhoto = [...photo, file]
+    //     setSelectDropzone(updatedPhoto)
+    //     setPhoto(newUpdatedPhoto)
+    // }
 
     // let attach = photo.slice(-selectedNoOfPickers)
 
@@ -117,6 +141,16 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                         <textarea placeholder={translate("order.Write your comment")!} value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={addGroupMessageApiHandler} />
+                    <Button
+                        size={'lg'}
+                        color={'white'}
+                        variant={'icon-rounded'}
+                        icon={icons.videoCall}
+                        onClick={() => {
+                            getUserToken()
+                            goTo(ROUTES['user-company-module']['video-conference'], false)
+                        }}
+                    />
 
                 </div >
             </div >
@@ -126,17 +160,30 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                     <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
                     <div className='row mt--4'>
                         <ImagePicker
-                            noOfFileImagePickers={3}
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-                                let file = image.toString().replace(/^data:(.*,)?/, "")
-                                handleImagePicker(file)
+                                // let file = image.toString().replace(/^data:(.*,)?/, "")
+                                // handleImagePicker(file)
                             }}
 
-                            onSelectImagePicker={(el) => {
-                                setSelectedNoOfPickers(el?.length)
+                            // onSelectImagePicker={(el) => {
+                            //     setSelectedNoOfPickers(el?.length)
                 
+                            //   }}
+
+                              onSelectImagePickers={(el)=>{
+                                let array: any = []
+          
+                                for (let i = 0; i <= el.length; i++) {
+                                  let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                  if(eventPickers !==undefined){
+                                  array.push(eventPickers)
+                                  }
+                                  
+                                }
+                                setPhoto(array)
+    
                               }}
                         />
                     </div>
