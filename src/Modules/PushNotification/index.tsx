@@ -7,7 +7,7 @@ import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
-import { handleOneToOneVcNoti, refreshGroupEvents, refreshTaskEvents, vcNotificationDetails } from '@Redux'
+import { handleOneToOneChat, handleOneToOneVcNoti, refreshGroupEvents, refreshTaskEvents, vcNotificationDetails } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { Groups } from "../UserCompany";
 
@@ -95,7 +95,9 @@ const PushNotification = () => {
         else if (route_type === NOTIFICATION_VIDEO_CONFERENCE) {
 
             if (extra_data?.route_params?.one_to_one) {
+                dispatch(handleOneToOneChat(true))
                 dispatch(handleOneToOneVcNoti(extra_data?.route_params?.videocall_id))
+                dispatch(vcNotificationDetails(extra_data))
                 goTo(ROUTES['user-company-module']['individual-chat'], false)
             }
             else {

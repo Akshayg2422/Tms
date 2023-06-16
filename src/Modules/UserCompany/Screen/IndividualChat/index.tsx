@@ -13,22 +13,23 @@ import { translate } from '@I18n'
 import { VideoConference } from '../../Container'
 
 function IndividualChat() {
-
+    const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails } = useSelector(
+        (state: any) => state.UserCompanyReducer
+    );
+    const { company_branch, user_details, company } = dashboardDetails || ''
 
     const dynamicHeight: any = useDynamicHeight()
 
     const [chatText, setChatText] = useState<any>("")
-    const [selectedUserDetails, setSelectedUserDetails] = useState<any>()
+    const [selectedUserDetails, setSelectedUserDetails] = useState<any>(settingVcDetails ? settingVcDetails : '')
     const [openVideoCall, setOpenVideoCall] = useState<any>(false)
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [employeeList, setEmployeeList] = useState<any>()
     const [selectedUserId, setSelectedUserId] = useState<any>();
+    const [oneToOneChatMessage, setOneToOneChatMessage] = useState<any>()
     const dispatch = useDispatch()
-    const { chatMessageData, dashboardDetails, oneToOneChat, employees } = useSelector(
-        (state: any) => state.UserCompanyReducer
-    );
-    const { company_branch, user_details, company } = dashboardDetails || ''
+
     const { goTo } = useNavigation()
 
     const [photo, setPhoto] = useState<any>([])
@@ -67,6 +68,7 @@ function IndividualChat() {
 
     useEffect(() => {
         if (selectedUserDetails) {
+            console.log("88888888888888888888888888", selectedUserDetails)
             getChatMessage(selectedUserDetails?.id)
         }
     }, [selectedUserDetails])
@@ -87,7 +89,11 @@ function IndividualChat() {
                 })
 
                 setEmployeeList(modifiedData)
-                setSelectedUserDetails(success?.details?.data[0])
+                if (!selectedUserDetails) {
+                    setSelectedUserDetails(success?.details?.data[0])
+                }
+
+
 
             },
             onError: (error: string) => () => {
@@ -163,7 +169,6 @@ function IndividualChat() {
     }
 
 
-    console.log("moment().format();", moment().format().substring(0, 19))
 
 
     const addChatMessage = () => {
@@ -175,6 +180,8 @@ function IndividualChat() {
         dispatch(postChatMessage({
             params,
             onSuccess: (success: any) => async () => {
+
+
                 getChatMessage(selectedUserDetails?.id)
                 setChatText('')
 
@@ -182,6 +189,12 @@ function IndividualChat() {
             onError: (error: string) => () => {
             },
         }))
+    }
+
+    const updateNewEmployeeInChatBox = () => {
+        let checkList = employeeList.some(el => { return el.id === selectedUserDetails.id })
+        console.log("checkList", checkList)
+        !checkList && getChatEmployeeList('')
     }
 
 
@@ -192,11 +205,11 @@ function IndividualChat() {
         }
         dispatch(fetchChatMessage({
             params,
-            onSuccess: (success: any) => () => {
-
-
+            onSuccess: (success: any) => async () => {
+                setOneToOneChatMessage(success?.details)
+                updateNewEmployeeInChatBox()
             },
-            onError: (error: string) => () => {
+            onError: (error: string) => async () => {
             },
         }))
     }
@@ -275,7 +288,16 @@ function IndividualChat() {
                             }}>
                             <CardHeader>
                                 <div className='row justify-content-between mx-2'>
-                                    <h3>{selectedUserDetails?.name || selectedUserDetails?.text}</h3>
+                                    <div>
+                                        <h3>{selectedUserDetails?.name || selectedUserDetails?.text}</h3>
+                                    </div>
+                                    <div
+                                        onClick={() => {
+                                            getChatMessage(selectedUserDetails?.id)
+                                        }}
+                                    >
+                                        <i className="bi bi-arrow-clockwise fa-lg text-primary"></i>
+                                    </div>
                                 </div>
                             </CardHeader>
                             <CardBody
@@ -288,12 +310,12 @@ function IndividualChat() {
                                 className={'overflow-auto overflow-hide'}
                             >
                                 {
-                                    chatMessageData && chatMessageData?.length > 0 && chatMessageData?.map((el, index) => {
+                                    oneToOneChatMessage && oneToOneChatMessage?.length > 0 && oneToOneChatMessage?.map((el, index) => {
                                         const date = new Date(el?.created_at);
                                         const formattedDate = displayDate(el?.created_at);
 
                                         const isFirstMessage = index === 0;
-                                        const previousDate: any = !isFirstMessage ? new Date(chatMessageData[index - 1]?.created_at) : null;
+                                        const previousDate: any = !isFirstMessage ? new Date(oneToOneChatMessage[index - 1]?.created_at) : null;
                                         const isFirstMessageOfDay = isFirstMessage || date.toDateString() !== previousDate.toDateString();
                                         const isDifferentDay = !isFirstMessage && date?.getDate() !== previousDate?.getDate();
                                         const dateToShow = isDifferentDay ? formattedDate : null;
@@ -604,7 +626,7 @@ function IndividualChat() {
                                 </div>
                             </CardHeader>
 
-                            {<div className={`mt-1 overflow-auto overflow-hide `}
+                            {<div className={` overflow-auto overflow-hide `}
                                 style={{ height: "90vh" }}
 
                             >
@@ -612,30 +634,43 @@ function IndividualChat() {
                                 {employeeList && employeeList?.length > 0 ?
                                     employeeList?.map((item: any) => {
                                         return (
-                                            <div className='pointer'
+                                            <div className={`pointer `}
                                                 onClick={() => {
                                                     setSelectedUserDetails(item)
                                                 }}
                                             >
                                                 {
-                                                    <ListGroup className="list my--3" flush>
-                                                        <ListGroupItem className="ml--2">
-                                                            <div className="row align-items-center ml-2">
-                                                                <Image
-                                                                    variant="rounded"
-                                                                    className=""
-                                                                    size="sm"
-                                                                    src={item?.profile_image ? SERVER + item?.profile_image : SERVER + item?.profile_pic}
-                                                                    alt="avatar 1"
-                                                                />
-                                                                <small className='ml-3 '>
-                                                                    <h4 className={`text-${activeStatus(item?.last_active_time) ? 'black' : ""} mb-0 h5`}>
-                                                                        {convertToUpperCase(item?.name)}
-                                                                    </h4>
-                                                                </small>
+                                                    <ListGroup className={`list  `} flush>
+                                                        <ListGroupItem className={`pl--2  ${item?.id === selectedUserDetails?.id ? 'bg-primary ' : ''} mx-2`}
+                                                            style={{
+                                                                borderRadius: '10px'
+                                                            }}
+                                                        >
+                                                            <div className={``}>
+                                                                <div className="row align-items-center ml-2">
+                                                                    <Image
+                                                                        variant="rounded"
+                                                                        className=""
+                                                                        size="sm"
+                                                                        src={item?.profile_image ? SERVER + item?.profile_image : SERVER + item?.profile_pic}
+                                                                        alt="avatar 1"
+                                                                    />
+                                                                    <small className='ml-3 '>
+                                                                        <h4 className={`${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'} mb-0 h5`}>
+                                                                            {convertToUpperCase(item?.name)}
+                                                                        </h4>
+                                                                    </small>
+
+                                                                </div>
+                                                                <div className={'row align-items-center ml-5 mt--1 pb-2'}>
+                                                                    <div className={`h6 mb-0 text-uppercase  ${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'}`} >{item?.department ? item?.department?.name : '-'}</div>
+                                                                    <div className={`${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'} mt--1`}><Image src={icons.verticalLine} height={12} width={7} /></div>
+                                                                    <div className={`h6 mb-0 text-uppercase ${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'}`}>{item?.designation ? item?.designation?.name : '-'}</div>
+                                                                </div>
                                                             </div>
                                                         </ListGroupItem>
                                                     </ListGroup >
+
                                                 }
                                             </div>
                                         )

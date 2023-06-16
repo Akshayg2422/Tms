@@ -138,7 +138,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                                                     </div>
                                                     <div className='mr-3 pointer'
                                                         onClick={() => {
-                                                            dispatch(selectedVcDetails(el.id))
+                                                            dispatch(selectedVcDetails(el))
                                                             goTo( ROUTES['user-company-module']['individual-chat'], false)
                                                         }}
                                                     >
