@@ -203,7 +203,7 @@ function AddUser() {
                
                  size='xl'
                  heading="photo"
-                 noOfFileImagePickers={1}
+                 noOfFileImagePickers={0}
                  onSelect={(image) => {
                      let file =image.toString().replace(/^data:(.*,)?/, "")
                      setPhoto(file)

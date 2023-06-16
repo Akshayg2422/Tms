@@ -66,4 +66,6 @@ export interface UserCompanyStateProp {
     EnableRequest:any,
     settingVcDetails:any,
     vcNotificationData:any
+    chatMessageData:any
+    employeeListData:any
 }
