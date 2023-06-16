@@ -179,7 +179,7 @@ const ImagePicker = ({
       />
       <div className="col-12 pt-2"><InputHeading heading={heading} /></div>
       {photo && photo.map((el, index) => {
-
+console.log(el,"eelll")
         return (
 
           <div className={`${className} col-auto ml-0  pr-3`}>
@@ -194,7 +194,8 @@ const ImagePicker = ({
                 />
               </div>
             </div>
-            {index !== photo.length - 1 && (
+            {/* index !== photo.length - 1 */}
+            {el.id !==0 &&(
               <div
                 className="justify-content-top"
                 style={{ marginLeft: "-13px", marginTop: "-7px" }}
