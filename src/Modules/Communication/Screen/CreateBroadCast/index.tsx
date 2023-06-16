@@ -219,7 +219,7 @@ function CreateBroadCast() {
             <ImagePicker
               size='xl'
               heading={translate("auth.attach")!}
-              noOfFileImagePickers={2}
+             
               onSelect={(image) => {
                 let file = image.toString().replace(/^data:(.*,)?/, "")
                 handleImagePicker(file)

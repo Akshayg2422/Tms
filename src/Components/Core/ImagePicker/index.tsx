@@ -22,7 +22,12 @@ const ImagePicker = ({
   const [photo, setPhoto] = useState<any>()
 
   const updatedProfile = photo && photo.filter((element: any) => element.id !== 0)
-  onSelectImagePicker(updatedProfile)
+  if (onSelectImagePicker && onSelectImagePicker) {
+    onSelectImagePicker(updatedProfile)
+  }
+  // if( onSelectImagePickers && onSelectImagePickers){
+  //   onSelectImagePickers(updatedProfile)
+  //   }
 
   useEffect(() => {
 
@@ -31,12 +36,12 @@ const ImagePicker = ({
         .then((result) => {
 
           if (defaultValue > 1) {
-            setPhoto([...result, initialValue]) 
-    
+            setPhoto([...result, initialValue])
+
           }
           else {
             setPhoto([...result])
-         
+
 
           }
         })
@@ -61,8 +66,6 @@ const ImagePicker = ({
       setCount(el.id)
 
     }
-
-
   }
 
   //we have to this for edit
@@ -72,10 +75,13 @@ const ImagePicker = ({
     setCount(value.id)
 
     setPhoto(updatedImageArray);
-    if( onSelectImagePickers && onSelectImagePickers){
-      onSelectImagePickers(updatedImageArray)
-      }
-  
+
+    // test creation
+    if (onSelectImagePickers && onSelectImagePickers) {
+      const updatedProfile = updatedImageArray&& updatedImageArray.filter((element: any) => element.id !== 0)
+      onSelectImagePickers( updatedProfile)
+    }
+
 
   };
 
@@ -105,8 +111,15 @@ const ImagePicker = ({
                   (filterItem: any) => filterItem.id !== 0
                 );
                 setPhoto(updatedSelectedPhotos)
+//test creation
+                if (onSelectImagePickers && onSelectImagePickers) {
+
+                  const updatedProfile = updatedSelectedPhotos&& updatedSelectedPhotos.filter((element: any) => element.id !== 0)
+                  onSelectImagePickers(updatedProfile)
+                }
 
               }
+
               const ifExist = updatedSelectedPhotos.some(
                 (el: any) => el.id === updatedPhoto?.id
               );
@@ -119,9 +132,11 @@ const ImagePicker = ({
                 );
                 updatedSelectedPhotos = [{ id: updatedPhoto?.id, base64: e.target?.result }, ...updatedSelectedPhotos]
                 setCount(photo.length + 1 - 1)
-                if( onSelectImagePickers && onSelectImagePickers){
-                onSelectImagePickers(updatedSelectedPhotos)
-                }
+               
+                //this we not to use because is react some bucke
+                // if(   && onSelectImagePickers){
+                // onSelectImagePickers(updatedSelectedPhotos)
+                // }
 
               }
 
@@ -131,9 +146,18 @@ const ImagePicker = ({
                 setCount(count + 1)
                 updatedSelectedPhotos = [updatedPhoto, ...updatedSelectedPhotos]
 
+
               }
+              ///we have use this on elseout
 
               setPhoto(updatedSelectedPhotos)
+
+                if(  onSelectImagePickers  && onSelectImagePickers){
+                  const updatedProfile = updatedSelectedPhotos&& updatedSelectedPhotos.filter((element: any) => element.id !== 0)
+                onSelectImagePickers( updatedProfile)
+                }
+
+
 
             }
 

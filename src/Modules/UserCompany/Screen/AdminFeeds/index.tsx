@@ -22,8 +22,6 @@ function AdminFeeds() {
   const { dashboardDetails } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-
-
   const { user_details } = dashboardDetails
   const [modifiedCompanyDropDownData, setModifiedCompanyDropDownData] = useState();
   const [photo, setPhoto] = useState<any>([]);
@@ -51,7 +49,7 @@ function AdminFeeds() {
   })
 
   console.log(photo,"pppppppppp")
-  console.log(AttachmentEdit, "aaaaaaaaaaaa")
+  // console.log(AttachmentEdit, "aaaaaaaaaaaa")
 
   const MY_FEED_MENU = [
     {
@@ -375,16 +373,13 @@ function AdminFeeds() {
               defaultValue={AttachmentEdit}
               size='xl'
               heading={translate("auth.attach")!}
-              noOfFileImagePickers={10}
               onSelect={(image) => {
                 let file = image.toString().replace(/^data:(.*,)?/, "")
                 handleImagePicker(file)
-                console.log(file,"ffffffff")
 
               }}
               onSelectImagePicker={(el) => {
                 setSelectedNoOfPickers(el?.length)
-                console.log(el,"eeeeeeeeeeeee")
 
               }}
               onSelectImagePickers={(el)=>{
@@ -399,7 +394,6 @@ function AdminFeeds() {
                   
                 }
                 setPhoto(array)
-                console.log(array,"aaaaaaaaaaaa")
   
               }}
             

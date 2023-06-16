@@ -83,19 +83,19 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         setPhoto([])
     };
     let attach = photo.slice(-selectedNoOfPickers)
-    const handleImagePicker = (file: any) => {
-        let updatedPhoto = [...selectDropzone, file]
-        let newUpdatedPhoto = [...photo, file]
-        setSelectDropzone(updatedPhoto)
-        setPhoto(newUpdatedPhoto)
-    }
+    // const handleImagePicker = (file: any) => {
+    //     let updatedPhoto = [...selectDropzone, file]
+    //     let newUpdatedPhoto = [...photo, file]
+    //     setSelectDropzone(updatedPhoto)
+    //     setPhoto(newUpdatedPhoto)
+    // }
 
     // let attach = photo.slice(-selectedNoOfPickers)
 
-    // const handleImagePicker = (file: any) => {
-    //   let newUpdatedPhoto = [...photo, file];
-    //   setPhoto(newUpdatedPhoto);
-    // };
+    const handleImagePicker = (file: any) => {
+      let newUpdatedPhoto = [...photo, file];
+      setPhoto(newUpdatedPhoto);
+    };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
