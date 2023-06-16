@@ -150,7 +150,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         showToast(response.message, 'success')
                         editModal.hide()
                         getGroupMessageApi(INITIAL_PAGE)
-
                     }
                 },
                 onError: (error) => () => {
@@ -241,7 +240,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             console.log('previousDate------------>', previousDate)
                             const startDay = getCurrentDayAndDate(renderDate);
 
-
                             return (
                                 <GroupChat
                                     profileImage={event_by?.profile_image}
@@ -257,7 +255,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                         editModal.show()
                                         message.set(title)
                                         setSelectDropzone(attachments.attachments)
-
                                     }}
                                     deleteOnClick={() => {
                                         setSelectMessage(item)
@@ -265,7 +262,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                     }}
                                     subtitleOnclick={() => { userModal.show() }}
                                 >
-
                                     <div className='pt-2' onClick={() => {
                                         imageModal.show()
                                         setImage(imageUrls)
@@ -279,13 +275,12 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                                     <div>
                                         {
-                                            imageUrls && imageUrls.length > 0 && (
+                                            imageUrls && imageUrls.length > 0 &&
+                                            (
                                                 <ImageDownloadButton Url={imageUrls} title={title} className={"fa fa-download mt-1"} />
                                             )
-
                                         }
                                     </div>
-
                                 </GroupChat>)
                         })
                     }

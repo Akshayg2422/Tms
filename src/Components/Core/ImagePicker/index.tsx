@@ -62,9 +62,7 @@ const ImagePicker = ({
     fileInputRef?.current?.click();
 
     if (el.id > 0) {
-
       setCount(el.id)
-
     }
   }
 
@@ -73,7 +71,6 @@ const ImagePicker = ({
     const updatedSelectedImage = [...photo];
     const updatedImageArray = updatedSelectedImage.filter((filterItem: any) => filterItem.id !== value.id);
     setCount(value.id)
-
     setPhoto(updatedImageArray);
 
     // test creation
@@ -140,7 +137,6 @@ const ImagePicker = ({
 
               }
 
-
               ///without add new image
               else {
                 setCount(count + 1)
@@ -160,7 +156,6 @@ const ImagePicker = ({
 
 
             }
-
           };
           reader.readAsDataURL(file);
 
@@ -201,18 +196,8 @@ const ImagePicker = ({
                 style={{ marginLeft: "-13px", marginTop: "-7px" }}
                 onClick={() => imagePickers(el)}
               >
-                <div
-                  className="text-center"
-                  style={{
-                    width: "21px",
-                    height: "21px",
-                    borderRadius: "16px",
-                    backgroundColor: "#d7d8d9"
-                  }}
-                >
-                  <i
-                    className="bi bi-trash text-black text-sm"
-                  ></i>
+                <div className="text-center pointer">
+                  <Image src={icons.deleteRounded} width={14} height={14} />
                 </div>
               </div>
             )}
