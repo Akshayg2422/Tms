@@ -1081,3 +1081,31 @@ export const fetchChatEmployeeListFailure = (error: any) => {
   };
 };
 
+
+/**
+ * handle one to one vc
+ */
+
+
+export const handleOneToOneChat = (response: any) => {
+  console.log("response090909===>", response)
+  return {
+    type: ActionTypes.HANDLE_ONE_TO_ONE_CHAT,
+    payload: response,
+  }
+}
+
+
+/**
+ *one to one notifi
+ */
+
+
+export const handleOneToOneVcNoti = (response: any) => {
+  console.log("response090909===>", response)
+  return {
+    type: ActionTypes.ONE_TO_ONE_VC_NOTI,
+    payload: response,
+  }
+}
+

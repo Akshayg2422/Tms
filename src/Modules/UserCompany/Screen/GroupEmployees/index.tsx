@@ -65,26 +65,6 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
     }
 
 
-    const getUserToken = (data) => {
-
-        const params = {
-            id: data.id,
-            user_name: user_details.name,
-            email_id: user_details.email,
-        }
-        dispatch(getTokenByUser({
-            params,
-            onSuccess: (success: any) => () => {
-
-                console.log("success============>", success)
-            },
-            onError: (error: string) => () => {
-
-            },
-
-        }))
-    }
-
 
     const addGroupUsers = (addUsers: any) => {
 
@@ -159,8 +139,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                                                     <div className='mr-3 pointer'
                                                         onClick={() => {
                                                             dispatch(selectedVcDetails(el.id))
-                                                            getUserToken(el)
-                                                            goTo(ROUTES['user-company-module']['video-conference'], false)
+                                                            goTo( ROUTES['user-company-module']['individual-chat'], false)
                                                         }}
                                                     >
                                                         <Image src={icons.VideoCalling} width={17} height={17} />

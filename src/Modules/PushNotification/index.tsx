@@ -7,7 +7,7 @@ import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
-import { refreshGroupEvents, refreshTaskEvents, vcNotificationDetails } from '@Redux'
+import { handleOneToOneVcNoti, refreshGroupEvents, refreshTaskEvents, vcNotificationDetails } from '@Redux'
 import { useDispatch } from 'react-redux'
 import { Groups } from "../UserCompany";
 
@@ -74,6 +74,8 @@ const PushNotification = () => {
 
         console.log('payload=====>', JSON.stringify(payload))
 
+        const extra_data = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"'))
+
         const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
 
         console.log('route_type======>1111111', JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
@@ -91,10 +93,20 @@ const PushNotification = () => {
             goTo(ROUTES['message-module'].broadcast)
         }
         else if (route_type === NOTIFICATION_VIDEO_CONFERENCE) {
-            // console.log("908989898",JSON.parse(payload?.data?.extra_data?.replace(/'/g, '"')))
-            dispatch(vcNotificationDetails(JSON.parse(payload?.data?.extra_data?.replace(/'/g, '"'))))
-            goTo(ROUTES['user-company-module']['video-conference'], false)
+
+            if (extra_data?.route_params?.one_to_one) {
+                dispatch(handleOneToOneVcNoti(extra_data?.route_params?.videocall_id))
+                goTo(ROUTES['user-company-module']['individual-chat'], false)
+            }
+            else {
+                dispatch(vcNotificationDetails(JSON.parse(payload?.data?.extra_data?.replace(/'/g, '"'))))
+                goTo(ROUTES['user-company-module']['video-conference'], false)
+            }
+
         }
+        // else if (true) {
+
+        // }
         else {
             goTo(ROUTES['user-company-module'].Groups)
         }
