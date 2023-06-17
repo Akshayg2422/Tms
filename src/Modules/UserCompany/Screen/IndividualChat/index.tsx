@@ -566,10 +566,11 @@ function IndividualChat() {
                                                                 }}>
                                                                 <Image
                                                                     variant="rounded"
-                                                                    className=""
+                                                                    className={'pointer'}
                                                                     size="sm"
                                                                     src={alignChatMessage(el) && SERVER + el?.event_by?.profile_image || ''}
                                                                     alt="avatar 1"
+                                                                    onClick={() => { userModal.show() }}
                                                                 />
                                                                 <small className='mr-2 pt-1'>
                                                                     <h6

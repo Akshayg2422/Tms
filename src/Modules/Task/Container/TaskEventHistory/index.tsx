@@ -128,7 +128,7 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
     return (
 
        
-        <div className='m-1 mt-3 shadow-none overflow-auto overflow-hide' style={{ maxHeight: '58vh' }}>
+        <div className='m-1 mt--3 shadow-none overflow-auto overflow-hide' style={{ maxHeight: '58vh' }}>
         {
             taskEventHistories && taskEventHistories?.length > 0 && taskEventHistories?.map((taskEvent: any, index: number) => {
                 // const { icon, subTitle, title, created_at }: any = getIconsFromStatus(taskEvent)

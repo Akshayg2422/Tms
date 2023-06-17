@@ -23,6 +23,8 @@ function Companies() {
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany, dashboardDetails } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+
+
   useEffect(() => {
     getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
     getAssociatedCompanyApi()
@@ -80,11 +82,9 @@ function Companies() {
           associatedCompanyDropDown.set({})
           showToast(response.message)
           dispatch(getAssociatedBranch(params))
-          getAssociatedCompanyApi()
         },
         onError: (error) => () => {
           showToast(error.error_message)
-
         },
       })
     )
@@ -191,6 +191,7 @@ function Companies() {
                 text={translate("common.submit")}
                 onClick={() => {
                   addAssociatedCompanyApi()
+                  getAssociatedCompany({})
                 }} />
             </div>
 
