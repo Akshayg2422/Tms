@@ -300,7 +300,7 @@ function IndividualChat() {
 
                     >
                         <VideoConference
-                            iframeHeight={`${dynamicHeight.dynamicHeight - 510 + 'vh'}`}
+                            iframeHeight={'91.5vh'}
                             chatCall={true}
                         />
                     </div>}
@@ -344,11 +344,11 @@ function IndividualChat() {
                                         const isDifferentDay = !isFirstMessage && date?.getDate() !== previousDate?.getDate();
                                         const dateToShow = isDifferentDay ? formattedDate : null;
 
-
+                                        console.log("opopopopo", SERVER + el?.chat_attachments?.attachments?.attachment_file)
 
                                         return (
                                             <>
-                                                <div className='col'>
+                                                <div className=''>
                                                     {dateToShow && el?.message && (
                                                         <div className='d-flex'>
                                                             <hr className=''
@@ -396,7 +396,7 @@ function IndividualChat() {
                                                 </div >
                                                 <div
                                                     className={`d-flex flex-row ml-2 ${alignChatMessage(el)
-                                                        ? " justify-content-end mb-2 pt-2  "
+                                                        ? " justify-content-end mb-2   "
                                                         : " justify-content-start mb-3 pt-2 "
                                                         } mt--3 `}
                                                 >
@@ -464,16 +464,21 @@ function IndividualChat() {
                                                                     }}
                                                                 >
                                                                     {
-                                                                        el?.chat_attachments?.attachments &&
-                                                                        <div className='mr-2 pt-2' style={{
+                                                                        el?.chat_attachments?.attachments && el?.chat_attachments?.attachments?.map((it) => {
+                                                                            return (
+                                                                                <>
+                                                                                    <div className='mr-2 pt-2' style={{
 
-                                                                        }}>
-                                                                            <Image
-                                                                                width={70}
-                                                                                height={70}
-                                                                                src={SERVER + el?.chat_attachments?.attachment_file}
-                                                                            />
-                                                                        </div>
+                                                                                    }}>
+                                                                                        <Image
+                                                                                            width={70}
+                                                                                            height={70}
+                                                                                            src={SERVER + it?.attachment_file}
+                                                                                        />
+                                                                                    </div>
+                                                                                </>
+                                                                            )
+                                                                        })
                                                                     }
                                                                 </div>
 
@@ -541,16 +546,22 @@ function IndividualChat() {
                                                                     }}
                                                                 >
                                                                     {
-                                                                        el?.chat_attachments?.attachments &&
-                                                                        <div className='mr-2 pt-2' style={{
+                                                                        el?.chat_attachments?.attachments && el?.chat_attachments?.attachments?.map((it) => {
+                                                                            return (
+                                                                                <>
+                                                                                    <div className='mr-2 pt-2' style={{
 
-                                                                        }}>
-                                                                            <Image
-                                                                                width={70}
-                                                                                height={70}
-                                                                                src={SERVER + el?.chat_attachments?.attachment_file}
-                                                                            />
-                                                                        </div>
+                                                                                    }}>
+                                                                                        <Image
+                                                                                            width={70}
+                                                                                            height={70}
+                                                                                            src={SERVER + it?.attachment_file}
+                                                                                        />
+                                                                                    </div>
+                                                                                </>
+                                                                            )
+                                                                        })
+
                                                                     }
                                                                 </div>}
                                                             </div>}
@@ -663,9 +674,9 @@ function IndividualChat() {
                                                 }}
                                             >
                                                 {
-                                                    <div className={`mx-2 ${item?.id === selectedUserDetails?.id ? 'bg-primary ' : ''} pt-2 px-2`}
+                                                    <div className={`mx- ${item?.id === selectedUserDetails?.id ? 'bg-lighter ' : ''} py-2 px-2`}
                                                         style={{
-                                                            borderRadius: '10px'
+                                                            // borderRadius: '10px'
                                                         }}
                                                     >
                                                         <div className={`pl--2  `}
@@ -681,17 +692,27 @@ function IndividualChat() {
                                                                         alt="avatar 1"
                                                                     />
                                                                     <small className='ml-3 '>
-                                                                        <h4 className={`${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'} mb-0 h5`}>
+                                                                        <h5 className={`${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'} mb-0 h5`}>
                                                                             {convertToUpperCase(item?.name)}
-                                                                        </h4>
+                                                                        </h5>
+                                                                        <div className={'row ml-0  pb-2'}>
+                                                                            <div className={`h6 mb-0 text-uppercase  `}
+                                                                                style={{
+                                                                                    color: item?.id === selectedUserDetails?.id ? '#424242' : '#8898aa'
+                                                                                }}
+                                                                            >{item?.department ? item?.department?.name : '-'}</div>
+                                                                            <div className={` mt--1`}><Image src={icons.verticalLine} height={12} width={7} /></div>
+                                                                            <div
+                                                                                className={`h6 mb-0 text-uppercase `}
+                                                                                style={{
+                                                                                    color: item?.id === selectedUserDetails?.id ? '#424242' : '#8898aa'
+                                                                                }}
+                                                                            >{item?.designation ? item?.designation?.name : '-'}</div>
+                                                                        </div>
                                                                     </small>
 
                                                                 </div>
-                                                                <div className={'row align-items-center ml-5 mt--1 pb-2'}>
-                                                                    <div className={`h6 mb-0 text-uppercase  ${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'}`} >{item?.department ? item?.department?.name : '-'}</div>
-                                                                    <div className={`${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'} mt--1`}><Image src={icons.verticalLine} height={12} width={7} /></div>
-                                                                    <div className={`h6 mb-0 text-uppercase ${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'}`}>{item?.designation ? item?.designation?.name : '-'}</div>
-                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div >
