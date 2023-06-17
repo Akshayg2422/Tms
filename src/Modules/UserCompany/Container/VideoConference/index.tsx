@@ -4,15 +4,23 @@ import { useEffect, useRef, useState } from 'react';
 import { JitsiMeeting, JaaSMeeting } from '@jitsi/react-sdk';
 import { useDispatch, useSelector } from 'react-redux';
 import { ROUTES } from '@Routes';
-import { getTokenByUser, selectedVcDetails, vcNotificationDetails } from '@Redux';
+import { getTokenByUser, handleOneToOneChat, postChatMessage, selectedVcDetails, vcNotificationDetails } from '@Redux';
+import moment from 'moment';
 
-const VideoConference = () => {
+
+interface VideoConferenceProps {
+
+    iframeHeight?: any
+    chatCall?: any
+}
+
+const VideoConference = ({ iframeHeight = "100vh", chatCall = false }: VideoConferenceProps) => {
 
     useEffect(() => {
 
     }, [])
 
-    const { scheduledListData, dashboardDetails, userToken, settingVcDetails, vcNotificationData } = useSelector((state: any) => state.UserCompanyReducer);
+    const { scheduledListData, dashboardDetails, userToken, settingVcDetails, vcNotificationData, oneToOneVcNoti } = useSelector((state: any) => state.UserCompanyReducer);
 
     console.log("userToken", settingVcDetails)
 
@@ -27,6 +35,8 @@ const VideoConference = () => {
 
 
     console.log("vcNotificationData", settingVcDetails)
+
+
 
 
     useEffect(() => {
@@ -60,7 +70,23 @@ const VideoConference = () => {
     }
 
 
+    // oneToOneVcNoti
 
+
+    const addChatMessage = () => {
+        const params = {
+            id: oneToOneVcNoti,
+            call_end_time: moment().format()
+        }
+        dispatch(postChatMessage({
+            params,
+            onSuccess: (success: any) => async () => {
+
+            },
+            onError: (error: string) => () => {
+            },
+        }))
+    }
 
 
 
@@ -132,8 +158,13 @@ const VideoConference = () => {
     };
 
     const handleReadyToClose = () => {
-        goBack(-1)
-        console.log()
+        if (!chatCall) {
+            goBack(-1)
+        }
+        else {
+            dispatch(handleOneToOneChat(false))
+            addChatMessage()
+        }
     };
 
     useEffect(() => {
@@ -145,9 +176,10 @@ const VideoConference = () => {
 
 
     const renderSpinner = () => (
-        <div className='d-flex h-100vh justify-content-center align-items-center'
+        <div className='d-flex justify-content-center align-items-center'
             style={{
-                backgroundColor: '#141414'
+                backgroundColor: '#141414',
+                height: iframeHeight
             }}
         >
             <div className="spinner-border text-light" role="status">
@@ -165,7 +197,7 @@ const VideoConference = () => {
                     domain={"meetings.quantaedat.com"}
                     jwt={userToken}
                     roomName={`${roomName}`}
-                    getIFrameRef={(iframeRef) => { iframeRef.style.height = '100vh'; iframeRef.style.padding = "0px"; iframeRef.style.margin = "0px" }}
+                    getIFrameRef={(iframeRef) => { iframeRef.style.height = iframeHeight; iframeRef.style.padding = "0px"; iframeRef.style.margin = "0px" }}
                     configOverwrite={{
                         startWithAudioMuted: true,
                         disableModeratorIndicator: false,
@@ -207,8 +239,9 @@ const VideoConference = () => {
             </div>
                 :
                 <>
-                    <div className='h-100vh d-flex justify-content-center align-items-center' style={{
-                        backgroundColor: '#141414'
+                    <div className=' d-flex justify-content-center align-items-center' style={{
+                        backgroundColor: '#141414',
+                        height: iframeHeight
                     }}>
                         <div
                             className="spinner-border text-light fa-lg" role="status">

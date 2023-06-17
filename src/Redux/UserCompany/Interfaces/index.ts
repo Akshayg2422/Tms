@@ -68,4 +68,6 @@ export interface UserCompanyStateProp {
     vcNotificationData:any
     chatMessageData:any
     employeeListData:any
+    oneToOneChat:any
+    oneToOneVcNoti:any
 }
