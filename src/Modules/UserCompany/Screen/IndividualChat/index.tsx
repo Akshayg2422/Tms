@@ -96,14 +96,11 @@ function IndividualChat() {
                         modifiedData.push(el)
                     }
                 })
-
                 setEmployeeList(modifiedData)
                 if (!selectedUserDetails) {
                     setSelectedUserDetails(success?.details?.data[0])
                 }
-
-
-
+                
             },
             onError: (error: string) => () => {
             },
@@ -167,6 +164,7 @@ function IndividualChat() {
                 onSuccess: (success: any) => async () => {
                     getChatMessage(selectedUserDetails?.id)
                     setChatText('')
+                   
                     attachmentModal.hide()
 
                 },
@@ -211,6 +209,7 @@ function IndividualChat() {
 
                 getChatMessage(selectedUserDetails?.id)
                 setChatText('')
+                
 
             },
             onError: (error: string) => () => {
@@ -220,7 +219,6 @@ function IndividualChat() {
 
     const updateNewEmployeeInChatBox = () => {
         let checkList = employeeList.some(el => { return el.id === selectedUserDetails.id })
-        console.log("checkList", checkList)
         !checkList && getChatEmployeeList('')
     }
 
@@ -235,6 +233,7 @@ function IndividualChat() {
             onSuccess: (success: any) => async () => {
                 setOneToOneChatMessage(success?.details)
                 updateNewEmployeeInChatBox()
+                setSelectedUserId('')
             },
             onError: (error: string) => async () => {
             },
@@ -263,6 +262,7 @@ function IndividualChat() {
             onSuccess: (success: any) => () => {
                 console.log("090909090909", success)
                 dispatch(handleOneToOneVcNoti(success?.message))
+             
 
             },
             onError: (error: string) => () => {

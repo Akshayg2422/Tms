@@ -6,11 +6,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import {  useModal, useInput } from '@Hooks'
 import { TEM, MEA } from '@Utils'
 import { translate } from '@I18n'
+import { useParams } from 'react-router-dom'
 
 function AddChatTicket() {
 
     const { selectedTicket } = useSelector((state: any) => state.TicketReducer);
     const dispatch = useDispatch()
+    const {id}=useParams()
     const message = useInput('')
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
@@ -23,7 +25,8 @@ function AddChatTicket() {
         if (message.value) {
 
             const params = {
-                id: selectedTicket?.id,
+                // id: selectedTicket?.id,
+                code:id,
                 message: message.value,
                 event_type: TEM
             }
@@ -49,7 +52,8 @@ function AddChatTicket() {
     const addTicketEventAttachment = () => {
         const params = {
             event_type: MEA,
-            id: selectedTicket.id,
+            // id: selectedTicket.id,
+            code:id,
             attachments: [{ attachment: photo }],
             name: attachmentName.value
         };
