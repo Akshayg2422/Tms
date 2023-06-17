@@ -654,7 +654,7 @@ export const getTokenByUserFailure = (error: any) => {
  */
 
 export const getAssociatedCompany = (params: any) => {
-  console.log('actionnnnnnnnnnnnnnnn');
+  
 
   return {
     type: ActionTypes.GET_ASSOCIATED_COMPANY,

@@ -629,7 +629,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, associatedCompany: action.payload.details.data };
       break;
     case ActionTypes.GET_ASSOCIATED_COMPANY_FAILURE:
-      state = { ...state, associatedCompany: action.payload };
+      state = { ...state, associatedCompany: undefined };
       break;
 
     /**

@@ -24,6 +24,8 @@ function Companies() {
     (state: any) => state.UserCompanyReducer
   );
 
+  console.log(associatedCompany,"associatedCompany===>")
+
 
 
   useEffect(() => {
