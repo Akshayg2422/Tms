@@ -133,7 +133,7 @@ export const icons = {
   editEta: require('./EditEta/icon.png'),
   Comments: require('./Comments/icon.png'),
   CommentsPink: require('./CommentsPink/icon.png'),
-  attachments: require('./Attach/icon.png'),
+  attachments: require('./Attch/icon.png'),
   attachmentsPink: require('./AttachmentsPink/icon.png'),
   reference: require('./Reference/icon.png'),
   referencePink: require('./ReferencePink/icon.png'),
