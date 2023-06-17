@@ -1,16 +1,15 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, Divider, ProfileCard, InputHeading } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard, InputHeading } from "@Components";
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
-import { TaskItemMenu, TaskEventHistory, ProgressBarEta, Comments } from "@Modules";
+import { TaskItemMenu, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
-import { useModal, useInput, useWindowDimensions, useNavigation } from '@Hooks'
+import { useModal, useInput, useNavigation } from '@Hooks'
 import { addTaskEvent, getTaskDetails, refreshTaskEvents } from '@Redux'
 import { useParams } from 'react-router-dom'
-import { CardBody, CardHeader, CardImg, Col, Row } from "reactstrap";
-import { ROUTES } from "@Routes";
+import { CardFooter } from "reactstrap";
 
 const START_TASK = 1
 const END_TASK = 2
@@ -57,7 +56,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const editEtaSubmitApiHandler = () => {
 
         const params = {
-            code:id,
+            code: id,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
@@ -80,7 +79,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const getTaskDetailsHandler = () => {
         const params = {
-           code : id,
+            code: id,
         }
         dispatch(
             getTaskDetails({
@@ -115,7 +114,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     function editTaskDetailsHandler() {
         const params = {
-            code:id,
+            code: id,
             title: editTitle.value,
             description: editDescription.value,
             event_type: "TKE"
@@ -252,7 +251,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             >
                 <div className="col-6">
 
-                <Input
+                    <Input
                         type={"text"}
                         heading={translate("common.note")}
                         value={editEtaReason.value}
@@ -265,7 +264,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         type="both"
                         onChange={setEta}
                     />
-                    
+
 
                 </div>
                 <div className="col text-right">
@@ -276,30 +275,34 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
              * show Event Time Line
              */}
             <Modal title={translate("auth.Latest Events")!} size={'lg'} isOpen={taskEventModal.visible} onClose={taskEventModal.hide} >
-                <TaskEventHistory />
+                <CardFooter className={'mx--4 mt--4 mb--4'}>
+                    <TaskEventHistory />
+                </CardFooter>
             </Modal>
 
             <Modal title={translate('auth.Edit task Details')!} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
 
-                <div className="col-6">
-                    <Input
-                        type={"text"}
-                        heading={translate("common.title")}
-                        value={editTitle.value}
-                        onChange={editTitle.onChange}
-                    />
-               
-                    <div >
-                    <InputHeading heading={translate('auth.description')}/>
-                    <textarea 
-                        value={editDescription.value}
-                        onChange={editDescription.onChange}
-                        className="form-control form-control-sm" />
-                </div>
-                </div>
-                <div className="text-right">
-                    <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
-                </div>
+                <CardFooter className={'mt--4 mx--4'}>
+                    <div className="col-6">
+                        <Input
+                            type={"text"}
+                            heading={translate("common.title")}
+                            value={editTitle.value}
+                            onChange={editTitle.onChange}
+                        />
+
+                        <div >
+                            <InputHeading heading={translate('auth.description')} />
+                            <textarea
+                                value={editDescription.value}
+                                onChange={editDescription.onChange}
+                                className="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div className="text-right">
+                        <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
+                    </div>
+                </CardFooter>
 
             </Modal>
 
