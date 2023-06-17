@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Card, CardBody, CardFooter, CardHeader, ListGroup, ListGroupItem } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { AutoComplete, Button, Divider, Dropzone, Image, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, SearchInput, Spinner } from '@Components'
+import { AutoComplete, Button, Divider, Dropzone, Image, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner } from '@Components'
 import moment from 'moment'
 import { convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedVcDetails } from '@Redux'
@@ -11,12 +11,15 @@ import { ROUTES } from '@Routes'
 import { useDynamicHeight, useInput, useModal, useNavigation } from '@Hooks'
 import { translate } from '@I18n'
 import { VideoConference } from '../../Container'
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 function IndividualChat() {
     const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-    const { company_branch, user_details, company } = dashboardDetails || ''
+    const { user_details } = dashboardDetails || ''
+    const { taskDetails } = useSelector((state: any) => state.TaskReducer);
 
     const dynamicHeight: any = useDynamicHeight()
 
@@ -35,7 +38,9 @@ function IndividualChat() {
     const [photo, setPhoto] = useState<any>([])
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
     // const [selectDropzone, setSelectDropzone] = useState<any>([{}])
-
+    const userModal = useModal(false)
+    const ImageModal = useModal(false)
+    const { raised_by_company } = taskDetails || {};
 
     // const enterPress = useKeyPress('Enter')
     const [image, setImage] = useState<any>([])
@@ -289,6 +294,16 @@ function IndividualChat() {
 
     console.log("oneToOneChat", oneToOneChat)
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+
+            if (chatText.trim().length > 0) {
+                addChatMessage();
+            }
+        }
+    };
+
     return (
         <div className='container-fluid pt-4'>
             <div
@@ -498,9 +513,11 @@ function IndividualChat() {
                                                                 />
                                                                 <small className='mr-2 pt-1'>
                                                                     <h6
+                                                                        className={'pointer'}
                                                                         style={{
                                                                             fontSize: '12px'
                                                                         }}
+                                                                        onClick={() => { userModal.show() }}
                                                                     >{el?.event_by?.name}</h6>
                                                                     <div className='mt--2 text-right'
                                                                         style={{
@@ -581,7 +598,7 @@ function IndividualChat() {
                                     <div className=''>
                                         <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                                     </div>
-                                    <input type="text"
+                                    <textarea
                                         style={{
                                             borderRadius: '15px'
                                         }}
@@ -593,6 +610,7 @@ function IndividualChat() {
                                             setChatText(val.target.value)
                                         }}
                                         value={chatText}
+                                        onKeyDown={handleKeyDown}
                                     />
 
                                     <div className=" mr-1"
@@ -607,7 +625,7 @@ function IndividualChat() {
                                                 variant={'icon-rounded'}
                                                 icon={icons.send}
                                                 onClick={() => {
-                                                    addChatMessage()
+                                                    chatText.trim().length > 0 && addChatMessage()
                                                 }} />
                                         </div>
 
@@ -775,6 +793,19 @@ function IndividualChat() {
                         <Button text={translate("common.submit")} onClick={addGroupEventAttachment} />
                     </div>
                 </div>
+
+            </Modal>
+
+            <Modal size={'sm'} isOpen={userModal.visible} onClose={userModal.hide}>
+
+                <ProfileCard
+                    coverPhoto={user_details?.profile_photo}
+                    profilePhoto={user_details?.profile_photo}
+                    name={user_details?.name}
+                    department={user_details?.department}
+                    designation={user_details?.designation}
+                    company={raised_by_company?.display_name}
+                />
 
             </Modal>
         </div >
