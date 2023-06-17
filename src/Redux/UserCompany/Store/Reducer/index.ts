@@ -75,7 +75,10 @@ const initialState: UserCompanyStateProp = {
   chatMessageData: undefined,
   employeeListData: undefined,
   oneToOneChat: false,
-  oneToOneVcNoti: undefined
+  oneToOneVcNoti: undefined,
+  chatEmployeeList:undefined,
+  chatEmployeeListCurrentPages:undefined,
+  chatEmployeeListNumOfPages:undefined,
 
 }
 
@@ -904,19 +907,26 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     // get chat employee list
 
     case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST:
-      state = {
-        ...state,
-        employeeListData: undefined,
-      };
+
+    state = {
+      ...state,
+      chatEmployeeList: undefined,
+      chatEmployeeListCurrentPages: 1,
+      chatEmployeeListNumOfPages: 0,
+    };
       break;
     case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_SUCCESS:
       state = {
         ...state,
-        employeeListData: action.payload.details,
+        chatEmployeeList: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
+        chatEmployeeListCurrentPages: action.payload?.details.next_page === -1
+          ? action?.payload?.details.num_pages
+          : action?.payload?.details.next_page - 1,
+          chatEmployeeListNumOfPages: action.payload.details.num_pages,
       };
       break;
     case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_FAILURE:
-      state = { ...state, employeeListData: undefined };
+      state = { ...state, chatEmployeeList: undefined };
       break;
 
 

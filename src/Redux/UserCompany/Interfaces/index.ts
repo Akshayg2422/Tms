@@ -69,5 +69,8 @@ export interface UserCompanyStateProp {
     chatMessageData:any
     employeeListData:any
     oneToOneChat:any
-    oneToOneVcNoti:any
+    oneToOneVcNoti:any,
+    chatEmployeeList:any,
+    chatEmployeeListCurrentPages:any,
+    chatEmployeeListNumOfPages:any,
 }
