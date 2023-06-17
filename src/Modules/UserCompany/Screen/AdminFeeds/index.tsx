@@ -152,8 +152,6 @@ function AdminFeeds() {
 
   }
 
-
-
   function proceedEditHandler() {
     const params = {
       id: selectedFeed?.id,

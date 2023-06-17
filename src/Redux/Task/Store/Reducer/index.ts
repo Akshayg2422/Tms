@@ -279,7 +279,7 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
     case ActionTypes.GET_SUB_TASK_GROUPS_SUCCESS:
       console.log(JSON.stringify(action.payload));
-      state = { ...state, subTaskGroups: action.payload?.details }
+      state = { ...state, subTaskGroups: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details}
       break;
     case ActionTypes.GET_SUB_TASK_GROUPS_FAILURE:
       state = { ...state, subTaskGroups: undefined }

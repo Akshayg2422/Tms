@@ -37,6 +37,12 @@ function MyTimeSheet() {
   const [formattedShift, setFormattedShift] = useState<any>('')
   const [approved, setApproved] = useState<any>(true)
   const [Enable, setEnable] = useState<any>('')
+  let currentDate = new Date()
+  let currentDay = currentDate.getDate()
+  let currentMonth = currentDate.getMonth()
+  let currentYear = currentDate.getFullYear()
+
+  let dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
 
   //start date
   const [startDate, setStartDate] = useState(moment().startOf('week'))
@@ -444,7 +450,7 @@ function MyTimeSheet() {
                 onClick={() => {
                   addEtaTime.show()
                 }}
-                enableButton={formattedShift[index]?.date==='2023-06-13'?false:true}
+                enableButton={formattedShift[index]?.date===dateFormate?false:true}
                 // selectButtonReject={true}
                 selectButton={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
                 selectButtonReject={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}

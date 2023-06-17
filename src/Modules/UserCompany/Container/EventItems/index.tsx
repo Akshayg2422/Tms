@@ -85,7 +85,9 @@ function EventItem({ item }: EventItemProps) {
 
                     <div className="row">
                         <div className="col-lg-12 col-sm-0 col-12 mt-3 mb--6">
-                            <Carousel>
+                            <Carousel
+                            dynamicHeight
+                            >
                                 {attachments &&
                                     attachments.length > 0 &&
                                     attachments?.map((attachment_logo: any, index: number) => {
@@ -93,8 +95,8 @@ function EventItem({ item }: EventItemProps) {
                                             <Image
                                                 variant={"default"}
                                                 src={getPhoto(attachment_logo.attachment_file)}
-                                                height={'100%'}
-                                                width={'100%'}
+                                                height={'80%'}
+                                                width={'80%'}
                                             />
                                         );
                                     })}
