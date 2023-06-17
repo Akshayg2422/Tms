@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Card, CardBody, CardFooter, CardHeader, ListGroup, ListGroupItem } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { AutoComplete, Button, Divider, Dropzone, Image, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner } from '@Components'
+import { AutoComplete, Button, CommonTable, Divider, Dropzone, Image, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner } from '@Components'
 import moment from 'moment'
-import { convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, validate, } from '@Utils'
+import { convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, paginationHandler, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
@@ -15,7 +15,7 @@ import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 function IndividualChat() {
-    const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails } = useSelector(
+    const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails, chatEmployeeList, chatEmployeeListNumOfPages, chatEmployeeListCurrentPages } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || ''
@@ -77,7 +77,6 @@ function IndividualChat() {
 
     useEffect(() => {
         if (selectedUserDetails) {
-            console.log("88888888888888888888888888", selectedUserDetails)
             getChatMessage(selectedUserDetails?.id)
         }
     }, [selectedUserDetails])
@@ -85,24 +84,24 @@ function IndividualChat() {
     const getChatEmployeeList = (data) => {
 
         const params = {
-            ...(data && { q_many: data })
+            ...(data && { q_many: data }),
+            per_page_count:-1
+            // page_number
+
         }
         dispatch(fetchChatEmployeeList({
             params,
             onSuccess: (success: any) => () => {
                 let modifiedData: any = []
-                success?.details?.data.map((el) => {
+                success?.details?.map((el) => {
                     if (el.id !== user_details.id) {
                         modifiedData.push(el)
                     }
                 })
-
                 setEmployeeList(modifiedData)
                 if (!selectedUserDetails) {
-                    setSelectedUserDetails(success?.details?.data[0])
+                    setSelectedUserDetails(success?.details[0])
                 }
-
-
 
             },
             onError: (error: string) => () => {
@@ -167,6 +166,7 @@ function IndividualChat() {
                 onSuccess: (success: any) => async () => {
                     getChatMessage(selectedUserDetails?.id)
                     setChatText('')
+
                     attachmentModal.hide()
 
                 },
@@ -212,6 +212,7 @@ function IndividualChat() {
                 getChatMessage(selectedUserDetails?.id)
                 setChatText('')
 
+
             },
             onError: (error: string) => () => {
             },
@@ -220,7 +221,6 @@ function IndividualChat() {
 
     const updateNewEmployeeInChatBox = () => {
         let checkList = employeeList.some(el => { return el.id === selectedUserDetails.id })
-        console.log("checkList", checkList)
         !checkList && getChatEmployeeList('')
     }
 
@@ -235,6 +235,7 @@ function IndividualChat() {
             onSuccess: (success: any) => async () => {
                 setOneToOneChatMessage(success?.details)
                 updateNewEmployeeInChatBox()
+                setSelectedUserId('')
             },
             onError: (error: string) => async () => {
             },
@@ -264,6 +265,7 @@ function IndividualChat() {
                 console.log("090909090909", success)
                 dispatch(handleOneToOneVcNoti(success?.message))
 
+
             },
             onError: (error: string) => () => {
 
@@ -273,6 +275,64 @@ function IndividualChat() {
     }
 
     console.log("909090909")
+
+    // const normalizedTableData = (data: any) => {
+    //     return data?.map((el: any) => {
+    //         return {
+    //             '': <div className={`pointer `}
+    //                 onClick={() => {
+    //                     setSelectedUserDetails(el)
+    //                 }}
+    //             >
+    //                 {
+    //                     <div className={`mx- ${el?.id === selectedUserDetails?.id ? 'bg-lighter ' : ''} py-2 px-2`}
+    //                         style={{
+    //                             // borderRadius: '10px'
+    //                         }}
+    //                     >
+    //                         <div className={`pl--2  `}
+
+    //                         >
+    //                             <div className={``}>
+    //                                 <div className="row align-items-center ml-2">
+    //                                     <Image
+    //                                         variant="rounded"
+    //                                         className=""
+    //                                         size="sm"
+    //                                         src={el?.profile_image ? SERVER + el?.profile_image : SERVER + el?.profile_pic}
+    //                                         alt="avatar 1"
+    //                                     />
+    //                                     <small className='ml-3 '>
+    //                                         <h5 className={`${el?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'} mb-0 h5`}>
+    //                                             {convertToUpperCase(el?.name)}
+    //                                         </h5>
+    //                                         <div className={'row ml-0  pb-2'}>
+    //                                             <div className={`h6 mb-0 text-uppercase  `}
+    //                                                 style={{
+    //                                                     color: el?.id === selectedUserDetails?.id ? '#424242' : '#8898aa'
+    //                                                 }}
+    //                                             >{el?.department ? el?.department?.name : '-'}</div>
+    //                                             <div className={` mt--1`}><Image src={icons.verticalLine} height={12} width={7} /></div>
+    //                                             <div
+    //                                                 className={`h6 mb-0 text-uppercase `}
+    //                                                 style={{
+    //                                                     color: el?.id === selectedUserDetails?.id ? '#424242' : '#8898aa'
+    //                                                 }}
+    //                                             >{el?.designation ? el?.designation?.name : '-'}</div>
+    //                                         </div>
+    //                                     </small>
+
+    //                                 </div>
+
+    //                             </div>
+    //                         </div>
+    //                     </div >
+
+    //                 }
+    //             </div>
+    //         };
+    //     });
+    // };
 
 
 
@@ -569,6 +629,21 @@ function IndividualChat() {
                                                                                     <div className='mr-2 pt-2' style={{
 
                                                                                     }}>
+                                                                                        <p
+                                                                                            className={`small px-2   text-wrap bg-primary text-white mb-0`}
+                                                                                            style={{
+                                                                                                maxWidth: '50vh',
+                                                                                                borderRadius: '8px 0px 8px 8px'
+                                                                                            }}
+                                                                                        >
+                                                                                            {/* {alignChatMessage(el) && el?.message && (
+                                                                            <div className="h5 text-primary mb--1 pt-1">
+                                                                                {el?.by_user?.name}
+                                                                            </div>
+                                                                        )} */}
+
+                                                                                            < div>{it?.name}</div>
+                                                                                        </p>
                                                                                         <Image
                                                                                             width={70}
                                                                                             height={70}
@@ -682,11 +757,34 @@ function IndividualChat() {
                                 style={{ height: "90vh" }}
 
                             >
+{/* 
+                                <div className='mx--3 '>
+                                    <CommonTable
+                                        isPagination
+                                        tableDataSet={employeeList}
+                                        displayDataSet={normalizedTableData(employeeList)}
+                                        noOfPage={chatEmployeeListNumOfPages}
+                                        currentPage={chatEmployeeListCurrentPages}
+                                        paginationNumberClick={(currentPage) => {
+                                            getChatEmployeeList(paginationHandler("current", currentPage));
+                                        }}
+                                        previousClick={() => {
+                                            getChatEmployeeList(paginationHandler("prev", chatEmployeeListCurrentPages))
+                                        }
+                                        }
+                                        nextClick={() => {
+                                            getChatEmployeeList(paginationHandler("next", chatEmployeeListCurrentPages));
+                                        }
+                                        }
 
+                                    />
+                                </div> */}
+
+                                
                                 {employeeList && employeeList?.length > 0 ?
                                     employeeList?.map((item: any) => {
                                         return (
-                                            <div className={`pointer `}
+                                            <div className={`pointer overflow-auto overflow-hide `}
                                                 onClick={() => {
                                                     setSelectedUserDetails(item)
                                                 }}

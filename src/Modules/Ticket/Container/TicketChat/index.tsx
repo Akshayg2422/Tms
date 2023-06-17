@@ -49,6 +49,7 @@ function TicketChat({ }: TicketChatProps) {
         const params = {
             code: id,
             page_number
+            
         }
 
         dispatch(

@@ -23,10 +23,6 @@ function Companies() {
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany, dashboardDetails } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-
-  console.log('associatedCompany', associatedCompany);
-
-
   useEffect(() => {
     getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
     getAssociatedCompanyApi()
