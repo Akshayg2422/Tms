@@ -190,11 +190,15 @@ function AddTask() {
 
     function getSubTaskGroupsApi() {
 
-        const params = {};
+        const params = {
+            per_page_count: -1,
+        };
+
         dispatch(
             getSubTaskGroups({
                 params,
                 onSuccess: (response: any) => () => {
+                    console.log('ccc')
 
                 },
                 onError: () => () => {

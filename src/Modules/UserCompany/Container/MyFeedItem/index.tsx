@@ -7,7 +7,7 @@ import { useModal } from "@Hooks";
 import { Carousel } from "react-responsive-carousel";
 import { icons } from "@Assets";
 
-function MyFeedItem({ item }: MyfeedItemsProps) {
+function    MyFeedItem({ item }: MyfeedItemsProps) {
 
     const MY_FEED_MENU = [
         {

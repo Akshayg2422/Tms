@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, refreshUserCompanies, setSelectedCompany } from "@Redux";
+import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, setSelectedCompany } from "@Redux";
 import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton, Spinner } from "@Components";
 import { useNavigation, useModal, useDynamicHeight, useDropDown } from "@Hooks";
 import { ROUTES } from "@Routes";
@@ -23,15 +23,9 @@ function Companies() {
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany, dashboardDetails } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-
-  console.log(associatedCompany,"associatedCompany===>")
-
-
-
   useEffect(() => {
     getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
     getAssociatedCompanyApi()
-    // setLoading(true)
   }, [])
 
 
@@ -78,8 +72,6 @@ function Companies() {
       id: dashboardDetails.company.id
     }
 
-
-
     dispatch(
       addAssociatedCompany({
         params,
@@ -87,7 +79,8 @@ function Companies() {
           associatedCompanyModal.hide();
           associatedCompanyDropDown.set({})
           showToast(response.message)
-          // setLoading(false)
+          dispatch(getAssociatedBranch(params))
+          getAssociatedCompanyApi()
         },
         onError: (error) => () => {
           showToast(error.error_message)
@@ -137,7 +130,7 @@ function Companies() {
 
         {
           loading && (
-            <div className="d-flex justify-content-center align-item-center " style={{ minHeight: '200px' ,marginTop:'250px'}}>
+            <div className="d-flex justify-content-center align-item-center " style={{ minHeight: '200px', marginTop: '250px' }}>
               <Spinner />
             </div>
           )

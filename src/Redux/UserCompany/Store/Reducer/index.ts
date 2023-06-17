@@ -73,7 +73,9 @@ const initialState: UserCompanyStateProp = {
   settingVcDetails: undefined,
   vcNotificationData: undefined,
   chatMessageData: undefined,
-  employeeListData: undefined
+  employeeListData: undefined,
+  oneToOneChat: false,
+  oneToOneVcNoti: undefined
 
 }
 
@@ -626,7 +628,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, associatedCompany: undefined };
       break;
     case ActionTypes.GET_ASSOCIATED_COMPANY_SUCCESS:
-      state = { ...state, associatedCompany: action.payload.details.data };
+      state = { ...state, associatedCompany: action.payload.details };
       break;
     case ActionTypes.GET_ASSOCIATED_COMPANY_FAILURE:
       state = { ...state, associatedCompany: undefined };
@@ -920,7 +922,22 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
 
 
+    /**
+*handle one to one chat
+*/
 
+    case ActionTypes.HANDLE_ONE_TO_ONE_CHAT:
+      state = { ...state, oneToOneChat: action.payload }
+      break;
+
+
+    /**
+*one to one vc noti
+*/
+
+    case ActionTypes.ONE_TO_ONE_VC_NOTI:
+      state = { ...state, oneToOneVcNoti: action.payload }
+      break;
 
 
 
