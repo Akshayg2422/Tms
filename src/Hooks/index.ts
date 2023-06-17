@@ -7,7 +7,7 @@ export * from './useLoader'
 export * from './useDynamicHeight'
 export * from './useWindowDimensions'
 export * from './useOnEnter'
-
+export * from './useKeyPress'
 
 
 

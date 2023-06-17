@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
 import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back, Spinner } from "@Components";
-import { useInput, useNavigation } from "@Hooks";
+import { useInput, useKeyPress, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE, INITIAL_PAGE } from "@Utils";
 import { translate } from "@I18n";
 import { useParams } from "react-router-dom";
@@ -17,6 +17,15 @@ function AddReferenceTask() {
   const { goBack } = useNavigation();
   const [loading, setLoading] = useState(false)
   const search = useInput("");
+
+  const isEnterPressed = useKeyPress("Enter");
+
+  useEffect(() => {
+    if (isEnterPressed) {
+      addReferenceTaskHandler()
+    }
+  }, [isEnterPressed]);
+  
   useEffect(() => {
     getTasksApiHandler(taskCurrentPages)
   }, [])

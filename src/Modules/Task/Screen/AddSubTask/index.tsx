@@ -35,7 +35,7 @@ import {
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput, useNavigation, useDropDown } from "@Hooks";
+import { useInput, useNavigation, useDropDown, useKeyPress } from "@Hooks";
 import moment from "moment";
 
 function AddSubTask() {
@@ -73,6 +73,13 @@ function AddSubTask() {
     // const [selectedNoOfPickers,setSelectNoOfPickers]=useState<any>()
     // let attach = photo.slice(-selectedNoOfPickers)
 
+    const isEnterPressed = useKeyPress("Enter");
+
+    useEffect(() => {
+      if (isEnterPressed) {
+        submitTaskHandler()
+      }
+    }, [isEnterPressed]);
 
     useEffect(() => {
         getAssociatedCompaniesApi();

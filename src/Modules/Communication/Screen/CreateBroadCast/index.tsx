@@ -23,7 +23,7 @@ import {
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput, useNavigation } from "@Hooks";
+import { useInput, useKeyPress, useNavigation } from "@Hooks";
 
 
 function CreateBroadCast() {
@@ -52,6 +52,14 @@ function CreateBroadCast() {
   //   let newUpdatedPhoto = [...photo, file];
   //   setPhoto(newUpdatedPhoto);
   // };
+
+  const isEnterPressed = useKeyPress("Enter");
+
+  useEffect(() => {
+    if (isEnterPressed) {
+      submitTicketHandler()
+    }
+  }, [isEnterPressed]);
 
   const submitTicketHandler = () => {
 

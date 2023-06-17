@@ -36,7 +36,7 @@ import {
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput, useNavigation, useDropDown } from "@Hooks";
+import { useInput, useNavigation, useDropDown, useKeyPress } from "@Hooks";
 import moment from "moment";
 
 function AddTicket() {
@@ -69,6 +69,13 @@ function AddTicket() {
     // let attach = photo.slice(-selectNoOfPickers)
     const [date, setDate] = useState<any>(moment().format())
 
+    const isEnterPressed = useKeyPress("Enter");
+    
+    useEffect(() => {
+        if (isEnterPressed) {
+            submitTicketHandler()
+        }
+      }, [isEnterPressed]);
 
     useEffect(() => {
         getAssociatedCompaniesApi();

@@ -55,6 +55,13 @@ function Login() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      validateUserBusinessApiHandler();
+    }
+  };
+
   return (
     <div className="custom-gradient vh-100 d-flex justify-content-center align-items-center">
       <div className="col-sm-9 col-md-6 col-lg-4">
@@ -67,7 +74,7 @@ function Login() {
             onChange={mobileNumber.onChange}
             value={mobileNumber.value}
             maxLength={10}
-            
+            onKeyDown={handleKeyDown}
           />
           <H tag={"h5"} text={translate("auth.chooseLanguge")} />
           <Radio
