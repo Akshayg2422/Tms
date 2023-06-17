@@ -25,7 +25,7 @@ import {
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useInput, useNavigation } from "@Hooks";
+import { useInput, useKeyPress, useNavigation } from "@Hooks";
 import { useParams } from "react-router-dom";
 
 
@@ -66,6 +66,14 @@ function AddEvent() {
     //   let newUpdatedPhoto = [...photo, file];
     //   setPhoto(newUpdatedPhoto);
     // };
+
+    const isEnterPressed = useKeyPress("Enter");
+
+    useEffect(() => {
+      if (isEnterPressed) {
+        submitAddEventHandler()
+      }
+    }, [isEnterPressed]);
 
 
 

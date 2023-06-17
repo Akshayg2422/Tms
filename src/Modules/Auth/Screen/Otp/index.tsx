@@ -1,6 +1,6 @@
-import React, { } from "react";
+import React, { useEffect } from "react";
 import { Button, AuthContainer, showToast, ComponentLoader } from "@Components";
-import { useInput, useTimer, useNavigation, useLoader } from "@Hooks";
+import { useInput, useTimer, useNavigation, useLoader, useKeyPress } from "@Hooks";
 import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, OTP_RULES, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
 import { useSelector, useDispatch } from "react-redux";
 import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard } from "@Redux";
@@ -19,6 +19,14 @@ function Otp() {
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
   const { seconds, setSeconds } = useTimer(OTP_RESEND_DEFAULT_TIME);
   const otp = useInput("");
+
+  const isEnterPressed = useKeyPress("Enter");
+
+  useEffect(() => {
+    if (isEnterPressed) {
+      proceedOtpValidationApiHandler()
+    }
+  }, [isEnterPressed]);
 
 
   const proceedOtpResentApiHandler = () => {
@@ -87,8 +95,8 @@ function Otp() {
       showToast(getValidateError(validation));
     }
 
-
   };
+
 
   return (
     <AuthContainer>
@@ -100,8 +108,6 @@ function Otp() {
             numInputs={4}
             inputStyle={'otp-input'}
             shouldAutoFocus={true}
-
-
           />
         </div>
         <div className="mb-4">

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets } from "@Redux";
 import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back, Spinner } from "@Components";
-import { useInput, useNavigation } from "@Hooks";
+import { useInput, useKeyPress, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, paginationHandler, SEARCH_PAGE, INITIAL_PAGE, ADD_REFERENCE_TICKET } from "@Utils";
 import { translate } from "@I18n";
 
@@ -18,6 +18,14 @@ function AddReferenceTicket() {
   const { goBack } = useNavigation();
   const [loading, setLoading] = useState(false)
   const search = useInput("");
+
+  const isEnterPressed = useKeyPress("Enter");
+
+  useEffect(() => {
+    if (isEnterPressed) {
+      addReferenceTicketHandler()
+    }
+  }, [isEnterPressed]);
 
   useEffect(() => {
     getTicketsApiHandler(ticketCurrentPages)
