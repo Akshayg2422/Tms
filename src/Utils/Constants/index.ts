@@ -77,9 +77,19 @@ export const ETA = 'ETA'
 
 export const TASK_FILTER_LIST = [
   { id: 'ALL', text: translate('common.All')! },
-  { id: 'created_by', text: translate('product.Created by me')! },
+  // { id: 'created_by', text: translate('product.Created by me')! },
   { id: 'assigned_to', text: translate('product.assigned To Me')! },
-  { id: 'tagged', text: translate('product.tagged')! }
+  { id: 'tagged_to', text: translate('product.tagged')! },
+  { id: 'advanceAssigned', text: 'Advance' }
+
+];
+
+export const TASK_FILTER_LIST_CREATED_BY = [
+  { id: 'ALL', text: translate('common.All')! },
+   { id: 'created_by', text: translate('product.Created by me')! },
+  // { id: 'assigned_to', text: translate('product.assigned To Me')! },
+  { id: 'tagged_to', text: translate('product.tagged')! },
+  { id: 'advanceCreated', text: 'Advance' }
 ];
 
 
