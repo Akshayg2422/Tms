@@ -272,7 +272,7 @@ const reason = useInput("");
           </Modal>
           <div className='text-right pb-3'>
 
-            <Button text={'ReSubmitRequest'} size={'sm'} onClick={()=>{
+            <Button text={'ResubmitRequests'} size={'sm'} onClick={()=>{
 
           goTo(ROUTES['user-company-module']['re-submit-request'])
             }}/>

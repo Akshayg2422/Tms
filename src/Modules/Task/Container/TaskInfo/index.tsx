@@ -138,13 +138,13 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             <Card className={'px-3'}>
                 <div>
                     <div className="row">
-                        <div className="col">
+                        <div className="col ">
                             <div className="row">
                                 <Back />
                                 <div className="ml-2">
                                     <div>{title && <H tag={"h4"} className="mb-0" text={title} />}</div>
-                                    {description && <p className="text-muted text-sm mb--2">{capitalizeFirstLetter(description)}</p>}
-                                    {code && <small>{`#${code}`}</small>}
+                                      {code && <small>{`#${code}`}</small>}
+                                {description && <div className="text-sm mb--2 text-black  ml--4">{capitalizeFirstLetter(description)}</div>}
                                 </div>
                             </div>
                         </div>
@@ -157,7 +157,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         </div>
                     </div>
 
-                    <div className="row mt-3">
+                    <div className="row mt-3 ">
                         {
                             task_attachments &&
                             task_attachments?.length > 0 && task_attachments?.map
@@ -231,7 +231,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 alertModal.show()
                                 setActionTask(START_TASK)
                             }} />}
-                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button className={'text-white'} size={'sm'} text={'End'} onClick={() => {
+                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button className={'text-white'} size={'sm'} text={'mark as Closed'} onClick={() => {
                             alertModal.show()
                             setActionTask(END_TASK)
                         }} />}
@@ -280,29 +280,28 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 </CardFooter>
             </Modal>
 
-            <Modal title={translate('auth.Edit task Details')!} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
+            <Modal size={'md'}title={translate('auth.Edit task Details')!} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
 
-                <CardFooter className={'mt--4 mx--4'}>
-                    <div className="col-6">
-                        <Input
-                            type={"text"}
-                            heading={translate("common.title")}
-                            value={editTitle.value}
-                            onChange={editTitle.onChange}
-                        />
-
-                        <div >
-                            <InputHeading heading={translate('auth.description')} />
-                            <textarea
-                                value={editDescription.value}
-                                onChange={editDescription.onChange}
-                                className="form-control form-control-sm" />
-                        </div>
-                    </div>
-                    <div className="text-right">
-                        <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
-                    </div>
-                </CardFooter>
+                <div className="col-12 ">
+                    <Input
+                        type={"text"}
+                        heading={translate("common.title")}
+                        value={editTitle.value}
+                        onChange={editTitle.onChange}
+                    />
+               
+                    <div >
+                    <InputHeading heading={translate('auth.description')}/>
+                    <textarea 
+                    style={{height:'140px'}}
+                        value={editDescription.value}
+                        onChange={editDescription.onChange}
+                        className="form-control form-control-sm" />
+                </div>
+                </div>
+                <div className="text-right pt-3">
+                    <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
+                </div>
 
             </Modal>
 
