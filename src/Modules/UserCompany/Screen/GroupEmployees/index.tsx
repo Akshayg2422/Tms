@@ -98,7 +98,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
             <Card className={'h-100'}>
                 <div className='row'>
                     <div className='mx--1'>
-                        <span className="h4 col-3">{'Members'}</span>
+                        <span className="h4 col-3">{'Others'}</span>
                     </div>
                     <div className='col-6 my--1 p-0'>
                         <SearchInput onSearch={(search) => {

@@ -7,9 +7,10 @@ import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useNavigation } from '@Hooks'
-import { addTaskEvent, getTaskDetails, refreshTaskEvents } from '@Redux'
+import { addTaskEvent, getTaskDetails, refreshTaskEvents, selectedVcDetails } from '@Redux'
 import { useParams } from 'react-router-dom'
 import { CardFooter } from "reactstrap";
+import { ROUTES } from "@Routes";
 
 const START_TASK = 1
 const END_TASK = 2
@@ -18,11 +19,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const { id } = useParams()
 
-
     const dispatch = useDispatch()
     const { taskDetails, selectedTask } = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time, } = taskDetails || {};
+    const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time } = taskDetails || {};
     const [eta, setEta] = useState(eta_time)
     const editTitle = useInput(title)
     const editDescription = useInput(description)
@@ -314,6 +314,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     department={by_user?.department?.name}
                     designation={by_user?.designation?.name}
                     company={raised_by_company?.display_name}
+                    messageOnClick={ ()=>{
+                         dispatch(selectedVcDetails(by_user?.id))
+                        goTo( ROUTES['user-company-module']['individual-chat'], false)}}
+
+                   
                 />
 
             </Modal>
@@ -324,6 +329,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 onClose={alertModal.hide}
                 primaryOnClick={proceedEventTypeApi}
                 secondaryOnClick={alertModal.hide}
+               
             />
         </div>
     );

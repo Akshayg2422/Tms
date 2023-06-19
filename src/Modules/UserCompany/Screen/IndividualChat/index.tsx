@@ -537,23 +537,17 @@ function IndividualChat() {
                                                                         el?.chat_attachments?.attachments && el?.chat_attachments?.attachments?.map((it) => {
                                                                             return (
                                                                                 <>
-                                                                                    <div className='mr-2 pt-2' style={{
+                                                                                    <div className='mr-2 pt-2 mt--4 mb-1' style={{
 
                                                                                     }}>
                                                                                         <p
-                                                                                            className={`small px-2   text-wrap bg-primary text-white mb-0`}
+                                                                                            className={`small px-2 py-1 mb-2 text-wrap bg-primary text-white mb-0`}
                                                                                             style={{
                                                                                                 maxWidth: '50vh',
                                                                                                 borderRadius: '8px 0px 8px 8px'
                                                                                             }}
                                                                                         >
-                                                                                            {/* {alignChatMessage(el) && el?.message && (
-                                                                            <div className="h5 text-primary mb--1 pt-1">
-                                                                                {el?.by_user?.name}
-                                                                            </div>
-                                                                        )} */}
-
-                                                                                            < div>{it?.name}</div>
+                                                                                            {it?.name}
                                                                                         </p>
                                                                                         <Image
                                                                                             width={70}
@@ -587,7 +581,7 @@ function IndividualChat() {
                                     <textarea
                                         style={{
                                             // borderRadius: '15px'
-                                            height:'8vh'
+                                            height: '8vh'
                                         }}
                                         placeholder='write message'
                                         className="form-control form-control-md mx-3 overflow-hide"
@@ -660,6 +654,7 @@ function IndividualChat() {
                                         <div className='mb--4'>
                                             <AutoComplete
                                                 variant={'custom'}
+                                                inputType={'Infinity'}
                                                 data={getDropDownCompanyUser(employees)}
                                                 // selected={selectedUserId}
                                                 onChange={(item) => {

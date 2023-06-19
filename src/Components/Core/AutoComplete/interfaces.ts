@@ -13,4 +13,5 @@ export interface AutoCompleteProps extends InputHeadingProps {
     disabled?: boolean;
     selected?: Option;
     className?: string;
+    inputType?:string;
 }
