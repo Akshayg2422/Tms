@@ -37,29 +37,16 @@ function IndividualChat() {
 
     const [photo, setPhoto] = useState<any>([])
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
-    // const [selectDropzone, setSelectDropzone] = useState<any>([{}])
     const userModal = useModal(false)
     const ImageModal = useModal(false)
     const { raised_by_company } = taskDetails || {};
+    const [showAutoComplete, setAutoComplete] = useState<any>(false)
 
-    // const enterPress = useKeyPress('Enter')
     const [image, setImage] = useState<any>([])
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
 
-    // let attach = photo.slice(-selectedNoOfPickers)
 
-    // console.log("aatta",attach)
-    // const handleImagePicker = (file: any) => {
-    // let updatedPhoto = [...selectDropzone, file]
-    // let newUpdatedPhoto = [...photo, file]
-    // setSelectDropzone(updatedPhoto)
-    // setPhoto(newUpdatedPhoto)
-    // }
-    // console.log(photo,"ppppppppppp")
-    // console.log(attach,"aaaaaaaa")
-
-    console.log("selectedUserId", selectedUserId)
 
 
     useEffect(() => {
@@ -85,7 +72,7 @@ function IndividualChat() {
 
         const params = {
             ...(data && { q_many: data }),
-            per_page_count:-1
+            per_page_count: -1
             // page_number
 
         }
@@ -135,24 +122,6 @@ function IndividualChat() {
     }
 
 
-    // const handleSelectImagePicker = (updatedProfile) => {
-
-    //     console.log(updatedProfile);
-    //         let array: any = []
-
-    //         for (let i = 0; i <= updatedProfile?.length; i++) {
-
-    //           let editPickers =updatedProfile[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-    //           if(editPickers!==undefined){
-    //           array.push(editPickers)
-    //           }
-
-    //         }
-    //          setPhoto(array)
-
-
-
-    //   };
     const addGroupEventAttachment = () => {
         const params = {
             event_type: "MEA",
@@ -275,65 +244,6 @@ function IndividualChat() {
     }
 
     console.log("909090909")
-
-    // const normalizedTableData = (data: any) => {
-    //     return data?.map((el: any) => {
-    //         return {
-    //             '': <div className={`pointer `}
-    //                 onClick={() => {
-    //                     setSelectedUserDetails(el)
-    //                 }}
-    //             >
-    //                 {
-    //                     <div className={`mx- ${el?.id === selectedUserDetails?.id ? 'bg-lighter ' : ''} py-2 px-2`}
-    //                         style={{
-    //                             // borderRadius: '10px'
-    //                         }}
-    //                     >
-    //                         <div className={`pl--2  `}
-
-    //                         >
-    //                             <div className={``}>
-    //                                 <div className="row align-items-center ml-2">
-    //                                     <Image
-    //                                         variant="rounded"
-    //                                         className=""
-    //                                         size="sm"
-    //                                         src={el?.profile_image ? SERVER + el?.profile_image : SERVER + el?.profile_pic}
-    //                                         alt="avatar 1"
-    //                                     />
-    //                                     <small className='ml-3 '>
-    //                                         <h5 className={`${el?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'} mb-0 h5`}>
-    //                                             {convertToUpperCase(el?.name)}
-    //                                         </h5>
-    //                                         <div className={'row ml-0  pb-2'}>
-    //                                             <div className={`h6 mb-0 text-uppercase  `}
-    //                                                 style={{
-    //                                                     color: el?.id === selectedUserDetails?.id ? '#424242' : '#8898aa'
-    //                                                 }}
-    //                                             >{el?.department ? el?.department?.name : '-'}</div>
-    //                                             <div className={` mt--1`}><Image src={icons.verticalLine} height={12} width={7} /></div>
-    //                                             <div
-    //                                                 className={`h6 mb-0 text-uppercase `}
-    //                                                 style={{
-    //                                                     color: el?.id === selectedUserDetails?.id ? '#424242' : '#8898aa'
-    //                                                 }}
-    //                                             >{el?.designation ? el?.designation?.name : '-'}</div>
-    //                                         </div>
-    //                                     </small>
-
-    //                                 </div>
-
-    //                             </div>
-    //                         </div>
-    //                     </div >
-
-    //                 }
-    //             </div>
-    //         };
-    //     });
-    // };
-
 
 
     const activeStatus = (value) => {
@@ -676,10 +586,11 @@ function IndividualChat() {
                                     </div>
                                     <textarea
                                         style={{
-                                            borderRadius: '15px'
+                                            // borderRadius: '15px'
+                                            height:'8vh'
                                         }}
                                         placeholder='write message'
-                                        className="form-control form-control-md mx-3 "
+                                        className="form-control form-control-md mx-3 overflow-hide"
                                         id="exampleFormControlInput1"
                                         autoComplete="off"
                                         onChange={(val) => {
@@ -732,56 +643,42 @@ function IndividualChat() {
                         >
                             <CardHeader className=''>
                                 <div className='mt--2'>
-                                    <h3>{"Members"}</h3>
-                                    <div className='mb--4'>
-                                        {/* <SearchInput
-                                            defaultValue=''
-                                            onSearch={(search) => {
-                                                getChatEmployeeList(search)
-                                            }} /> */}
-                                        <AutoComplete
-                                            variant={'custom'}
-                                            data={getDropDownCompanyUser(employees)}
-                                            selected={selectedUserId}
-                                            onChange={(item) => {
-                                                setSelectedUserId(item)
-                                                setSelectedUserDetails(item)
-
-
-                                            }}
-                                        />
+                                    <div className='row justify-content-between mx-1'>
+                                        <h3>{"Members"}</h3>
+                                        <div>
+                                            <Button
+                                                size='sm'
+                                                text={showAutoComplete ? 'Close' : 'Add'}
+                                                onClick={() => {
+                                                    setAutoComplete(!showAutoComplete)
+                                                }}
+                                            />
+                                        </div>
                                     </div>
+
+                                    {showAutoComplete &&
+                                        <div className='mb--4'>
+                                            <AutoComplete
+                                                variant={'custom'}
+                                                data={getDropDownCompanyUser(employees)}
+                                                // selected={selectedUserId}
+                                                onChange={(item) => {
+                                                    setSelectedUserId(item)
+                                                    setSelectedUserDetails(item)
+
+
+                                                }}
+                                            />
+                                        </div>
+                                    }
                                 </div>
+
                             </CardHeader>
 
                             {<div className={` overflow-auto overflow-hide `}
                                 style={{ height: "90vh" }}
 
                             >
-{/* 
-                                <div className='mx--3 '>
-                                    <CommonTable
-                                        isPagination
-                                        tableDataSet={employeeList}
-                                        displayDataSet={normalizedTableData(employeeList)}
-                                        noOfPage={chatEmployeeListNumOfPages}
-                                        currentPage={chatEmployeeListCurrentPages}
-                                        paginationNumberClick={(currentPage) => {
-                                            getChatEmployeeList(paginationHandler("current", currentPage));
-                                        }}
-                                        previousClick={() => {
-                                            getChatEmployeeList(paginationHandler("prev", chatEmployeeListCurrentPages))
-                                        }
-                                        }
-                                        nextClick={() => {
-                                            getChatEmployeeList(paginationHandler("next", chatEmployeeListCurrentPages));
-                                        }
-                                        }
-
-                                    />
-                                </div> */}
-
-                                
                                 {employeeList && employeeList?.length > 0 ?
                                     employeeList?.map((item: any) => {
                                         return (
