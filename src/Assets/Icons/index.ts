@@ -170,7 +170,6 @@ export const icons = {
   companyTaskPink: require('./CompanyTaskPink/icon.png'),
   group: require('./Group/icon.png'),
   admin: require('./Admin/icon.png'),
-  vcCall: require('./VcCall/phone-call.png'),
-  vcCall2: require('./VcCall/video-camera.png'),
+  vcCall: require('./VcCall/icon.png'),
   deleteRounded: require('./DeleteRounded/icon.png')
 };
