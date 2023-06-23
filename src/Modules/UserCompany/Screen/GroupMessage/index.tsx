@@ -318,31 +318,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         <textarea value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
                     </div>
 
-                    {/* <div className="col">
-                        <label className={`form-control-label`}>
-                          
-                            {translate("common.attach")}
-                        </label>
-                    </div> */}
-
-                    {/* <div className="row col-8 mx-1 ">
-                        {selectDropzone &&
-                            selectDropzone.map((el: any, index: number) => {
-                                return (
-                                    <Dropzone
-                                        variant="ICON"
-                                        icon={getPhoto(el?.attachment_file)}
-                                        size="xl"
-                                        onSelect={(image) => {
-                                            let file = image.toString().replace(/^data:(.*,)?/, "");
-                                            handleImagePicker(index, file);
-                                            setSelectDropzone([{ id: "1" }, { id: "2" }]);
-                                        }}
-                                    />
-                                );
-                            })}
-                    </div> */}
-
                     <div className="col-auto pb-2">
                         <div className="row">
                             <ImagePicker
