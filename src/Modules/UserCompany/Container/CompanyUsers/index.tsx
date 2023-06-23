@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, CommonTable, Image, MenuBar, Dropzone, Modal, SearchInput } from '@Components'
 import { getEmployees, addUpdateEmployeePhoto } from '@Redux'
-import { useModal, useNavigation } from '@Hooks'
+import { useInput, useModal, useNavigation } from '@Hooks'
 import { HOME_PATH } from '@Routes'
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler, } from "@Utils";
@@ -13,13 +13,14 @@ function CompanyUsers() {
 
   const { goTo } = useNavigation()
   const dispatch = useDispatch()
+  const search = useInput("");
 
   const { employees, selectedCompany ,employeesNumOfPages,employeesCurrentPages} = useSelector((state: any) => state.UserCompanyReducer);
 
   useEffect(() => {
-    getCompanyEmployeesApi(employeesCurrentPages)
-  }, []);
-
+    getCompanyEmployeesApi(employeesCurrentPages,search?.value)
+  }, [search.value]);
+  console.log(search.value,"pppppp")
   function getCompanyEmployeesApi(page_number: number,q_many:string = '') {
 
     const params = { branch_id: selectedCompany.branch_id ,
@@ -61,9 +62,10 @@ function CompanyUsers() {
       <div className='mx--3 mt-3'>
         <CommonTable card title={<div className='row'><div className='h3 '>{'Users'}</div>
          <div className='col-4 text-right '>
-         <SearchInput onSearch={(search:any) => {
-             getCompanyEmployeesApi(employeesCurrentPages,search)
-         }} />
+         <SearchInput onSearch={search.set
+            //  getCompanyEmployeesApi(employeesCurrentPages,search)
+         } 
+         defaultValue={search.value}/>
      </div> 
      </div>}
         isPagination

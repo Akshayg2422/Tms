@@ -5,6 +5,7 @@ import {
     MenuBar,
     Input,
     DropDown,
+    TextAreaInput,
 } from "@Components";
 import {
     useDispatch,
@@ -148,9 +149,10 @@ console.log(status.value,"lllll")
                  */
             }
 
-            <Modal fade={false} isOpen={taskCloseModal.visible} onClose={taskCloseModal.hide}>
+            <Modal fade={false} isOpen={taskCloseModal.visible} onClose={taskCloseModal.hide} size="md">
 
-                <div className="col-6">
+
+                <div className="col-12">
                     <DropDown
                         className="form-control-md"
                         heading={translate("common.taskStatus")}
@@ -159,12 +161,20 @@ console.log(status.value,"lllll")
                         onChange={status.onChange}
                     />
 
-                    <Input
+<TextAreaInput 
+               heading={translate("common.reason")!}
+                value={taskStatusReason.value}
+                onChange={taskStatusReason.onChange}
+                className="form-control form-control-sm"
+                
+                />
+
+                    {/* <Input
                         type={"text"}
                         heading={translate("common.reason")}
                         value={taskStatusReason.value}
                         onChange={taskStatusReason.onChange}
-                    />
+                    /> */}
                 </div>
 
                 <div className="pt-3 text-right">

@@ -10,6 +10,7 @@ import {
     ImagePicker,
     AutoComplete,
     InputHeading,
+    TextAreaInput,
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -245,14 +246,21 @@ function AddSubTask() {
                     onChange={title.onChange}
                 />
         
-                 <div >
+                 {/* <div >
                     
                     <InputHeading heading={translate('auth.description')}/>
                     <textarea 
                         value={description.value}
                         onChange={description.onChange}
                         className="form-control form-control-sm" />
-                </div>
+                </div> */}
+                  <TextAreaInput
+                heading={translate('auth.description')!}
+                value={description.value}
+                onChange={description.onChange}
+                className="form-control form-control-sm"
+                
+                />
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}

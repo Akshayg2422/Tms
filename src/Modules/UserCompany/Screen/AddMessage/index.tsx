@@ -26,7 +26,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
     const addGroupMessageApiHandler = () => {
 
-        if (message.value) {
+        if (message.value.trim()) {
             const params = {
                  group_id: AddGroup,
                 message: message.value,
@@ -72,7 +72,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
     const addGroupEventAttachment = () => {
         const validation = validate(GROUP_ATTACHMENT_RULES, {
-            attachment_name: attachmentName.value,
+            attachment_name: attachmentName.value.trim(),
             group_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : ''
         })
 

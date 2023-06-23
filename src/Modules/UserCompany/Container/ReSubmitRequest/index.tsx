@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMomentObjFromServer, getDisplayDateFromMomentByType, DD_MMMM_YYYY, HH_MM_A, getDisplayDateFromMoment } from '@Utils'
 import {
   addEmployeeTimeline,
+  addEnableRequest,
   employeeTimeLineStatus,
   getEmployeeTimeline,
   getEnableRequest
 } from "@Redux";
-import { Button, Image, CollapseButton,Modal,Input } from '@Components';
+import { Button, Image, CollapseButton,Modal,Input, CollapseEnableButton, TextAreaInput } from '@Components';
 import { icons } from '@Assets';
 import { ROUTES } from '@Routes'
 import { useInput, useModal, useNavigation } from '@Hooks'
@@ -19,10 +20,11 @@ function ReSubmitRequest() {
   const dispatch = useDispatch();
   const { goTo } = useNavigation();
   const [formattedShift, setFormattedShift] = useState<any>('')
-  const [date,setDate]=useState<any>()
-  const [status,setStatus]=useState<any>()
+  // const [date,setDate]=useState<any>()
+  // const [status,setStatus]=useState<any>()
 const addRejectReasonModal=useModal(false)
 const reason = useInput("");
+const [selectedId,setSelectedId]=useState<any>()
 
 
 
@@ -30,8 +32,7 @@ const reason = useInput("");
   const [startDate, setStartDate] = useState(moment().startOf('week'))
   const [endDate, setEndDate] = useState(moment().endOf('week'))
   const [currentDates, setCurrentDates] = useState(new Date());
-
-  const { employeeTimeline } = useSelector((state: any) => state.UserCompanyReducer);
+  const { employeeTimeline , enableRequestDataList} = useSelector((state: any) => state.UserCompanyReducer);
 
   useEffect(() => {
 
@@ -59,7 +60,7 @@ const getEnableList=()=>{
         getEnableRequest({
          params,
          onSuccess: (response) => () => {
-       
+          
            
         //    getEmployeesTimeList()
 
@@ -79,31 +80,31 @@ const getEnableList=()=>{
  
 
 
-     const addEmployeeTimeSheet = (item:any,id:any) => {
-    const params = {
-      timeline_status:id,
-       date:item,
-      ...(reason.value && {reason:reason.value})
+  //    const addEmployeeTimeSheet = (item:any,id:any) => {
+  //   const params = {
+  //     timeline_status:id,
+  //      date:item,
+  //     ...(reason.value && {reason:reason.value})
    
-    }
-    console.log(params,"pppp")
-      dispatch(
-         employeeTimeLineStatus({
-          params,
-          onSuccess: (response) => () => {
-            addRejectReasonModal.hide()
+  //   }
+  //   console.log(params,"pppp")
+  //     dispatch(
+  //        employeeTimeLineStatus({
+  //         params,
+  //         onSuccess: (response) => () => {
+  //           addRejectReasonModal.hide()
             
-            getEmployeesTimeList()
+  //           getEmployeesTimeList()
 
-          },
-          onError: (error) => () => {
-          }
+  //         },
+  //         onError: (error) => () => {
+  //         }
 
-        })
-      )
+  //       })
+  //     )
   
 
-  }
+  // }
 
 
   //start  date end date
@@ -201,6 +202,34 @@ const getEnableList=()=>{
     )
   }
 
+  const addTimeLineRequest =(item:any)=>{
+
+    const params={
+
+      ...(reason.value ?{is_rejected:true}:{is_approved:true}),
+      ...(reason.value && {reason:reason.value}),
+      id:item.id,
+    
+    
+    }
+    dispatch(
+      addEnableRequest({
+        params,
+        onSuccess:(response)=>()=>{
+          reason.set('')
+          addRejectReasonModal.hide()
+
+        },
+        onError: (error) => () => {
+
+        }
+      })
+
+    )
+
+  }
+
+
 
 
   function getDropDownDisplayData() {
@@ -231,24 +260,6 @@ const getEnableList=()=>{
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
           Status: el?.is_completed ? "complete" : "",
-      //     '':
-      //     <div>
-      //     {el?.timeline_status==='PAL' ?
-      //         <div>
-      //         <Button size={'sm'} text={'Approved'} onClick={() => {
-      //           setSelectApproval(true)
-                
-      //           addEmployeeTimeSheet(el.id,'APT')
-      //         }} />
-      //         <Button size={'sm'} text={'Reject'} onClick={() => {
-      //           setSelectReject(true)
-      //           addEmployeeTimeSheet(el.id,'REJ')
-               
-      //         }} />
-      //       </div>
-      // :el?.timeline_status==='APT'?<div className='text-primary h5'>Approved</div>:<div className='text-primary h5'>Rejected</div>}
-      // </div>
-
       }
         
       }
@@ -264,14 +275,15 @@ const getEnableList=()=>{
           onClose={() => {
             addRejectReasonModal.hide()
           }}
-          size='sm'
+          size='md'
           title={'Reject Reason'}
           >
-            <div className='h4 col text-muted pb-3 '>
+            {/* <div className='h4 col text-muted pb-3 '>
               Date : {getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(date))}
-            </div>
+            </div> */}
               <div className="col-12">
-                  <Input
+                  <TextAreaInput
+                  heading='Reason'
                     placeholder={'Reject Reason'}
                     value={reason.value}
                     onChange={reason.onChange}
@@ -290,7 +302,8 @@ const getEnableList=()=>{
               <Button
                 text={translate("common.submit")}
                 onClick={() => {
-                  addEmployeeTimeSheet(date,status)
+                  
+                  addTimeLineRequest(selectedId)
                 
                 }}
               />
@@ -308,38 +321,48 @@ const getEnableList=()=>{
 
       <>
 
-        <div>
-          {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
-            return (
-              <CollapseButton
-                selectedIds={formattedShift[index]?.date}
-                title={new Date(formattedShift[index]?.date)}
-                tableDataSet={formattedShift[index].taskListedArray}
-                displayDataSet={normalizedTableDatas(formattedShift[index].taskListedArray)}
-                text={'Approved'}
-                ApprovedStatus={formattedShift[index]?.taskListedArray[0]?.timeline_status}
-                // selectButtonReject={true}
-                  selectButton={formattedShift[index]?.taskListedArray[0]?.timeline_status==='PAL'?true:false}
-               selectButtonReject={formattedShift[index]?.taskListedArray[0]?.timeline_status==='PAL'?true:false}
-                textReject={'Reject'}
-                onClick={()=>{
-                
-               addEmployeeTimeSheet(el.date,'APT')
-                  setDate(el.date)
-                  setStatus('APT')
-                }}
-                onClickReject={()=>{
-                  // addEmployeeTimeSheet(el.date,'REJ')
-                  addRejectReasonModal.show()
-                  setDate(el.date)
-                  setStatus('REJ')
-                }}
-            
-              />
-            )
-          })}
-   
-        </div>
+        {formattedShift &&
+  formattedShift.length > 0 &&
+  formattedShift.map((el, index) => {
+    // Find the corresponding enable request data for the current formatted shift
+    const enableRequestData =enableRequestDataList &&  enableRequestDataList?.find(
+      (requestData) =>
+        moment(requestData?.requested_date)?.format("YYYY-MM-DD") === el.date
+    );
+
+    return (
+      <React.Fragment key={index}>
+        {enableRequestData && (
+          <CollapseEnableButton
+            selectedIds={formattedShift[index]?.date}
+            title={new Date(formattedShift[index]?.date)}
+            tableDataSet={formattedShift[index].taskListedArray}
+            displayDataSet={normalizedTableDatas(formattedShift[index].taskListedArray)}
+            text={"Enable Approved"}
+            selectButton={
+              formattedShift[index]?.date ===
+              moment(enableRequestData?.requested_date)?.format("YYYY-MM-DD")
+              ? true : false
+            }
+            selectButtonReject={
+              moment(enableRequestData?.requested_date)?.format("YYYY-MM-DD")
+              ? true : false
+            }
+            textReject={"Enable Reject"}
+            // taskStatus={el?.taskListedArray[0]?.reason}
+            onClick={(el) => {
+              addTimeLineRequest(enableRequestData)
+            }}
+            onClickReject={(el) => {
+               addRejectReasonModal.show();
+               setSelectedId(enableRequestData)
+            }}
+          />
+        )}
+      </React.Fragment>
+    );
+  })}
+
      
 
       </>

@@ -5,6 +5,7 @@ import {
     MenuBar,
     Input,
     DropDown,
+    TextAreaInput,
 } from "@Components";
 import {
     useDispatch,
@@ -162,13 +163,20 @@ function TicketItemMenu() {
                         selected={status.value}
                         onChange={status.onChange}
                     />
-
+{/* 
                     <Input
                         type={"text"}
                         heading={translate("common.reason")}
                         value={ticketStatusReason.value}
                         onChange={ticketStatusReason.onChange}
-                    />
+                    /> */}
+                           <TextAreaInput
+               heading={translate("common.reason")!}
+               value={ticketStatusReason.value}
+                        onChange={ticketStatusReason.onChange}
+                className="form-control form-control-sm"
+                
+                />
                 </div>
 
                 <div className="pt-3 text-right">

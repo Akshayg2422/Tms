@@ -153,3 +153,7 @@ export const fetchChatMessageApi = (payload) => post(URL.FETCH_CHAT_MESSAGE, pay
 
 export const fetchChatEmployeeListApi = (payload) => post(URL.FETCH_CHAT_EMPLOYEE_LIST, payload, {})
 
+/// get chat employee list
+
+export const getTimeLineBreakdownApi = (payload) => post(URL.GET_TIMELINE_BREAKDOWN, payload, {})
+

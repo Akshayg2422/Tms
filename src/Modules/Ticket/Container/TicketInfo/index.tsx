@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, TextAreaInput } from "@Components";
 import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates } from '@Utils'
 import { icons } from "@Assets";
 import { TicketInfoProps } from "./interface";
@@ -198,12 +198,19 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
              */}
             <Modal isOpen={editEtaModal.visible} onClose={() => { editEtaModal.hide() }} >
                 <div className="col-6">
-                    <Input
+                    {/* <Input
                         type={"text"}
                         heading={translate("common.reason")}
                         value={editEtaReason.value}
                         onChange={editEtaReason.onChange}
-                    />
+                    /> */}
+                      <TextAreaInput
+               heading={translate("common.reason")!}
+               value={editEtaReason.value}
+               onChange={editEtaReason.onChange}
+                className="form-control form-control-sm"
+                
+                />
                     <DateTimePicker
                         heading={'ETA'}
                         initialValue={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}

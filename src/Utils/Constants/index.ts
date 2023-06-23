@@ -79,8 +79,8 @@ export const TASK_FILTER_LIST = [
   { id: 'ALL', text: translate('common.All')! },
   // { id: 'created_by', text: translate('product.Created by me')! },
   { id: 'assigned_to', text: translate('product.assigned To Me')! },
-  { id: 'tagged_to', text: translate('product.tagged')! },
-  { id: 'advanceAssigned', text: 'Advance' }
+  // { id: 'tagged_to', text: translate('product.tagged')! },
+  { id: 'advance', text: 'Advanced' }
 
 ];
 
@@ -88,9 +88,12 @@ export const TASK_FILTER_LIST_CREATED_BY = [
   { id: 'ALL', text: translate('common.All')! },
    { id: 'created_by', text: translate('product.Created by me')! },
   // { id: 'assigned_to', text: translate('product.assigned To Me')! },
-  { id: 'tagged_to', text: translate('product.tagged')! },
-  { id: 'advanceCreated', text: 'Advance' }
+  // { id: 'tagged_to', text: translate('product.tagged')! },
+  { id: 'advance', text: 'Advanced' }
 ];
+
+export const TASK_FILTER_ALL={id: 'ALL', name: 'All' }
+export const TASK_COMPANY_FILTER={ id: '', display_name: '𝗦𝗘𝗟𝗙', name: 'self' }
 
 
 export const TASK_STATUS_LIST = [

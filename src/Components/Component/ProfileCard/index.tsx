@@ -4,13 +4,12 @@ import { Image, Button } from '@Components'
 import { ProfileCardProps } from './interfaces'
 import { getPhoto } from '@Utils'
 
-const ProfileCard = ({ coverPhoto, profilePhoto, name, department, designation, company, messageOnClick, connectOnClick }: ProfileCardProps) => {
+const   ProfileCard = ({ coverPhoto, profilePhoto, name, department, designation, company, messageOnClick, connectOnClick }: ProfileCardProps) => {
     return (
         <div className="card-profile p-2 mx--3 mb--4 mt--5">
             <CardImg
                 style={{ maxHeight: '200px' }}
                 src={getPhoto(coverPhoto)}
-
             />
             <Row className="justify-content-center">
                 <Col>
@@ -34,6 +33,7 @@ const ProfileCard = ({ coverPhoto, profilePhoto, name, department, designation, 
                         onClick={connectOnClick}
                         size={'sm'}
                     />
+
                     <Button
                         text={'Message'}
                         className="float-right px-2"
@@ -41,6 +41,7 @@ const ProfileCard = ({ coverPhoto, profilePhoto, name, department, designation, 
                         onClick={messageOnClick}
                         size={'sm'}
                     />
+
                 </div>
             </CardHeader>
             <CardBody className="pt-0">

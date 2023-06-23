@@ -11,22 +11,18 @@ import { translate } from '@I18n'
 import { icons } from "@Assets";
 
 function Tasks() {
-  const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "department_id": "ALL", "designation_id": "ALL", page_number: 1, employ_id: "" }
+  // const DEFAULT_PARAMS = { q_many: "",assigned_tasks_by: "assigned_to",assigned_company: '', created_company: '',"created_tasks_by":"ALL","task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL","created_department_id":"ALL","created_designation_id":"ALL", page_number: 1,assigned_emp_id: "",created_emp_id:"" }
   const dispatch = useDispatch()
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask, taskParams } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company } = dashboardDetails || ''
-  const [params, setParams] = useState(DEFAULT_PARAMS)
+  const [params, setParams] = useState(taskParams)
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [params])
-
-
-
-
 
   const getTaskHandler = (page_number: number) => {
     setLoading(true);
@@ -67,7 +63,6 @@ function Tasks() {
             </>,
           'description': <div>
             {description}
-
 
           </div>,
 

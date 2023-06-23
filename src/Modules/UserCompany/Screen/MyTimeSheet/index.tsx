@@ -9,7 +9,7 @@ import {
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
-import { Button, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, AutoComplete } from '@Components';
+import { Button, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, AutoComplete, TextAreaInput } from '@Components';
 import { icons } from '@Assets';
 import { ROUTES } from '@Routes'
 import { useNavigation } from '@Hooks'
@@ -49,12 +49,16 @@ function MyTimeSheet() {
   const [endDate, setEndDate] = useState(moment().endOf('week'))
   const [currentDates, setCurrentDates] = useState(new Date());
 
-  const { employeeTimeline } = useSelector((state: any) => state.UserCompanyReducer);
+  const { employeeTimeline ,dashboardDetails} = useSelector((state: any) => state.UserCompanyReducer);
   const getGroupMenuItem = [
     { id: '0', name: translate("common.Edit"), icon: icons.edit },
     { id: '1', name: 'Delete', icon: icons.delete },
 
   ]
+   const  data=['2023-06-18','2023-06-19','2023-06-20']
+
+
+
   useEffect(() => {
 
     getEmployeesTimeList()
@@ -132,8 +136,6 @@ function MyTimeSheet() {
     setEndDate(moment(endDate))
 
   };
-
-
 
   const dateWithTasks = (response: any) => {
     const TaskWithDates = [...dateWithTask()]
@@ -238,8 +240,9 @@ function MyTimeSheet() {
       addEnableRequest({
         params,
         onSuccess: (response) => () => {
-
+          enableModal.hide()
           // getEmployeesTimeList()
+          reason.set('')
 
         },
         onError: (error) => () => {
@@ -422,6 +425,7 @@ function MyTimeSheet() {
 
 
 
+
   return (
     <div className='m-3'>
 
@@ -438,9 +442,10 @@ function MyTimeSheet() {
 
         <div>
           {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
+            console.log(formattedShift[index]?.date,"datata====>")
 
-      
-
+            const filterDate=data && data.some((el:any)=>el===formattedShift[index]?.date)
+            console.log(filterDate,"filterDate")
             return (
               <CollapseButton
                 selectedIds={formattedShift[index]?.date}
@@ -450,21 +455,32 @@ function MyTimeSheet() {
                 onClick={() => {
                   addEtaTime.show()
                 }}
-                enableButton={formattedShift[index]?.date===dateFormate?false:true}
+                enableButton={
+                  filterDate?false:formattedShift[index]?.date===dateFormate?false:formattedShift[index]?.date>dateFormate?false:true}
                 // selectButtonReject={true}
-                selectButton={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
-                selectButtonReject={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : true}
+                // selectButton={
+                //   formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.date===dateFormate?true:false
+                // }
+                selectButton={
+                  filterDate?false:formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.date===dateFormate?true:false
+                }
+
+                
+                // selectButtonReject={
+                //   formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ?false:formattedShift[index]?.date===dateFormate?true:false
+                // }
+
+                selectButtonReject={
+                  filterDate?false:formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ?false:formattedShift[index]?.date===dateFormate?true:false
+                }
                 textReject={'Submit'}
                 onClickReject={() => {
-
                   reSubmitEmployeeTimeSheet(formattedShift[index]?.date)
-
                 }}
                 text={translate('common.add')!}
                 taskStatus={el?.taskListedArray[0]?.reason}
                 textEnable={'Enable'}
                 onClickEnable={() => {
-
                   setEnable(formattedShift[index]?.date)
                   enableModal.show()
 
@@ -490,11 +506,18 @@ function MyTimeSheet() {
 
       > 
         <div className="col-12">
-          <Input
+          {/* <Input
             placeholder={'Enable Reason'}
             value={reason.value}
             onChange={reason.onChange}
-          />
+          /> */}
+           <TextAreaInput
+               heading={'Enable Reason'}
+               value={reason.value}
+            onChange={reason.onChange}
+                className="form-control form-control-sm"
+                
+                />
         </div>
 
         <div className="text-right">
@@ -543,9 +566,9 @@ function MyTimeSheet() {
             }}
           />}
         <div>
-          <Input
-            heading={translate('auth.description')}
-            placeHolder={translate('auth.description')}
+          <TextAreaInput
+            heading={translate('auth.description')!}
+            placeholder={translate('auth.description')!}
             value={description.value}
             onChange={description.onChange} />
         </div>
@@ -607,9 +630,9 @@ function MyTimeSheet() {
           />
         </div>
         <div>
-          <Input
-            heading={translate('auth.description')}
-            placeHolder={translate('auth.description')}
+          <TextAreaInput
+            heading={translate('auth.description')!}
+            placeholder={translate('auth.description')}
             value={editDescriptions.value}
             onChange={editDescriptions.onChange} />
         </div>

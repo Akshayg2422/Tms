@@ -22,4 +22,12 @@ export interface TaskStateProp {
     subTaskGroups: any,
     assignedTask: any,
     taskParams: any,
+    assignedDepartment:any,
+    assignedDesignation:any,
+    assignedEmployee:any,
+    createdDepartment:any,
+    createdDesignation:any,
+    createdEmployee:any,
+    breakDownTimeLine:any,
+    
 }

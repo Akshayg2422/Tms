@@ -171,8 +171,9 @@ function BrandSector() {
         isOpen={addSectorModal.visible}
         onClose={addSectorModal.hide}
         title={translate("auth.sector")!}
+        size="md"
       >
-        <div className="col-6">
+        <div className="col-12">
           <Input
             placeholder={translate("auth.sector")}
             value={sector.value}

@@ -9,6 +9,12 @@ const initialState: TaskStateProp = {
   selectedTask: undefined,
   addTaskEvents: undefined,
   taskEventHistories: undefined,
+  assignedDepartment: undefined,
+  assignedDesignation: undefined,
+  assignedEmployee: undefined,
+  createdDepartment: undefined,
+  createdDesignation: undefined,
+  createdEmployee: undefined,
   subTasks: undefined,
   taskEvents: undefined,
   taskEventsNumOfPages: undefined,
@@ -22,9 +28,10 @@ const initialState: TaskStateProp = {
   taskEventAttachmentsCurrentPage: 1,
   selectedTabPositions: { id: '1' },
   taskDetails: {},
+  breakDownTimeLine:undefined,
   subTaskGroups: undefined,
   assignedTask: undefined,
-  taskParams: { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "department_id": "ALL", "designation_id": "ALL", page_number: 1,emp_id:"" },
+  taskParams: { q_many: "", assigned_tasks_by: "assigned_to",assigned_company: '', created_company: 'ALL', "created_tasks_by": "ALL", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL", "created_department_id": "ALL", "created_designation_id": "ALL", page_number: 1, assigned_emp_id: "", created_emp_id: "" },
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -196,7 +203,7 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_REFERENCE_TASKS_FAILURE:
       state = {
         ...state,
-        referencesTasks:undefined,
+        referencesTasks: undefined,
       };
       break;
 
@@ -279,7 +286,7 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
     case ActionTypes.GET_SUB_TASK_GROUPS_SUCCESS:
       console.log(JSON.stringify(action.payload));
-      state = { ...state, subTaskGroups: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details}
+      state = { ...state, subTaskGroups: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details }
       break;
     case ActionTypes.GET_SUB_TASK_GROUPS_FAILURE:
       state = { ...state, subTaskGroups: undefined }
@@ -299,12 +306,53 @@ const TaskReducer = (state = initialState, action: any) => {
       state = { ...state, assignedTask: undefined }
       break;
 
+      //GET TIME LINE BREAK DOWN
+
+      case ActionTypes.GET_TIMELINE_BREAKDOWN:
+        state = { ...state, breakDownTimeLine: undefined }
+        break;
+      case ActionTypes.GET_TIMELINE_BREAKDOWN_SUCCESS:
+  
+        state = { ...state,breakDownTimeLine: action.payload?.details }
+  
+        break;
+      case ActionTypes.GET_TIMELINE_BREAKDOWN_FAILURE:
+        state = { ...state, breakDownTimeLine: undefined }
+        break;
+
+
     /**
  * TASK FILTER GROUPS
  */
     case ActionTypes.TASK_DEFAULT_PARAMS:
       state = { ...state, taskParams: action.payload }
       break;
+
+    //assigned
+    case ActionTypes.ASSIGNED_DEPARTMENT:
+      state = { ...state, assignedDepartment: action.payload }
+      break;
+
+    case ActionTypes.ASSIGNED_DESIGNATION:
+      state = { ...state, assignedDesignation: action.payload }
+      break;
+
+    case ActionTypes.ASSIGNED_EMPLOYEE:
+      state = { ...state, assignedEmployee: action.payload }
+      break;
+    //creatyed
+    case ActionTypes.CREATED_DEPARTMENT:
+      state = { ...state, createdDepartment: action.payload }
+      break;
+    case ActionTypes.CREATED_DESIGNATION:
+      state = { ...state, createdDesignation: action.payload }
+      break;
+    case ActionTypes.CREATED_EMPLOYEE:
+      state = { ...state, createdEmployee: action.payload }
+      break;
+
+
+
 
     default:
       state = state;

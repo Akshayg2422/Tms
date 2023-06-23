@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard, InputHeading } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard, InputHeading, TextAreaInput } from "@Components";
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
@@ -291,12 +291,19 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     />
                
                     <div >
-                    <InputHeading heading={translate('auth.description')}/>
+                    {/* <InputHeading heading={translate('auth.description')}/>
                     <textarea 
                     style={{height:'140px'}}
                         value={editDescription.value}
                         onChange={editDescription.onChange}
-                        className="form-control form-control-sm" />
+                        className="form-control form-control-sm" /> */}
+                          <TextAreaInput
+               heading={translate('auth.description')!}
+                value={editDescription.value}
+                onChange={editDescription.onChange}
+                className="form-control form-control-sm"
+                
+                />
                 </div>
                 </div>
                 <div className="text-right pt-3">
@@ -315,15 +322,14 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     designation={by_user?.designation?.name}
                     company={raised_by_company?.display_name}
                     messageOnClick={ ()=>{
-                         dispatch(selectedVcDetails(by_user?.id))
+                         dispatch(selectedVcDetails(by_user))
                         goTo( ROUTES['user-company-module']['individual-chat'], false)}}
-
-                   
                 />
 
             </Modal>
 
             <Alert
+            size="md"
                 title="Are you sure want to start the task?"
                 isOpen={alertModal.visible}
                 onClose={alertModal.hide}

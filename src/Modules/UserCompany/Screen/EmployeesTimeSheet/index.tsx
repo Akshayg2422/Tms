@@ -12,7 +12,7 @@ function EmployeesTimeSheet() {
   const dispatch = useDispatch();
   const [employeesTimeSheets, setEmployeesTimeSheets] = useState([])
   const {  selectedEmployee } = useSelector((state: any) => state.UserCompanyReducer);
-  console.log( selectedEmployee,"bbbbbb")
+
   const { id,name } = selectedEmployee
   useEffect(() => {
     const params = {emp_id:id,
