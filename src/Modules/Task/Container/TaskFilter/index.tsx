@@ -1,61 +1,180 @@
 import React, { useEffect, useState } from 'react'
 import { TaskFilterProps } from './interfaces'
-import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
+import { DropDown, Checkbox, SearchInput, MenuBar, AutoComplete, P } from '@Components'
 import { translate } from '@I18n'
-import { TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, getObjectFromArrayByKey, getDropDownCompanyDisplayData, getDropDownDisplayData, } from '@Utils'
+import {
+    TASK_FILTER_LIST, TASK_STATUS_LIST, TASK_PRIORITY_LIST, getObjectFromArrayByKey, getDropDownCompanyDisplayData, getDropDownDisplayData, getDropDownCompanyUser, TASK_FILTER_LIST_CREATED_BY,TASK_COMPANY_FILTER,
+    TASK_FILTER_ALL
+} from '@Utils'
 import { useDropDown, useInput } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartments, getDesignations, setTaskParams } from '@Redux'
+import { getAssociatedCompaniesL, getDepartments, getDesignations, getEmployees, setTaskParams, setAssignedDepartment, setAssignedDesignation, setAssignedEmployee, setCreatedDepartment, setCreatedDesignation, setCreatedEmployee } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { icons } from '@Assets'
 
-
-const FILTER_MENU = [
-    {
-        id: 0, name: translate("auth.basic"), icon: icons.basic,
-    },
-    {
-        id: 1, name: translate("auth.advance"), icon: icons.advanceFilter,
-    }
-]
-
-
 function TaskFilter({ onParams }: TaskFilterProps) {
 
-
-    const { taskParams } = useSelector((state: any) => state.TaskReducer);
-    const { associatedCompaniesL ,departments,designations} = useSelector((state: any) => state.UserCompanyReducer);
-    
-
-
     const dispatch = useDispatch()
-    const filteredTask = useDropDown(TASK_FILTER_LIST[2]);
+    const { taskParams, assignedDepartment, assignedDesignation, assignedEmployee, createdDepartment, createdDesignation, createdEmployee } = useSelector((state: any) => state.TaskReducer);
+    const { associatedCompaniesL, departments, designations, employees, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    const filteredTaskAssigned = useDropDown(TASK_FILTER_LIST[1]);
+    const filteredTaskCreated = useDropDown(TASK_FILTER_LIST_CREATED_BY[0]);
     const taskStatus = useDropDown(TASK_STATUS_LIST[2]);
     const taskPriority = useDropDown(TASK_PRIORITY_LIST[0]);
     const company = useDropDown({})
-    const department = useDropDown({id:'ALL',name:'All'})
-    const designation = useDropDown({id:'ALL',name:'All'})
+    const createdCompany = useDropDown({})
+    const department = useDropDown(TASK_FILTER_ALL)
+    const designation = useDropDown(TASK_FILTER_ALL)
+    const createdDepartmentList = useDropDown(TASK_FILTER_ALL)
+    const createdDesignationList = useDropDown(TASK_FILTER_ALL)
     const [includeSubTask, setIncludeSubTask] = useState(false)
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
+    const [advanceFiltersAssignedTo, setAdvanceFiltersAssignedTo] = useState(false)
+    const [advanceFiltersCreatedBy, setAdvanceFiltersCreatedBy] = useState(false)
     const search = useInput('')
-    const modifiedDepartment=departments?[{id:'ALL',name:'All'},...departments]:[{id:'ALL',name:'All'}]
-    const modifiedDesignation=designations ?[{id:'ALL',name:'All'},...designations]:[{id:'ALL',name:'All'}]
-    const modifiedCompany=associatedCompaniesL && associatedCompaniesL.length>0 &&[{ id: '',display_name: '𝗦𝗘𝗟𝗙', name: 'self' },...associatedCompaniesL ]
-
+    const modifiedAssignedDepartment = assignedDepartment?.length > 0 ? [TASK_FILTER_ALL, ...assignedDepartment] : [TASK_FILTER_ALL]
+    const modifiedAssignedDesignation = assignedDesignation?.length > 0 ? [TASK_FILTER_ALL, ...assignedDesignation] : [TASK_FILTER_ALL]
+    const modifiedCreateDepartment = createdDepartment?.length > 0 ? [TASK_FILTER_ALL, ...createdDepartment] : [TASK_FILTER_ALL]
+    const modifiedCreateDesignation = createdDesignation?.length > 0 ? [TASK_FILTER_ALL, ...createdDesignation] : [TASK_FILTER_ALL]
+    const modifiedCompany = associatedCompaniesL && associatedCompaniesL.length > 0 && [TASK_COMPANY_FILTER, ...associatedCompaniesL]
+    const [selectedAssignedUserId, setSelectedAssignedUserId] = useState<any>();
+    const [selectedCreatedUserId, setSelectedCreatedUserId] = useState<any>();
+   
 
     useEffect(() => {
 
         if (taskParams) {
-            const { q_many, task_status, priority, tasks_by, include_subtask } = taskParams
+            
+            const { q_many, task_status, priority, include_subtask, assigned_tasks_by, created_tasks_by, assigned_company, assigned_department_id, assigned_designation_id, assigned_emp_id, created_department_id,created_company} = taskParams
             search.set(q_many)
-            filteredTask.set(getObjectFromArrayByKey(TASK_FILTER_LIST, 'id', tasks_by))
+            // filteredTask.set(getObjectFromArrayByKey(TASK_FILTER_LIST, 'id', tasks_by))
+            if (modifiedCompany?.length > 0) {
+                company.set(getObjectFromArrayByKey(modifiedCompany, 'id', assigned_company))
+
+            }
+
+            if (modifiedAssignedDepartment?.length > 0) {
+                department.set(getObjectFromArrayByKey(modifiedAssignedDepartment, 'id', assigned_department_id))
+
+            }
+            if (modifiedAssignedDesignation?.length > 0) {
+                designation.set(getObjectFromArrayByKey(modifiedAssignedDesignation, 'id', assigned_designation_id))
+
+            }
+            if (assignedEmployee && assignedEmployee.length > 0) {
+                setSelectedAssignedUserId(getObjectFromArrayByKey(assignedEmployee, 'id', assigned_emp_id))
+            }
+
+            if (createdDepartment && createdDepartment?.length > 0) {
+              
+                createdDepartmentList.set(getObjectFromArrayByKey(modifiedCreateDepartment, 'id', created_department_id))
+
+            }
+            if ( createdDesignation&&  createdDesignation?.length > 0) {
+              
+                createdDesignationList.set(getObjectFromArrayByKey(modifiedCreateDesignation , 'id', created_department_id))
+
+            }
+
+            if(modifiedCompany && modifiedCompany?.length > 0){
+                createdCompany.set(getObjectFromArrayByKey( modifiedCompany, 'id',created_company))
+
+            }
+
+            
+            // createdCompany.set(getObjectFromArrayByKey( modifiedCompany, 'id',created_company))
+
+            filteredTaskAssigned.set(getObjectFromArrayByKey(TASK_FILTER_LIST, 'id', assigned_tasks_by))
+            filteredTaskCreated.set(getObjectFromArrayByKey(TASK_FILTER_LIST_CREATED_BY, 'id', created_tasks_by))
             taskStatus.set(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status))
             taskPriority.set(getObjectFromArrayByKey(TASK_PRIORITY_LIST, 'id', priority))
             setIncludeSubTask(include_subtask)
         }
 
     }, [taskParams])
-   
+
+    useEffect(()=>{
+        getDesignation('')
+        getDepartment('')
+        getCreateDesignation('')
+        getCreateDepartment ('')
+
+    },[])
+  console.log(taskParams,"ok")
+
+    useEffect(() => {
+        if (company.value || department.value?.id !== 'ALL' || designation.value?.id !== 'ALL') {
+            getCompanyEmployeeApi()
+
+        }
+    }, [designation?.value, department?.value, company?.value?.id,])
+
+
+    function getCompanyEmployeeApi() {
+
+        const params = {
+            branch_id: company?.value?.id ? company.value.id : dashboardDetails?.permission_details?.branch_id,
+            ...(department && { department_id: department?.value?.id }),
+            ...(designation && { designation_id: designation?.value?.id }),
+            per_page_count: -1,
+        };
+
+
+        dispatch(
+            getEmployees({
+                params,
+                onSuccess: (response: any) => () => {
+
+                    dispatch(
+                        setAssignedEmployee(response?.details)
+
+                    )
+
+                },
+                onError: () => () => { },
+            })
+        );
+    }
+
+
+    useEffect(() => {
+        if (createdCompany?.value || createdDepartmentList?.value?.id !== 'ALL' || createdDesignationList?.value?.id !== 'ALL') {
+
+            getCompanyCreatedEmployeeApi()
+
+        }
+
+    }, [createdDesignationList.value, createdDepartmentList.value, createdCompany.value])
+
+    function getCompanyCreatedEmployeeApi() {
+
+        const params = {
+            branch_id: createdCompany?.value?.id ? createdCompany?.value?.id : dashboardDetails?.permission_details?.branch_id,
+            ...(createdDepartmentList && { department_id: createdDepartmentList?.value?.id }),
+            ...(createdDesignationList && { designation_id: createdDesignationList?.value?.id }),
+            per_page_count: -1,
+        };
+
+        dispatch(
+            getEmployees({
+                params,
+                onSuccess: (response: any) => () => {
+
+                    dispatch(
+                        setCreatedEmployee(response?.details)
+
+                    )
+
+
+
+                },
+                onError: () => () => {
+                 
+                },
+            })
+        );
+    }
+
     useEffect(() => {
         const params = { q: '' };
         if (advanceFilter) {
@@ -63,21 +182,6 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                 getAssociatedCompaniesL({
                     params,
                     onSuccess: (response) => () => {
-
-                        // const companies = response.details
-
-                        // let modifiedCompanies = []
-                        // modifiedCompanies = [...modifiedCompanies, { id: '', text: '𝗦𝗘𝗟𝗙', name: 'self' } as never]
-                        // if (companies && companies.length > 0) {
-                        //     modifiedCompanies = [...modifiedCompanies, ...companies.map((each) => {
-                        //         return {
-                        //             id: each.id,
-                        //             text: each.display_name,
-                        //             name: each.display_name,
-                        //         }
-                        //     }) as never]
-                        // }
-                        // setCompanies(modifiedCompanies)
                     },
                     onError: () => () => {
                     },
@@ -86,26 +190,53 @@ function TaskFilter({ onParams }: TaskFilterProps) {
         }
     }, [advanceFilter]);
 
- 
+
+
     const getDesignation = (items: any) => {
 
-        if (items?.id) {
+        // if (items?.id) {
             const params = {
-                branch_id: items.id
+                branch_id: items.id?items?.id:dashboardDetails?.permission_details?.branch_id,
+                per_page_count: -1,
             };
 
             dispatch(
                 getDesignations({
                     params,
                     onSuccess: (response) => () => {
-                        // let designations: any = [];
-                        // const designation = response.details.data
-                        // designation.forEach((item) => {
-                        //     designations = [...designations, {...item, text: item.name }]
-                        // })
-                        // setDesignations(designations)
-                  
-                   
+                        dispatch(
+                            setAssignedDesignation(response?.details)
+                        )
+
+                    },
+                    onError: () => () => {
+                 
+                    },
+                })
+
+            );
+
+
+     
+    }
+
+
+    const getCreateDesignation = (items: any) => {
+
+        // if (items?.id) {
+            const params = {
+                branch_id: items.id?items?.id:dashboardDetails?.permission_details?.branch_id,
+                per_page_count: -1,
+            };
+
+            dispatch(
+                getDesignations({
+                    params,
+                    onSuccess: (response) => () => {
+                        dispatch(
+                            setCreatedDesignation(response?.details)
+                        )
+
                     },
                     onError: () => () => {
                         // setDesignations([])
@@ -115,29 +246,26 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             );
 
 
-        }
+        // }
     }
+
 
     const getDepartment = (items: any) => {
 
-        if (items?.id) {
+        // if (items?.id) {
             const params = {
-                branch_id: items.id
+                branch_id: items?.id?items?.id:dashboardDetails?.permission_details?.branch_id,
+                per_page_count: -1,
             };
             dispatch(
                 getDepartments({
                     params,
                     onSuccess: (response: any) => () => {
+                        dispatch(
+                            setAssignedDepartment(response?.details)
+                        )
 
-                        // let departments: any = [];
-                        // const department = response.details.data
-                        // department.forEach((item) => {
-                        //     departments = [...departments, { ...item, text: item.name }]
-                        // })
 
-                        // setDepartments(departments)
-                       
-                        // proceedParams({ department_id: 'ALL'})
                     },
                     onError: (error) => () => {
                         // setDepartments([])
@@ -145,20 +273,52 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                     },
                 })
             );
-        }
+        // }
 
 
     }
 
 
+    const getCreateDepartment = (items: any) => {
+
+        // if (items?.id) {
+            const params = {
+                branch_id: items?.id?items?.id:dashboardDetails?.permission_details?.branch_id,
+                per_page_count: -1,
+            };
+            dispatch(
+                getDepartments({
+                    params,
+                    onSuccess: (response: any) => () => {
+                        dispatch(
+                            setCreatedDepartment(response?.details)
+                        )
+
+
+                    },
+                    onError: (error) => () => {
+                        // setDepartments([])
+
+                    },
+                })
+            );
+        // }
+
+
+    }
+
     function proceedParams(object: any) {
-    
+
         const updatedParams = { ...params, ...object }
         if (onParams) {
             onParams(updatedParams)
         }
         setParams(updatedParams)
     }
+
+
+    console.log(JSON.stringify(taskParams) + '====');
+
     return (
         < >
             <div className="row">
@@ -175,16 +335,67 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                         <DropDown
                             className="form-control-sm"
                             heading={translate("common.assignedTo")}
-                            selected={filteredTask.value}
+                            // selected={filteredTask .value}
+                            selected={filteredTaskAssigned.value}
                             data={TASK_FILTER_LIST}
                             onChange={(item) => {
-                                filteredTask.onChange(item)
-                                proceedParams({ tasks_by: item.id })
+                                if (item.id === 'advance') {
+                                    setAdvanceFiltersAssignedTo(true)
+                                    getCompanyEmployeeApi()
+                                    proceedParams({ assigned_tasks_by: item.id, assigned_company: '', assigned_designation_id: 'ALL', assigned_department_id: 'ALL', assigned_emp_id: '' })
+
+                                }
+                                else {
+                                    setAdvanceFiltersAssignedTo(false)
+                                    if (item.id === 'ALL') {
+                                        proceedParams({ assigned_tasks_by: item.id, assigned_company: 'ALL', assigned_designation_id: 'ALL', assigned_department_id: 'ALL', assigned_emp_id: '' })
+                                    }
+                                    else {
+                                        proceedParams({ assigned_tasks_by: item.id, assigned_company: '', assigned_designation_id: 'ALL', assigned_department_id: 'ALL', assigned_emp_id: '' })
+
+                                    }
+
+                                }
+                                filteredTaskAssigned.onChange(item)
+                                setAdvanceFilter(true)
+
+                            }}
+                        />
+                    </div>
+                    <div className="col-lg-3 col-md-3 col-sm-12 ">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={'Created By'}
+                            selected={filteredTaskCreated.value}
+                            data={TASK_FILTER_LIST_CREATED_BY}
+                            onChange={(item) => {
+
+                                if (item.id === 'advance') {
+                                    setAdvanceFiltersCreatedBy(true)
+                                    getCompanyCreatedEmployeeApi()
+                                    proceedParams({ created_tasks_by: item.id, created_company: '', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' })
+                                    createdCompany.onChange( TASK_COMPANY_FILTER)
+                                }
+                                else {
+                                    setAdvanceFiltersCreatedBy(false)
+                                    if (item.id === 'ALL') {
+                                        proceedParams({ created_tasks_by: item.id, created_company: 'ALL', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' })
+                                        createdCompany.onChange( TASK_COMPANY_FILTER)
+
+                                    }
+                                    else {
+                                        proceedParams({ created_tasks_by: item.id, created_company: '', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' })
+                                        createdCompany.onChange( TASK_COMPANY_FILTER)
+                                    }
+                                }
+
+                                filteredTaskCreated.onChange(item)
+                                setAdvanceFilter(true)
                             }}
                         />
                     </div>
 
-                    <div className="col-lg-3 col-md-3 col-sm-12">
+                    <div className="col-3">
                         <DropDown
                             className="form-control-sm"
                             heading={translate("common.taskStatus")}
@@ -196,6 +407,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                             }}
                         />
                     </div>
+
                     <div className="col-lg-3 col-md-3 col-sm-12">
                         <DropDown
                             className="form-control-sm"
@@ -208,83 +420,182 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                             }}
                         />
                     </div>
+
+                    <div className='col mt-4 pt-1'>
+
+                        <Checkbox text={translate('common.includeSubtask')!} defaultChecked={includeSubTask} onCheckChange={(checked) => {
+                            proceedParams({ include_subtask: checked })
+                            setIncludeSubTask(checked)
+                        }} />
+                        {/* </div> */}
+                    </div>
+
                 </div>
-                <div className="d-flex align-items-center justify-content-center">
-                    <MenuBar toggleIcon={icons.equalizer} menuData={FILTER_MENU} onClick={(el) => {
-                        if (el.id === FILTER_MENU[1].id) {
-                            setAdvanceFilter(true)
-                            // setDepartments([])
-                            // setDesignations([])
-                           
-                            proceedParams({ company :'',designation_id: 'ALL', department_id: 'ALL' })
-                            company.onChange({})
-                        } else {
-                            setAdvanceFilter(false)
-                            // setDepartments([])
-                            // setDesignations([])
-                            company.onChange({})
-                        }
-                    }} />
+
+            </div>
+            {advanceFiltersAssignedTo && <div>
+
+                <div className='row'>
+                    <div className='text-black h5 col'>ASSIGNED TO</div>
+
+                </div>
+                <div className='row mt-2'>
+
+                    {modifiedCompany && <div className="col-lg-3 col-md-3 col-sm-12">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("common.company")}
+                            data={getDropDownCompanyDisplayData(modifiedCompany)}
+                            selected={company.value}
+                            onChange={(item) => {
+                                company.onChange(item)
+                                getDesignation(item)
+                                getDepartment(item)
+                                proceedParams({ assigned_company: item.id, assigned_department_id: 'ALL', assigned_designation_id: 'ALL', assigned_emp_id: '' })
+                                department.onChange(TASK_FILTER_ALL)
+                                designation.onChange(TASK_FILTER_ALL)
+                                setSelectedAssignedUserId('')
+
+
+                            }}
+                        />
+                    </div>
+                    }
+                    <div className="col-lg-3 col-md-3 col-sm-12">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("common.department")}
+                            data={getDropDownDisplayData(modifiedAssignedDepartment)}
+                            selected={department.value}
+                            onChange={(item) => {
+                                department.onChange(item)
+                                proceedParams({ assigned_department_id: item.id, assigned_emp_id: '' })
+                                setSelectedAssignedUserId('')
+
+                            }}
+                        />
+                    </div>
+                    <div className="col-lg-3 col-md-3 col-sm-12">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("auth.designation")}
+                            data={getDropDownDisplayData(modifiedAssignedDesignation)}
+                            selected={designation.value}
+                            onChange={(item) => {
+                                designation.onChange(item)
+                                proceedParams({ assigned_designation_id: item.id, assigned_emp_id: '' })
+                                setSelectedAssignedUserId('')
+
+                            }}
+                        />
+                    </div>
+
+                    {
+                        assignedEmployee && assignedEmployee.length > 0 &&
+                        <div className="col-lg-3 col-md-3 col-sm-12">
+
+                            <AutoComplete
+                                className="form-control-sm"
+                                variant={'custom'}
+                                heading={translate("common.user")!}
+                                data={getDropDownCompanyUser(assignedEmployee)}
+                                selected={selectedAssignedUserId}
+                                onChange={(item) => {
+                                    setSelectedAssignedUserId(item)
+                                    proceedParams({ assigned_emp_id: item.id })
+                                }}
+                            />
+                        </div>
+                    }
+
                 </div>
             </div>
-            <div className='row mt-2'>
-                <div className='col-auto  d-flex align-items-center justify-content-center'>
-                    <Checkbox text={translate('common.includeSubtask')!} defaultChecked={includeSubTask} onCheckChange={(checked) => {
-                        proceedParams({ include_subtask: checked })
-                        setIncludeSubTask(checked)
-                    }} />
-                </div>
-                {advanceFilter && modifiedCompany &&<div className="col-lg-3 col-md-3 col-sm-12">
-                    <DropDown
-                        className="form-control-sm"
-                        heading={translate("common.company")}
-                        data={getDropDownCompanyDisplayData(modifiedCompany)}
-                        selected={company.value}
-                        onChange={(item) => {
-                         
-                            company.onChange(item)
-                            getDesignation(item)
-                            getDepartment(item)
-                            proceedParams({ company :item.id,designation_id: 'ALL', department_id: 'ALL' })
-                            department.onChange({id:'ALL',text:'All'})
-                            designation.onChange({id:'ALL',text:'All'})
-                           
-                            
-                        }}
-                    />
-                </div>
-                }
+            }
+            {advanceFiltersCreatedBy && <div>
 
-                {advanceFilter  && <div className="col-lg-3 col-md-3 col-sm-12">
-                    <DropDown
-                        className="form-control-sm"
-                        heading={translate("common.department")}
-                        data={ getDropDownDisplayData(modifiedDepartment)}
-                        selected={department.value}
-                        onChange={(item) => {
-                            department.onChange(item)
-                            proceedParams({ department_id: item.id })
+                <div className='row'>
+                    <div className='text-black h5 col'>CREATED BY</div>
 
-                        }}
-                    />
                 </div>
-                }
+                <div className='row mt-2'>
+                    {modifiedCompany && <div className="col-lg-3 col-md-3 col-sm-12">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("common.company")}
+                            data={getDropDownCompanyDisplayData(modifiedCompany)}
+                            selected={createdCompany.value}
+                            onChange={(item) => {
+                                
+                                createdCompany.onChange(item)
+                                getCreateDesignation(item)
+                                getCreateDepartment(item)
+                                proceedParams({ created_company: item.id, created_department_id: 'ALL', created_designation_id: 'ALL', created_emp_id: '' })
+                                createdDepartmentList.onChange(TASK_FILTER_ALL)
+                                createdDesignationList.onChange(TASK_FILTER_ALL)
+                                setSelectedCreatedUserId('')
+                            }}
+                        />
+                    </div>
+                    }
 
-                { advanceFilter   && <div className="col-lg-3 col-md-3 col-sm-12">
-                    <DropDown
-                        className="form-control-sm"
-                        heading={translate("auth.designation")}
-                        data={ getDropDownDisplayData(modifiedDesignation)}
-                        selected={designation.value}
-                        onChange={(item) => {
-                            designation.onChange(item)
-                            proceedParams({ designation_id: item.id })
+                    <div className="col-lg-3 col-md-3 col-sm-12">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("common.department")}
+                            data={getDropDownDisplayData(modifiedCreateDepartment)}
+                            selected={createdDepartmentList.value}
+                            onChange={(item) => {
+                                createdDepartmentList.onChange(item)
+                                proceedParams({ created_department_id: item.id, created_emp_id: '' })
+                                setSelectedCreatedUserId('')
 
-                        }}
-                    />
+                            }}
+                        />
+                    </div>
+
+
+                    <div className="col-lg-3 col-md-3 col-sm-12">
+                        <DropDown
+                            className="form-control-sm"
+                            heading={translate("auth.designation")}
+                            data={getDropDownDisplayData(modifiedCreateDesignation)}
+                            selected={createdDesignationList.value}
+                            onChange={(item) => {
+                                createdDesignationList.onChange(item)
+                                proceedParams({ created_designation_id: item.id, created_emp_id: '' })
+                                setSelectedCreatedUserId('')
+
+                            }}
+                        />
+                    </div>
+
+                    {
+                        createdEmployee && createdEmployee.length > 0 &&
+                        <div className="col-lg-3 col-md-3 col-sm-12">
+
+                            <AutoComplete
+                                className="form-control-sm"
+                                variant={'custom'}
+                                heading={translate("common.user")!}
+                                data={getDropDownCompanyUser(createdEmployee)}
+                                selected={selectedCreatedUserId}
+                                onChange={(item) => {
+                                    setSelectedCreatedUserId(item)
+                                    proceedParams({ created_emp_id: item.id })
+
+
+                                }}
+                            />
+                        </div>
+                    }
+
+
+
                 </div>
-                }
+
+
             </div>
+            }
 
         </>
     )

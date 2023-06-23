@@ -1,10 +1,10 @@
 import React from 'react'
 import Select2 from "react-select2-wrapper";
 import { AutoCompleteProps } from './interfaces'
-import { FormGroup } from 'reactstrap'
+import { Form, FormGroup } from 'reactstrap'
 import { Option, InputHeading } from '@Components'
 
-function  AutoComplete ({ variant = 'default', data, id, heading, selected, className, onChange }: AutoCompleteProps) {
+function  AutoComplete ({ variant = 'default', data, id, heading, selected, className, onChange ,inputType}: AutoCompleteProps) {
 
     const formatOption = (option: any) => {
        
@@ -52,10 +52,11 @@ function  AutoComplete ({ variant = 'default', data, id, heading, selected, clas
 
 
     return (
-        <FormGroup>
+        <Form>
             <InputHeading heading={heading} id={id} />
             <Select2
                 data={data}
+                 data-minimum-results-for-search={inputType}
                 className={className}
                 value={selected && selected.id}
                 options={{
@@ -65,7 +66,7 @@ function  AutoComplete ({ variant = 'default', data, id, heading, selected, clas
                 onChange={proceedOnChange}
 
             />
-        </FormGroup>
+        </Form>
     )
 
 }

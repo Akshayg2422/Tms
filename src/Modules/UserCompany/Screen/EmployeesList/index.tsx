@@ -25,17 +25,20 @@ function EmployeesList() {
 
     useEffect(() => {
         getCompanyEmployeesApi(employeesCurrentPages)
-    }, []);
+    }, [employeesCurrentPages]);
 
+    console.log(employeesCurrentPages,"employeesCurrentPages")
 
     function getCompanyEmployeesApi(page_number: number, q_many: string = '') {
         setLoading(true)
+
         const params = {
             branch_id: company_branch?.id,
             q_many,
             page_number,
 
         };
+        if( page_number!==null){
         dispatch(getEmployees({
             params,
             onSuccess: (response) => () => {
@@ -45,6 +48,8 @@ function EmployeesList() {
                 setLoading(false)
             }
         }));
+    }
+        
     }
 
     const normalizedTableData = (data: any) => {

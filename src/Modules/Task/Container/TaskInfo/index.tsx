@@ -1,15 +1,16 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard, InputHeading } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard, InputHeading, TextAreaInput } from "@Components";
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useNavigation } from '@Hooks'
-import { addTaskEvent, getTaskDetails, refreshTaskEvents } from '@Redux'
+import { addTaskEvent, getTaskDetails, refreshTaskEvents, selectedVcDetails } from '@Redux'
 import { useParams } from 'react-router-dom'
 import { CardFooter } from "reactstrap";
+import { ROUTES } from "@Routes";
 
 const START_TASK = 1
 const END_TASK = 2
@@ -18,11 +19,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const { id } = useParams()
 
-
     const dispatch = useDispatch()
     const { taskDetails, selectedTask } = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time, } = taskDetails || {};
+    const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time } = taskDetails || {};
     const [eta, setEta] = useState(eta_time)
     const editTitle = useInput(title)
     const editDescription = useInput(description)
@@ -138,13 +138,13 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             <Card className={'px-3'}>
                 <div>
                     <div className="row">
-                        <div className="col">
+                        <div className="col ">
                             <div className="row">
                                 <Back />
                                 <div className="ml-2">
                                     <div>{title && <H tag={"h4"} className="mb-0" text={title} />}</div>
-                                    {description && <p className="text-muted text-sm mb--2">{capitalizeFirstLetter(description)}</p>}
-                                    {code && <small>{`#${code}`}</small>}
+                                      {code && <small>{`#${code}`}</small>}
+                                {description && <div className="text-sm mb--2 text-black  ml--4">{capitalizeFirstLetter(description)}</div>}
                                 </div>
                             </div>
                         </div>
@@ -157,7 +157,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         </div>
                     </div>
 
-                    <div className="row mt-3">
+                    <div className="row mt-3 ">
                         {
                             task_attachments &&
                             task_attachments?.length > 0 && task_attachments?.map
@@ -231,7 +231,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 alertModal.show()
                                 setActionTask(START_TASK)
                             }} />}
-                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button className={'text-white'} size={'sm'} text={'End'} onClick={() => {
+                        {(assigned_to?.id === dashboardDetails?.user_details?.id && start_time && !end_time) && < Button className={'text-white'} size={'sm'} text={'mark as Closed'} onClick={() => {
                             alertModal.show()
                             setActionTask(END_TASK)
                         }} />}
@@ -280,29 +280,35 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 </CardFooter>
             </Modal>
 
-            <Modal title={translate('auth.Edit task Details')!} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
+            <Modal size={'md'}title={translate('auth.Edit task Details')!} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
 
-                <CardFooter className={'mt--4 mx--4'}>
-                    <div className="col-6">
-                        <Input
-                            type={"text"}
-                            heading={translate("common.title")}
-                            value={editTitle.value}
-                            onChange={editTitle.onChange}
-                        />
-
-                        <div >
-                            <InputHeading heading={translate('auth.description')} />
-                            <textarea
-                                value={editDescription.value}
-                                onChange={editDescription.onChange}
-                                className="form-control form-control-sm" />
-                        </div>
-                    </div>
-                    <div className="text-right">
-                        <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
-                    </div>
-                </CardFooter>
+                <div className="col-12 ">
+                    <Input
+                        type={"text"}
+                        heading={translate("common.title")}
+                        value={editTitle.value}
+                        onChange={editTitle.onChange}
+                    />
+               
+                    <div >
+                    {/* <InputHeading heading={translate('auth.description')}/>
+                    <textarea 
+                    style={{height:'140px'}}
+                        value={editDescription.value}
+                        onChange={editDescription.onChange}
+                        className="form-control form-control-sm" /> */}
+                          <TextAreaInput
+               heading={translate('auth.description')!}
+                value={editDescription.value}
+                onChange={editDescription.onChange}
+                className="form-control form-control-sm"
+                
+                />
+                </div>
+                </div>
+                <div className="text-right pt-3">
+                    <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
+                </div>
 
             </Modal>
 
@@ -315,16 +321,21 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     department={by_user?.department?.name}
                     designation={by_user?.designation?.name}
                     company={raised_by_company?.display_name}
+                    messageOnClick={ ()=>{
+                         dispatch(selectedVcDetails(by_user))
+                        goTo( ROUTES['user-company-module']['individual-chat'], false)}}
                 />
 
             </Modal>
 
             <Alert
+            size="md"
                 title="Are you sure want to start the task?"
                 isOpen={alertModal.visible}
                 onClose={alertModal.hide}
                 primaryOnClick={proceedEventTypeApi}
                 secondaryOnClick={alertModal.hide}
+               
             />
         </div>
     );

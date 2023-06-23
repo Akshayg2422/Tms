@@ -11,6 +11,7 @@ import {
   Image,
   ImagePicker,
   Spinner,
+  TextAreaInput,
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -19,7 +20,7 @@ import {
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
 import { paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, stringSlice, stringToUpperCase, INITIAL_PAGE } from "@Utils";
-import { useModal, useDynamicHeight } from "@Hooks";
+import { useModal, useDynamicHeight, useInput } from "@Hooks";
 
 
 
@@ -33,7 +34,8 @@ function Tag() {
   const [tagPhoto, setTagPhoto] = useState("");
   const [tagCode, setTagCode] = useState('');
   const [loading, setLoading] = useState(false)
-  const [description, setDescription] = useState("");
+  // const [description, setDescription] = useState("");
+  const description = useInput("");
 
   const getTicketTagList = (page_number: number) => {
     setLoading(true)
@@ -58,7 +60,7 @@ function Tag() {
     
     const params = {
       name: tagName,
-      description: description,
+      description: description.value,
       code: tagCode.trim(),
       photo: tagPhoto
     };
@@ -72,6 +74,7 @@ function Tag() {
             addTagsModal.hide()
             showToast(success.message, "success");
             getTicketTagList(INITIAL_PAGE);
+            description.set('')
             
           },
           onError: (error: string) => () => {
@@ -100,7 +103,7 @@ function Tag() {
 
   function resetValue() {
     setTagName("")
-    setDescription('')
+  description.set('')
     setTagPhoto('')
     setTagCode('')
   }
@@ -216,11 +219,19 @@ function Tag() {
           </div>
         </div>
         <div>
-          <Input
+          
+        <TextAreaInput
+                heading={translate('auth.description')!}
+                value={description.value}
+                onChange={description.onChange}
+                className="form-control form-control-sm"
+                
+                />
+          {/* <Input
             placeholder={translate("auth.description")}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-          />
+          /> */}
         </div>
         {/* <div className="pb-3">
           <Dropzone
@@ -239,7 +250,7 @@ function Tag() {
           <ImagePicker
 
             size='xl'
-            noOfFileImagePickers={1}
+            noOfFileImagePickers={0}
             onSelect={(image) => {
               let file = image.toString().replace(/^data:(.*,)?/, "")
               setTagPhoto(file)

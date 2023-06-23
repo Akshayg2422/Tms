@@ -8,24 +8,21 @@ import { getTasks, setSelectedTask, setSelectedTabPosition, setTaskParams } from
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
+import { icons } from "@Assets";
 
 function Tasks() {
-  const DEFAULT_PARAMS = { q_many: "", "tasks_by": "assigned_to", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
+  // const DEFAULT_PARAMS = { q_many: "",assigned_tasks_by: "assigned_to",assigned_company: '', created_company: '',"created_tasks_by":"ALL","task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL","created_department_id":"ALL","created_designation_id":"ALL", page_number: 1,assigned_emp_id: "",created_emp_id:"" }
   const dispatch = useDispatch()
   const { tasks, taskNumOfPages, taskCurrentPages, selectedTask, taskParams } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company } = dashboardDetails || ''
-  const [params, setParams] = useState(DEFAULT_PARAMS)
+  const [params, setParams] = useState(taskParams)
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [params])
-
-
-
-
 
   const getTaskHandler = (page_number: number) => {
     setLoading(true);
@@ -47,7 +44,7 @@ function Tasks() {
     if (data && data?.length > 0)
       return data?.map((el: any) => {
 
-        const { priority, parent, task_attachments, by_user, raised_by_company, created_at, task_status, eta_time, title, assigned_to } = el
+        const { priority, parent, task_attachments, by_user, raised_by_company, created_at, task_status, eta_time, title, assigned_to, description } = el
 
         return {
           "task":
@@ -64,8 +61,12 @@ function Tasks() {
                 </div>
               </div>
             </>,
+          'description': <div>
+            {description}
 
-          "attachments":
+          </div>,
+
+          '':
             <div className="row avatar-group">
               {
                 task_attachments &&
@@ -82,7 +83,7 @@ function Tasks() {
             </div >,
           "raised by":
             <div className="h5 m-0"> {by_user?.name} </div>,
-          "raised to":
+          "Assigned To":
             <div className="row">
               {assigned_to ?
                 <>
@@ -99,7 +100,7 @@ function Tasks() {
                 </> : <div></div>
               }
             </div >,
-          'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
+          // 'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
           status: <div><Status status={task_status} />
             <small>{getDates() > getDates(eta_time) ? 'ABOVE ETA' : ""}</small>
           </div>

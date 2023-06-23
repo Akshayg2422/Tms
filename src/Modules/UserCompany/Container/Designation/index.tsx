@@ -227,6 +227,7 @@ function Designation() {
           resetValues()
         }}
         title={translate("auth.designation")!}
+        size='md'
       >
 
         <Input

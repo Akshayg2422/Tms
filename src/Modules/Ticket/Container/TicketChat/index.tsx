@@ -25,7 +25,7 @@ function TicketChat({ }: TicketChatProps) {
     const [image, setImage] = useState([])
     const [ticketEventsCurrentPage, setEventsTicketCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
-
+console.log(image,"jssbvjhk")
 
 
     useEffect(() => {
@@ -152,13 +152,18 @@ function TicketChat({ }: TicketChatProps) {
                                 <div className='pt-2' onClick={() => {
                                     imageModal.show()
                                     setImage(imageUrls)
+                                    console.log('mnsbvhdfggu ,cmnbjgyh')
                                 }} >
 
                                     <div>
 
                                         {
                                             imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                                return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                                console.log('knfn kf kf ,',each)
+
+                                                return (<Image className='ml-1 mb-1' src={each} width={100} height={100}
+                                                 />
+                                                )
                                             })
 
                                         }
@@ -179,16 +184,20 @@ function TicketChat({ }: TicketChatProps) {
                 }
             </InfiniteScroll>
 
-            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
-                <Carousel >
+            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
+                <Carousel 
+                >
+                    
                     {
                         image.map(each => {
-                            return <Image
+                        
+                            return (<Image
                                 className='ml-1 mb-1'
                                 src={each}
-                                height={'100%'}
-                                width={'100%'}
+                                height={'90%'}
+                                width={'80%'}
                             />
+                            )
                         })
                     }
                 </Carousel>

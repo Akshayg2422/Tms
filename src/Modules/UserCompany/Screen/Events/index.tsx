@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button, Card, NoDataFound, Spinner, Image, Modal, MenuBar, showToast, Checkbox, DateTimePicker, Input, Dropzone, MultiSelectDropDown, ImagePicker } from "@Components";
+import { Button, Card, NoDataFound, Spinner, Image, Modal, MenuBar, showToast, Checkbox, DateTimePicker, Input, Dropzone, MultiSelectDropDown, ImagePicker, TextAreaInput } from "@Components";
 import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
@@ -293,11 +293,18 @@ function Events() {
             value={eventTitle.value}
             onChange={eventTitle.onChange}
           />
-          <Input
+          {/* <Input
             heading={translate("auth.description")}
             value={eventDescription.value}
             onChange={eventDescription.onChange}
-          />
+          /> */}
+            <TextAreaInput
+               heading={translate('auth.description')!}
+               value={eventDescription.value}
+               onChange={eventDescription.onChange}
+                className="form-control form-control-sm"
+                
+                />
           <Input
             heading={translate('common.Place')}
             value={eventPlace.value}

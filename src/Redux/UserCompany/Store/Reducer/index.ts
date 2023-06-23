@@ -68,17 +68,17 @@ const initialState: UserCompanyStateProp = {
   employeesDetails: undefined,
   refreshGroupChat: undefined,
   timeStatus: undefined,
-  EnableRequestDataList: undefined,
-  EnableRequest: undefined,
+  enableRequestDataList: undefined,
+  enableRequest: undefined,
   settingVcDetails: undefined,
   vcNotificationData: undefined,
   chatMessageData: undefined,
   employeeListData: undefined,
   oneToOneChat: false,
   oneToOneVcNoti: undefined,
-  chatEmployeeList:undefined,
-  chatEmployeeListCurrentPages:undefined,
-  chatEmployeeListNumOfPages:undefined,
+  chatEmployeeList: undefined,
+  chatEmployeeListCurrentPages: undefined,
+  chatEmployeeListNumOfPages: undefined,
 
 }
 
@@ -789,17 +789,17 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.ADD_ENABLE_REQUEST:
       state = {
         ...state,
-        EnableRequest: undefined,
+        enableRequest: undefined,
       };
       break;
     case ActionTypes.ADD_ENABLE_REQUEST_SUCCESS:
       state = {
         ...state,
-        EnableRequest: action.payload.details,
+        enableRequest: action.payload.details,
       };
       break;
     case ActionTypes.ADD_ENABLE_REQUEST_FAILURE:
-      state = { ...state, EnableRequest: undefined };
+      state = { ...state, enableRequest: undefined };
       break;
 
 
@@ -810,17 +810,17 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.GET_ENABLE_REQUEST:
       state = {
         ...state,
-        EnableRequestDataList: undefined,
+        enableRequestDataList: undefined,
       };
       break;
     case ActionTypes.GET_ENABLE_REQUEST_SUCCESS:
       state = {
         ...state,
-        EnableRequestDataList: action.payload.details,
+        enableRequestDataList: action.payload.details,
       };
       break;
     case ActionTypes.GET_ENABLE_REQUEST_FAILURE:
-      state = { ...state, EnableRequestDataList: undefined };
+      state = { ...state, enableRequestDataList: undefined };
       break;
 
 
@@ -908,12 +908,12 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST:
 
-    state = {
-      ...state,
-      chatEmployeeList: undefined,
-      chatEmployeeListCurrentPages: 1,
-      chatEmployeeListNumOfPages: 0,
-    };
+      state = {
+        ...state,
+        chatEmployeeList: undefined,
+        chatEmployeeListCurrentPages: 1,
+        chatEmployeeListNumOfPages: 0,
+      };
       break;
     case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_SUCCESS:
       state = {
@@ -922,7 +922,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
         chatEmployeeListCurrentPages: action.payload?.details.next_page === -1
           ? action?.payload?.details.num_pages
           : action?.payload?.details.next_page - 1,
-          chatEmployeeListNumOfPages: action.payload.details.num_pages,
+        chatEmployeeListNumOfPages: action.payload.details.num_pages,
       };
       break;
     case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_FAILURE:
@@ -948,17 +948,6 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.ONE_TO_ONE_VC_NOTI:
       state = { ...state, oneToOneVcNoti: action.payload }
       break;
-
-
-
-
-
-
-
-
-
-
-
 
     default:
       state = state;

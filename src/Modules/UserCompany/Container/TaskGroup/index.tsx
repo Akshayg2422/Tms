@@ -12,7 +12,8 @@ import {
   Image,
   MenuBar,
   DateTimePicker,
-  Spinner
+  Spinner,
+  TextAreaInput
 } from "@Components";
 import { translate } from "@I18n";
 import {
@@ -205,9 +206,11 @@ function TaskGroup() {
       };
 
       const validation = validate(ADD_SUB_TASK_GROUP, params)
+      console.log(params,"ooppppp")
 
 
       if (ifObjectExist(validation)) {
+        console.log('ivkjdfbvjhf')
         dispatch(
           addTaskGroup({
             params,
@@ -503,11 +506,18 @@ function TaskGroup() {
             </div>
           </div>
 
-          <Input
+          {/* <Input
             placeholder={translate("auth.description")}
             value={taskGroupDescription.value}
             onChange={taskGroupDescription.onChange}
-          />
+          /> */}
+                <TextAreaInput
+               heading={translate('auth.description')!}
+                value={taskGroupDescription.value}
+                onChange={taskGroupDescription.onChange}
+                className="form-control form-control-sm"
+                
+                />
         </div>
         <div className="pb-3">
           <Dropzone
@@ -588,11 +598,18 @@ function TaskGroup() {
             </div>
           </div>
 
-          <Input
+          {/* <Input
             placeholder={translate("auth.description")}
             value={subTaskGroupDescription.value}
             onChange={(e) => subTaskGroupDescription.onChange(e)}
-          />
+          /> */}
+                <TextAreaInput
+               heading={translate('auth.description')!}
+                value={subTaskGroupDescription.value}
+                onChange={subTaskGroupDescription.onChange}
+                className="form-control form-control-sm"
+                
+                />
 
         </div>
         <div className="pb-3">

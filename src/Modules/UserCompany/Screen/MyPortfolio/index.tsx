@@ -8,7 +8,7 @@ import {
   getEmployeeTimeline
 } from "@Redux";
 import { useDropDown, useDynamicHeight, useInput, useModal } from '@Hooks';
-import { Button, Card, CommonTable, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, Spinner, NoDataFound,  AutoComplete} from '@Components';
+import { Button, Card, CommonTable, DateTimePicker, DropDown, Input, MenuBar, Modal, showToast, Image, CollapseButton, Spinner, NoDataFound,  AutoComplete, TextAreaInput} from '@Components';
 import { icons } from '@Assets';
 import { ROUTES } from '@Routes'
 import { useNavigation } from '@Hooks'
@@ -310,9 +310,9 @@ function MyPortfolio() {
             }}
           />}
         <div>
-          <Input
-            heading={translate('auth.description')}
-            placeHolder={translate('auth.description')}
+          <TextAreaInput
+            heading={translate('auth.description')!}
+            placeholder={translate('auth.description')}
             value={description.value}
             onChange={description.onChange} />
         </div>
@@ -374,9 +374,9 @@ function MyPortfolio() {
           />
         </div>
         <div>
-          <Input
-            heading={translate('auth.description')}
-            placeHolder={'description'}
+          <TextAreaInput
+            heading={translate('auth.description')!}
+            placeholder={'description'}
             value={editDescriptions.value}
             onChange={editDescriptions.onChange} />
         </div>

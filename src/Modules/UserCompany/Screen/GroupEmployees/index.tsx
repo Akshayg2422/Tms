@@ -17,9 +17,10 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
     const dispatch = useDispatch()
     const { groupEmployees, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { company_branch, user_details, company } = dashboardDetails || ''
+
     const { goTo } = useNavigation()
 
-    console.log(groupCode, "groupCode")
+  
     const [loading, setLoading] = useState(false)
     useEffect(() => {
         getGroupEmployees()
@@ -98,7 +99,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
             <Card className={'h-100'}>
                 <div className='row'>
                     <div className='mx--1'>
-                        <span className="h4 col-3">{'Members'}</span>
+                        <span className="h4 col-3">{'Others'}</span>
                     </div>
                     <div className='col-6 my--1 p-0'>
                         <SearchInput onSearch={(search) => {
@@ -124,7 +125,8 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                     {!loading && <div className='mt-3 '>
                         {
                             groupEmployees && groupEmployees.length > 0 ? groupEmployees.map((el: any, index: number) => {
-                                const { name, mobile_number, designation, department, } = el
+                                const { name, mobile_number, designation, department,id } = el
+                                if(user_details?.id !==id){
                                 return (
                                     <>
                                         <div >
@@ -138,6 +140,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                                                     </div>
                                                     <div className='mr-3 pointer'
                                                         onClick={() => {
+                                                            console.log(el,"eeeee")
                                                             dispatch(selectedVcDetails(el))
                                                             goTo( ROUTES['user-company-module']['individual-chat'], false)
                                                         }}
@@ -158,6 +161,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                                         </div>
                                     </>
                                 )
+                                                    }
                             }) : <div className='pt-6 mt-5'>
                                 <NoDataFound type={'text'} />
                             </div>

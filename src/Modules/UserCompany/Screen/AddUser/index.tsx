@@ -198,7 +198,7 @@ function AddUser() {
           />
         </div> */}
       </div>
-      <div className="ml--2">
+      <div className="mt--2">
              <ImagePicker
                
                  size='xl'

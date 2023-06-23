@@ -350,12 +350,84 @@ export const getAssignedTaskFailure = (error: any) => {
 }
 
 /**
- * TASK FILTER PARAMS
+ * TASK FILTER PARAMS\\
+ * 
+ * 
+ * 
  */
-
 export const setTaskParams = (params: any) => {
     return {
         type: ActionTypes.TASK_DEFAULT_PARAMS,
         payload: params
     }
 }
+
+
+//assigned
+
+export const setAssignedDepartment = (response: any) => {
+    return {
+        type: ActionTypes.ASSIGNED_DEPARTMENT,
+        payload:response
+    }
+}
+
+export const setAssignedDesignation = (response: any) => {
+    return {
+        type: ActionTypes.ASSIGNED_DESIGNATION,
+        payload: response
+    }
+}
+
+export const setAssignedEmployee = (response: any) => {
+    return {
+        type: ActionTypes.ASSIGNED_EMPLOYEE,
+        payload: response
+    }
+}
+
+
+export const setCreatedDepartment = (response: any) => {
+    return {
+        type: ActionTypes.CREATED_DEPARTMENT,
+        payload:response
+    }
+}
+
+export const setCreatedDesignation = (response: any) => {
+    return {
+        type: ActionTypes.CREATED_DESIGNATION,
+        payload: response
+    }
+}
+
+export const setCreatedEmployee = (response: any) => {
+    return {
+        type: ActionTypes.CREATED_EMPLOYEE,
+        payload: response
+    }
+}
+
+
+export const getTimeLineBreakdown= (response: any) => {
+    return {
+        type: ActionTypes.GET_TIMELINE_BREAKDOWN,
+        payload:response
+    }
+}
+
+export const getTimeLineBreakdownSuccess = (response: any) => {
+    return {
+        type: ActionTypes.GET_TIMELINE_BREAKDOWN_SUCCESS,
+        payload: response
+    }
+}
+
+export const getTimeLineBreakdownFailure = (response: any) => {
+    return {
+        type: ActionTypes.GET_TIMELINE_BREAKDOWN_FAILURE,
+        payload: response
+    }
+}
+
+

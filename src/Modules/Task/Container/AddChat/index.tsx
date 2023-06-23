@@ -23,7 +23,7 @@ function AddChat() {
 
     const proceedTaskEventsApiHandler = () => {
 
-        if (message.value) {
+        if (message.value.trim()) {
 
             const params = {
                 code: id,
@@ -31,7 +31,7 @@ function AddChat() {
                 event_type: TEM
             }
 
-            console.log(JSON.stringify(params) + '====>>>params');
+           
 
             dispatch(
                 addTaskEvent({
@@ -110,11 +110,11 @@ function AddChat() {
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={proceedTaskEventsApiHandler} />
                 </div >
             </div >
-            <Modal isOpen={attachmentModal.visible} onClose={attachmentModal.hide}>
+            <Modal isOpen={attachmentModal.visible} onClose={attachmentModal.hide} size='md'>
 
-                <div className='col-7 mt--6'>
-                    <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
-                    <div className='row mt--4'>
+                <div className='col-10 mt--5'>
+                    <div className={'mt-3'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
+                    <div className='row mt--3'>
                         <ImagePicker
                             noOfFileImagePickers={3}
                             icon={image}
@@ -142,7 +142,7 @@ function AddChat() {
                     </div>
                 </div>
 
-                <div className='col-6 pt-2'>
+                <div className='col-6 pt-3'>
                     <Button text={translate("common.submit")}
                         onClick={addTaskEventAttachment} />
                 </div>

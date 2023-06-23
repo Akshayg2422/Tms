@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image, MenuBar, Modal, Input, DateTimePicker, Checkbox, MultiSelectDropDown, Dropzone, showToast, ImagePicker } from "@Components";
+import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image, MenuBar, Modal, Input, DateTimePicker, Checkbox, MultiSelectDropDown, Dropzone, showToast, ImagePicker, TextAreaInput } from "@Components";
 import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
@@ -299,11 +299,18 @@ function AdminFeeds() {
             value={feedTitle.value}
             onChange={feedTitle.onChange}
           />
-          <Input
+          {/* <Input
             heading={translate("auth.description")}
             value={feedDescription.value}
             onChange={feedDescription.onChange}
-          />
+          /> */}
+            <TextAreaInput
+               heading={translate('auth.description')!}
+               value={feedDescription.value}
+            onChange={feedDescription.onChange}
+                className="form-control form-control-sm"
+                
+                />
 
           <div className="row col ">
             <div className="pr-3">

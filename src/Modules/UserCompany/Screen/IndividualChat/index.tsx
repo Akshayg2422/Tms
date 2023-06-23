@@ -38,17 +38,16 @@ function IndividualChat() {
 
     const [photo, setPhoto] = useState<any>([])
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
-    // const [selectDropzone, setSelectDropzone] = useState<any>([{}])
     const userModal = useModal(false)
     const ImageModal = useModal(false)
     const { raised_by_company } = taskDetails || {};
+    const [showAutoComplete, setAutoComplete] = useState<any>(false)
 
-    // const enterPress = useKeyPress('Enter')
     const [image, setImage] = useState<any>([])
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
 
-    console.log("selectedUserId", selectedUserId)
+  
 
 
     useEffect(() => {
@@ -124,21 +123,6 @@ function IndividualChat() {
     }
 
 
-    // const handleSelectImagePicker = (updatedProfile) => {
-
-    //     console.log(updatedProfile);
-    //         let array: any = []
-
-    //         for (let i = 0; i <= updatedProfile?.length; i++) {
-
-    //           let editPickers =updatedProfile[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-    //           if(editPickers!==undefined){
-    //           array.push(editPickers)
-    //           }
-
-    //         }
-    //          setPhoto(array)
-    //   };
     const addGroupEventAttachment = () => {
         const params = {
             event_type: "MEA",
@@ -645,33 +629,43 @@ function IndividualChat() {
                         >
                             <CardHeader className=''>
                                 <div className='mt--2'>
-                                    <h3>{"Members"}</h3>
-                                    <div className='mb--4'>
-                                        {/* <SearchInput
-                                            defaultValue=''
-                                            onSearch={(search) => {
-                                                getChatEmployeeList(search)
-                                            }} /> */}
-                                        <AutoComplete
-                                            variant={'custom'}
-                                            data={getDropDownCompanyUser(employees)}
-                                            selected={selectedUserId}
-                                            onChange={(item) => {
-                                                setSelectedUserId(item)
-                                                setSelectedUserDetails(item)
-
-
-                                            }}
-                                        />
+                                    <div className='row justify-content-between mx-1'>
+                                        <h3>{"Members"}</h3>
+                                        <div>
+                                            <Button
+                                                size='sm'
+                                                text={showAutoComplete ? 'Close' : 'Add'}
+                                                onClick={() => {
+                                                    setAutoComplete(!showAutoComplete)
+                                                }}
+                                            />
+                                        </div>
                                     </div>
+
+                                    {showAutoComplete &&
+                                        <div className='mb--4'>
+                                            <AutoComplete
+                                                variant={'custom'}
+                                                inputType={'Infinity'}
+                                                data={getDropDownCompanyUser(employees)}
+                                                // selected={selectedUserId}
+                                                onChange={(item) => {
+                                                    setSelectedUserId(item)
+                                                    setSelectedUserDetails(item)
+
+
+                                                }}
+                                            />
+                                        </div>
+                                    }
                                 </div>
+
                             </CardHeader>
 
                             {<div className={` overflow-auto overflow-hide `}
                                 style={{ height: "90vh" }}
 
                             >
-
                                 {employeeList && employeeList?.length > 0 ?
                                     employeeList?.map((item: any) => {
                                         return (

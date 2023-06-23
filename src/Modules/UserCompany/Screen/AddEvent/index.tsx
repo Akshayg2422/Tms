@@ -9,7 +9,8 @@ import {
     Back,
     DateTimePicker,
     ImagePicker,
-    InputHeading
+    InputHeading,
+    TextAreaInput
 } from "@Components";
 import { translate } from "@I18n";
 import { getAssociatedCompanyBranch, addEvent } from "@Redux";
@@ -169,13 +170,20 @@ function AddEvent() {
                         onChange={title.onChange}
                     />
                  
-                    <div >
+                    {/* <div >
                     <InputHeading heading={translate('auth.description')}/>
                     <textarea 
                         value={description.value}
                         onChange={description.onChange}
                         className="form-control form-control-sm" />
-                </div>
+                </div> */}
+                <TextAreaInput
+                heading={translate('auth.description')!}
+                value={description.value}
+                onChange={description.onChange}
+                className="form-control form-control-sm"
+                
+                />
                     <Input
                         heading={translate('order.Place')}
                         value={place.value}

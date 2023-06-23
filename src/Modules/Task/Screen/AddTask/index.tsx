@@ -11,6 +11,7 @@ import {
     LoadingButton,
     AutoComplete,
     InputHeading,
+    TextAreaInput
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -316,12 +317,24 @@ function AddTask() {
                     onChange={title.onChange}
                 />
             
-                <div >
+                {/* <div >
                 <InputHeading heading={translate('auth.description')}/>
                     <textarea 
                         value={description.value}
                         onChange={description.onChange}
                         className="form-control form-control-sm" />
+                </div> */}
+
+                <TextAreaInput
+                heading={translate('auth.description')!}
+                value={description.value}
+                onChange={description.onChange}
+                className="form-control form-control-sm"
+                
+                />
+
+                <div>
+                    
                 </div>
 
                 <Input

@@ -62,7 +62,6 @@ function* addTaskEventSaga(action) {
     }
 }
 
-
 /**
  * GET TASK EVENT HISTORY
  */
@@ -260,6 +259,23 @@ function* getAssignedTaskSaga(action) {
 }
 
 
+// get AssignedTask
+
+function* getTimeLineBreakDownSaga(action) {
+    try {
+        const response = yield call(Services.getTimeLineBreakdownApi , action.payload.params);
+        if (response.success) {
+            yield put(Action.getTimeLineBreakdownSuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            yield put(Action.getTimeLineBreakdownFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+        yield put(Action.getTimeLineBreakdownFailure("Invalid Request"));
+        yield call(action.payload.onError(error));
+    }
+}
 
 
 function* TaskSaga() {
@@ -275,6 +291,7 @@ function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_DETAILS, getTaskDetailsSaga)
     yield takeLatest(Action.GET_SUB_TASK_GROUPS, getSubTaskGroupSaga)
     yield takeLatest(Action.GET_ASSIGNED_TASK, getAssignedTaskSaga)
+    yield takeLatest(Action.GET_TIMELINE_BREAKDOWN, getTimeLineBreakDownSaga)
     
 }
 

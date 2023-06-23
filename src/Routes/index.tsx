@@ -148,7 +148,7 @@ export const HOME_ROUTES = [
       },
       {
         path: ROUTES['user-company-module']['time-approval'],
-        name: "TimeApproval",
+        name: "Time Approval",
         miniName: "TS",
         component: <TimeApproval />,
         layout: '/admin',

@@ -244,8 +244,9 @@ function Department() {
           resetValues()
         }}
         title={translate("common.department")!}
+        size='md'
       >
-        <div className="col-7">
+        <div className="col-12">
           <Input
             placeholder={translate("common.department")!}
             value={departmentName.value}

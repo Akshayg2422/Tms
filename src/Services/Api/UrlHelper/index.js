@@ -154,9 +154,9 @@ export const GET_CHAT_GROUPS = TASK + 'getGroup'
 //change employee
 export const CHANG_EMPLOYEE_TIMELINE_STATUS = TASK + 'changeEmployeeTimelineStatus'
 
-export const GET_TIME_LINE_ENABLE_REQUEST = TASK + 'GetTimelineEnableRequest'
+export const GET_TIME_LINE_ENABLE_REQUEST = TASK + 'getTimelineEnableRequest'
 
-export const ADD_TIME_LINE_ENABLE_REQUEST = TASK + 'AddTimelineEnableRequest'
+export const ADD_TIME_LINE_ENABLE_REQUEST = TASK + 'addTimelineEnableRequest'
 
 
 // post chat message
@@ -170,6 +170,8 @@ export const FETCH_CHAT_MESSAGE = TASK + 'getMessage'
 // get chat employee list
 
 export const FETCH_CHAT_EMPLOYEE_LIST = TASK + 'getChatEmployeeList'
+
+export const GET_TIMELINE_BREAKDOWN=TASK+'getTimelineBreakdown'
 
 
 
