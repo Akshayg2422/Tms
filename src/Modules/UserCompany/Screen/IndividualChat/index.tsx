@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Card, CardBody, CardFooter, CardHeader, ListGroup, ListGroupItem } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { AutoComplete, Button, CommonTable, Divider, Dropzone, Image, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner } from '@Components'
+import { AutoComplete, Button, CommonTable, Divider, Dropzone, Image, ImageDownloadButton, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner } from '@Components'
 import moment from 'moment'
-import { convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, paginationHandler, validate, } from '@Utils'
+import { convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, getPhoto, paginationHandler, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
@@ -20,6 +20,7 @@ function IndividualChat() {
     );
     const { user_details } = dashboardDetails || ''
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
+    const imageModal = useModal(false)
 
     const dynamicHeight: any = useDynamicHeight()
 
@@ -46,18 +47,6 @@ function IndividualChat() {
     const [image, setImage] = useState<any>([])
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
-
-    // let attach = photo.slice(-selectedNoOfPickers)
-
-    // console.log("aatta",attach)
-    // const handleImagePicker = (file: any) => {
-    // let updatedPhoto = [...selectDropzone, file]
-    // let newUpdatedPhoto = [...photo, file]
-    // setSelectDropzone(updatedPhoto)
-    // setPhoto(newUpdatedPhoto)
-    // }
-    // console.log(photo,"ppppppppppp")
-    // console.log(attach,"aaaaaaaa")
 
     console.log("selectedUserId", selectedUserId)
 
@@ -310,7 +299,7 @@ function IndividualChat() {
                                 style={{
                                     height: dynamicHeight.dynamicHeight - 50
                                 }}>
-                                    {/** Chat Header */}
+                                {/** Chat Header */}
                                 <CardHeader>
                                     <div className='row justify-content-between mx-2'>
                                         <div className={'h3'}>
@@ -343,6 +332,7 @@ function IndividualChat() {
                                             const isFirstMessageOfDay = isFirstMessage || date.toDateString() !== previousDate.toDateString();
                                             const isDifferentDay = !isFirstMessage && date?.getDate() !== previousDate?.getDate();
                                             const dateToShow = isDifferentDay ? formattedDate : null;
+                                            const imageUrls = el?.chat_attachments?.attachments && el?.chat_attachments?.attachments.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
 
                                             console.log("opopopopo", SERVER + el?.chat_attachments?.attachments?.attachment_file)
 
@@ -467,7 +457,7 @@ function IndividualChat() {
                                                                                             <Image
                                                                                                 width={70}
                                                                                                 height={70}
-                                                                                                src={SERVER + it?.attachment_file}
+                                                                                                src={getPhoto(it?.attachment_file)}
                                                                                             />
                                                                                         </div>
                                                                                     </>
@@ -539,11 +529,13 @@ function IndividualChat() {
                                                                         }}>
                                                                         {
                                                                             el?.chat_attachments?.attachments && el?.chat_attachments?.attachments?.map((it) => {
+                                                                                console.log('it--------->', it);
+
                                                                                 return (
                                                                                     <>
-                                                                                        <div className='mr-2 pt-2' style={{}}>
+                                                                                        <div className='mr-2 pt-2'>
                                                                                             <p
-                                                                                                className={`small px-2   text-wrap bg-primary text-white mb-0`}
+                                                                                                className={`small px-2 text-wrap bg-primary text-white mb-0`}
                                                                                                 style={{
                                                                                                     maxWidth: '50vh',
                                                                                                     borderRadius: '8px 0px 8px 8px'
@@ -551,11 +543,26 @@ function IndividualChat() {
                                                                                             >
                                                                                                 < div>{it?.name}</div>
                                                                                             </p>
-                                                                                            <Image
-                                                                                                width={70}
-                                                                                                height={70}
-                                                                                                src={SERVER + it?.attachment_file}
-                                                                                            />
+
+                                                                                            {/** Image carousel */}
+
+                                                                                            <div className={'mt-2 mb-4'} style={{ border: '5px solid', borderColor: '#FCC9E0' }} >
+
+                                                                                                {
+                                                                                                    <Image className={'pointer'}
+                                                                                                        width={100}
+                                                                                                        height={100}
+                                                                                                        src={getPhoto(it?.attachment_file)}
+                                                                                                        onClick={() => {
+                                                                                                            imageModal.show()
+                                                                                                            setImage(imageUrls)
+                                                                                                            console.log('imageUrls----->', imageUrls);
+
+                                                                                                        }}
+                                                                                                    />
+                                                                                                }
+
+                                                                                            </div>
                                                                                         </div>
                                                                                     </>
                                                                                 )
@@ -788,7 +795,32 @@ function IndividualChat() {
                 />
 
             </Modal>
-        </div >
+
+
+            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
+                <div className={'mt--5 mb--6'}>
+                    <Carousel >
+
+                        {
+                            image.map((each, index) => (
+                                <div>
+                                    <Image
+                                        className='ml-1 mb-1'
+                                        src={each}
+                                    />
+                                    <div className='d-flex justify-content-end'>
+                                        <ImageDownloadButton Url={each} title={each} className={'mr-5'} />
+                                    </div>
+                                </div>
+                            ))
+                        }
+
+                    </Carousel>
+                </div>
+
+            </Modal>
+        </div>
+
     )
 }
 
