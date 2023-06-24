@@ -38,7 +38,7 @@ function EmployeesList() {
             page_number,
 
         };
-        if( page_number!==null){
+        // if( page_number!==null){
         dispatch(getEmployees({
             params,
             onSuccess: (response) => () => {
@@ -48,7 +48,7 @@ function EmployeesList() {
                 setLoading(false)
             }
         }));
-    }
+    // }
         
     }
 
@@ -103,7 +103,6 @@ function EmployeesList() {
                         </div>
                     }
                     isPagination
-
                     tableDataSet={employees}
                     displayDataSet={normalizedTableData(employees)}
                     noOfPage={employeesNumOfPages}

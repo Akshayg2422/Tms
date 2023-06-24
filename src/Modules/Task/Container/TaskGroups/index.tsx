@@ -14,7 +14,9 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
     
 
     useEffect(() => {
-        const params = {}
+        const params = {
+            
+        }
         dispatch(
             getTaskGroupsL({
                 params,
