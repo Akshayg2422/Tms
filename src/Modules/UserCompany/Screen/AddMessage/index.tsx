@@ -28,7 +28,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
         if (message.value.trim()) {
             const params = {
-                 group_id: AddGroup,
+                group_id: AddGroup,
                 message: message.value,
                 event_type: TEM,
             }
@@ -78,7 +78,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
         const params = {
             event_type: MEA,
-             group_id: AddGroup,
+            group_id: AddGroup,
             group_attachments: [{ name: attachmentName.value, attachments: photo }],
         };
 
@@ -90,7 +90,6 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                         resetValues();
                         attachmentModal.hide()
                         dispatch(refreshGroupEvents())
-
                     },
                     onError: (error) => () => {
 
@@ -169,22 +168,22 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
                             // onSelectImagePicker={(el) => {
                             //     setSelectedNoOfPickers(el?.length)
-                
+
                             //   }}
 
-                              onSelectImagePickers={(el)=>{
+                            onSelectImagePickers={(el) => {
                                 let array: any = []
-          
+
                                 for (let i = 0; i <= el.length; i++) {
-                                  let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                                  if(eventPickers !==undefined){
-                                  array.push(eventPickers)
-                                  }
-                                  
+                                    let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                    if (eventPickers !== undefined) {
+                                        array.push(eventPickers)
+                                    }
+
                                 }
                                 setPhoto(array)
-    
-                              }}
+
+                            }}
                         />
                     </div>
                 </div>

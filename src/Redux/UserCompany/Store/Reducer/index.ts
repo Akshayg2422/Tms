@@ -756,7 +756,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.GET_CHAT_GROUPS_SUCCESS:
       state = {
         ...state,
-        chatGroups: action.payload.details,
+        chatGroups: action.payload?.details?.data?action.payload?.details?.data:action.payload?.details,
       };
       break;
     case ActionTypes.GET_CHAT_GROUPS_FAILURE:

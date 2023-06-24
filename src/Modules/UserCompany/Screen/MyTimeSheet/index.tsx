@@ -50,6 +50,7 @@ function MyTimeSheet() {
   const [currentDates, setCurrentDates] = useState(new Date());
 
   const { employeeTimeline ,dashboardDetails} = useSelector((state: any) => state.UserCompanyReducer);
+  console.log(dashboardDetails,"dashboardDetails===>  ")
   const getGroupMenuItem = [
     { id: '0', name: translate("common.Edit"), icon: icons.edit },
     { id: '1', name: 'Delete', icon: icons.delete },
@@ -442,10 +443,10 @@ function MyTimeSheet() {
 
         <div>
           {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
-            console.log(formattedShift[index]?.date,"datata====>")
+            // console.log(formattedShift[index]?.date,"datata====>")
 
-            const filterDate=data && data.some((el:any)=>el===formattedShift[index]?.date)
-            console.log(filterDate,"filterDate")
+            const filterDate=dashboardDetails?.freezed_dates&& dashboardDetails?.freezed_dates.some((el:any)=>el===formattedShift[index]?.date)
+            // console.log(filterDate,"filterDate")
             return (
               <CollapseButton
                 selectedIds={formattedShift[index]?.date}
@@ -464,8 +465,6 @@ function MyTimeSheet() {
                 selectButton={
                   filterDate?false:formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.date===dateFormate?true:false
                 }
-
-                
                 // selectButtonReject={
                 //   formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ?false:formattedShift[index]?.date===dateFormate?true:false
                 // }

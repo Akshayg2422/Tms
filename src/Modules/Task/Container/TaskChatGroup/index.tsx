@@ -12,7 +12,9 @@ function TaskChatGroup({ onClick, showAll = true }: TaskChartGroupProps) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const params = {}
+        const params = {
+            per_page_count:-1
+        }
         dispatch(
             getChatGroups({
                 params,

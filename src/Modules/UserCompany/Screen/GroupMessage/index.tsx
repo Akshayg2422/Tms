@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { translate } from '@I18n';
+import { CardFooter } from 'reactstrap';
 
 function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
@@ -57,12 +58,12 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                 }
             })
         }
-    }   
+    }
     const getGroupMessageApi = (page_number: number) => {
         setLoading(true)
         const params = {
             group_id: selectedGroup,
-            page_number
+            page_number,
         }
         if (selectedGroup) {
             dispatch(
@@ -272,41 +273,38 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                             })
                                         }
                                     </div>
-
-                                    <div>
-                                        {
-                                            imageUrls && imageUrls.length > 0 &&
-                                            (
-                                                <ImageDownloadButton Url={imageUrls} title={title} className={"fa fa-download mt-1"} />
-                                            )
-                                        }
-                                    </div>
                                 </GroupChat>)
                         })
                     }
                 </InfiniteScroll>
 
             </div>
-            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
-                <Carousel >
+            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
+                <div className={'mt--5 mb--6 mx--4'}>
+                    <Carousel >
 
-                    {
-                        image.map((each, index) => (
-                            <div>
-                                <Image
-                                    className='ml-1 mb-1'
-                                    src={each}
-                                    height={'100%'}
-                                    width={'100%'}
-                                />
-                                <div className='d-flex justify-content-end'>
-                                    <ImageDownloadButton Url={each} title={each} className={'mr-5'} />
-                                </div>
-                            </div>
-                        ))
-                    }
+                        {
+                            image.map((each, index) => (
 
-                </Carousel>
+                                <>
+                                    <div>
+                                        <Image
+                                            className='ml-2 mr-2'
+                                            src={each}
+                                            style={{ height: '450px', width: '450px' }}
+                                        />
+                                    </div>
+                                    <CardFooter className={'mt-2'}>
+                                        <div className='d-flex justify-content-end mt--6 mr-4 pointer'>
+                                            <ImageDownloadButton Url={each} title={each} />
+                                        </div>
+                                    </CardFooter>
+                                </>
+                            ))
+                        }
+
+                    </Carousel>
+                </div>
 
             </Modal>
 
@@ -332,22 +330,22 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                                 onSelectImagePicker={(el) => {
                                     setSelectedNoOfPickers(el?.length)
-                    
-                                  }}
-                                  onSelectImagePickers={(el)=>{
+
+                                }}
+                                onSelectImagePickers={(el) => {
                                     let array: any = []
-                    
+
                                     for (let i = 0; i <= el.length; i++) {
-                        
-                                      let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                                      if(editPickers!==undefined){
-                                      array.push(editPickers)
-                                      }
-                                      
+
+                                        let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                        if (editPickers !== undefined) {
+                                            array.push(editPickers)
+                                        }
+
                                     }
                                     setPhoto(array)
-                      
-                                  }}
+
+                                }}
                             />
 
                         </div>

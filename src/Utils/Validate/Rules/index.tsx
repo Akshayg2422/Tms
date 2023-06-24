@@ -376,4 +376,13 @@ export const GROUP_ATTACHMENT_RULES = {
   }
 }
 
+export const CHAT_ATTACHMENT_RULES = {
+  attachment_name: {
+    presence: { allowEmpty: false, message: "Note cannot be empty." }
+  },
+  chat_attachments: {
+    presence: { allowEmpty: false, message: "Attachment cannot be empty." }
+  }
+}
+
 

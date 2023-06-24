@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Card, CardBody, CardFooter, CardHeader, ListGroup, ListGroupItem } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { AutoComplete, Button, CommonTable, Divider, Dropzone, Image, ImageDownloadButton, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner } from '@Components'
+import { AutoComplete, Button, CommonTable, Divider, Dropzone, Image, ImageDownloadButton, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner, showToast } from '@Components'
 import moment from 'moment'
-import { convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, getPhoto, paginationHandler, validate, } from '@Utils'
+import { CHAT_ATTACHMENT_RULES, convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, getPhoto, getValidateError, ifObjectExist, paginationHandler, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
@@ -19,6 +19,7 @@ function IndividualChat() {
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || ''
+
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
     const imageModal = useModal(false)
 
@@ -47,7 +48,7 @@ function IndividualChat() {
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
 
-  
+
 
 
     useEffect(() => {
@@ -124,25 +125,30 @@ function IndividualChat() {
 
 
     const addGroupEventAttachment = () => {
+
+        const validation = validate(CHAT_ATTACHMENT_RULES, {
+            attachment_name: attachmentName.value.trim(),
+            chat_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : ''
+        })
         const params = {
             event_type: "MEA",
             receiver_by: selectedUserDetails?.id,
             chat_attachments: [{ name: attachmentName.value, attachments: photo }],
         };
 
-        if (true) {
+        if (ifObjectExist(validation)) {
             dispatch(postChatMessage({
                 params,
                 onSuccess: (success: any) => async () => {
                     getChatMessage(selectedUserDetails?.id)
-                    setChatText('')
+                    resetValues()
                     attachmentModal.hide()
                 },
                 onError: (error: string) => () => {
                 },
             }))
         } else {
-
+            showToast(getValidateError(validation))
         }
     };
 
@@ -254,6 +260,12 @@ function IndividualChat() {
 
     console.log("oneToOneChat", oneToOneChat)
 
+    const resetValues = () => {
+        attachmentName.set('');
+        setPhoto([])
+        setChatText('')
+    };
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -317,8 +329,7 @@ function IndividualChat() {
                                             const isDifferentDay = !isFirstMessage && date?.getDate() !== previousDate?.getDate();
                                             const dateToShow = isDifferentDay ? formattedDate : null;
                                             const imageUrls = el?.chat_attachments?.attachments && el?.chat_attachments?.attachments.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
-
-                                            console.log("opopopopo", SERVER + el?.chat_attachments?.attachments?.attachment_file)
+                                            console.log("opopopopo", imageUrls)
 
                                             return (
                                                 <>
@@ -512,45 +523,54 @@ function IndividualChat() {
                                                                             flexDirection: 'row-reverse'
                                                                         }}>
                                                                         {
-                                                                            el?.chat_attachments?.attachments && el?.chat_attachments?.attachments?.map((it) => {
-                                                                                console.log('it--------->', it);
 
-                                                                                return (
-                                                                                    <>
-                                                                                        <div className='mr-2 pt-2'>
-                                                                                            <p
-                                                                                                className={`small px-2 text-wrap bg-primary text-white mb-0`}
-                                                                                                style={{
-                                                                                                    maxWidth: '50vh',
-                                                                                                    borderRadius: '8px 0px 8px 8px'
-                                                                                                }}
-                                                                                            >
-                                                                                                < div>{it?.name}</div>
-                                                                                            </p>
+                                                                            el?.chat_attachments?.attachments && (
+                                                                                <>
+                                                                                    <div className='mr-2 pt-2'>
+                                                                                        {el?.chat_attachments?.attachments.map((it, index) => {
 
-                                                                                            {/** Image carousel */}
+                                                                                            const note = it?.name;
+                                                                                            const showNote = index === 0;
 
-                                                                                            <div className={'mt-2 mb-4'} style={{ border: '5px solid', borderColor: '#FCC9E0' }} >
+                                                                                            return (
+                                                                                                <React.Fragment key={index}>
+                                                                                                    {showNote && (
+                                                                                                        <p className={`text-muted text-sm font-weight-bold`}>
+                                                                                                            <div
+                                                                                                            style={{maxWidth:'108px'}}
+                                                                                                            >{note}</div>
+                                                                                                        </p>
+                                                                                                    )}
 
-                                                                                                {
-                                                                                                    <Image className={'pointer'}
-                                                                                                        width={100}
-                                                                                                        height={100}
-                                                                                                        src={getPhoto(it?.attachment_file)}
-                                                                                                        onClick={() => {
-                                                                                                            imageModal.show()
-                                                                                                            setImage(imageUrls)
-                                                                                                            console.log('imageUrls----->', imageUrls);
-
+                                                                                                    {/** Image carousel */}
+                                                                                                    <div
+                                                                                                        className={'mt-2 mb-4'}
+                                                                                                        style={{
+                                                                                                            border: '5px solid',
+                                                                                                            borderColor: '#FCC9E0',
+                                                                                                            borderRadius: '10px 0px 10px 10px'
                                                                                                         }}
-                                                                                                    />
-                                                                                                }
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </>
-                                                                                )
-                                                                            })
+                                                                                                    >
+                                                                                                        {
+                                                                                                            <Image
+                                                                                                                className={'pointer'}
+                                                                                                                width={100}
+                                                                                                                height={100}
+                                                                                                                src={getPhoto(it?.attachment_file)}
+                                                                                                                onClick={() => {
+                                                                                                                    imageModal.show();
+                                                                                                                    setImage(imageUrls);
+                                                                                                                    console.log('imageUrls----->', imageUrls);
+                                                                                                                }}
+                                                                                                            />
+                                                                                                        }
+                                                                                                    </div>
+                                                                                                </React.Fragment>
+                                                                                            );
+                                                                                        })}
+                                                                                    </div>
+                                                                                </>
+                                                                            )
 
                                                                         }
                                                                     </div>}
@@ -791,21 +811,27 @@ function IndividualChat() {
             </Modal>
 
 
-            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
-                <div className={'mt--5 mb--6'}>
+            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
+                <div className={'mt--5 mb--6 mx--4'}>
                     <Carousel >
 
                         {
                             image.map((each, index) => (
-                                <div>
-                                    <Image
-                                        className='ml-1 mb-1'
-                                        src={each}
-                                    />
-                                    <div className='d-flex justify-content-end'>
-                                        <ImageDownloadButton Url={each} title={each} className={'mr-5'} />
+
+                                <>
+                                    <div>
+                                        <Image
+                                            className='ml-2 mr-2'
+                                            src={each}
+                                            style={{ height: '450px', width: '450px' }}
+                                        />
                                     </div>
-                                </div>
+                                    <CardFooter className={'mt-2'}>
+                                        <div className='d-flex justify-content-end mt--6 mr-4 pointer'>
+                                            <ImageDownloadButton Url={each} title={each} />
+                                        </div>
+                                    </CardFooter>
+                                </>
                             ))
                         }
 
