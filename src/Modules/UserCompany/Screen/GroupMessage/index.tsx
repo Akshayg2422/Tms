@@ -274,15 +274,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                             })
                                         }
                                     </div>
-
-                                    <div>
-                                        {
-                                            imageUrls && imageUrls.length > 0 &&
-                                            (
-                                                <ImageDownloadButton Url={imageUrls} title={title} className={"fa fa-download mt-1"} />
-                                            )
-                                        }
-                                    </div>
                                 </GroupChat>)
                         })
                     }
