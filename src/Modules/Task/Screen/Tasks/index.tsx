@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, HomeContainer, NoDataFound, Spinner, AutoComplete } from "@Components";
-import { TaskGroups, TaskFilter } from '@Modules'
+import { TaskGroups, TaskFilter, TaskFilters } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
 import { getTasks, setSelectedTask, setSelectedTabPosition, setTaskParams } from '@Redux'
