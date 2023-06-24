@@ -44,8 +44,9 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
         if (taskParams) {
 
-            const { q_many, task_status, priority, include_subtask, assigned_tasks_by, created_tasks_by, assigned_company, assigned_department_id, assigned_designation_id, assigned_emp_id, created_department_id, created_company } = taskParams
+            const { q_many, task_status, priority, include_subtask, assigned_tasks_by, created_tasks_by, assigned_company, assigned_department_id, assigned_designation_id, assigned_emp_id, created_department_id, created_company,created_emp_id,created_designation_id } = taskParams
             search.set(q_many)
+            console.log(created_department_id,"created_department_id[---->")
             // filteredTask.set(getObjectFromArrayByKey(TASK_FILTER_LIST, 'id', tasks_by))
             if (modifiedCompany?.length > 0) {
                 company.set(getObjectFromArrayByKey(modifiedCompany, 'id', assigned_company))
@@ -63,17 +64,20 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             if (assignedEmployee && assignedEmployee.length > 0) {
                 setSelectedAssignedUserId(getObjectFromArrayByKey(assignedEmployee, 'id', assigned_emp_id))
             }
+            if(createdEmployee && createdEmployee.length>0){
+                setSelectedCreatedUserId(getObjectFromArrayByKey(createdEmployee, 'id', created_emp_id))
+            }
 
             if (createdDepartment && createdDepartment?.length > 0) {
 
                 createdDepartmentList.set(getObjectFromArrayByKey(modifiedCreateDepartment, 'id', created_department_id))
 
             }
-            // if (createdDesignation && createdDesignation?.length > 0) {
+            if (createdDesignation && createdDesignation?.length > 0) {
 
-            //     createdDesignationList.set(getObjectFromArrayByKey(modifiedCreateDesignation, 'id', created_department_id))
+                createdDesignationList.set(getObjectFromArrayByKey(modifiedCreateDesignation, 'id', created_designation_id))
 
-            // }
+            }
 
             if (modifiedCompany && modifiedCompany?.length > 0) {
                 createdCompany.set(getObjectFromArrayByKey(modifiedCompany, 'id', created_company))
@@ -245,7 +249,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
         // }
     }
-    console.log( createdDesignationList," createdDesignationList--->=>")
+   
 
 
     const getDepartment = (items: any) => {
@@ -371,17 +375,20 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                                 if (item.id === 'advance') {
                                     setAdvanceFiltersCreatedBy(true)
                                     getCompanyCreatedEmployeeApi()
-                                    proceedParams({ created_tasks_by: item.id, created_company: '', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' })
+                                    console.log('gchj advane innner')
+                                    // proceedParams({ created_tasks_by: item.id, created_company: '', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' })
                                     createdCompany.onChange(TASK_COMPANY_FILTER)
                                 }
                                 else {
                                     setAdvanceFiltersCreatedBy(false)
                                     if (item.id === 'ALL') {
+                                        console.log('gchj all')
                                         proceedParams({ created_tasks_by: item.id, created_company: 'ALL', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' })
                                         createdCompany.onChange(TASK_COMPANY_FILTER)
 
                                     }
                                     else {
+                                        console.log('else in')
                                         proceedParams({ created_tasks_by: item.id, created_company: '', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' })
                                         createdCompany.onChange(TASK_COMPANY_FILTER)
                                     }
@@ -526,6 +533,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                             onChange={(item) => {
 
                                 createdCompany.onChange(item)
+                                console.log(item.id,"itemitemcreate company list")
                                 getCreateDesignation(item)
                                 getCreateDepartment(item)
                                 proceedParams({ created_company: item.id, created_department_id: 'ALL', created_designation_id: 'ALL', created_emp_id: '' })
@@ -544,7 +552,9 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                             data={getDropDownDisplayData(modifiedCreateDepartment)}
                             selected={createdDepartmentList.value}
                             onChange={(item) => {
+                                
                                 createdDepartmentList.onChange(item)
+                                console.log(item.id,"itemitemc depafrtment")
                                 proceedParams({ created_department_id: item.id, created_emp_id: '' })
                                 setSelectedCreatedUserId('')
 
@@ -578,8 +588,10 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                                 heading={translate("common.user")!}
                                 data={getDropDownCompanyUser(createdEmployee)}
                                 selected={selectedCreatedUserId}
+                                placeHolder={'search user...'}
                                 onChange={(item) => {
                                     setSelectedCreatedUserId(item)
+
                                     proceedParams({ created_emp_id: item.id })
 
 

@@ -4,7 +4,7 @@ import { AutoCompleteProps } from './interfaces'
 import { Form, FormGroup } from 'reactstrap'
 import { Option, InputHeading } from '@Components'
 
-function  AutoComplete ({ variant = 'default', data, id, heading, selected, className, onChange ,inputType}: AutoCompleteProps) {
+function  AutoComplete ({ variant = 'default', data, id, heading, selected, className, onChange ,inputType,placeHolder}: AutoCompleteProps) {
 
     const formatOption = (option: any) => {
        
@@ -60,7 +60,7 @@ function  AutoComplete ({ variant = 'default', data, id, heading, selected, clas
                 className={className}
                 value={selected && selected.id}
                 options={{
-                    placeholder: 'Select an option',
+                    placeholder: placeHolder,
                     templateResult: variant !== 'custom' ? undefined : formatOption,
                 }}
                 onChange={proceedOnChange}

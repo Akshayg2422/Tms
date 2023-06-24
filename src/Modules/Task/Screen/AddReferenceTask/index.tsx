@@ -88,7 +88,7 @@ function AddReferenceTask() {
     const params = {
       q_many,
       page_number,
-      code: selectedTask,
+      task_code: selectedTask,
     };
 
     dispatch(
