@@ -64,7 +64,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
         const params = {
             group_id: selectedGroup,
             page_number,
-            per_page_count: -1
         }
         if (selectedGroup) {
             dispatch(

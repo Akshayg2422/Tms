@@ -140,6 +140,8 @@ function TaskChat({ }: TaskChatProps) {
                 }>
                 {taskEvents && taskEvents.length > 0 &&
                     taskEvents.map((task: any, index: number) => {
+                        console.log('task------------>',task);
+                        
                         const { icon, title, subTitle, created_at, attachments } = task
                         const showDotLine = index !== 0
                         const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
@@ -155,23 +157,13 @@ function TaskChat({ }: TaskChatProps) {
                                     imageModal.show()
                                     setImage(imageUrls)
                                 }} >
-                                    <div>
-                                        {
-                                            imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                                return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
-                                            })
-                                        }
-                                    </div>
-                                </div>
-
-                                <div>
                                     {
-                                        imageUrls && imageUrls.length > 0 && (
-                                            <ImageDownloadButton Url={imageUrls} title={title} />
-                                        )
-
+                                        imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
+                                            return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                        })
                                     }
                                 </div>
+
                             </TimeLine>)
                     })
                 }
