@@ -15,6 +15,7 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
 
     useEffect(() => {
         const params = {
+            per_page_count:-1
             
         }
         dispatch(
