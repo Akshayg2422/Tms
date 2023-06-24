@@ -19,6 +19,7 @@ function IndividualChat() {
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || ''
+
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
     const imageModal = useModal(false)
 
@@ -47,7 +48,7 @@ function IndividualChat() {
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
 
-  
+
 
 
     useEffect(() => {
