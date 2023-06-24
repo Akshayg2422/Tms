@@ -531,7 +531,13 @@ function IndividualChat() {
 
                                                                                             {/** Image carousel */}
 
-                                                                                            <div className={'mt-2 mb-4'} style={{ border: '5px solid', borderColor: '#FCC9E0' }} >
+                                                                                            <div className={'mt-2 mb-4'}
+                                                                                                style={{
+                                                                                                    border: '5px solid',
+                                                                                                    borderColor: '#FCC9E0',
+                                                                                                    borderRadius: '10px 0px 10px 10px'
+                                                                                                }} 
+                                                                                                >
 
                                                                                                 {
                                                                                                     <Image className={'pointer'}
@@ -792,21 +798,27 @@ function IndividualChat() {
             </Modal>
 
 
-            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
-                <div className={'mt--5 mb--6'}>
+            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
+                <div className={'mt--5 mb--6 mx--4'}>
                     <Carousel >
 
                         {
                             image.map((each, index) => (
-                                <div>
-                                    <Image
-                                        className='ml-1 mb-1'
-                                        src={each}
-                                    />
-                                    <div className='d-flex justify-content-end'>
-                                        <ImageDownloadButton Url={each} title={each} className={'mr-5'} />
+
+                                <>
+                                    <div>
+                                        <Image
+                                            className='ml-2 mr-2'
+                                            src={each}
+                                            style={{ height: '450px', width: '450px' }}
+                                        />
                                     </div>
-                                </div>
+                                    <CardFooter className={'mt-2'}>
+                                        <div className='d-flex justify-content-end mt--6 mr-4 pointer'>
+                                            <ImageDownloadButton Url={each} title={each} />
+                                        </div>
+                                    </CardFooter>
+                                </>
                             ))
                         }
 

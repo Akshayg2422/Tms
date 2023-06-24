@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TaskChatProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { getTaskEvents } from '@Redux'
-import { TimeLine, Spinner, Image, Modal, ImageDownloadButton} from '@Components'
+import { TimeLine, Spinner, Image, Modal, ImageDownloadButton } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TASK_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
@@ -10,6 +10,7 @@ import { useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { CardFooter } from 'reactstrap';
 // import {  } from '@Components//Component/ImageDownloadButton';
 
 
@@ -176,20 +177,33 @@ function TaskChat({ }: TaskChatProps) {
                 }
             </InfiniteScroll>
 
-            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='lg'>
-                <div className={'mb--6 mt--5 mx--2'}>
+            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
+                <div className={'mt--5 mb--6 mx--4'}>
                     <Carousel >
+
                         {
-                            image.map(each => {
-                                return <Image
-                                    className='ml-1 mb-1'
-                                    src={each}
-                                    style={{ height: '450px', width: '850px' }}
-                                />
-                            })
+                            image.map((each, index) => (
+
+                                <>
+                                    <div>
+                                        <Image
+                                            className='ml-2 mr-2'
+                                            src={each}
+                                            style={{ height: '450px', width: '450px' }}
+                                        />
+                                    </div>
+                                    <CardFooter className={'mt-2'}>
+                                        <div className='d-flex justify-content-end mt--6 mr-4 pointer'>
+                                            <ImageDownloadButton Url={each} title={each} />
+                                        </div>
+                                    </CardFooter>
+                                </>
+                            ))
                         }
+
                     </Carousel>
                 </div>
+
             </Modal>
         </div>
 
