@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, HomeContainer, NoDataFound, Spinner, AutoComplete } from "@Components";
-import { TaskGroups, TaskFilter } from '@Modules'
+import { TaskGroups, TaskFilter, TaskFilters } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
-import { getTasks, setSelectedTask, setSelectedTabPosition, setTaskParams } from '@Redux'
+import { getTasks, setSelectedTask, setSelectedTabPosition, setTaskParams, selectedTaskId } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
@@ -132,7 +132,7 @@ function Tasks() {
         </div>
       </div>
       <HomeContainer type={'card'}>
-        <TaskFilter onParams={(filteredParams) => {
+        <TaskFilters onParams={(filteredParams) => {
           dispatch(setTaskParams({ ...taskParams, ...filteredParams }))
           setParams({ ...params, ...filteredParams })
         }} />
@@ -164,6 +164,8 @@ function Tasks() {
               }
               tableOnClick={(idx, index, item) => {
                 dispatch(setSelectedTask(item?.code));
+                dispatch(selectedTaskId(item))
+
                 dispatch(setSelectedTabPosition({ id: '1' }))
                 goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code);
               }

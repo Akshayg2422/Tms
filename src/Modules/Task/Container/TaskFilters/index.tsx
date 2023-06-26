@@ -10,7 +10,7 @@ import { useDropDown, useInput } from '@Hooks'
 import { getAssociatedCompaniesL, getDepartments, getDesignations, getEmployees, setTaskParams, setAssignedDepartment, setAssignedDesignation, setAssignedEmployee, setCreatedDepartment, setCreatedDesignation, setCreatedEmployee } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 
-function TaskFilter({ onParams }: TaskFilterProps) {
+function TaskFilters({ onParams }: TaskFilterProps) {
 
     const dispatch = useDispatch()
     const { taskParams, assignedDepartment, assignedDesignation, assignedEmployee, createdDepartment, createdDesignation, createdEmployee } = useSelector((state: any) => state.TaskReducer);
@@ -38,19 +38,18 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const modifiedCompany = associatedCompaniesL && associatedCompaniesL.length > 0 && [TASK_COMPANY_FILTER, ...associatedCompaniesL]
     const [selectedAssignedUserId, setSelectedAssignedUserId] = useState<any>();
     const [selectedCreatedUserId, setSelectedCreatedUserId] = useState<any>();
-    console.log(assignedDesignation,"assignedDesignation===>")
+ 
+    // useEffect(()=>{
+        // getCreateDesignation(taskParams.created_company)
+        // getCreateDepartment(taskParams.created_company)
 
-
-    useEffect(()=>{
-        getCreateDesignation(taskParams.created_company)
-        getCreateDepartment(taskParams.created_company)
-
-    },[createdCompany.value])
+    // },[createdCompany.value])
 
 
     useEffect(() => {
 
         if (taskParams) {
+         
 
             const { q_many, task_status, priority, include_subtask, assigned_tasks_by, created_tasks_by, assigned_company, assigned_department_id, assigned_designation_id, assigned_emp_id, created_department_id, created_company,created_emp_id,created_designation_id } = taskParams
             search.set(q_many)
@@ -89,16 +88,10 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
             if (modifiedCompany && modifiedCompany?.length > 0) {
                 createdCompany.set(getObjectFromArrayByKey(modifiedCompany, 'id', created_company))
-                // getCreateDesignation(created_company)
-                // getCreateDepartment(created_company)
+             
 
             }
-            // getCreateDesignation(created_company)
-            // getCreateDepartment(created_company)
-            
-
-
-            // createdCompany.set(getObjectFromArrayByKey( modifiedCompany, 'id',created_company))
+          
 
             filteredTaskAssigned.set(getObjectFromArrayByKey(TASK_FILTER_LIST, 'id', assigned_tasks_by))
             filteredTaskCreated.set(getObjectFromArrayByKey(TASK_FILTER_LIST_CREATED_BY, 'id', created_tasks_by))
@@ -109,14 +102,55 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
     }, [taskParams])
 
-    // useEffect(() => {
-    //     getDesignation('')
-    //     getDepartment('')
-    //     getCreateDesignation('')
-    //     getCreateDepartment('')
 
-    // }, [])
-    console.log(taskParams, "ok")
+
+    useEffect(()=>{
+console.log('inneress')
+            const params = {
+                branch_id:  taskParams?.assigned_company?  taskParams.assigned_company: dashboardDetails?.permission_details?.branch_id,
+                per_page_count: -1,
+            };
+            console.log(params,"pptterrbv")
+    
+            dispatch(
+                getDesignations({
+                    params,
+                    onSuccess: (response) => () => {
+                        dispatch(
+                            setAssignedDesignation(response?.details)
+                        )
+    
+                    },
+                    onError: () => () => {
+    
+                    },
+                })
+    
+            );
+
+            dispatch(
+                getDepartments({
+                    params,
+                    onSuccess: (response: any) => () => {
+                   
+                        dispatch(
+                            setAssignedDepartment(response?.details)
+                        )
+    
+    
+                    },
+                    onError: (error) => () => {
+                       
+    
+                    },
+                })
+            );
+
+
+    },[company?.value?.id,advanceFilter])
+
+
+   
 
     useEffect(() => {
         if (company.value || department.value?.id !== 'ALL' || designation.value?.id !== 'ALL') {
@@ -172,7 +206,6 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             per_page_count: -1,
         };
        
-
         dispatch(
             getEmployees({
                 params,
@@ -206,46 +239,13 @@ function TaskFilter({ onParams }: TaskFilterProps) {
         }
     }, [advanceFilter]);
 
+useEffect(()=>{
 
-
-    const getDesignation = (items: any) => {
-
-        // if (items?.id) {
-        const params = {
-            branch_id: items? items: dashboardDetails?.permission_details?.branch_id,
-            per_page_count: -1,
-        };
-
-        dispatch(
-            getDesignations({
-                params,
-                onSuccess: (response) => () => {
-                    dispatch(
-                        setAssignedDesignation(response?.details)
-                    )
-
-                },
-                onError: () => () => {
-
-                },
-            })
-
-        );
-
-
-
-    }
-
-
-    const getCreateDesignation = (items: any) => {
-      
-        // if (items?.id) {
-        const params = {
-            branch_id: items ? items: dashboardDetails?.permission_details?.branch_id,
-            per_page_count: -1,
-        };
-
-        dispatch(
+    const params = {
+        branch_id: createdCompany?.value?.id? createdCompany?.value?.id: dashboardDetails?.permission_details?.branch_id,
+        per_page_count: -1,
+    };
+    dispatch(
             getDesignations({
                 params,
                 onSuccess: (response) => () => {
@@ -260,53 +260,6 @@ function TaskFilter({ onParams }: TaskFilterProps) {
             })
 
         );
-
-
-        // }
-    }
-   
-
-
-    const getDepartment = (items: any) => {
-        console.log(items,"okjukeguygvbnm,.")
-
-        // if (items?.id) {
-        const params = {
-            branch_id: items ? items : dashboardDetails?.permission_details?.branch_id,
-            per_page_count: -1,
-        };
-        console.log(params,"opppp")
-        dispatch(
-            getDepartments({
-                params,
-                onSuccess: (response: any) => () => {
-               
-                    dispatch(
-                        setAssignedDepartment(response?.details)
-                    )
-
-
-                },
-                onError: (error) => () => {
-                    console.log('errorreddd')
-                    // setDepartments([])
-
-                },
-            })
-        );
-        // }
-
-
-    }
-
-
-    const getCreateDepartment = (items: any) => {
-
-        // if (items?.id) {
-        const params = {
-            branch_id: items ? items : dashboardDetails?.permission_details?.branch_id,
-            per_page_count: -1,
-        };
         dispatch(
             getDepartments({
                 params,
@@ -323,10 +276,11 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                 },
             })
         );
-        // }
+
+},[createdCompany?.value?.id])
+   
 
 
-    }
 
     function proceedParams(object: any) {
 
@@ -338,8 +292,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     }
 
 
-    console.log(JSON.stringify(taskParams) + '====');
-
+  
     return (
         < >
             <div className="row">
@@ -363,9 +316,7 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                                 if (item.id === 'advance') {
                                     setAdvanceFiltersAssignedTo(true)
                                     getCompanyEmployeeApi()
-                                    getDepartment('')
-                                    getDesignation('')
-                                    proceedParams({ assigned_tasks_by: item.id, assigned_company: '', assigned_designation_id: 'ALL', assigned_department_id: 'ALL', assigned_emp_id: '' })
+                               proceedParams({ assigned_tasks_by: item.id })
 
                                 }
                                 else {
@@ -396,8 +347,8 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                                 if (item.id === 'advance') {
                                     setAdvanceFiltersCreatedBy(true)
                                     getCompanyCreatedEmployeeApi()
-                                   
-                                    //  proceedParams({ created_tasks_by: item.id, created_company: '', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' })
+    
+                                     proceedParams({ created_tasks_by: item.id })
                                     // createdCompany.onChange(TASK_COMPANY_FILTER)
                                     proceedParams({ created_tasks_by: item.id})
                                 }
@@ -476,9 +427,6 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                             selected={company.value}
                             onChange={(item) => {
                                 company.onChange(item)
-                                console.log(item,"iipptteerrzs-===")
-                                getDesignation(item?.id)
-                                getDepartment(item?.id)
                                  proceedParams({ assigned_company: item.id, assigned_department_id: 'ALL', assigned_designation_id: 'ALL', assigned_emp_id: '' })
                                 department.onChange(TASK_FILTER_ALL)
                                 designation.onChange(TASK_FILTER_ALL)
@@ -558,8 +506,8 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
                                 createdCompany.onChange(item)
                                 
-                                getCreateDesignation(item?.id)
-                                getCreateDepartment(item?.id)
+                                // getCreateDesignation(item?.id)
+                                // getCreateDepartment(item?.id)
                                 proceedParams({ created_company: item.id, created_department_id: 'ALL', created_designation_id: 'ALL', created_emp_id: '' })
                                 createdDepartmentList.onChange(TASK_FILTER_ALL)
                                 createdDesignationList.onChange(TASK_FILTER_ALL)
@@ -637,4 +585,4 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     )
 }
 
-export { TaskFilter }
+export { TaskFilters }

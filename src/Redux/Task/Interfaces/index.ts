@@ -29,5 +29,6 @@ export interface TaskStateProp {
     createdDesignation:any,
     createdEmployee:any,
     breakDownTimeLine:any,
+    selectedTaskId:any,
     
 }

@@ -321,6 +321,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     department={by_user?.department?.name}
                     designation={by_user?.designation?.name}
                     company={raised_by_company?.display_name}
+                    userId={by_user?.id}
                     messageOnClick={ ()=>{
                          dispatch(selectedVcDetails(by_user))
                         goTo( ROUTES['user-company-module']['individual-chat'], false)}}

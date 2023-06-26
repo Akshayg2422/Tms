@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTasks, setSelectedTask } from "@Redux";
+import { getReferenceTasks, selectedTaskId, setSelectedTask } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 import { NoDataFound, Card, CommonTable, Button, Spinner } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
@@ -33,7 +33,7 @@ function ReferenceTasks() {
       code: id,
       q: ""
     };
-    console.log(params, "pp==>")
+
     dispatch(
       getReferenceTasks({
         params,
@@ -71,6 +71,7 @@ function ReferenceTasks() {
       {referencesTasks && referencesTasks?.length > 0 && <div className="col text-right">
         <Button size={'sm'} className={'text-white'} text={translate("auth.addReferenceTask")} onClick={() => {
           dispatch(setSelectedTask(id))
+
           goTo(ROUTES["task-module"]["reference-task"])
           
         }} />
@@ -99,7 +100,7 @@ function ReferenceTasks() {
           tableOnClick={(index,id,item) => {
             console.log(item.code)
             dispatch(setSelectedTask(item?.code))
-            // dispatch(setSelectedTask(item))
+           dispatch(selectedTaskId(item))
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
           }}
 

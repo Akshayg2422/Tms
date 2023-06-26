@@ -15,7 +15,7 @@ function TaskAttachments() {
   const { height } = useWindowDimensions()
 
 
-
+console.log(taskEventAttachments,"taskEventAttachments====>")
   useEffect(() => {
     getTaskEventsApiHandler(INITIAL_PAGE, search.value,)
   }, [search.value, refreshTaskEvents, id]);
@@ -81,7 +81,7 @@ function TaskAttachments() {
                       }
                     </div>
                     }
-                    {index !== taskEventAttachments.length - 1 && <Divider space={'3'} />}
+                    {/* {index !== taskEventAttachments.length - 1 && <Divider space={'3'} />} */}
                   </div>
                 )
               })
