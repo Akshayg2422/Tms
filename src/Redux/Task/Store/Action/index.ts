@@ -226,6 +226,14 @@ export const getTaskUsersFailure = (error: any) => {
     }
 }
 
+//
+export const selectedTaskId=(params)=>{
+    return {
+        type: ActionTypes.SELECTED_TASK_ID,
+        payload: params
+    }
+}
+
 
 
 /**

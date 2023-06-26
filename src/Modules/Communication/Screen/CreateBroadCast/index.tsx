@@ -8,7 +8,8 @@ import {
   MultiSelectDropDown,
   Back,
   ImagePicker,
-  InputHeading
+  InputHeading,
+  TextAreaInput
 } from "@Components";
 import { translate } from "@I18n";
 import { addBroadCastMessages, setIsSync, getAssociatedCompanyBranch } from "@Redux";
@@ -154,13 +155,20 @@ function CreateBroadCast() {
             value={description.value}
             onChange={description.onChange}
           /> */}
-          <div >
+          {/* <div >
           <InputHeading heading={translate('auth.description')}/>
             <textarea 
               value={description.value}
               onChange={description.onChange}
               className="form-control form-control-sm" />
-          </div>
+          </div> */}
+              <TextAreaInput
+                heading={translate('auth.description')!}
+                value={description.value}
+                onChange={description.onChange}
+                className="form-control form-control-sm"
+                
+                />
           <div className="row col ">
             <div className="pr-3">
               <Checkbox

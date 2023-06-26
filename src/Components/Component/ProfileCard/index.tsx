@@ -3,8 +3,13 @@ import { CardBody, CardHeader, CardImg, Col, Row } from 'reactstrap'
 import { Image, Button } from '@Components'
 import { ProfileCardProps } from './interfaces'
 import { getPhoto } from '@Utils'
+import { useSelector } from 'react-redux'
 
-const   ProfileCard = ({ coverPhoto, profilePhoto, name, department, designation, company, messageOnClick, connectOnClick }: ProfileCardProps) => {
+const   ProfileCard = ({ coverPhoto, profilePhoto, name, department, designation, company, messageOnClick, connectOnClick,userId }: ProfileCardProps) => {
+
+    const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    console.log(dashboardDetails,"ppprrr")
+    
     return (
         <div className="card-profile p-2 mx--3 mb--4 mt--5">
             <CardImg
@@ -26,6 +31,7 @@ const   ProfileCard = ({ coverPhoto, profilePhoto, name, department, designation
             </Row>
             <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                 <div className="d-flex justify-content-between">
+                {dashboardDetails?.user_details?.id !==userId &&
                     <Button
                         className={"mr-4 px-2 text-white"}
                         text={'Connect'}
@@ -33,6 +39,8 @@ const   ProfileCard = ({ coverPhoto, profilePhoto, name, department, designation
                         onClick={connectOnClick}
                         size={'sm'}
                     />
+                }
+{dashboardDetails?.user_details?.id !==userId &&
 
                     <Button
                         text={'Message'}
@@ -41,10 +49,10 @@ const   ProfileCard = ({ coverPhoto, profilePhoto, name, department, designation
                         onClick={messageOnClick}
                         size={'sm'}
                     />
-
+}
                 </div>
             </CardHeader>
-            <CardBody className="pt-0">
+            <CardBody className="pt-2">
 
                 <div className="text-center mt-3">
                     <h5 className="h3">

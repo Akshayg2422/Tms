@@ -7,4 +7,5 @@ export interface ProfileCardProps {
     department?: string;
     designation?: string;
     company?: string;
+    userId?:any;
 }
