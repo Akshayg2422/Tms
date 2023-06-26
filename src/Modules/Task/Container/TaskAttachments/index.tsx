@@ -81,7 +81,7 @@ console.log(taskEventAttachments,"taskEventAttachments====>")
                       }
                     </div>
                     }
-                    {index !== taskEventAttachments.length - 1 && <Divider space={'3'} />}
+                    {/* {index !== taskEventAttachments.length - 1 && <Divider space={'3'} />} */}
                   </div>
                 )
               })

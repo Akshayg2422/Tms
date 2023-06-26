@@ -132,7 +132,7 @@ function Tasks() {
         </div>
       </div>
       <HomeContainer type={'card'}>
-        <TaskFilter onParams={(filteredParams) => {
+        <TaskFilters onParams={(filteredParams) => {
           dispatch(setTaskParams({ ...taskParams, ...filteredParams }))
           setParams({ ...params, ...filteredParams })
         }} />

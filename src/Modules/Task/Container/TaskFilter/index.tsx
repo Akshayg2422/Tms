@@ -41,6 +41,13 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     console.log(assignedDesignation,"assignedDesignation===>")
 
 
+    useEffect(()=>{
+        getCreateDesignation(taskParams.created_company)
+        getCreateDepartment(taskParams.created_company)
+
+    },[createdCompany.value])
+
+
     useEffect(() => {
 
         if (taskParams) {
@@ -102,13 +109,13 @@ function TaskFilter({ onParams }: TaskFilterProps) {
 
     }, [taskParams])
 
-    useEffect(() => {
-        getDesignation('')
-        getDepartment('')
-        getCreateDesignation('')
-        getCreateDepartment('')
+    // useEffect(() => {
+    //     getDesignation('')
+    //     getDepartment('')
+    //     getCreateDesignation('')
+    //     getCreateDepartment('')
 
-    }, [])
+    // }, [])
     console.log(taskParams, "ok")
 
     useEffect(() => {
@@ -356,6 +363,8 @@ function TaskFilter({ onParams }: TaskFilterProps) {
                                 if (item.id === 'advance') {
                                     setAdvanceFiltersAssignedTo(true)
                                     getCompanyEmployeeApi()
+                                    getDepartment('')
+                                    getDesignation('')
                                     proceedParams({ assigned_tasks_by: item.id, assigned_company: '', assigned_designation_id: 'ALL', assigned_department_id: 'ALL', assigned_emp_id: '' })
 
                                 }
