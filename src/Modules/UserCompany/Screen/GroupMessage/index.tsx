@@ -35,6 +35,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const userModal = useModal(false)
     console.log('dashboardDetails---------->', dashboardDetails);
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
+    const [corouselIndex, setCorouselIndex] = useState<any>()
 
 
 
@@ -268,8 +269,15 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                         setImage(imageUrls)
                                     }} >
                                         {
-                                            imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                                return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                            imageUrls && imageUrls.length > 0 && imageUrls.map((each, index) => {
+
+                                                return (
+                                                    <div onClick={() => { setCorouselIndex(index) }}>
+
+                                                        <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                                    </div>
+                                                )
+
                                             })
                                         }
                                     </div>
@@ -281,7 +289,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
             </div>
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
                 <div className={'mt--5 mb--6 mx--4'}>
-                    <Carousel >
+                    <Carousel selectedItem={corouselIndex} >
 
                         {
                             image.map((each, index) => (

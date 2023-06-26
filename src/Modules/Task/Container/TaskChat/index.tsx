@@ -24,6 +24,7 @@ function TaskChat({ }: TaskChatProps) {
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
     const imageModal = useModal(false)
+    const [corouselIndex, setCorouselIndex] = useState<any>()
 
 
     useEffect(() => {
@@ -140,8 +141,8 @@ function TaskChat({ }: TaskChatProps) {
                 }>
                 {taskEvents && taskEvents.length > 0 &&
                     taskEvents.map((task: any, index: number) => {
-                        console.log('task------------>',task);
-                        
+                        console.log('task------------>', task);
+
                         const { icon, title, subTitle, created_at, attachments } = task
                         const showDotLine = index !== 0
                         const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
@@ -158,11 +159,18 @@ function TaskChat({ }: TaskChatProps) {
                                     setImage(imageUrls)
                                 }} >
                                     {
-                                        imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                            return <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                        imageUrls && imageUrls.length > 0 && imageUrls.map((each, index) => {
+
+                                            return (
+                                                <div onClick={() => { setCorouselIndex(index)}}>
+                                                   
+                                                    <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                                </div>
+                                            )
+
                                         })
                                     }
-                                </div>
+                                </div>  
 
                             </TimeLine>)
                     })
@@ -171,7 +179,7 @@ function TaskChat({ }: TaskChatProps) {
 
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
                 <div className={'mt--5 mb--6 mx--4'}>
-                    <Carousel >
+                    <Carousel selectedItem={corouselIndex}>
 
                         {
                             image.map((each, index) => (
