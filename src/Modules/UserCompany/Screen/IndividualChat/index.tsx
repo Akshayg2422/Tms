@@ -47,6 +47,7 @@ function IndividualChat() {
     const [image, setImage] = useState<any>([])
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
+    const [corouselIndex, setCorouselIndex] = useState<any>()
 
 
 
@@ -533,11 +534,11 @@ function IndividualChat() {
                                                                                             const showNote = index === 0;
 
                                                                                             return (
-                                                                                                <React.Fragment key={index}>
+                                                                                                <div onClick={() => { setCorouselIndex(index) }} key={index}>
                                                                                                     {showNote && (
                                                                                                         <p className={`text-muted text-sm font-weight-bold`}>
                                                                                                             <div
-                                                                                                            style={{maxWidth:'108px'}}
+                                                                                                                style={{ maxWidth: '108px' }}
                                                                                                             >{note}</div>
                                                                                                         </p>
                                                                                                     )}
@@ -565,7 +566,7 @@ function IndividualChat() {
                                                                                                             />
                                                                                                         }
                                                                                                     </div>
-                                                                                                </React.Fragment>
+                                                                                                </div>
                                                                                             );
                                                                                         })}
                                                                                     </div>
@@ -762,13 +763,8 @@ function IndividualChat() {
                             size='xl'
                             onSelect={(image) => {
                                 let file = image.toString().replace(/^data:(.*,)?/, "")
-                                //  handleImagePicker(file)
                             }}
 
-                            // onSelectImagePicker={(el) => {
-                            //     setSelectedNoOfPickers(el?.length)
-
-                            // }}
 
                             onSelectImagePickers={(el) => {
                                 let array: any = []
@@ -813,7 +809,7 @@ function IndividualChat() {
 
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
                 <div className={'mt--5 mb--6 mx--4'}>
-                    <Carousel >
+                    <Carousel selectedItem={corouselIndex} >
 
                         {
                             image.map((each, index) => (
