@@ -26,6 +26,9 @@ function ReferenceTasks() {
   }, [id]);
 
 
+  
+  console.log("reference task----------->",referencesTasks)
+
   const proceedgetReferenceTasks = (page_number: number) => {
 
     const params = {
@@ -48,6 +51,8 @@ function ReferenceTasks() {
 
 
   const normalizedTableData = (data: any) => {
+
+    console.log("reference task----------->",data)
 
 
     if (data && data.length > 0) {

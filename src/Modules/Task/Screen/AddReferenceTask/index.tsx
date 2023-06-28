@@ -12,7 +12,8 @@ function AddReferenceTask() {
 
   const dispatch = useDispatch();
 
-  const { tasks, dashboardDetails, selectedTask, referencesTasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, selectedTask, referencesTasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
+  const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
   const { goBack } = useNavigation();
   const [loading, setLoading] = useState(false)
@@ -25,6 +26,8 @@ function AddReferenceTask() {
       addReferenceTaskHandler()
     }
   }, [isEnterPressed]);
+
+  console.log("dashboardDetails-->",dashboardDetails)
   
   useEffect(() => {
     getTasksApiHandler(taskCurrentPages)
@@ -61,6 +64,9 @@ function AddReferenceTask() {
       showToast(getValidateError(validation));
     }
   };
+
+
+  console.log("dashboardDetails---->",dashboardDetails)
 
 
   const onSelectedTask = (item: any) => {
@@ -115,9 +121,9 @@ function AddReferenceTask() {
       );
 
       return {
-        issue: el?.title,
+        task: el?.title,
         "raised by": el?.by_user?.name,
-        status: getStatusFromCode(dashboardDetails, el?.tasks_status),
+        status: getStatusFromCode(dashboardDetails, el?.task_status),
         "assigned to": el?.assigned_to?.name,
         phone: el.by_user?.phone,
         email: el.by_user?.email,
