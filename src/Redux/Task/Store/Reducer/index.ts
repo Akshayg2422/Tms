@@ -121,7 +121,7 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TASK_EVENT_HISTORY_SUCCESS:
       state = {
         ...state,
-        taskEventHistories: [...state.taskEventHistories, ...action.payload.details.data,],
+        taskEventHistories: [...state.taskEventHistories, ...action.payload.details,],
         taskEventsCurrentPages:
           action.payload.details.next_page
       };

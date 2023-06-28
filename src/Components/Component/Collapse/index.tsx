@@ -98,7 +98,7 @@ function CollapseButton({ title, children, displayDataSet, tableDataSet, tableOn
               </div>
 
 
-              <div className='mr-2 col-auto' onClick={() => collapsesToggle(selectedIds)}>
+              <div className='mr-2 col-auto pointer' onClick={() => collapsesToggle(selectedIds)}>
                 <Image src={icons.downArrowBlack} height={12} width={12} />
 
               </div>
