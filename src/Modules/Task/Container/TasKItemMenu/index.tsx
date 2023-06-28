@@ -41,14 +41,16 @@ function TaskItemMenu() {
         }
     ]
 
+   
     const dispatch = useDispatch()
-    const { selectedTask } = useSelector((state: any) => state.TaskReducer);
+    const { selectedTaskId} = useSelector((state: any) => state.TaskReducer);
+    console.log(selectedTaskId,"selectedTask?.task_status")
 
     const tagUserModal = useModal(false);
     const reassignUserModal = useModal(false);
     const taskCloseModal = useModal(false);
     const taskStatusReason = useInput('')
-    const status = useDropDown(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', selectedTask?.task_status));
+    const status = useDropDown(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', selectedTaskId?.task_status));
 
     const [taggedUsers, setTaggedUsers] = useState([])
     const [reassignUser, setReassignUser] = useState<any>({})

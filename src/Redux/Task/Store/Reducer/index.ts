@@ -31,6 +31,7 @@ const initialState: TaskStateProp = {
   breakDownTimeLine:undefined,
   subTaskGroups: undefined,
   assignedTask: undefined,
+  selectedTaskId:undefined,
   taskParams: { q_many: "", assigned_tasks_by: "assigned_to",assigned_company: '', created_company: 'ALL', "created_tasks_by": "ALL", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL", "created_department_id": "ALL", "created_designation_id": "ALL", page_number: 1, assigned_emp_id: "", created_emp_id: "" },
 };
 
@@ -87,7 +88,12 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.SELECTED_TASK_ITEM:
       state = { ...state, selectedTask: action.payload }
       break;
-
+ /**
+     * selected Task Id
+     */
+ case ActionTypes.SELECTED_TASK_ID:
+  state = { ...state, selectedTaskId: action.payload }
+  break;
     /** 
      * Add Task Event
      */
@@ -121,7 +127,9 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.GET_TASK_EVENT_HISTORY_SUCCESS:
       state = {
         ...state,
-        taskEventHistories: [...state.taskEventHistories, ...action.payload.details,],
+        // taskEventHistories: [...state.taskEventHistories, ...action.payload.details.data,],
+        taskEventHistories: action.payload.details?.data?action.payload.details.data:action.payload.details,
+        // taskEventHistories: [...state.taskEventHistories, ...action.payload.details.data,],
         taskEventsCurrentPages:
           action.payload.details.next_page
       };
