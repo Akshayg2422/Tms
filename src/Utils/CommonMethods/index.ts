@@ -30,13 +30,15 @@ export function convertToUpperCase(data: any) {
 
 export function getStatusFromCode(dashboardDetails: any, status: string) {
   const statusCodes: any = {};
-  dashboardDetails && dashboardDetails?.ticket_status && dashboardDetails?.ticket_status.length > 0 &&
-    dashboardDetails?.ticket_status.forEach((pair: any) => {
+  dashboardDetails && dashboardDetails?.status_code && dashboardDetails?.status_code.length > 0 &&
+    dashboardDetails?.status_code.forEach((pair: any) => {
       const code = pair[0];
       const description = pair[1];
       statusCodes[code] = description;
     });
 
+
+   
   return statusCodes[status];
 
 }
