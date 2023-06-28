@@ -137,7 +137,7 @@ function Tasks() {
           setParams({ ...params, ...filteredParams })
         }} />
         {loading && (
-          <div className="d-flex align-items-center justify-content-center" style={{ minHeight: '200px' }}>
+          <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '200px' }}>
             <Spinner />
           </div>
         )}
