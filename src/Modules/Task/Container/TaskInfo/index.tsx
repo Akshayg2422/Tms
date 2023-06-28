@@ -127,7 +127,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     editTaskModal.hide()
                     resetValues()
                     getTaskDetailsHandler();
-
+                    editDescription.set('')
+                    editTitle.set('')
                 },
                 onError: () => () => { }
             })
@@ -248,8 +249,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     editEtaModal.hide()
                     resetValues()
                 }}
+                size={'md'}
             >
-                <div className="col-6">
+                <div className="col-12">
 
                     <Input
                         type={"text"}

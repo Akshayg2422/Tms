@@ -19,6 +19,7 @@ function Tickets() {
   const [loading, setLoading] = useState(false)
 
 
+
   useEffect(() => {
     setLoading(true)
     getTicketHandler(ticketCurrentPages)
@@ -60,8 +61,12 @@ function Tickets() {
                 }
               </div>
             </div>,
+             'description': <div>
+             {el?.description}
+ 
+           </div>,
 
-          "attachments":
+          "":
             <div className="avatar-group">
               {
                 el?.ticket_attachments &&

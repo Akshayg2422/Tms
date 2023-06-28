@@ -24,8 +24,9 @@ function EmployeesList() {
 
 
     useEffect(() => {
-        getCompanyEmployeesApi(employeesCurrentPages)
-    }, [employeesCurrentPages]);
+        getCompanyEmployeesApi(1    )
+    }, []);
+  
 
     console.log(employeesCurrentPages,"employeesCurrentPages")
 

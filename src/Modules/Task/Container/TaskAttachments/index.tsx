@@ -55,15 +55,17 @@ console.log(taskEventAttachments,"taskEventAttachments====>")
         {taskEventAttachments && taskEventAttachments.length > 0 && <InfiniteScroll
           dataLength={taskEventAttachments.length}
           hasMore={taskEventAttachmentsCurrentPage !== -1}
-          loader={<h4>
-            <Spinner />
-          </h4>}
+         
           next={() => {
             if (taskEventAttachmentsCurrentPage !== -1) {
               getTaskEventsApiHandler(taskEventAttachmentsCurrentPage)
             }
           }
-          }>
+          
+          }
+          loader={<h4>
+            <Spinner />
+          </h4>}>
           <div className="mt-3">
             {
               taskEventAttachments && taskEventAttachments?.length > 0 && taskEventAttachments?.map((item: any, index: number) => {

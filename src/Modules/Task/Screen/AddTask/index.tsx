@@ -338,10 +338,10 @@ function AddTask() {
                 </div>
 
                 <Input
-                    type={"text"}
-                    heading={translate("auth.referenceNo")}
-                    value={referenceNo.value}
-                    onChange={referenceNo.onChange}
+                        type={"text"}
+                        heading={translate("auth.referenceNo")}
+                        value={referenceNo.value}
+                        onChange={referenceNo.onChange}
                 />
 
                 <DropDown
@@ -349,7 +349,8 @@ function AddTask() {
                     selected={selectedTicketPriority.value}
                     placeHolder={translate('order.please select a task priority')!}
                     data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange} />
+                    onChange={selectedTicketPriority.onChange} 
+                    />
                 <div className="my-3">
                     <Radio
                         data={type}

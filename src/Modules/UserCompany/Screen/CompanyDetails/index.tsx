@@ -12,7 +12,7 @@ function CompanyDetails() {
   const { selectedTabPositions } = useSelector(
     (state: any) => state.TaskReducer
   );
-
+console.log(selectedTabPositions,":selectedTabPositions=>")
   const TABS = [
 
     { id: "1", title: <div className="text-center"><Image src={selectedTabPositions.id === '1' ? icons.companyInfoPink : icons.companyInfo} height={16} width={16} /></div>, component: <CompanyInfo /> },

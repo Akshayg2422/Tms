@@ -12,6 +12,8 @@ function Otp() {
   const { registeredMobileNumber, language } = useSelector(
     (state: any) => state.AuthReducer
   );
+
+ 
   const otpLoader = useLoader(false);
 
   const { goTo } = useNavigation()
@@ -81,6 +83,7 @@ function Otp() {
                 is_admin: response.details?.company?.type_is_provider,
               }),
             );
+           
             localStorage.setItem(USER_TOKEN, response.details.token);
             getDashboardDetails();
 

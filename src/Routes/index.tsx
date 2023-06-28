@@ -259,8 +259,6 @@ export const TICKET_ROUTES = [
     path: ROUTES['ticket-module']['add-ticket'],
     component: <AddTicket />
   }
-
-
 ];
 
 

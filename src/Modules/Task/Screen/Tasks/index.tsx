@@ -8,7 +8,7 @@ import { getTasks, setSelectedTask, setSelectedTabPosition, setTaskParams, selec
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
-import { icons } from "@Assets";
+
 
 function Tasks() {
   // const DEFAULT_PARAMS = { q_many: "",assigned_tasks_by: "assigned_to",assigned_company: '', created_company: '',"created_tasks_by":"ALL","task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL","created_department_id":"ALL","created_designation_id":"ALL", page_number: 1,assigned_emp_id: "",created_emp_id:"" }

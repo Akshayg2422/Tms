@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, setSelectedCompany } from "@Redux";
+import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, setSelectedCompany, setSelectedTabPosition } from "@Redux";
 import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton, Spinner } from "@Components";
 import { useNavigation, useModal, useDynamicHeight, useDropDown } from "@Hooks";
 import { ROUTES } from "@Routes";
@@ -68,6 +68,7 @@ function Companies() {
 
 
   const addAssociatedCompanyApi = () => {
+    console.log(associatedCompanyDropDown.value.id,"associatedCompanyDropDown.value.id")
 
     const params = {
       company_id: associatedCompanyDropDown.value.id,
@@ -111,6 +112,7 @@ function Companies() {
       })
     }
   }
+  console.log(associatedCompany,"associatedCompany---->")
 
 
   return (
@@ -160,6 +162,7 @@ function Companies() {
               tableOnClick={(idx, index, item) => {
                 dispatch(setSelectedCompany(item));
                 goTo(ROUTES["user-company-module"]["company-details"]);
+                dispatch(setSelectedTabPosition({id:'1'}))
 
               }} />
             :
@@ -180,7 +183,9 @@ function Companies() {
               data={getAssociatedCompanyDropDownDisplayData(associatedCompany)}
               onChange={(item) => {
                 associatedCompanyDropDown.onChange(item)
+                console.log(item,"iiiiiiii")
               }}
+              value={associatedCompanyDropDown.value}
               selected={associatedCompanyDropDown.value}
             />
 

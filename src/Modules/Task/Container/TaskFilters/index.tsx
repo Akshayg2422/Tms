@@ -39,18 +39,13 @@ function TaskFilters({ onParams }: TaskFilterProps) {
     const [selectedAssignedUserId, setSelectedAssignedUserId] = useState<any>();
     const [selectedCreatedUserId, setSelectedCreatedUserId] = useState<any>();
  
-    // useEffect(()=>{
-        // getCreateDesignation(taskParams.created_company)
-        // getCreateDepartment(taskParams.created_company)
 
-    // },[createdCompany.value])
 
 
     useEffect(() => {
 
         if (taskParams) {
-         
-
+        
             const { q_many, task_status, priority, include_subtask, assigned_tasks_by, created_tasks_by, assigned_company, assigned_department_id, assigned_designation_id, assigned_emp_id, created_department_id, created_company,created_emp_id,created_designation_id } = taskParams
             search.set(q_many)
           
@@ -91,7 +86,6 @@ function TaskFilters({ onParams }: TaskFilterProps) {
              
 
             }
-          
 
             filteredTaskAssigned.set(getObjectFromArrayByKey(TASK_FILTER_LIST, 'id', assigned_tasks_by))
             filteredTaskCreated.set(getObjectFromArrayByKey(TASK_FILTER_LIST_CREATED_BY, 'id', created_tasks_by))
@@ -102,15 +96,13 @@ function TaskFilters({ onParams }: TaskFilterProps) {
 
     }, [taskParams])
 
-
-
     useEffect(()=>{
-console.log('inneress')
+
             const params = {
                 branch_id:  taskParams?.assigned_company?  taskParams.assigned_company: dashboardDetails?.permission_details?.branch_id,
                 per_page_count: -1,
             };
-            console.log(params,"pptterrbv")
+            
     
             dispatch(
                 getDesignations({
@@ -149,16 +141,12 @@ console.log('inneress')
 
     },[company?.value?.id,advanceFilter])
 
-
-   
-
     useEffect(() => {
-        if (company.value || department.value?.id !== 'ALL' || designation.value?.id !== 'ALL') {
+        if (company?.value?.id || department.value?.id !== 'ALL' || designation.value?.id !== 'ALL') {
             getCompanyEmployeeApi()
 
         }
     }, [designation?.value, department?.value, company?.value?.id,])
-
 
     function getCompanyEmployeeApi() {
 
@@ -168,7 +156,6 @@ console.log('inneress')
             ...(designation && { designation_id: designation?.value?.id }),
             per_page_count: -1,
         };
-
 
         dispatch(
             getEmployees({
@@ -188,7 +175,7 @@ console.log('inneress')
 
 
     useEffect(() => {
-        if (createdCompany?.value || createdDepartmentList?.value?.id !== 'ALL' || createdDesignationList?.value?.id !== 'ALL') {
+        if (createdCompany?.value?.id || createdDepartmentList?.value?.id !== 'ALL' || createdDesignationList?.value?.id !== 'ALL') {
 
             getCompanyCreatedEmployeeApi()
 
@@ -198,14 +185,13 @@ console.log('inneress')
 
     function getCompanyCreatedEmployeeApi() {
         
-
         const params = {
             branch_id: createdCompany?.value?.id ? createdCompany?.value?.id : dashboardDetails?.permission_details?.branch_id,
             ...(createdDepartmentList && { department_id: createdDepartmentList?.value?.id }),
             ...(createdDesignationList && { designation_id: createdDesignationList?.value?.id }),
             per_page_count: -1,
         };
-       
+       console.log(params,"pppp===<")
         dispatch(
             getEmployees({
                 params,

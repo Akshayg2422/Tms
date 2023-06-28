@@ -9,6 +9,7 @@ const   ProfileCard = ({ coverPhoto, profilePhoto, name, department, designation
 
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     console.log(dashboardDetails,"ppprrr")
+    console.log(userId,"eeeeee")
     
     return (
         <div className="card-profile p-2 mx--3 mb--4 mt--5">

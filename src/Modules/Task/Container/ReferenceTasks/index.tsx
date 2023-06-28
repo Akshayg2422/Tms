@@ -25,6 +25,8 @@ function ReferenceTasks() {
     proceedgetReferenceTasks(referencesTasksCurrentPages);
   }, [id]);
 
+  console.log('referencesTasks',referencesTasks)
+
 
   const proceedgetReferenceTasks = (page_number: number) => {
 
