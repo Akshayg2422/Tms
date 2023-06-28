@@ -102,14 +102,14 @@ function CommonTable({ card = false, title, displayDataSet, tableDataSet, isPagi
       return (
         <div className="card-footer">
           <ul className="pagination col justify-content-end mb-0">
-            <li className={`${currentPage === 1 ? 'disabled' : ''} page-item `} onClick={currentPage === 1 ? undefined : previousClick}>
+            <li className={`${currentPage === 1 ? 'disabled' : ''} page-item pointer `} onClick={currentPage === 1 ? undefined : previousClick}>
               <a className="page-link">
                 <i className="fas fa-angle-left"></i>
                 <span className="sr-only">Previous</span>
               </a>
             </li>
-            {children}
-            <li className={`${currentPage >= totalPages ? 'disabled' : ''} page-item `} onClick={currentPage >= totalPages ? undefined : nextClick} >
+            <div className='row pointer mx-1'>{children}</div>
+            <li className={`${currentPage >= totalPages ? 'disabled' : ''} page-item pointer `} onClick={currentPage >= totalPages ? undefined : nextClick} >
               <a className="page-link">
                 <i className="fas fa-angle-right"></i>
                 <span className="sr-only">Next</span>
@@ -126,7 +126,7 @@ function CommonTable({ card = false, title, displayDataSet, tableDataSet, isPagi
   }
   return (
     <CommonHeader>
-      {displayDataSet && displayDataSet.length > 0 ? <Table tableDataSet={tableDataSet} displayDataSet={displayDataSet} tableOnClick={tableOnClick}  /> : <NoRecordsFound />}
+      {displayDataSet && displayDataSet.length > 0 ? <Table tableDataSet={tableDataSet} displayDataSet={displayDataSet} tableOnClick={tableOnClick} /> : <NoRecordsFound />}
       {isPagination && <GetPaginatorSet currentPage={currentPage} totalPages={noOfPage} />}
     </CommonHeader >
 
