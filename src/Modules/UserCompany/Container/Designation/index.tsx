@@ -70,7 +70,7 @@ function Designation() {
           params,
           onSuccess: (success: any) => () => {
             addDesignationModal.hide()
-            // getDesignationApiHandler(designationCurrentPages)
+          getDesignationApiHandler(designationCurrentPages)
             resetValues()
           },
           onError: (error: string) => () => {

@@ -32,17 +32,20 @@ function Otp() {
 
 
   const proceedOtpResentApiHandler = () => {
+   
+
     setSeconds(OTP_RESEND_DEFAULT_TIME);
-    const params = {
-      mobile_number: registeredMobileNumber,
-      ln: language,
-      app_user_type: BUSINESS,
-    };
-    dispatch(validateRegisterUser({
-      params,
-      onSuccess: () => () => { },
-      onError: () => () => { }
-    }));
+
+    // const params = {
+    //   mobile_number: registeredMobileNumber,
+    //   ln: language,
+    //   app_user_type: BUSINESS,
+    // };
+    // dispatch(validateRegisterUser({
+    //   params,
+    //   onSuccess: () => () => { },
+    //   onError: () => () => { }
+    // }));
   };
 
 
@@ -60,7 +63,7 @@ function Otp() {
 
 
   const proceedOtpValidationApiHandler = () => {
-
+  
     const params = {
       mobile_number: registeredMobileNumber,
       otp: otp.value,

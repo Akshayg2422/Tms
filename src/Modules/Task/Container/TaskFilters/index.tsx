@@ -38,17 +38,19 @@ function TaskFilters({ onParams }: TaskFilterProps) {
     const modifiedCompany = associatedCompaniesL && associatedCompaniesL.length > 0 && [TASK_COMPANY_FILTER, ...associatedCompaniesL]
     const [selectedAssignedUserId, setSelectedAssignedUserId] = useState<any>();
     const [selectedCreatedUserId, setSelectedCreatedUserId] = useState<any>();
- 
+
 
 
 
     useEffect(() => {
 
+
+
         if (taskParams) {
-        
-            const { q_many, task_status, priority, include_subtask, assigned_tasks_by, created_tasks_by, assigned_company, assigned_department_id, assigned_designation_id, assigned_emp_id, created_department_id, created_company,created_emp_id,created_designation_id } = taskParams
+
+            const { q_many, task_status, priority, include_subtask, assigned_tasks_by, created_tasks_by, assigned_company, assigned_department_id, assigned_designation_id, assigned_emp_id, created_department_id, created_company, created_emp_id, created_designation_id } = taskParams
             search.set(q_many)
-          
+
             // filteredTask.set(getObjectFromArrayByKey(TASK_FILTER_LIST, 'id', tasks_by))
             if (modifiedCompany?.length > 0) {
                 company.set(getObjectFromArrayByKey(modifiedCompany, 'id', assigned_company))
@@ -66,7 +68,7 @@ function TaskFilters({ onParams }: TaskFilterProps) {
             if (assignedEmployee && assignedEmployee.length > 0) {
                 setSelectedAssignedUserId(getObjectFromArrayByKey(assignedEmployee, 'id', assigned_emp_id))
             }
-            if(createdEmployee && createdEmployee.length>0){
+            if (createdEmployee && createdEmployee.length > 0) {
                 setSelectedCreatedUserId(getObjectFromArrayByKey(createdEmployee, 'id', created_emp_id))
             }
 
@@ -83,7 +85,7 @@ function TaskFilters({ onParams }: TaskFilterProps) {
 
             if (modifiedCompany && modifiedCompany?.length > 0) {
                 createdCompany.set(getObjectFromArrayByKey(modifiedCompany, 'id', created_company))
-             
+
 
             }
 
@@ -96,57 +98,59 @@ function TaskFilters({ onParams }: TaskFilterProps) {
 
     }, [taskParams])
 
-    useEffect(()=>{
+    useEffect(() => {
 
-            const params = {
-                branch_id:  taskParams?.assigned_company?  taskParams.assigned_company: dashboardDetails?.permission_details?.branch_id,
-                per_page_count: -1,
-            };
-            
-    
-            dispatch(
-                getDesignations({
-                    params,
-                    onSuccess: (response) => () => {
-                        dispatch(
-                            setAssignedDesignation(response?.details)
-                        )
-    
-                    },
-                    onError: () => () => {
-    
-                    },
-                })
-    
-            );
-
-            dispatch(
-                getDepartments({
-                    params,
-                    onSuccess: (response: any) => () => {
-                   
-                        dispatch(
-                            setAssignedDepartment(response?.details)
-                        )
-    
-    
-                    },
-                    onError: (error) => () => {
-                       
-    
-                    },
-                })
-            );
+        const params = {
+            branch_id: taskParams?.assigned_company ? taskParams.assigned_company : dashboardDetails?.permission_details?.branch_id,
+            per_page_count: -1,
+        };
 
 
-    },[company?.value?.id,advanceFilter])
+        dispatch(
+            getDesignations({
+                params,
+                onSuccess: (response) => () => {
+                    dispatch(
+                        setAssignedDesignation(response?.details)
+                    )
+
+                },
+                onError: () => () => {
+
+                },
+            })
+
+        );
+
+        dispatch(
+            getDepartments({
+                params,
+                onSuccess: (response: any) => () => {
+
+                    dispatch(
+                        setAssignedDepartment(response?.details)
+                    )
+
+
+                },
+                onError: (error) => () => {
+
+
+                },
+            })
+        );
+
+
+    }, [company?.value?.id, advanceFilter])
 
     useEffect(() => {
         if (company?.value?.id || department.value?.id !== 'ALL' || designation.value?.id !== 'ALL') {
             getCompanyEmployeeApi()
+       
 
         }
     }, [designation?.value, department?.value, company?.value?.id,])
+
 
     function getCompanyEmployeeApi() {
 
@@ -156,6 +160,7 @@ function TaskFilters({ onParams }: TaskFilterProps) {
             ...(designation && { designation_id: designation?.value?.id }),
             per_page_count: -1,
         };
+        console.log(params, "rrrr=000000000000000>>>>>")
 
         dispatch(
             getEmployees({
@@ -178,20 +183,21 @@ function TaskFilters({ onParams }: TaskFilterProps) {
         if (createdCompany?.value?.id || createdDepartmentList?.value?.id !== 'ALL' || createdDesignationList?.value?.id !== 'ALL') {
 
             getCompanyCreatedEmployeeApi()
+            console.log(params, "lllllll=2222220000>>>>>")
 
         }
 
     }, [createdDesignationList.value, createdDepartmentList.value, createdCompany.value])
 
     function getCompanyCreatedEmployeeApi() {
-        
+
         const params = {
             branch_id: createdCompany?.value?.id ? createdCompany?.value?.id : dashboardDetails?.permission_details?.branch_id,
             ...(createdDepartmentList && { department_id: createdDepartmentList?.value?.id }),
             ...(createdDesignationList && { designation_id: createdDesignationList?.value?.id }),
             per_page_count: -1,
         };
-       console.log(params,"pppp===<")
+        console.log(params, "pppp===<")
         dispatch(
             getEmployees({
                 params,
@@ -225,13 +231,13 @@ function TaskFilters({ onParams }: TaskFilterProps) {
         }
     }, [advanceFilter]);
 
-useEffect(()=>{
+    useEffect(() => {
 
-    const params = {
-        branch_id: createdCompany?.value?.id? createdCompany?.value?.id: dashboardDetails?.permission_details?.branch_id,
-        per_page_count: -1,
-    };
-    dispatch(
+        const params = {
+            branch_id: createdCompany?.value?.id ? createdCompany?.value?.id : dashboardDetails?.permission_details?.branch_id,
+            per_page_count: -1,
+        };
+        dispatch(
             getDesignations({
                 params,
                 onSuccess: (response) => () => {
@@ -263,8 +269,8 @@ useEffect(()=>{
             })
         );
 
-},[createdCompany?.value?.id])
-   
+    }, [createdCompany?.value?.id])
+
 
 
 
@@ -278,7 +284,7 @@ useEffect(()=>{
     }
 
 
-  
+
     return (
         < >
             <div className="row">
@@ -302,7 +308,7 @@ useEffect(()=>{
                                 if (item.id === 'advance') {
                                     setAdvanceFiltersAssignedTo(true)
                                     getCompanyEmployeeApi()
-                               proceedParams({ assigned_tasks_by: item.id })
+                                    proceedParams({ assigned_tasks_by: item.id })
 
                                 }
                                 else {
@@ -333,21 +339,21 @@ useEffect(()=>{
                                 if (item.id === 'advance') {
                                     setAdvanceFiltersCreatedBy(true)
                                     getCompanyCreatedEmployeeApi()
-    
-                                     proceedParams({ created_tasks_by: item.id })
+
+                                    proceedParams({ created_tasks_by: item.id })
                                     // createdCompany.onChange(TASK_COMPANY_FILTER)
-                                    proceedParams({ created_tasks_by: item.id})
+                                    proceedParams({ created_tasks_by: item.id })
                                 }
                                 else {
                                     setAdvanceFiltersCreatedBy(false)
                                     if (item.id === 'ALL') {
-                                        
+
                                         proceedParams({ created_tasks_by: item.id, created_company: 'ALL', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' })
                                         createdCompany.onChange(TASK_COMPANY_FILTER)
 
                                     }
                                     else {
-                                     
+
                                         proceedParams({ created_tasks_by: item.id, created_company: '', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' })
                                         createdCompany.onChange(TASK_COMPANY_FILTER)
                                     }
@@ -413,7 +419,7 @@ useEffect(()=>{
                             selected={company.value}
                             onChange={(item) => {
                                 company.onChange(item)
-                                 proceedParams({ assigned_company: item.id, assigned_department_id: 'ALL', assigned_designation_id: 'ALL', assigned_emp_id: '' })
+                                proceedParams({ assigned_company: item.id, assigned_department_id: 'ALL', assigned_designation_id: 'ALL', assigned_emp_id: '' })
                                 department.onChange(TASK_FILTER_ALL)
                                 designation.onChange(TASK_FILTER_ALL)
                                 setSelectedAssignedUserId('')
@@ -430,6 +436,8 @@ useEffect(()=>{
                             data={getDropDownDisplayData(modifiedAssignedDepartment)}
                             selected={department.value}
                             onChange={(item) => {
+
+                                console.log('department,"ddddd')
                                 department.onChange(item)
                                 proceedParams({ assigned_department_id: item.id, assigned_emp_id: '' })
                                 setSelectedAssignedUserId('')
@@ -444,6 +452,7 @@ useEffect(()=>{
                             data={getDropDownDisplayData(modifiedAssignedDesignation)}
                             selected={designation.value}
                             onChange={(item) => {
+                                console.log('designation,"ddddd')
                                 designation.onChange(item)
                                 proceedParams({ assigned_designation_id: item.id, assigned_emp_id: '' })
                                 setSelectedAssignedUserId('')
@@ -474,7 +483,7 @@ useEffect(()=>{
                 </div>
             </div>
             }
-    
+
             {advanceFiltersCreatedBy && <div>
 
                 <div className='row'>
@@ -490,8 +499,9 @@ useEffect(()=>{
                             selected={createdCompany.value}
                             onChange={(item) => {
 
+
                                 createdCompany.onChange(item)
-                                
+
                                 // getCreateDesignation(item?.id)
                                 // getCreateDepartment(item?.id)
                                 proceedParams({ created_company: item.id, created_department_id: 'ALL', created_designation_id: 'ALL', created_emp_id: '' })
@@ -510,9 +520,9 @@ useEffect(()=>{
                             data={getDropDownDisplayData(modifiedCreateDepartment)}
                             selected={createdDepartmentList.value}
                             onChange={(item) => {
-                                
+
                                 createdDepartmentList.onChange(item)
-                             
+
                                 proceedParams({ created_department_id: item.id, created_emp_id: '' })
                                 setSelectedCreatedUserId('')
 
@@ -529,7 +539,7 @@ useEffect(()=>{
                             selected={createdDesignationList.value}
                             onChange={(item) => {
                                 createdDesignationList.onChange(item)
-                                
+
                                 proceedParams({ created_designation_id: item.id, created_emp_id: '' })
                                 setSelectedCreatedUserId('')
 

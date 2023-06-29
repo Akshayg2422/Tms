@@ -137,11 +137,7 @@ function CompanyTasks() {
             getTaskHandler(paginationHandler("next", taskCurrentPages));
           }
           }
-          tableOnClick={(idx, index, item) => {
-            dispatch(setSelectedTask(item));
-            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.id);
-          }
-          }
+       
         />
         : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={translate("auth.noTaskFound")!} /></div>
       }

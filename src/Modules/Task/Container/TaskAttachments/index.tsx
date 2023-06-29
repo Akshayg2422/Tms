@@ -15,7 +15,7 @@ function TaskAttachments() {
   const { height } = useWindowDimensions()
 
 
-console.log(taskEventAttachments,"taskEventAttachments====>")
+console.log(JSON.stringify(taskEventAttachments),"taskEventAttachments====>")
   useEffect(() => {
     getTaskEventsApiHandler(INITIAL_PAGE, search.value,)
   }, [search.value, refreshTaskEvents, id]);

@@ -99,8 +99,6 @@ function IndividualChat() {
         }))
     }
 
-    console.log("employeeelist", employeeList)
-
     const getDisplayTimeFromMoment = (date) => {
         if (date) {
             return moment(date).format('LT')
