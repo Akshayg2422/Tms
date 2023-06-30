@@ -41,7 +41,7 @@ console.log(taskEventAttachments,"taskEventAttachments====>")
   }
 
 
-
+console.log('taskAttachments==============>',taskEventAttachments)
   return (
     <>
       <Card className="overflow-auto" style={{
@@ -52,12 +52,17 @@ console.log(taskEventAttachments,"taskEventAttachments====>")
             <SearchInput onSearch={search.set} />
           </div>
         </div >
+        
         {taskEventAttachments && taskEventAttachments.length > 0 && <InfiniteScroll
           dataLength={taskEventAttachments.length}
           hasMore={taskEventAttachmentsCurrentPage !== -1}
           loader={<h4>
+            <div className="d-flex justify-content-center align-item-center">
             <Spinner />
+            </div>
+            
           </h4>}
+
           next={() => {
             if (taskEventAttachmentsCurrentPage !== -1) {
               getTaskEventsApiHandler(taskEventAttachmentsCurrentPage)
@@ -75,19 +80,20 @@ console.log(taskEventAttachments,"taskEventAttachments====>")
                       {
                         attachments?.attachments?.map((image: any) => {
                           return (
-                            <Image className={'mb-3 ml-2'} src={getPhoto(image?.attachment_file)} style={{ height: "100px", width: "100px" }} />
+                          
+                             <Image className={'mb-3 ml-2'} src={getPhoto(image?.attachment_file)} style={{ height: "100px", width: "100px" }} />
                           )
                         })
                       }
                     </div>
                     }
-                    {/* {index !== taskEventAttachments.length - 1 && <Divider space={'3'} />} */}
                   </div>
                 )
               })
             }
           </div>
         </InfiniteScroll>}
+            
       </Card >
 
 

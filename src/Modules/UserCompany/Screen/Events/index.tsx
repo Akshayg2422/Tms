@@ -203,7 +203,7 @@ function Events() {
 
     <>
       {events && events.length > 0 ?
-        <div className="col-7 text-right my-1">
+        <div className="col-7 text-right my-1 ml-4">
           <Button
             text={translate('order.CREATE EVENT')}
             className="text-white"

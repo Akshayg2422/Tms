@@ -264,7 +264,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                     }}
                                     subtitleOnclick={() => { userModal.show() }}
                                 >
-                                    <div className='pt-2' onClick={() => {
+                                    <div className='pt-2 col-md-2' onClick={() => {
                                         imageModal.show()
                                         setImage(imageUrls)
                                     }} >

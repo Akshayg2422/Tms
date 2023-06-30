@@ -154,7 +154,7 @@ function TaskChat({ }: TaskChatProps) {
                                 title={title} subTitle={subTitle}
                                 time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
-                                <div className='pt-2' onClick={() => {
+                                <div className='pt-2 col-md-3' onClick={() => {
                                     imageModal.show()
                                     setImage(imageUrls)
                                 }} >
@@ -192,6 +192,7 @@ function TaskChat({ }: TaskChatProps) {
                                             style={{ height: '450px', width: '450px' }}
                                         />
                                     </div>
+                                    
                                     <CardFooter className={'mt-2'}>
                                         <div className='d-flex justify-content-end mt--6 mr-4 pointer'>
                                             <ImageDownloadButton Url={each} title={each} />
