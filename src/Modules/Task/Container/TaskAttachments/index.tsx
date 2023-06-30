@@ -14,8 +14,6 @@ function TaskAttachments() {
   const { taskEventAttachments, taskEventAttachmentsCurrentPage, refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
   const { height } = useWindowDimensions()
 
-
-console.log(JSON.stringify(taskEventAttachments),"taskEventAttachments====>")
   useEffect(() => {
     getTaskEventsApiHandler(INITIAL_PAGE, search.value,)
   }, [search.value, refreshTaskEvents, id]);

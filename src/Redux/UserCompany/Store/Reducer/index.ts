@@ -597,7 +597,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, userToken: undefined };
       break;
     case ActionTypes.GET_TOKEN_BY_USER_SUCCESS:
-      console.log("9999999999999999999999999", action.payload.details)
+
       state = { ...state, userToken: action.payload.details };
       break;
     case ActionTypes.GET_TOKEN_BY_USER_FAILURE:

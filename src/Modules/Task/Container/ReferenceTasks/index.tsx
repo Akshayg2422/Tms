@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTasks, selectedTaskId, setSelectedTask } from "@Redux";
+import { getReferenceTasks, getSelectedReference, selectedTaskIds, setSelectedTask } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 import { NoDataFound, Card, CommonTable, Button, Spinner } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
@@ -25,11 +25,7 @@ function ReferenceTasks() {
     proceedgetReferenceTasks(referencesTasksCurrentPages);
   }, [id]);
 
-  console.log('referencesTasks',referencesTasks)
 
-
-  
-  console.log("reference task----------->",referencesTasks)
 
   const proceedgetReferenceTasks = (page_number: number) => {
 
@@ -43,6 +39,7 @@ function ReferenceTasks() {
       getReferenceTasks({
         params,
         onSuccess: (response) => () => {
+         
         },
         onError: () => () => {
 
@@ -53,9 +50,6 @@ function ReferenceTasks() {
 
 
   const normalizedTableData = (data: any) => {
-
-    console.log("reference task----------->",data)
-
 
     if (data && data.length > 0) {
       return data?.map((el: any) => {
@@ -89,6 +83,7 @@ function ReferenceTasks() {
 
 
         <CommonTable
+        isPagination
           tableDataSet={referencesTasks}
           currentPage={referencesTasksCurrentPages}
           noOfPage={referencesTasksNumOfPages}
@@ -106,8 +101,10 @@ function ReferenceTasks() {
           }
           tableOnClick={(index,id,item) => {
             console.log(item.code)
+            dispatch(getSelectedReference(false))
+            dispatch(getSelectedReference({code: item?.code,refer:false}))
             dispatch(setSelectedTask(item?.code))
-           dispatch(selectedTaskId(item))
+           dispatch(selectedTaskIds(item))
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
           }}
 

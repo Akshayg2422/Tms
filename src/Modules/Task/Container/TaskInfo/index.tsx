@@ -7,7 +7,7 @@ import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useNavigation } from '@Hooks'
-import { addTaskEvent, getTaskDetails, refreshTaskEvents, selectedVcDetails } from '@Redux'
+import { addTaskEvent, getSelectedReference, getTaskDetails, refreshTaskEvents, selectedVcDetails } from '@Redux'
 import { useParams } from 'react-router-dom'
 import { CardFooter } from "reactstrap";
 import { ROUTES } from "@Routes";
@@ -17,10 +17,11 @@ const END_TASK = 2
 
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
-    const { id } = useParams()
+    const { id ,refer} = useParams()
 
     const dispatch = useDispatch()
-    const { taskDetails, selectedTask } = useSelector((state: any) => state.TaskReducer);
+    const { taskDetails, selectedTask ,selectedReferenceDetails , referencesTasks,subTasks,tasks} = useSelector((state: any) => state.TaskReducer);
+
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time } = taskDetails || {};
     const [eta, setEta] = useState(eta_time)
@@ -34,11 +35,38 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const [actionTask, setActionTask] = useState<number>()
     const userModal = useModal(false)
     const { goTo } = useNavigation()
+    const [selected,setSelected]=useState()
+    const [selectedTaskId,setSelectedTaskId]=useState<boolean>(true)
+    
 
     useEffect(() => {
         getTaskDetailsHandler()
     }, [id])
 
+
+
+    useEffect(()=>{
+        if(subTasks !==undefined){
+            let isSelect
+         
+        isSelect=subTasks?.some((filter:any)=>filter?.code === selectedReferenceDetails?.code)
+        setSelected(isSelect)
+        }
+        // /
+        if(tasks.length>0 ){
+            let isSelectedTask
+            isSelectedTask=tasks?.some((filter:any)=>(filter?.code === code||taskDetails?.code))
+            setSelectedTaskId(isSelectedTask)
+           
+        }
+      
+
+    },[subTasks])
+   
+    
+// console.log(selected,"sssssssssss")
+// console.log(selectedReferenceDetails?.refer,":::::::::::::p")
+// console.log(selectedTaskId,"selectedTaskId=====>")
 
     useEffect(() => {
         setEta(eta_time)
@@ -140,8 +168,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 <div>
                     <div className="row">
                         <div className="col ">
-                            <div className="row">
-                                <Back />
+                            <div className="row" onClick={()=>{
+                                //   dispatch(getSelectedReference({code:code,refer:true}))
+
+          }}>
+                                <Back  />
                                 <div className="ml-2">
                                     <div>{title && <H tag={"h4"} className="mb-0" text={title} />}</div>
                                       {code && <small>{`#${code}`}</small>}
@@ -149,13 +180,14 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="pointer col-auto" onClick={() => {
+                        {(selected ===true || selectedTaskId === true || selectedReferenceDetails?.refer ===true) &&    <div className="pointer col-auto" onClick={() => {
                             editTaskModal.show()
                             editTitle.set(title)
                             editDescription.set(description)
                         }}>
                             <Image src={icons.editEta} height={16} width={16} />
                         </div>
+}
                     </div>
 
                     <div className="row mt-3 ">
@@ -193,7 +225,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                     <hr className="my-4 mx--3" />
 
-                    <div className="row mt-2">
+                    {(selected ===true || selectedTaskId === true || selectedReferenceDetails?.refer ===true) &&
+                         <div className="row mt-2"> 
 
                         <div className="col ml--3">
                             {
@@ -211,6 +244,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             }
                         </div>
 
+
                         <div className="row ml-1 mr-3">
                             <div className="pointer" onClick={() => editEtaModal.show()}>
                                 {eta_time && <Image src={icons.editEta} height={16} width={16} />}
@@ -218,15 +252,18 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             <div className="ml-2 pointer" onClick={() => { taskEventModal.show() }}>
                                 <Image src={icons.timeline} height={17} width={17} />
                             </div>
-                            <div className="ml-1 pointer" >
+                         <div className="ml-1 pointer" >
                                 <TaskItemMenu />
                             </div>
+
                         </div>
+
                     </div>
+}
 
 
 
-                    <div className="col text-right mt-3 ml--3">
+         {(selected ===true || selectedTaskId === true || selectedReferenceDetails?.refer ===true) &&  <div className="col text-right mt-3 ml--3">
                         {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button className={'text-white'} size={'sm'} text={'Start'}
                             onClick={() => {
                                 alertModal.show()
@@ -237,6 +274,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             setActionTask(END_TASK)
                         }} />}
                     </div>
+                    }
+
 
                 </div>
             </Card >

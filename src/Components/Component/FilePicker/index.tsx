@@ -43,10 +43,6 @@ const FilePicker = ({ }: FilePickerProps) => {
 
 
 
-    console.log(JSON.stringify(files));
-
-    
-
     return (
         <>
             <div {...getRootProps({ className: 'dropzone bg-primary align-items-center justify-content-center' })} style={{

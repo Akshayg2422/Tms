@@ -4,7 +4,7 @@ import { Button, HomeContainer, NoDataFound, Spinner, AutoComplete } from "@Comp
 import { TaskGroups, TaskFilter, TaskFilters } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
-import { getTasks, setSelectedTask, setSelectedTabPosition, setTaskParams, selectedTaskId } from '@Redux'
+import { getTasks, setSelectedTask, setSelectedTabPosition, setTaskParams, selectedTaskIds, getSelectedReference } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
@@ -164,8 +164,8 @@ function Tasks() {
               }
               tableOnClick={(idx, index, item) => {
                 dispatch(setSelectedTask(item?.code));
-                dispatch(selectedTaskId(item))
-
+                dispatch(selectedTaskIds(item))
+                dispatch(getSelectedReference({code: item?.code,refer:true}))
                 dispatch(setSelectedTabPosition({ id: '1' }))
                 goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code);
               }

@@ -11,7 +11,7 @@ import { useDropDown } from '@Hooks'
 
 function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaultSelect, selectedCode }: GroupEmployeesProps) {
 
-    const { employees, departments, designations, associatedCompaniesL } = useSelector((state: any) => state.UserCompanyReducer);
+    const { employees, departments, designations, associatedCompaniesL,dashboardDetails} = useSelector((state: any) => state.UserCompanyReducer);
     const [selectedEmployee, setSelectedEmployee] = useState<any>(defaultSelect)
     const [companies, setCompanies] = useState<any>()
     const company = useDropDown({})
@@ -105,11 +105,11 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
     const getDesignation = (items: any) => {
 
 
-        if (items.id) {
+        // if (items.id) {
 
 
             const params = {
-                branch_id: items.id,
+                branch_id:items.id ?items.id:dashboardDetails?.permission_details?.branch_id,
                 per_page_count: -1,
             };
 
@@ -124,15 +124,15 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
                 })
 
             );
-        }
+        // }
     }
 
     const getDepartment = (items: any) => {
 
-        if (items.id) {
+        // if (items.id) {
 
             const params = {
-                branch_id: items.id,
+                branch_id: items.id ?items.id:dashboardDetails?.permission_details?.branch_id,
                 per_page_count: -1,
             };
             dispatch(
@@ -145,7 +145,7 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
                     },
                 })
             );
-        }
+        // }
 
     }
 

@@ -211,7 +211,7 @@ function* getTaskDetailsSaga(action) {
             yield call(action.payload.onError(response));
         }
     } catch (error) {
-        console.log('333333' + error);
+       
 
         yield put(Action.getTaskDetailsFailure("Invalid Request"));
         yield call(action.payload.onError(error));

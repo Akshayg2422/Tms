@@ -87,13 +87,12 @@ function* addTicketTag(action) {
 */
 
 function* getDesignation(action) {
-  console.log(action, "acgtttttt")
   try {
 
     const response = yield call(Api.fetchDesignationDataApi, action.payload.params);
 
     if (response.success) {
-      console.log(JSON.stringify(response.details), 'success')
+     
       yield put(Action.getDesignationsSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
@@ -101,7 +100,7 @@ function* getDesignation(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    console.log('eerrroerr')
+ 
     yield put(Action.getDesignationsFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
@@ -500,7 +499,6 @@ function* getVideoConferenceListSaga(action) {
 function* getTokenByUserSaga(action) {
   try {
     const response = yield call(Api.getTokenByUserApi, action.payload.params);
-    console.log('response=========>', response)
     if (response.success) {
       yield put(Action.getTokenByUserSuccess(response));
       yield call(action.payload.onSuccess(response));
@@ -521,7 +519,6 @@ function* getTokenByUserSaga(action) {
 function* getAssociatedCompanySaga(action) {
   try {
     const response = yield call(Api.getAssociatedCompanyApi, action.payload.params);
-    console.log("registerCompany============>", response)
     if (response.success) {
       yield put(Action.getAssociatedCompanySuccess(response));
       yield call(action.payload.onSuccess(response));
@@ -542,7 +539,6 @@ function* getAssociatedCompanySaga(action) {
 function* addAssociatedCompanySaga(action) {
   try {
     const response = yield call(Api.addAssociatedCompanyApi, action.payload.params);
-    console.log("registerCompany============>", response)
     if (response.success) {
       yield call(action.payload.onSuccess(response));
     } else {

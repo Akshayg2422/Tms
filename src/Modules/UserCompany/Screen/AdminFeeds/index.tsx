@@ -165,8 +165,6 @@ function AdminFeeds() {
       broadcast_attachments: [{ attachments: photo }],
     };
 
-    console.log(JSON.stringify(params), "===---????")
-
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
 
     if (ifObjectExist(validation)) {

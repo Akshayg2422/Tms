@@ -183,7 +183,7 @@ function Companies() {
               data={getAssociatedCompanyDropDownDisplayData(associatedCompany)}
               onChange={(item) => {
                 associatedCompanyDropDown.onChange(item)
-                console.log(item,"iiiiiiii")
+             
               }}
               value={associatedCompanyDropDown.value}
               selected={associatedCompanyDropDown.value}

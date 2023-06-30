@@ -131,9 +131,7 @@ function TaskChat({ }: TaskChatProps) {
                     {/* <Spinner /> */}
                 </h4>}
                 next={() => {
-                    console.log('came');
-
-                    console.log(taskEventsCurrentPage + '====');
+                    
                     if (taskEventsCurrentPage !== -1) {
                         getTaskEventsApi(taskEventsCurrentPage)
                     }
@@ -141,7 +139,7 @@ function TaskChat({ }: TaskChatProps) {
                 }>
                 {taskEvents && taskEvents.length > 0 &&
                     taskEvents.map((task: any, index: number) => {
-                        console.log('task------------>', task);
+                        
 
                         const { icon, title, subTitle, created_at, attachments } = task
                         const showDotLine = index !== 0
