@@ -11,7 +11,7 @@ import { translate } from "@I18n";
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id,item } = useParams();
   const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages } = useSelector(
     (state: any) => state.TaskReducer
   );
@@ -69,7 +69,7 @@ function ReferenceTasks() {
   return (
 
     <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
-      {referencesTasks && referencesTasks?.length > 0 && <div className="col text-right">
+      {referencesTasks && referencesTasks?.length > 0 && item!=='reference-task' && <div className="col text-right">
         <Button size={'sm'} className={'text-white'} text={translate("auth.addReferenceTask")} onClick={() => {
           dispatch(setSelectedTask(id))
 
@@ -105,11 +105,19 @@ function ReferenceTasks() {
             dispatch(getSelectedReference({code: item?.code,refer:false}))
             dispatch(setSelectedTask(item?.code))
            dispatch(selectedTaskIds(item))
-            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
+            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'reference-task')
           }}
 
         />
-        : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} isButton /></div>}
+        :item!=="reference-task" ? <div className="d-flex h-100 justify-content-center align-items-center">
+          <NoDataFound  
+       
+        />
+        </div>:<div className="d-flex h-100 justify-content-center align-items-center">
+          <NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} 
+        isButton 
+        />
+        </div>}
     </Card>
 
 

@@ -137,7 +137,7 @@ function Tasks() {
           setParams({ ...params, ...filteredParams })
         }} />
         {loading && (
-          <div className="d-flex align-items-center justify-content-center" style={{ minHeight: '200px' }}>
+          <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '200px' }}>
             <Spinner />
           </div>
         )}
@@ -167,7 +167,7 @@ function Tasks() {
                 dispatch(selectedTaskIds(item))
                 dispatch(getSelectedReference({code: item?.code,refer:true}))
                 dispatch(setSelectedTabPosition({ id: '1' }))
-                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code);
+                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'task');
               }
               }
             />

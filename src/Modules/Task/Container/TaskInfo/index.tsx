@@ -17,7 +17,7 @@ const END_TASK = 2
 
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
-    const { id ,refer} = useParams()
+    const { id ,item} = useParams()
 
     const dispatch = useDispatch()
     const { taskDetails, selectedTask ,selectedReferenceDetails , referencesTasks,subTasks,tasks} = useSelector((state: any) => state.TaskReducer);
@@ -180,7 +180,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 </div>
                             </div>
                         </div>
-                        {(selected ===true || selectedTaskId === true || selectedReferenceDetails?.refer ===true) &&    <div className="pointer col-auto" onClick={() => {
+                        {item!=='reference-task' &&    <div className="pointer col-auto" onClick={() => {
                             editTaskModal.show()
                             editTitle.set(title)
                             editDescription.set(description)
@@ -225,7 +225,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                     <hr className="my-4 mx--3" />
 
-                    {(selected ===true || selectedTaskId === true || selectedReferenceDetails?.refer ===true) &&
+                    {item!=='reference-task' &&
                          <div className="row mt-2"> 
 
                         <div className="col ml--3">
@@ -263,7 +263,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
 
-         {(selected ===true || selectedTaskId === true || selectedReferenceDetails?.refer ===true) &&  <div className="col text-right mt-3 ml--3">
+         {item!=='reference-task' &&  <div className="col text-right mt-3 ml--3">
                         {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button className={'text-white'} size={'sm'} text={'Start'}
                             onClick={() => {
                                 alertModal.show()

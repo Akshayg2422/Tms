@@ -6,7 +6,7 @@ import {
   employeeTimeLineStatus,
   getEmployeeTimeline
 } from "@Redux";
-import { Button, Image, CollapseButton,Modal,Input } from '@Components';
+import { Button, Image, CollapseButton, Modal, Input } from '@Components';
 import { icons } from '@Assets';
 import { ROUTES } from '@Routes'
 import { useInput, useModal, useNavigation } from '@Hooks'
@@ -18,10 +18,10 @@ function TimeApproval() {
   const dispatch = useDispatch();
   const { goTo } = useNavigation();
   const [formattedShift, setFormattedShift] = useState<any>('')
-  const [date,setDate]=useState<any>()
-  const [status,setStatus]=useState<any>()
-const addRejectReasonModal=useModal(false)
-const reason = useInput("");
+  const [date, setDate] = useState<any>()
+  const [status, setStatus] = useState<any>()
+  const addRejectReasonModal = useModal(false)
+  const reason = useInput("");
 
 
 
@@ -49,15 +49,12 @@ const reason = useInput("");
 
   // add time sheet]
 
- 
-
-
-     const addEmployeeTimeSheet = (item:any,id:any) => {
+  const addEmployeeTimeSheet = (item: any, id: any) => {
     const params = {
-      timeline_status:id,
-       date:item,
-      ...(reason.value && {reason:reason.value})
-   
+      timeline_status: id,
+      date: item,
+      ...(reason.value && { reason: reason.value })
+
     }
   
       dispatch(
@@ -68,13 +65,13 @@ const reason = useInput("");
             
             getEmployeesTimeList()
 
-          },
-          onError: (error) => () => {
-          }
+        },
+        onError: (error) => () => {
+        }
 
-        })
-      )
-  
+      })
+    )
+
 
   }
 
@@ -204,26 +201,26 @@ const reason = useInput("");
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
           Status: el?.is_completed ? "complete" : "",
-      //     '':
-      //     <div>
-      //     {el?.timeline_status==='PAL' ?
-      //         <div>
-      //         <Button size={'sm'} text={'Approved'} onClick={() => {
-      //           setSelectApproval(true)
-                
-      //           addEmployeeTimeSheet(el.id,'APT')
-      //         }} />
-      //         <Button size={'sm'} text={'Reject'} onClick={() => {
-      //           setSelectReject(true)
-      //           addEmployeeTimeSheet(el.id,'REJ')
-               
-      //         }} />
-      //       </div>
-      // :el?.timeline_status==='APT'?<div className='text-primary h5'>Approved</div>:<div className='text-primary h5'>Rejected</div>}
-      // </div>
+          //     '':
+          //     <div>
+          //     {el?.timeline_status==='PAL' ?
+          //         <div>
+          //         <Button size={'sm'} text={'Approved'} onClick={() => {
+          //           setSelectApproval(true)
 
-      }
-        
+          //           addEmployeeTimeSheet(el.id,'APT')
+          //         }} />
+          //         <Button size={'sm'} text={'Reject'} onClick={() => {
+          //           setSelectReject(true)
+          //           addEmployeeTimeSheet(el.id,'REJ')
+
+          //         }} />
+          //       </div>
+          // :el?.timeline_status==='APT'?<div className='text-primary h5'>Approved</div>:<div className='text-primary h5'>Rejected</div>}
+          // </div>
+
+        }
+
       }
       )
     }
@@ -231,59 +228,59 @@ const reason = useInput("");
 
   return (
     <div className='m-3'>
-                <Modal
+      <Modal
 
-          isOpen={addRejectReasonModal.visible}
-          onClose={() => {
-            addRejectReasonModal.hide()
-          }}
-          size='sm'
-          title={'Reject Reason'}
-          >
-            <div className='h4 col text-muted pb-3 '>
-              Date : {getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(date))}
-            </div>
-              <div className="col-12">
-                  <Input
-                    placeholder={'Reject Reason'}
-                    value={reason.value}
-                    onChange={reason.onChange}
-                  />
-                </div>
-    
-                <div className="text-right">
-              <Button
-                color={"secondary"}
-                text={translate("common.cancel")}
-                onClick={() => {
-                  addRejectReasonModal.hide()
-                 
-                }}
-              />
-              <Button
-                text={translate("common.submit")}
-                onClick={() => {
-                  addEmployeeTimeSheet(date,status)
-                
-                }}
-              />
-            </div>
-    
-          </Modal>
-          <div className='text-right pb-3'>
+        isOpen={addRejectReasonModal.visible}
+        onClose={() => {
+          addRejectReasonModal.hide()
+        }}
+        size='sm'
+        title={'Reject Reason'}
+      >
+        <div className='h4 col text-muted pb-3 '>
+          Date : {getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(date))}
+        </div>
+        <div className="col-12">
+          <Input
+            placeholder={'Reject Reason'}
+            value={reason.value}
+            onChange={reason.onChange}
+          />
+        </div>
 
-            <Button text={'ResubmitRequests'} size={'sm'} onClick={()=>{
+        <div className="text-right">
+          <Button
+            color={"secondary"}
+            text={translate("common.cancel")}
+            onClick={() => {
+              addRejectReasonModal.hide()
+
+            }}
+          />
+          <Button
+            text={translate("common.submit")}
+            onClick={() => {
+              addEmployeeTimeSheet(date, status)
+
+            }}
+          />
+        </div>
+
+      </Modal>
+      <div className='text-right pb-3'>
+
+        <Button text={'ResubmitRequests'} size={'sm'} onClick={() => {
 
           goTo(ROUTES['user-company-module']['re-submit-request'])
-            }}/>
+        }} />
 
-          </div>
+      </div>
       <div className='card  p-4' style={{ flexDirection: 'row' }}>
         <div className="h3">{translate('order.This Week')}</div>
         <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
         <div>
-          <Image className="mx-2" src={icons.previousBackArrow} height={20} width={20} onClick={() => { getPreviousWeekDates() }} />
-          <Image className="mx-2" src={icons.nextArrow} height={20} width={20} onClick={() => { getNextWeekDates() }} />
+          <Image className="mx-2 pointer" src={icons.previousBackArrow} height={20} width={20} onClick={() => { getPreviousWeekDates() }} />
+          <Image className="mx-2 pointer" src={icons.nextArrow} height={20} width={20} onClick={() => { getNextWeekDates() }} />
         </div>
       </div>
 
@@ -300,33 +297,33 @@ const reason = useInput("");
                 text={'Approved'}
                 ApprovedStatus={formattedShift[index]?.taskListedArray[0]?.timeline_status}
                 // selectButtonReject={true}
-                  selectButton={formattedShift[index]?.taskListedArray[0]?.timeline_status==='PAL'?true:false}
-               selectButtonReject={formattedShift[index]?.taskListedArray[0]?.timeline_status==='PAL'?true:false}
+                selectButton={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ? true : false}
+                selectButtonReject={formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ? true : false}
                 textReject={'Reject'}
-                onClick={()=>{
-                
-               addEmployeeTimeSheet(el.date,'APT')
+                onClick={() => {
+
+                  addEmployeeTimeSheet(el.date, 'APT')
                   setDate(el.date)
                   setStatus('APT')
                 }}
-                onClickReject={()=>{
+                onClickReject={() => {
                   // addEmployeeTimeSheet(el.date,'REJ')
                   addRejectReasonModal.show()
                   setDate(el.date)
                   setStatus('REJ')
                 }}
-            
+
               />
             )
           })}
-   
+
         </div>
-     
+
 
       </>
-   
 
-      
+
+
 
     </div>
   )

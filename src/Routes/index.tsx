@@ -220,7 +220,7 @@ export const HOME_ROUTES = [
 export const TASK_ROUTES = [
   {
     key: 1,
-    path: ROUTES['task-module']['tasks-details'] + '/:id',
+    path: ROUTES['task-module']['tasks-details'] + '/:id'+'/:item',
     component: <TaskDetails />
   },
   {

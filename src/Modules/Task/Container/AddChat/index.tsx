@@ -68,7 +68,8 @@ function AddChat() {
                     onSuccess: () => () => {
                         resetValues();
                         attachmentModal.hide()
-                        dispatch(refreshTaskEvents())
+                        dispatch(refreshTaskEvents()
+                        )
                     },
                     onError: (error) => () => { },
                 }),

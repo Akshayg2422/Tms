@@ -57,7 +57,7 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
                     setTaskEventHistory(updatedData)
                     setEventsTaskCurrentPage(taskEventsResponse.next_page)
 
-                    
+
                 },
                 onError: () => () => { },
             })

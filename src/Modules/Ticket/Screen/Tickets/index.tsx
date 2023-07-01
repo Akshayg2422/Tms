@@ -135,7 +135,7 @@ function Tickets() {
 
           {
             loading && (
-              <div className="d-flex justify-content-center align-item-center" style={{ minHeight: '200px' }}>
+              <div className="d-flex justify-content-center align-item-center pointer" style={{ minHeight: '200px' }}>
                 <Spinner />
               </div>
             )
@@ -144,7 +144,7 @@ function Tickets() {
           { !loading && <div style={{ marginRight: '-23px', marginLeft: '-23px' }}>
 
             {tickets && tickets.length > 0 ?
-              <>
+              <div>
                 <CommonTable
                   isPagination
                   tableDataSet={tickets}
@@ -169,7 +169,7 @@ function Tickets() {
                   }
                   }
                 />
-              </> : <NoDataFound buttonText={translate("common.createTicket")!} />
+              </div> : <NoDataFound buttonText={translate("common.createTicket")!} />
             }
           </div>}
 

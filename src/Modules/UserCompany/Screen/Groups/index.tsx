@@ -22,7 +22,6 @@ function Groups() {
         <div className='m-3 v-100vh  '>
             <div className='mx-3 mt-3 mb-0 ' >
                 <TaskChatGroup onClick={(code) => { dispatch(setSelectedGroupChatCode(code)) }} showAll={false} />
-
             </div>
 
             {chatGroups && chatGroups.length > 0 ? <div className='row'>

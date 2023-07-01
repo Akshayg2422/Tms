@@ -253,8 +253,6 @@ function Events() {
                               setStartTime(getDisplayTimeDateMonthYearTime(getMomentObjFromServer(start_time)))
                               setEndTime(getDisplayTimeDateMonthYearTime(getMomentObjFromServer(end_time)))
                               setInternalCheck(for_internal_company)
-
-                          
                               setExternalCheck(for_external_company)
                               setSelectDropzone(attachments)
                               const updatedData = applicable_branches.map(item => {

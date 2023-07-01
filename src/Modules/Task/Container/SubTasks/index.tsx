@@ -81,7 +81,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                             dispatch(selectedTaskIds(item))
                             dispatch(getSelectedReference({code:item?.code,refer:true}))
                             dispatch(setSelectedTabPosition({ id: '1' }))
-                            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
+                            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'sub-task')
 
                         }}
                     /> :

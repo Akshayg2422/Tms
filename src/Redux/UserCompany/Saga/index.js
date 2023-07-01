@@ -92,7 +92,7 @@ function* getDesignation(action) {
     const response = yield call(Api.fetchDesignationDataApi, action.payload.params);
 
     if (response.success) {
-     
+
       yield put(Action.getDesignationsSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
@@ -100,7 +100,7 @@ function* getDesignation(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
- 
+
     yield put(Action.getDesignationsFailure("Invalid Request"));
     yield call(action.payload.onError(error));
   }
@@ -222,7 +222,8 @@ function* getAssociatedCompaniesSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(Action.getAssociatedBranchFailure(error));
+    yield put(Action.getAssociatedBranchFailure("Invalid Request"));
+    
     yield call(action.payload.onError(error));
   }
 }
@@ -248,10 +249,10 @@ function* addUpdateEmployeePhotoSaga(action) {
 }
 function* addEmployeeSaga(action) {
 
-  console.log('addEmployeeSaga');
+
   try {
     const response = yield call(Api.addEmployeeApi, action.payload.params);
-    console.log(response);
+   
     if (response.success) {
       yield put(Action.addEmployeeSuccess(response));
       yield call(action.payload.onSuccess(response));

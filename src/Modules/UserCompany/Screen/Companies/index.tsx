@@ -61,18 +61,21 @@ function Companies() {
         params,
         onSuccess: (response: any) => () => {
           associatedCompanyModal.hide()
-        }
+        },
+        onError: (error) => () => {
+          showToast(error.error_message)
+        },
       })
     )
   }
 
 
   const addAssociatedCompanyApi = () => {
-    console.log(associatedCompanyDropDown.value.id,"associatedCompanyDropDown.value.id")
+
 
     const params = {
+      id:dashboardDetails.company_branch.id ,
       company_id: associatedCompanyDropDown.value.id,
-      id: dashboardDetails.company.id
     }
 
     dispatch(
@@ -82,7 +85,9 @@ function Companies() {
           associatedCompanyModal.hide();
           associatedCompanyDropDown.set({})
           showToast(response.message)
-          dispatch(getAssociatedBranch(params))
+          // dispatch(getAssociatedBranch(params))
+          getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
+          getAssociatedCompanyApi()
         },
         onError: (error) => () => {
           showToast(error.error_message)
@@ -112,7 +117,7 @@ function Companies() {
       })
     }
   }
-  console.log(associatedCompany,"associatedCompany---->")
+
 
 
   return (
