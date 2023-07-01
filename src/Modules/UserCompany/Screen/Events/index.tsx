@@ -6,7 +6,7 @@ import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
 import { EventItem } from "@Modules";
-import { addEvent, getAssociatedCompanyBranch, getEvents,refreshEventsMessage } from "@Redux";
+import { addEvent, getAssociatedCompanyBranch, getEvents, refreshEventsMessage } from "@Redux";
 import { ADD_EVENT_EXTERNAL_RULES, ADD_EVENT_INTERNAL_RULES, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
 
@@ -14,7 +14,7 @@ function Events() {
   const { goTo } = useNavigation();
   const dispatch = useDispatch();
   const { height } = useWindowDimensions()
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false)
   const { events, eventsCurrentPages } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
@@ -27,7 +27,7 @@ function Events() {
       id: 1, name: translate('common.delete'), icon: icons.deleteCurve,
     },
     {
-      id: 2, name: translate('common.Mark as closed'), 
+      id: 2, name: translate('common.Mark as closed'),
     },
 
   ]
@@ -50,11 +50,11 @@ function Events() {
   const deleteEventModal = useModal(false)
   const editEventModal = useModal(false)
   const MarkAsClosedEventModal = useModal(false)
-  const [isSelected,setIsSelected]=useState<boolean>(false)
-  console.log(isSelected,"isSelected===>")
+  const [isSelected, setIsSelected] = useState<boolean>(false)
+  console.log(isSelected, "isSelected===>")
 
   // const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
- 
+
   // let attach = photo.slice(-selectedNoOfPickers)
 
   // const handleImagePicker = ( file: any) => {
@@ -66,13 +66,13 @@ function Events() {
   useEffect(() => {
     getEventsApiHandler(INITIAL_PAGE)
   }, []);
-  let AttachmentEdit = selectDropzone &&selectDropzone.map((el,index)=>{
-    const {id,attachment_file}=el
+  let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
+    const { id, attachment_file } = el
     return {
-     id:index+1, photo: attachment_file,
-  }
-  
-   })
+      id: index + 1, photo: attachment_file,
+    }
+
+  })
 
   const getEventsApiHandler = (page_number: number) => {
     setLoading(true)
@@ -85,7 +85,7 @@ function Events() {
         },
         onError: () => () => {
           setLoading(false)
-         },
+        },
       })
     )
   }
@@ -140,14 +140,14 @@ function Events() {
       title: eventTitle?.value,
       place: eventPlace?.value,
       start_time: getServerTimeFromMoment(getMomentObjFromServer(startTime)),
-      end_time:  getServerTimeFromMoment(getMomentObjFromServer(endTime)),
+      end_time: getServerTimeFromMoment(getMomentObjFromServer(endTime)),
       description: eventDescription?.value,
       ...(selectedCompanies.length > 0 && {
         applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
       }),
       ...(internalCheck && { for_internal_company: true }),
       ...(externalCheck && { for_external_company: true }),
-      event_attachments: [{ attachments:photo }],
+      event_attachments: [{ attachments: photo }],
     };
 
     const validation = validate(externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);
@@ -161,7 +161,7 @@ function Events() {
 
               showToast(response.message, 'success')
               editEventModal.hide()
-               getEventsApiHandler(INITIAL_PAGE)
+              getEventsApiHandler(INITIAL_PAGE)
             }
           },
           onError: (error) => () => {
@@ -201,9 +201,9 @@ function Events() {
 
   function processMarkAsClosedHandler(item) {
     console.log('element');
-    
+
     const params = {
-      id:item.id,
+      id: item.id,
       mark_as_closed: true
     }
 
@@ -214,7 +214,7 @@ function Events() {
           if (response.success) {
             showToast(response.message, 'success')
             getEventsApiHandler(INITIAL_PAGE)
-  
+
           }
         },
         onError: () => () => {
@@ -224,22 +224,22 @@ function Events() {
 
   }
 
-  
+
 
 
   function proceedCreateEvent() {
     goTo(ROUTES['user-company-module']['add-event'])
   }
 
-  function proceedEventsChatting(el:any) {
-    console.log("el=======>>",el)
+  function proceedEventsChatting(el: any) {
+    console.log("el=======>>", el)
     dispatch(
       refreshEventsMessage(el)
     )
     goTo(ROUTES['user-company-module']['event-chatting'])
   }
 
-  
+
   return (
 
     <>
@@ -252,13 +252,13 @@ function Events() {
             onClick={proceedCreateEvent}
           />
         </div> : null}
-        {
-          loading && (
-            <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px',marginTop:'250px'}}>
-              <Spinner/>
-            </div>
-          )
-        }
+      {
+        loading && (
+          <div className="d-flex justify-content-center align-item-center" style={{ minHeight: '200px', marginTop: '250px' }}>
+            <Spinner />
+          </div>
+        )
+      }
       {!loading && events && events.length > 0 ?
         <InfiniteScroll
           dataLength={events.length}
@@ -278,71 +278,72 @@ function Events() {
           <div className={''} >
             {
               events?.map((item: any, index: number) => {
-                console.log('item=======>',item)
+                console.log('item=======>', item)
                 return (
                   <div key={item.id} >
                     <Card className={'shadow-none border m-3 col-7 mb--2'}  >
                       <div className="row">
-                      <div className="col-11" onClick={()=>{  if(item.mark_as_completed!==true){
-                        proceedEventsChatting(item.id)
-                      }}}></div>
-                      <div className="col-1">
+                        <div className="col-11" onClick={() => {
+                          if (item.mark_as_completed !== true) {
+                            proceedEventsChatting(item.id)
+                          }
+                        }}></div>
+                        <div className="col-1">
 
-                      {item.mark_as_completed !==true && <MenuBar menuData={MY_EVENT_MENU}
-                          onClick={(element) => {
-                            if (element.id === MY_EVENT_MENU[0].id) {
-                              editEventModal.show()
-                              setSelectedEvent(item)
-                              const { title, attachments, description,place,created_by,start_time,end_time, created_at, applicable_branches, for_internal_company, for_external_company } = item
-                              eventTitle.set(title)
-                              eventDescription.set(description)
-                              eventPlace.set(place)
-                              setStartTime(getDisplayTimeDateMonthYearTime(getMomentObjFromServer(start_time)))
-                              setEndTime(getDisplayTimeDateMonthYearTime(getMomentObjFromServer(end_time)))
-                              setInternalCheck(for_internal_company)
-                              setExternalCheck(for_external_company)
-                              setSelectDropzone(attachments)
-                              const updatedData = applicable_branches.map(item => {
-                                return {
-                                  key: item.id,
-                                  name: item.register_name,
-                                  value: item.register_name
-                                }
-                              })
+                          {item.mark_as_completed !== true && <MenuBar menuData={MY_EVENT_MENU}
+                            onClick={(element) => {
+                              if (element.id === MY_EVENT_MENU[0].id) {
+                                editEventModal.show()
+                                setSelectedEvent(item)
+                                const { title, attachments, description, place, created_by, start_time, end_time, created_at, applicable_branches, for_internal_company, for_external_company } = item
+                                eventTitle.set(title)
+                                eventDescription.set(description)
+                                eventPlace.set(place)
+                                setStartTime(getDisplayTimeDateMonthYearTime(getMomentObjFromServer(start_time)))
+                                setEndTime(getDisplayTimeDateMonthYearTime(getMomentObjFromServer(end_time)))
+                                setInternalCheck(for_internal_company)
+                                setExternalCheck(for_external_company)
+                                setSelectDropzone(attachments)
+                                const updatedData = applicable_branches.map(item => {
+                                  return {
+                                    key: item.id,
+                                    name: item.register_name,
+                                    value: item.register_name
+                                  }
+                                })
 
-                              setSelectedCompanies(updatedData)
+                                setSelectedCompanies(updatedData)
 
-                            } else if (element.id === MY_EVENT_MENU[1].id) {
-                              setSelectedEvent(item)
-                              deleteEventModal.show()
-                            }
-                            else if (element.id === MY_EVENT_MENU[2].id) {
-                              processMarkAsClosedHandler(item)
-                        
-                              // MarkAsClosedEventModal.show()
-                            }
-                          }}
-                        />
-                        }
-                      
-                      </div>
-                  
+                              } else if (element.id === MY_EVENT_MENU[1].id) {
+                                setSelectedEvent(item)
+                                deleteEventModal.show()
+                              }
+                              else if (element.id === MY_EVENT_MENU[2].id) {
+                                processMarkAsClosedHandler(item)
+
+                                // MarkAsClosedEventModal.show()
+                              }
+                            }}
+                          />
+                          }
+
+                        </div>
+
                       </div>
                       <div className="d-flex justify-content-end">
-                        <div  className="">
-                      {item.mark_as_completed ===true && <div className="h4 text-primary">
+                        {item.mark_as_completed === true && <div className="h4 text-primary">
                           Closed
-                          </div>}
-                          </div>
+                        </div>}
+
                       </div>
 
-                      <div onClick={()=>{
-                      if(item.mark_as_completed!==true){
-                        proceedEventsChatting(item.id)
+                      <div onClick={() => {
+                        if (item.mark_as_completed !== true) {
+                          proceedEventsChatting(item.id)
+                        }
                       }
-                    }
-                        }>
-                      <EventItem key={item.id} item={item} />
+                      }>
+                        <EventItem key={item.id} item={item} />
                       </div>
                     </Card>
                   </div>
@@ -369,13 +370,13 @@ function Events() {
             value={eventDescription.value}
             onChange={eventDescription.onChange}
           /> */}
-            <TextAreaInput
-               heading={translate('auth.description')!}
-               value={eventDescription.value}
-               onChange={eventDescription.onChange}
-                className="form-control form-control-sm"
-                
-                />
+          <TextAreaInput
+            heading={translate('auth.description')!}
+            value={eventDescription.value}
+            onChange={eventDescription.onChange}
+            className="form-control form-control-sm"
+
+          />
           <Input
             heading={translate('common.Place')}
             value={eventPlace.value}
@@ -435,7 +436,7 @@ function Events() {
 
         </div>
 
-{/* 
+        {/* 
         <div className="col">
           <label className={`form-control-label`}>
             {translate("auth.attach")}
@@ -459,46 +460,46 @@ function Events() {
               );
             })}
         </div> */}
-           <div className="col-auto pb-2">
-                <div className="row">
-                <ImagePicker
-                   defaultPicker={true}
-                   defaultValue={AttachmentEdit}
-                    size='xl'
-                    heading= {translate("auth.attach")!}
-                    noOfFileImagePickers={3}
-                    onSelect={(image) => {
-                        // let file =image.toString().replace(/^data:(.*,)?/, "")
-                        //  handleImagePicker(file)
-                       
-                    }}
-                    // onSelectImagePicker={(el)=>{
-                  
-                    //   setSelectedNoOfPickers(el?.length)
+        <div className="col-auto pb-2">
+          <div className="row">
+            <ImagePicker
+              defaultPicker={true}
+              defaultValue={AttachmentEdit}
+              size='xl'
+              heading={translate("auth.attach")!}
+              noOfFileImagePickers={3}
+              onSelect={(image) => {
+                // let file =image.toString().replace(/^data:(.*,)?/, "")
+                //  handleImagePicker(file)
 
-                    // }}
+              }}
+              // onSelectImagePicker={(el)=>{
 
-                    onSelectImagePickers={(el)=>{
-                    
+              //   setSelectedNoOfPickers(el?.length)
 
-                      let array: any = []
+              // }}
 
-                      for (let i = 0; i <= el.length; i++) {
-                        let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                        if(editPickers!==undefined){
-                        array.push(editPickers)
-                        }
-                        
-                      }
-                      setPhoto(array)
-        
-                    }}
-                />
+              onSelectImagePickers={(el) => {
 
-                </div>
-              
 
-            </div>
+                let array: any = []
+
+                for (let i = 0; i <= el.length; i++) {
+                  let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                  if (editPickers !== undefined) {
+                    array.push(editPickers)
+                  }
+
+                }
+                setPhoto(array)
+
+              }}
+            />
+
+          </div>
+
+
+        </div>
 
 
 
@@ -519,7 +520,7 @@ function Events() {
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
             <Button text={'Delete'}
-            onClick={proceedDeleteHandler} 
+              onClick={proceedDeleteHandler}
             />
           </div>
         </div>
