@@ -41,7 +41,7 @@ console.log(taskEventAttachments,"taskEventAttachments====>")
   }
 
 
-console.log('taskAttachments==============>',taskEventAttachments)
+console.log('taskAttachments==============>')
   return (
     <>
       <Card className="overflow-auto" style={{

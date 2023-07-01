@@ -6,7 +6,7 @@ import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
 import { EventItem } from "@Modules";
-import { addEvent, getAssociatedCompanyBranch, getEvents } from "@Redux";
+import { addEvent, getAssociatedCompanyBranch, getEvents,refreshEventsMessage } from "@Redux";
 import { ADD_EVENT_EXTERNAL_RULES, ADD_EVENT_INTERNAL_RULES, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, getValidateError, ifObjectExist, validate } from '@Utils'
 import { icons } from "@Assets";
 
@@ -25,6 +25,9 @@ function Events() {
     },
     {
       id: 1, name: translate('common.delete'), icon: icons.deleteCurve,
+    },
+    {
+      id: 2, name: translate('common.Mark as closed'), 
     },
 
   ]
@@ -46,6 +49,10 @@ function Events() {
   const [selectedEvent, setSelectedEvent] = useState<any>(undefined)
   const deleteEventModal = useModal(false)
   const editEventModal = useModal(false)
+  const MarkAsClosedEventModal = useModal(false)
+  const [isSelected,setIsSelected]=useState<boolean>(false)
+  console.log(isSelected,"isSelected===>")
+
   // const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
  
   // let attach = photo.slice(-selectedNoOfPickers)
@@ -192,13 +199,47 @@ function Events() {
 
   }
 
+  function processMarkAsClosedHandler(item) {
+    console.log('element');
+    
+    const params = {
+      id:item.id,
+      mark_as_closed: true
+    }
+
+    dispatch(
+      addEvent({
+        params,
+        onSuccess: (response: any) => () => {
+          if (response.success) {
+            showToast(response.message, 'success')
+            getEventsApiHandler(INITIAL_PAGE)
+  
+          }
+        },
+        onError: () => () => {
+        },
+      })
+    );
+
+  }
+
+  
 
 
   function proceedCreateEvent() {
     goTo(ROUTES['user-company-module']['add-event'])
   }
 
+  function proceedEventsChatting(el:any) {
+    console.log("el=======>>",el)
+    dispatch(
+      refreshEventsMessage(el)
+    )
+    goTo(ROUTES['user-company-module']['event-chatting'])
+  }
 
+  
   return (
 
     <>
@@ -237,11 +278,17 @@ function Events() {
           <div className={''} >
             {
               events?.map((item: any, index: number) => {
+                console.log('item=======>',item)
                 return (
-                  <div key={item.id}>
-                    <Card className={'shadow-none border m-3 col-7 mb--2'}>
-                      <div className="row d-flex justify-content-end mt-3">
-                        <MenuBar menuData={MY_EVENT_MENU}
+                  <div key={item.id} >
+                    <Card className={'shadow-none border m-3 col-7 mb--2'}  >
+                      <div className="row">
+                      <div className="col-11" onClick={()=>{  if(item.mark_as_completed!==true){
+                        proceedEventsChatting(item.id)
+                      }}}></div>
+                      <div className="col-1">
+
+                      {item.mark_as_completed !==true && <MenuBar menuData={MY_EVENT_MENU}
                           onClick={(element) => {
                             if (element.id === MY_EVENT_MENU[0].id) {
                               editEventModal.show()
@@ -269,10 +316,34 @@ function Events() {
                               setSelectedEvent(item)
                               deleteEventModal.show()
                             }
+                            else if (element.id === MY_EVENT_MENU[2].id) {
+                              processMarkAsClosedHandler(item)
+                        
+                              // MarkAsClosedEventModal.show()
+                            }
                           }}
                         />
+                        }
+                      
                       </div>
+                  
+                      </div>
+                      <div className="d-flex justify-content-end">
+                        <div  className="">
+                      {item.mark_as_completed ===true && <div className="h4 text-primary">
+                          Closed
+                          </div>}
+                          </div>
+                      </div>
+
+                      <div onClick={()=>{
+                      if(item.mark_as_completed!==true){
+                        proceedEventsChatting(item.id)
+                      }
+                    }
+                        }>
                       <EventItem key={item.id} item={item} />
+                      </div>
                     </Card>
                   </div>
                 );
@@ -453,6 +524,17 @@ function Events() {
           </div>
         </div>
       </Modal>
+
+      {/* <Modal isOpen={MarkAsClosedEventModal.visible} size="md" onClose={MarkAsClosedEventModal.hide}>
+        <div>
+          
+          <div className="row d-flex justify-content-end">
+            <Button text={'MarkAsClosed'}
+            onClick={processMarkAsClosedHandler} 
+            />
+          </div>
+        </div>
+      </Modal> */}
     </>
 
   )

@@ -438,4 +438,64 @@ export const getTimeLineBreakdownFailure = (response: any) => {
     }
 }
 
+// addAttachmentsMessage
 
+/**
+ * refresh Events message
+ */
+export const refreshEventMessage =()=>{
+    return{
+        type: ActionTypes.REFRESH_EVENT_MESSAGE
+    }
+}
+
+export const refreshEventsMessage = (response:any) => {
+    return {
+        type: ActionTypes.REFRESH_EVENTS_MESSAGE,
+         payload: response
+    }
+}
+
+export const addAttachmentsMessage= (response: any) => {
+    return {
+        type: ActionTypes.ADD_ATTACHMENTS_MESSAGE,
+        payload:response
+    }
+}
+
+export const addAttachmentsMessageSuccess = (response: any) => {
+    return {
+        type: ActionTypes.ADD_ATTACHMENTS_MESSAGE_SUCCESS,
+        payload: response
+    }
+}
+
+export const addAttachmentsMessageFailure = (response: any) => {
+    return {
+        type: ActionTypes.ADD_ATTACHMENTS_MESSAGE_FAILURE,
+        payload: response
+    }
+}
+
+// getAttachmentsMessage
+
+export const getAttachmentsMessage= (response: any) => {
+    return {
+        type: ActionTypes.GET_ATTACHMENTS_MESSAGE,
+        payload:response
+    }
+}
+
+export const getAttachmentsMessageSuccess = (response: any) => {
+    return {
+        type: ActionTypes.GET_ATTACHMENTS_MESSAGE_SUCCESS,
+        payload: response
+    }
+}
+
+export const getAttachmentsMessageFailure = (response: any) => {
+    return {
+        type: ActionTypes.GET_ATTACHMENTS_MESSAGE_FAILURE,
+        payload: response
+    }
+}

@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat,EventChatting} from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -65,6 +65,7 @@ export const ROUTES = {
     'my-portfolio': '/my-portfolio',
     'admin-feeds': '/admin-feeds',
     Events: '/events',
+    'event-chatting': '/event-chatting',
     Groups: '/groups',
     'individual-chat': '/chat',
     'add-event': '/add-event'
@@ -327,6 +328,12 @@ export const USER_COMPANY_ROTES = [
     key: 10,
     path: ROUTES['user-company-module'].Groups,
     component: <Groups />
+  },
+
+  {
+    key: 11,
+    path: ROUTES['user-company-module']['event-chatting'],
+    component: <EventChatting/>
   },
 
   {
