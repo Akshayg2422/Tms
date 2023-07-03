@@ -162,15 +162,15 @@ function TaskChat({ }: TaskChatProps) {
                                         imageUrls && imageUrls.length > 0 && imageUrls.map((each, index) => {
 
                                             return (
-                                                <div onClick={() => { setCorouselIndex(index)}}>
-                                                   
-                                                    <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                                <div onClick={() => { setCorouselIndex(index) }}>
+
+                                                    <Image className='ml-1 mb-1 pointer' src={each} width={100} height={100} />
                                                 </div>
                                             )
 
                                         })
                                     }
-                                </div>  
+                                </div>
 
                             </TimeLine>)
                     })
