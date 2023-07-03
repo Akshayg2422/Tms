@@ -42,7 +42,7 @@ function Tasks() {
 
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
-      return data?.map((el: any) => {
+      return data?.map((el: any,index:number) => {
 
         const { priority, parent, task_attachments, by_user, raised_by_company, created_at, task_status, eta_time, title, assigned_to, description } = el
 

@@ -274,7 +274,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                                 return (
                                                     <div onClick={() => { setCorouselIndex(index) }}>
 
-                                                        <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                                        <Image className='ml-1 mb-1 pointer' src={each} width={100} height={100} />
                                                     </div>
                                                 )
 
