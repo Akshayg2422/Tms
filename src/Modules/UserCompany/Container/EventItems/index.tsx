@@ -26,6 +26,8 @@ function EventItem({ item }: EventItemProps) {
     const imageModal = useModal(false)
     const [image, setImage] = useState([])
 
+    
+
     return (
         <>
             <div className="row mx--5 ">

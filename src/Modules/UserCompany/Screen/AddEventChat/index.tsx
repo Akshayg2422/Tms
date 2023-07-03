@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Modal, Input, Dropzone, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
-import { addAttachmentsMessage, refreshEventMessage  } from '@Redux'
+import { addAttachmentsMessage, refreshEventMessage } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { useModal, useInput } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, EVENTS_ATTACHMENT_RULES } from '@Utils'
@@ -21,7 +21,7 @@ function AddEventChat() {
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
 
-    console.log('eventsMessage==========>>>',eventsMessage)
+    console.log('eventsMessage==========>>>', eventsMessage)
 
     const proceedAddEventsApiHandler = () => {
 
@@ -32,12 +32,12 @@ function AddEventChat() {
                 message: message.value,
                 event_type: TEM
             }
-     console.log('eventsMessage========',eventsMessage)
+            console.log('eventsMessage========', eventsMessage)
             dispatch(
                 addAttachmentsMessage({
                     params,
                     onSuccess: (response) => () => {
-                        console.log('response======',response)
+                        console.log('response======', response)
                         message.set('')
                         dispatch(refreshEventMessage())
                     },
@@ -57,8 +57,8 @@ function AddEventChat() {
         const params = {
             event_type: MEA,
             event_id: eventsMessage,
-            event_attachments: [{ name: attachmentName.value,attachments: photo }],
-        
+            event_attachments: [{ name: attachmentName.value, attachments: photo }],
+
         };
         if (ifObjectExist(validation)) {
             dispatch(
@@ -118,20 +118,20 @@ function AddEventChat() {
                                 // handleImagePicker(file)
                             }}
 
-                            onSelectImagePickers={(el)=>{
+                            onSelectImagePickers={(el) => {
                                 let array: any = []
-          
+
                                 for (let i = 0; i <= el.length; i++) {
-                                  let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                                  if(eventPickers !==undefined){
-                                  array.push(eventPickers)
-                                  }
-                                  
+                                    let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                    if (eventPickers !== undefined) {
+                                        array.push(eventPickers)
+                                    }
+
                                 }
                                 setPhoto(array)
-        
-                  
-                              }}
+
+
+                            }}
                         />
                     </div>
                 </div>

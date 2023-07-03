@@ -73,6 +73,7 @@ function Events() {
     }
 
   })
+console.log('Edit==========>',AttachmentEdit)
 
   const getEventsApiHandler = (page_number: number) => {
     setLoading(true)
@@ -320,13 +321,10 @@ function Events() {
                               }
                               else if (element.id === MY_EVENT_MENU[2].id) {
                                 processMarkAsClosedHandler(item)
-
-                                // MarkAsClosedEventModal.show()
                               }
                             }}
                           />
                           }
-
                         </div>
 
                       </div>
@@ -337,12 +335,7 @@ function Events() {
 
                       </div>
 
-                      <div onClick={() => {
-                        if (item.mark_as_completed !== true) {
-                          proceedEventsChatting(item.id)
-                        }
-                      }
-                      }>
+                      <div>
                         <EventItem key={item.id} item={item} />
                       </div>
                     </Card>
@@ -365,11 +358,6 @@ function Events() {
             value={eventTitle.value}
             onChange={eventTitle.onChange}
           />
-          {/* <Input
-            heading={translate("auth.description")}
-            value={eventDescription.value}
-            onChange={eventDescription.onChange}
-          /> */}
           <TextAreaInput
             heading={translate('auth.description')!}
             value={eventDescription.value}
@@ -435,31 +423,7 @@ function Events() {
           )}
 
         </div>
-
-        {/* 
-        <div className="col">
-          <label className={`form-control-label`}>
-            {translate("auth.attach")}
-          </label>
-        </div> */}
-
-        {/* <div className="col-md-9 col-lg-7 pb-4 ">
-          {selectDropzone &&
-            selectDropzone.map((el: any, index: number) => {
-              return (
-                <Dropzone
-                  variant="ICON"
-                  icon={getPhoto(el?.attachment_file)}
-                  size="xl"
-                  onSelect={(image) => {
-                    let file = image.toString().replace(/^data:(.*,)?/, "");
-                    handleImagePicker(index, file);
-                    setSelectDropzone([{ id: "1" }, { id: "2" }]);
-                  }}
-                />
-              );
-            })}
-        </div> */}
+        
         <div className="col-auto pb-2">
           <div className="row">
             <ImagePicker
@@ -497,10 +461,7 @@ function Events() {
             />
 
           </div>
-
-
         </div>
-
 
 
         <div className="row justify-content-end">
@@ -525,17 +486,6 @@ function Events() {
           </div>
         </div>
       </Modal>
-
-      {/* <Modal isOpen={MarkAsClosedEventModal.visible} size="md" onClose={MarkAsClosedEventModal.hide}>
-        <div>
-          
-          <div className="row d-flex justify-content-end">
-            <Button text={'MarkAsClosed'}
-            onClick={processMarkAsClosedHandler} 
-            />
-          </div>
-        </div>
-      </Modal> */}
     </>
 
   )
