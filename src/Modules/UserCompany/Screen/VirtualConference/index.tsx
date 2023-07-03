@@ -42,7 +42,7 @@ function VirtualConference() {
             params,
             onSuccess: (success: any) => () => {
                 setLoading(false)
-                console.log("success============>", success)
+               
             },
             onError: (error: string) => () => {
                 setLoading(false)
@@ -65,7 +65,6 @@ function VirtualConference() {
             params,
             onSuccess: (success: any) => () => {
 
-                console.log("success============>", success)
             },
             onError: (error: string) => () => {
 
@@ -74,7 +73,7 @@ function VirtualConference() {
         }))
     }
 
-    console.log("scheduledListData", scheduledListData)
+  
 
 
     return (

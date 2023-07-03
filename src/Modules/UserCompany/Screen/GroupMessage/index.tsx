@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
-import { addGroupMessage, getGroupMessage } from '@Redux'
+import { addGroupMessage, getGroupMessage, selectedVcDetails } from '@Redux'
 import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner, ImageDownloadButton, ProfileCard, ImagePicker } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDayAndDate } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useInput, useModal, useWindowDimensions } from '@Hooks'
+import { useInput, useModal, useWindowDimensions, useNavigation } from '@Hooks'
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { translate } from '@I18n';
 import { CardFooter } from 'reactstrap';
+import { ROUTES } from '@Routes';
 
 function GroupMessage({ selectedGroup }: GroupMessageProps) {
-
+    const { goTo } = useNavigation()
     const { id } = useParams();
     const dispatch = useDispatch()
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
@@ -31,9 +32,9 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
     const { user_details } = dashboardDetails || {}
-    const { raised_by_company } = taskDetails || {};
+    const { raised_by_company, by_user } = taskDetails || {};
     const userModal = useModal(false)
-    console.log('dashboardDetails---------->', dashboardDetails);
+
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
     const [corouselIndex, setCorouselIndex] = useState<any>()
 
@@ -209,7 +210,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         <div className={'d-flex justify-content-center'}><Spinner /></div>
                     </h4>}
                     next={() => {
-
                         if (GroupCurrentPage !== -1) {
                             getGroupMessageApi(GroupCurrentPage)
                         }
@@ -222,8 +222,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             </div>
                         )
                     }
-
-
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
                             const { title, subTitle, created_at, attachments, event_by } = item
@@ -239,7 +237,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                             const renderDate = (date !== previousDate) ? date : '';
                             previousDate = date;
-                            console.log('previousDate------------>', previousDate)
+
                             const startDay = getCurrentDayAndDate(renderDate);
 
                             return (
@@ -395,6 +393,11 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                     department={user_details?.department}
                     designation={user_details?.designation}
                     company={raised_by_company?.display_name}
+                    userId={by_user?.id}
+                    messageOnClick={() => {
+                        dispatch(selectedVcDetails(by_user))
+                        goTo(ROUTES['user-company-module']['individual-chat'], false)
+                    }}
                 />
 
             </Modal>

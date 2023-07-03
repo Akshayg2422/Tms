@@ -8,7 +8,7 @@ import {
   getEmployeeTimeline,
   getEnableRequest
 } from "@Redux";
-import { Button, Image, CollapseButton,Modal,Input, CollapseEnableButton, TextAreaInput } from '@Components';
+import { Button, Image, CollapseButton,Modal,Input, CollapseEnableButton, TextAreaInput, Back } from '@Components';
 import { icons } from '@Assets';
 import { ROUTES } from '@Routes'
 import { useInput, useModal, useNavigation } from '@Hooks'
@@ -311,6 +311,10 @@ const getEnableList=()=>{
     
           </Modal>
       <div className='card  p-4' style={{ flexDirection: 'row' }}>
+        <div className='pr-2'>
+        <Back />
+        </div>
+   
         <div className="h3">{translate('order.This Week')}</div>
         <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
         <div>

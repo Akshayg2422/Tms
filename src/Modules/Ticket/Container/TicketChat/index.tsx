@@ -25,7 +25,6 @@ function TicketChat({ }: TicketChatProps) {
     const [image, setImage] = useState([])
     const [ticketEventsCurrentPage, setEventsTicketCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
-console.log(image,"jssbvjhk")
 
 
     useEffect(() => {

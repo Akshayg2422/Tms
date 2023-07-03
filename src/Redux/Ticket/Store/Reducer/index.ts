@@ -51,16 +51,16 @@ const TicketReducer = (state = initialState, action: any) => {
       };
       break;
     case ActionTypes.GET_TICKETS_SUCCESS:
+ 
 
-      const { data, next_page, num_pages } = action.payload?.details;
       state = {
         ...state,
-        tickets: data,
-        ticketNumOfPages: num_pages,
+        tickets: action.payload?.details?.data? action.payload?.details?.data: action.payload?.details,
+        ticketNumOfPages: action.payload?.details?.num_pages,
         ticketCurrentPages:
-          next_page === -1
-            ? num_pages
-            : next_page - 1,
+        action.payload?.details?.next_page === -1
+        ? action.payload?.details?.num_pages
+        : action.payload?.details?.next_page - 1,
       };
       break;
     case ActionTypes.GET_TICKETS_FAILURE:

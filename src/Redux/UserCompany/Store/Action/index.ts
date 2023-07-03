@@ -635,7 +635,6 @@ export const getTokenByUser = (params: any) => {
   };
 };
 export const getTokenByUserSuccess = (response: any) => {
-  console.log("response90909", response)
   return {
     type: ActionTypes.GET_TOKEN_BY_USER_SUCCESS,
     payload: response,
@@ -679,7 +678,6 @@ export const getAssociatedCompanyFailure = (error: any) => {
  */
 
 export const addAssociatedCompany = (params: any) => {
-  console.log('actionnnnnnnnnnnnnnnn------------addAssociatedCompany');
   return {
     type: ActionTypes.ADD_ASSOCIATED_COMPANY,
     payload: params,
@@ -1088,7 +1086,6 @@ export const fetchChatEmployeeListFailure = (error: any) => {
 
 
 export const handleOneToOneChat = (response: any) => {
-  console.log("response090909===>", response)
   return {
     type: ActionTypes.HANDLE_ONE_TO_ONE_CHAT,
     payload: response,

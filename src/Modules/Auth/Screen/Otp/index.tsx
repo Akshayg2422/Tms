@@ -12,6 +12,8 @@ function Otp() {
   const { registeredMobileNumber, language } = useSelector(
     (state: any) => state.AuthReducer
   );
+
+ 
   const otpLoader = useLoader(false);
 
   const { goTo } = useNavigation()
@@ -30,17 +32,20 @@ function Otp() {
 
 
   const proceedOtpResentApiHandler = () => {
+   
+
     setSeconds(OTP_RESEND_DEFAULT_TIME);
-    const params = {
-      mobile_number: registeredMobileNumber,
-      ln: language,
-      app_user_type: BUSINESS,
-    };
-    dispatch(validateRegisterUser({
-      params,
-      onSuccess: () => () => { },
-      onError: () => () => { }
-    }));
+
+    // const params = {
+    //   mobile_number: registeredMobileNumber,
+    //   ln: language,
+    //   app_user_type: BUSINESS,
+    // };
+    // dispatch(validateRegisterUser({
+    //   params,
+    //   onSuccess: () => () => { },
+    //   onError: () => () => { }
+    // }));
   };
 
 
@@ -58,7 +63,7 @@ function Otp() {
 
 
   const proceedOtpValidationApiHandler = () => {
-
+  
     const params = {
       mobile_number: registeredMobileNumber,
       otp: otp.value,
@@ -81,6 +86,7 @@ function Otp() {
                 is_admin: response.details?.company?.type_is_provider,
               }),
             );
+           
             localStorage.setItem(USER_TOKEN, response.details.token);
             getDashboardDetails();
 

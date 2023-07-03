@@ -138,8 +138,8 @@ function Events() {
       ...(selectedCompanies.length > 0 && {
         applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
       }),
-      ...(internalCheck && { for_internal_company: true }),
-      ...(externalCheck && { for_external_company: true }),
+      for_internal_company:internalCheck,
+       for_external_company:externalCheck,
       event_attachments: [{ attachments:photo }],
     };
 

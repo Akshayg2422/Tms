@@ -14,8 +14,6 @@ function TaskAttachments() {
   const { taskEventAttachments, taskEventAttachmentsCurrentPage, refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
   const { height } = useWindowDimensions()
 
-
-console.log(taskEventAttachments,"taskEventAttachments====>")
   useEffect(() => {
     getTaskEventsApiHandler(INITIAL_PAGE, search.value,)
   }, [search.value, refreshTaskEvents, id]);
@@ -55,15 +53,17 @@ console.log(taskEventAttachments,"taskEventAttachments====>")
         {taskEventAttachments && taskEventAttachments.length > 0 && <InfiniteScroll
           dataLength={taskEventAttachments.length}
           hasMore={taskEventAttachmentsCurrentPage !== -1}
-          loader={<h4>
-            <Spinner />
-          </h4>}
+         
           next={() => {
             if (taskEventAttachmentsCurrentPage !== -1) {
               getTaskEventsApiHandler(taskEventAttachmentsCurrentPage)
             }
           }
-          }>
+          
+          }
+          loader={<h4>
+            <Spinner />
+          </h4>}>
           <div className="mt-3">
             {
               taskEventAttachments && taskEventAttachments?.length > 0 && taskEventAttachments?.map((item: any, index: number) => {

@@ -12,8 +12,6 @@ function Groups() {
     const dispatch = useDispatch()
     const ref = useRef<HTMLDivElement>(null)
     const [infoHeight, setInfoHeight] = useState(0)
-    console.log(selectedGroupChatCode, "selectedGroupChatCode")
-
     useEffect(() => {
         if (ref.current) {
             setInfoHeight(ref.current.clientHeight)

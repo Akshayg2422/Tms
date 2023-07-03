@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTasks, selectedTaskId, setSelectedTask } from "@Redux";
+import { getReferenceTasks, getSelectedReference, selectedTaskIds, setSelectedTask } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 import { NoDataFound, Card, CommonTable, Button, Spinner } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
@@ -11,7 +11,7 @@ import { translate } from "@I18n";
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id,item } = useParams();
   const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages } = useSelector(
     (state: any) => state.TaskReducer
   );
@@ -26,8 +26,6 @@ function ReferenceTasks() {
   }, [id]);
 
 
-  
-  console.log("reference task----------->",referencesTasks)
 
   const proceedgetReferenceTasks = (page_number: number) => {
 
@@ -41,6 +39,7 @@ function ReferenceTasks() {
       getReferenceTasks({
         params,
         onSuccess: (response) => () => {
+         
         },
         onError: () => () => {
 
@@ -51,9 +50,6 @@ function ReferenceTasks() {
 
 
   const normalizedTableData = (data: any) => {
-
-    console.log("reference task----------->",data)
-
 
     if (data && data.length > 0) {
       return data?.map((el: any) => {
@@ -73,7 +69,7 @@ function ReferenceTasks() {
   return (
 
     <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
-      {referencesTasks && referencesTasks?.length > 0 && <div className="col text-right">
+      {referencesTasks && referencesTasks?.length > 0 && item!=='reference-task' && <div className="col text-right">
         <Button size={'sm'} className={'text-white'} text={translate("auth.addReferenceTask")} onClick={() => {
           dispatch(setSelectedTask(id))
 
@@ -87,6 +83,7 @@ function ReferenceTasks() {
 
 
         <CommonTable
+        isPagination
           tableDataSet={referencesTasks}
           currentPage={referencesTasksCurrentPages}
           noOfPage={referencesTasksNumOfPages}
@@ -104,13 +101,23 @@ function ReferenceTasks() {
           }
           tableOnClick={(index,id,item) => {
             console.log(item.code)
+            dispatch(getSelectedReference(false))
+            dispatch(getSelectedReference({code: item?.code,refer:false}))
             dispatch(setSelectedTask(item?.code))
-           dispatch(selectedTaskId(item))
-            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
+           dispatch(selectedTaskIds(item))
+            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'reference-task')
           }}
 
         />
-        : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} isButton /></div>}
+        :item!=="reference-task" ? <div className="d-flex h-100 justify-content-center align-items-center">
+          <NoDataFound  
+       
+        />
+        </div>:<div className="d-flex h-100 justify-content-center align-items-center">
+          <NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} 
+        isButton 
+        />
+        </div>}
     </Card>
 
 

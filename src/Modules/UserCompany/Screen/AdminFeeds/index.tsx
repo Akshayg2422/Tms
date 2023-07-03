@@ -160,12 +160,10 @@ function AdminFeeds() {
       ...(selectedCompanies.length > 0 && {
         applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
       }),
-      ...(internalCheck && { for_internal_company: true }),
-      ...(externalCheck && { for_external_company: true }),
+      for_internal_company:internalCheck,
+      for_external_company:externalCheck,
       broadcast_attachments: [{ attachments: photo }],
     };
-
-    console.log(JSON.stringify(params), "===---????")
 
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
 

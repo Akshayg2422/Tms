@@ -38,7 +38,7 @@ function IndividualChat() {
     const { goTo } = useNavigation()
 
     const [photo, setPhoto] = useState<any>([])
-    const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
+
     const userModal = useModal(false)
     const ImageModal = useModal(false)
     const { raised_by_company } = taskDetails || {};
@@ -98,8 +98,6 @@ function IndividualChat() {
             },
         }))
     }
-
-    console.log("employeeelist", employeeList)
 
     const getDisplayTimeFromMoment = (date) => {
         if (date) {
