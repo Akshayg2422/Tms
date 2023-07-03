@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button, Card, NoDataFound, Spinner, Image, Modal, MenuBar, showToast, Checkbox, DateTimePicker, Input, Dropzone, MultiSelectDropDown, ImagePicker, TextAreaInput } from "@Components";
+import { Button, Card, NoDataFound, Spinner, Image, Modal, MenuBar, showToast, Checkbox, DateTimePicker, Input, Dropzone, MultiSelectDropDown, ImagePicker, TextAreaInput} from "@Components";
 import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
-import { EventItem } from "@Modules";
+import { CarouselImages, EventItem} from "@Modules";
 import { addEvent, getAssociatedCompanyBranch, getEvents, refreshEventsMessage } from "@Redux";
-import { ADD_EVENT_EXTERNAL_RULES, ADD_EVENT_INTERNAL_RULES, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, getValidateError, ifObjectExist, validate } from '@Utils'
+import { ADD_EVENT_EXTERNAL_RULES, ADD_EVENT_INTERNAL_RULES, INITIAL_PAGE, getArrayFromArrayOfObject, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, getValidateError, ifObjectExist, validate ,} from '@Utils'
 import { icons } from "@Assets";
+// import { Place_DD_MM_YY_Time } from "../../Place_DD_MM_YY_Time";
+
 
 function Events() {
   const { goTo } = useNavigation();
@@ -53,16 +55,6 @@ function Events() {
   const [isSelected, setIsSelected] = useState<boolean>(false)
   console.log(isSelected, "isSelected===>")
 
-  // const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
-
-  // let attach = photo.slice(-selectedNoOfPickers)
-
-  // const handleImagePicker = ( file: any) => {
-  //   let newUpdatedPhoto = [file];
-  //   setPhoto(newUpdatedPhoto);
-  // };
-
-
   useEffect(() => {
     getEventsApiHandler(INITIAL_PAGE)
   }, []);
@@ -73,7 +65,6 @@ function Events() {
     }
 
   })
-console.log('Edit==========>',AttachmentEdit)
 
   const getEventsApiHandler = (page_number: number) => {
     setLoading(true)
@@ -226,8 +217,6 @@ console.log('Edit==========>',AttachmentEdit)
   }
 
 
-
-
   function proceedCreateEvent() {
     goTo(ROUTES['user-company-module']['add-event'])
   }
@@ -240,6 +229,8 @@ console.log('Edit==========>',AttachmentEdit)
     goTo(ROUTES['user-company-module']['event-chatting'])
   }
 
+  //  const place,start_time,end_time
+  
 
   return (
 
@@ -325,6 +316,7 @@ console.log('Edit==========>',AttachmentEdit)
                             }}
                           />
                           }
+
                         </div>
 
                       </div>
@@ -334,8 +326,13 @@ console.log('Edit==========>',AttachmentEdit)
                         </div>}
 
                       </div>
-
-                      <div>
+                      
+                      <div onClick={() => {
+                        if (item.mark_as_completed !== true) {
+                          proceedEventsChatting(item.id)
+                        }
+                      }
+                      }>
                         <EventItem key={item.id} item={item} />
                       </div>
                     </Card>
@@ -358,6 +355,11 @@ console.log('Edit==========>',AttachmentEdit)
             value={eventTitle.value}
             onChange={eventTitle.onChange}
           />
+          {/* <Input
+            heading={translate("auth.description")}
+            value={eventDescription.value}
+            onChange={eventDescription.onChange}
+          /> */}
           <TextAreaInput
             heading={translate('auth.description')!}
             value={eventDescription.value}
@@ -423,7 +425,31 @@ console.log('Edit==========>',AttachmentEdit)
           )}
 
         </div>
-        
+
+        {/* 
+        <div className="col">
+          <label className={`form-control-label`}>
+            {translate("auth.attach")}
+          </label>
+        </div> */}
+
+        {/* <div className="col-md-9 col-lg-7 pb-4 ">
+          {selectDropzone &&
+            selectDropzone.map((el: any, index: number) => {
+              return (
+                <Dropzone
+                  variant="ICON"
+                  icon={getPhoto(el?.attachment_file)}
+                  size="xl"
+                  onSelect={(image) => {
+                    let file = image.toString().replace(/^data:(.*,)?/, "");
+                    handleImagePicker(index, file);
+                    setSelectDropzone([{ id: "1" }, { id: "2" }]);
+                  }}
+                />
+              );
+            })}
+        </div> */}
         <div className="col-auto pb-2">
           <div className="row">
             <ImagePicker
@@ -433,7 +459,16 @@ console.log('Edit==========>',AttachmentEdit)
               heading={translate("auth.attach")!}
               noOfFileImagePickers={3}
               onSelect={(image) => {
+                // let file =image.toString().replace(/^data:(.*,)?/, "")
+                //  handleImagePicker(file)
+
               }}
+              // onSelectImagePicker={(el)=>{
+
+              //   setSelectedNoOfPickers(el?.length)
+
+              // }}
+
               onSelectImagePickers={(el) => {
 
 
@@ -452,7 +487,10 @@ console.log('Edit==========>',AttachmentEdit)
             />
 
           </div>
+
+
         </div>
+
 
 
         <div className="row justify-content-end">
@@ -477,6 +515,7 @@ console.log('Edit==========>',AttachmentEdit)
           </div>
         </div>
       </Modal>
+
     </>
 
   )
