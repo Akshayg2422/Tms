@@ -153,14 +153,19 @@ function TaskChat({ }: TaskChatProps) {
                                 time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
                                 <div className='pt-2' onClick={() => {
+                                    if(imageUrls){
+                                  
                                     imageModal.show()
                                     setImage(imageUrls)
+                                    }
                                 }} >
                                     {
                                         imageUrls && imageUrls.length > 0 && imageUrls.map((each, index) => {
 
                                             return (
-                                                <div onClick={() => { setCorouselIndex(index) }}>
+                                                <div onClick={() => {
+                                                 
+                                                     setCorouselIndex(index) }}>
 
                                                     <Image className='ml-1 mb-1 pointer' src={each} width={100} height={100} />
                                                 </div>

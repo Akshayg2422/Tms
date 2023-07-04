@@ -72,7 +72,7 @@ function AddTask() {
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
     // let attach = photo.slice(-selectNoPickers)
-    const [date, setDate] = useState<any>(moment().format())
+    const [date, setDate] = useState<any>()
 
     const isEnterPressed = useKeyPress("Enter");
 
@@ -201,6 +201,8 @@ function AddTask() {
 
         const params = {
             per_page_count: -1,
+            branch_id:dashboardDetails?.permission_details?.branch_id
+
         };
 
         dispatch(
@@ -437,7 +439,7 @@ function AddTask() {
                     placeholder={'Select ETA'}
                     type="both"
                     onChange={handleEtaChange}
-                    value={date ? getMomentObjFromServer(date) : null!}
+                    // value={date ? getMomentObjFromServer(date) : null!}
 
                 />
             </div >

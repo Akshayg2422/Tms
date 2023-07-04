@@ -85,7 +85,7 @@ function AddTicket() {
     useEffect(() => {
         getCompanyEmployeeApi()
 
-    }, [designation.value, department.value])
+    }, [designation.value, department.value,company.value])
 
 
     useEffect(() => {
