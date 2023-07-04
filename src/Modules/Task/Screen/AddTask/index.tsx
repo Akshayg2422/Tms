@@ -57,7 +57,6 @@ function AddTask() {
 
     const title = useInput("");
     const description = useInput("");
-    // const referenceNo = useInput("");
     const generateReferenceNo = () => {
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const numbers = '0123456789';
@@ -66,12 +65,12 @@ function AddTask() {
         let randomNumbers = '';
 
         // Generate random letters
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 6; i++) {
             randomLetters += letters.charAt(Math.floor(Math.random() * letters.length));
         }
 
         // Generate random numbers
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
             randomNumbers += numbers.charAt(Math.floor(Math.random() * numbers.length));
         }
 
@@ -125,11 +124,6 @@ function AddTask() {
         taskType?.id === type[1].id
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
-
-    // const handleImagePicker = (file: any) => {
-    //     let newUpdatedPhoto = [...photo, file];
-    //     setPhoto(newUpdatedPhoto);
-    // };
 
     function getCompanyEmployeeApi() {
 
