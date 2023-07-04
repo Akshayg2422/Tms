@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, HomeContainer, NoDataFound, Spinner, AutoComplete, ImageColor, ImageColorIcon } from "@Components";
+import { Button, HomeContainer, NoDataFound, Spinner, AutoComplete, ImageColor, } from "@Components";
 import { TaskGroups, TaskFilter, TaskFilters } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
@@ -9,6 +9,8 @@ import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
 import { icons } from "@Assets";
+
+
 
 
 function Tasks() {
@@ -124,8 +126,8 @@ function Tasks() {
           }}
         />
       </div>
-      {/* <ImageColor/> */}
-      
+      <ImageColor/>
+      {/* <ImageColorIcon /> */}
       <div className="row mt-3 mb-2">
         <div className="mx-3 col">
           <TaskGroups onClick={(code) => {
