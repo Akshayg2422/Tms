@@ -85,7 +85,7 @@ function AddTicket() {
     useEffect(() => {
         getCompanyEmployeeApi()
 
-    }, [designation.value, department.value])
+    }, [designation.value, department.value,company.value])
 
 
     useEffect(() => {
@@ -371,7 +371,7 @@ function AddTicket() {
                     placeholder={'Select ETA'}
                     type="both"
                     onChange={handleEtaChange}
-                    value={date ? getMomentObjFromServer(date) : null!}
+                    // value={date ? getMomentObjFromServer(date) : null!}
                 />
             </div>
 

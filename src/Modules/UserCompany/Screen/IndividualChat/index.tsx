@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter, CardHeader, ListGroup, ListGroupItem } from
 import { useSelector, useDispatch } from 'react-redux'
 import { AutoComplete, Button, CommonTable, Divider, Dropzone, Image, ImageDownloadButton, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner, showToast } from '@Components'
 import moment from 'moment'
-import { CHAT_ATTACHMENT_RULES, convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, getPhoto, getValidateError, ifObjectExist, paginationHandler, validate, } from '@Utils'
+import { CHAT_ATTACHMENT_RULES, CHAT_MESSAGE_RULES, convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, getPhoto, getValidateError, ifObjectExist, paginationHandler, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
@@ -49,7 +49,7 @@ function IndividualChat() {
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
     const [corouselIndex, setCorouselIndex] = useState<any>()
 
-
+console.log(selectedUserDetails?.id,"selectedUserDetails?.id===>")
 
 
     useEffect(() => {
@@ -127,7 +127,8 @@ function IndividualChat() {
 
         const validation = validate(CHAT_ATTACHMENT_RULES, {
             attachment_name: attachmentName.value.trim(),
-            chat_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : ''
+            chat_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : '',
+            receiver_by:selectedUserDetails?.id
         })
         const params = {
             event_type: "MEA",
@@ -177,6 +178,8 @@ function IndividualChat() {
             message: chatText,
             receiver_by: selectedUserDetails?.id
         }
+        const validation = validate(CHAT_MESSAGE_RULES, params);
+        if (ifObjectExist(validation)) {
         dispatch(postChatMessage({
             params,
             onSuccess: (success: any) => async () => {
@@ -186,6 +189,7 @@ function IndividualChat() {
             onError: (error: string) => () => {
             },
         }))
+    }
     }
 
     const updateNewEmployeeInChatBox = () => {
@@ -585,6 +589,8 @@ function IndividualChat() {
 
 
                                 </CardBody>
+
+                                {selectedUserDetails && selectedUserDetails?.id ?
                                 <CardFooter className=''>
                                     <div className='d-flex'>
                                         <div className=''>
@@ -636,6 +642,12 @@ function IndividualChat() {
                                         </div>
                                     </div>
                                 </CardFooter>
+                                : 
+                                <div className='mb-6'>
+                                    <NoRecordsFound text={'No User Found'} />
+                                    </div>
+}
+                                
                             </Card>
                         </div>}
                     {!oneToOneChat && <div className='col-sm-4'>
@@ -662,7 +674,7 @@ function IndividualChat() {
                                     </div>
 
                                     {showAutoComplete &&
-                                        <div className='mb--4'>
+                                        <div className='mb--1 mt-2'>
                                             <AutoComplete
                                                 variant={'custom'}
                                                 inputType={'Infinity'}
@@ -751,6 +763,7 @@ function IndividualChat() {
                 </div >
 
             </ div >
+
             <Modal isOpen={attachmentModal.visible}
                 onClose={attachmentModal.hide}>
                 <div className='col-7 mt--6'>
