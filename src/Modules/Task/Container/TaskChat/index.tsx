@@ -154,8 +154,11 @@ function TaskChat({ }: TaskChatProps) {
                                 time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
                                 <div className='pt-2' onClick={() => {
-                                    imageModal.show()
-                                    setImage(imageUrls)
+                                    if (imageUrls) {
+
+                                        imageModal.show()
+                                        setImage(imageUrls)
+                                    }
                                 }} >
                                     {
 
@@ -185,35 +188,6 @@ function TaskChat({ }: TaskChatProps) {
                 }
             </InfiniteScroll>
 
-            {/* <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
-                <div className={'mt--5 mb--6 mx--4'}>
-                    <Carousel selectedItem={corouselIndex}>
-
-                        {
-                            image.map((each, index) => (
-
-                                <>
-                                    <div>
-                                        <Image
-                                            className='ml-2 mr-2'
-                                            src={each}
-                                            style={{ height: '450px', width: '450px' }}
-                                        />
-                                    </div>
-
-                                    <CardFooter className={'mt-2'}>
-                                        <div className='d-flex justify-content-end mt--6 mr-4 pointer'>
-                                            <ImageDownloadButton Url={each} title={each} />
-                                        </div>
-                                    </CardFooter>
-                                </>
-                            ))
-                        }
-
-                    </Carousel>
-                </div>
-
-            </Modal> */}
         </div>
 
 

@@ -391,6 +391,23 @@ export const CHAT_ATTACHMENT_RULES = {
   },
   chat_attachments: {
     presence: { allowEmpty: false, message: "Attachment cannot be empty." }
+  },
+  receiver_by:{
+    presence: { allowEmpty: false, message: "Add user else select user" }
+
+  }
+}
+
+
+
+export const CHAT_MESSAGE_RULES = {
+  message:{
+    presence: { allowEmpty: false, message: "Message cannot be empty" }
+  },
+ 
+  receiver_by:{
+    presence: { allowEmpty: false, message: "Add user else select user" }
+
   }
 }
 
