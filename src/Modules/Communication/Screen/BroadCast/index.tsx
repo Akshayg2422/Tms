@@ -39,9 +39,6 @@ function Broadcast() {
     );
   }
 
-
-  console.log(JSON.stringify(broadCastDetails) + 'broadCastDetails');
-
   function proceedCreateBroadcast() {
     goTo(ROUTES["message-module"]["create-broadcast"])
   }

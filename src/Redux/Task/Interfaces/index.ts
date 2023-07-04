@@ -30,5 +30,6 @@ export interface TaskStateProp {
     createdEmployee:any,
     breakDownTimeLine:any,
     selectedTaskId:any,
+    selectedReferenceDetails:any,
     
 }

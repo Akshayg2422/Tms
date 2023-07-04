@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, setSelectedCompany } from "@Redux";
+import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, setSelectedCompany, setSelectedTabPosition } from "@Redux";
 import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton, Spinner } from "@Components";
 import { useNavigation, useModal, useDynamicHeight, useDropDown } from "@Hooks";
 import { ROUTES } from "@Routes";
@@ -61,7 +61,10 @@ function Companies() {
         params,
         onSuccess: (response: any) => () => {
           associatedCompanyModal.hide()
-        }
+        },
+        onError: (error) => () => {
+          showToast(error.error_message)
+        },
       })
     )
   }
@@ -69,9 +72,10 @@ function Companies() {
 
   const addAssociatedCompanyApi = () => {
 
+
     const params = {
+      id:dashboardDetails.company_branch.id ,
       company_id: associatedCompanyDropDown.value.id,
-      id: dashboardDetails.company.id
     }
 
     dispatch(
@@ -81,7 +85,9 @@ function Companies() {
           associatedCompanyModal.hide();
           associatedCompanyDropDown.set({})
           showToast(response.message)
-          dispatch(getAssociatedBranch(params))
+          // dispatch(getAssociatedBranch(params))
+          getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
+          getAssociatedCompanyApi()
         },
         onError: (error) => () => {
           showToast(error.error_message)
@@ -111,6 +117,7 @@ function Companies() {
       })
     }
   }
+
 
 
   return (
@@ -160,6 +167,7 @@ function Companies() {
               tableOnClick={(idx, index, item) => {
                 dispatch(setSelectedCompany(item));
                 goTo(ROUTES["user-company-module"]["company-details"]);
+                dispatch(setSelectedTabPosition({id:'1'}))
 
               }} />
             :
@@ -180,7 +188,9 @@ function Companies() {
               data={getAssociatedCompanyDropDownDisplayData(associatedCompany)}
               onChange={(item) => {
                 associatedCompanyDropDown.onChange(item)
+             
               }}
+              value={associatedCompanyDropDown.value}
               selected={associatedCompanyDropDown.value}
             />
 

@@ -63,9 +63,10 @@ function ReferenceTickets() {
 
         <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
             <div className="col text-right">
-                <Button size={'sm'} text={translate('order.Add Reference Ticket')} onClick={() => {
+            {referenceTickets && referenceTickets?.length >0 && <Button size={'sm'} text={translate('order.Add Reference Ticket')} onClick={() => {
                     goTo(ROUTES['ticket-module']['reference-ticket'])
                 }} />
+            }
             </div>
             {referenceTickets && referenceTickets?.length > 0 ?
                 <CommonTable

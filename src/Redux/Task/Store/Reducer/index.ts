@@ -32,6 +32,7 @@ const initialState: TaskStateProp = {
   subTaskGroups: undefined,
   assignedTask: undefined,
   selectedTaskId:undefined,
+  selectedReferenceDetails:true,
   taskParams: { q_many: "", assigned_tasks_by: "assigned_to",assigned_company: '', created_company: 'ALL', "created_tasks_by": "ALL", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL", "created_department_id": "ALL", "created_designation_id": "ALL", page_number: 1, assigned_emp_id: "", created_emp_id: "" },
 };
 
@@ -243,7 +244,7 @@ const TaskReducer = (state = initialState, action: any) => {
     // SELECTED TABS
 
     case ActionTypes.SELECTED_TAB_POSITION:
-      console.log('---', action.payload,)
+    
       state = {
         ...state,
         selectedTabPositions: action.payload,
@@ -293,7 +294,7 @@ const TaskReducer = (state = initialState, action: any) => {
       state = { ...state, subTaskGroups: undefined }
       break;
     case ActionTypes.GET_SUB_TASK_GROUPS_SUCCESS:
-      console.log(JSON.stringify(action.payload));
+   
       state = { ...state, subTaskGroups: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details }
       break;
     case ActionTypes.GET_SUB_TASK_GROUPS_FAILURE:
@@ -327,6 +328,14 @@ const TaskReducer = (state = initialState, action: any) => {
       case ActionTypes.GET_TIMELINE_BREAKDOWN_FAILURE:
         state = { ...state, breakDownTimeLine: undefined }
         break;
+
+        ///
+        case ActionTypes.SELECTED_REFERENCE:
+         
+        state = { ...state, selectedReferenceDetails:action.payload}
+        break;
+
+
 
 
     /**

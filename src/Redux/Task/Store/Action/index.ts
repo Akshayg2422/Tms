@@ -227,7 +227,7 @@ export const getTaskUsersFailure = (error: any) => {
 }
 
 //
-export const selectedTaskId=(params)=>{
+export const selectedTaskIds=(params)=>{
     return {
         type: ActionTypes.SELECTED_TASK_ID,
         payload: params
@@ -305,6 +305,7 @@ export const getTaskDetailsFailure = (error: any) => {
         payload: error
     }
 }
+
 
 
 
@@ -435,6 +436,15 @@ export const getTimeLineBreakdownFailure = (response: any) => {
     return {
         type: ActionTypes.GET_TIMELINE_BREAKDOWN_FAILURE,
         payload: response
+    }
+}
+
+
+export const getSelectedReference = (params: any) => {
+    console.log(params,"ppppppppppppp")
+    return {
+        type: ActionTypes.SELECTED_REFERENCE,
+        payload:params
     }
 }
 

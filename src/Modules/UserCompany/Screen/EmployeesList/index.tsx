@@ -24,10 +24,9 @@ function EmployeesList() {
 
 
     useEffect(() => {
-        getCompanyEmployeesApi(employeesCurrentPages)
-    }, [employeesCurrentPages]);
-
-    console.log(employeesCurrentPages,"employeesCurrentPages")
+        getCompanyEmployeesApi(1)
+    }, []);
+  
 
     function getCompanyEmployeesApi(page_number: number, q_many: string = '') {
         setLoading(true)

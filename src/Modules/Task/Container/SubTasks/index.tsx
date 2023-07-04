@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { SubTasksProps } from './interfaces'
 import { Card, H, Button, CommonTable, Priority, NoDataFound } from '@Components'
-import { getSubTasks, setSelectedTask, setSelectedTabPosition, selectedTaskId } from '@Redux'
+import { getSubTasks, setSelectedTask, setSelectedTabPosition, selectedTaskIds, getSelectedReference } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
@@ -78,9 +78,10 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                         displayDataSet={normalizedTableData(subTasks)}
                         tableOnClick={(e, index, item) => {
                             dispatch(setSelectedTask(item?.code))
-                            dispatch(selectedTaskId(item))
+                            dispatch(selectedTaskIds(item))
+                            dispatch(getSelectedReference({code:item?.code,refer:true}))
                             dispatch(setSelectedTabPosition({ id: '1' }))
-                            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code)
+                            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'sub-task')
 
                         }}
                     /> :

@@ -67,10 +67,10 @@ function Department() {
 
   const dispatch = useDispatch();
 
-  const getDepartmentList = (pageNumber: number) => {
+  const getDepartmentList = (page_number: number) => {
     setLoading(true)
     const params = {
-      page_number: pageNumber
+      page_number
     };
     dispatch(
       getDepartments({

@@ -22,7 +22,7 @@ function AddChatTicket() {
 
     const proceedTaskEventsApiHandler = () => {
 
-        if (message.value) {
+        if (message.value.trim()) {
 
             const params = {
                 // id: selectedTicket?.id,
@@ -55,7 +55,7 @@ function AddChatTicket() {
             // id: selectedTicket.id,
             code:id,
             attachments: [{ attachment: photo }],
-            name: attachmentName.value
+            name: attachmentName.value.trim()
         };
         dispatch(
             addTicketEvent({

@@ -110,10 +110,7 @@ function AddReferenceTask() {
     );
   };
 
-
-
   const normalizedTableData = (data: any) => {
-
     return data?.map((el: any) => {
 
       const isReference = selectedReferenceTask.some(

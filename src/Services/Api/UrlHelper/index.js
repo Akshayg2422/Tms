@@ -158,7 +158,6 @@ export const GET_TIME_LINE_ENABLE_REQUEST = TASK + 'getTimelineEnableRequest'
 
 export const ADD_TIME_LINE_ENABLE_REQUEST = TASK + 'addTimelineEnableRequest'
 
-
 // post chat message
 
 export const POST_CHAT_MESSAGE = TASK + 'addMessage'

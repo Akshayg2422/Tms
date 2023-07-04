@@ -50,7 +50,7 @@ function MyTimeSheet() {
   const [currentDates, setCurrentDates] = useState(new Date());
 
   const { employeeTimeline ,dashboardDetails} = useSelector((state: any) => state.UserCompanyReducer);
-  console.log(dashboardDetails,"dashboardDetails===>  ")
+
   const getGroupMenuItem = [
     { id: '0', name: translate("common.Edit"), icon: icons.edit },
     { id: '1', name: 'Delete', icon: icons.delete },
@@ -355,7 +355,7 @@ function MyTimeSheet() {
     }
 
     const validation = validate(editEndTimeEta ? EDIT_TIME_SHEET_DETAILS : ADD_TIME_SHEET_DETAILS, params);
-    console.log("validation", validation)
+    
 
     if (ifObjectExist(validation)) {
       dispatch(

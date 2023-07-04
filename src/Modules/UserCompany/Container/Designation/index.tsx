@@ -27,26 +27,21 @@ function Designation() {
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+
   const isUserAdmin = dashboardDetails?.permission_details?.is_admin
   const isUserSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
 
   const [loading,setLoading] = useState(false)
   const dispatch = useDispatch();
-
-
-
   const dynamicHeight: any = useDynamicHeight()
-
   const [showDesignations, setShowDesignations] = useState(false);
   const addDesignationModal = useModal(false);
-
   const designationName = useInput('')
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
-
-
   const getDesignationApiHandler = (page_number: number) => {
+ 
     setLoading(true)
     const params = {
       page_number
@@ -75,7 +70,7 @@ function Designation() {
           params,
           onSuccess: (success: any) => () => {
             addDesignationModal.hide()
-            getDesignationApiHandler(designationCurrentPages)
+          getDesignationApiHandler(designationCurrentPages)
             resetValues()
           },
           onError: (error: string) => () => {
@@ -159,7 +154,7 @@ function Designation() {
               onClick={() => {
                 setShowDesignations(!showDesignations)
                 if (!showDesignations) {
-                  getDesignationApiHandler(INITIAL_PAGE);
+                   getDesignationApiHandler(INITIAL_PAGE);
                 }
               }}
             />
@@ -205,6 +200,7 @@ function Designation() {
                 getDesignationApiHandler(paginationHandler("next", designationCurrentPages));
               }
               }
+
             />
           ) : (
             <div

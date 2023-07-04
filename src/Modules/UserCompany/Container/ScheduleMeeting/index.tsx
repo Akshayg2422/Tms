@@ -156,7 +156,7 @@ function ScheduleMeeting() {
                             format='YYYY-MM-DD'
                             heading={translate("order.Schedule Date")}
                             placeholder={translate("order.Schedule Date")!}
-                            value={''}
+                            value={scheduleData}
                             onChange={(e) => { setScheduleDate(e) }}
                         />
                     </div>
