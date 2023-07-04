@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { TaskChatProps } from './interfaces';
+import { EventChatProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
-import { getTaskEvents } from '@Redux'
+import { getAttachmentsMessage, } from '@Redux'
 import { TimeLine, Spinner, Image, Modal, ImageDownloadButton } from '@Components'
-import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, TASK_STATUS_LIST } from '@Utils'
+import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, EVENT_STATUS_LIST } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useModal, useWindowDimensions } from '@Hooks'
@@ -14,13 +14,13 @@ import { CardFooter } from 'reactstrap';
 // import {  } from '@Components//Component/ImageDownloadButton';
 
 
-function TaskChat({ }: TaskChatProps) {
+function GetEventChat({ }: EventChatProps) {
 
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
-    const [taskEvents, setTaskEvents] = useState([])
-    const [taskEventsCurrentPage, setEventsTaskCurrentPage] = useState(INITIAL_PAGE)
+    const { eventsMessage, refreshEventMessage } = useSelector((state: any) => state.TaskReducer);
+    const [getEvents, setGetEvents] = useState([])
+    const [getEventsCurrentPage, setGetEventsCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
     const imageModal = useModal(false)
@@ -28,8 +28,8 @@ function TaskChat({ }: TaskChatProps) {
 
 
     useEffect(() => {
-        getTaskEventsApi(INITIAL_PAGE)
-    }, [refreshTaskEvents, id])
+        getAttachmentsMessageApi(INITIAL_PAGE)
+    }, [eventsMessage, id, refreshEventMessage])
 
     function getTaskEventsDisplayData(data: any) {
         if (data && data.length > 0) {
@@ -41,27 +41,29 @@ function TaskChat({ }: TaskChatProps) {
         }
 
     }
-    const getTaskEventsApi = (page_number: number) => {
+    const getAttachmentsMessageApi = (page_number: number) => {
+        console.log('getAttachmentsMessageApi========>>>', eventsMessage);
+
         const params = {
-            code: id,
+            event_id: eventsMessage,
             page_number
         }
 
         dispatch(
-            getTaskEvents({
+            getAttachmentsMessage({
                 params,
                 onSuccess: (response: any) => () => {
-                    const taskEventsResponse = response.details
+                    const getEventsResponse = response.details
                     let updatedData = []
-                    if (taskEventsResponse.data && taskEventsResponse.data.length > 0) {
+                    if (getEventsResponse.data && getEventsResponse.data.length > 0) {
                         if (page_number === 1) {
-                            updatedData = getTaskEventsDisplayData(taskEventsResponse.data)
+                            updatedData = getTaskEventsDisplayData(getEventsResponse.data)
                         } else {
-                            updatedData = getTaskEventsDisplayData([...taskEvents, ...taskEventsResponse.data] as any)
+                            updatedData = getTaskEventsDisplayData([...getEvents, ...getEventsResponse.data] as any)
                         }
                     }
-                    setTaskEvents(updatedData)
-                    setEventsTaskCurrentPage(taskEventsResponse.next_page)
+                    setGetEvents(updatedData)
+                    setGetEventsCurrentPage(getEventsResponse.next_page)
                 },
                 onError: () => () => { },
             })
@@ -70,7 +72,7 @@ function TaskChat({ }: TaskChatProps) {
 
     function getIconsFromStatus(each: any) {
 
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, task_status, end_time, start_time } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, events_status, end_time, start_time } = each
         let modifiedData = {}
         switch (event_type) {
             case 'TEM':
@@ -96,13 +98,13 @@ function TaskChat({ }: TaskChatProps) {
                 modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: by_user?.name, title: 'User Attached Reference Task' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', task_status).text }
+                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(EVENT_STATUS_LIST, 'id', events_status).text }
                 break;
             case 'ETE':
-                modifiedData = { ...each, icon: icons.endTime, subTitle: by_user?.name, title: 'Task End time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(end_time)) }
+                modifiedData = { ...each, icon: icons.endTime, subTitle: by_user?.name, title: 'Event End time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(end_time)) }
                 break;
             case 'ETS':
-                modifiedData = { ...each, icon: icons.startTime, subTitle: by_user?.name, title: 'Task Start time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(start_time)) }
+                modifiedData = { ...each, icon: icons.startTime, subTitle: by_user?.name, title: 'Event Start time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(start_time)) }
                 break;
 
         }
@@ -121,8 +123,8 @@ function TaskChat({ }: TaskChatProps) {
             className={'overflow-auto overflow-hide'}
         >
             <InfiniteScroll
-                dataLength={taskEvents.length}
-                hasMore={taskEventsCurrentPage !== -1}
+                dataLength={getEvents.length}
+                hasMore={getEventsCurrentPage !== -1}
                 scrollableTarget="scrollableDiv"
                 className='overflow-auto overflow-hide'
                 style={{ display: 'flex', flexDirection: 'column-reverse', overflowY: 'auto' }}
@@ -131,17 +133,19 @@ function TaskChat({ }: TaskChatProps) {
                     {/* <Spinner /> */}
                 </h4>}
                 next={() => {
-                    
-                    if (taskEventsCurrentPage !== -1) {
-                        getTaskEventsApi(taskEventsCurrentPage)
+                    console.log('came');
+
+                    console.log(getEventsCurrentPage + '====');
+                    if (getEventsCurrentPage !== -1) {
+                        getAttachmentsMessageApi(getEventsCurrentPage)
                     }
                 }
                 }>
-                {taskEvents && taskEvents.length > 0 &&
-                    taskEvents.map((task: any, index: number) => {
-                        
+                {getEvents && getEvents.length > 0 &&
+                    getEvents.map((Events: any, index: number) => {
+                        console.log('Events========>', Events);
 
-                        const { icon, title, subTitle, created_at, attachments } = task
+                        const { icon, title, subTitle, created_at, attachments } = Events
                         const showDotLine = index !== 0
                         const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
 
@@ -162,10 +166,9 @@ function TaskChat({ }: TaskChatProps) {
                                             return (
                                                 <div onClick={() => { setCorouselIndex(index) }}>
 
-                                                    <Image className='ml-1 mb-1 pointer' src={each} width={100} height={100} />
+                                                    <Image className='ml-1 mb-1' src={each} width={100} height={100} />
                                                 </div>
                                             )
-
                                         })
                                     }
                                 </div>
@@ -181,7 +184,6 @@ function TaskChat({ }: TaskChatProps) {
 
                         {
                             image.map((each, index) => (
-
                                 <>
                                     <div>
                                         <Image
@@ -190,7 +192,7 @@ function TaskChat({ }: TaskChatProps) {
                                             style={{ height: '450px', width: '450px' }}
                                         />
                                     </div>
-                                    
+
                                     <CardFooter className={'mt-2'}>
                                         <div className='d-flex justify-content-end mt--6 mr-4 pointer'>
                                             <ImageDownloadButton Url={each} title={each} />
@@ -210,5 +212,5 @@ function TaskChat({ }: TaskChatProps) {
     );
 }
 
-export { TaskChat }
+export { GetEventChat }
 

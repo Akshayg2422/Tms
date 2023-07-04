@@ -157,3 +157,9 @@ export const fetchChatEmployeeListApi = (payload) => post(URL.FETCH_CHAT_EMPLOYE
 
 export const getTimeLineBreakdownApi = (payload) => post(URL.GET_TIMELINE_BREAKDOWN, payload, {})
 
+/// event chatting
+
+export const addAttachmentsMessageApi = (payload) => post(URL.ADD_ATTACHMENTS_MESSAGE, payload, {})
+
+export const getAttachmentsMessageApi = (payload) => post(URL.GET_ATTACHMENTS_MESSAGE, payload, {})
+

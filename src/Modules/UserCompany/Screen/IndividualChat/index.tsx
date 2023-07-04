@@ -49,9 +49,6 @@ function IndividualChat() {
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
     const [corouselIndex, setCorouselIndex] = useState<any>()
 
-
-
-
     useEffect(() => {
 
         getChatEmployeeList('')
@@ -98,6 +95,8 @@ function IndividualChat() {
             },
         }))
     }
+
+    console.log("employeeelist========>", employeeList)
 
     const getDisplayTimeFromMoment = (date) => {
         if (date) {
@@ -169,8 +168,6 @@ function IndividualChat() {
     }
 
 
-
-
     const addChatMessage = () => {
         const params = {
             event_type: "TEM",
@@ -188,12 +185,11 @@ function IndividualChat() {
         }))
     }
 
+
     const updateNewEmployeeInChatBox = () => {
         let checkList = employeeList.some(el => { return el.id === selectedUserDetails.id })
         !checkList && getChatEmployeeList('')
     }
-
-
 
     const getChatMessage = (data) => {
         const params = {

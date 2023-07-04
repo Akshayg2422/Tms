@@ -57,7 +57,28 @@ function AddTask() {
 
     const title = useInput("");
     const description = useInput("");
-    const referenceNo = useInput("");
+    // const referenceNo = useInput("");
+    const generateReferenceNo = () => {
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const numbers = '0123456789';
+
+        let randomLetters = '';
+        let randomNumbers = '';
+
+        // Generate random letters
+        for (let i = 0; i < 4; i++) {
+            randomLetters += letters.charAt(Math.floor(Math.random() * letters.length));
+        }
+
+        // Generate random numbers
+        for (let i = 0; i < 3; i++) {
+            randomNumbers += numbers.charAt(Math.floor(Math.random() * numbers.length));
+        }
+
+        return randomLetters + randomNumbers;
+    };
+
+    const [referenceNo, setReferenceNo] = useState(generateReferenceNo());
     const [taskType, setTaskType] = useState(type[1]);
     const [disableTaskType, setDisableTaskType] = useState([]);
     const [loading, setLoading] = useState(false)
@@ -77,9 +98,9 @@ function AddTask() {
     const isEnterPressed = useKeyPress("Enter");
 
     useEffect(() => {
-      if (isEnterPressed) {
-        submitTaskHandler()
-      }
+        if (isEnterPressed) {
+            submitTaskHandler()
+        }
     }, [isEnterPressed]);
 
     useEffect(() => {
@@ -135,7 +156,7 @@ function AddTask() {
         const params = {
             title: title?.value,
             description: description?.value,
-            ...(referenceNo?.value && { reference_number: referenceNo?.value }),
+            ...(referenceNo && { reference_number: referenceNo }),
             ...(company?.value?.id && { brand_branch_id: company?.value?.id }),
             ...(selectedUserId?.id && { assigned_to_id: selectedUserId?.id }),
             priority: selectedTicketPriority?.value?.id,
@@ -261,6 +282,9 @@ function AddTask() {
     const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
 
+
+
+
     return (
         <Card className="m-3">
             <div className='col'>
@@ -278,29 +302,20 @@ function AddTask() {
                         size='xl'
                         heading={translate("common.addAttachment")!}
                         noOfFileImagePickers={3}
-                        onSelect={(image) => {
-                            // let file = image.toString().replace(/^data:(.*,)?/, "")
-                            // handleImagePicker(file)
-
-                        }}
-                        // onSelectImagePicker={(el) => {
-                        //     setSelectNoPickers(el?.length)
-
-                        // }}
-
-                        onSelectImagePickers={(el)=>{
+                        onSelect={(image) => { }}
+                        onSelectImagePickers={(el) => {
                             let array: any = []
-      
+
                             for (let i = 0; i <= el.length; i++) {
-                              let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                              if(eventPickers !==undefined){
-                              array.push(eventPickers)
-                              }
-                              
+                                let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                if (eventPickers !== undefined) {
+                                    array.push(eventPickers)
+                                }
+
                             }
                             setPhoto(array)
 
-                          }}
+                        }}
                     />
 
                 </div>
@@ -316,7 +331,7 @@ function AddTask() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-            
+
                 {/* <div >
                 <InputHeading heading={translate('auth.description')}/>
                     <textarea 
@@ -326,22 +341,22 @@ function AddTask() {
                 </div> */}
 
                 <TextAreaInput
-                heading={translate('auth.description')!}
-                value={description.value}
-                onChange={description.onChange}
-                className="form-control form-control-sm"
-                
+                    heading={translate('auth.description')!}
+                    value={description.value}
+                    onChange={description.onChange}
+                    className="form-control form-control-sm"
+
                 />
 
                 <div>
-                    
+
                 </div>
 
                 <Input
-                        type={"text"}
-                        heading={translate("auth.referenceNo")}
-                        value={referenceNo.value}
-                        onChange={referenceNo.onChange}
+                    type={"text"}
+                    heading={translate("auth.referenceNo")}
+                    value={referenceNo}
+                    onChange={(e) => { setReferenceNo(e.target.value) }}
                 />
 
                 <DropDown
@@ -349,8 +364,8 @@ function AddTask() {
                     selected={selectedTicketPriority.value}
                     placeHolder={translate('order.please select a task priority')!}
                     data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange} 
-                    />
+                    onChange={selectedTicketPriority.onChange}
+                />
                 <div className="my-3">
                     <Radio
                         data={type}
@@ -414,7 +429,7 @@ function AddTask() {
                         selected={selectedUserId}
                         onChange={(item) => {
                             setSelectedUserId(item)
-                    
+
 
                         }}
                     />
