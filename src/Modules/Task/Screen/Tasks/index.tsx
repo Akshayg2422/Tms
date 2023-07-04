@@ -126,8 +126,8 @@ function Tasks() {
           }}
         />
       </div>
-      <ImageColor/>
-      {/* <ImageColorIcon /> */}
+   
+
       <div className="row mt-3 mb-2">
         <div className="mx-3 col">
           <TaskGroups onClick={(code) => {

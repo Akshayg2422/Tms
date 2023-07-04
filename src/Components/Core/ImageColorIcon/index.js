@@ -321,6 +321,6 @@ function hexToRgb(hex) {
 
 }
 
-const resulta =  getFilter("#555abf")
+const resulta =  getFilter("#f5365c")
 
-console.log("test", resulta)
+console.log("test=====>", resulta)
