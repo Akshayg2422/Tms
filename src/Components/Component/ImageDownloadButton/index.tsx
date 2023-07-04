@@ -7,7 +7,6 @@ import { icons } from '@Assets';
 
 function ImageDownloadButton({ Url, size = 'sm', color = 'primary', title ,className}: DownloadImageProps) {
 
-
   const handleDownload = async () => {
     try {
       if (Array.isArray(Url)) {

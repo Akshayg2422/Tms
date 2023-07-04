@@ -49,7 +49,7 @@ function IndividualChat() {
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
     const [corouselIndex, setCorouselIndex] = useState<any>()
 
-console.log(selectedUserDetails?.id,"selectedUserDetails?.id===>")
+    console.log(selectedUserDetails?.id, "selectedUserDetails?.id===>")
 
 
     useEffect(() => {
@@ -99,6 +99,8 @@ console.log(selectedUserDetails?.id,"selectedUserDetails?.id===>")
         }))
     }
 
+    console.log("employeeelist========>", employeeList)
+
     const getDisplayTimeFromMoment = (date) => {
         if (date) {
             return moment(date).format('LT')
@@ -128,7 +130,7 @@ console.log(selectedUserDetails?.id,"selectedUserDetails?.id===>")
         const validation = validate(CHAT_ATTACHMENT_RULES, {
             attachment_name: attachmentName.value.trim(),
             chat_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : '',
-            receiver_by:selectedUserDetails?.id
+            receiver_by: selectedUserDetails?.id
         })
         const params = {
             event_type: "MEA",
@@ -170,8 +172,6 @@ console.log(selectedUserDetails?.id,"selectedUserDetails?.id===>")
     }
 
 
-
-
     const addChatMessage = () => {
         const params = {
             event_type: "TEM",
@@ -180,24 +180,23 @@ console.log(selectedUserDetails?.id,"selectedUserDetails?.id===>")
         }
         const validation = validate(CHAT_MESSAGE_RULES, params);
         if (ifObjectExist(validation)) {
-        dispatch(postChatMessage({
-            params,
-            onSuccess: (success: any) => async () => {
-                getChatMessage(selectedUserDetails?.id)
-                setChatText('')
-            },
-            onError: (error: string) => () => {
-            },
-        }))
+            dispatch(postChatMessage({
+                params,
+                onSuccess: (success: any) => async () => {
+                    getChatMessage(selectedUserDetails?.id)
+                    setChatText('')
+                },
+                onError: (error: string) => () => {
+                },
+            }))
+        }
     }
-    }
+
 
     const updateNewEmployeeInChatBox = () => {
         let checkList = employeeList.some(el => { return el.id === selectedUserDetails.id })
         !checkList && getChatEmployeeList('')
     }
-
-
 
     const getChatMessage = (data) => {
         const params = {
@@ -591,63 +590,63 @@ console.log(selectedUserDetails?.id,"selectedUserDetails?.id===>")
                                 </CardBody>
 
                                 {selectedUserDetails && selectedUserDetails?.id ?
-                                <CardFooter className=''>
-                                    <div className='d-flex'>
-                                        <div className=''>
-                                            <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
-                                        </div>
-                                        <textarea
-                                            style={{
-                                                borderRadius: '15px'
-                                            }}
-                                            placeholder='write message'
-                                            className="form-control form-control-sm mx-3 "
-                                            id="exampleFormControlInput1"
-                                            autoComplete="off"
-                                            onChange={(val) => {
-                                                setChatText(val.target.value)
-                                            }}
-                                            value={chatText}
-                                            onKeyDown={handleKeyDown}
-                                        />
+                                    <CardFooter className=''>
+                                        <div className='d-flex'>
+                                            <div className=''>
+                                                <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
+                                            </div>
+                                            <textarea
+                                                style={{
+                                                    borderRadius: '15px'
+                                                }}
+                                                placeholder='write message'
+                                                className="form-control form-control-sm mx-3 "
+                                                id="exampleFormControlInput1"
+                                                autoComplete="off"
+                                                onChange={(val) => {
+                                                    setChatText(val.target.value)
+                                                }}
+                                                value={chatText}
+                                                onKeyDown={handleKeyDown}
+                                            />
 
-                                        <div className=" mr-1"
-                                            style={{
-                                                marginTop: '2px'
-                                            }}
-                                        >
-                                            <div>
+                                            <div className=" mr-1"
+                                                style={{
+                                                    marginTop: '2px'
+                                                }}
+                                            >
+                                                <div>
+                                                    <Button
+                                                        size={'lg'}
+                                                        color={'white'}
+                                                        variant={'icon-rounded'}
+                                                        icon={icons.send}
+                                                        onClick={() => {
+                                                            chatText.trim().length > 0 && addChatMessage()
+                                                        }} />
+                                                </div>
+
+                                            </div>
+                                            <div className=" mr-1 ml-2 pointer">
                                                 <Button
                                                     size={'lg'}
                                                     color={'white'}
                                                     variant={'icon-rounded'}
-                                                    icon={icons.send}
+                                                    icon={icons.videoCall}
                                                     onClick={() => {
-                                                        chatText.trim().length > 0 && addChatMessage()
-                                                    }} />
+                                                        getUserToken()
+                                                        dispatch(handleOneToOneChat(true))
+                                                    }}
+                                                />
                                             </div>
+                                        </div>
+                                    </CardFooter>
+                                    :
+                                    <div className='mb-6'>
+                                        <NoRecordsFound text={'No User Found'} />
+                                    </div>
+                                }
 
-                                        </div>
-                                        <div className=" mr-1 ml-2 pointer">
-                                            <Button
-                                                size={'lg'}
-                                                color={'white'}
-                                                variant={'icon-rounded'}
-                                                icon={icons.videoCall}
-                                                onClick={() => {
-                                                    getUserToken()
-                                                    dispatch(handleOneToOneChat(true))
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                </CardFooter>
-                                : 
-                                <div className='mb-6'>
-                                    <NoRecordsFound text={'No User Found'} />
-                                    </div>
-}
-                                
                             </Card>
                         </div>}
                     {!oneToOneChat && <div className='col-sm-4'>

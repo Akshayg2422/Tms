@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+ import React, { useState } from 'react'
 import { Button, Modal, Input, Dropzone, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
-import { addTaskEvent, refreshTaskEvents, } from '@Redux'
+import { addAttachmentsMessage, refreshEventMessage } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { useModal, useInput } from '@Hooks'
-import { TEM, MEA, validate, ifObjectExist, getValidateError, TASK_ATTACHMENT_RULES } from '@Utils'
+import { TEM, MEA, validate, ifObjectExist, getValidateError, EVENTS_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
 import { useParams } from 'react-router-dom'
 
 
-function AddChat() {
+function AddEventChat() {
 
-    const { selectedTask } = useSelector((state: any) => state.TaskReducer);
+    const { eventsMessage } = useSelector((state: any) => state.TaskReducer);
     const dispatch = useDispatch()
     const { id } = useParams();
     const message = useInput('')
@@ -21,22 +21,25 @@ function AddChat() {
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
 
-    const proceedTaskEventsApiHandler = () => {
+    console.log('eventsMessage==========>>>', eventsMessage)
+
+    const proceedAddEventsApiHandler = () => {
 
         if (message.value.trim()) {
 
             const params = {
-                code: id,
+                event_id: eventsMessage,
                 message: message.value,
                 event_type: TEM
             }
-
+            console.log('eventsMessage========', eventsMessage)
             dispatch(
-                addTaskEvent({
+                addAttachmentsMessage({
                     params,
                     onSuccess: (response) => () => {
+                        console.log('response======', response)
                         message.set('')
-                        dispatch(refreshTaskEvents())
+                        dispatch(refreshEventMessage())
                     },
                     onError: () => () => { },
                 })
@@ -46,28 +49,25 @@ function AddChat() {
         }
     };
 
-
-
-    const addTaskEventAttachment = () => {
-        const validation = validate(TASK_ATTACHMENT_RULES, {
+    const addEventsAttachments = () => {
+        const validation = validate(EVENTS_ATTACHMENT_RULES, {
             name: attachmentName.value,
             attachments: photo.length > 0 ? [{ attachment: photo }] : ''
         })
         const params = {
             event_type: MEA,
-            code: id,
-            name: attachmentName.value,
-            attachments: [{ attachment: photo }]
+            event_id: eventsMessage,
+            event_attachments: [{ name: attachmentName.value, attachments: photo }],
+
         };
         if (ifObjectExist(validation)) {
             dispatch(
-                addTaskEvent({
+                addAttachmentsMessage({
                     params,
                     onSuccess: () => () => {
                         resetValues();
                         attachmentModal.hide()
-                        dispatch(refreshTaskEvents()
-                        )
+                        dispatch(refreshEventMessage())
                     },
                     onError: (error) => () => { },
                 }),
@@ -82,18 +82,12 @@ function AddChat() {
         setPhoto([])
     };
 
-    // const handleImagePicker = (file: any) => {
-    //     let updatedPhoto = [...selectDropzone, file]
-    //     let newUpdatedPhoto = [...photo, file]
-    //     setSelectDropzone(updatedPhoto)
-    //     setPhoto(newUpdatedPhoto)
-    // }
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
 
             if (message.value.trim().length > 0) {
-                proceedTaskEventsApiHandler();
+                proceedAddEventsApiHandler();
             }
         }
     };
@@ -106,9 +100,10 @@ function AddChat() {
                     <div className='col'>
                         <textarea placeholder={translate('order.Write your comment')!} value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
                     </div>
-                    <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={proceedTaskEventsApiHandler} />
+                    <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={proceedAddEventsApiHandler} />
                 </div >
             </div >
+
             <Modal isOpen={attachmentModal.visible} onClose={attachmentModal.hide} size='md'>
 
                 <div className='col-10 mt--5'>
@@ -123,27 +118,27 @@ function AddChat() {
                                 // handleImagePicker(file)
                             }}
 
-                            onSelectImagePickers={(el)=>{
+                            onSelectImagePickers={(el) => {
                                 let array: any = []
-          
+
                                 for (let i = 0; i <= el.length; i++) {
-                                  let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                                  if(eventPickers !==undefined){
-                                  array.push(eventPickers)
-                                  }
-                                  
+                                    let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                    if (eventPickers !== undefined) {
+                                        array.push(eventPickers)
+                                    }
+
                                 }
                                 setPhoto(array)
-        
-                  
-                              }}
+
+
+                            }}
                         />
                     </div>
                 </div>
 
                 <div className='col-6 pt-3'>
                     <Button text={translate("common.submit")}
-                        onClick={addTaskEventAttachment} />
+                        onClick={addEventsAttachments} />
                 </div>
 
             </Modal>
@@ -151,4 +146,4 @@ function AddChat() {
         </>
     )
 }
-export { AddChat }
+export { AddEventChat }

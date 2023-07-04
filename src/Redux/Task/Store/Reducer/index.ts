@@ -23,7 +23,10 @@ const initialState: TaskStateProp = {
   referencesTasksNumOfPages: undefined,
   referencesTasksCurrentPages: 1,
   taskUsers: undefined,
+  eventsMessage:undefined,
   refreshTaskEvents: false,
+  refreshEventMessage:false,
+  refreshEventsMessage:false,
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
   selectedTabPositions: { id: '1' },
@@ -33,6 +36,9 @@ const initialState: TaskStateProp = {
   assignedTask: undefined,
   selectedTaskId:undefined,
   selectedReferenceDetails:true,
+  addNormalMessage:undefined,
+  addAttachmentsMessage:undefined,
+  getAttachmentsMessage:undefined,
   taskParams: { q_many: "", assigned_tasks_by: "assigned_to",assigned_company: '', created_company: 'ALL', "created_tasks_by": "ALL", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL", "created_department_id": "ALL", "created_designation_id": "ALL", page_number: 1, assigned_emp_id: "", created_emp_id: "" },
 };
 
@@ -241,6 +247,22 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
 
 
+    /**
+     * refresh Events Message 
+     */
+
+    case ActionTypes.REFRESH_EVENT_MESSAGE:
+      state = { ...state, refreshEventMessage: !state.refreshEventMessage }
+      break;
+
+    case ActionTypes.REFRESH_EVENTS_MESSAGE:
+      console.log("aaaaaaaaaaaa=====",action)
+
+      state = { ...state, eventsMessage: action.payload }
+      break;
+
+
+
     // SELECTED TABS
 
     case ActionTypes.SELECTED_TAB_POSITION:
@@ -367,8 +389,49 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.CREATED_EMPLOYEE:
       state = { ...state, createdEmployee: action.payload }
       break;
+      
+        /**
+     * add Attachments message
+     */
+
+    case ActionTypes.ADD_ATTACHMENTS_MESSAGE:
+      state = {
+        ...state,
+        addAttachmentsMessage:undefined
+      };
+      break;
+    case ActionTypes.ADD_ATTACHMENTS_MESSAGE_SUCCESS:
+      state = {
+        ...state,
+        addAttachmentsMessage:action.payload,
+      };
+      break;
+
+    case ActionTypes.ADD_ATTACHMENTS_MESSAGE_FAILURE:
+      state = { ...state, addAttachmentsMessage: undefined };
+      break;
 
 
+       /**
+     * add Normal message
+     */
+
+
+    case ActionTypes.GET_ATTACHMENTS_MESSAGE:
+      state = {
+        ...state,
+        getAttachmentsMessage: action.payload};
+      break;
+    case ActionTypes.GET_ATTACHMENTS_MESSAGE_SUCCESS:
+      state = {
+        ...state,
+        getAttachmentsMessage: action.payload,
+      };
+      break;
+
+    case ActionTypes.GET_ATTACHMENTS_MESSAGE_FAILURE:
+      state = { ...state, getAttachmentsMessage: undefined };
+      break;
 
 
     default:

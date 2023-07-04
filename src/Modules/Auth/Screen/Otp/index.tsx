@@ -8,6 +8,7 @@ import { ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
 
 function Otp() {
+
   const dispatch = useDispatch();
   const { registeredMobileNumber, language } = useSelector(
     (state: any) => state.AuthReducer
@@ -15,13 +16,10 @@ function Otp() {
 
  
   const otpLoader = useLoader(false);
-
   const { goTo } = useNavigation()
-
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
   const { seconds, setSeconds } = useTimer(OTP_RESEND_DEFAULT_TIME);
   const otp = useInput("");
-
   const isEnterPressed = useKeyPress("Enter");
 
   useEffect(() => {

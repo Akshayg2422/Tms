@@ -207,6 +207,17 @@ export const COMPANY_TYPE = [
   { id: '', text: translate("common.Self")! },
 ]
 
+export const EVENT_STATUS_LIST = [
+  { id: 'ALL', text: translate('common.All')! },
+  { id: 'RAI', text: translate('product.Raised')!, color: "gray" },
+  { id: 'INP', text: translate('product.In-Progress')!, color: "yellow" },
+  { id: 'CAN', text: translate('product.cancel')!, color: "red" },
+  { id: "CLS", text: translate('product.Close')!, color: "red" },
+  { id: 'ONH', text: translate('product.On-Hold')!, color: "black" },
+  { id: 'REJ', text: translate('product.Reject')!, color: "red" }
+
+]
+
 
 export const SEARCH_PAGE = 1
 export const INITIAL_PAGE = 1

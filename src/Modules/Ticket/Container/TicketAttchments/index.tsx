@@ -12,8 +12,8 @@ function TicketAttachments() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const search = useInput("");
-  const imageModal=useModal(false)
-  const [image,setImage]=useState([])
+  const imageModal = useModal(false)
+  const [image, setImage] = useState([])
   const { ticketEventAttachments, ticketEventAttachmentsCurrentPage, refreshTicketEvents } = useSelector((state: any) => state.TicketReducer);
   const { height } = useWindowDimensions()
 
@@ -44,7 +44,7 @@ function TicketAttachments() {
   }
 
 
-console.log('=====>',image)
+  console.log('=====>', image)
   return (
     <>
       <Card className="overflow-auto" style={{
@@ -61,6 +61,7 @@ console.log('=====>',image)
           loader={<h4>
             <Spinner />
           </h4>}
+
           next={() => {
             if (ticketEventAttachmentsCurrentPage !== -1) {
               getTicketEventsApiHandler(ticketEventAttachmentsCurrentPage)
@@ -72,9 +73,10 @@ console.log('=====>',image)
               ticketEventAttachments && ticketEventAttachments?.length > 0 && ticketEventAttachments?.map((item) => {
                 const { attachments } = item
                 return (
-                  <div onClick={() => {imageModal.show() 
+                  <div onClick={() => {
+                    imageModal.show()
                     setImage(attachments?.attachments)
-                    }} >
+                  }} >
                     {attachments?.attachments && <div>
                       <h4 className="mb-2"> {capitalizeFirstLetter(attachments?.name)} </h4>
                       {
@@ -86,7 +88,7 @@ console.log('=====>',image)
                       }
                     </div>
                     }
-                    
+
                   </div>
                 )
               })
@@ -94,15 +96,16 @@ console.log('=====>',image)
           </div>
         </InfiniteScroll>}
       </Card >
+      
       <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size={'lg'}>
-      <Carousel autoPlay>
-        {
-        
-           image.map((el:any)=>{
-            return <Image src={getPhoto(el?.attachment_file)} height={'600px'} width={'800px'}/>
-           })
-        }
-      </Carousel>
+        <Carousel autoPlay>
+          {
+
+            image.map((el: any) => {
+              return <Image src={getPhoto(el?.attachment_file)} height={'600px'} width={'800px'} />
+            })
+          }
+        </Carousel>
       </Modal>
 
 
