@@ -25,7 +25,7 @@ import {
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
-import { useModal, useDynamicHeight, useInput } from "@Hooks";
+import { useModal, useDynamicHeight, useInput, useLoader } from "@Hooks";
 import { icons } from "@Assets";
 import { Employees, GroupEmployeeList } from '@Modules'
 import moment from "moment";
@@ -65,6 +65,7 @@ function TaskGroup() {
   const taskGroupDescription = useInput("");
   const [photo, setPhoto] = useState("");
   const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(undefined);
+  const loginLoader=useLoader(false)
 
   /**
    * add sub task State
@@ -140,17 +141,21 @@ function TaskGroup() {
       };
       const validation = validate(ADD_TASK_GROUP, params)
       if (ifObjectExist(validation)) {
+
+        loginLoader.show()
         dispatch(
           addTaskGroup({
             params,
             onSuccess: (success: any) => () => {
               addTaskGroupModal.hide()
+              loginLoader.hide()
               resetValues()
               getTaskGroupList(INITIAL_PAGE)
               showToast(success.message, "success");
             },
             onError: (error: string) => () => {
               showToast('Task is already exists');
+              loginLoader.hide()
             },
           })
         );
@@ -169,14 +174,16 @@ function TaskGroup() {
       id,
       marked_as_closed
     }
-
+    loginLoader.show()
     dispatch(
       addTaskGroup({
         params,
         onSuccess: (success: any) => () => {
           getTaskGroupList(taskGroupCurrentPages)
+          loginLoader.hide()
         },
         onError: (error: string) => () => {
+          loginLoader.hide()
           showToast('Task is already exists');
         },
       })
@@ -210,17 +217,19 @@ function TaskGroup() {
 
 
       if (ifObjectExist(validation)) {
-        console.log('ivkjdfbvjhf')
+        loginLoader.show()
         dispatch(
           addTaskGroup({
             params,
             onSuccess: (success: any) => () => {
               addSubTaskGroupModal.hide();
+              loginLoader.hide()
               resetSubTaskValues();
               getTaskGroupList(INITIAL_PAGE)
             },
             onError: (error: string) => () => {
               showToast('Task is already exists');
+              loginLoader.hide()
             },
           })
         );
@@ -273,16 +282,18 @@ function TaskGroup() {
       group_id: addGroupId,
       users_id: addUsers.tagged_users
     }
-
+    loginLoader.show()
     dispatch(
       addGroupUser({
         params,
         onSuccess: (response) => () => {
           addMemberModal.hide()
           getGroupEmployees()
+          loginLoader.hide()
           showToast('Member added successfully');
         },
         onError: () => () => {
+          loginLoader.hide()
           // showToast('Add member not added');
         }
       })
@@ -506,11 +517,7 @@ function TaskGroup() {
             </div>
           </div>
 
-          {/* <Input
-            placeholder={translate("auth.description")}
-            value={taskGroupDescription.value}
-            onChange={taskGroupDescription.onChange}
-          /> */}
+     
                 <TextAreaInput
                heading={translate('auth.description')!}
                 value={taskGroupDescription.value}
@@ -540,6 +547,7 @@ function TaskGroup() {
             }}
           />
           <Button
+          loading={loginLoader.loader}
             text={translate("common.submit")}
             onClick={() => {
               addTaskGroupApiHandler()
@@ -582,27 +590,23 @@ function TaskGroup() {
               <DateTimePicker
                 placeholder={'Start Time'}
                 type="both"
-                initialValue={(getMomentObjFromServer(startTimeEta))}
+                // initialValue={(getMomentObjFromServer(startTimeEta))}
                 onChange={handleStartTimeEtaChange}
-                value={date ? getMomentObjFromServer(date) : null!}
+                // value={date ? getMomentObjFromServer(date) : null!}
               />
             </div>
             <div className="col-6">
               <DateTimePicker
                 type="both"
-                initialValue={(getMomentObjFromServer(endTimeEta))}
+                // initialValue={(getMomentObjFromServer(endTimeEta))}
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
-                value={endDate ? getMomentObjFromServer(endDate) : null!}
+                // value={endDate ? getMomentObjFromServer(endDate) : null!}
               />
             </div>
           </div>
 
-          {/* <Input
-            placeholder={translate("auth.description")}
-            value={subTaskGroupDescription.value}
-            onChange={(e) => subTaskGroupDescription.onChange(e)}
-          /> */}
+    
                 <TextAreaInput
                heading={translate('auth.description')!}
                 value={subTaskGroupDescription.value}
@@ -635,6 +639,7 @@ function TaskGroup() {
           />
           <Button
             text={translate("common.submit")}
+            loading={loginLoader.loader}
             onClick={() => {
               addSubTaskGroupApiHandler();
             }}
@@ -670,6 +675,7 @@ function TaskGroup() {
           <Button
             size={'sm'}
             text={translate("common.submit")}
+            loading={loginLoader.loader}
             onClick={() => {
               addGroupUsers({ event_type: TGU, tagged_users: taggedUsers })
             }} />

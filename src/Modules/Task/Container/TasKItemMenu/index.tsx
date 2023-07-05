@@ -16,7 +16,7 @@ import {
     refreshTaskEvents
 } from "@Redux";
 import { Employees } from '@Modules'
-import { useDropDown, useInput, useModal, useNavigation } from "@Hooks";
+import { useDropDown, useInput, useLoader, useModal, useNavigation } from "@Hooks";
 import { icons } from "@Assets";
 import { TGU, RGU, getArrayFromArrayOfObject, EVS, TASK_STATUS_LIST, getObjectFromArrayByKey } from '@Utils';
 import { translate } from '@I18n'
@@ -40,7 +40,7 @@ function TaskItemMenu() {
             id: 2, name: translate('auth.Change Task Status'), icon: icons.taskStatus,
         }
     ]
-
+    const loginLoader = useLoader(false);
    
     const dispatch = useDispatch()
     const { selectedTaskId} = useSelector((state: any) => state.TaskReducer);
@@ -63,19 +63,22 @@ function TaskItemMenu() {
             code:id
         };
 
-
+        loginLoader.show()
         dispatch(addTaskEvent({
             params,
             onSuccess: (response) => () => {
                 try {
                     tagUserModal.hide()
                     reassignUserModal.hide()
+                    loginLoader.hide()
                     taskCloseModal.hide()
                     dispatch(refreshTaskEvents())
                 } catch (e) {
+                    loginLoader.hide()
                 }
             },
             onError: (error) => () => {
+                loginLoader.hide()
                 console.log(JSON.stringify(error));
             }
         }))
@@ -120,6 +123,7 @@ console.log(status.value,"lllll")
                 <div className="pt-3 mr-2 text-right">
                     <Button
                         size={'sm'}
+                        loading={loginLoader.loader}
                         text={translate("common.submit")}
                         onClick={() => {
                             proceedAddTaskEvents({ event_type: TGU, tagged_users: taggedUsers })
@@ -138,6 +142,7 @@ console.log(status.value,"lllll")
                 <div className="text-right">
                     <Button
                         size={'sm'}
+                        loading={loginLoader.loader}
                         text={translate("common.submit")}
                         onClick={() => {
                             proceedAddTaskEvents({ event_type: RGU, assigned_to: reassignUser?.id })
@@ -182,6 +187,7 @@ console.log(status.value,"lllll")
                 <div className="pt-3 text-right">
                     <Button
                         size={'sm'}
+                        loading={loginLoader.loader}
                         text={translate("common.submit")}
                         onClick={() => {
                             proceedTaskStatusChangeHandler()

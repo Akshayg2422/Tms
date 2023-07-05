@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, setSelectedCompany, setSelectedTabPosition } from "@Redux";
 import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton, Spinner } from "@Components";
-import { useNavigation, useModal, useDynamicHeight, useDropDown } from "@Hooks";
+import { useNavigation, useModal, useDynamicHeight, useDropDown, useLoader } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler } from "@Utils";
@@ -23,6 +23,7 @@ function Companies() {
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany, dashboardDetails } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+  const  loginLoader=useLoader(false)
 
 
   useEffect(() => {
@@ -77,13 +78,14 @@ function Companies() {
       id:dashboardDetails.company_branch.id ,
       company_id: associatedCompanyDropDown.value.id,
     }
-
+    loginLoader.show()
     dispatch(
       addAssociatedCompany({
         params,
         onSuccess: (response: any) => () => {
           associatedCompanyModal.hide();
           associatedCompanyDropDown.set({})
+          loginLoader.hide()
           showToast(response.message)
           // dispatch(getAssociatedBranch(params))
           getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
@@ -91,6 +93,7 @@ function Companies() {
         },
         onError: (error) => () => {
           showToast(error.error_message)
+          loginLoader.hide()
         },
       })
     )
@@ -198,6 +201,7 @@ function Companies() {
               <Button
                 className={'text-white'}
                 size={'sm'}
+                loading={loginLoader.loader}
                 text={translate("common.submit")}
                 onClick={() => {
                   addAssociatedCompanyApi()

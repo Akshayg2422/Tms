@@ -37,7 +37,7 @@ import {
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput, useNavigation, useDropDown, useKeyPress } from "@Hooks";
+import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
 import moment from "moment";
 
 function AddTicket() {
@@ -71,6 +71,7 @@ function AddTicket() {
     const [date, setDate] = useState<any>(moment().format())
 
     const isEnterPressed = useKeyPress("Enter");
+    const loginLoader = useLoader(false);
     
     useEffect(() => {
         if (isEnterPressed) {
@@ -143,6 +144,7 @@ function AddTicket() {
 
         const validation = validate(ticketType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
+            loginLoader.show()
 
             dispatch(
                 raiseNewTicket({
@@ -150,6 +152,7 @@ function AddTicket() {
                     onSuccess: (response: any) => () => {
                         if (response.success) {
                             goBack();
+                            loginLoader.hide()
                             showToast(response.message, "success");
                         }
                         setLoading(false)
@@ -159,6 +162,7 @@ function AddTicket() {
                     onError: (error) => () => {
                         showToast(error.error_message);
                         setLoading(false)
+                        loginLoader.hide()
                     },
                 })
             );
@@ -404,7 +408,7 @@ function AddTicket() {
 
                 <LoadingButton size={'md'}
                     text={translate('common.submit')}
-                    loading={loading}
+                    loading={loginLoader.loader}
                     onClick={submitTicketHandler} />
 
             </div>

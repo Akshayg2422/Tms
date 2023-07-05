@@ -1727,6 +1727,18 @@ html.rtl {
     text-align: justify;
   }
 }
+.image-primary {
+  filter: invert(75%) sepia(85%) saturate(114%) hue-rotate(292deg) brightness(91%) contrast(118%);
+}
+
+.image-secondary {
+  filter: invert(93%) sepia(3%) saturate(1153%) hue-rotate(325deg) brightness(103%) contrast(93%);
+}
+
+.image-default {
+  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(349deg) brightness(103%) contrast(102%);
+}
+
 :root {
   --blue: #5e72e4;
   --indigo: #5603ad;

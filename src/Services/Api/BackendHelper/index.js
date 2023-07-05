@@ -163,3 +163,5 @@ export const addAttachmentsMessageApi = (payload) => post(URL.ADD_ATTACHMENTS_ME
 
 export const getAttachmentsMessageApi = (payload) => post(URL.GET_ATTACHMENTS_MESSAGE, payload, {})
 
+export const  getReSendOtpApi=(payload)=>post(URL.RESEND_OTP,payload,{})
+

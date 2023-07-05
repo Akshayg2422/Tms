@@ -23,7 +23,7 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { registerCompany, registerAdmin } from "@Redux";
-import { useInput, useDropDown, useNavigation } from "@Hooks";
+import { useInput, useDropDown, useNavigation, useLoader } from "@Hooks";
 
 function CreateCompany({ }: CreateCompanyProps) {
   const { isSync } = useSelector((state: any) => state.AppReducer);
@@ -40,7 +40,7 @@ function CreateCompany({ }: CreateCompanyProps) {
   const city = useInput("");
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
-
+const  loginLoader=useLoader(false)
 
 
 
@@ -69,14 +69,17 @@ function CreateCompany({ }: CreateCompanyProps) {
     });
     console.log("validation", validation)
     if (ifObjectExist(validation)) {
+      loginLoader.show()
       dispatch(
         registerAdmin({
           params,
           onSuccess: (response: any) => () => {
             onRegisterCompany();
+            loginLoader.hide()
           },
           onError: (error) => {
             showToast(error.error_message, "info");
+            loginLoader.hide()
           },
         })
       );
@@ -95,17 +98,21 @@ function CreateCompany({ }: CreateCompanyProps) {
       mobile_number2: companyContactNumber.value,
       attachment_logo: photo,
     };
+    loginLoader.show()
+    loginLoader.hide()
 
     dispatch(
       registerCompany({
         params,
         onSuccess: (response: any) => () => {
           if (response.success) {
+            loginLoader.hide()
             showToast(response.message, "success");
             goBack();
           }
         },
         onError: (error: any) => () => {
+          loginLoader.hide()
           showToast(error.message, "error");
         },
       })
@@ -240,6 +247,7 @@ function CreateCompany({ }: CreateCompanyProps) {
 
       <div className="col">
         <Button
+        loading={loginLoader.loader}
           text={translate("common.submit")}
           onClick={() => {
             submitRegisteredAdminHandler();

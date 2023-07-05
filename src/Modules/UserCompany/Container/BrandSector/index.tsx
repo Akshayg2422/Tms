@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ADD_SECTOR, ifObjectExist, validate, getValidateError, INITIAL_PAGE } from "@Utils";
-import { useDynamicHeight, useModal, useInput } from "@Hooks";
+import { useDynamicHeight, useModal, useInput, useLoader } from "@Hooks";
 import {
   Button,
   Card,
@@ -35,6 +35,7 @@ function BrandSector() {
   const addSectorModal = useModal(false);
   const sector = useInput('')
   const [loading, setLoading] = useState(false)
+  const loginLoader=useLoader(false)
 
   const getBrandSectorList = (page_number: number) => {
     setLoading(true)
@@ -65,16 +66,19 @@ function BrandSector() {
     const validation = validate(ADD_SECTOR, params)
 
     if (ifObjectExist(validation)) {
+      loginLoader.show()
       dispatch(
         addBrandSector({
           params,
           onSuccess: (success: any) => () => {
             addSectorModal.hide()
+            loginLoader.hide()
             sector.set('')
             showToast(success.message, "success");
             getBrandSectorList(INITIAL_PAGE)
           },
           onError: (error: string) => () => {
+            loginLoader.hide()
             showToast('Sector is already exists');
           },
         })
@@ -190,6 +194,7 @@ function BrandSector() {
             }}
           />
           <Button
+          loading={loginLoader.loader}
             text={translate("common.submit")}
             onClick={addBrandSectorApiHandler}
           />

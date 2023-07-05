@@ -2,7 +2,7 @@ import { addDesignation, getDesignations } from '@Redux';
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE } from "@Utils";
-import { useDynamicHeight, useModal, useInput } from "@Hooks";
+import { useDynamicHeight, useModal, useInput, useLoader } from "@Hooks";
 import {
   Button,
   Card,
@@ -39,6 +39,7 @@ function Designation() {
   const designationName = useInput('')
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const loginLoader=useLoader(false)
 
   const getDesignationApiHandler = (page_number: number) => {
  
@@ -46,15 +47,17 @@ function Designation() {
     const params = {
       page_number
     };
-
+    loginLoader.show()
     dispatch(
       getDesignations({
         params,
         onSuccess: (response: any) => () => {
           setLoading(false)
+          loginLoader.hide()
         },
         onError: (error: string) => () => {
           setLoading(false)
+          loginLoader.hide()
         },
       })
     );
@@ -65,15 +68,18 @@ function Designation() {
     const validation = validate(ADD_DESIGNATION, params)
 
     if (ifObjectExist(validation)) {
+      loginLoader.show()
       dispatch(
         addDesignation({
           params,
           onSuccess: (success: any) => () => {
             addDesignationModal.hide()
+            loginLoader.hide()
           getDesignationApiHandler(designationCurrentPages)
             resetValues()
           },
           onError: (error: string) => () => {
+            loginLoader.hide()
             showToast('Designation is already exists');
           },
         })
@@ -251,6 +257,7 @@ function Designation() {
           />
           <Button
             text={translate("common.submit")}
+            loading={loginLoader.loader}
             onClick={() => {
 
               const params = {

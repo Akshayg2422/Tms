@@ -20,7 +20,7 @@ import {
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
 import { paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, stringSlice, stringToUpperCase, INITIAL_PAGE } from "@Utils";
-import { useModal, useDynamicHeight, useInput } from "@Hooks";
+import { useModal, useDynamicHeight, useInput, useLoader } from "@Hooks";
 
 
 
@@ -36,6 +36,7 @@ function Tag() {
   const [loading, setLoading] = useState(false)
   // const [description, setDescription] = useState("");
   const description = useInput("");
+  const loginLoader=useLoader(false)
 
   const getTicketTagList = (page_number: number) => {
     setLoading(true)
@@ -67,11 +68,13 @@ function Tag() {
 
     const validation = validate(ADD_TASK_GROUP, params)
     if (ifObjectExist(validation)) {
+      loginLoader.show()
       dispatch(
         addTicketTag({
           params,
           onSuccess: (success: any) => () => {
             addTagsModal.hide()
+            loginLoader.hide()
             showToast(success.message, "success");
             getTicketTagList(INITIAL_PAGE);
             description.set('')
@@ -79,6 +82,7 @@ function Tag() {
           },
           onError: (error: string) => () => {
             showToast('Tags is already exists');
+            loginLoader.hide()
             
           },
         })
@@ -86,6 +90,7 @@ function Tag() {
     }
     else {
       showToast(getValidateError(validation));
+      loginLoader.hide()
     }
   };
 
@@ -272,6 +277,7 @@ function Tag() {
           />
           <Button
             text={translate("common.submit")}
+            loading={loginLoader.loader}
             onClick={addTicketTagApiHandler}
           />
         </div>

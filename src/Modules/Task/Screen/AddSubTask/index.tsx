@@ -36,7 +36,7 @@ import {
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput, useNavigation, useDropDown, useKeyPress } from "@Hooks";
+import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
 import moment from "moment";
 
 function AddSubTask() {
@@ -52,6 +52,7 @@ function AddSubTask() {
     const { selectedTask } = useSelector(
         (state: any) => state.TaskReducer
     );
+    const loginLoader = useLoader(false);
 
     const title = useInput("");
     const description = useInput("");
@@ -138,16 +139,20 @@ function AddSubTask() {
         const validation = validate(taskType?.id === "1" ? CREATE_SUB_TASK_EXTERNAL : CREATE_SUB_TASK_INTERNAL, params);
 
         if (ifObjectExist(validation)) {
+            loginLoader.show()
             dispatch(
                 addTask({
                     params,
                     onSuccess: (response: any) => () => {
                         if (response.success) {
                             goBack();
+                            loginLoader.hide()
                             showToast(response.message, "success");
                         }
                     },
-                    onError: (error) => () => {
+                    onError: (error) => () => {         
+                        loginLoader.hide()
+
                         showToast(error.error_message);
                     },
                 })
@@ -326,6 +331,7 @@ function AddSubTask() {
 
             <div className="col mt-4">
                 <Button
+                   loading={loginLoader.loader}
                     text={translate("common.submit")}
                     onClick={submitTaskHandler}
                 />

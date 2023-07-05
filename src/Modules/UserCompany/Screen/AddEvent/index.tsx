@@ -26,7 +26,7 @@ import {
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useInput, useKeyPress, useNavigation } from "@Hooks";
+import { useInput, useKeyPress, useLoader, useNavigation } from "@Hooks";
 import { useParams } from "react-router-dom";
 
 
@@ -48,8 +48,8 @@ function AddEvent() {
     const [internalCheck, setInternalCheck] = useState(true)
     const [externalCheck, setExternalCheck] = useState(false)
     const [isExternalDisable, setExternalDisable] = useState(false)
-    const [selectedNoOfPickers,setSelectedNoOfPickers]=useState<any>()
-
+   
+const loginLoader= useLoader(false)
 
 
     const handleStartTimeEtaChange = (value: any) => {
@@ -97,12 +97,14 @@ function AddEvent() {
 
         const validation = validate(externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);
         if (ifObjectExist(validation)) {
+            loginLoader.show()
             dispatch(
                 addEvent({
                     params,
                     onSuccess: (response: any) => () => {
                         if (response.success) {
                             console.log('came');
+                            loginLoader.hide()
 
                             showToast(response.message, 'success')
                             goBack()
@@ -110,6 +112,7 @@ function AddEvent() {
                     },
                     onError: (error) => () => {
                         showToast(error.error_message)
+                        loginLoader.hide()
                     },
                 })
             );
@@ -244,29 +247,6 @@ function AddEvent() {
                 </div>
 
 
-                {/* <div className="col">
-                    <label className={`form-control-label`}>
-                        {translate("common.attach")}
-                    </label>
-                </div> */}
-
-                {/* <div className="col-md-9 col-lg-7 pb-4 row ">
-                    {selectDropzone &&
-                        selectDropzone.map((el: any, index: number) => {
-                            return (
-                                <Dropzone
-                                    variant="ICON"
-                                    icon={image}
-                                    size="xl"
-                                    onSelect={(image) => {
-                                        let file = image.toString().replace(/^data:(.*,)?/, "");
-                                        handleImagePicker(index, file);
-                                        setSelectDropzone([{ id: "1" }, { id: "2" }]);
-                                    }}
-                                />
-                            );
-                        })}
-                </div> */}
 
                 <div className="col-auto pb-2">
                 <div className="row">
@@ -312,6 +292,7 @@ function AddEvent() {
                             block
                             text={translate("common.submit")}
                             onClick={submitAddEventHandler}
+                            loading={loginLoader.loader}
                         />
                     </div>
                 </div>

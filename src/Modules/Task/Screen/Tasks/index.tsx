@@ -9,6 +9,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 
+
+
+
 function Tasks() {
   const dispatch = useDispatch()
   const { tasks, taskNumOfPages, taskCurrentPages, taskParams } = useSelector((state: any) => state.TaskReducer);
@@ -118,6 +121,8 @@ function Tasks() {
           }}
         />
       </div>
+   
+
       <div className="row mt-3 mb-2">
         <div className="mx-3 col">
           <TaskGroups onClick={(code) => {

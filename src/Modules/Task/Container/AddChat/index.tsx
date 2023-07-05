@@ -3,7 +3,7 @@ import { Button, Modal, Input, Dropzone, ImagePicker, showToast } from '@Compone
 import { icons } from '@Assets'
 import { addTaskEvent, refreshTaskEvents, } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
-import { useModal, useInput } from '@Hooks'
+import { useModal, useInput, useLoader } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, TASK_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
 import { useParams } from 'react-router-dom'
@@ -20,6 +20,7 @@ function AddChat() {
     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
+    const loginLoader = useLoader(false);
 
     const proceedTaskEventsApiHandler = () => {
 
@@ -31,14 +32,20 @@ function AddChat() {
                 event_type: TEM
             }
 
+            
+            loginLoader.show()
+
             dispatch(
                 addTaskEvent({
                     params,
                     onSuccess: (response) => () => {
+                        loginLoader.hide()
                         message.set('')
                         dispatch(refreshTaskEvents())
                     },
-                    onError: () => () => { },
+                    onError: () => () => {
+                        loginLoader.hide()
+                     },
                 })
             );
         } else {
@@ -59,17 +66,23 @@ function AddChat() {
             name: attachmentName.value,
             attachments: [{ attachment: photo }]
         };
+        
         if (ifObjectExist(validation)) {
+            
+            loginLoader.show()
             dispatch(
                 addTaskEvent({
                     params,
                     onSuccess: () => () => {
                         resetValues();
                         attachmentModal.hide()
+                        
+            loginLoader.hide()
                         dispatch(refreshTaskEvents()
                         )
                     },
-                    onError: (error) => () => { },
+                    onError: (error) => () => { 
+                        loginLoader.hide()},
                 }),
             );
         } else {
@@ -142,7 +155,10 @@ function AddChat() {
                 </div>
 
                 <div className='col-6 pt-3'>
-                    <Button text={translate("common.submit")}
+                    <Button
+                    
+          loading={loginLoader.loader}
+                text={translate("common.submit")}
                         onClick={addTaskEventAttachment} />
                 </div>
 

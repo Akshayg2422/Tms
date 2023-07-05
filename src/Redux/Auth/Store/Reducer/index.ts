@@ -36,6 +36,9 @@ import {
   PUSH_NOTIFICATION,
   PUSH_NOTIFICATION_SUCCESS,
   PUSH_NOTIFICATION_FAILURE,
+  GET_RESEND_OTP,
+  GET_RESEND_OTP_SUCCESS,
+  GET_RESEND_OTP_FAILURE,
 } from '../ActionTypes';
 import { AuthSliceStateProp } from '../../Interfaces';
 import { DEFAULT_LANGUAGE } from '@Utils';
@@ -60,6 +63,7 @@ const initialState: AuthSliceStateProp = {
   businessServiceTypesDropdownData: undefined,
   alternativeNumber: undefined,
   notification: undefined,
+  reSendOtp:undefined,
 };
 
 const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
@@ -108,6 +112,19 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
     /**
      * otp login
      */
+
+    //resend
+    case GET_RESEND_OTP:
+      state = { ...state };
+      break;
+    case GET_RESEND_OTP_SUCCESS:
+      state = { ...state, reSendOtp:action.payload };
+      break;
+    case GET_RESEND_OTP_FAILURE:
+      state = { ...state, reSendOtp: action.payload };
+      break;
+
+      //
 
     case OTP_LOGIN:
       state = { ...state };

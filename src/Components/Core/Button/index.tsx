@@ -25,7 +25,7 @@ function Button({
       </RSButton>}
 
       {(variant === 'icon' || variant === 'icon-with-text') &&
-        <RSButton type={'button'} size={size} className={'btn-icon'} color={color} {...rest} >
+        <RSButton type={'button'} size={size} className={'btn-icon'} color={color} {...rest} onClick={onClick}>
           {
 
             loading && <Spinner />
@@ -46,7 +46,7 @@ function Button({
       }
 
       {variant === 'icon-rounded' &&
-        <RSButton type={'button'} size={size} className={'btn-icon-only rounded-circle d-flex align-items-center justify-content-center'} color={color}  {...rest} >
+        <RSButton type={'button'} size={size} className={'btn-icon-only rounded-circle d-flex align-items-center justify-content-center'} color={color} onClick={onClick}  {...rest} >
           <Image src={icon} height={height} width={width} />
         </RSButton>
       }
