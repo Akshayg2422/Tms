@@ -27,6 +27,7 @@ function ImageColor() {
 
   return (
     <div>
+      
         <Image style={getStyleDefault()} src={icons.addFill} />
         
     </div>
