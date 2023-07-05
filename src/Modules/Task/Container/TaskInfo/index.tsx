@@ -184,7 +184,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 <div className="ml-2">
                                     <div>{title && <H tag={"h4"} className="mb-0" text={title} />}</div>
                                     {code && <small>{`#${code}`}</small>}
-                                    {description && <div className="text-sm mb--2 text-black  ml--4">{capitalizeFirstLetter(description)}</div>}
+                                    {description && <div className="text-sm mb--2 text-black ">{capitalizeFirstLetter(description)}</div>}
                                 </div>
                             </div>
                         </div>
@@ -198,25 +198,25 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         }
                     </div>
 
-                    <div className="row mt-3 pointer">
+                    <div className="container mt-3">
                         {
-                            task_attachments &&
-                            task_attachments?.length > 0 && task_attachments?.map
-                                ((item, index) => {
-                                    return <div
-                                        className={`${index !== 0 && 'ml-2'}`}
-                                        onClick={(e) => e.preventDefault()}>
-                                        <PhotoProvider>
+                            <PhotoProvider>
+                                <div className={'pointer'}>
+                                    {
+                                        task_attachments && task_attachments.length > 0 && task_attachments?.map((item, index) => (
+
                                             <PhotoView src={getPhoto(item?.attachment_file)}>
                                                 <Image
+                                                    className={'ml-1 border'}
                                                     variant={'avatar'}
                                                     size={'md'}
                                                     src={getPhoto(item?.attachment_file)}
                                                 />
                                             </PhotoView>
-                                        </PhotoProvider>
-                                    </div>
-                                })
+                                        ))
+                                    }
+                                </div>
+                            </PhotoProvider>
                         }
                     </div>
 

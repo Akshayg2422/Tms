@@ -38,8 +38,7 @@ function AdminFeeds() {
   const deleteFeedModal = useModal(false)
 
   const editFeedModal = useModal(false)
-  const  loginLoader=useLoader(false)
-
+  const loginLoader = useLoader(false)
 
   let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
     const { id, attachment_file } = el
@@ -48,9 +47,6 @@ function AdminFeeds() {
     }
 
   })
-
-  // console.log(photo, "pppppppppp")
-  // console.log(AttachmentEdit, "aaaaaaaaaaaa")
 
   const MY_FEED_MENU = [
     {
@@ -116,11 +112,7 @@ function AdminFeeds() {
     } else {
       setExternalDisable(true)
     }
-
   }
-
-
-
 
   function proceedDeleteHandler() {
     const params = {
@@ -157,8 +149,8 @@ function AdminFeeds() {
       ...(selectedCompanies.length > 0 && {
         applicable_branches: getArrayFromArrayOfObject(selectedCompanies, "key"),
       }),
-      for_internal_company:internalCheck,
-      for_external_company:externalCheck,
+      for_internal_company: internalCheck,
+      for_external_company: externalCheck,
       broadcast_attachments: [{ attachments: photo }],
     };
 
@@ -248,7 +240,6 @@ function AdminFeeds() {
                               feedDescription.set(description)
                               setInternalCheck(for_internal_company)
                               setExternalCheck(for_external_company)
-                          
                               setSelectDropzone(attachments)
                               console.log(attachments, "aattacchhmmm")
 
@@ -291,15 +282,12 @@ function AdminFeeds() {
             value={feedTitle.value}
             onChange={feedTitle.onChange}
           />
-        
-            <TextAreaInput
-               heading={translate('auth.description')!}
-               value={feedDescription.value}
+          <TextAreaInput
+            heading={translate('auth.description')!}
+            value={feedDescription.value}
             onChange={feedDescription.onChange}
-                className="form-control form-control-sm"
-                
-                />
-
+            className="form-control form-control-sm"
+          />
           <div className="row col ">
             <div className="pr-3">
               <Checkbox
@@ -335,8 +323,6 @@ function AdminFeeds() {
 
         </div>
 
-
-        
         <div className="col-auto pb-2  mt--4">
           <div className="row">
             <ImagePicker
@@ -345,15 +331,7 @@ function AdminFeeds() {
               noOfFileImagePickers={3}
               size='xl'
               heading={translate("auth.attach")!}
-              onSelect={(image) => {
-                // let file = image.toString().replace(/^data:(.*,)?/, "")
-                // handleImagePicker(file)
-
-              }}
-              // onSelectImagePicker={(el) => {
-              //   setSelectedNoOfPickers(el?.length)
-
-              // }}
+              onSelect={(image) => { }}
               onSelectImagePickers={(el) => {
                 let array: any = []
 
@@ -363,24 +341,12 @@ function AdminFeeds() {
                   if (editPickers !== undefined) {
                     array.push(editPickers)
                   }
-
                 }
                 setPhoto(array)
-
               }}
-
-
-
             />
-
           </div>
-
-
         </div>
-
-
-
-
 
         <div className="row justify-content-end">
           <div className="col-md-6 col-lg-4 ">
@@ -393,15 +359,14 @@ function AdminFeeds() {
           </div>
         </div>
 
-
       </Modal>
       <Modal isOpen={deleteFeedModal.visible} size="md" onClose={deleteFeedModal.hide}>
         <div>
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
-            <Button text={translate('common.delete')} 
-            loading={loginLoader.loader}
-            onClick={proceedDeleteHandler} />
+            <Button text={translate('common.delete')}
+              loading={loginLoader.loader}
+              onClick={proceedDeleteHandler} />
           </div>
         </div>
       </Modal>

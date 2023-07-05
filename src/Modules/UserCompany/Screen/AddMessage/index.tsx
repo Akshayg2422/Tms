@@ -22,9 +22,9 @@ function AddMessage({ AddGroup }: AddMessageProps) {
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
     const { goTo } = useNavigation()
-   
+    const [isSendingMessage, setIsSendingMessage] = useState(false);
+    const SEND_DELAY = 1000;
     const loginLoader=useLoader(false)
-
     const addGroupMessageApiHandler = () => {
 
         if (message.value.trim()) {
@@ -110,13 +110,17 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         setSelectDropzone([{}]);
         setPhoto([])
     };
-    
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
 
-            if (message.value.trim().length > 0) {
+            if (!isSendingMessage && message.value.trim().length > 0) {
+                setIsSendingMessage(true);
                 addGroupMessageApiHandler();
+
+                setTimeout(() => {
+                    setIsSendingMessage(false);
+                }, SEND_DELAY);
             }
         }
     };

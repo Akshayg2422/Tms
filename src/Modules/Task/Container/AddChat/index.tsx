@@ -22,6 +22,9 @@ function AddChat() {
     const [photo, setPhoto] = useState<any>([])
     const loginLoader = useLoader(false);
 
+    const [isSendingMessage, setIsSendingMessage] = useState(false);
+    const SEND_DELAY = 1000;
+
     const proceedTaskEventsApiHandler = () => {
 
         if (message.value.trim()) {
@@ -105,8 +108,13 @@ function AddChat() {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
 
-            if (message.value.trim().length > 0) {
+            if (!isSendingMessage && message.value.trim().length > 0) {
+                setIsSendingMessage(true);
                 proceedTaskEventsApiHandler();
+
+                setTimeout(() => {
+                    setIsSendingMessage(false);
+                }, SEND_DELAY);
             }
         }
     };
@@ -136,20 +144,20 @@ function AddChat() {
                                 // handleImagePicker(file)
                             }}
 
-                            onSelectImagePickers={(el)=>{
+                            onSelectImagePickers={(el) => {
                                 let array: any = []
-          
+
                                 for (let i = 0; i <= el.length; i++) {
-                                  let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                                  if(eventPickers !==undefined){
-                                  array.push(eventPickers)
-                                  }
-                                  
+                                    let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                    if (eventPickers !== undefined) {
+                                        array.push(eventPickers)
+                                    }
+
                                 }
                                 setPhoto(array)
-        
-                  
-                              }}
+
+
+                            }}
                         />
                     </div>
                 </div>
