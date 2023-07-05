@@ -239,8 +239,6 @@ const loginLoader=useLoader(false)
     goTo(ROUTES['user-company-module']['event-chatting'])
   }
 
-  //  const place,start_time,end_time
-
 
   return (
 
@@ -334,9 +332,7 @@ const loginLoader=useLoader(false)
                         {item.mark_as_completed === true && <div className="h4 text-primary">
                           Closed
                         </div>}
-
                       </div>
-
                       <div onClick={() => {
                         if (item.mark_as_completed !== true) {
                           proceedEventsChatting(item.id)
@@ -344,6 +340,9 @@ const loginLoader=useLoader(false)
                       }
                       }>
                         <EventItem key={item.id} item={item} />
+                      </div>
+                      <div>
+                        <CarouselImages item={item}/>
                       </div>
                     </Card>
                   </div>

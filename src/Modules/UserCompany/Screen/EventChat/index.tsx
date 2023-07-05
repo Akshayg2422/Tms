@@ -31,9 +31,10 @@ function GetEventChat({ }: EventChatProps) {
         getAttachmentsMessageApi(INITIAL_PAGE)
     }, [eventsMessage, id, refreshEventMessage])
 
-    function getTaskEventsDisplayData(data: any) {
+    function getEventsChatDisplayData(data: any) {
         if (data && data.length > 0) {
             return data.map(each => {
+                console.log(each,"tttttttttt")
                 return {
                     ...getIconsFromStatus(each)
                 }
@@ -57,9 +58,9 @@ function GetEventChat({ }: EventChatProps) {
                     let updatedData = []
                     if (getEventsResponse.data && getEventsResponse.data.length > 0) {
                         if (page_number === 1) {
-                            updatedData = getTaskEventsDisplayData(getEventsResponse.data)
+                            updatedData = getEventsChatDisplayData(getEventsResponse.data)
                         } else {
-                            updatedData = getTaskEventsDisplayData([...getEvents, ...getEventsResponse.data] as any)
+                            updatedData = getEventsChatDisplayData([...getEvents, ...getEventsResponse.data] as any)
                         }
                     }
                     setGetEvents(updatedData)
@@ -72,39 +73,39 @@ function GetEventChat({ }: EventChatProps) {
 
     function getIconsFromStatus(each: any) {
 
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, events_status, end_time, start_time } = each
+        const { event_type, event_by, message, eta_time, tagged_users, assigned_to, attachments, events_status, end_time, start_time } = each
         let modifiedData = {}
         switch (event_type) {
             case 'TEM':
-                modifiedData = { ...each, icon: icons.message, subTitle: by_user?.name, title: message, }
+                modifiedData = { ...each, icon: icons.message, subTitle: event_by?.name, title: message, }
                 break;
             case 'ETA':
-                modifiedData = { ...each, icon: icons.clock, subTitle: by_user?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
+                modifiedData = { ...each, icon: icons.clock, subTitle: event_by?.name, title: "ETA Updated on " + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time)), }
                 break;
             case 'TGU':
                 let names = tagged_users.map(function (item) {
                     return '@' + item['name'] + " ";
                 });
-                modifiedData = { ...each, icon: icons.taggedUserWhiteIcon, subTitle: by_user?.name, title: "tagged " + names }
+                modifiedData = { ...each, icon: icons.taggedUserWhiteIcon, subTitle: event_by?.name, title: "tagged " + names }
                 break;
 
             case 'RGU':
-                modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: by_user?.name, title: "Task Reassigned to " + assigned_to.name }
+                modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: event_by?.name, title: "Task Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
-                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: by_user?.name, title: attachments.name }
+                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: event_by?.name, title: attachments.name }
                 break;
             case 'RTS':
-                modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: by_user?.name, title: 'User Attached Reference Task' }
+                modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: event_by?.name, title: 'User Attached Reference Task' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(EVENT_STATUS_LIST, 'id', events_status).text }
+                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: event_by?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(EVENT_STATUS_LIST, 'id', events_status).text }
                 break;
             case 'ETE':
-                modifiedData = { ...each, icon: icons.endTime, subTitle: by_user?.name, title: 'Event End time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(end_time)) }
+                modifiedData = { ...each, icon: icons.endTime, subTitle: event_by?.name, title: 'Event End time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(end_time)) }
                 break;
             case 'ETS':
-                modifiedData = { ...each, icon: icons.startTime, subTitle: by_user?.name, title: 'Event Start time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(start_time)) }
+                modifiedData = { ...each, icon: icons.startTime, subTitle: event_by?.name, title: 'Event Start time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(start_time)) }
                 break;
 
         }

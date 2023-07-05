@@ -89,7 +89,7 @@ function EventItem({ item }: EventItemProps) {
                     </div>
 
 
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="col-lg-12 col-sm-0 col-12 mt-3 mb--6">
                             <Carousel
                                 dynamicHeight
@@ -119,7 +119,7 @@ function EventItem({ item }: EventItemProps) {
                     <div className="row ml-2 text-xs">
                         <span> {getDisplayTimeDateMonthYearTime(getMomentObjFromServer(start_time))}  {" "} {'-'} {" "} </span>
                         <span>  {" "} {' '} {" "} {getDisplayTimeDateMonthYearTime(getMomentObjFromServer(end_time))} </span>
-                    </div>
+                    </div> */}
 
                 </div>
             </div>
