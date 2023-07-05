@@ -35,7 +35,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const userModal = useModal(false)
 
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
-    const [corouselIndex, setCorouselIndex] = useState<any>()
 
 
 
@@ -262,7 +261,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                     subtitleOnclick={() => { userModal.show() }}
                                 >
                                     <div className='pt-2 row' onClick={() => {
-                                        imageModal.show()
+                                        // imageModal.show()
                                         setImage(imageUrls)
                                     }} >
                                         {

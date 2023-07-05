@@ -21,7 +21,6 @@ function IndividualChat() {
     const { user_details } = dashboardDetails || ''
 
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
-    const imageModal = useModal(false)
 
     const dynamicHeight: any = useDynamicHeight()
 
@@ -40,7 +39,6 @@ function IndividualChat() {
     const [photo, setPhoto] = useState<any>([])
 
     const userModal = useModal(false)
-    const ImageModal = useModal(false)
     const { raised_by_company } = taskDetails || {};
     const [showAutoComplete, setAutoComplete] = useState<any>(false)
 
@@ -48,6 +46,8 @@ function IndividualChat() {
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
     const [corouselIndex, setCorouselIndex] = useState<any>()
+    const [isSendingMessage, setIsSendingMessage] = useState(false);
+    const SEND_DELAY = 1000;
 
     console.log(selectedUserDetails?.id, "selectedUserDetails?.id===>")
 
@@ -272,8 +272,13 @@ function IndividualChat() {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
 
-            if (chatText.trim().length > 0) {
+            if (!isSendingMessage && chatText.trim().length > 0) {
+                setIsSendingMessage(true);
                 addChatMessage();
+
+                setTimeout(() => {
+                    setIsSendingMessage(false);
+                }, SEND_DELAY);
             }
         }
     };
@@ -535,7 +540,7 @@ function IndividualChat() {
                                                                                             const showNote = index === 0;
 
                                                                                             return (
-                                                                                                <div onClick={() => { setCorouselIndex(index) }} key={index}>
+                                                                                                <div>
                                                                                                     {showNote && (
                                                                                                         <p className={`text-muted text-sm font-weight-bold`}>
                                                                                                             <div
@@ -544,36 +549,6 @@ function IndividualChat() {
                                                                                                         </p>
                                                                                                     )}
 
-                                                                                                    {/** Image carousel */}
-                                                                                                    <div
-                                                                                                        className={'mt-2 mb-4'}
-
-                                                                                                    >
-
-                                                                                                        <div className='pt-2 row' onClick={() => {
-                                                                                                            setImage(imageUrls)
-                                                                                                        }} >
-                                                                                                            {
-                                                                                                                <div className={'container'}>
-                                                                                                                    <PhotoProvider>
-                                                                                                                        <div className="row pointer pl-5">
-                                                                                                                            {imageUrls?.map((item: any, index: any) => (
-                                                                                                                                <div key={index}>
-                                                                                                                                    <PhotoView src={item}>
-                                                                                                                                        <img style={{
-                                                                                                                                            border: '5px solid',
-                                                                                                                                            borderColor: '#FCC9E0',
-                                                                                                                                            borderRadius: '10px 0px 10px 10px'
-                                                                                                                                        }} className={'p-1'} src={item} alt={'Task Attachments'} width={130} height={130} />
-                                                                                                                                    </PhotoView>
-                                                                                                                                </div>
-                                                                                                                            ))}
-                                                                                                                        </div>
-                                                                                                                    </PhotoProvider>
-                                                                                                                </div>
-                                                                                                            }
-                                                                                                        </div>
-                                                                                                    </div>
                                                                                                 </div>
                                                                                             );
                                                                                         })}
@@ -582,6 +557,38 @@ function IndividualChat() {
                                                                             )
 
                                                                         }
+                                                                        
+                                                                                                    {/** Image carousel */}
+                                                                                                    <div className={'mt-2 mb-4 pt-2 row'}>
+
+                                                                                                        {
+                                                                                                            <div className={'container'}>
+                                                                                                                <PhotoProvider>
+                                                                                                                    <div className="row pointer pl-5">
+                                                                                                                        {imageUrls?.map((item: any, index: any) => {
+
+                                                                                                                            return (
+                                                                                                                                <div key={index}>
+                                                                                                                                    <PhotoView src={item}>
+                                                                                                                                        <img style={{
+                                                                                                                                            borderRadius: '10px'
+                                                                                                                                        }} className={'p-1'} src={item} alt={'Task Attachments'} width={130} height={130} />
+                                                                                                                                    </PhotoView>
+                                                                                                                                </div>
+                                                                                                                            )
+                                                                                                                        })}
+                                                                                                                    </div>
+                                                                                                                </PhotoProvider>
+                                                                                                            </div>
+                                                                                                        }
+                                                                                                        {/* style={{
+                                                                                                                border: '5px solid',
+                                                                                                                borderColor: '#FCC9E0',
+                                                                                                                borderRadius: '10px 0px 10px 10px'
+                                                                                                            }} */}
+
+                                                                                                    </div>
+
                                                                     </div>}
                                                                 </div>}
                                                         </div >
@@ -779,8 +786,7 @@ function IndividualChat() {
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-                                let file = image.toString().replace(/^data:(.*,)?/, "")
-                            }}
+}}
 
                             onSelectImagePickers={(el) => {
                                 let array: any = []

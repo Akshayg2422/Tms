@@ -67,10 +67,7 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
                             applicable_branches?.map((applicable_branches: any, index: number) => {
                                 return (
 
-                                    <span className=" text-xs font-weight-600"
-
-
-                                    >
+                                    <span className=" text-xs font-weight-600">
                                         {applicable_branches.register_name} {' '} {','} {''}
                                     </span>
 

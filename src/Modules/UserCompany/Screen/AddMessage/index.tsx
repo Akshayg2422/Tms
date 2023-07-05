@@ -22,7 +22,8 @@ function AddMessage({ AddGroup }: AddMessageProps) {
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
     const { goTo } = useNavigation()
-    const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
+    const [isSendingMessage, setIsSendingMessage] = useState(false);
+    const SEND_DELAY = 1000;
 
     const addGroupMessageApiHandler = () => {
 
@@ -105,27 +106,18 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         setSelectDropzone([{}]);
         setPhoto([])
     };
-    // let attach = photo.slice(-selectedNoOfPickers)
-    // const handleImagePicker = (file: any) => {
-    //     let updatedPhoto = [...selectDropzone, file]
-    //     let newUpdatedPhoto = [...photo, file]
-    //     setSelectDropzone(updatedPhoto)
-    //     setPhoto(newUpdatedPhoto)
-    // }
-
-    // let attach = photo.slice(-selectedNoOfPickers)
-
-    // const handleImagePicker = (file: any) => {
-    //   let newUpdatedPhoto = [...photo, file];
-    //   setPhoto(newUpdatedPhoto);
-    // };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
 
-            if (message.value.trim().length > 0) {
+            if (!isSendingMessage && message.value.trim().length > 0) {
+                setIsSendingMessage(true);
                 addGroupMessageApiHandler();
+
+                setTimeout(() => {
+                    setIsSendingMessage(false);
+                }, SEND_DELAY);
             }
         }
     };
