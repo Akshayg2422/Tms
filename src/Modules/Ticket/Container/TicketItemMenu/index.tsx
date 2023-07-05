@@ -16,7 +16,7 @@ import {
     refreshTicketEvents
 } from "@Redux";
 import { Employees } from '@Modules'
-import { useDropDown, useInput, useModal } from "@Hooks";
+import { useDropDown, useInput, useLoader, useModal } from "@Hooks";
 import { icons } from "@Assets";
 import { TGU, RGU, getArrayFromArrayOfObject, EVS, getObjectFromArrayByKey, TICKET_STATUS_LIST } from '@Utils';
 import { translate } from '@I18n'
@@ -39,6 +39,8 @@ function TicketItemMenu() {
             id: 2, name: translate('auth.Change Ticket Status'), icon: icons.taskStatus,
         }
     ]
+
+    const loginLoader = useLoader(false)
 
     const dispatch = useDispatch()
     const { selectedTicket } = useSelector((state: any) => state.TicketReducer);
@@ -64,12 +66,13 @@ function TicketItemMenu() {
             id: selectedTicket.id
         };
 
-
+        loginLoader.show()
 
         dispatch(addTicketEvent({
             params,
             onSuccess: (response) => () => {
                 try {
+                    loginLoader.hide()
                     tagUserModal.hide()
                     reassignUserModal.hide()
                     ticketCloseModal.hide()
@@ -79,6 +82,7 @@ function TicketItemMenu() {
             },
             onError: (error) => () => {
                 console.log("error",JSON.stringify(error));
+                loginLoader.hide()
             }
         }))
     }
@@ -123,6 +127,7 @@ function TicketItemMenu() {
                     <Button
                         size={'sm'}
                         text={translate("common.submit")}
+                        loading={loginLoader.loader}
                         onClick={() => {
                             proceedAddTicketEvents({ event_type: TGU, tagged_users: taggedUsers })
                         }} />
@@ -141,6 +146,7 @@ function TicketItemMenu() {
                     <Button
                         size={'sm'}
                         text={translate("common.submit")}
+                        loading={loginLoader.loader}
                         onClick={() => {
                             proceedAddTicketEvents({ event_type: RGU, assigned_to: reassignUser?.id })
                         }} />
@@ -182,6 +188,7 @@ function TicketItemMenu() {
                 <div className="pt-3 text-right">
                     <Button
                         size={'sm'}
+                        loading={loginLoader.loader}
                         text={translate("common.submit")}
                         onClick={() => {
                             proceedTicketStatusChangeHandler()

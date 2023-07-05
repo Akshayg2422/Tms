@@ -6,7 +6,7 @@ import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
-import { useModal, useInput, useNavigation } from '@Hooks'
+import { useModal, useInput, useNavigation, useLoader } from '@Hooks'
 import { addTaskEvent, getSelectedReference, getTaskDetails, refreshTaskEvents, selectedVcDetails } from '@Redux'
 import { useParams } from 'react-router-dom'
 import { CardFooter } from "reactstrap";
@@ -40,6 +40,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const { goTo } = useNavigation()
     const [selected, setSelected] = useState()
     const [selectedTaskId, setSelectedTaskId] = useState<boolean>(true)
+    const loginLoader = useLoader(false);
 
 
     useEffect(() => {
@@ -150,18 +151,21 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             description: editDescription.value,
             event_type: "TKE"
         }
-
+        loginLoader.show()
         dispatch(
             addTaskEvent({
                 params,
                 onSuccess: () => () => {
+                    loginLoader.hide()
                     editTaskModal.hide()
                     resetValues()
                     getTaskDetailsHandler();
                     editDescription.set('')
                     editTitle.set('')
                 },
-                onError: () => () => { }
+                onError: () => () => { 
+                    loginLoader.hide()
+                }
             })
         )
     }
@@ -331,7 +335,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
             <Modal size={'md'} title={translate('auth.Edit task Details')!} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
 
-                <div className="col-12 ">
+                <div className="col-12">
                     <Input
                         type={"text"}
                         heading={translate("common.title")}
@@ -356,7 +360,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     </div>
                 </div>
                 <div className="text-right pt-3">
-                    <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
+                    <Button text={translate('order.Update')}
+                      loading={loginLoader.loader}
+                     onClick={editTaskDetailsHandler} />
                 </div>
 
             </Modal>

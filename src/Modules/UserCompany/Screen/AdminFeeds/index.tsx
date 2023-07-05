@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image, MenuBar, Modal, Input, DateTimePicker, Checkbox, MultiSelectDropDown, Dropzone, showToast, ImagePicker, TextAreaInput } from "@Components";
-import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
+import { useInput, useLoader, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
@@ -38,6 +38,7 @@ function AdminFeeds() {
   const deleteFeedModal = useModal(false)
 
   const editFeedModal = useModal(false)
+  const  loginLoader=useLoader(false)
 
 
   let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
@@ -120,24 +121,19 @@ function AdminFeeds() {
 
 
 
-  // let attach = photo.slice(-selectedNoOfPickers)
-
-  // const handleImagePicker = (file: any) => {
-  //   let newUpdatedPhoto = [...photo, file];
-  //   setPhoto(newUpdatedPhoto);
-  // };
 
   function proceedDeleteHandler() {
     const params = {
       id: selectedFeed?.id,
       is_deleted: true
     }
-
+    loginLoader.show()
     dispatch(
       addBroadCastMessages({
         params,
         onSuccess: (response: any) => () => {
           if (response.success) {
+            loginLoader.hide()
             showToast(response.message, 'success')
             deleteFeedModal.hide()
             getBroadCastMessage(INITIAL_PAGE)
@@ -145,6 +141,7 @@ function AdminFeeds() {
           }
         },
         onError: (error) => () => {
+          loginLoader.hide()
           showToast(error.error_message)
         },
       })
@@ -168,6 +165,7 @@ function AdminFeeds() {
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
 
     if (ifObjectExist(validation)) {
+      loginLoader.show()
       dispatch(
         addBroadCastMessages({
           params,
@@ -175,12 +173,14 @@ function AdminFeeds() {
             if (response.success) {
               showToast(response.message, 'success')
               editFeedModal.hide()
+              loginLoader.hide()
               getBroadCastMessage(INITIAL_PAGE)
 
             }
           },
           onError: (error) => () => {
             showToast(error.error_message)
+            loginLoader.hide()
           },
         })
       );
@@ -248,13 +248,7 @@ function AdminFeeds() {
                               feedDescription.set(description)
                               setInternalCheck(for_internal_company)
                               setExternalCheck(for_external_company)
-                              //   AttachmentEdit = attachments &&attachments.map(el=>{
-                              //    const {id,attachment_file}=el
-                              //    return {
-                              //     id: id, photo: attachment_file,
-                              // }
-
-                              //   })
+                          
                               setSelectDropzone(attachments)
                               console.log(attachments, "aattacchhmmm")
 
@@ -297,11 +291,7 @@ function AdminFeeds() {
             value={feedTitle.value}
             onChange={feedTitle.onChange}
           />
-          {/* <Input
-            heading={translate("auth.description")}
-            value={feedDescription.value}
-            onChange={feedDescription.onChange}
-          /> */}
+        
             <TextAreaInput
                heading={translate('auth.description')!}
                value={feedDescription.value}
@@ -346,29 +336,7 @@ function AdminFeeds() {
         </div>
 
 
-        {/* <div className="col">
-          <label className={`form-control-label`}>
-            {translate("auth.attach")}
-          </label>
-        </div> */}
-
-        {/* <div className="col-md-9 col-lg-7 pb-4 ">
-          {selectDropzone &&
-            selectDropzone.map((el: any, index: number) => {
-              return (
-                <Dropzone
-                  variant="ICON"
-                  icon={getPhoto(el?.attachment_file)}
-                  size="xl"
-                  onSelect={(image) => {
-                    let file = image.toString().replace(/^data:(.*,)?/, "");
-                    handleImagePicker(index, file);
-                    setSelectDropzone([{ id: "1" }, { id: "2" }]);
-                  }}
-                />
-              );
-            })}
-        </div> */}
+        
         <div className="col-auto pb-2  mt--4">
           <div className="row">
             <ImagePicker
@@ -418,6 +386,7 @@ function AdminFeeds() {
           <div className="col-md-6 col-lg-4 ">
             <Button
               block
+              loading={loginLoader.loader}
               text={translate('order.Update')}
               onClick={proceedEditHandler}
             />
@@ -430,7 +399,9 @@ function AdminFeeds() {
         <div>
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
-            <Button text={translate('common.delete')} onClick={proceedDeleteHandler} />
+            <Button text={translate('common.delete')} 
+            loading={loginLoader.loader}
+            onClick={proceedDeleteHandler} />
           </div>
         </div>
       </Modal>

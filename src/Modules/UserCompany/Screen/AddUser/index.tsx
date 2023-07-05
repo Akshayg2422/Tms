@@ -12,7 +12,7 @@ import {
   getDropDownDisplayData
 } from "@Utils";
 
-import { useInput, useDropDown, useNavigation } from "@Hooks";
+import { useInput, useDropDown, useNavigation, useLoader } from "@Hooks";
 import { translate } from "@I18n";
 import { addEmployee, getDepartments, getDesignations, } from "@Redux";
 
@@ -44,6 +44,7 @@ function AddUser() {
   const department = useDropDown({})
   const designation = useDropDown({})
   const [photo, setPhoto] = useState("");
+  const   loginLoader =useLoader(false)
 
   useEffect(() => {
 
@@ -104,6 +105,7 @@ function AddUser() {
 
 
     if (ifObjectExist(validation)) {
+      loginLoader.show()
 
       console.log('came');
 
@@ -113,13 +115,13 @@ function AddUser() {
           onSuccess: (response: any) => () => {
             console.log(response);
             if (response.success) {
+              loginLoader.hide()
               showToast(response.message, "success");
               goBack();
             }
           },
           onError: (error) => () => {
-
-
+            loginLoader.hide()
           },
         })
       );
@@ -220,6 +222,7 @@ function AddUser() {
         <Button
           text={translate("common.submit")}
           onClick={submitAddUserHandler}
+          loading={ loginLoader.loader}
         />
       </div>
     </Card>

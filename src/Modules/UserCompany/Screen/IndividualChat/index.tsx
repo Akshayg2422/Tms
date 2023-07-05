@@ -8,7 +8,7 @@ import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, 
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
 import { ROUTES } from '@Routes'
-import { useDynamicHeight, useInput, useModal, useNavigation } from '@Hooks'
+import { useDynamicHeight, useInput, useLoader, useModal, useNavigation } from '@Hooks'
 import { translate } from '@I18n'
 import { VideoConference } from '../../Container'
 import { Carousel } from 'react-responsive-carousel';
@@ -48,6 +48,7 @@ function IndividualChat() {
     let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
     const [corouselIndex, setCorouselIndex] = useState<any>()
+    const loginLoader=useLoader(false)
 
     console.log(selectedUserDetails?.id, "selectedUserDetails?.id===>")
 
@@ -99,7 +100,7 @@ function IndividualChat() {
         }))
     }
 
-    console.log("employeeelist========>", employeeList)
+
 
     const getDisplayTimeFromMoment = (date) => {
         if (date) {
@@ -139,14 +140,17 @@ function IndividualChat() {
         };
 
         if (ifObjectExist(validation)) {
+            loginLoader.show()
             dispatch(postChatMessage({
                 params,
                 onSuccess: (success: any) => async () => {
                     getChatMessage(selectedUserDetails?.id)
                     resetValues()
                     attachmentModal.hide()
+                    loginLoader.hide()
                 },
                 onError: (error: string) => () => {
+                    loginLoader.hide()
                 },
             }))
         } else {
@@ -797,7 +801,8 @@ function IndividualChat() {
 
                 <div className='col-6 pt-2'>
                     <div className=''>
-                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment} />
+                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment}
+                        loading={   loginLoader.loader} />
                     </div>
                 </div>
 
@@ -820,7 +825,6 @@ function IndividualChat() {
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
                 <div className={'mt--5 mb--6 mx--4'}>
                     <Carousel selectedItem={corouselIndex} >
-
                         {
                             image.map((each, index) => (
 

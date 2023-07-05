@@ -9,7 +9,8 @@ import {
   getBusinessPlaceDetailsApi,
   SectorServiceTypesApi,
   otpLoginApi,
-  addPushNotificationApi
+  addPushNotificationApi,
+  getReSendOtpApi
 
 } from '@Services';
 
@@ -43,7 +44,10 @@ import {
   OTP_LOGIN,
   addPushNotificationSuccess,
   addPushNotificationFailure,
-  PUSH_NOTIFICATION
+  PUSH_NOTIFICATION,
+  getReSendOtpSuccess,
+  getReSendOtpFailure,
+  GET_RESEND_OTP
 } from '@Redux';
 
 
@@ -185,6 +189,25 @@ function* otpLoginSaga(action) {
   }
 }
 
+//otp resend
+
+function* otpResendSaga(action) {
+  try {
+
+    const response = yield call(getReSendOtpApi, action.payload.params);
+    if (response.success) {
+      yield put(getReSendOtpSuccess({ ...response }));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(getReSendOtpFailure(response.error_message));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(getReSendOtpFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
 function* brandSectorsSaga(action) {
   try {
 
@@ -278,6 +301,8 @@ function* AuthSaga() {
   yield takeLatest(SECTOR_SERVICE_TYPES, sectorServiceTypesSaga);
 
   yield takeLatest(PUSH_NOTIFICATION, pushNotificationSaga);
+  yield takeLatest(GET_RESEND_OTP,  otpResendSaga);
+ 
 }
 
 export default AuthSaga;

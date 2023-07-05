@@ -40,6 +40,7 @@ export const GET_BUSINESS_PLACES = AUTH + 'getBusinessPlaces';
 export const VALIDATE_USER_BUSINESS = AUTH + 'validateUserBusiness';
 export const BUSINESS_PLACES_DETAILS = AUTH + 'getBusinessPlaceDetails';
 export const REGISTER_COMPANY = AUTH + 'registerCompany';
+export const RESEND_OTP=AUTH+'resendLoginOtp'
 export const REGISTER_ADMIN = AUTH + 'registerAdmin';
 export const GET_EMPLOYEES = EMPLOYEE + 'getEmployees';
 export const ADD_EMPLOYEE = EMPLOYEE + 'addEmployee';
@@ -48,7 +49,7 @@ export const URL_GET_TASKS = TASK + 'getTasks';
 export const FETCH_TASK_USERS = TASK + 'getTaskUsers';
 export const FETCH_TASK_EVENTS = TASK + 'getTaskEvents';
 export const GET_TICKET_USERS = TICKET + 'getTicketUsers';
-export const URL_ADD_TASK_EVENTS = TASK + 'addTaskEvent'
+export const URL_ADD_TASK_EVENTS = TASK + 'addTaskEvent';
 
 /**
  *  Company

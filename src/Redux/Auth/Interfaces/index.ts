@@ -30,4 +30,5 @@ export interface AuthSliceStateProp {
   businessServiceTypesDropdownData?: SectorServiceTypes;
   selectedGoogleBusinessPlaceDetails?: BusinessPlaceDetailsDetailsItem;
   notification?: any;
+  reSendOtp?:OtpRegister
 }

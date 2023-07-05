@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicketEvent, getTickets } from "@Redux";
 import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back, Spinner } from "@Components";
-import { useInput, useKeyPress, useNavigation } from "@Hooks";
+import { useInput, useKeyPress, useLoader, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, paginationHandler, SEARCH_PAGE, INITIAL_PAGE, ADD_REFERENCE_TICKET } from "@Utils";
 import { translate } from "@I18n";
 
@@ -20,6 +20,7 @@ function AddReferenceTicket() {
   const search = useInput("");
 
   const isEnterPressed = useKeyPress("Enter");
+  const loginLoader = useLoader(false)
 
   useEffect(() => {
     if (isEnterPressed) {
@@ -39,20 +40,24 @@ function AddReferenceTicket() {
       event_type: RTS,
       reference_ticket: getArrayFromArrayOfObject(selectedReferenceTicket, 'id'),
     };
-
+    
     const validation = validate(ADD_REFERENCE_TICKET, params)
     if (ifObjectExist(validation)) {
+      loginLoader.show()
       dispatch(
         addTicketEvent({
           params,
           onSuccess: (response: any) => () => {
+            loginLoader.hide()
 
             if (response.success) {
+              loginLoader.hide()
               goBack()
               showToast(response.message, "success");
             }
           },
           onError: (error) => () => {
+            loginLoader.hide()
             showToast(error.error_message);
           },
         })
@@ -60,6 +65,7 @@ function AddReferenceTicket() {
     }
     else {
       showToast(getValidateError(validation));
+      loginLoader.hide()
     }
   };
 
@@ -142,7 +148,9 @@ function AddReferenceTicket() {
               getTicketsApiHandler(INITIAL_PAGE, text)
             }} />
 
-            <Button className="ml-3" size={'sm'} text={translate('common.submit')!} onClick={addReferenceTicketHandler} />
+            <Button className="ml-3" size={'sm'} text={translate('common.submit')!}
+              loading={loginLoader.loader}
+             onClick={addReferenceTicketHandler} />
           </div>
         </div>
 
