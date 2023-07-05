@@ -49,9 +49,6 @@ function TimeApproval() {
 
   // add time sheet]
 
-
-
-
   const addEmployeeTimeSheet = (item: any, id: any) => {
     const params = {
       timeline_status: id,
@@ -59,14 +56,14 @@ function TimeApproval() {
       ...(reason.value && { reason: reason.value })
 
     }
-    console.log(params, "pppp")
-    dispatch(
-      employeeTimeLineStatus({
-        params,
-        onSuccess: (response) => () => {
-          addRejectReasonModal.hide()
-
-          getEmployeesTimeList()
+  
+      dispatch(
+         employeeTimeLineStatus({
+          params,
+          onSuccess: (response) => () => {
+            addRejectReasonModal.hide()
+            
+            getEmployeesTimeList()
 
         },
         onError: (error) => () => {

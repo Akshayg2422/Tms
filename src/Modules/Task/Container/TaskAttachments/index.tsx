@@ -14,8 +14,6 @@ function TaskAttachments() {
   const { taskEventAttachments, taskEventAttachmentsCurrentPage, refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
   const { height } = useWindowDimensions()
 
-
-console.log(taskEventAttachments,"taskEventAttachments====>")
   useEffect(() => {
     getTaskEventsApiHandler(INITIAL_PAGE, search.value,)
   }, [search.value, refreshTaskEvents, id]);
@@ -41,7 +39,7 @@ console.log(taskEventAttachments,"taskEventAttachments====>")
   }
 
 
-
+console.log('taskAttachments==============>')
   return (
     <>
       <Card className="overflow-auto" style={{
@@ -52,18 +50,21 @@ console.log(taskEventAttachments,"taskEventAttachments====>")
             <SearchInput onSearch={search.set} />
           </div>
         </div >
+        
         {taskEventAttachments && taskEventAttachments.length > 0 && <InfiniteScroll
           dataLength={taskEventAttachments.length}
           hasMore={taskEventAttachmentsCurrentPage !== -1}
-          loader={<h4>
-            <Spinner />
-          </h4>}
+         
           next={() => {
             if (taskEventAttachmentsCurrentPage !== -1) {
               getTaskEventsApiHandler(taskEventAttachmentsCurrentPage)
             }
           }
-          }>
+          
+          }
+          loader={<h4>
+            <Spinner />
+          </h4>}>
           <div className="mt-3">
             {
               taskEventAttachments && taskEventAttachments?.length > 0 && taskEventAttachments?.map((item: any, index: number) => {
@@ -75,19 +76,20 @@ console.log(taskEventAttachments,"taskEventAttachments====>")
                       {
                         attachments?.attachments?.map((image: any) => {
                           return (
-                            <Image className={'mb-3 ml-2'} src={getPhoto(image?.attachment_file)} style={{ height: "100px", width: "100px" }} />
+                          
+                             <Image className={'mb-3 ml-2'} src={getPhoto(image?.attachment_file)} style={{ height: "100px", width: "100px" }} />
                           )
                         })
                       }
                     </div>
                     }
-                    {/* {index !== taskEventAttachments.length - 1 && <Divider space={'3'} />} */}
                   </div>
                 )
               })
             }
           </div>
         </InfiniteScroll>}
+            
       </Card >
 
 

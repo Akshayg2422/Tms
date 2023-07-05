@@ -211,7 +211,7 @@ function* getTaskDetailsSaga(action) {
             yield call(action.payload.onError(response));
         }
     } catch (error) {
-        console.log('333333' + error);
+       
 
         yield put(Action.getTaskDetailsFailure("Invalid Request"));
         yield call(action.payload.onError(error));
@@ -278,6 +278,46 @@ function* getTimeLineBreakDownSaga(action) {
 }
 
 
+// add Attachments Message
+
+function* addAttachmentsMessageSaga(action) {
+    console.log(action,"aaaaaaaaaaaccccccccrrrrrrrrrrr")
+    try {
+        const response = yield call(Services.addAttachmentsMessageApi, action.payload.params);
+        if (response.success) {
+            console.log(response,"rrrrrrrrrr=====>")
+            yield put(Action.addAttachmentsMessageSuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            console.log('errorr')
+            yield put(Action.addAttachmentsMessageFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+        yield put(Action.addAttachmentsMessageFailure("Invalid Request"));
+        yield call(action.payload.onError(error));
+    }
+}
+
+// get Attachments Message
+
+function* getAttachmentsMessageSaga(action){
+    try{
+        const response = yield call(Services.getAttachmentsMessageApi , action.payload.params);
+        if (response.success) {
+            yield put(Action.getAttachmentsMessageSuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            yield put(Action.getAttachmentsMessageFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+        yield put(Action.getAttachmentsMessageFailure("Invalid Request"));
+        yield call(action.payload.onError(error));
+    }
+}
+
+
 function* TaskSaga() {
     yield takeLatest(Action.GET_TASK_GROUPS_L, getTaskGroupLSaga)
     yield takeLatest(Action.GET_TASKS, getTasksSaga)
@@ -292,6 +332,8 @@ function* TaskSaga() {
     yield takeLatest(Action.GET_SUB_TASK_GROUPS, getSubTaskGroupSaga)
     yield takeLatest(Action.GET_ASSIGNED_TASK, getAssignedTaskSaga)
     yield takeLatest(Action.GET_TIMELINE_BREAKDOWN, getTimeLineBreakDownSaga)
+    yield takeLatest(Action.ADD_ATTACHMENTS_MESSAGE,addAttachmentsMessageSaga)
+    yield takeLatest(Action.GET_ATTACHMENTS_MESSAGE,getAttachmentsMessageSaga)
     
 }
 

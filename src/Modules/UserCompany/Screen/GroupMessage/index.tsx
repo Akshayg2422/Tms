@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
-import { addGroupMessage, getGroupMessage } from '@Redux'
+import { addGroupMessage, getGroupMessage, selectedVcDetails } from '@Redux'
 import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner, ImageDownloadButton, ProfileCard, ImagePicker } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDayAndDate } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useInput, useModal, useWindowDimensions } from '@Hooks'
+import { useInput, useModal, useWindowDimensions, useNavigation } from '@Hooks'
 import { useParams } from 'react-router-dom';
-import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 import { translate } from '@I18n';
-import { CardFooter } from 'reactstrap';
+import { ROUTES } from '@Routes';
 
 function GroupMessage({ selectedGroup }: GroupMessageProps) {
-
+    const { goTo } = useNavigation()
     const { id } = useParams();
     const dispatch = useDispatch()
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
@@ -31,9 +31,9 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const [photo, setPhoto] = useState<any>([]);
     const [selectMessage, setSelectMessage] = useState<any>(undefined)
     const { user_details } = dashboardDetails || {}
-    const { raised_by_company } = taskDetails || {};
+    const { raised_by_company, by_user } = taskDetails || {};
     const userModal = useModal(false)
-    console.log('dashboardDetails---------->', dashboardDetails);
+
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
     const [corouselIndex, setCorouselIndex] = useState<any>()
 
@@ -209,7 +209,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         <div className={'d-flex justify-content-center'}><Spinner /></div>
                     </h4>}
                     next={() => {
-
                         if (GroupCurrentPage !== -1) {
                             getGroupMessageApi(GroupCurrentPage)
                         }
@@ -222,8 +221,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             </div>
                         )
                     }
-
-
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
                             const { title, subTitle, created_at, attachments, event_by } = item
@@ -239,7 +236,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                             const renderDate = (date !== previousDate) ? date : '';
                             previousDate = date;
-                            console.log('previousDate------------>', previousDate)
+
                             const startDay = getCurrentDayAndDate(renderDate);
 
                             return (
@@ -264,21 +261,26 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                     }}
                                     subtitleOnclick={() => { userModal.show() }}
                                 >
-                                    <div className='pt-2' onClick={() => {
+                                    <div className='pt-2 row' onClick={() => {
                                         imageModal.show()
                                         setImage(imageUrls)
                                     }} >
                                         {
-                                            imageUrls && imageUrls.length > 0 && imageUrls.map((each, index) => {
 
-                                                return (
-                                                    <div onClick={() => { setCorouselIndex(index) }}>
-
-                                                        <Image className='ml-1 mb-1' src={each} width={100} height={100} />
+                                            <div className={'container'}>
+                                                <PhotoProvider>
+                                                    <div className="row pointer pl-5">
+                                                        {imageUrls?.map((item: any, index: any) => (
+                                                            <div key={index}>
+                                                                <PhotoView src={item}>
+                                                                    <img className={'p-1'} src={item} alt={'Task Attachments'} width={100} height={100} />
+                                                                </PhotoView>
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                )
+                                                </PhotoProvider>
+                                            </div>
 
-                                            })
                                         }
                                     </div>
                                 </GroupChat>)
@@ -287,34 +289,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                 </InfiniteScroll>
 
             </div>
-            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
-                <div className={'mt--5 mb--6 mx--4'}>
-                    <Carousel selectedItem={corouselIndex} >
 
-                        {
-                            image.map((each, index) => (
-
-                                <>
-                                    <div>
-                                        <Image
-                                            className='ml-2 mr-2'
-                                            src={each}
-                                            style={{ height: '450px', width: '450px' }}
-                                        />
-                                    </div>
-                                    <CardFooter className={'mt-2'}>
-                                        <div className='d-flex justify-content-end mt--6 mr-4 pointer'>
-                                            <ImageDownloadButton Url={each} title={each} />
-                                        </div>
-                                    </CardFooter>
-                                </>
-                            ))
-                        }
-
-                    </Carousel>
-                </div>
-
-            </Modal>
 
             <Modal size={'lg'} title={translate('common.Edit Chat')!} isOpen={editModal.visible} onClose={editModal.hide} >
 
@@ -395,6 +370,11 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                     department={user_details?.department}
                     designation={user_details?.designation}
                     company={raised_by_company?.display_name}
+                    userId={by_user?.id}
+                    messageOnClick={() => {
+                        dispatch(selectedVcDetails(by_user))
+                        goTo(ROUTES['user-company-module']['individual-chat'], false)
+                    }}
                 />
 
             </Modal>

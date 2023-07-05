@@ -175,17 +175,18 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
     case ActionTypes.FETCH_DESIGNATION_SUCCESS:
       const designation = action.payload.details
+     
       const isDesignations = ifObjectKeyExist(designation, 'data')
 
       state = {
         ...state,
         loading: false,
-        designations: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
+        designations: action.payload?.details?.data? action.payload?.details?.data : action.payload?.details,
         designationNumOfPages: action.payload?.details?.num_pages,
         designationCurrentPages:
-          action?.payload?.next_page === -1
-            ? action?.payload?.num_pages
-            : action?.payload?.next_page - 1,
+        action.payload.details.next_page === -1?
+          action?.payload?.details.num_pages
+            :action?.payload?.details?.next_page - 1,
       };
       break;
     case ActionTypes.FETCH_DESIGNATION_FAILURE:
@@ -596,7 +597,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, userToken: undefined };
       break;
     case ActionTypes.GET_TOKEN_BY_USER_SUCCESS:
-      console.log("9999999999999999999999999", action.payload.details)
+
       state = { ...state, userToken: action.payload.details };
       break;
     case ActionTypes.GET_TOKEN_BY_USER_FAILURE:

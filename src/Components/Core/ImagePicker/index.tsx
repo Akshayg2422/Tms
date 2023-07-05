@@ -63,7 +63,7 @@ const ImagePicker = ({
 
 
   const handleRefClick = (el) => {
-    console.log(fileInputRef)
+   
     fileInputRef?.current?.click();
 
     if (el.id > 0) {

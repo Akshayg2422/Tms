@@ -7,20 +7,24 @@ import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useNavigation } from '@Hooks'
-import { addTaskEvent, getTaskDetails, refreshTaskEvents, selectedVcDetails } from '@Redux'
+import { addTaskEvent, getSelectedReference, getTaskDetails, refreshTaskEvents, selectedVcDetails } from '@Redux'
 import { useParams } from 'react-router-dom'
 import { CardFooter } from "reactstrap";
 import { ROUTES } from "@Routes";
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
+
 
 const START_TASK = 1
 const END_TASK = 2
 
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
-    const { id } = useParams()
+    const { id, item } = useParams()
 
     const dispatch = useDispatch()
-    const { taskDetails, selectedTask } = useSelector((state: any) => state.TaskReducer);
+    const { taskDetails, selectedTask, selectedReferenceDetails, referencesTasks, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
+
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time } = taskDetails || {};
     const [eta, setEta] = useState(eta_time)
@@ -34,11 +38,38 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const [actionTask, setActionTask] = useState<number>()
     const userModal = useModal(false)
     const { goTo } = useNavigation()
+    const [selected, setSelected] = useState()
+    const [selectedTaskId, setSelectedTaskId] = useState<boolean>(true)
+
 
     useEffect(() => {
         getTaskDetailsHandler()
     }, [id])
 
+
+
+    useEffect(() => {
+        if (subTasks !== undefined) {
+            let isSelect
+
+            isSelect = subTasks?.some((filter: any) => filter?.code === selectedReferenceDetails?.code)
+            setSelected(isSelect)
+        }
+        // /
+        if (tasks.length > 0) {
+            let isSelectedTask
+            isSelectedTask = tasks?.some((filter: any) => (filter?.code === code || taskDetails?.code))
+            setSelectedTaskId(isSelectedTask)
+
+        }
+
+
+    }, [subTasks])
+
+
+    // console.log(selected,"sssssssssss")
+    // console.log(selectedReferenceDetails?.refer,":::::::::::::p")
+    // console.log(selectedTaskId,"selectedTaskId=====>")
 
     useEffect(() => {
         setEta(eta_time)
@@ -127,7 +158,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     editTaskModal.hide()
                     resetValues()
                     getTaskDetailsHandler();
-
+                    editDescription.set('')
+                    editTitle.set('')
                 },
                 onError: () => () => { }
             })
@@ -139,25 +171,29 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 <div>
                     <div className="row">
                         <div className="col ">
-                            <div className="row">
+                            <div className="row" onClick={() => {
+                                //   dispatch(getSelectedReference({code:code,refer:true}))
+
+                            }}>
                                 <Back />
                                 <div className="ml-2">
                                     <div>{title && <H tag={"h4"} className="mb-0" text={title} />}</div>
-                                      {code && <small>{`#${code}`}</small>}
-                                {description && <div className="text-sm mb--2 text-black  ml--4">{capitalizeFirstLetter(description)}</div>}
+                                    {code && <small>{`#${code}`}</small>}
+                                    {description && <div className="text-sm mb--2 text-black  ml--4">{capitalizeFirstLetter(description)}</div>}
                                 </div>
                             </div>
                         </div>
-                        <div className="pointer col-auto" onClick={() => {
+                        {item !== 'reference-task' && <div className="pointer col-auto" onClick={() => {
                             editTaskModal.show()
                             editTitle.set(title)
                             editDescription.set(description)
                         }}>
                             <Image src={icons.editEta} height={16} width={16} />
                         </div>
+                        }
                     </div>
 
-                    <div className="row mt-3 ">
+                    <div className="row mt-3 pointer">
                         {
                             task_attachments &&
                             task_attachments?.length > 0 && task_attachments?.map
@@ -165,15 +201,20 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                     return <div
                                         className={`${index !== 0 && 'ml-2'}`}
                                         onClick={(e) => e.preventDefault()}>
-                                        <Image
-                                            variant={'avatar'}
-                                            size={'md'}
-                                            src={getPhoto(item?.attachment_file)}
-                                        />
+                                        <PhotoProvider>
+                                            <PhotoView src={getPhoto(item?.attachment_file)}>
+                                                <Image
+                                                    variant={'avatar'}
+                                                    size={'md'}
+                                                    src={getPhoto(item?.attachment_file)}
+                                                />
+                                            </PhotoView>
+                                        </PhotoProvider>
                                     </div>
                                 })
                         }
                     </div>
+
                     <div className={'row ml-1 justify-content-between'}>
                         <div className="row mt-4 pointer" onClick={() => userModal.show()}>
                             <div className={'align-self-center'}>{by_user?.profile_photo && <Image size={'sm'} variant={'rounded'} src={getPhoto(by_user?.profile_photo)} />}</div>
@@ -192,40 +233,45 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                     <hr className="my-4 mx--3" />
 
-                    <div className="row mt-2">
+                    {item !== 'reference-task' &&
+                        <div className="row mt-2">
 
-                        <div className="col ml--3">
-                            {
-                                eta_time ?
-                                    <>
-                                        <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
-                                        <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
-                                    </>
-                                    :
-                                    <>
-                                        <H className=" text-uppercase text-muted " tag={"h6"} text={'CREATED AT :'} />
-                                        <h5 className="text-uppercase mt--2">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
-                                    </>
+                            <div className="col ml--3">
+                                {
+                                    eta_time ?
+                                        <>
+                                            <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
+                                            <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
+                                        </>
+                                        :
+                                        <>
+                                            <H className=" text-uppercase text-muted " tag={"h6"} text={'CREATED AT :'} />
+                                            <h5 className="text-uppercase mt--2">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
+                                        </>
 
-                            }
+                                }
+                            </div>
+
+
+                            <div className="row ml-1 mr-3">
+                                <div className="pointer" onClick={() => editEtaModal.show()}>
+                                    {eta_time && <Image src={icons.editEta} height={16} width={16} />}
+                                </div>
+                                <div className="ml-2 pointer" onClick={() => { taskEventModal.show() }}>
+                                    <Image src={icons.timeline} height={17} width={17} />
+                                </div>
+                                <div className="ml-1 pointer" >
+                                    <TaskItemMenu />
+                                </div>
+
+                            </div>
+
                         </div>
-
-                        <div className="row ml-1 mr-3">
-                            <div className="pointer" onClick={() => editEtaModal.show()}>
-                                {eta_time && <Image src={icons.editEta} height={16} width={16} />}
-                            </div>
-                            <div className="ml-2 pointer" onClick={() => { taskEventModal.show() }}>
-                                <Image src={icons.timeline} height={17} width={17} />
-                            </div>
-                            <div className="ml-1 pointer" >
-                                <TaskItemMenu />
-                            </div>
-                        </div>
-                    </div>
+                    }
 
 
 
-                    <div className="col text-right mt-3 ml--3">
+                    {item !== 'reference-task' && <div className="col text-right mt-3 ml--3">
                         {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button className={'text-white'} size={'sm'} text={'Start'}
                             onClick={() => {
                                 alertModal.show()
@@ -236,6 +282,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             setActionTask(END_TASK)
                         }} />}
                     </div>
+                    }
+
 
                 </div>
             </Card >
@@ -248,8 +296,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     editEtaModal.hide()
                     resetValues()
                 }}
+                size={'md'}
             >
-                <div className="col-6">
+                <div className="col-12">
 
                     <Input
                         type={"text"}
@@ -280,7 +329,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 </CardFooter>
             </Modal>
 
-            <Modal size={'md'}title={translate('auth.Edit task Details')!} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
+            <Modal size={'md'} title={translate('auth.Edit task Details')!} isOpen={editTaskModal.visible} onClose={editTaskModal.hide} >
 
                 <div className="col-12 ">
                     <Input
@@ -289,22 +338,22 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         value={editTitle.value}
                         onChange={editTitle.onChange}
                     />
-               
+
                     <div >
-                    {/* <InputHeading heading={translate('auth.description')}/>
+                        {/* <InputHeading heading={translate('auth.description')}/>
                     <textarea 
                     style={{height:'140px'}}
                         value={editDescription.value}
                         onChange={editDescription.onChange}
                         className="form-control form-control-sm" /> */}
-                          <TextAreaInput
-               heading={translate('auth.description')!}
-                value={editDescription.value}
-                onChange={editDescription.onChange}
-                className="form-control form-control-sm"
-                
-                />
-                </div>
+                        <TextAreaInput
+                            heading={translate('auth.description')!}
+                            value={editDescription.value}
+                            onChange={editDescription.onChange}
+                            className="form-control form-control-sm"
+
+                        />
+                    </div>
                 </div>
                 <div className="text-right pt-3">
                     <Button text={translate('order.Update')} onClick={editTaskDetailsHandler} />
@@ -322,21 +371,22 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     designation={by_user?.designation?.name}
                     company={raised_by_company?.display_name}
                     userId={by_user?.id}
-                    messageOnClick={ ()=>{
-                         dispatch(selectedVcDetails(by_user))
-                        goTo( ROUTES['user-company-module']['individual-chat'], false)}}
+                    messageOnClick={() => {
+                        dispatch(selectedVcDetails(by_user))
+                        goTo(ROUTES['user-company-module']['individual-chat'], false)
+                    }}
                 />
 
             </Modal>
 
             <Alert
-            size="md"
+                size="md"
                 title="Are you sure want to start the task?"
                 isOpen={alertModal.visible}
                 onClose={alertModal.hide}
                 primaryOnClick={proceedEventTypeApi}
                 secondaryOnClick={alertModal.hide}
-               
+
             />
         </div>
     );

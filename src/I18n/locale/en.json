@@ -111,7 +111,8 @@
     "Self":"Self",
     "Are you sure want to Logout?":"Are you sure want to Logout?",
     "No":"No",
-    "Yes":"Yes"
+    "Yes":"Yes",
+    "Mark as closed":"Mark as closed"
   },
   "errors": {
     "invalidEmail": "Invalid email address.",

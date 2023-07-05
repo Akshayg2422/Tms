@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setSelectedTabPosition } from '@Redux'
 import { icons } from "@Assets";
 import { useWindowDimensions } from "@Hooks";
-
+ 
 
 function TaskDetails() {
 

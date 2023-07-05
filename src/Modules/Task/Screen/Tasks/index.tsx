@@ -4,11 +4,11 @@ import { Button, HomeContainer, NoDataFound, Spinner, AutoComplete, ImageColor, 
 import { TaskGroups, TaskFilter, TaskFilters } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
-import { getTasks, setSelectedTask, setSelectedTabPosition, setTaskParams, selectedTaskId } from '@Redux'
+import { getTasks, setSelectedTask, setSelectedTabPosition, setTaskParams, selectedTaskIds, getSelectedReference } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from '@I18n'
-import { icons } from "@Assets";
+
 
 
 
@@ -45,7 +45,7 @@ function Tasks() {
 
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
-      return data?.map((el: any) => {
+      return data?.map((el: any,index:number) => {
 
         const { priority, parent, task_attachments, by_user, raised_by_company, created_at, task_status, eta_time, title, assigned_to, description } = el
 
@@ -169,10 +169,10 @@ function Tasks() {
               }
               tableOnClick={(idx, index, item) => {
                 dispatch(setSelectedTask(item?.code));
-                dispatch(selectedTaskId(item))
-
+                dispatch(selectedTaskIds(item))
+                dispatch(getSelectedReference({code: item?.code,refer:true}))
                 dispatch(setSelectedTabPosition({ id: '1' }))
-                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code);
+                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'task');
               }
               }
             />

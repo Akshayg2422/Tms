@@ -1,3 +1,4 @@
 export interface EventItemProps {
-    item: any
+    item?: any
+    onClick?:any
 }

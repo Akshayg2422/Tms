@@ -38,8 +38,6 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     const modifiedCompany = associatedCompaniesL && associatedCompaniesL.length > 0 && [TASK_COMPANY_FILTER, ...associatedCompaniesL]
     const [selectedAssignedUserId, setSelectedAssignedUserId] = useState<any>();
     const [selectedCreatedUserId, setSelectedCreatedUserId] = useState<any>();
-    console.log(assignedDesignation,"assignedDesignation===>")
-
 
     useEffect(()=>{
         getCreateDesignation(taskParams.created_company)
@@ -118,12 +116,33 @@ function TaskFilter({ onParams }: TaskFilterProps) {
     // }, [])
     console.log(taskParams, "ok")
 
+    // useEffect(() => {
+    //     if (company.value || department.value?.id !== 'ALL' || designation.value?.id !== 'ALL') {
+    //         getCompanyEmployeeApi()
+
+    //     }
+    // }, [designation?.value, department?.value, company?.value?.id,])
     useEffect(() => {
-        if (company.value || department.value?.id !== 'ALL' || designation.value?.id !== 'ALL') {
+        if (company.value ) {
             getCompanyEmployeeApi()
 
         }
-    }, [designation?.value, department?.value, company?.value?.id,])
+    }, [ company?.value?.id,])
+    useEffect(() => {
+        if ( designation.value?.id !== 'ALL') {
+            getCompanyEmployeeApi()
+
+        }
+    }, [designation?.value,])
+    useEffect(() => {
+        if ( department.value?.id !== 'ALL' ) {
+            getCompanyEmployeeApi()
+
+        }
+    }, [department?.value])
+    
+
+
 
 
     function getCompanyEmployeeApi() {

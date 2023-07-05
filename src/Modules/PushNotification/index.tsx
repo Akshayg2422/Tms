@@ -7,8 +7,8 @@ import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
-import { handleOneToOneChat, handleOneToOneVcNoti, refreshGroupEvents, refreshTaskEvents, vcNotificationDetails } from '@Redux'
-import { useDispatch } from 'react-redux'
+import { handleOneToOneChat, handleOneToOneVcNoti, refreshEventsMessage, refreshGroupEvents, refreshTaskEvents, vcNotificationDetails } from '@Redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Groups } from "../UserCompany";
 
 
@@ -16,12 +16,14 @@ const MAX_LENGTH = 70
 
 const PushNotification = () => {
 
+    const { eventsMessage } = useSelector((state: any) => state.TaskReducer);
     const NOTIFICATION_TASK_RAISED = 'TASK_RAISED'
     const NOTIFICATION_TICKET_RAISED = 'TICKET_RAISED'
     const NOTIFICATION_BROADCAST_MESSAGE = 'BROADCAST_MESSAGE'
     const NOTIFICATION_GROUP_MESSAGE = 'GROUP_MESSAGE'
     const NOTIFICATION_TASK_CHANNEL_EVENT = 'TASK_CHANNEL_EVENT'
     const NOTIFICATION_VIDEO_CONFERENCE = "VIDEO_CONFERENCE"
+    const NOTIFICATION_EVENT_MESSAGE = 'EVENT_MESSAGE'
     const { goTo } = useNavigation();
     const [notification, setNotification] = useState<any>([]);
     const dispatch = useDispatch()
@@ -137,6 +139,12 @@ const PushNotification = () => {
             } else if (route_type === NOTIFICATION_TASK_CHANNEL_EVENT) {
                 try {
                     dispatch(refreshTaskEvents())
+                } catch (e) {
+
+                }
+            }else if (route_type === NOTIFICATION_EVENT_MESSAGE) {
+                try {
+                    dispatch(refreshEventsMessage(eventsMessage))
                 } catch (e) {
 
                 }

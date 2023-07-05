@@ -43,7 +43,7 @@ function SubTaskGroup({ onClick, showAll = true }: TaskGroupProps) {
                             onClick={() => {
                                 setSelectedTaskGroup(el.id)
                                 onClick(el.id)
-                                console.log(el.id)
+                                
                             }}
                             style={{
                                 width: 100,

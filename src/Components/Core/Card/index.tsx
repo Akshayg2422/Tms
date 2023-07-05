@@ -4,15 +4,15 @@ import {
     Card as RsCard, CardBody, CardTitle, CardHeader
 } from "reactstrap";
 
-const Card = forwardRef(({ title, children, ...rest }: CardProps, ref: any) => {
+const Card = forwardRef(({ title, children,onClick, ...rest }: CardProps, ref: any) => {
     return (
-        <RsCard {...rest} ref={ref}>
+        <RsCard {...rest} ref={ref} >
             {title && <CardTitle>
                 <CardHeader>
                     <h5 className="h3 mb-0">{title}</h5>
                 </CardHeader>
             </CardTitle>}
-            <CardBody>
+            <CardBody onClick={onClick}>
                 {children}
             </CardBody>
         </RsCard>

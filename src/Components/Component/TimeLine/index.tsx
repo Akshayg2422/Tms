@@ -6,7 +6,6 @@ import { icons } from '@Assets'
 
 function TimeLine({ showDotterLine, children, title, time, icon, color = 'white', rtl, subTitle }: TimeLineProps) {
 
-console.log(title,"title==--->")
     return (
         <div
             className={`${showDotterLine && 'timeline '} timeline-one-side  `}

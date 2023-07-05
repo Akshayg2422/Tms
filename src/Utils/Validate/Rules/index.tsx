@@ -367,6 +367,15 @@ export const TASK_ATTACHMENT_RULES = {
   }
 }
 
+export const EVENTS_ATTACHMENT_RULES = {
+  name: {
+    presence: { allowEmpty: false, message: "Note cannot be empty." }
+  },
+  attachments: {
+    presence: { allowEmpty: false, message: "Attachment cannot be empty." }
+  }
+}
+
 export const GROUP_ATTACHMENT_RULES = {
   attachment_name: {
     presence: { allowEmpty: false, message: "Note cannot be empty." }
@@ -382,6 +391,23 @@ export const CHAT_ATTACHMENT_RULES = {
   },
   chat_attachments: {
     presence: { allowEmpty: false, message: "Attachment cannot be empty." }
+  },
+  receiver_by:{
+    presence: { allowEmpty: false, message: "Add user else select user" }
+
+  }
+}
+
+
+
+export const CHAT_MESSAGE_RULES = {
+  message:{
+    presence: { allowEmpty: false, message: "Message cannot be empty" }
+  },
+ 
+  receiver_by:{
+    presence: { allowEmpty: false, message: "Add user else select user" }
+
   }
 }
 
