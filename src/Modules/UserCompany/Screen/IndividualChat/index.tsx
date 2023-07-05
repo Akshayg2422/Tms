@@ -820,7 +820,6 @@ function IndividualChat() {
             <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
                 <div className={'mt--5 mb--6 mx--4'}>
                     <Carousel selectedItem={corouselIndex} >
-
                         {
                             image.map((each, index) => (
 
