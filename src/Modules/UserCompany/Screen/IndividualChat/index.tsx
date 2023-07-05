@@ -11,8 +11,8 @@ import { ROUTES } from '@Routes'
 import { useDynamicHeight, useInput, useModal, useNavigation } from '@Hooks'
 import { translate } from '@I18n'
 import { VideoConference } from '../../Container'
-import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
 function IndividualChat() {
     const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails, chatEmployeeList, chatEmployeeListNumOfPages, chatEmployeeListCurrentPages } = useSelector(
@@ -547,25 +547,32 @@ function IndividualChat() {
                                                                                                     {/** Image carousel */}
                                                                                                     <div
                                                                                                         className={'mt-2 mb-4'}
-                                                                                                        style={{
-                                                                                                            border: '5px solid',
-                                                                                                            borderColor: '#FCC9E0',
-                                                                                                            borderRadius: '10px 0px 10px 10px'
-                                                                                                        }}
+
                                                                                                     >
-                                                                                                        {
-                                                                                                            <Image
-                                                                                                                className={'pointer'}
-                                                                                                                width={100}
-                                                                                                                height={100}
-                                                                                                                src={getPhoto(it?.attachment_file)}
-                                                                                                                onClick={() => {
-                                                                                                                    imageModal.show();
-                                                                                                                    setImage(imageUrls);
-                                                                                                                    console.log('imageUrls----->', imageUrls);
-                                                                                                                }}
-                                                                                                            />
-                                                                                                        }
+
+                                                                                                        <div className='pt-2 row' onClick={() => {
+                                                                                                            setImage(imageUrls)
+                                                                                                        }} >
+                                                                                                            {
+                                                                                                                <div className={'container'}>
+                                                                                                                    <PhotoProvider>
+                                                                                                                        <div className="row pointer pl-5">
+                                                                                                                            {imageUrls?.map((item: any, index: any) => (
+                                                                                                                                <div key={index}>
+                                                                                                                                    <PhotoView src={item}>
+                                                                                                                                        <img style={{
+                                                                                                                                            border: '5px solid',
+                                                                                                                                            borderColor: '#FCC9E0',
+                                                                                                                                            borderRadius: '10px 0px 10px 10px'
+                                                                                                                                        }} className={'p-1'} src={item} alt={'Task Attachments'} width={130} height={130} />
+                                                                                                                                    </PhotoView>
+                                                                                                                                </div>
+                                                                                                                            ))}
+                                                                                                                        </div>
+                                                                                                                    </PhotoProvider>
+                                                                                                                </div>
+                                                                                                            }
+                                                                                                        </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             );
@@ -775,7 +782,6 @@ function IndividualChat() {
                                 let file = image.toString().replace(/^data:(.*,)?/, "")
                             }}
 
-
                             onSelectImagePickers={(el) => {
                                 let array: any = []
 
@@ -785,12 +791,9 @@ function IndividualChat() {
                                     if (editPickers !== undefined) {
                                         array.push(editPickers)
                                     }
-
                                 }
                                 setPhoto(array)
-
                             }}
-
                         />
                     </div>
                 </div>
@@ -813,37 +816,6 @@ function IndividualChat() {
                     designation={user_details?.designation}
                     company={raised_by_company?.display_name}
                 />
-
-            </Modal>
-
-
-            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
-                <div className={'mt--5 mb--6 mx--4'}>
-                    <Carousel selectedItem={corouselIndex} >
-
-                        {
-                            image.map((each, index) => (
-
-                                <>
-                                    <div>
-                                        <Image
-                                            className='ml-2 mr-2'
-                                            src={each}
-                                            style={{ height: '450px', width: '450px' }}
-                                        />
-                                    </div>
-                                    <CardFooter className={'mt-2'}>
-                                        <div className='d-flex justify-content-end mt--6 mr-4 pointer'>
-                                            <ImageDownloadButton Url={each} title={each} />
-                                        </div>
-                                    </CardFooter>
-                                </>
-                            ))
-                        }
-
-                    </Carousel>
-                </div>
-
             </Modal>
         </div>
 

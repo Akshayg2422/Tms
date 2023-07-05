@@ -266,7 +266,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                         setImage(imageUrls)
                                     }} >
                                         {
-
                                             <div className={'container'}>
                                                 <PhotoProvider>
                                                     <div className="row pointer pl-5">
@@ -280,7 +279,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                                     </div>
                                                 </PhotoProvider>
                                             </div>
-
                                         }
                                     </div>
                                 </GroupChat>)

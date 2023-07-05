@@ -4,10 +4,12 @@ import { MyfeedItemsProps } from "./interface";
 import { getPhoto, getDataAndTime, capitalizeFirstLetter, } from "@Utils";
 import { translate } from "@I18n";
 import { useModal } from "@Hooks";
-import { Carousel } from "react-responsive-carousel";
 import { icons } from "@Assets";
+import { Carousel } from "react-responsive-carousel";
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
-function    MyFeedItem({ item }: MyfeedItemsProps) {
+function MyFeedItem({ item }: MyfeedItemsProps) {
 
     const MY_FEED_MENU = [
         {
@@ -19,8 +21,7 @@ function    MyFeedItem({ item }: MyfeedItemsProps) {
 
     ]
 
-    const { title, attachments, description, created_by, created_at, applicable_branches, for_internal_company, for_external_company } =
-        item;
+    const { title, attachments, description, created_by, created_at, applicable_branches, for_internal_company, for_external_company } = item;
 
     const imageModal = useModal(false)
     const [image, setImage] = useState([])
@@ -48,22 +49,6 @@ function    MyFeedItem({ item }: MyfeedItemsProps) {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="col-lg-6">
-                            <div className="row d-flex justify-content-end mt-3">
-                                <MenuBar menuData={MY_FEED_MENU}
-                                 onClick={(element) => {
-                                    if (element.id === MY_FEED_MENU[0].id) {
-                                    
-                                        alert('edit')
-                                    } else if (element.id === MY_FEED_MENU[1].id) {
-                                     
-                                       alert('delete')
-
-                                    }
-                                }}
-                                />
-                            </div>
-                        </div> */}
                     </div>
 
 
@@ -96,21 +81,25 @@ function    MyFeedItem({ item }: MyfeedItemsProps) {
                     <div className="row">
                         <div className="col-lg-12 col-sm-0 col-12 mt-2 mb--6">
                             <Carousel
-                           dynamicHeight
-                            
+                                dynamicHeight
                             >
                                 {attachments &&
                                     attachments.length > 0 &&
                                     attachments?.map((attachment_logo: any, index: number) => {
+
                                         return (
-                                            <Image
-                                                variant={"default"}
-                                                src={getPhoto(attachment_logo.attachment_file)}
-                                                height={'80%'}
-                                                width={'80%'}
-                                            />
+                                            <div className={'container'}>
+                                                <div className="row pointer">
+                                                    {/* <PhotoProvider>
+                                                        <PhotoView src={getPhoto(attachment_logo?.attachment_file)}> */}
+                                                    <Image className={'p-1'} src={getPhoto(attachment_logo?.attachment_file)} alt={'Task Attachments'} width={'100%'} height={'100%'} />
+                                                    {/* </PhotoView>
+                                                    </PhotoProvider> */}
+                                                </div>
+                                            </div>
                                         );
-                                    })}
+                                    })
+                                }
                             </Carousel>
                         </div>
 
