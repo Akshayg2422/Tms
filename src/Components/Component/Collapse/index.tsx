@@ -19,8 +19,14 @@ function CollapseButton({ title, children, displayDataSet, tableDataSet, tableOn
   let currentDay = currentDate.getDate()
   let currentMonth = currentDate.getMonth()
   let currentYear = currentDate.getFullYear()
+  let dateFormate 
+if(currentDay<=9){
+dateFormate = `${currentYear}-${0}${currentMonth + 1}-${0}${currentDay}`
+}
+else{
+dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
 
-  let dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
+}
 
   useEffect(() => {
     collapsesToggle(dateFormate)
