@@ -2,7 +2,7 @@ import { addDepartment, getDepartments } from "@Redux";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ifObjectExist, validate, getValidateError, } from "@Utils";
-import { useDynamicHeight, useModal, useInput } from "@Hooks";
+import { useDynamicHeight, useModal, useInput, useLoader } from "@Hooks";
 import {
   Button,
   Card,
@@ -34,8 +34,6 @@ function Department() {
   const [showDepartments, setShowDepartments] = useState(false);
   const isUserAdmin = dashboardDetails?.permission_details?.is_admin
   const isUserSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
-
-
   const addDepartmentModal = useModal(false)
   const departmentName = useInput('')
   const [isAdmin, setIsAdmin] = useState(false);
@@ -43,19 +41,25 @@ function Department() {
   const [selectedDepartment, setSelectedDepartment] = useState<any>(undefined);
   const [isSubTask, setIsSubTask] = useState(false);
   const [loading, setLoading] = useState(false)
+  const loginLoader=useLoader(false)
 
 
 
   function addDepartmentApiHandler(params: object) {
+    loginLoader.show()
+
     dispatch(
       addDepartment({
         params,
         onSuccess: (success: any) => () => {
           getDepartmentList(departmentsCurrentPages)
           addDepartmentModal.hide()
+          loginLoader.hide()
           resetValues()
         },
-        onError: (error: string) => () => { },
+        onError: (error: string) => () => {
+          loginLoader.hide()
+         },
       })
     );
 
@@ -72,14 +76,17 @@ function Department() {
     const params = {
       page_number
     };
+   
     dispatch(
       getDepartments({
         params,
         onSuccess: (response: any) => () => {
           setLoading(false)
+       
         },
         onError: (error: string) => () => {
           setLoading(false)
+          
         },
       })
     );
@@ -271,6 +278,7 @@ function Department() {
           />
           <Button
             text={translate("common.submit")}
+            loading={loginLoader.loader}
             onClick={() => {
 
               const params = {

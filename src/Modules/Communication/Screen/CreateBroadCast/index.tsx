@@ -24,7 +24,7 @@ import {
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput, useKeyPress, useNavigation } from "@Hooks";
+import { useInput, useKeyPress, useLoader, useNavigation } from "@Hooks";
 
 
 function CreateBroadCast() {
@@ -55,6 +55,7 @@ function CreateBroadCast() {
   // };
 
   const isEnterPressed = useKeyPress("Enter");
+  const   loginLoader=useLoader(false)
 
   useEffect(() => {
     if (isEnterPressed) {
@@ -79,17 +80,19 @@ function CreateBroadCast() {
 
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
     if (ifObjectExist(validation)) {
-
+      loginLoader.show()
       dispatch(
         addBroadCastMessages({
           params,
           onSuccess: (response: any) => () => {
             if (response.success) {
+              loginLoader.hide()
               showToast(response.message, 'success')
               goBack()
             }
           },
           onError: (error) => () => {
+            loginLoader.hide()
             showToast(error.error_message)
           },
         })
@@ -203,30 +206,7 @@ function CreateBroadCast() {
             />
           )}
         </div>
-        {/* 
-        <div className="col">
-          <label className={`form-control-label`}>
-            {translate("common.attach")}
-          </label>
-        </div> */}
-
-        {/* <div className="col-md-9 col-lg-7 pb-4 ">
-          {selectDropzone &&
-            selectDropzone.map((el: any, index: number) => {
-              return (
-                <Dropzone
-                  variant="ICON"
-                  icon={image}
-                  size="xl"
-                  onSelect={(image) => {
-                    let file = image.toString().replace(/^data:(.*,)?/, "");
-                    handleImagePicker(index, file);
-                    setSelectDropzone([{ id: "1" }, { id: "2" }]);
-                  }}
-                />
-              );
-            })}
-        </div> */}
+       
 
         <div className="col-auto pb-2  mt--4">
           <div className="row">
@@ -270,6 +250,7 @@ function CreateBroadCast() {
           <div className="">
             <Button
               block
+              loading={  loginLoader.loader}
               text={translate("common.submit")}
               onClick={submitTicketHandler}
             />

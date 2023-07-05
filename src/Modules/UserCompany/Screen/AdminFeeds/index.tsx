@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Button, Card, Divider, HomeContainer, NoDataFound, Spinner, Image, MenuBar, Modal, Input, DateTimePicker, Checkbox, MultiSelectDropDown, Dropzone, showToast, ImagePicker, TextAreaInput } from "@Components";
-import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
+import { useInput, useLoader, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
@@ -38,6 +38,7 @@ function AdminFeeds() {
   const deleteFeedModal = useModal(false)
 
   const editFeedModal = useModal(false)
+  const loginLoader = useLoader(false)
 
   let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
     const { id, attachment_file } = el
@@ -118,12 +119,13 @@ function AdminFeeds() {
       id: selectedFeed?.id,
       is_deleted: true
     }
-
+    loginLoader.show()
     dispatch(
       addBroadCastMessages({
         params,
         onSuccess: (response: any) => () => {
           if (response.success) {
+            loginLoader.hide()
             showToast(response.message, 'success')
             deleteFeedModal.hide()
             getBroadCastMessage(INITIAL_PAGE)
@@ -131,6 +133,7 @@ function AdminFeeds() {
           }
         },
         onError: (error) => () => {
+          loginLoader.hide()
           showToast(error.error_message)
         },
       })
@@ -154,6 +157,7 @@ function AdminFeeds() {
     const validation = validate(externalCheck ? CREATE_BROAD_CAST_EXTERNAL : CREATE_BROAD_CAST_INTERNAL, params);
 
     if (ifObjectExist(validation)) {
+      loginLoader.show()
       dispatch(
         addBroadCastMessages({
           params,
@@ -161,12 +165,14 @@ function AdminFeeds() {
             if (response.success) {
               showToast(response.message, 'success')
               editFeedModal.hide()
+              loginLoader.hide()
               getBroadCastMessage(INITIAL_PAGE)
 
             }
           },
           onError: (error) => () => {
             showToast(error.error_message)
+            loginLoader.hide()
           },
         })
       );
@@ -281,7 +287,6 @@ function AdminFeeds() {
             value={feedDescription.value}
             onChange={feedDescription.onChange}
             className="form-control form-control-sm"
-
           />
           <div className="row col ">
             <div className="pr-3">
@@ -347,6 +352,7 @@ function AdminFeeds() {
           <div className="col-md-6 col-lg-4 ">
             <Button
               block
+              loading={loginLoader.loader}
               text={translate('order.Update')}
               onClick={proceedEditHandler}
             />
@@ -358,7 +364,9 @@ function AdminFeeds() {
         <div>
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
-            <Button text={translate('common.delete')} onClick={proceedDeleteHandler} />
+            <Button text={translate('common.delete')}
+              loading={loginLoader.loader}
+              onClick={proceedDeleteHandler} />
           </div>
         </div>
       </Modal>

@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { Button, CommonTable, HomeContainer, Image, NoDataFound, Priority, Spinner, Status } from "@Components";
+import { useNavigation } from '@Hooks';
+import { translate } from '@I18n';
+import { TaskFilters, TaskGroups } from '@Modules';
+import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams } from '@Redux';
+import { ROUTES } from '@Routes';
+import { capitalizeFirstLetter, getDates, getPhoto, paginationHandler } from '@Utils';
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, HomeContainer, NoDataFound, Spinner, AutoComplete } from "@Components";
-import { TaskGroups, TaskFilter, TaskFilters } from '@Modules'
-import { CommonTable, Image, Priority, Status } from '@Components'
-import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
-import { getTasks, setSelectedTask, setSelectedTabPosition, setTaskParams, selectedTaskIds, getSelectedReference } from '@Redux'
-import { useNavigation } from '@Hooks'
-import { ROUTES } from '@Routes'
-import { translate } from '@I18n'
+
+
+
 
 
 function Tasks() {
-  // const DEFAULT_PARAMS = { q_many: "",assigned_tasks_by: "assigned_to",assigned_company: '', created_company: '',"created_tasks_by":"ALL","task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL","created_department_id":"ALL","created_designation_id":"ALL", page_number: 1,assigned_emp_id: "",created_emp_id:"" }
   const dispatch = useDispatch()
-  const { tasks, taskNumOfPages, taskCurrentPages, selectedTask, taskParams } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, taskParams } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company } = dashboardDetails || ''
   const [params, setParams] = useState(taskParams)
@@ -42,10 +43,8 @@ function Tasks() {
 
   const normalizedTableData = (data: any) => {
     if (data && data?.length > 0)
-      return data?.map((el: any,index:number) => {
-
-        const { priority, parent, task_attachments, by_user, raised_by_company, created_at, task_status, eta_time, title, assigned_to, description } = el
-
+      return data?.map((el: any) => {
+        const { priority, parent, task_attachments, by_user, raised_by_company, task_status, eta_time, title, assigned_to, description } = el
         return {
           "task":
             <>
@@ -112,7 +111,6 @@ function Tasks() {
 
   return (
     <div className="mx-3 mt-3">
-
       <div className="d-flex justify-content-end">
         <Button
           className="text-white"
@@ -123,6 +121,8 @@ function Tasks() {
           }}
         />
       </div>
+   
+
       <div className="row mt-3 mb-2">
         <div className="mx-3 col">
           <TaskGroups onClick={(code) => {
@@ -165,9 +165,9 @@ function Tasks() {
               tableOnClick={(idx, index, item) => {
                 dispatch(setSelectedTask(item?.code));
                 dispatch(selectedTaskIds(item))
-                dispatch(getSelectedReference({code: item?.code,refer:true}))
+                dispatch(getSelectedReference({ code: item?.code, refer: true }))
                 dispatch(setSelectedTabPosition({ id: '1' }))
-                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'task');
+                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'task');
               }
               }
             />

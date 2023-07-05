@@ -6,7 +6,7 @@ import { icons } from "@Assets";
 import { TicketInfoProps } from "./interface";
 import { TicketItemMenu, TicketEventHistory } from "@Modules";
 import { translate } from "@I18n";
-import { useModal, useInput, useWindowDimensions } from '@Hooks'
+import { useModal, useInput, useWindowDimensions, useLoader } from '@Hooks'
 import { addTicketEvent, getTicketDetails } from '@Redux'
 import { useParams } from "react-router-dom";
 
@@ -15,9 +15,10 @@ const END_TASK = 2
 
 const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
+
+    const loginLoader = useLoader(false)
+
     const { id } = useParams()
-
-
     const dispatch = useDispatch()
     const { ticketDetails,selectedTicket } = useSelector((state: any) => state.TicketReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
@@ -63,18 +64,21 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
         }
-
+        loginLoader.show()
 
         console.log(eta,"   ")
         dispatch(
             addTicketEvent({
                 params,
                 onSuccess: () => () => {
+                    loginLoader.hide()
                     editEtaReason.set('')
                     editEtaModal.hide();
                     getTicketDetailsHandler()
                 },
-                onError: () => () => { }
+                onError: () => () => {
+                    loginLoader.hide()
+                 }
             })
         )
     }
@@ -126,9 +130,12 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                                             return <div
                                                 className="ml-3"
                                                 onClick={(e) => e.preventDefault()}>
+
                                                 <Image
                                                     variant={'avatar'}
-                                                    src={getPhoto(item?.attachment_file)} /></div>
+                                                    src={getPhoto(item?.attachment_file)} />
+
+                                                    </div>
                                         })
                                     }
                                 </div>
@@ -221,7 +228,9 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
                 </div>
                 <div className="col text-right">
-                    <Button text={translate('common.submit')} onClick={editEtaSubmitApiHandler} />
+                    <Button text={translate('common.submit')}
+                          loading={loginLoader.loader}
+                           onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
             {/**

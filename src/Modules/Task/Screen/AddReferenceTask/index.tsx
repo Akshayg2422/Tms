@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTaskEvent, getTasks } from "@Redux";
 import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back, Spinner } from "@Components";
-import { useInput, useKeyPress, useNavigation } from "@Hooks";
+import { useInput, useKeyPress, useLoader, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE, INITIAL_PAGE } from "@Utils";
 import { translate } from "@I18n";
 import { useParams } from "react-router-dom";
@@ -18,6 +18,7 @@ function AddReferenceTask() {
   const { goBack } = useNavigation();
   const [loading, setLoading] = useState(false)
   const search = useInput("");
+  const loginLoader = useLoader(false);
 
   const isEnterPressed = useKeyPress("Enter");
 
@@ -42,6 +43,7 @@ function AddReferenceTask() {
 
     const validation = validate(ADD_REFERENCE_TASK, params)
     if (ifObjectExist(validation)) {
+      loginLoader.show()
       dispatch(
         addTaskEvent({
           params,
@@ -49,11 +51,13 @@ function AddReferenceTask() {
 
             if (response.success) {
               goBack()
+              loginLoader.hide()
               showToast(response.message, "success");
             }
             // setLoading(false)
           },
           onError: (error) => () => {
+            loginLoader.hide()
             showToast(error.error_message);
 
           },
@@ -139,7 +143,9 @@ function AddReferenceTask() {
               getTasksApiHandler(INITIAL_PAGE, text)
             }} />
 
-            <Button className="ml-3" size={'sm'} text={translate("common.submit")} onClick={addReferenceTaskHandler} />
+            <Button className="ml-3" size={'sm'} text={translate("common.submit")}
+              loading={loginLoader.loader}
+             onClick={addReferenceTaskHandler} />
           </div>
         </div>
 

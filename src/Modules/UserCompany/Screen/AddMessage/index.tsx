@@ -4,7 +4,7 @@ import { Button, Modal, Input, Dropzone, ImageDownloadButton, ImagePicker, showT
 import { icons } from '@Assets'
 import { addGroupMessage, getTokenByUser, refreshGroupEvents, selectedVcDetails } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
-import { useModal, useInput, useNavigation } from '@Hooks'
+import { useModal, useInput, useNavigation, useLoader } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
 import { ROUTES } from '@Routes';
@@ -24,7 +24,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
     const { goTo } = useNavigation()
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
-
+    const loginLoader=useLoader(false)
     const addGroupMessageApiHandler = () => {
 
         if (message.value.trim()) {
@@ -77,6 +77,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
             group_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : ''
         })
 
+
         const params = {
             event_type: MEA,
             group_id: AddGroup,
@@ -84,6 +85,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         };
 
         if (ifObjectExist(validation)) {
+            loginLoader.show()
             dispatch(
                 addGroupMessage({
                     params,
@@ -91,8 +93,10 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                         resetValues();
                         attachmentModal.hide()
                         dispatch(refreshGroupEvents())
+                        loginLoader.hide()
                     },
                     onError: (error) => () => {
+                        loginLoader.hide()
 
                     },
                 }),
@@ -106,7 +110,6 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         setSelectDropzone([{}]);
         setPhoto([])
     };
-
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -158,10 +161,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                                 // handleImagePicker(file)
                             }}
 
-                            // onSelectImagePicker={(el) => {
-                            //     setSelectedNoOfPickers(el?.length)
-
-                            //   }}
+                          
 
                             onSelectImagePickers={(el) => {
                                 let array: any = []
@@ -182,7 +182,8 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
                 <div className='col-6 pt-2'>
                     <div className=''>
-                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment} />
+                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment} 
+                        loading={ loginLoader.loader}/>
                     </div>
                 </div>
 

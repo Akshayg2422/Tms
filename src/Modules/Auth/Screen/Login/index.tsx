@@ -23,9 +23,12 @@ function Login() {
     (state: any) => state.AuthReducer
   );
 
-  const validateLoader = useLoader(false);
+  const loginLoader = useLoader(false);
 
   const validateUserBusinessApiHandler = () => {
+
+
+
     const params = {
       mobile_number: mobileNumber.value,
       ln: language.value,
@@ -35,17 +38,17 @@ function Login() {
     const validation = validate(MOBILE_NUMBER_RULES, params);
 
     if (ifObjectExist(validation)) {
-      validateLoader.show()
+      loginLoader.show()
       dispatch(
         validateUserBusiness({
           params,
-          onSuccess: (response) => () => {
-            validateLoader.hide()
+          onSuccess: () => () => {
+            loginLoader.hide()
             dispatch(setRegisteredMobileNumber(mobileNumber.value));
             goTo(ROUTES["auth-module"].otp)
           },
           onError: (error) => () => {
-            validateLoader.hide()
+            loginLoader.hide()
             showToast(error.error_message, 'error');
           },
         })
@@ -88,16 +91,15 @@ function Login() {
             }}
           />
         </div>
-        <ComponentLoader loading={validateLoader.loader}>
-          <Button
-            block
-            text={translate("common.submit")}
-            onClick={() => {
-              validateUserBusinessApiHandler();
-            }}
-          />
-        </ComponentLoader>
 
+        <Button
+          loading={loginLoader.loader}
+          block
+          text={translate("common.submit")}
+          onClick={() => {
+            validateUserBusinessApiHandler();
+          }}
+        />
       </div>
     </div>
   );

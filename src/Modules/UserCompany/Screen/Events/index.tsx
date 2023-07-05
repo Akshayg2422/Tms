@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Button, Card, NoDataFound, Spinner, Image, Modal, MenuBar, showToast, Checkbox, DateTimePicker, Input, Dropzone, MultiSelectDropDown, ImagePicker, TextAreaInput } from "@Components";
-import { useInput, useModal, useNavigation, useWindowDimensions } from "@Hooks";
+import { useInput, useLoader, useModal, useNavigation, useWindowDimensions } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { useSelector, useDispatch } from "react-redux";
@@ -53,7 +53,7 @@ function Events() {
   const editEventModal = useModal(false)
   const MarkAsClosedEventModal = useModal(false)
   const [isSelected, setIsSelected] = useState<boolean>(false)
-  console.log(isSelected, "isSelected===>")
+const loginLoader=useLoader(false)
 
   useEffect(() => {
     getEventsApiHandler(INITIAL_PAGE)
@@ -144,12 +144,14 @@ function Events() {
 
     const validation = validate(externalCheck ? ADD_EVENT_EXTERNAL_RULES : ADD_EVENT_INTERNAL_RULES, params);
     if (ifObjectExist(validation)) {
+      loginLoader.show()
       dispatch(
         addEvent({
           params,
           onSuccess: (response: any) => () => {
             if (response.success) {
               console.log('came');
+              loginLoader.hide()
 
               showToast(response.message, 'success')
               editEventModal.hide()
@@ -158,10 +160,12 @@ function Events() {
           },
           onError: (error) => () => {
             showToast(error.error_message)
+            loginLoader.hide()
           },
         })
       );
     } else {
+      loginLoader.hide()
       showToast(getValidateError(validation));
     }
   };
@@ -171,12 +175,13 @@ function Events() {
       id: selectedEvent?.id,
       is_deleted: true
     }
-
+    loginLoader.show()
     dispatch(
       addEvent({
         params,
         onSuccess: (response: any) => () => {
           if (response.success) {
+            loginLoader.hide()
             showToast(response.message, 'success')
             deleteEventModal.hide()
             getEventsApiHandler(INITIAL_PAGE)
@@ -184,6 +189,7 @@ function Events() {
           }
         },
         onError: (error) => () => {
+          loginLoader.hide()
           showToast(error.error_message)
         },
       })
@@ -199,17 +205,21 @@ function Events() {
       mark_as_closed: true
     }
 
+    loginLoader.show()
+
     dispatch(
       addEvent({
         params,
         onSuccess: (response: any) => () => {
           if (response.success) {
+            loginLoader.hide()
             showToast(response.message, 'success')
             getEventsApiHandler(INITIAL_PAGE)
 
           }
         },
         onError: () => () => {
+          loginLoader.hide()
         },
       })
     );
@@ -228,8 +238,6 @@ function Events() {
     )
     goTo(ROUTES['user-company-module']['event-chatting'])
   }
-
-  //  const place,start_time,end_time
 
 
   return (
@@ -324,9 +332,7 @@ function Events() {
                         {item.mark_as_completed === true && <div className="h4 text-primary">
                           Closed
                         </div>}
-
                       </div>
-
                       <div onClick={() => {
                         if (item.mark_as_completed !== true) {
                           proceedEventsChatting(item.id)
@@ -334,6 +340,9 @@ function Events() {
                       }
                       }>
                         <EventItem key={item.id} item={item} />
+                      </div>
+                      <div>
+                        <CarouselImages item={item}/>
                       </div>
                     </Card>
                   </div>
@@ -458,6 +467,7 @@ function Events() {
             <Button
               block
               text={translate('order.Update')}
+              loading={loginLoader.loader}
               onClick={submitAddEventHandler}
             />
           </div>
@@ -470,6 +480,7 @@ function Events() {
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
             <Button text={'Delete'}
+            loading={loginLoader.loader}
               onClick={proceedDeleteHandler}
             />
           </div>

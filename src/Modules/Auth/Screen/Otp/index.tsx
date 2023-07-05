@@ -3,7 +3,7 @@ import { Button, AuthContainer, showToast, ComponentLoader } from "@Components";
 import { useInput, useTimer, useNavigation, useLoader, useKeyPress } from "@Hooks";
 import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, OTP_RULES, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
 import { useSelector, useDispatch } from "react-redux";
-import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard } from "@Redux";
+import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard, validateUserBusiness, setRegisteredMobileNumber, getReSendOtp } from "@Redux";
 import { ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
 
@@ -34,18 +34,30 @@ function Otp() {
 
     setSeconds(OTP_RESEND_DEFAULT_TIME);
 
-    // const params = {
-    //   mobile_number: registeredMobileNumber,
-    //   ln: language,
-    //   app_user_type: BUSINESS,
-    // };
-    // dispatch(validateRegisterUser({
-    //   params,
-    //   onSuccess: () => () => { },
-    //   onError: () => () => { }
-    // }));
-  };
+    const params = {
+      mobile_number: registeredMobileNumber,
+   
+    };
+    console.log(params,"pppppppppp")
 
+      dispatch(
+        getReSendOtp({
+          params,
+          onSuccess: () => () => {
+        
+         
+          },
+          onError: (error) => () => {
+       
+            showToast(error.error_message, 'error');
+          },
+        })
+      );
+
+  };
+  // mobile_number: mobileNumber.value,
+  // ln: language.value,
+  // app_user_type: BUSINESS,
 
 
   function getDashboardDetails() {

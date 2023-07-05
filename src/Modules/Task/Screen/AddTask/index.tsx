@@ -11,7 +11,8 @@ import {
     LoadingButton,
     AutoComplete,
     InputHeading,
-    TextAreaInput
+    TextAreaInput,
+    Button
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -39,7 +40,7 @@ import {
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInput, useNavigation, useDropDown, useKeyPress } from "@Hooks";
+import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
 import moment from "moment";
 
 function AddTask() {
@@ -93,6 +94,8 @@ function AddTask() {
     const [eta, setEta] = useState("")
     // let attach = photo.slice(-selectNoPickers)
     const [date, setDate] = useState<any>()
+    const loginLoader = useLoader(false);
+
 
     const isEnterPressed = useKeyPress("Enter");
 
@@ -165,6 +168,7 @@ function AddTask() {
 
         const validation = validate(taskType?.id === "1" ? CREATE_EXTERNAL : CREATE_INTERNAL, params);
         if (ifObjectExist(validation)) {
+            loginLoader.show()
             setLoading(true)
             dispatch(
                 addTask({
@@ -172,6 +176,7 @@ function AddTask() {
                     onSuccess: (response: any) => () => {
                         if (response.success) {
                             goBack();
+                            loginLoader.hide()
                             showToast(response.message, "success");
                         }
                         setLoading(false)
@@ -180,6 +185,8 @@ function AddTask() {
                     onError: (error) => () => {
                         showToast(error.error_message);
                         setLoading(false)
+                        
+                        loginLoader.hide()
                     },
                 })
             );
@@ -454,9 +461,9 @@ function AddTask() {
             </div >
 
             <div className="col mt-4">
-                <LoadingButton size={'md'}
+                <Button size={'md'}
+                  loading={loginLoader.loader}
                     text={translate('common.submit')}
-                    loading={loading}
                     onClick={submitTaskHandler} />
             </div>
         </Card >

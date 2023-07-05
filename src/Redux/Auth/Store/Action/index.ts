@@ -18,6 +18,7 @@ import {
   VALIDATE_USER_BUSINESS_SUCCESS,
   VALIDATE_USER_BUSINESS_FAILURE,
   CLEAR_VALIDATE_USER_BUSINESS,
+  GET_RESEND_OTP_SUCCESS,
   
   BRAND_SECTOR,
   BRAND_SECTOR_SUCCESS,
@@ -39,7 +40,9 @@ import {
   RESTORE_AUTH,
   PUSH_NOTIFICATION,
   PUSH_NOTIFICATION_SUCCESS,
-  PUSH_NOTIFICATION_FAILURE
+  PUSH_NOTIFICATION_FAILURE,
+  GET_RESEND_OTP,
+  GET_RESEND_OTP_FAILURE
 } from '../ActionTypes';
 
 
@@ -138,6 +141,31 @@ export const otpLoginSuccess = (response: any) => {
 export const otpLoginFailure = (error: any) => {
   return {
     type: OTP_LOGIN_FAILURE,
+    payload: error,
+  };
+};
+
+
+
+//RESEND OTP
+
+export const getReSendOtp = (params: any) => {
+  return {
+    type: GET_RESEND_OTP,
+    payload: params,
+  };
+};
+
+export const getReSendOtpSuccess = (response: any) => {
+  return {
+    type: GET_RESEND_OTP_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getReSendOtpFailure = (error: any) => {
+  return {
+    type: GET_RESEND_OTP_FAILURE,
     payload: error,
   };
 };

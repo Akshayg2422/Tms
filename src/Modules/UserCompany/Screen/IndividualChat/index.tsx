@@ -8,7 +8,7 @@ import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, 
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
 import { ROUTES } from '@Routes'
-import { useDynamicHeight, useInput, useModal, useNavigation } from '@Hooks'
+import { useDynamicHeight, useInput, useLoader, useModal, useNavigation } from '@Hooks'
 import { translate } from '@I18n'
 import { VideoConference } from '../../Container'
 import { PhotoProvider, PhotoView } from 'react-photo-view';
@@ -48,6 +48,7 @@ function IndividualChat() {
     const [corouselIndex, setCorouselIndex] = useState<any>()
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
+    const loginLoader=useLoader(false)
 
     console.log(selectedUserDetails?.id, "selectedUserDetails?.id===>")
 
@@ -99,7 +100,7 @@ function IndividualChat() {
         }))
     }
 
-    console.log("employeeelist========>", employeeList)
+
 
     const getDisplayTimeFromMoment = (date) => {
         if (date) {
@@ -139,14 +140,17 @@ function IndividualChat() {
         };
 
         if (ifObjectExist(validation)) {
+            loginLoader.show()
             dispatch(postChatMessage({
                 params,
                 onSuccess: (success: any) => async () => {
                     getChatMessage(selectedUserDetails?.id)
                     resetValues()
                     attachmentModal.hide()
+                    loginLoader.hide()
                 },
                 onError: (error: string) => () => {
+                    loginLoader.hide()
                 },
             }))
         } else {
@@ -806,7 +810,8 @@ function IndividualChat() {
 
                 <div className='col-6 pt-2'>
                     <div className=''>
-                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment} />
+                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment}
+                        loading={   loginLoader.loader} />
                     </div>
                 </div>
 

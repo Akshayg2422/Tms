@@ -5,7 +5,7 @@ import { EmployeeGroupsProps } from './interfaces'
 import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image, Spinner } from '@Components'
 import { addGroupUser, getGroupsEmployees, getTokenByUser, selectedVcDetails } from '@Redux'
 import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArrayByKey } from '@Utils';
-import { useDropDown, useModal, useNavigation } from '@Hooks';
+import { useDropDown, useLoader, useModal, useNavigation } from '@Hooks';
 import { Employees, GroupEmployeeList } from '@Modules'
 import { translate } from '@I18n'
 import { icons } from '@Assets';
@@ -30,6 +30,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
     const [taggedUsers, setTaggedUsers] = useState([])
     const [reassignUser, setReassignUser] = useState<any>({})
     const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
+    const loginLoader=useLoader(false)
 
 
 
@@ -47,11 +48,14 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
 
         }
         if (groupCode) {
+   loginLoader.show()
+            
             dispatch(
                 getGroupsEmployees({
                     params,
                     onSuccess: (response) => () => {
                         const selectedUsers = response.details
+                        loginLoader.hide()
                         if (selectedUsers && selectedUsers.length > 0) {
                             setDefaultSelectedUser(selectedUsers)
                         }
@@ -59,6 +63,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                     },
                     onError: () => () => {
                         setLoading(false)
+                        loginLoader.hide()
                     }
                 })
             )
@@ -73,6 +78,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
             group_id: groupCode,
             users_id: addUsers.tagged_users
         }
+        loginLoader.show()
 
         dispatch(
             addGroupUser({
@@ -80,9 +86,10 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                 onSuccess: (response) => () => {
                     addUserModal.hide()
                     getGroupEmployees()
+                    loginLoader.hide()
                 },
                 onError: () => () => {
-
+                    loginLoader.hide()
                 }
 
 
@@ -189,6 +196,7 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                 <div className="pt-3 mr-2 text-right">
                     <Button
                         size={'sm'}
+                        loading={loginLoader.loader}
                         text={translate("common.submit")}
                         onClick={() => {
                             addGroupUsers({ event_type: TGU, tagged_users: taggedUsers })
