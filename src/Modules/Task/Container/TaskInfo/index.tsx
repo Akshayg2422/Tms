@@ -21,6 +21,7 @@ const END_TASK = 2
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const { id, item } = useParams()
+    const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
 
     const dispatch = useDispatch()
     const { taskDetails, selectedTask, selectedReferenceDetails, referencesTasks, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
@@ -45,7 +46,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     useEffect(() => {
         getTaskDetailsHandler()
-    }, [id])
+    }, [refreshTaskEvents,id])
 
 
 
