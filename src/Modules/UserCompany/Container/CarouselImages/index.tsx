@@ -14,10 +14,10 @@ function CarouselImages({ item }: CarouselImagesProps) {
     return (
         <>
 
-            <div className="">
+            <div className="" >
                 <div className="">
                     <Carousel
-                        dynamicHeight
+                        dynamicHeight 
                     >
                         {attachments &&
                             attachments.length > 0 &&

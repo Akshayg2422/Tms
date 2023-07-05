@@ -335,6 +335,9 @@ function Events() {
                       }>
                         <EventItem key={item.id} item={item} />
                       </div>
+                      <div>
+                        <CarouselImages item={item}/>
+                      </div>
                     </Card>
                   </div>
                 );
