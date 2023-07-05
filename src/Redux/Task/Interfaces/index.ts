@@ -14,7 +14,10 @@ export interface TaskStateProp {
     referencesTasksNumOfPages: any,
     referencesTasksCurrentPages: number,
     taskUsers: any,
+    eventsMessage:any,
     refreshTaskEvents: boolean,
+    refreshEventMessage:boolean,
+    refreshEventsMessage:boolean,
     taskEventAttachments: any,
     taskEventAttachmentsCurrentPage: number,
     selectedTabPositions: any,
@@ -31,5 +34,8 @@ export interface TaskStateProp {
     breakDownTimeLine:any,
     selectedTaskId:any,
     selectedReferenceDetails:any,
+    addNormalMessage:any,
+    addAttachmentsMessage:any,
+    getAttachmentsMessage:any
     
 }

@@ -172,6 +172,10 @@ export const FETCH_CHAT_EMPLOYEE_LIST = TASK + 'getChatEmployeeList'
 
 export const GET_TIMELINE_BREAKDOWN=TASK+'getTimelineBreakdown'
 
+// event chatting 
+export const ADD_ATTACHMENTS_MESSAGE = TASK +'addEventMessage'
+export const GET_ATTACHMENTS_MESSAGE = TASK + 'getEventMessage'
+
 
 
 

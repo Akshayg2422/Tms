@@ -19,6 +19,11 @@ export * from './SubTaskGroup'
 export * from './AdminFeeds'
 export * from './TimeApproval'
 export * from './IndividualChat'
+export * from './EventChatting'
+export * from './AddEventChat'
+export * from './EventChat'
+
+
 
 
 

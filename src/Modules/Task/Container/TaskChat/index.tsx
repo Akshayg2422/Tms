@@ -11,7 +11,8 @@ import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { CardFooter } from 'reactstrap';
-// import {  } from '@Components//Component/ImageDownloadButton';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
 
 function TaskChat({ }: TaskChatProps) {
@@ -131,7 +132,7 @@ function TaskChat({ }: TaskChatProps) {
                     {/* <Spinner /> */}
                 </h4>}
                 next={() => {
-                    
+
                     if (taskEventsCurrentPage !== -1) {
                         getTaskEventsApi(taskEventsCurrentPage)
                     }
@@ -139,7 +140,7 @@ function TaskChat({ }: TaskChatProps) {
                 }>
                 {taskEvents && taskEvents.length > 0 &&
                     taskEvents.map((task: any, index: number) => {
-                        
+
 
                         const { icon, title, subTitle, created_at, attachments } = task
                         const showDotLine = index !== 0
@@ -153,26 +154,33 @@ function TaskChat({ }: TaskChatProps) {
                                 time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
                                 <div className='pt-2' onClick={() => {
-                                    if(imageUrls){
-                                  
-                                    imageModal.show()
-                                    setImage(imageUrls)
+                                    if (imageUrls) {
+
+                                        imageModal.show()
+                                        setImage(imageUrls)
                                     }
                                 }} >
                                     {
-                                        imageUrls && imageUrls.length > 0 && imageUrls.map((each, index) => {
 
-                                            return (
-                                                <div onClick={() => {
-                                                 
-                                                     setCorouselIndex(index) }}>
-
-                                                    <Image className='ml-1 mb-1 pointer' src={each} width={100} height={100} />
+                                        <div className={'container'}>
+                                            <PhotoProvider>
+                                                <div className="row pointer">
+                                                    {imageUrls?.map((item: any, index: any) => (
+                                                        <div key={index}>
+                                                            <PhotoView src={item}>
+                                                                <img className={'p-1'} src={item} alt={'Task Attachments'} width={100} height={100} />
+                                                                {/* <div className='pointer'>
+                                                                    <ImageDownloadButton Url={item} title={item} />
+                                                                </div> */}
+                                                            </PhotoView>
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                            )
+                                            </PhotoProvider>
+                                        </div>
 
-                                        })
                                     }
+
                                 </div>
 
                             </TimeLine>)
@@ -180,34 +188,6 @@ function TaskChat({ }: TaskChatProps) {
                 }
             </InfiniteScroll>
 
-            <Modal isOpen={imageModal.visible} onClose={imageModal.hide} size='md'>
-                <div className={'mt--5 mb--6 mx--4'}>
-                    <Carousel selectedItem={corouselIndex}>
-
-                        {
-                            image.map((each, index) => (
-
-                                <>
-                                    <div>
-                                        <Image
-                                            className='ml-2 mr-2'
-                                            src={each}
-                                            style={{ height: '450px', width: '450px' }}
-                                        />
-                                    </div>
-                                    <CardFooter className={'mt-2'}>
-                                        <div className='d-flex justify-content-end mt--6 mr-4 pointer'>
-                                            <ImageDownloadButton Url={each} title={each} />
-                                        </div>
-                                    </CardFooter>
-                                </>
-                            ))
-                        }
-
-                    </Carousel>
-                </div>
-
-            </Modal>
         </div>
 
 

@@ -1,12 +1,15 @@
 import { Back, H, Image, MenuBar, Modal } from "@Components";
 import React, { useState } from "react";
 import { EventItemProps } from "./interface";
-import { getPhoto, getDataAndTime, capitalizeFirstLetter,   getDisplayTimeDateMonthYearTime,
-    getMomentObjFromServer, } from "@Utils";
+import {
+    getPhoto, getDataAndTime, capitalizeFirstLetter, getDisplayTimeDateMonthYearTime,
+    getMomentObjFromServer,
+} from "@Utils";
 import { translate } from "@I18n";
 import { useModal } from "@Hooks";
 import { Carousel } from "react-responsive-carousel";
 import { icons } from "@Assets";
+import { useSelector } from "react-redux";
 
 function EventItem({ item }: EventItemProps) {
 
@@ -20,11 +23,14 @@ function EventItem({ item }: EventItemProps) {
 
     ]
 
-    const { title, attachments, place,start_time,end_time, description, event_by, created_at, applicable_branches, for_internal_company, for_external_company } =
-        item;
+    const { title, attachments, place, start_time, end_time, description, event_by, created_at, applicable_branches, for_internal_company, for_external_company } = item;
 
     const imageModal = useModal(false)
     const [image, setImage] = useState([])
+
+    const handleCarouselClick = (e) => {
+        e.preventDefault();
+    };
 
     return (
         <>
@@ -78,16 +84,17 @@ function EventItem({ item }: EventItemProps) {
                                     >
                                         {applicable_branches.register_name} {' '} {','} {''}
                                     </span>
-
                                 );
                             })}
                     </div>
 
+
                     <div className="row">
                         <div className="col-lg-12 col-sm-0 col-12 mt-3 mb--6">
                             <Carousel
-                            dynamicHeight
-                            >
+                                dynamicHeight
+                                onClickThumb={handleCarouselClick}
+                                >
                                 {attachments &&
                                     attachments.length > 0 &&
                                     attachments?.map((attachment_logo: any, index: number) => {
@@ -104,6 +111,7 @@ function EventItem({ item }: EventItemProps) {
                         </div>
 
                     </div>
+
                     <div className="row ml-2 mt-4">
                         <div className="text-xs"> {place} </div>
                     </div>

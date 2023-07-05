@@ -39,7 +39,7 @@ function TaskAttachments() {
   }
 
 
-
+console.log('taskAttachments==============>')
   return (
     <>
       <Card className="overflow-auto" style={{
@@ -50,6 +50,7 @@ function TaskAttachments() {
             <SearchInput onSearch={search.set} />
           </div>
         </div >
+        
         {taskEventAttachments && taskEventAttachments.length > 0 && <InfiniteScroll
           dataLength={taskEventAttachments.length}
           hasMore={taskEventAttachmentsCurrentPage !== -1}
@@ -75,19 +76,20 @@ function TaskAttachments() {
                       {
                         attachments?.attachments?.map((image: any) => {
                           return (
-                            <Image className={'mb-3 ml-2'} src={getPhoto(image?.attachment_file)} style={{ height: "100px", width: "100px" }} />
+                          
+                             <Image className={'mb-3 ml-2'} src={getPhoto(image?.attachment_file)} style={{ height: "100px", width: "100px" }} />
                           )
                         })
                       }
                     </div>
                     }
-                    {/* {index !== taskEventAttachments.length - 1 && <Divider space={'3'} />} */}
                   </div>
                 )
               })
             }
           </div>
         </InfiniteScroll>}
+            
       </Card >
 
 

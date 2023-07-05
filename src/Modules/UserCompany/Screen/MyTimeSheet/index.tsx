@@ -434,8 +434,8 @@ function MyTimeSheet() {
         <div className="h3">{translate('order.This Week')}</div>
         <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
         <div>
-          <Image className="mx-2" src={icons.previousBackArrow} height={20} width={20} onClick={() => { getPreviousWeekDates() }} />
-          <Image className="mx-2" src={icons.nextArrow} height={20} width={20} onClick={() => { getNextWeekDates() }} />
+          <Image className="mx-2 pointer" src={icons.previousBackArrow} height={20} width={20} onClick={() => { getPreviousWeekDates() }} />
+          <Image className="mx-2 pointer" src={icons.nextArrow} height={20} width={20} onClick={() => { getNextWeekDates() }} />
         </div>
       </div>
 
