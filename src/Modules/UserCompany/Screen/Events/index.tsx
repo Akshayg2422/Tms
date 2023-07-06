@@ -263,7 +263,7 @@ const loginLoader=useLoader(false)
         <InfiniteScroll
           dataLength={events.length}
           hasMore={eventsCurrentPages !== -1}
-          className='overflow-auto overflow-hide'
+          className='overflow-auto overflow-hide '
           style={{ overflowY: "auto" }}
           loader={<h4>
             <Spinner />
@@ -278,7 +278,7 @@ const loginLoader=useLoader(false)
           <div className={''} >
             {
               events?.map((item: any, index: number) => {
-                console.log('item=======>', item)
+             
                 return (
                   <div key={item.id} >
                     <Card className={'shadow-none border m-3 col-7 mb--2'}  >

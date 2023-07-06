@@ -79,6 +79,9 @@ const initialState: UserCompanyStateProp = {
   chatEmployeeList: undefined,
   chatEmployeeListCurrentPages: undefined,
   chatEmployeeListNumOfPages: undefined,
+  refreshChatMessage: false,
+  selectedUserChat:undefined,
+  
 
 }
 
@@ -845,9 +848,23 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 * refresh Group Chat
 */
 
-    case ActionTypes.REFRESH_GROUP_CHAT:
-      state = { ...state, refreshGroupChat: !state.refreshGroupChat }
-      break;
+case ActionTypes.REFRESH_GROUP_CHAT:
+  state = { ...state, refreshGroupChat: !state.refreshGroupChat }
+  break;
+
+
+  case ActionTypes.REFRESH_CHAT_MESSAGE:
+  state = { ...state, refreshChatMessage: !state.refreshChatMessage}
+  break;
+
+
+  //SELECTED USER
+
+  case ActionTypes.USER_CHAT:
+console.log(action,"ppppp-==ssaa")
+    state = { ...state,  selectedUserChat: action.payload}
+    break;
+  
 
 
     /**

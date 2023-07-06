@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { HomeContainer, NoDataFound } from "@Components";
+import { HomeContainer, NoDataFound, Spinner } from "@Components";
 import { TaskGroups, TaskFilter } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter,getDates  } from '@Utils'
@@ -23,6 +23,7 @@ function CompanyTasks() {
   const time = date.getHours()
 
   const { goTo } = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
@@ -31,18 +32,20 @@ function CompanyTasks() {
   const getTaskHandler = (page_number: number) => {
     const updatedParams = { page_number,
        branch_id: selectedCompany.branch_id }
-
-    console.log(JSON.stringify(updatedParams) + '=====');
+       setLoading(true);
 
     dispatch(
       getTasks({
         params: updatedParams,
         onSuccess: (response) => () => {
+          setLoading(false);
 
           console.log(JSON.stringify(response) + '=====');
 
         },
-        onError: () => () => { },
+        onError: () => () => { 
+          setLoading(false);
+        },
       })
     );
   };
@@ -119,7 +122,14 @@ function CompanyTasks() {
 
   return (
     <HomeContainer type={'card'} className="mt-3 100-vh">
-      {tasks && tasks.length > 0 ?
+          {loading && (
+          <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '100px' }}>
+            <Spinner />
+          </div>
+        )}
+
+{!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
+      { tasks && tasks.length > 0 ?
         <CommonTable
           isPagination
           tableDataSet={tasks}
@@ -141,6 +151,7 @@ function CompanyTasks() {
         />
         : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={translate("auth.noTaskFound")!} /></div>
       }
+      </div>}
     </HomeContainer>
   );
 }
