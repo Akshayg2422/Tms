@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { AutoComplete, Button, CommonTable, Divider, Dropzone, Image, ImageDownloadButton, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner, showToast } from '@Components'
 import moment from 'moment'
 import { CHAT_ATTACHMENT_RULES, CHAT_MESSAGE_RULES, convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, getPhoto, getValidateError, ifObjectExist, paginationHandler, validate, } from '@Utils'
-import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedVcDetails } from '@Redux'
+import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedUserChats, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
 import { ROUTES } from '@Routes'
@@ -15,7 +15,7 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 
 function IndividualChat() {
-    const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails, chatEmployeeList, chatEmployeeListNumOfPages, chatEmployeeListCurrentPages } = useSelector(
+    const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails, chatEmployeeList, chatEmployeeListNumOfPages, chatEmployeeListCurrentPages ,refreshChatMessage,selectedUserChat} = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || ''
@@ -50,7 +50,7 @@ function IndividualChat() {
     const SEND_DELAY = 1000;
     const loginLoader=useLoader(false)
 
-    console.log(selectedUserDetails?.id, "selectedUserDetails?.id===>")
+    console.log(selectedUserChat, "selectedUserDetails?.id===>",selectedUserChat)
 
 
     useEffect(() => {
@@ -67,10 +67,10 @@ function IndividualChat() {
     }, [])
 
     useEffect(() => {
-        if (selectedUserDetails) {
-            getChatMessage(selectedUserDetails?.id)
+        if (selectedUserChat) {
+            getChatMessage(selectedUserChat?.id)
         }
-    }, [selectedUserDetails])
+    }, [selectedUserChat])
 
     const getChatEmployeeList = (data) => {
 
@@ -90,6 +90,15 @@ function IndividualChat() {
                     }
                 })
                 setEmployeeList(modifiedData)
+
+                if( selectedUserChat===undefined){
+                    console.log('klmjkhuyvfuyhj')
+ 
+                    dispatch(
+                        selectedUserChats(success?.details[0])
+                    )
+                    }
+
                 if (!selectedUserDetails) {
                     setSelectedUserDetails(success?.details[0])
                 }
@@ -131,11 +140,11 @@ function IndividualChat() {
         const validation = validate(CHAT_ATTACHMENT_RULES, {
             attachment_name: attachmentName.value.trim(),
             chat_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : '',
-            receiver_by: selectedUserDetails?.id
+            receiver_by:selectedUserChat?.id
         })
         const params = {
             event_type: "MEA",
-            receiver_by: selectedUserDetails?.id,
+            receiver_by: selectedUserChat?.id,
             chat_attachments: [{ name: attachmentName.value, attachments: photo }],
         };
 
@@ -144,7 +153,7 @@ function IndividualChat() {
             dispatch(postChatMessage({
                 params,
                 onSuccess: (success: any) => async () => {
-                    getChatMessage(selectedUserDetails?.id)
+                    getChatMessage(selectedUserChat?.id)
                     resetValues()
                     attachmentModal.hide()
                     loginLoader.hide()
@@ -180,14 +189,14 @@ function IndividualChat() {
         const params = {
             event_type: "TEM",
             message: chatText,
-            receiver_by: selectedUserDetails?.id
+            receiver_by: selectedUserChat?.id
         }
         const validation = validate(CHAT_MESSAGE_RULES, params);
         if (ifObjectExist(validation)) {
             dispatch(postChatMessage({
                 params,
                 onSuccess: (success: any) => async () => {
-                    getChatMessage(selectedUserDetails?.id)
+                    getChatMessage(selectedUserChat?.id)
                     setChatText('')
                 },
                 onError: (error: string) => () => {
@@ -196,9 +205,15 @@ function IndividualChat() {
         }
     }
 
+    useEffect (()=>{
+        // getChatMessage()
+        
+
+    },[refreshChatMessage]
+    )
 
     const updateNewEmployeeInChatBox = () => {
-        let checkList = employeeList.some(el => { return el.id === selectedUserDetails.id })
+        let checkList = employeeList.some(el => { return el.id === selectedUserChat.id })
         !checkList && getChatEmployeeList('')
     }
 
@@ -229,9 +244,9 @@ function IndividualChat() {
     }
 
     const getUserToken = () => {
-        dispatch(selectedVcDetails(selectedUserDetails.id))
+        dispatch(selectedVcDetails(selectedUserChat.id))
         const params = {
-            id: selectedUserDetails.id,
+            id: selectedUserChat.id,
             user_name: user_details.name,
             email_id: user_details.email,
         }
@@ -245,6 +260,18 @@ function IndividualChat() {
         }))
     }
 
+
+
+    // useEffect(()=>{
+    //     if( employeeList&& employeeList?.length>0 &&selectedUserChat===undefined ){
+ 
+    //     dispatch(
+    //         selectedUserChats(employeeList[0])
+    //     )
+    //     }
+  
+
+    // },[employeeList])
     console.log("909090909")
 
 
@@ -310,7 +337,7 @@ function IndividualChat() {
                                 <CardHeader>
                                     <div className='row justify-content-between mx-2'>
                                         <div className={'h3'}>
-                                            <strong>{selectedUserDetails?.name || selectedUserDetails?.text}</strong>
+                                            <strong>{selectedUserChat?.name || selectedUserChat?.text}</strong>
                                         </div>
                                         {/* <div
                                             onClick={() => {
@@ -607,7 +634,7 @@ function IndividualChat() {
 
                                 </CardBody>
 
-                                {selectedUserDetails && selectedUserDetails?.id ?
+                                {selectedUserChat && selectedUserChat?.id ?
                                     <CardFooter className=''>
                                         <div className='d-flex'>
                                             <div className=''>
@@ -700,6 +727,9 @@ function IndividualChat() {
                                                 onChange={(item) => {
                                                     setSelectedUserId(item)
                                                     setSelectedUserDetails(item)
+                                                    dispatch(
+                                                        selectedUserChats(item)
+                                                    )
 
 
                                                 }}
@@ -720,10 +750,14 @@ function IndividualChat() {
                                             <div className={`pointer overflow-auto overflow-hide `}
                                                 onClick={() => {
                                                     setSelectedUserDetails(item)
+                                                    dispatch(
+                                                        selectedUserChats(item)
+                                                    )
+                                              
                                                 }}
                                             >
                                                 {
-                                                    <div className={`mx- ${item?.id === selectedUserDetails?.id ? 'bg-lighter ' : ''} py-2 px-2`}
+                                                    <div className={`mx- ${item?.id === selectedUserChat?.id ? 'bg-lighter ' : ''} py-2 px-2`}
                                                         style={{
                                                             // borderRadius: '10px'
                                                         }}
@@ -739,20 +773,20 @@ function IndividualChat() {
                                                                         alt="avatar 1"
                                                                     />
                                                                     <small className='ml-3 '>
-                                                                        <h5 className={`${item?.id === selectedUserDetails?.id ? 'text-black' : 'text-muted'} mb-0 h5`}>
+                                                                        <h5 className={`${item?.id === selectedUserChat?.id ? 'text-black' : 'text-muted'} mb-0 h5`}>
                                                                             {convertToUpperCase(item?.name)}
                                                                         </h5>
                                                                         <div className={'row ml-0  pb-2'}>
                                                                             <div className={`h6 mb-0 text-uppercase  `}
                                                                                 style={{
-                                                                                    color: item?.id === selectedUserDetails?.id ? '#424242' : '#8898aa'
+                                                                                    color: item?.id === selectedUserChat?.id ? '#424242' : '#8898aa'
                                                                                 }}
                                                                             >{item?.department ? item?.department?.name : '-'}</div>
                                                                             <div className={` mt--1`}><Image src={icons.verticalLine} height={12} width={7} /></div>
                                                                             <div
                                                                                 className={`h6 mb-0 text-uppercase `}
                                                                                 style={{
-                                                                                    color: item?.id === selectedUserDetails?.id ? '#424242' : '#8898aa'
+                                                                                    color: item?.id === selectedUserChat?.id ? '#424242' : '#8898aa'
                                                                                 }}
                                                                             >{item?.designation ? item?.designation?.name : '-'}</div>
                                                                         </div>

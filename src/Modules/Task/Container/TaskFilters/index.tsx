@@ -151,6 +151,15 @@ function TaskFilters({ onParams }: TaskFilterProps) {
         }
     }, [designation?.value, department?.value, company?.value?.id,])
 
+    
+    useEffect(() => {
+        if ( department.value?.id === 'ALL' || designation.value?.id === 'ALL') {
+            getCompanyEmployeeApi()
+       
+
+        }
+    }, [designation?.value, department?.value])
+
 
     function getCompanyEmployeeApi() {
 
@@ -160,7 +169,7 @@ function TaskFilters({ onParams }: TaskFilterProps) {
             ...(designation && { designation_id: designation?.value?.id }),
             per_page_count: -1,
         };
-        console.log(params, "rrrr=000000000000000>>>>>")
+       
 
         dispatch(
             getEmployees({
@@ -183,11 +192,21 @@ function TaskFilters({ onParams }: TaskFilterProps) {
         if (createdCompany?.value?.id || createdDepartmentList?.value?.id !== 'ALL' || createdDesignationList?.value?.id !== 'ALL') {
 
             getCompanyCreatedEmployeeApi()
-            console.log(params, "lllllll=2222220000>>>>>")
+          
 
         }
 
     }, [createdDesignationList.value, createdDepartmentList.value, createdCompany.value])
+
+    useEffect(() => {
+        if ( createdDepartmentList?.value?.id === 'ALL' || createdDesignationList?.value?.id === 'ALL') {
+
+            getCompanyCreatedEmployeeApi()
+           
+
+        }
+
+    }, [createdDesignationList.value, createdDepartmentList.value])
 
     function getCompanyCreatedEmployeeApi() {
 

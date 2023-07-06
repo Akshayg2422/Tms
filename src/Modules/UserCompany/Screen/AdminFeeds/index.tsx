@@ -215,7 +215,7 @@ function AdminFeeds() {
           loader={<h4>
             <Spinner />
           </h4>}
-          className={'overflow-auto overflow-hide'}
+          className={'overflow-auto overflow-hide '}
           style={{ overflowY: "auto" }}
           next={() => {
             if (broadCastCurrentPage !== -1) {

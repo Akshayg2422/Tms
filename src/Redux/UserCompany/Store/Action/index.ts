@@ -740,6 +740,27 @@ export const refreshGroupEvents = () => {
 }
 
 /**
+ * refresh group MESSAGE
+ */
+
+
+export const refreshChatMessage = () => {
+  return {
+    type: ActionTypes.REFRESH_CHAT_MESSAGE,
+  }
+}
+
+///USERcHAT
+
+export const selectedUserChats = (params) => {
+  console.log(params,"pppppppppppppppp")
+  return {
+    type: ActionTypes.USER_CHAT,
+    payload: params,
+  }
+}
+
+/**
  * store selected Group 
  */
 

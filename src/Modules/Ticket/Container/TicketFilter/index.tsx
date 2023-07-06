@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { TicketFilterProps } from './interface'
-import { DropDown, Checkbox, SearchInput, MenuBar } from '@Components'
+import { DropDown, Checkbox, SearchInput, MenuBar, AutoComplete } from '@Components'
 import { translate } from '@I18n'
-import { TICKET_FILTER_LIST, TICKET_STATUS_LIST, TICKET_PRIORITY_LIST, getDropDownDisplayData, getDropDownCompanyDisplayData, } from '@Utils'
+import { TICKET_FILTER_LIST, TICKET_STATUS_LIST, TICKET_PRIORITY_LIST, getDropDownDisplayData, getDropDownCompanyDisplayData, getDropDownCompanyUser, } from '@Utils'
 import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartments, getDesignations } from '@Redux'
+import { getAssociatedCompaniesL, getDepartments, getDesignations, getEmployees } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { icons } from '@Assets'
 
@@ -21,7 +21,7 @@ const FILTER_MENU = [
 
 function TicketFilter({ onParams }: TicketFilterProps) {
 
-    const { departments, designations, associatedCompaniesL } = useSelector((state: any) => state.UserCompanyReducer);
+    const { departments, designations, associatedCompaniesL ,dashboardDetails,employees} = useSelector((state: any) => state.UserCompanyReducer);
 
     const dispatch = useDispatch()
     const filteredTicket = useDropDown(TICKET_FILTER_LIST[0]);
@@ -36,6 +36,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
     const modifiedDepartment = departments ? [{ id: 'ALL', name: 'All' }, ...departments] : [{ id: 'ALL', name: 'All' }]
     const modifiedDesignation = designations ? [{ id: 'ALL', name: 'All' }, ...designations] : [{ id: 'ALL', name: 'All' }]
     const modifiedCompany = associatedCompaniesL && associatedCompaniesL.length > 0 && [{ id: '', display_name: '𝗦𝗘𝗟𝗙', name: 'self' }, ...associatedCompaniesL]
+ 
 
 console.log(associatedCompaniesL,"associatedCompaniesL==>")
     useEffect(() => {
@@ -99,6 +100,38 @@ console.log(associatedCompaniesL,"associatedCompaniesL==>")
 
 
     }
+
+    // useEffect(() => {
+    //     if (company?.value?.id || department.value?.id !== 'ALL' || designation.value?.id !== 'ALL') {
+    //         getCompanyEmployeeApi()
+       
+
+    //     }
+    // }, [designation?.value, department?.value, company?.value?.id,])
+
+
+    // function getCompanyEmployeeApi() {
+
+    //     const params = {
+    //         branch_id: company?.value?.id ? company.value.id : dashboardDetails?.permission_details?.branch_id,
+    //         ...(department && { department_id: department?.value?.id }),
+    //         ...(designation && { designation_id: designation?.value?.id }),
+    //         per_page_count: -1,
+    //     };
+    //     console.log(params, "rrrr=000000000000000>>>>>")
+
+    //     dispatch(
+    //         getEmployees({
+    //             params,
+    //             onSuccess: (response: any) => () => {
+
+                  
+
+    //             },
+    //             onError: () => () => { },
+    //         })
+    //     );
+    // }
 
 
 
@@ -234,6 +267,25 @@ console.log(associatedCompaniesL,"associatedCompaniesL==>")
                     />
                 </div>
                 }
+
+
+{/* { advanceFilter && employees.length > 0 &&
+                        <div className="col-lg-3 col-md-3 col-sm-12">
+
+                            <AutoComplete
+                                className="form-control-sm"
+                                variant={'custom'}
+                                heading={translate("common.user")!}
+                                data={getDropDownCompanyUser(employees)}
+                                selected={selectedAssignedUserId}
+                                placeHolder={'search user...'}
+                                onChange={(item) => {
+                                    setSelectedAssignedUserId(item)
+                                    proceedParams({ assigned_emp_id: item.id })
+                                }}
+                            />
+                        </div>
+                    } */}
             </div>
         </>
     )
