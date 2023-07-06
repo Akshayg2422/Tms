@@ -110,11 +110,7 @@ const PushNotification = () => {
                 dispatch(vcNotificationDetails(JSON.parse(payload?.data?.extra_data?.replace(/'/g, '"'))))
                 goTo(ROUTES['user-company-module']['video-conference'], false)
             }
-
         }
-        // else if (true) {
-
-        // }
         else {
             goTo(ROUTES['user-company-module'].Groups)
         }
@@ -144,7 +140,12 @@ const PushNotification = () => {
             } else if (route_type === NOTIFICATION_TASK_CHANNEL_EVENT) {
                 try {
                     dispatch(refreshTaskEvents())
-                    console.log('tttttttttttt')
+                } catch (e) {
+
+                }
+            } else if (route_type === NOTIFICATION_EVENT_MESSAGE) {
+                try {
+                    dispatch(refreshEventsMessage(eventsMessage))
                 } catch (e) {
 
                 }

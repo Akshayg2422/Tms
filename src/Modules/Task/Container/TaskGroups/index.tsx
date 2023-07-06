@@ -52,7 +52,7 @@ function TaskGroups({ onClick, showAll = true }: TaskGroupProps) {
                             >
                                 <div className='col d-flex justify-content-center align-items-center'>
                                     {el.photo && <Image className='ml--1' variant={'rounded'} src={getPhoto(el.photo)} size={'xs'} />}
-                                    <small className={` ml-2  ${textColor}`}><div className='text-xxs text-muted'>{el.name}</div> <div className='text-xs'>{'#' + el.code}</div></small>
+                                    <small className={` ml-2  ${textColor}`}><div className='text-xxs'>{el.name}</div> <div className='text-xs'>{'#' + el.code}</div></small>
                                 </div>
                             </div>
                         )
