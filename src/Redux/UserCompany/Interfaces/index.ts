@@ -64,6 +64,7 @@ export interface UserCompanyStateProp {
     timeStatus:any,
     enableRequestDataList:any,
     enableRequest:any,
+    selectedUserChat:any,
     settingVcDetails:any,
     vcNotificationData:any
     chatMessageData:any
@@ -73,4 +74,5 @@ export interface UserCompanyStateProp {
     chatEmployeeList:any,
     chatEmployeeListCurrentPages:any,
     chatEmployeeListNumOfPages:any,
+    refreshChatMessage:any,
 }

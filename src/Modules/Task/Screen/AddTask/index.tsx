@@ -47,8 +47,6 @@ function AddTask() {
 
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
-
-
     const { dashboardDetails, departments, designations, associatedCompaniesL, employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );

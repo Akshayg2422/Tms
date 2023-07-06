@@ -7,7 +7,7 @@ import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
-import { handleOneToOneChat, handleOneToOneVcNoti, refreshEventsMessage, refreshGroupEvents, refreshTaskEvents, vcNotificationDetails } from '@Redux'
+import { handleOneToOneChat, handleOneToOneVcNoti, refreshChatMessage, refreshEventsMessage, refreshGroupEvents, refreshTaskEvents, vcNotificationDetails } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { Groups } from "../UserCompany";
 
@@ -21,6 +21,7 @@ const PushNotification = () => {
     const NOTIFICATION_TICKET_RAISED = 'TICKET_RAISED'
     const NOTIFICATION_BROADCAST_MESSAGE = 'BROADCAST_MESSAGE'
     const NOTIFICATION_GROUP_MESSAGE = 'GROUP_MESSAGE'
+    const NOTIFICATION_CHAT_MESSAGE='CHAT_MESSAGE'
     const NOTIFICATION_TASK_CHANNEL_EVENT = 'TASK_CHANNEL_EVENT'
     const NOTIFICATION_VIDEO_CONFERENCE = "VIDEO_CONFERENCE"
     const NOTIFICATION_EVENT_MESSAGE = 'EVENT_MESSAGE'
@@ -85,6 +86,9 @@ const PushNotification = () => {
         if (route_type === NOTIFICATION_GROUP_MESSAGE) {
             goTo(ROUTES['user-company-module'].Groups);
         }
+        else if (route_type === NOTIFICATION_CHAT_MESSAGE){
+            goTo(ROUTES["task-module"]["individual-chat"])
+        }
         else if (route_type === NOTIFICATION_TASK_RAISED) {
             goTo(ROUTES["task-module"].tasks)
         }
@@ -133,22 +137,37 @@ const PushNotification = () => {
             if (route_type === NOTIFICATION_GROUP_MESSAGE) {
                 try {
                     dispatch(refreshGroupEvents())
+                    console.log('oooooooooooo')
                 } catch (e) {
 
                 }
             } else if (route_type === NOTIFICATION_TASK_CHANNEL_EVENT) {
                 try {
                     dispatch(refreshTaskEvents())
-                } catch (e) {
-
-                }
-            }else if (route_type === NOTIFICATION_EVENT_MESSAGE) {
-                try {
-                    dispatch(refreshEventsMessage(eventsMessage))
+                    console.log('tttttttttttt')
                 } catch (e) {
 
                 }
             }
+            else if (route_type === NOTIFICATION_EVENT_MESSAGE) {
+                try {
+                    dispatch(refreshEventsMessage(eventsMessage))
+                    console.log('ofjvufu')
+                } catch (e) {
+
+                }
+            }
+
+            else if (route_type === NOTIFICATION_CHAT_MESSAGE) {
+                try {
+                
+                   dispatch(refreshChatMessage())
+                   console.log('popkklnhugu')
+                } catch (e) {
+
+                }
+            }
+
 
 
             new Notification(title, options).addEventListener('click', function () {
