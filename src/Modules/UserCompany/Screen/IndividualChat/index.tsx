@@ -206,7 +206,7 @@ function IndividualChat() {
     }
 
     useEffect (()=>{
-        // getChatMessage()
+     getChatMessage(selectedUserChat?.id)
         
 
     },[refreshChatMessage]
