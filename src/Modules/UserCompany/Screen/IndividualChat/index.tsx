@@ -53,7 +53,6 @@ function IndividualChat() {
 
 
 
-
     useEffect(() => {
 
         getChatEmployeeList('')
@@ -355,11 +354,9 @@ function IndividualChat() {
                                             const formattedDate = displayDate(el?.created_at);
                                             const isFirstMessage = index === 0;
                                             const previousDate: any = !isFirstMessage ? new Date(oneToOneChatMessage[index - 1]?.created_at) : null;
-                                            const isFirstMessageOfDay = isFirstMessage || date.toDateString() !== previousDate.toDateString();
                                             const isDifferentDay = !isFirstMessage && date?.getDate() !== previousDate?.getDate();
                                             const dateToShow = isDifferentDay ? formattedDate : null;
                                             const imageUrls = el?.chat_attachments?.attachments && el?.chat_attachments?.attachments.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
-                                            console.log("opopopopo", imageUrls)
 
                                             return (
                                                 <>
@@ -567,7 +564,7 @@ function IndividualChat() {
                                                                                                     {showNote && (
                                                                                                         <p className={`text-muted text-sm font-weight-bold`}>
                                                                                                             <div
-                                                                                                                style={{ maxWidth: '108px' }}
+                                                                                                                style={{ maxWidth: '200px' }}
                                                                                                             >{note}</div>
                                                                                                         </p>
                                                                                                     )}
@@ -580,37 +577,37 @@ function IndividualChat() {
                                                                             )
 
                                                                         }
-                                                                        
-                                                                                                    {/** Image carousel */}
-                                                                                                    <div className={'mt-2 mb-4 pt-2 row'}>
 
-                                                                                                        {
-                                                                                                            <div className={'container'}>
-                                                                                                                <PhotoProvider>
-                                                                                                                    <div className="row pointer pl-5">
-                                                                                                                        {imageUrls?.map((item: any, index: any) => {
+                                                                        {/** Image carousel */}
+                                                                        <div className={'mt-2 mb-4 pt-2 row'}>
 
-                                                                                                                            return (
-                                                                                                                                <div key={index}>
-                                                                                                                                    <PhotoView src={item}>
-                                                                                                                                        <img style={{
-                                                                                                                                            borderRadius: '10px'
-                                                                                                                                        }} className={'p-1'} src={item} alt={'Task Attachments'} width={130} height={130} />
-                                                                                                                                    </PhotoView>
-                                                                                                                                </div>
-                                                                                                                            )
-                                                                                                                        })}
-                                                                                                                    </div>
-                                                                                                                </PhotoProvider>
-                                                                                                            </div>
-                                                                                                        }
-                                                                                                        {/* style={{
+                                                                            {
+                                                                                <div className={'container'}>
+                                                                                    <PhotoProvider>
+                                                                                        <div className="row pointer pl-5">
+                                                                                            {imageUrls?.map((item: any, index: any) => {
+
+                                                                                                return (
+                                                                                                    <div key={index}>
+                                                                                                        <PhotoView src={item}>
+                                                                                                            <img style={{
+                                                                                                                borderRadius: '10px'
+                                                                                                            }} className={'p-1'} src={item} alt={'Task Attachments'} width={130} height={130} />
+                                                                                                        </PhotoView>
+                                                                                                    </div>
+                                                                                                )
+                                                                                            })}
+                                                                                        </div>
+                                                                                    </PhotoProvider>
+                                                                                </div>
+                                                                            }
+                                                                            {/* style={{
                                                                                                                 border: '5px solid',
                                                                                                                 borderColor: '#FCC9E0',
                                                                                                                 borderRadius: '10px 0px 10px 10px'
                                                                                                             }} */}
 
-                                                                                                    </div>
+                                                                        </div>
 
                                                                     </div>}
                                                                 </div>}
@@ -826,7 +823,7 @@ function IndividualChat() {
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-}}
+                            }}
 
                             onSelectImagePickers={(el) => {
                                 let array: any = []
@@ -847,7 +844,7 @@ function IndividualChat() {
                 <div className='col-6 pt-2'>
                     <div className=''>
                         <Button text={translate("common.submit")} onClick={addGroupEventAttachment}
-                        loading={   loginLoader.loader} />
+                            loading={loginLoader.loader} />
                     </div>
                 </div>
 
