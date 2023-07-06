@@ -8,9 +8,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { icons } from '@Assets'
 import { useModal, useWindowDimensions } from '@Hooks'
 import { useParams } from 'react-router-dom';
-import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { CardFooter } from 'reactstrap';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 
@@ -25,7 +22,6 @@ function TaskChat({ }: TaskChatProps) {
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
     const imageModal = useModal(false)
-    const [corouselIndex, setCorouselIndex] = useState<any>()
 
 
     useEffect(() => {

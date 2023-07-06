@@ -74,7 +74,7 @@ function TicketChat({ }: TicketChatProps) {
     };
 
     function getIconsFromStatus(each: any) {
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, ticket_status } = each
+        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, ticket_status,end_time,start_time } = each
 
         let modifiedData = {}
         switch (event_type) {
@@ -88,20 +88,26 @@ function TicketChat({ }: TicketChatProps) {
                 let names = tagged_users.map(function (item) {
                     return '@' + item['name'] + " ";
                 });
-                modifiedData = { ...each, icon: icons.profile, subTitle: by_user?.name, title: "tagged " + names }
+                modifiedData = { ...each, icon: icons.taggedUserWhiteIcon, subTitle: by_user?.name, title: "tagged " + names }
                 break;
 
             case 'RGU':
-                modifiedData = { ...each, icon: icons.profile, subTitle: by_user?.name, title: "Ticket Reassigned to " + assigned_to.name }
+                modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: by_user?.name, title: "Ticket Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: attachments.name }
+                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: by_user?.name, title: attachments.name }
                 break;
             case 'RTS':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'User Attached Reference Ticket' }
+                modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: by_user?.name, title: 'User Attached Reference Ticket' }
                 break;
             case 'EVS':
-                modifiedData = { ...each, icon: icons.pencil, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TICKET_STATUS_LIST, 'id', ticket_status).text }
+                modifiedData = { ...each, icon: icons.statusWhiteIcon, subTitle: by_user?.name, title: 'Changed Status to ' + getObjectFromArrayByKey(TICKET_STATUS_LIST, 'id', ticket_status).text }
+                break;
+                case 'ETE':
+                modifiedData = { ...each, icon: icons.endTime, subTitle: by_user?.name, title: 'Task End time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(end_time)) }
+                break;
+            case 'ETS':
+                modifiedData = { ...each, icon: icons.startTime, subTitle: by_user?.name, title: 'Task Start time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(start_time)) }
                 break;
         }
         return modifiedData
