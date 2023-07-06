@@ -25,7 +25,7 @@ function IndividualChat() {
     const dynamicHeight: any = useDynamicHeight()
 
     const [chatText, setChatText] = useState<any>("")
-    const [selectedUserDetails, setSelectedUserDetails] = useState<any>(settingVcDetails ? settingVcDetails : '')
+    // const [selectedUserDetails, setSelectedUserDetails] = useState<any>(settingVcDetails ? settingVcDetails : '')
     const [openVideoCall, setOpenVideoCall] = useState<any>(false)
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
@@ -49,8 +49,9 @@ function IndividualChat() {
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
     const loginLoader=useLoader(false)
+    const [loading, setLoading] = useState(false);
 
-    console.log(selectedUserChat, "selectedUserDetails?.id===>",selectedUserChat)
+
 
 
     useEffect(() => {
@@ -80,10 +81,12 @@ function IndividualChat() {
             // page_number
 
         }
+        setLoading(true)
         dispatch(fetchChatEmployeeList({
             params,
             onSuccess: (success: any) => () => {
                 let modifiedData: any = []
+                setLoading(false)
                 success?.details?.map((el) => {
                     if (el.id !== user_details.id) {
                         modifiedData.push(el)
@@ -92,19 +95,17 @@ function IndividualChat() {
                 setEmployeeList(modifiedData)
 
                 if( selectedUserChat===undefined){
-                    console.log('klmjkhuyvfuyhj')
- 
+                  
                     dispatch(
                         selectedUserChats(success?.details[0])
                     )
                     }
 
-                if (!selectedUserDetails) {
-                    setSelectedUserDetails(success?.details[0])
-                }
+           
 
             },
             onError: (error: string) => () => {
+                setLoading(false)
             },
         }))
     }
@@ -253,7 +254,7 @@ function IndividualChat() {
         dispatch(getTokenByUser({
             params,
             onSuccess: (success: any) => () => {
-                console.log("090909090909", success)
+              
                 dispatch(handleOneToOneVcNoti(success?.message))
             },
             onError: (error: string) => () => { },
@@ -262,17 +263,8 @@ function IndividualChat() {
 
 
 
-    // useEffect(()=>{
-    //     if( employeeList&& employeeList?.length>0 &&selectedUserChat===undefined ){
- 
-    //     dispatch(
-    //         selectedUserChats(employeeList[0])
-    //     )
-    //     }
-  
 
-    // },[employeeList])
-    console.log("909090909")
+  
 
 
     const activeStatus = (value) => {
@@ -726,7 +718,7 @@ function IndividualChat() {
                                                 // selected={selectedUserId}
                                                 onChange={(item) => {
                                                     setSelectedUserId(item)
-                                                    setSelectedUserDetails(item)
+                                                  
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
@@ -740,16 +732,24 @@ function IndividualChat() {
 
                             </CardHeader>
 
+                            
+   
                             {<div className={` overflow-auto overflow-hide `}
                                 style={{ height: "90vh" }}
 
                             >
+                                                         {loading && (
+          <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '100px' }}>
+            <Spinner />
+          </div>
+        )}
+        {!loading && <div >
                                 {employeeList && employeeList?.length > 0 ?
                                     employeeList?.map((item: any) => {
                                         return (
                                             <div className={`pointer overflow-auto overflow-hide `}
                                                 onClick={() => {
-                                                    setSelectedUserDetails(item)
+                                               
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
@@ -808,6 +808,8 @@ function IndividualChat() {
                                         <NoRecordsFound />
                                     </div>
                                 }
+
+                                </div>}
                             </div>}
                         </Card>
                     </div>}
