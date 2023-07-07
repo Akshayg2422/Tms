@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Card, CardBody, CardFooter, CardHeader, ListGroup, ListGroupItem } from 'reactstrap'
+import React, { useEffect, useState } from 'react'
+import { Card, CardBody, CardFooter, CardHeader } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { AutoComplete, Button, CommonTable, Divider, Dropzone, Image, ImageDownloadButton, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner, showToast } from '@Components'
+import { AutoComplete, Button, Image, ImagePicker, Input, Modal, NoRecordsFound, ProfileCard, showToast } from '@Components'
 import moment from 'moment'
-import { CHAT_ATTACHMENT_RULES, CHAT_MESSAGE_RULES, convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, getPhoto, getValidateError, ifObjectExist, paginationHandler, validate, } from '@Utils'
+import { CHAT_ATTACHMENT_RULES, CHAT_MESSAGE_RULES, convertToUpperCase, getDropDownCompanyUser, getPhoto, getValidateError, ifObjectExist, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedUserChats, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
-import { ROUTES } from '@Routes'
 import { useDynamicHeight, useInput, useLoader, useModal, useNavigation } from '@Hooks'
 import { translate } from '@I18n'
 import { VideoConference } from '../../Container'
@@ -15,7 +14,7 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 
 function IndividualChat() {
-    const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails, chatEmployeeList, chatEmployeeListNumOfPages, chatEmployeeListCurrentPages, refreshChatMessage, selectedUserChat } = useSelector(
+    const { dashboardDetails, oneToOneChat, employees, settingVcDetails, refreshChatMessage, selectedUserChat } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || ''
@@ -26,26 +25,18 @@ function IndividualChat() {
 
     const [chatText, setChatText] = useState<any>("")
     const [selectedUserDetails, setSelectedUserDetails] = useState<any>(settingVcDetails ? settingVcDetails : '')
-    const [openVideoCall, setOpenVideoCall] = useState<any>(false)
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [employeeList, setEmployeeList] = useState<any>()
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const [oneToOneChatMessage, setOneToOneChatMessage] = useState<any>()
     const dispatch = useDispatch()
-
-    const { goTo } = useNavigation()
-
     const [photo, setPhoto] = useState<any>([])
-
     const userModal = useModal(false)
     const { raised_by_company } = taskDetails || {};
     const [showAutoComplete, setAutoComplete] = useState<any>(false)
-
     const [image, setImage] = useState<any>([])
-    let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
-    const [corouselIndex, setCorouselIndex] = useState<any>()
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
     const loginLoader = useLoader(false)
@@ -71,6 +62,7 @@ function IndividualChat() {
             getChatMessage(selectedUserChat?.id)
         }
     }, [selectedUserChat])
+
 
     const getChatEmployeeList = (data) => {
 
@@ -260,21 +252,6 @@ function IndividualChat() {
         }))
     }
 
-
-
-    // useEffect(()=>{
-    //     if( employeeList&& employeeList?.length>0 &&selectedUserChat===undefined ){
-
-    //     dispatch(
-    //         selectedUserChats(employeeList[0])
-    //     )
-    //     }
-
-
-    // },[employeeList])
-    console.log("909090909")
-
-
     const activeStatus = (value) => {
         if (value) {
             const convert = moment(value).format("YYYY-MM-DD HH:mm:ss")
@@ -339,15 +316,9 @@ function IndividualChat() {
                                         <div className={'h3'}>
                                             <strong>{selectedUserChat?.name || selectedUserChat?.text}</strong>
                                         </div>
-                                        {/* <div
-                                            onClick={() => {
-                                                getChatMessage(selectedUserDetails?.id)
-                                            }}
-                                        >
-                                            <i className="bi bi-arrow-clockwise fa-lg text-primary"></i>
-                                        </div> */}
                                     </div>
                                 </CardHeader>
+
                                 <CardBody
                                     id="scrollableDiv"
                                     style={{
@@ -398,7 +369,7 @@ function IndividualChat() {
                                                             el.is_in_call &&
                                                             <>
                                                                 <div className='d-flex justify-content-center align-items-center'>
-                                                                    <div className={'mb-2'}>
+                                                                    <div className={'mb-3'}>
                                                                         <Image
                                                                             width={30}
                                                                             height={30}
@@ -610,11 +581,6 @@ function IndividualChat() {
                                                                                     </PhotoProvider>
                                                                                 </div>
                                                                             }
-                                                                            {/* style={{
-                                                                                                                border: '5px solid',
-                                                                                                                borderColor: '#FCC9E0',
-                                                                                                                borderRadius: '10px 0px 10px 10px'
-                                                                                                            }} */}
 
                                                                         </div>
 
@@ -626,9 +592,7 @@ function IndividualChat() {
                                                 </>
                                             )
                                         })
-
                                     }
-
 
                                 </CardBody>
 
@@ -689,14 +653,15 @@ function IndividualChat() {
                                 }
 
                             </Card>
-                        </div>}
+                        </div>
+                    }
+
                     {!oneToOneChat && <div className='col-sm-4'>
                         <Card
                             className=' '
                             style={{
                                 height: dynamicHeight.dynamicHeight - 50,
                             }}
-
                         >
                             <CardHeader className=''>
                                 <div className='mt--2'>
@@ -726,8 +691,6 @@ function IndividualChat() {
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
-
-
                                                 }}
                                             />
                                         </div>
@@ -749,7 +712,6 @@ function IndividualChat() {
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
-
                                                 }}
                                             >
                                                 {
@@ -787,13 +749,10 @@ function IndividualChat() {
                                                                             >{item?.designation ? item?.designation?.name : '-'}</div>
                                                                         </div>
                                                                     </small>
-
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div >
-
                                                 }
                                             </div>
                                         )
@@ -806,9 +765,9 @@ function IndividualChat() {
                                 }
                             </div>}
                         </Card>
-                    </div>}
+                    </div>
+                    }
                 </div >
-
             </ div >
 
             <Modal isOpen={attachmentModal.visible}
