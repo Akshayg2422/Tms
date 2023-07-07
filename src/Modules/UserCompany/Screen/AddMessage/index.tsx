@@ -24,7 +24,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
     const { goTo } = useNavigation()
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
-    const loginLoader=useLoader(false)
+    const loginLoader = useLoader(false)
     const addGroupMessageApiHandler = () => {
 
         if (message.value.trim()) {
@@ -132,8 +132,16 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                 <div className='row justify-content-center align-items-center'>
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
-                        <textarea placeholder={translate("order.Write your comment")!} value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
+                        <textarea
+                            placeholder={translate("order.Write your comment")!}
+                            value={message.value}
+                            className="form-control form-control-sm"
+                            onKeyDown={handleKeyDown}
+                            onChange={message.onChange}
+                            style={{ resize: 'vertical', minHeight: '50px' }}
+                        ></textarea>
                     </div>
+
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={addGroupMessageApiHandler} />
                     <Button
                         size={'lg'}
@@ -161,7 +169,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                                 // handleImagePicker(file)
                             }}
 
-                          
+
 
                             onSelectImagePickers={(el) => {
                                 let array: any = []
@@ -182,8 +190,8 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
                 <div className='col-6 pt-2'>
                     <div className=''>
-                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment} 
-                        loading={ loginLoader.loader}/>
+                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment}
+                            loading={loginLoader.loader} />
                     </div>
                 </div>
 

@@ -22,10 +22,10 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
-    const imageModal = useModal(false)
     const deleteModal = useModal(false)
     const editModal = useModal(false)
     const message = useInput('')
+    const notes = useInput('')
     const [loading, setLoading] = useState(false)
     const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [photo, setPhoto] = useState<any>([]);
@@ -33,7 +33,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const { user_details } = dashboardDetails || {}
     const { raised_by_company, by_user } = taskDetails || {};
     const userModal = useModal(false)
-
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
 
 
@@ -140,7 +139,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
         const params = {
             id: selectMessage?.id,
             edited_message: message?.value,
-            group_attachments: [{ name: message?.value, attachments: attach }],
+            group_attachments: [{ name: notes?.value, ...(attach && { attachments: attach }) }],
         }
 
         dispatch(
@@ -238,6 +237,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                             const startDay = getCurrentDayAndDate(renderDate);
 
+
                             return (
                                 <GroupChat
                                     profileImage={event_by?.profile_image}
@@ -249,6 +249,8 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                     isDelete={loginUser}
                                     isLoginUser={loginUser}
                                     editOnClick={() => {
+                                        console.log("iiiiiiiiiiii", item);
+
                                         setSelectMessage(item)
                                         editModal.show()
                                         message.set(title)
@@ -292,46 +294,53 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                 <div className="col-md col-lg">
 
-                    <div className='col-md col-lg'>
-                        <textarea value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
-                    </div>
-
-                    <div className="col-auto pb-2">
-                        <div className="row">
-                            <ImagePicker
-                                defaultPicker={true}
-                                defaultValue={AttachmentEdit}
-                                size='xl'
-                                heading={translate("auth.attach")!}
-                                onSelect={(image) => {
-                                    let file = image.toString().replace(/^data:(.*,)?/, "")
-                                    handleImagePicker(file)
-                                }}
-
-                                onSelectImagePicker={(el) => {
-                                    setSelectedNoOfPickers(el?.length)
-
-                                }}
-                                onSelectImagePickers={(el) => {
-                                    let array: any = []
-
-                                    for (let i = 0; i <= el.length; i++) {
-
-                                        let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                                        if (editPickers !== undefined) {
-                                            array.push(editPickers)
-                                        }
-
-                                    }
-                                    setPhoto(array)
-
-                                }}
-                            />
-
+                    {selectMessage && selectMessage?.attachments?.length === 0 && (
+                        <div className='col-md col-lg'>
+                            <textarea value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
                         </div>
+                    )}
 
+                    {selectMessage && selectMessage?.attachments?.length > 0 || selectMessage && Object.keys(selectMessage?.attachments)?.length > 0 && (
+                        <>
+                            <div className='col-md col-lg'>
+                                <textarea value={notes.value} className="form-control form-control-sm" onChange={notes.onChange}></textarea>
+                            </div>
 
-                    </div>
+                            <div className="col-auto pb-2">
+                                <div className="row">
+                                    <ImagePicker
+                                        defaultPicker={true}
+                                        defaultValue={AttachmentEdit}
+                                        size='xl'
+                                        heading={translate("auth.attach")!}
+                                        onSelect={(image) => {
+                                            let file = image.toString().replace(/^data:(.*,)?/, "");
+                                            handleImagePicker(file);
+                                        }}
+
+                                        onSelectImagePicker={(el) => {
+                                            setSelectedNoOfPickers(el?.length);
+
+                                        }}
+                                        onSelectImagePickers={(el) => {
+                                            let array: any = [];
+
+                                            for (let i = 0; i <= el.length; i++) {
+
+                                                let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "");
+                                                if (editPickers !== undefined) {
+                                                    array.push(editPickers);
+                                                }
+
+                                            }
+                                            setPhoto(array);
+
+                                        }} />
+                                </div>
+                            </div>
+                        </>
+                    )}
+
                 </div>
 
                 <div className="row justify-content-end">

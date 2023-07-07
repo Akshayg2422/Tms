@@ -15,7 +15,7 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 
 function IndividualChat() {
-    const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails, chatEmployeeList, chatEmployeeListNumOfPages, chatEmployeeListCurrentPages ,refreshChatMessage,selectedUserChat} = useSelector(
+    const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails, chatEmployeeList, chatEmployeeListNumOfPages, chatEmployeeListCurrentPages, refreshChatMessage, selectedUserChat } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || ''
@@ -50,7 +50,7 @@ function IndividualChat() {
     const SEND_DELAY = 1000;
     const loginLoader = useLoader(false)
 
-    console.log(selectedUserChat, "selectedUserDetails?.id===>",selectedUserChat)
+    console.log(selectedUserChat, "selectedUserDetails?.id===>", selectedUserChat)
 
 
     useEffect(() => {
@@ -91,13 +91,13 @@ function IndividualChat() {
                 })
                 setEmployeeList(modifiedData)
 
-                if( selectedUserChat===undefined){
+                if (selectedUserChat === undefined) {
                     console.log('klmjkhuyvfuyhj')
- 
+
                     dispatch(
                         selectedUserChats(success?.details[0])
                     )
-                    }
+                }
 
                 if (!selectedUserDetails) {
                     setSelectedUserDetails(success?.details[0])
@@ -140,7 +140,7 @@ function IndividualChat() {
         const validation = validate(CHAT_ATTACHMENT_RULES, {
             attachment_name: attachmentName.value.trim(),
             chat_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : '',
-            receiver_by:selectedUserChat?.id
+            receiver_by: selectedUserChat?.id
         })
         const params = {
             event_type: "MEA",
@@ -205,11 +205,11 @@ function IndividualChat() {
         }
     }
 
-    useEffect (()=>{
-     getChatMessage(selectedUserChat?.id)
-        
+    useEffect(() => {
+        getChatMessage(selectedUserChat?.id)
 
-    },[refreshChatMessage]
+
+    }, [refreshChatMessage]
     )
 
     const updateNewEmployeeInChatBox = () => {
@@ -264,12 +264,12 @@ function IndividualChat() {
 
     // useEffect(()=>{
     //     if( employeeList&& employeeList?.length>0 &&selectedUserChat===undefined ){
- 
+
     //     dispatch(
     //         selectedUserChats(employeeList[0])
     //     )
     //     }
-  
+
 
     // },[employeeList])
     console.log("909090909")
@@ -639,9 +639,7 @@ function IndividualChat() {
                                                 <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                                             </div>
                                             <textarea
-                                                style={{
-                                                    borderRadius: '15px'
-                                                }}
+                                                style={{ resize: 'vertical', minHeight: '50px', borderRadius: '15px' }}
                                                 placeholder='write message'
                                                 className="form-control form-control-sm mx-3 "
                                                 id="exampleFormControlInput1"
@@ -751,7 +749,7 @@ function IndividualChat() {
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
-                                              
+
                                                 }}
                                             >
                                                 {
