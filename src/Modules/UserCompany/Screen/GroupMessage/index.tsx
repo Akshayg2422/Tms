@@ -36,6 +36,8 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
 
+    console.log("selectMessage", message)
+
 
 
     let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
@@ -45,6 +47,8 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
         }
 
     })
+
+    console.log("AttachmentEdit", AttachmentEdit)
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
@@ -151,6 +155,10 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         showToast(response.message, 'success')
                         editModal.hide()
                         getGroupMessageApi(INITIAL_PAGE)
+                        setSelectedNoOfPickers('')
+                        setPhoto('')
+                        attach = ''
+
                     }
                 },
                 onError: (error) => () => {
@@ -213,6 +221,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         }
                     }
                     }>
+
                     {
                         loading && (
                             <div className='d-flex justify-content-center align-item-center' style={{ marginBottom: '200px' }}>
@@ -220,6 +229,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             </div>
                         )
                     }
+
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
                             const { title, subTitle, created_at, attachments, event_by } = item
@@ -292,49 +302,53 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                 <div className="col-md col-lg">
 
-                    <div className='col-md col-lg'>
-                        <textarea value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
+
+                        <div className='col-md col-lg'>
+                        <textarea value={message?.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
                     </div>
 
-                    <div className="col-auto pb-2">
-                        <div className="row">
-                            <ImagePicker
-                                defaultPicker={true}
-                                defaultValue={AttachmentEdit}
-                                size='xl'
-                                heading={translate("auth.attach")!}
-                                onSelect={(image) => {
-                                    let file = image.toString().replace(/^data:(.*,)?/, "")
-                                    handleImagePicker(file)
-                                }}
+                    
 
-                                onSelectImagePicker={(el) => {
-                                    setSelectedNoOfPickers(el?.length)
+                    {AttachmentEdit && AttachmentEdit.length > 0 &&
+                        <div className="col-auto pb-2">
+                            <div className="row">
+                                <ImagePicker
+                                    defaultPicker={true}
+                                    defaultValue={AttachmentEdit}
+                                    size='xl'
+                                    heading={translate("auth.attach")!}
+                                    onSelect={(image) => {
+                                        let file = image.toString().replace(/^data:(.*,)?/, "")
+                                        handleImagePicker(file)
+                                    }}
 
-                                }}
-                                onSelectImagePickers={(el) => {
-                                    let array: any = []
+                                    onSelectImagePicker={(el) => {
+                                        setSelectedNoOfPickers(el?.length)
 
-                                    for (let i = 0; i <= el.length; i++) {
+                                    }}
+                                    onSelectImagePickers={(el) => {
+                                        let array: any = []
 
-                                        let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                                        if (editPickers !== undefined) {
-                                            array.push(editPickers)
+                                        for (let i = 0; i <= el.length; i++) {
+
+                                            let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                            if (editPickers !== undefined) {
+                                                array.push(editPickers)
+                                            }
+
                                         }
+                                        setPhoto(array)
 
-                                    }
-                                    setPhoto(array)
+                                    }}
+                                />
 
-                                }}
-                            />
-
-                        </div>
+                            </div>
 
 
-                    </div>
+                        </div>}
                 </div>
 
-                <div className="row justify-content-end">
+                <div className="row justify-content-end d-flex mt-2 mr-3">
                     <div className="col-md-5 col-lg-3 ">
                         <Button
                             className={'text-white'}

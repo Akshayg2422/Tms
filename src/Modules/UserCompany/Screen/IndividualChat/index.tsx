@@ -72,6 +72,7 @@ function IndividualChat() {
         }
     }, [selectedUserChat])
 
+
     const getChatEmployeeList = (data) => {
 
         const params = {
@@ -92,7 +93,7 @@ function IndividualChat() {
                 setEmployeeList(modifiedData)
 
                 if( selectedUserChat===undefined){
-                    console.log('klmjkhuyvfuyhj')
+                    console.log('selectedUserChat==========++',selectedUserChat)
  
                     dispatch(
                         selectedUserChats(success?.details[0])
@@ -260,18 +261,6 @@ function IndividualChat() {
         }))
     }
 
-
-
-    // useEffect(()=>{
-    //     if( employeeList&& employeeList?.length>0 &&selectedUserChat===undefined ){
- 
-    //     dispatch(
-    //         selectedUserChats(employeeList[0])
-    //     )
-    //     }
-  
-
-    // },[employeeList])
     console.log("909090909")
 
 
@@ -339,15 +328,9 @@ function IndividualChat() {
                                         <div className={'h3'}>
                                             <strong>{selectedUserChat?.name || selectedUserChat?.text}</strong>
                                         </div>
-                                        {/* <div
-                                            onClick={() => {
-                                                getChatMessage(selectedUserDetails?.id)
-                                            }}
-                                        >
-                                            <i className="bi bi-arrow-clockwise fa-lg text-primary"></i>
-                                        </div> */}
                                     </div>
                                 </CardHeader>
+
                                 <CardBody
                                     id="scrollableDiv"
                                     style={{
@@ -398,7 +381,7 @@ function IndividualChat() {
                                                             el.is_in_call &&
                                                             <>
                                                                 <div className='d-flex justify-content-center align-items-center'>
-                                                                    <div className={'mb-2'}>
+                                                                    <div className={'mb-3'}>
                                                                         <Image
                                                                             width={30}
                                                                             height={30}
@@ -415,7 +398,7 @@ function IndividualChat() {
                                                                 </div>
                                                             </>
                                                         }
-
+                                                        
                                                     </div >
                                                     <div className={`d-flex flex-row ml-2 ${alignChatMessage(el)
                                                         ? " justify-content-end mb-2   "
@@ -573,7 +556,7 @@ function IndividualChat() {
                                                                                                     {showNote && (
                                                                                                         <p className={`text-muted text-sm font-weight-bold`}>
                                                                                                             <div
-                                                                                                                style={{ maxWidth: '200px' }}
+                                                                                                                style={{ maxWidth: '200px'}}
                                                                                                             >{note}</div>
                                                                                                         </p>
                                                                                                     )}
@@ -610,6 +593,7 @@ function IndividualChat() {
                                                                                     </PhotoProvider>
                                                                                 </div>
                                                                             }
+
                                                                             {/* style={{
                                                                                                                 border: '5px solid',
                                                                                                                 borderColor: '#FCC9E0',
@@ -691,7 +675,9 @@ function IndividualChat() {
                                 }
 
                             </Card>
-                        </div>}
+                        </div>
+                    }
+
                     {!oneToOneChat && <div className='col-sm-4'>
                         <Card
                             className=' '
@@ -808,7 +794,9 @@ function IndividualChat() {
                                 }
                             </div>}
                         </Card>
-                    </div>}
+                    </div>
+                    }
+                    
                 </div >
 
             </ div >

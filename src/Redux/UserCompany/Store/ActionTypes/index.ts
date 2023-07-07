@@ -212,9 +212,6 @@ export const SELECTED_TASK_GROUP_CODE = 'SELECTED_TASK_GROUP_CODE';
 
 export const REFRESH_GROUP_CHAT = 'REFRESH_GROUP_CHAT';
 
-export const USER_CHAT = 'USER_CHAT';
-
-
 
 //employee time status
 export const EMPLOYEE_TIMELINE_STATUS = 'EMPLOYEE_TIMELINE_STATUS'
@@ -272,3 +269,8 @@ export const HANDLE_ONE_TO_ONE_CHAT = 'HANDLE_ONE_TO_ONE_CHAT';
 //vc notification details
 
 export const ONE_TO_ONE_VC_NOTI = 'ONE_TO_ONE_VC_NOTI';
+
+//selectedUserChat
+
+export const USER_CHAT = 'USER_CHAT';
+
