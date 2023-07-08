@@ -1,5 +1,5 @@
 import { GroupChatProps } from './interfaces';
-import { Image } from '@Components';
+import { Button, Image } from '@Components';
 import { icons } from '@Assets';
 import { getPhoto } from '@Utils';
 
@@ -68,18 +68,19 @@ function GroupChat({
                             <div className="col">
                                 <small className="text-muted">{time}</small>
                             </div>
+                            
                             <span>
                                 {isEdit && (
                                     <small>
                                         <div
-                                            className="col-auto pointer d-inline-flex justify-content-center align-items-center"
+                                            className="col-auto pointer d-inline-flex justify-content-center align-items-center " 
                                         >
                                             <Image
                                                 src={icons.editEta}
                                                 onClick={editOnClick}
                                                 width={12}
                                                 height={12}
-                                                style={{ objectFit: 'contain' }}
+                                                style={{ objectFit: 'contain'}}
                                             />
                                         </div>
                                     </small>
@@ -87,7 +88,7 @@ function GroupChat({
                                 {isDelete && (
                                     <small>
                                         <div
-                                            className="pointer d-inline-flex justify-content-center align-items-center"
+                                            className="pointer d-inline-flex justify-content-center align-items-center" 
                                         >
                                             <Image
                                                 src={icons.deleteCurve}
@@ -95,11 +96,13 @@ function GroupChat({
                                                 width={12}
                                                 height={12}
                                                 style={{ objectFit: 'contain' }}
+                                            
                                             />
                                         </div>
                                     </small>
                                 )}
                             </span>
+
                         </h6>
                     </div>
                     <div>

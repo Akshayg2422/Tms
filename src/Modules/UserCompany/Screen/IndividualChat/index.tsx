@@ -323,6 +323,7 @@ function IndividualChat() {
                                     height: dynamicHeight.dynamicHeight - 50
                                 }}>
                                 {/** Chat Header */}
+                                
                                 <CardHeader>
                                     <div className='row justify-content-between mx-2'>
                                         <div className={'h3'}>
