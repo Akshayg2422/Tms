@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AddMessageProps } from './interfaces';
-import { Button, Modal, Input, Dropzone, ImageDownloadButton, ImagePicker, showToast } from '@Components'
+import { Button, Modal, Input, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
 import { addGroupMessage, getTokenByUser, refreshGroupEvents, selectedVcDetails } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,14 +8,12 @@ import { useModal, useInput, useNavigation, useLoader } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
 import { ROUTES } from '@Routes';
-import { useParams } from 'react-router-dom';
 
 function AddMessage({ AddGroup }: AddMessageProps) {
     const { selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { user_details } = dashboardDetails || ''
     const dispatch = useDispatch()
     const message = useInput('')
-    const { id } = useParams();
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
