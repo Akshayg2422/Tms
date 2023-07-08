@@ -1,6 +1,6 @@
 import React from 'react';
 import { GroupChatProps } from './interfaces';
-import { Image } from '@Components';
+import { Image, ImageIcon } from '@Components';
 import { icons } from '@Assets';
 import { getPhoto } from '@Utils';
 

@@ -1,4 +1,5 @@
-import { Button, CommonTable, HomeContainer, Image, NoDataFound, Priority, Spinner, Status } from "@Components";
+import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon, NoDataFound, Priority, Spinner, Status } from "@Components";
+import { getFilter } from "@Components//Core/ImageColorIcon";
 import { useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { TaskFilters, TaskGroups } from '@Modules';
@@ -23,6 +24,7 @@ function Tasks() {
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
+    
   }, [params])
 
   const getTaskHandler = (page_number: number) => {
@@ -36,6 +38,7 @@ function Tasks() {
         },
         onError: () => () => {
           setLoading(false);
+        
         },
       })
     );
@@ -49,14 +52,28 @@ function Tasks() {
           "task":
             <>
               <div className="row">
-                <Priority priority={priority} />
-                <div>
-                  <span>{capitalizeFirstLetter(title)}</span>
-                  <div className="pt-1">
+                <div className="d-flex ">
+
+               
+                <div className="col-auto ">
+
+                <div className="mr--3"><Priority priority={priority} /></div>
+                
+               
+                </div>
+                <div className="col ml--2 ">
+                <span>{capitalizeFirstLetter(title)}</span>
+                <div className=" text-primary  ">
                     {parent && parent?.name && <div>{parent?.name}
                     </div>
                     }
                   </div>
+                </div>
+                </div>
+            
+                <div>
+                  {/* <span>{capitalizeFirstLetter(title)}</span> */}
+               
                 </div>
               </div>
             </>,
@@ -100,9 +117,27 @@ function Tasks() {
               }
             </div >,
           // 'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
-          status: <div><Status status={task_status} />
-            <small>{getDates() > getDates(eta_time) ? 'ABOVE ETA' : ""}</small>
+          status:
+          <>
+           <div className="d-flex">
+         
+              <div className="col-auto"><Status status={task_status} />
+              </div>
+            
+           
+             <div className="col">
+           
+              </div> 
+
+              
+         
+         
+            
           </div>
+          <div className="pl-3">
+              <small>{getDates() > getDates(eta_time) ? 'ABOVE ETA' : ""}</small>
+          </div>
+          </>
         };
       });
   };
@@ -142,7 +177,9 @@ function Tasks() {
           </div>
         )}
 
-        {!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
+  
+
+        {!loading && <div >
 
           {tasks && tasks.length > 0 ?
             <CommonTable

@@ -7,7 +7,7 @@ import {
 
 } from "reactstrap";
 import { AuthContainerProps } from "./interfaces";
-import { NoRecordsFound, Table, Button } from '@Components';
+import { NoRecordsFound, Table, Button, ImageIcon } from '@Components';
 import { Tabs, Image } from "@Components";
 import { icons } from '@Assets';
 
@@ -105,7 +105,7 @@ dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
 
 
               <div className='mr-2 col-auto pointer' onClick={() => collapsesToggle(selectedIds)}>
-                <Image src={icons.downArrowBlack} height={12} width={12} />
+                <ImageIcon src={icons.downArrowBlack} height={12} width={12} />
 
               </div>
 

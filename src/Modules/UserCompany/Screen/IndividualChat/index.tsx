@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter, CardHeader } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { AutoComplete, Button, Image, ImagePicker, Input, Modal, NoRecordsFound, ProfileCard, Spinner, showToast } from '@Components'
 import moment from 'moment'
-import { CHAT_ATTACHMENT_RULES, CHAT_MESSAGE_RULES, convertToUpperCase, getDropDownCompanyUser, getPhoto, getValidateError, ifObjectExist, validate, } from '@Utils'
+import { CHAT_ATTACHMENT_RULES, CHAT_MESSAGE_RULES, INITIAL_PAGE, convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, getPhoto, getValidateError, ifObjectExist, paginationHandler, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedUserChats, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
@@ -12,9 +12,10 @@ import { translate } from '@I18n'
 import { VideoConference } from '../../Container'
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 function IndividualChat() {
-    const { dashboardDetails, oneToOneChat, employees, settingVcDetails, refreshChatMessage, selectedUserChat } = useSelector(
+    const { dashboardDetails, oneToOneChat, employees, chatMessageCurrentPages, refreshChatMessage, selectedUserChat, chatMessage } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || ''
@@ -24,7 +25,7 @@ function IndividualChat() {
     const dynamicHeight: any = useDynamicHeight()
 
     const [chatText, setChatText] = useState<any>("")
-    const [selectedUserDetails, setSelectedUserDetails] = useState<any>(settingVcDetails ? settingVcDetails : '')
+    const [openVideoCall, setOpenVideoCall] = useState<any>(false)
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [employeeList, setEmployeeList] = useState<any>()
@@ -39,10 +40,8 @@ function IndividualChat() {
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
-    const loginLoader=useLoader(false)
+    const loginLoader = useLoader(false)
     const [loading, setLoading] = useState(false);
-
-    console.log(selectedUserChat, "selectedUserDetails?.id===>", selectedUserChat)
 
 
     useEffect(() => {
@@ -59,18 +58,17 @@ function IndividualChat() {
     }, [])
 
     useEffect(() => {
+        console.log('ttttt')
         if (selectedUserChat) {
-            getChatMessage(selectedUserChat?.id)
+            getChatMessage(selectedUserChat?.id, INITIAL_PAGE)
         }
-    }, [selectedUserChat])
-
+    }, [selectedUserChat, refreshChatMessage])
 
     const getChatEmployeeList = (data) => {
 
         const params = {
             ...(data && { q_many: data }),
             per_page_count: -1
-            // page_number
 
         }
         setLoading(true)
@@ -87,14 +85,12 @@ function IndividualChat() {
                 setEmployeeList(modifiedData)
 
                 if (selectedUserChat === undefined) {
-                    console.log('klmjkhuyvfuyhj')
 
                     dispatch(
                         selectedUserChats(success?.details[0])
                     )
                 }
 
-           
 
             },
             onError: (error: string) => () => {
@@ -102,8 +98,6 @@ function IndividualChat() {
             },
         }))
     }
-
-
 
     const getDisplayTimeFromMoment = (date) => {
         if (date) {
@@ -127,8 +121,6 @@ function IndividualChat() {
             return 'Today';
         }
     }
-
-
     const addGroupEventAttachment = () => {
 
         const validation = validate(CHAT_ATTACHMENT_RULES, {
@@ -147,7 +139,8 @@ function IndividualChat() {
             dispatch(postChatMessage({
                 params,
                 onSuccess: (success: any) => async () => {
-                    getChatMessage(selectedUserChat?.id)
+                    console.log('222222222222')
+                    getChatMessage(selectedUserChat?.id, chatMessageCurrentPages)
                     resetValues()
                     attachmentModal.hide()
                     loginLoader.hide()
@@ -177,8 +170,6 @@ function IndividualChat() {
             })
         );
     }
-
-
     const addChatMessage = () => {
         const params = {
             event_type: "TEM",
@@ -189,8 +180,8 @@ function IndividualChat() {
         if (ifObjectExist(validation)) {
             dispatch(postChatMessage({
                 params,
-                onSuccess: (success: any) => async () => {
-                    getChatMessage(selectedUserChat?.id)
+                onSuccess: (success: any) => () => {
+                    getChatMessage(selectedUserChat?.id, chatMessageCurrentPages)
                     setChatText('')
                 },
                 onError: (error: string) => () => {
@@ -199,30 +190,33 @@ function IndividualChat() {
         }
     }
 
-    useEffect(() => {
-        getChatMessage(selectedUserChat?.id)
-
-
-    }, [refreshChatMessage]
-    )
 
     const updateNewEmployeeInChatBox = () => {
-        let checkList = employeeList.some(el => { return el.id === selectedUserChat.id })
+        let checkList = employeeList?.some(el => { return el.id === selectedUserChat.id })
         !checkList && getChatEmployeeList('')
     }
 
-    const getChatMessage = (data) => {
+    const getChatMessage = (data, page_number: number) => {
+
         const params = {
-            emp_id: data
+            emp_id: data,
+            page_number
         }
+
+        setLoading(true)
         dispatch(fetchChatMessage({
             params,
-            onSuccess: (success: any) => async () => {
-                setOneToOneChatMessage(success?.details)
+            onSuccess: (response) => () => {
+
+                setOneToOneChatMessage(response?.details?.data)
                 updateNewEmployeeInChatBox()
                 setSelectedUserId('')
+                setLoading(false)
             },
-            onError: (error: string) => async () => {
+            onError: () => () => {
+
+                setLoading(false)
+
             },
         }))
     }
@@ -247,13 +241,12 @@ function IndividualChat() {
         dispatch(getTokenByUser({
             params,
             onSuccess: (success: any) => () => {
-              
+
                 dispatch(handleOneToOneVcNoti(success?.message))
             },
             onError: (error: string) => () => { },
         }))
     }
-
     const activeStatus = (value) => {
         if (value) {
             const convert = moment(value).format("YYYY-MM-DD HH:mm:ss")
@@ -269,8 +262,6 @@ function IndividualChat() {
         }
 
     }
-
-    console.log("oneToOneChat", oneToOneChat)
 
     const resetValues = () => {
         attachmentName.set('');
@@ -323,277 +314,309 @@ function IndividualChat() {
 
                                 <CardBody
                                     id="scrollableDiv"
-                                    style={{
-                                        height: "100%",
-                                        display: 'flex',
-                                        flexDirection: 'column-reverse',
-                                    }}
-                                    className={'overflow-auto overflow-hide'}
+
+                                    className={'overflow-auto overflow-hide mt--3'}
                                 >
-                                    {
-                                        oneToOneChatMessage && oneToOneChatMessage?.length > 0 && oneToOneChatMessage?.map((el, index) => {
-                                            const date = new Date(el?.created_at);
-                                            const formattedDate = displayDate(el?.created_at);
-                                            const isFirstMessage = index === 0;
-                                            const previousDate: any = !isFirstMessage ? new Date(oneToOneChatMessage[index - 1]?.created_at) : null;
-                                            const isDifferentDay = !isFirstMessage && date?.getDate() !== previousDate?.getDate();
-                                            const dateToShow = isDifferentDay ? formattedDate : null;
-                                            const imageUrls = el?.chat_attachments?.attachments && el?.chat_attachments?.attachments.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
 
-                                            return (
-                                                <>
-                                                    <div className=''>
-                                                        {dateToShow && el?.message && (
-                                                            <div className='d-flex'>
-                                                                <hr className=''
-                                                                    style={{
-                                                                        width: '47%',
-                                                                        backgroundColor: 'rgb(228,223,225)'
-                                                                    }}
-                                                                ></hr>
-                                                                <div className='px-2'
-                                                                    style={{
-                                                                        marginTop: '17px'
-                                                                    }}
-                                                                >
-                                                                    {dateToShow}
-                                                                </div>
-                                                                <hr className=''
-                                                                    style={{
-                                                                        backgroundColor: 'rgb(228,223,225)',
-                                                                        width: '45%'
-                                                                    }}
-                                                                ></hr>
-                                                            </div>
-                                                        )}
+                                    {chatMessage && chatMessage?.length > 0 &&
+                                        <InfiniteScroll
+                                            dataLength={chatMessage?.length}
+                                            hasMore={chatMessageCurrentPages !== -1}
+                                            scrollableTarget="scrollableDiv"
 
-                                                        {
-                                                            el.is_in_call &&
-                                                            <>
-                                                                <div className='d-flex justify-content-center align-items-center'>
-                                                                    <div className={'mb-3'}>
-                                                                        <Image
-                                                                            width={30}
-                                                                            height={30}
-                                                                            src={icons.vcCall}
-                                                                        />
+                                            className={'overflow-auto overflow-hide '}
+                                            style={{ overflowY: "auto" }}
 
-                                                                    </div>
-                                                                    <div className='ml-2 align-item-center'>
-                                                                        <h6>
-                                                                            {`${getDisplayTimeFromMoment(el?.created_at)}  to ${getDisplayTimeFromMoment(el?.call_end_time)}`}
-                                                                        </h6>
-                                                                    </div>
+                                            loader={<h4>
+                                                {/* <div className={'d-flex justify-content-center'}><Spinner /></div> */}
+                                            </h4>}
+                                            next={() => {
+                                                console.log('tttttt')
+                                                if (chatMessageCurrentPages !== -1) {
 
-                                                                </div>
-                                                            </>
-                                                        }
+                                                    getChatMessage(selectedUserChat?.id, chatMessageCurrentPages)
+                                                }
+                                            }
+                                            }>
 
-                                                    </div >
-                                                    <div className={`d-flex flex-row ml-2 ${alignChatMessage(el)
-                                                        ? " justify-content-end mb-2   "
-                                                        : " justify-content-start mb-3 pt-2 "
-                                                        } mt--3 `}>
-                                                        <div>
-                                                            {!alignChatMessage(el) && (el?.message || el?.chat_attachments?.attachments?.length > 0) && (
-                                                                <>
-                                                                    <div className='row '>
-                                                                        <Image
-                                                                            variant="rounded"
-                                                                            className=""
-                                                                            size="sm"
-                                                                            src={!alignChatMessage(el) && SERVER + el?.event_by?.profile_image || ''}
-                                                                            alt="avatar 1"
-                                                                        />
-                                                                        <small className='ml-2 pt-1'>
-                                                                            <h6
-                                                                                style={{
-                                                                                    fontSize: '12px'
-                                                                                }}
-                                                                            >{el.event_by.name}</h6>
-                                                                            <div className='mt--2 '
-                                                                                style={{
-                                                                                    fontSize: '10px'
-                                                                                }}
-                                                                            >
-                                                                                {getDisplayTimeFromMoment(el?.created_at)}
-                                                                            </div>
-                                                                        </small>
-                                                                    </div>
-                                                                </>
-                                                            )
-                                                            }
-                                                            {!alignChatMessage(el) &&
-                                                                <div className=''>
-                                                                    <div className='ml-4 mt-2'
-                                                                        style={{
-                                                                            display: "flex",
-                                                                            flexDirection: 'row'
-                                                                        }}>
-                                                                        <p className={`small px-2   text-wrap bg-lighter text-dark`}
+                                            {
+                                                loading && (
+                                                    <div className='d-flex justify-content-center align-item-center' style={{ marginBottom: '200px' }}>
+                                                        <Spinner />
+                                                    </div>
+                                                )
+                                            }
+
+
+
+                                            {
+                                                chatMessage?.map((el, index) => {
+                                                    const date = new Date(el?.created_at);
+                                                    const formattedDate = displayDate(el?.created_at);
+                                                    const isFirstMessage = index === 0;
+                                                    const previousDate: any = !isFirstMessage ? new Date(chatMessage[index - 1]?.created_at) : null;
+                                                    const isDifferentDay = !isFirstMessage && date?.getDate() !== previousDate?.getDate();
+                                                    const dateToShow = isDifferentDay ? formattedDate : null;
+                                                    const imageUrls = el?.chat_attachments?.attachments && el?.chat_attachments?.attachments.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
+
+                                                    return (
+                                                        <>
+                                                            <div className='mt-3'>
+                                                                {dateToShow && el?.message && (
+                                                                    <div className='d-flex'>
+                                                                        <hr className=''
                                                                             style={{
-                                                                                maxWidth: '70vh',
-                                                                                borderRadius: '0px 8px 8px 8px'
-                                                                            }}>
-                                                                            {!alignChatMessage(el) && el?.message && (
-                                                                                <div className="h5 text-primary mb--1 pt-2">
-                                                                                    {el?.by_user?.name}
-                                                                                </div>
-                                                                            )}
-                                                                            {el.message?.length > 40 ? (
-                                                                                <>
-                                                                                    {el?.message}
-                                                                                </>
-                                                                            ) : (
-                                                                                el?.message && <div className="p-1">{el?.message}</div>
-                                                                            )}
-                                                                        </p>
-                                                                    </div>
-                                                                    <div className={`row ${alignChatMessage(el) ? "mr-1" : 'ml-3 mt--3 mb-3'}`}
-                                                                        style={{
-                                                                            maxWidth: '70vh'
-                                                                        }}>
-                                                                        {
-                                                                            el?.chat_attachments?.attachments && el?.chat_attachments?.attachments?.map((it) => {
-                                                                                return (
-                                                                                    <>
-                                                                                        <div className='mr-2 pt-2' style={{}}>
-                                                                                            <Image
-                                                                                                width={70}
-                                                                                                height={70}
-                                                                                                src={getPhoto(it?.attachment_file)}
-                                                                                            />
-                                                                                        </div>
-                                                                                    </>
-                                                                                )
-                                                                            })
-                                                                        }
-                                                                    </div>
-
-                                                                </div>}
-                                                            {alignChatMessage(el) && (el?.message || el?.chat_attachments?.attachments?.length > 0) && (
-                                                                <div className=''
-                                                                    style={{
-                                                                        display: "flex",
-                                                                        flexDirection: 'row-reverse'
-                                                                    }}>
-                                                                    <Image
-                                                                        variant="rounded"
-                                                                        className={'pointer'}
-                                                                        size="sm"
-                                                                        src={alignChatMessage(el) && SERVER + el?.event_by?.profile_image || ''}
-                                                                        alt="avatar 1"
-                                                                        onClick={() => { userModal.show() }}
-                                                                    />
-                                                                    <small className='mr-2 pt-1'>
-                                                                        <h6
-                                                                            className={'pointer'}
-                                                                            style={{
-                                                                                fontSize: '12px'
+                                                                                width: '47%',
+                                                                                backgroundColor: 'rgb(228,223,225)'
                                                                             }}
-                                                                            onClick={() => { userModal.show() }}
-                                                                        >{el?.event_by?.name}</h6>
-                                                                        <div className='mt--2 text-right'
+                                                                        ></hr>
+                                                                        <div className='px-2'
                                                                             style={{
-                                                                                fontSize: '10px'
+                                                                                marginTop: '17px'
                                                                             }}
                                                                         >
-                                                                            {getDisplayTimeFromMoment(el?.created_at)}
+                                                                            {dateToShow}
                                                                         </div>
-                                                                    </small>
-                                                                </div>
-                                                            )}
-                                                            {alignChatMessage(el) &&
-                                                                <div className=''>
-                                                                    <div className=' mt-2'
-                                                                        style={{
-                                                                            display: "flex",
-                                                                            flexDirection: 'row-reverse',
-                                                                            marginRight: '34px'
-                                                                        }}>
-                                                                        <p
-                                                                            className={`small px-2   text-wrap bg-primary text-white`}
+                                                                        <hr className=''
                                                                             style={{
-                                                                                maxWidth: '50vh',
-                                                                                borderRadius: '8px 0px 8px 8px'
-                                                                            }}>
-                                                                            {alignChatMessage(el) && el?.message && (
-                                                                                <div className="h5 text-primary mb--1 pt-1">
-                                                                                    {el?.by_user?.name}
-                                                                                </div>
-                                                                            )}
-                                                                            {el?.message !== null && <div className="p-1">{el?.message}</div>}
-                                                                        </p>
+                                                                                backgroundColor: 'rgb(228,223,225)',
+                                                                                width: '45%'
+                                                                            }}
+                                                                        ></hr>
                                                                     </div>
-                                                                    {<div className={`row ${alignChatMessage(el) ? "mr-1 mb-3" : 'ml-1'}`}
-                                                                        style={{
-                                                                            maxWidth: '70vh',
-                                                                            display: "flex",
-                                                                            flexDirection: 'row-reverse'
-                                                                        }}>
-                                                                        {
+                                                                )}
 
-                                                                            el?.chat_attachments?.attachments && (
-                                                                                <>
-                                                                                    <div className='mr-2 pt-2'>
-                                                                                        {el?.chat_attachments?.attachments.map((it, index) => {
+                                                                {
+                                                                    el.is_in_call &&
+                                                                    <>
+                                                                        <div className='d-flex justify-content-center align-items-center'>
+                                                                            <div className={'mb-3'}>
+                                                                                <Image
+                                                                                    width={30}
+                                                                                    height={30}
+                                                                                    src={icons.vcCall}
+                                                                                />
 
-                                                                                            const note = it?.name;
-                                                                                            const showNote = index === 0;
-
-                                                                                            return (
-                                                                                                <div>
-                                                                                                    {showNote && (
-                                                                                                        <p className={`text-muted text-sm font-weight-bold`}>
-                                                                                                            <div
-                                                                                                                style={{ maxWidth: '200px' }}
-                                                                                                            >{note}</div>
-                                                                                                        </p>
-                                                                                                    )}
-
-                                                                                                </div>
-                                                                                            );
-                                                                                        })}
-                                                                                    </div>
-                                                                                </>
-                                                                            )
-
-                                                                        }
-
-                                                                        {/** Image carousel */}
-                                                                        <div className={'mt-2 mb-4 pt-2 row'}>
-
-                                                                            {
-                                                                                <div className={'container'}>
-                                                                                    <PhotoProvider>
-                                                                                        <div className="row pointer pl-5">
-                                                                                            {imageUrls?.map((item: any, index: any) => {
-
-                                                                                                return (
-                                                                                                    <div key={index}>
-                                                                                                        <PhotoView src={item}>
-                                                                                                            <img style={{
-                                                                                                                borderRadius: '10px'
-                                                                                                            }} className={'p-1'} src={item} alt={'Task Attachments'} width={130} height={130} />
-                                                                                                        </PhotoView>
-                                                                                                    </div>
-                                                                                                )
-                                                                                            })}
-                                                                                        </div>
-                                                                                    </PhotoProvider>
-                                                                                </div>
-                                                                            }
+                                                                            </div>
+                                                                            <div className='ml-2 align-item-center'>
+                                                                                <h6>
+                                                                                    {`${getDisplayTimeFromMoment(el?.created_at)}  to ${getDisplayTimeFromMoment(el?.call_end_time)}`}
+                                                                                </h6>
+                                                                            </div>
 
                                                                         </div>
+                                                                    </>
+                                                                }
 
-                                                                    </div>}
-                                                                </div>}
-                                                        </div >
-                                                    </div>
+                                                            </div >
+                                                            <div className={`d-flex flex-row ml-2 ${alignChatMessage(el)
+                                                                ? " justify-content-end mb-2   "
+                                                                : " justify-content-start mb-3 pt-2 "
+                                                                } mt--3 `}>
+                                                                <div>
+                                                                    {!alignChatMessage(el) && (el?.message || el?.chat_attachments?.attachments?.length > 0) && (
+                                                                        <>
+                                                                            <div className='row '>
+                                                                                <Image
+                                                                                    variant="rounded"
+                                                                                    className=""
+                                                                                    size="sm"
+                                                                                    src={!alignChatMessage(el) && SERVER + el?.event_by?.profile_image || ''}
+                                                                                    alt="avatar 1"
+                                                                                />
+                                                                                <small className='ml-2 pt-1'>
+                                                                                    <h6
+                                                                                        style={{
+                                                                                            fontSize: '12px'
+                                                                                        }}
+                                                                                    >{el.event_by.name}</h6>
+                                                                                    <div className='mt--2 '
+                                                                                        style={{
+                                                                                            fontSize: '10px'
+                                                                                        }}
+                                                                                    >
+                                                                                        {getDisplayTimeFromMoment(el?.created_at)}
+                                                                                    </div>
+                                                                                </small>
+                                                                            </div>
+                                                                        </>
+                                                                    )
+                                                                    }
+                                                                    {!alignChatMessage(el) &&
+                                                                        <div className=''>
+                                                                            <div className='ml-4 mt-2'
+                                                                                style={{
+                                                                                    display: "flex",
+                                                                                    flexDirection: 'row'
+                                                                                }}>
+                                                                                <p className={`small px-2   text-wrap bg-lighter text-dark`}
+                                                                                    style={{
+                                                                                        maxWidth: '70vh',
+                                                                                        borderRadius: '0px 8px 8px 8px'
+                                                                                    }}>
+                                                                                    {!alignChatMessage(el) && el?.message && (
+                                                                                        <div className="h5 text-primary mb--1 pt-2">
+                                                                                            {el?.by_user?.name}
+                                                                                        </div>
+                                                                                    )}
+                                                                                    {el.message?.length > 40 ? (
+                                                                                        <>
+                                                                                            {el?.message}
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        el?.message && <div className="p-1">{el?.message}</div>
+                                                                                    )}
+                                                                                </p>
+                                                                            </div>
+                                                                            <div className={`row ${alignChatMessage(el) ? "mr-1" : 'ml-3 mt--3 mb-3'}`}
+                                                                                style={{
+                                                                                    maxWidth: '70vh'
+                                                                                }}>
+                                                                                {
+                                                                                    el?.chat_attachments?.attachments && el?.chat_attachments?.attachments?.map((it) => {
+                                                                                        return (
+                                                                                            <>
+                                                                                                <div className='mr-2 pt-2' style={{}}>
+                                                                                                    <Image
+                                                                                                        width={70}
+                                                                                                        height={70}
+                                                                                                        src={getPhoto(it?.attachment_file)}
+                                                                                                    />
+                                                                                                </div>
+                                                                                            </>
+                                                                                        )
+                                                                                    })
+                                                                                }
+                                                                            </div>
 
-                                                </>
-                                            )
-                                        })
+                                                                        </div>}
+                                                                    {alignChatMessage(el) && (el?.message || el?.chat_attachments?.attachments?.length > 0) && (
+                                                                        <div className=''
+                                                                            style={{
+                                                                                display: "flex",
+                                                                                flexDirection: 'row-reverse'
+                                                                            }}>
+                                                                            <Image
+                                                                                variant="rounded"
+                                                                                className={'pointer'}
+                                                                                size="sm"
+                                                                                src={alignChatMessage(el) && SERVER + el?.event_by?.profile_image || ''}
+                                                                                alt="avatar 1"
+                                                                                onClick={() => { userModal.show() }}
+                                                                            />
+                                                                            <small className='mr-2 pt-1'>
+                                                                                <h6
+                                                                                    className={'pointer'}
+                                                                                    style={{
+                                                                                        fontSize: '12px'
+                                                                                    }}
+                                                                                    onClick={() => { userModal.show() }}
+                                                                                >{el?.event_by?.name}</h6>
+                                                                                <div className='mt--2 text-right'
+                                                                                    style={{
+                                                                                        fontSize: '10px'
+                                                                                    }}
+                                                                                >
+                                                                                    {getDisplayTimeFromMoment(el?.created_at)}
+                                                                                </div>
+                                                                            </small>
+                                                                        </div>
+                                                                    )}
+                                                                    {alignChatMessage(el) &&
+                                                                        <div className=''>
+                                                                            <div className=' mt-2'
+                                                                                style={{
+                                                                                    display: "flex",
+                                                                                    flexDirection: 'row-reverse',
+                                                                                    marginRight: '34px'
+                                                                                }}>
+                                                                                <p
+                                                                                    className={`small px-2   text-wrap bg-primary text-white`}
+                                                                                    style={{
+                                                                                        maxWidth: '50vh',
+                                                                                        borderRadius: '8px 0px 8px 8px'
+                                                                                    }}>
+                                                                                    {alignChatMessage(el) && el?.message && (
+                                                                                        <div className="h5 text-primary mb--1 pt-1">
+                                                                                            {el?.by_user?.name}
+                                                                                        </div>
+                                                                                    )}
+                                                                                    {el?.message !== null && <div className="p-1">{el?.message}</div>}
+                                                                                </p>
+                                                                            </div>
+                                                                            {<div className={`row ${alignChatMessage(el) ? "mr-1 mb-3" : 'ml-1'}`}
+                                                                                style={{
+                                                                                    maxWidth: '70vh',
+                                                                                    display: "flex",
+                                                                                    flexDirection: 'row-reverse'
+                                                                                }}>
+                                                                                {
+
+                                                                                    el?.chat_attachments?.attachments && (
+                                                                                        <>
+                                                                                            <div className='mr-2 pt-2'>
+                                                                                                {el?.chat_attachments?.attachments.map((it, index) => {
+
+                                                                                                    const note = it?.name;
+                                                                                                    const showNote = index === 0;
+
+                                                                                                    return (
+                                                                                                        <div>
+                                                                                                            {showNote && (
+                                                                                                                <p className={`text-muted text-sm font-weight-bold`}>
+                                                                                                                    <div
+                                                                                                                        style={{ maxWidth: '200px' }}
+                                                                                                                    >{note}</div>
+                                                                                                                </p>
+                                                                                                            )}
+
+                                                                                                        </div>
+                                                                                                    );
+                                                                                                })}
+                                                                                            </div>
+                                                                                        </>
+                                                                                    )
+
+                                                                                }
+
+
+                                                                                <div className={'mt-2 mb-4 pt-2 row'}>
+
+                                                                                    {
+                                                                                        <div className={'container'}>
+                                                                                            <PhotoProvider>
+                                                                                                <div className="row pointer pl-5">
+                                                                                                    {imageUrls?.map((item: any, index: any) => {
+
+                                                                                                        return (
+                                                                                                            <div key={index}>
+                                                                                                                <PhotoView src={item}>
+                                                                                                                    <img style={{
+                                                                                                                        borderRadius: '10px'
+                                                                                                                    }} className={'p-1'} src={item} alt={'Task Attachments'} width={130} height={130} />
+                                                                                                                </PhotoView>
+                                                                                                            </div>
+                                                                                                        )
+                                                                                                    })}
+                                                                                                </div>
+                                                                                            </PhotoProvider>
+                                                                                        </div>
+                                                                                    }
+
+
+                                                                                </div>
+
+                                                                            </div>}
+                                                                        </div>}
+                                                                </div >
+                                                            </div>
+
+                                                        </>
+                                                    )
+                                                })
+                                            }
+                                        </InfiniteScroll>
+
                                     }
 
                                 </CardBody>
@@ -689,7 +712,7 @@ function IndividualChat() {
                                                 // selected={selectedUserId}
                                                 onChange={(item) => {
                                                     setSelectedUserId(item)
-                                                  
+
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
@@ -701,78 +724,82 @@ function IndividualChat() {
 
                             </CardHeader>
 
-                            
-   
+
+
                             {<div className={` overflow-auto overflow-hide `}
                                 style={{ height: "90vh" }}
 
                             >
-                                                         {loading && (
-          <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '100px' }}>
-            <Spinner />
-          </div>
-        )}
-        {!loading && <div >
-                                {employeeList && employeeList?.length > 0 ?
-                                    employeeList?.map((item: any) => {
-                                        return (
-                                            <div className={`pointer overflow-auto overflow-hide `}
-                                                onClick={() => {
-                                               
-                                                    dispatch(
-                                                        selectedUserChats(item)
-                                                    )
-                                                }}
-                                            >
-                                                {
-                                                    <div className={`mx- ${item?.id === selectedUserChat?.id ? 'bg-lighter ' : ''} py-2 px-2`}
-                                                        style={{
-                                                            // borderRadius: '10px'
-                                                        }}
-                                                    >
-                                                        <div className={`pl--2`}>
-                                                            <div className={``}>
-                                                                <div className="row align-items-center ml-2">
-                                                                    <Image
-                                                                        variant="rounded"
-                                                                        className=""
-                                                                        size="sm"
-                                                                        src={item?.profile_image ? SERVER + item?.profile_image : SERVER + item?.profile_pic}
-                                                                        alt="avatar 1"
-                                                                    />
-                                                                    <small className='ml-3 '>
-                                                                        <h5 className={`${item?.id === selectedUserChat?.id ? 'text-black' : 'text-muted'} mb-0 h5`}>
-                                                                            {convertToUpperCase(item?.name)}
-                                                                        </h5>
-                                                                        <div className={'row ml-0  pb-2'}>
-                                                                            <div className={`h6 mb-0 text-uppercase  `}
-                                                                                style={{
-                                                                                    color: item?.id === selectedUserChat?.id ? '#424242' : '#8898aa'
-                                                                                }}
-                                                                            >{item?.department ? item?.department?.name : '-'}</div>
-                                                                            <div className={` mt--1`}><Image src={icons.verticalLine} height={12} width={7} /></div>
-                                                                            <div
-                                                                                className={`h6 mb-0 text-uppercase `}
-                                                                                style={{
-                                                                                    color: item?.id === selectedUserChat?.id ? '#424242' : '#8898aa'
-                                                                                }}
-                                                                            >{item?.designation ? item?.designation?.name : '-'}</div>
-                                                                        </div>
-                                                                    </small>
+                                {loading && (
+                                    <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '100px' }}>
+                                        <Spinner />
+                                    </div>
+                                )}
+                                {!loading && <div >
+                                    {employeeList && employeeList?.length > 0 ?
+                                        employeeList?.map((item: any) => {
+                                            return (
+                                                <div className={`pointer overflow-auto overflow-hide `}
+                                                    onClick={() => {
+
+                                                        dispatch(
+                                                            selectedUserChats(item)
+                                                        )
+
+                                                    }}
+                                                >
+                                                    {
+                                                        <div className={`mx- ${item?.id === selectedUserChat?.id ? 'bg-lighter ' : ''} py-2 px-2`}
+                                                            style={{
+                                                                // borderRadius: '10px'
+                                                            }}
+                                                        >
+                                                            <div className={`pl--2`}>
+                                                                <div className={``}>
+                                                                    <div className="row align-items-center ml-2">
+                                                                        <Image
+                                                                            variant="rounded"
+                                                                            className=""
+                                                                            size="sm"
+                                                                            src={item?.profile_image ? SERVER + item?.profile_image : SERVER + item?.profile_pic}
+                                                                            alt="avatar 1"
+                                                                        />
+                                                                        <small className='ml-3 '>
+                                                                            <h5 className={`${item?.id === selectedUserChat?.id ? 'text-black' : 'text-muted'} mb-0 h5`}>
+                                                                                {convertToUpperCase(item?.name)}
+                                                                            </h5>
+                                                                            <div className={'row ml-0  pb-2'}>
+                                                                                <div className={`h6 mb-0 text-uppercase  `}
+                                                                                    style={{
+                                                                                        color: item?.id === selectedUserChat?.id ? '#424242' : '#8898aa'
+                                                                                    }}
+                                                                                >{item?.department ? item?.department?.name : '-'}</div>
+                                                                                <div className={` mt--1`}><Image src={icons.verticalLine} height={12} width={7} /></div>
+                                                                                <div
+                                                                                    className={`h6 mb-0 text-uppercase `}
+                                                                                    style={{
+                                                                                        color: item?.id === selectedUserChat?.id ? '#424242' : '#8898aa'
+                                                                                    }}
+                                                                                >{item?.designation ? item?.designation?.name : '-'}</div>
+                                                                            </div>
+                                                                        </small>
+
+                                                                    </div>
+
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div >
-                                                }
-                                            </div>
-                                        )
-                                    }) :
-                                    <div className=" d-flex justify-content-center align-items-center mt--5" style={{
-                                        height: '77.6vh'
-                                    }}>
-                                        <NoRecordsFound />
-                                    </div>
-                                }
+                                                        </div >
+
+                                                    }
+                                                </div>
+                                            )
+                                        }) :
+                                        <div className=" d-flex justify-content-center align-items-center mt--5" style={{
+                                            height: '77.6vh'
+                                        }}>
+                                            <NoRecordsFound />
+                                        </div>
+                                    }
 
                                 </div>}
                             </div>}

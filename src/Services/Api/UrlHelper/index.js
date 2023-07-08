@@ -165,7 +165,7 @@ export const POST_CHAT_MESSAGE = TASK + 'addMessage'
 
 // get chat message
 
-export const FETCH_CHAT_MESSAGE = TASK + 'getMessage'
+export const FETCH_CHAT_MESSAGES = TASK + 'getMessage'
 
 // get chat employee list
 

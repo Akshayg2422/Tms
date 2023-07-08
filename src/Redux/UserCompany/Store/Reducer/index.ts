@@ -38,6 +38,7 @@ const initialState: UserCompanyStateProp = {
   taskGroupDetails: undefined,
   taskGroupCurrentPages: undefined,
   taskGroupNumOfPages: undefined,
+  chatMessage:[],
   addTaskGroup: undefined,
   associatedCompanies: undefined,
   associatedCompaniesNumOfPages: undefined,
@@ -72,7 +73,7 @@ const initialState: UserCompanyStateProp = {
   enableRequest: undefined,
   settingVcDetails: undefined,
   vcNotificationData: undefined,
-  chatMessageData: undefined,
+  chatMessageCurrentPages: 1,
   employeeListData: undefined,
   oneToOneChat: false,
   oneToOneVcNoti: undefined,
@@ -81,7 +82,6 @@ const initialState: UserCompanyStateProp = {
   chatEmployeeListNumOfPages: undefined,
   refreshChatMessage: false,
   selectedUserChat:undefined,
-  
 
 }
 
@@ -861,7 +861,7 @@ case ActionTypes.REFRESH_GROUP_CHAT:
   //SELECTED USER
 
   case ActionTypes.USER_CHAT:
-console.log(action,"ppppp-==ssaa")
+
     state = { ...state,  selectedUserChat: action.payload}
     break;
   
@@ -906,20 +906,49 @@ console.log(action,"ppppp-==ssaa")
     // GET chat message
 
     case ActionTypes.FETCH_CHAT_MESSAGE:
+     
       state = {
         ...state,
-        chatMessageData: undefined,
+        chatMessage: action.payload.params.page_number === 1 ? [] : state.chatMessage
+       
       };
       break;
     case ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS:
+      
       state = {
         ...state,
-        chatMessageData: action.payload.details,
+        chatMessage:action.payload?.details?.data,
+        chatMessageCurrentPages: action.payload?.details.next_page 
+      
       };
       break;
     case ActionTypes.FETCH_CHAT_MESSAGE_FAILURE:
-      state = { ...state, chatMessageData: undefined };
+   
+      state = { ...state,  chatMessage: undefined};
       break;
+
+
+
+      ///chat 
+
+//       case ActionTypes.FETCH_CHAT_MESSAGE:
+
+//       state = {
+//         ...state,
+//         chatMessage: action?.payload?.params?.page_number === 1 ? [] : state.events
+//       };
+//       break;
+//     case ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS:
+// console.log(action?.payload?.details?.data,"action?.payload?.details?.data]")
+//       state = {
+//         ...state,
+//         chatMessage: [...state.events, ...action?.payload?.details?.data],
+//         chatMessageCurrentPages: action?.payload?.details?.next_page
+//       };
+//       break;
+//     case ActionTypes.FETCH_CHAT_MESSAGE_FAILURE:
+//       state = { ...state,  chatMessage: undefined };
+//       break;
 
 
     // get chat employee list

@@ -30,6 +30,7 @@ export * from './ComponentLoader'
 export * from './AutoComplete'
 export * from './TextAreaInput'
 export * from './ImageColor'
+export * from './ImageIcon'
 
 
 
