@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GroupMessageProps } from './interfaces';
 import { useSelector, useDispatch } from 'react-redux'
 import { addGroupMessage, getGroupMessage, selectedVcDetails } from '@Redux'
-import { Image, Modal, showToast, Button, Dropzone, GroupChat, Spinner, ImageDownloadButton, ProfileCard, ImagePicker } from '@Components'
+import { Modal, showToast, Button, GroupChat, Spinner, ProfileCard, ImagePicker } from '@Components'
 import { getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, INITIAL_PAGE, getPhoto, getObjectFromArrayByKey, GROUP_STATUS_LIST, getCurrentDayAndDate } from '@Utils'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInput, useModal, useWindowDimensions, useNavigation } from '@Hooks'
@@ -14,7 +14,6 @@ import { ROUTES } from '@Routes';
 
 function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const { goTo } = useNavigation()
-    const { id } = useParams();
     const dispatch = useDispatch()
     const { taskDetails } = useSelector((state: any) => state.TaskReducer);
     const { refreshGroupEvents, selectedGroupChatCode, dashboardDetails, refreshGroupChat } = useSelector((state: any) => state.UserCompanyReducer);
@@ -22,7 +21,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const { height } = useWindowDimensions()
     const [image, setImage] = useState([])
-    const imageModal = useModal(false)
     const deleteModal = useModal(false)
     const editModal = useModal(false)
     const message = useInput('')
@@ -33,18 +31,17 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const { user_details } = dashboardDetails || {}
     const { raised_by_company, by_user } = taskDetails || {};
     const userModal = useModal(false)
-
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
-
-
+    console.log("selectMessage", message)
 
     let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
         const { id, attachment_file } = el
         return {
             id: index + 1, photo: attachment_file,
         }
-
     })
+
+    console.log("AttachmentEdit", AttachmentEdit)
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
@@ -95,7 +92,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     function getIconsFromStatus(each: any) {
 
-        const { event_type, by_user, message, eta_time, tagged_users, assigned_to, attachments, group_status, event_by } = each
+        const { event_type, message, eta_time, tagged_users, assigned_to, attachments, group_status, event_by } = each
         let modifiedData = {}
 
 
@@ -151,6 +148,10 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         showToast(response.message, 'success')
                         editModal.hide()
                         getGroupMessageApi(INITIAL_PAGE)
+                        setSelectedNoOfPickers('')
+                        setPhoto('')
+                        attach = ''
+
                     }
                 },
                 onError: (error) => () => {
@@ -185,6 +186,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     }
     let previousDate = '';
+    console.log('groupEvents.length--->', groupEvents.length)
 
     return (
         <>
@@ -212,7 +214,9 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             getGroupMessageApi(GroupCurrentPage)
                         }
                     }
-                    }>
+                    }
+                >
+
                     {
                         loading && (
                             <div className='d-flex justify-content-center align-item-center' style={{ marginBottom: '200px' }}>
@@ -220,6 +224,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             </div>
                         )
                     }
+
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
                             const { title, subTitle, created_at, attachments, event_by } = item
@@ -291,50 +296,47 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
             <Modal size={'lg'} title={translate('common.Edit Chat')!} isOpen={editModal.visible} onClose={editModal.hide} >
 
                 <div className="col-md col-lg">
-
                     <div className='col-md col-lg'>
-                        <textarea value={message.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
+                        <textarea value={message?.value} className="form-control form-control-sm" onChange={message.onChange}></textarea>
                     </div>
 
-                    <div className="col-auto pb-2">
-                        <div className="row">
-                            <ImagePicker
-                                defaultPicker={true}
-                                defaultValue={AttachmentEdit}
-                                size='xl'
-                                heading={translate("auth.attach")!}
-                                onSelect={(image) => {
-                                    let file = image.toString().replace(/^data:(.*,)?/, "")
-                                    handleImagePicker(file)
-                                }}
+                    {
+                        AttachmentEdit && AttachmentEdit.length > 0 &&
+                        <div className="col-auto pb-2">
+                            <div className="row">
+                                <ImagePicker
+                                    defaultPicker={true}
+                                    defaultValue={AttachmentEdit}
+                                    size='xl'
+                                    heading={translate("auth.attach")!}
+                                    onSelect={(image) => {
+                                        let file = image.toString().replace(/^data:(.*,)?/, "")
+                                        handleImagePicker(file)
+                                    }}
 
-                                onSelectImagePicker={(el) => {
-                                    setSelectedNoOfPickers(el?.length)
+                                    onSelectImagePicker={(el) => {
+                                        setSelectedNoOfPickers(el?.length)
 
-                                }}
-                                onSelectImagePickers={(el) => {
-                                    let array: any = []
+                                    }}
+                                    onSelectImagePickers={(el) => {
+                                        let array: any = []
 
-                                    for (let i = 0; i <= el.length; i++) {
+                                        for (let i = 0; i <= el.length; i++) {
 
-                                        let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                                        if (editPickers !== undefined) {
-                                            array.push(editPickers)
+                                            let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                            if (editPickers !== undefined) {
+                                                array.push(editPickers)
+                                            }
                                         }
-
-                                    }
-                                    setPhoto(array)
-
-                                }}
-                            />
-
+                                        setPhoto(array)
+                                    }}
+                                />
+                            </div>
                         </div>
-
-
-                    </div>
+                    }
                 </div>
 
-                <div className="row justify-content-end">
+                <div className="row justify-content-end d-flex mt-2 mr-3">
                     <div className="col-md-5 col-lg-3 ">
                         <Button
                             className={'text-white'}
