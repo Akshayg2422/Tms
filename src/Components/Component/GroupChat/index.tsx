@@ -94,7 +94,7 @@ function GroupChat({
                                 <span>
                                     {isEdit && (
                                         <small>
-                                            <div style={{ width: '20px', height: '20px', borderRadius: '4px' }} className="col-auto myLink pointer d-inline-flex justify-content-center align-items-center">
+                                            <div style={{ width: '20px', height: '20px', borderRadius: '4px' }} className="myLink pointer d-inline-flex justify-content-center align-items-center">
                                                 <Image
                                                     src={icons.editEta}
                                                     onClick={editOnClick}
