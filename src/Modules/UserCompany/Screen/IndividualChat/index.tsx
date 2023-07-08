@@ -621,6 +621,7 @@ function IndividualChat() {
                                     }
 
                                 </CardBody>
+                                
 
                                 {selectedUserChat && selectedUserChat?.id ?
                                     <CardFooter className=''>
