@@ -4,6 +4,7 @@ function ImageIcon({ variant = 'default', className, alt, size, ...rest }: Image
 
     const styles={
         filter: 'invert(35%) sepia(100%) saturate(5908%) hue-rotate(245deg) brightness(73%) contrast(132%)'
+        // filter:'invert(31%) sepia(90%) saturate(7231%) hue-rotate(246deg) brightness(71%) contrast(142%);'
     }
 
     function getVariantStyle(variant: ImageVariant) {

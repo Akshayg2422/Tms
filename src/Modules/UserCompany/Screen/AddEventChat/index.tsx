@@ -102,6 +102,7 @@ function AddEventChat() {
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={proceedAddEventsApiHandler} />
                 </div >
+               
             </div >
 
             <Modal isOpen={attachmentModal.visible} onClose={attachmentModal.hide} size='md'>

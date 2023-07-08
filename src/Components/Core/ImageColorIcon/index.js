@@ -321,6 +321,6 @@ function hexToRgb(hex) {
 
 }
 
-const resulta =  getFilter("#0000CD")
+const resulta =  getFilter('#11cdef')
 
 console.log("test=====>", resulta)

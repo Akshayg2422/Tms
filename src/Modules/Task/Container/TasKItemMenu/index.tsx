@@ -44,7 +44,7 @@ function TaskItemMenu() {
    
     const dispatch = useDispatch()
     const { selectedTaskId} = useSelector((state: any) => state.TaskReducer);
-    console.log(selectedTaskId,"selectedTask?.task_status")
+   
 
     const tagUserModal = useModal(false);
     const reassignUserModal = useModal(false);
@@ -79,7 +79,7 @@ function TaskItemMenu() {
             },
             onError: (error) => () => {
                 loginLoader.hide()
-                console.log(JSON.stringify(error));
+              
             }
         }))
     }
@@ -176,12 +176,7 @@ console.log(status.value,"lllll")
                 
                 />
 
-                    {/* <Input
-                        type={"text"}
-                        heading={translate("common.reason")}
-                        value={taskStatusReason.value}
-                        onChange={taskStatusReason.onChange}
-                    /> */}
+            
                 </div>
 
                 <div className="pt-3 text-right">

@@ -532,6 +532,7 @@ export const setSelectedEmployee = (response: any) => {
 
 //GET EVENTS
 export const getEvents = (params: any) => {
+  console.log('params,"pppppp',params)
   return {
     type: ActionTypes.GET_EVENTS,
     payload: params,
@@ -539,6 +540,7 @@ export const getEvents = (params: any) => {
 };
 
 export const getEventsSuccess = (response: any) => {
+  console.log('ssssssssss',response)
   return {
     type: ActionTypes.GET_EVENTS_SUCCESS,
     payload: response,
@@ -546,6 +548,7 @@ export const getEventsSuccess = (response: any) => {
 };
 
 export const getEventsFailure = (error: any) => {
+  console.log('Action ,errior',error)
   return {
     type: ActionTypes.GET_EVENTS_FAILURE,
     payload: error,
@@ -1055,6 +1058,7 @@ export const postChatMessageFailure = (error: any) => {
 //GET chat message
 
 export const fetchChatMessage = (params: any) => {
+  console.log('ppppp',params)
   return {
     type: ActionTypes.FETCH_CHAT_MESSAGE,
     payload: params,
@@ -1062,6 +1066,7 @@ export const fetchChatMessage = (params: any) => {
 };
 
 export const fetchChatMessageSuccess = (response: any) => {
+  console.log('psssssssssssss',response)
   return {
     type: ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS,
     payload: response,
@@ -1069,6 +1074,7 @@ export const fetchChatMessageSuccess = (response: any) => {
 };
 
 export const fetchChatMessageFailure = (error: any) => {
+  console.log('eeeeeeeeeeeee',error)
   return {
     type: ActionTypes.FETCH_CHAT_MESSAGE_FAILURE,
     payload: error,

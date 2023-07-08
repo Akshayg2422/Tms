@@ -260,7 +260,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                             <div className="row ml-1 mr-3">
                                 <div className="pointer" onClick={() => editEtaModal.show()}>
-                                    {eta_time && <Image src={icons.editEta} height={16} width={16} />}
+                                    {eta_time && <ImageIcon src={icons.editEta} height={16} width={16} />}
                                 </div>
                                 <div className="ml-2 pointer" onClick={() => { taskEventModal.show() }}>
                                     <ImageIcon src={icons.timeline} height={17} width={17} />

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { TripleDotProps } from './interfaces'
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { Image } from '@Components'
+import { Image, ImageIcon } from '@Components'
 
 
 function MenuBar({ toggleIcon, menuData, onClick }: TripleDotProps) {
@@ -12,7 +12,7 @@ function MenuBar({ toggleIcon, menuData, onClick }: TripleDotProps) {
                     color=""
                     size="sm"
                     className="text-light">
-                    {toggleIcon ? <Image src={toggleIcon} width={20} height={20} /> : <i className="fas fa-ellipsis-v" />}
+                    {toggleIcon ? <ImageIcon src={toggleIcon} width={20} height={20} /> : <i className="fas fa-ellipsis-v text-primary" />}
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-arrow" right>
                     {menuData && menuData.length > 0 && menuData.map((el: any, index: number) => {
@@ -27,9 +27,7 @@ function MenuBar({ toggleIcon, menuData, onClick }: TripleDotProps) {
                                 }
                                 }>
                                     <div className='d-inline-flex justify-content-center align-items-center'>
-                                        {icon && <Image src={icon} width={18} height={18} style={{
-                                            objectFit: 'contain'
-                                        }} />}
+                                        {icon && <ImageIcon src={icon} width={18} height={18}  />}
                                         {name}
                                     </div>
                                 </DropdownItem>

@@ -41,9 +41,9 @@ function Groups() {
           </div>
         )}
 
-{!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
+{!loading && <div >
             {chatGroups && chatGroups.length > 0 ? <div className='row'>
-                <div className='col-8' ref={ref}>
+                <div className='col-8 ' ref={ref}>
                     <Card>
 
                         <GroupMessage selectedGroup={selectedGroupChatCode ? selectedGroupChatCode : chatGroups && chatGroups[0]?.id} />
