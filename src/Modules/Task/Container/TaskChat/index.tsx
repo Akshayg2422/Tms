@@ -125,7 +125,7 @@ function TaskChat({ }: TaskChatProps) {
                 style={{ display: 'flex', flexDirection: 'column-reverse', overflowY: 'auto' }}
                 inverse={true}
                 loader={<h4>
-                    {/* <Spinner /> */}
+                    <div className={'d-flex justify-content-center align-items-center'} style={{height:'380px'}}><Spinner /></div>
                 </h4>}
                 next={() => {
 

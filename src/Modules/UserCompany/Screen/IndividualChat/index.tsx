@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Card, CardBody, CardFooter, CardHeader, ListGroup, ListGroupItem } from 'reactstrap'
+import React, { useEffect, useState } from 'react'
+import { Card, CardBody, CardFooter, CardHeader } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { AutoComplete, Button, CommonTable, Divider, Dropzone, Image, ImageDownloadButton, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner, showToast } from '@Components'
+import { AutoComplete, Button, Image, ImagePicker, Input, Modal, NoRecordsFound, ProfileCard, Spinner, showToast } from '@Components'
 import moment from 'moment'
 import { CHAT_ATTACHMENT_RULES, CHAT_MESSAGE_RULES, INITIAL_PAGE, convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, getPhoto, getValidateError, ifObjectExist, paginationHandler, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedUserChats, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
-import { ROUTES } from '@Routes'
 import { useDynamicHeight, useInput, useLoader, useModal, useNavigation } from '@Hooks'
 import { translate } from '@I18n'
 import { VideoConference } from '../../Container'
@@ -33,26 +32,17 @@ function IndividualChat() {
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const [oneToOneChatMessage, setOneToOneChatMessage] = useState<any>()
     const dispatch = useDispatch()
-
-    const { goTo } = useNavigation()
-
     const [photo, setPhoto] = useState<any>([])
-
     const userModal = useModal(false)
     const { raised_by_company } = taskDetails || {};
     const [showAutoComplete, setAutoComplete] = useState<any>(false)
-
     const [image, setImage] = useState<any>([])
-    let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
-    const [corouselIndex, setCorouselIndex] = useState<any>()
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
     const loginLoader = useLoader(false)
     const [loading, setLoading] = useState(false);
-    console.log(oneToOneChatMessage, "oneToOneChatMessage===>")
-    console.log(chatMessageCurrentPages, " chat chatMessageCurrentPages]")
-    console.log(chatMessage.length, "chatMessage:undefined,")
+
 
     useEffect(() => {
 
@@ -100,7 +90,6 @@ function IndividualChat() {
                         selectedUserChats(success?.details[0])
                     )
                 }
-
 
 
             },
@@ -200,7 +189,6 @@ function IndividualChat() {
             }))
         }
     }
-
 
 
     const updateNewEmployeeInChatBox = () => {
@@ -631,7 +619,6 @@ function IndividualChat() {
 
                                     }
 
-
                                 </CardBody>
 
                                 {selectedUserChat && selectedUserChat?.id ?
@@ -641,9 +628,7 @@ function IndividualChat() {
                                                 <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                                             </div>
                                             <textarea
-                                                style={{
-                                                    borderRadius: '15px'
-                                                }}
+                                                style={{ resize: 'vertical', minHeight: '50px', borderRadius: '15px' }}
                                                 placeholder='write message'
                                                 className="form-control form-control-sm mx-3 "
                                                 id="exampleFormControlInput1"
@@ -702,7 +687,6 @@ function IndividualChat() {
                             style={{
                                 height: dynamicHeight.dynamicHeight - 50,
                             }}
-
                         >
                             <CardHeader className=''>
                                 <div className='mt--2'>
@@ -732,8 +716,6 @@ function IndividualChat() {
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
-
-
                                                 }}
                                             />
                                         </div>
@@ -824,9 +806,7 @@ function IndividualChat() {
                         </Card>
                     </div>
                     }
-
                 </div >
-
             </ div >
 
             <Modal isOpen={attachmentModal.visible}
