@@ -21,7 +21,7 @@ const PushNotification = () => {
     const NOTIFICATION_TICKET_RAISED = 'TICKET_RAISED'
     const NOTIFICATION_BROADCAST_MESSAGE = 'BROADCAST_MESSAGE'
     const NOTIFICATION_GROUP_MESSAGE = 'GROUP_MESSAGE'
-    const NOTIFICATION_CHAT_MESSAGE='CHAT_MESSAGE'
+    const NOTIFICATION_CHAT_MESSAGE = 'CHAT_MESSAGE'
     const NOTIFICATION_TASK_CHANNEL_EVENT = 'TASK_CHANNEL_EVENT'
     const NOTIFICATION_VIDEO_CONFERENCE = "VIDEO_CONFERENCE"
     const NOTIFICATION_EVENT_MESSAGE = 'EVENT_MESSAGE'
@@ -81,13 +81,14 @@ const PushNotification = () => {
 
         const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
 
+        console.log('route_type--->', JSON.stringify(route_type))
         console.log('route_type======>1111111', JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
 
         if (route_type === NOTIFICATION_GROUP_MESSAGE) {
             goTo(ROUTES['user-company-module'].Groups);
         }
-        else if (route_type === NOTIFICATION_CHAT_MESSAGE){
-            goTo(ROUTES["task-module"]["individual-chat"])
+        else if (route_type === NOTIFICATION_CHAT_MESSAGE) {
+            goTo(ROUTES["user-company-module"]["individual-chat"])
         }
         else if (route_type === NOTIFICATION_TASK_RAISED) {
             goTo(ROUTES["task-module"].tasks)
@@ -98,6 +99,9 @@ const PushNotification = () => {
         else if (route_type === NOTIFICATION_BROADCAST_MESSAGE) {
             goTo(ROUTES['message-module'].broadcast)
         }
+        else if (route_type === NOTIFICATION_TASK_CHANNEL_EVENT) {
+            goTo(ROUTES['task-module']['tasks-details'])
+        }
         else if (route_type === NOTIFICATION_VIDEO_CONFERENCE) {
 
             if (extra_data?.route_params?.one_to_one) {
@@ -107,7 +111,7 @@ const PushNotification = () => {
                 goTo(ROUTES['user-company-module']['individual-chat'], false)
             }
             else {
-                dispatch(vcNotificationDetails(JSON.parse(payload?.data?.extra_data?.replace(/'/g, '"'))))
+                dispatch(vcNotificationDetails(route_type))
                 goTo(ROUTES['user-company-module']['video-conference'], false)
             }
         }
@@ -138,8 +142,10 @@ const PushNotification = () => {
 
                 }
             } else if (route_type === NOTIFICATION_TASK_CHANNEL_EVENT) {
+
                 try {
                     dispatch(refreshTaskEvents())
+                    goTo(ROUTES['tasks-details']['tasks-details'])
                 } catch (e) {
 
                 }
@@ -161,9 +167,9 @@ const PushNotification = () => {
 
             else if (route_type === NOTIFICATION_CHAT_MESSAGE) {
                 try {
-                
-                   dispatch(refreshChatMessage())
-                   console.log('popkklnhugu')
+
+                    dispatch(refreshChatMessage())
+                    console.log('popkklnhugu')
                 } catch (e) {
 
                 }

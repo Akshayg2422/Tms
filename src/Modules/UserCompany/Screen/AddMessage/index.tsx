@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AddMessageProps } from './interfaces';
-import { Button, Modal, Input, Dropzone, ImageDownloadButton, ImagePicker, showToast } from '@Components'
+import { Button, Modal, Input, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
 import { addGroupMessage, getTokenByUser, refreshGroupEvents, selectedVcDetails } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,14 +8,12 @@ import { useModal, useInput, useNavigation, useLoader } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
 import { translate } from '@I18n'
 import { ROUTES } from '@Routes';
-import { useParams } from 'react-router-dom';
 
 function AddMessage({ AddGroup }: AddMessageProps) {
     const { selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { user_details } = dashboardDetails || ''
     const dispatch = useDispatch()
     const message = useInput('')
-    const { id } = useParams();
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
@@ -24,7 +22,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
     const { goTo } = useNavigation()
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
-    const loginLoader=useLoader(false)
+    const loginLoader = useLoader(false)
     const addGroupMessageApiHandler = () => {
 
         if (message.value.trim()) {
@@ -132,8 +130,16 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                 <div className='row justify-content-center align-items-center'>
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
-                        <textarea placeholder={translate("order.Write your comment")!} value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
+                        <textarea
+                            placeholder={translate("order.Write your comment")!}
+                            value={message.value}
+                            className="form-control form-control-sm"
+                            onKeyDown={handleKeyDown}
+                            onChange={message.onChange}
+                            style={{ resize: 'vertical', minHeight: '50px' }}
+                        ></textarea>
                     </div>
+
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={addGroupMessageApiHandler} />
                     <Button
                         size={'lg'}
@@ -161,7 +167,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                                 // handleImagePicker(file)
                             }}
 
-                          
+
 
                             onSelectImagePickers={(el) => {
                                 let array: any = []
@@ -182,8 +188,8 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
                 <div className='col-6 pt-2'>
                     <div className=''>
-                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment} 
-                        loading={ loginLoader.loader}/>
+                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment}
+                            loading={loginLoader.loader} />
                     </div>
                 </div>
 

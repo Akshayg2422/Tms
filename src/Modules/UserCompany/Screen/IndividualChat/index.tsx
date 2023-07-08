@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Card, CardBody, CardFooter, CardHeader, ListGroup, ListGroupItem } from 'reactstrap'
+import React, { useEffect, useState } from 'react'
+import { Card, CardBody, CardFooter, CardHeader } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { AutoComplete, Button, CommonTable, Divider, Dropzone, Image, ImageDownloadButton, ImagePicker, Input, InputHeading, Modal, NoRecordsFound, ProfileCard, SearchInput, Spinner, showToast } from '@Components'
+import { AutoComplete, Button, Image, ImagePicker, Input, Modal, NoRecordsFound, ProfileCard, Spinner, showToast } from '@Components'
 import moment from 'moment'
-import { CHAT_ATTACHMENT_RULES, CHAT_MESSAGE_RULES, convertToUpperCase, getDisplayTimeFromMoment, getDropDownCompanyUser, getDropDownDisplayData, getPhoto, getValidateError, ifObjectExist, paginationHandler, validate, } from '@Utils'
+import { CHAT_ATTACHMENT_RULES, CHAT_MESSAGE_RULES, convertToUpperCase, getDropDownCompanyUser, getPhoto, getValidateError, ifObjectExist, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedUserChats, selectedVcDetails } from '@Redux'
 import { SERVER } from '@Services'
 import { icons } from '@Assets'
-import { ROUTES } from '@Routes'
 import { useDynamicHeight, useInput, useLoader, useModal, useNavigation } from '@Hooks'
 import { translate } from '@I18n'
 import { VideoConference } from '../../Container'
@@ -15,7 +14,7 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 
 function IndividualChat() {
-    const { chatMessageData, dashboardDetails, oneToOneChat, employees, settingVcDetails, chatEmployeeList, chatEmployeeListNumOfPages, chatEmployeeListCurrentPages ,refreshChatMessage,selectedUserChat} = useSelector(
+    const { dashboardDetails, oneToOneChat, employees, settingVcDetails, refreshChatMessage, selectedUserChat } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || ''
@@ -25,32 +24,25 @@ function IndividualChat() {
     const dynamicHeight: any = useDynamicHeight()
 
     const [chatText, setChatText] = useState<any>("")
-    // const [selectedUserDetails, setSelectedUserDetails] = useState<any>(settingVcDetails ? settingVcDetails : '')
-    const [openVideoCall, setOpenVideoCall] = useState<any>(false)
+    const [selectedUserDetails, setSelectedUserDetails] = useState<any>(settingVcDetails ? settingVcDetails : '')
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [employeeList, setEmployeeList] = useState<any>()
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const [oneToOneChatMessage, setOneToOneChatMessage] = useState<any>()
     const dispatch = useDispatch()
-
-    const { goTo } = useNavigation()
-
     const [photo, setPhoto] = useState<any>([])
-
     const userModal = useModal(false)
     const { raised_by_company } = taskDetails || {};
     const [showAutoComplete, setAutoComplete] = useState<any>(false)
-
     const [image, setImage] = useState<any>([])
-    let currentTime = moment().format("YYYY-MM-DD")
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
-    const [corouselIndex, setCorouselIndex] = useState<any>()
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
     const loginLoader=useLoader(false)
     const [loading, setLoading] = useState(false);
 
+    console.log(selectedUserChat, "selectedUserDetails?.id===>", selectedUserChat)
 
 
     useEffect(() => {
@@ -94,12 +86,13 @@ function IndividualChat() {
                 })
                 setEmployeeList(modifiedData)
 
-                if( selectedUserChat===undefined){
-                  
+                if (selectedUserChat === undefined) {
+                    console.log('klmjkhuyvfuyhj')
+
                     dispatch(
                         selectedUserChats(success?.details[0])
                     )
-                    }
+                }
 
            
 
@@ -141,7 +134,7 @@ function IndividualChat() {
         const validation = validate(CHAT_ATTACHMENT_RULES, {
             attachment_name: attachmentName.value.trim(),
             chat_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : '',
-            receiver_by:selectedUserChat?.id
+            receiver_by: selectedUserChat?.id
         })
         const params = {
             event_type: "MEA",
@@ -206,11 +199,11 @@ function IndividualChat() {
         }
     }
 
-    useEffect (()=>{
-     getChatMessage(selectedUserChat?.id)
-        
+    useEffect(() => {
+        getChatMessage(selectedUserChat?.id)
 
-    },[refreshChatMessage]
+
+    }, [refreshChatMessage]
     )
 
     const updateNewEmployeeInChatBox = () => {
@@ -260,9 +253,6 @@ function IndividualChat() {
             onError: (error: string) => () => { },
         }))
     }
-
-    console.log("909090909")
-
 
     const activeStatus = (value) => {
         if (value) {
@@ -399,7 +389,7 @@ function IndividualChat() {
                                                                 </div>
                                                             </>
                                                         }
-                                                        
+
                                                     </div >
                                                     <div className={`d-flex flex-row ml-2 ${alignChatMessage(el)
                                                         ? " justify-content-end mb-2   "
@@ -557,7 +547,7 @@ function IndividualChat() {
                                                                                                     {showNote && (
                                                                                                         <p className={`text-muted text-sm font-weight-bold`}>
                                                                                                             <div
-                                                                                                                style={{ maxWidth: '200px'}}
+                                                                                                                style={{ maxWidth: '200px' }}
                                                                                                             >{note}</div>
                                                                                                         </p>
                                                                                                     )}
@@ -595,12 +585,6 @@ function IndividualChat() {
                                                                                 </div>
                                                                             }
 
-                                                                            {/* style={{
-                                                                                                                border: '5px solid',
-                                                                                                                borderColor: '#FCC9E0',
-                                                                                                                borderRadius: '10px 0px 10px 10px'
-                                                                                                            }} */}
-
                                                                         </div>
 
                                                                     </div>}
@@ -611,9 +595,7 @@ function IndividualChat() {
                                                 </>
                                             )
                                         })
-
                                     }
-
 
                                 </CardBody>
 
@@ -624,9 +606,7 @@ function IndividualChat() {
                                                 <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                                             </div>
                                             <textarea
-                                                style={{
-                                                    borderRadius: '15px'
-                                                }}
+                                                style={{ resize: 'vertical', minHeight: '50px', borderRadius: '15px' }}
                                                 placeholder='write message'
                                                 className="form-control form-control-sm mx-3 "
                                                 id="exampleFormControlInput1"
@@ -685,7 +665,6 @@ function IndividualChat() {
                             style={{
                                 height: dynamicHeight.dynamicHeight - 50,
                             }}
-
                         >
                             <CardHeader className=''>
                                 <div className='mt--2'>
@@ -715,8 +694,6 @@ function IndividualChat() {
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
-
-
                                                 }}
                                             />
                                         </div>
@@ -746,7 +723,6 @@ function IndividualChat() {
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
-                                              
                                                 }}
                                             >
                                                 {
@@ -784,13 +760,10 @@ function IndividualChat() {
                                                                             >{item?.designation ? item?.designation?.name : '-'}</div>
                                                                         </div>
                                                                     </small>
-
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div >
-
                                                 }
                                             </div>
                                         )
@@ -807,9 +780,7 @@ function IndividualChat() {
                         </Card>
                     </div>
                     }
-                    
                 </div >
-
             </ div >
 
             <Modal isOpen={attachmentModal.visible}
