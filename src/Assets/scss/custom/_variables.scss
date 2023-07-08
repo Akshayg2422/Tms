@@ -482,6 +482,14 @@ $textarea-id: myTextarea;
   resize: none;
 }
 
+//hover background
+.myLink {
+  &:hover {
+    background-color: #dadada;
+  }
+}
+
+
 
 
 // landing page media Queries

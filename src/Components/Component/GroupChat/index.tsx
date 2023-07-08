@@ -71,9 +71,8 @@ function GroupChat({
                 <div className="col-11">
                     <div className="mb-0">
                         <h6
-                            className={`h5 mt-0 mb-0 d-flex justify-content-between text-primary ${
-                                isHovered ? 'hovered' : ''
-                            }`}
+                            className={`h5 mt-0 mb-0 d-flex justify-content-between text-primary ${isHovered ? 'hovered' : ''
+                                }`}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                         >
@@ -95,26 +94,26 @@ function GroupChat({
                                 <span>
                                     {isEdit && (
                                         <small>
-                                            <div className="col-auto pointer d-inline-flex justify-content-center align-items-center">
+                                            <div style={{ width: '20px', height: '20px', borderRadius: '4px' }} className="col-auto myLink pointer d-inline-flex justify-content-center align-items-center">
                                                 <Image
                                                     src={icons.editEta}
                                                     onClick={editOnClick}
                                                     width={12}
                                                     height={12}
-                                                    style={{ height: '15px', objectFit: 'contain' }}
+                                                    style={{ objectFit: 'contain' }}
                                                 />
                                             </div>
                                         </small>
                                     )}
                                     {isDelete && (
                                         <small>
-                                            <div className="pointer d-inline-flex justify-content-center align-items-center">
+                                            <div style={{ width: '20px', height: '20px', borderRadius: '4px' }} className="pointer myLink d-inline-flex justify-content-center align-items-center">
                                                 <Image
                                                     src={icons.deleteCurve}
                                                     onClick={deleteOnClick}
                                                     width={12}
                                                     height={12}
-                                                    style={{ height: '15px', objectFit: 'contain' }}
+                                                    style={{ objectFit: 'contain' }}
                                                 />
                                             </div>
                                         </small>
