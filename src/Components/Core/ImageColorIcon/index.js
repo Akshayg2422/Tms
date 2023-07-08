@@ -1,6 +1,6 @@
 'use strict';
 
-const getFilter = (hexColor) =>
+export const getFilter = (hexColor) =>
 {
 class Color {
   constructor(r, g, b) {
@@ -321,6 +321,6 @@ function hexToRgb(hex) {
 
 }
 
-const resulta =  getFilter("#f5365c")
+const resulta =  getFilter('#11cdef')
 
 console.log("test=====>", resulta)

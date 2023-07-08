@@ -737,9 +737,11 @@ function* postChatMessageSaga(action) {
 //get chat message
 
 function* fetchChatMessageSaga(action) {
+
   try {
     const response = yield call(Api.fetchChatMessageApi, action.payload.params);
     if (response.success) {
+      console.log();
       yield put(Action.fetchChatMessageSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
@@ -747,7 +749,8 @@ function* fetchChatMessageSaga(action) {
       yield call(action.payload.onError(response));
     }
   } catch (error) {
-    yield put(Action.fetchChatMessageFailure(error));
+    console.log(error);
+     yield put(Action.fetchChatMessageFailure(error));
     yield call(action.payload.onError(error));
   }
 }
@@ -810,7 +813,6 @@ function* UserCompanySaga() {
   yield takeLatest(Action.EMPLOYEE_TIMELINE_STATUS, employeeTimeLineStatusSaga)
   yield takeLatest(Action.GET_ENABLE_REQUEST, getEnableRequestSaga)
   yield takeLatest(Action.ADD_ENABLE_REQUEST, addEnableRequestSaga)
-
   yield takeLatest(Action.POST_CHAT_MESSAGE, postChatMessageSaga)
   yield takeLatest(Action.FETCH_CHAT_MESSAGE, fetchChatMessageSaga)
   yield takeLatest(Action.FETCH_CHAT_EMPLOYEE_LIST, fetchChatEmployeeListSaga)

@@ -147,7 +147,7 @@ export const postChatMessageApi = (payload) => post(URL.POST_CHAT_MESSAGE, paylo
 
 /// get chat message
 
-export const fetchChatMessageApi = (payload) => post(URL.FETCH_CHAT_MESSAGE, payload, {})
+export const fetchChatMessageApi = (payload) => post(URL.FETCH_CHAT_MESSAGES, payload, {})
 
 /// get chat employee list
 

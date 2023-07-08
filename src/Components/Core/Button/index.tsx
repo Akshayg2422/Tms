@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button as RSButton } from 'reactstrap';
 import { ButtonProps } from './interfaces';
-import { Image, Spinner } from '@Components'
+import { Image, ImageIcon, Spinner } from '@Components'
 
 function Button({
   loading, text, color = 'primary', variant = 'default', size = 'md', height = 15, width = 15, icon, onEnter, onClick, ...rest
@@ -47,7 +47,7 @@ function Button({
 
       {variant === 'icon-rounded' &&
         <RSButton type={'button'} size={size} className={'btn-icon-only rounded-circle d-flex align-items-center justify-content-center'} color={color} onClick={onClick}  {...rest} >
-          <Image src={icon} height={height} width={width} />
+          <ImageIcon src={icon} height={height} width={width} />
         </RSButton>
       }
     </>

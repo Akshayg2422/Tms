@@ -39,6 +39,7 @@ function AdminFeeds() {
 
   const editFeedModal = useModal(false)
   const loginLoader = useLoader(false)
+  
 
   let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
     const { id, attachment_file } = el
@@ -222,7 +223,8 @@ function AdminFeeds() {
               getBroadCastMessage(broadCastCurrentPage)
             }
           }
-          }>
+          }
+          >
           <div className={''} >
             {
               broadCastDetails?.map((item: any, index: number) => {

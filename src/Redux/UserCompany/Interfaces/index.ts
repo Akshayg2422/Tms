@@ -38,6 +38,7 @@ export interface UserCompanyStateProp {
     employeeAddTime: any,
     employeeTimeline: any,
     selectedEmployee: any,
+   
     employeeTimelineCurrentPages: any,
     employeeTimelineNumOfPages: any,
     employeeslCurrentPages: any,
@@ -67,7 +68,6 @@ export interface UserCompanyStateProp {
     selectedUserChat:any,
     settingVcDetails:any,
     vcNotificationData:any
-    chatMessageData:any
     employeeListData:any
     oneToOneChat:any
     oneToOneVcNoti:any,
@@ -75,4 +75,6 @@ export interface UserCompanyStateProp {
     chatEmployeeListCurrentPages:any,
     chatEmployeeListNumOfPages:any,
     refreshChatMessage:any,
+    chatMessageCurrentPages:number,
+    chatMessage:any,
 }

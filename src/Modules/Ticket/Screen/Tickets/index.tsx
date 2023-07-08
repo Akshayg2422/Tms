@@ -13,7 +13,7 @@ function Tickets() {
 
   const DEFAULT_PARAMS = { q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
   const { goTo } = useNavigation();
-  const { tickets, ticketNumOfPages, ticketCurrentPages ,selectedTicket} = useSelector((state: any) => state.TicketReducer);
+  const { tickets, ticketNumOfPages, ticketCurrentPages, selectedTicket } = useSelector((state: any) => state.TicketReducer);
   const dispatch = useDispatch();
   const [params, setParams] = useState(DEFAULT_PARAMS)
   const [loading, setLoading] = useState(false)
@@ -53,18 +53,39 @@ function Tickets() {
 
           "ticket":
             <div className="row">
-              <Priority priority={el?.priority} />
+              <div className="d-flex ">
+
+
+                <div className="col-auto ">
+
+                  <div className="mr--3"><Priority priority={el?.priority} /></div>
+
+
+                </div>
+                <div className="col ml--2 ">
+                  <span>{capitalizeFirstLetter(el?.title)}</span>
+                  <div className=" text-primary  ">
+                    {el?.parent &&el
+                    ?.parent?.name && <div>{el?.parent?.name}
+                    </div>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              {/* <Priority priority={el?.priority} />
               <span className="col">{capitalizeFirstLetter(el?.title)}</span>
               <div className="pt-1">
                 {el.parent && el.parent?.name && <div>{el.parent?.name}
                 </div>
                 }
               </div>
+               */}
             </div>,
-             'description': <div>
-             {el?.description}
- 
-           </div>,
+          'description': <div>
+            {el?.description}
+
+          </div>,
 
           "":
             <div className="avatar-group">
@@ -100,7 +121,8 @@ function Tickets() {
               </div>
             </>,
 
-          'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))} </div>,
+          'Assigned At': 
+          <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))} </div>,
           status: <div> <Status status={el?.ticket_status} />
             <small>{
               getDates() > getDates(el.eta_time) ? 'ABOVE ETA' : ""
@@ -141,7 +163,7 @@ function Tickets() {
             )
           }
 
-          { !loading && <div style={{ marginRight: '-23px', marginLeft: '-23px' }}>
+          {!loading && <div style={{ marginRight: '-23px', marginLeft: '-23px' }}>
 
             {tickets && tickets.length > 0 ?
               <div>
