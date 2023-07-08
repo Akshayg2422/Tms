@@ -17,8 +17,7 @@ function Image({ variant = 'default', className, alt, size, ...rest }: ImageProp
         }
         return styles;
     }
-
-  
+   
 
     return (
         <img className={`${getVariantStyle(variant)} ${className}`} alt={alt} {...rest} ></img>
