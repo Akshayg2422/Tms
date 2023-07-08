@@ -1,5 +1,5 @@
 import { GroupChatProps } from './interfaces';
-import { Image } from '@Components';
+import { Image, ImageIcon } from '@Components';
 import { icons } from '@Assets';
 import { getPhoto } from '@Utils';
 
@@ -74,7 +74,7 @@ function GroupChat({
                                         <div
                                             className="col-auto pointer d-inline-flex justify-content-center align-items-center"
                                         >
-                                            <Image
+                                            <ImageIcon
                                                 src={icons.editEta}
                                                 onClick={editOnClick}
                                                 width={12}

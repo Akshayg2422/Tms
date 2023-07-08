@@ -14,7 +14,7 @@ import {
   Nav,
 } from "reactstrap";
 import { SidebarProps } from './interfaces'
-import { Image } from '@Components'
+import { Image, ImageIcon } from '@Components'
 import { url } from "inspector";
 import { useSelector } from "react-redux";
 import { getPhoto } from "@Utils";
@@ -105,7 +105,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
             >
               {prop.icon ? (
                 <>
-                  <Image src={prop?.icon} width={18} height={18} />
+                  <ImageIcon src={prop?.icon} width={18} height={18} />
                   <span className="nav-link-text ml-3">{prop.name}</span>
                 </>
               ) : prop.miniName ? (
@@ -133,7 +133,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
           >
             {prop.icon !== undefined ? (
               <>
-                <Image src={prop?.icon} width={18} height={18} />
+                <ImageIcon src={prop?.icon} width={18} height={18} />
                 <span className="nav-link-text ml-3">{prop.name}</span>
               </>
             ) : prop.miniName !== undefined ? (

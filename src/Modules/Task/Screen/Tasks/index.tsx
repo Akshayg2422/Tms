@@ -1,4 +1,5 @@
-import { Button, CommonTable, HomeContainer, Image, NoDataFound, Priority, Spinner, Status } from "@Components";
+import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon, NoDataFound, Priority, Spinner, Status } from "@Components";
+import { getFilter } from "@Components//Core/ImageColorIcon";
 import { useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { TaskFilters, TaskGroups } from '@Modules';
@@ -23,6 +24,7 @@ function Tasks() {
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
+    
   }, [params])
 
   const getTaskHandler = (page_number: number) => {
@@ -36,6 +38,7 @@ function Tasks() {
         },
         onError: () => () => {
           setLoading(false);
+        
         },
       })
     );
@@ -141,6 +144,8 @@ function Tasks() {
             <Spinner />
           </div>
         )}
+
+  
 
         {!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
 

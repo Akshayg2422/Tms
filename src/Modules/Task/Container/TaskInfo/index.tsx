@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard, InputHeading, TextAreaInput } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard, InputHeading, TextAreaInput, ImageIcon } from "@Components";
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
@@ -193,7 +193,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                             editTitle.set(title)
                             editDescription.set(description)
                         }}>
-                            <Image src={icons.editEta} height={16} width={16} />
+                            <ImageIcon src={icons.editEta} height={16} width={16} />
                         </div>
                         }
                     </div>
@@ -206,7 +206,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                         task_attachments && task_attachments.length > 0 && task_attachments?.map((item, index) => (
 
                                             <PhotoView src={getPhoto(item?.attachment_file)}>
-                                                <Image
+                                                <ImageIcon
                                                     className={'ml-1 border'}
                                                     variant={'avatar'}
                                                     size={'md'}
@@ -263,7 +263,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                     {eta_time && <Image src={icons.editEta} height={16} width={16} />}
                                 </div>
                                 <div className="ml-2 pointer" onClick={() => { taskEventModal.show() }}>
-                                    <Image src={icons.timeline} height={17} width={17} />
+                                    <ImageIcon src={icons.timeline} height={17} width={17} />
                                 </div>
                                 <div className="ml-1 pointer" >
                                     <TaskItemMenu />
