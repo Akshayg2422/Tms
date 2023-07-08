@@ -3,7 +3,7 @@ import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { EmployeeGroupsProps } from './interfaces'
 import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image, Spinner } from '@Components'
-import { addGroupUser, getGroupsEmployees, getTokenByUser, selectedVcDetails } from '@Redux'
+import { addGroupUser, getGroupsEmployees, getTokenByUser, selectedUserChats, selectedVcDetails } from '@Redux'
 import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArrayByKey } from '@Utils';
 import { useDropDown, useLoader, useModal, useNavigation } from '@Hooks';
 import { Employees, GroupEmployeeList } from '@Modules'
@@ -148,8 +148,9 @@ function GroupEmployees({ groupCode, height, otherParams }: EmployeeGroupsProps)
                                                     <div className='mr-3 pointer'
                                                         onClick={() => {
                                                 
-                                                            dispatch(selectedVcDetails(el))
-                                                            goTo( ROUTES['user-company-module']['individual-chat'], false)
+                                                            // dispatch(selectedVcDetails(el))
+                                                            dispatch(selectedUserChats(el))
+                                                            goTo( ROUTES['user-company-module']['individual-chat'])
                                                         }}
                                                     >
                                                         <Image src={icons.Comments} width={17} height={17} />
