@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardBody, CardFooter, CardHeader } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { AutoComplete, Button, Image, ImagePicker, Input, Modal, NoRecordsFound, ProfileCard, showToast } from '@Components'
+import { AutoComplete, Button, Image, ImagePicker, Input, Modal, NoRecordsFound, ProfileCard, Spinner, showToast } from '@Components'
 import moment from 'moment'
 import { CHAT_ATTACHMENT_RULES, CHAT_MESSAGE_RULES, convertToUpperCase, getDropDownCompanyUser, getPhoto, getValidateError, ifObjectExist, validate, } from '@Utils'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneChat, handleOneToOneVcNoti, postChatMessage, selectedUserChats, selectedVcDetails } from '@Redux'
@@ -39,7 +39,8 @@ function IndividualChat() {
     var fiveMinutesAgoStatus = moment().subtract(5, 'minutes').format("YYYY-MM-DD HH:mm:ss");
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
-    const loginLoader = useLoader(false)
+    const loginLoader=useLoader(false)
+    const [loading, setLoading] = useState(false);
 
     console.log(selectedUserChat, "selectedUserDetails?.id===>", selectedUserChat)
 
@@ -72,10 +73,12 @@ function IndividualChat() {
             // page_number
 
         }
+        setLoading(true)
         dispatch(fetchChatEmployeeList({
             params,
             onSuccess: (success: any) => () => {
                 let modifiedData: any = []
+                setLoading(false)
                 success?.details?.map((el) => {
                     if (el.id !== user_details.id) {
                         modifiedData.push(el)
@@ -91,12 +94,11 @@ function IndividualChat() {
                     )
                 }
 
-                if (!selectedUserDetails) {
-                    setSelectedUserDetails(success?.details[0])
-                }
+           
 
             },
             onError: (error: string) => () => {
+                setLoading(false)
             },
         }))
     }
@@ -245,7 +247,7 @@ function IndividualChat() {
         dispatch(getTokenByUser({
             params,
             onSuccess: (success: any) => () => {
-                console.log("090909090909", success)
+              
                 dispatch(handleOneToOneVcNoti(success?.message))
             },
             onError: (error: string) => () => { },
@@ -687,7 +689,7 @@ function IndividualChat() {
                                                 // selected={selectedUserId}
                                                 onChange={(item) => {
                                                     setSelectedUserId(item)
-                                                    setSelectedUserDetails(item)
+                                                  
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
@@ -699,16 +701,24 @@ function IndividualChat() {
 
                             </CardHeader>
 
+                            
+   
                             {<div className={` overflow-auto overflow-hide `}
                                 style={{ height: "90vh" }}
 
                             >
+                                                         {loading && (
+          <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '100px' }}>
+            <Spinner />
+          </div>
+        )}
+        {!loading && <div >
                                 {employeeList && employeeList?.length > 0 ?
                                     employeeList?.map((item: any) => {
                                         return (
                                             <div className={`pointer overflow-auto overflow-hide `}
                                                 onClick={() => {
-                                                    setSelectedUserDetails(item)
+                                               
                                                     dispatch(
                                                         selectedUserChats(item)
                                                     )
@@ -763,6 +773,8 @@ function IndividualChat() {
                                         <NoRecordsFound />
                                     </div>
                                 }
+
+                                </div>}
                             </div>}
                         </Card>
                     </div>
