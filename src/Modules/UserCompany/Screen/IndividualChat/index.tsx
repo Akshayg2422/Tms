@@ -141,7 +141,7 @@ function IndividualChat() {
                 params,
                 onSuccess: (success: any) => async () => {
                     console.log('222222222222')
-                    getChatMessage(selectedUserChat?.id, chatMessageCurrentPages)
+                    getChatMessage(selectedUserChat?.id, INITIAL_PAGE)
                     resetValues()
                     attachmentModal.hide()
                     loginLoader.hide()
@@ -182,7 +182,7 @@ function IndividualChat() {
             dispatch(postChatMessage({
                 params,
                 onSuccess: (success: any) => () => {
-                    getChatMessage(selectedUserChat?.id, chatMessageCurrentPages)
+                    getChatMessage(selectedUserChat?.id, INITIAL_PAGE)
                     setChatText('')
                 },
                 onError: (error: string) => () => {
@@ -302,16 +302,22 @@ function IndividualChat() {
                         <div className={`${!oneToOneChat ? 'col-sm-8' : ' col-sm-4'} p-0 m-0 `}>
                             <Card
                                 style={{
-                                    height: dynamicHeight.dynamicHeight - 50
+                                    height: dynamicHeight.dynamicHeight - 20
                                 }}>
                                 {/** Chat Header */}
 
                                 <CardHeader>
-                                    <div className='row justify-content-between mx-2'>
-                                        <div className={'h3'}>
-                                            <strong>{selectedUserChat?.name || selectedUserChat?.text}</strong>
+                                      <div className=''>
+                                            <div className='row justify-content-between d-flex mx-2'>
+                                                <div className='h3'>
+                                                <strong>{selectedUserChat?.name || selectedUserChat?.text}</strong>
+                                                </div>
+
+                                            </div>
                                         </div>
-                                    </div>
+
+                                        
+
                                 </CardHeader>
 
                                 <CardBody
@@ -331,20 +337,13 @@ function IndividualChat() {
                                         </h4>}
 
                                         next={() => {
-                                            console.log('testinggggggggg==>')
+                                            console.log('testing ====>')
                                             if (chatMessageCurrentPages !== -1) {
-                                                getChatMessage(selectedUserChat?.id, chatMessageCurrentPages)
+                                                getChatMessage(selectedUserChat?.id, INITIAL_PAGE)
                                             }
                                         }
                                         }>
 
-                                        {
-                                            loading && (
-                                                <div className='d-flex justify-content-center align-item-center' style={{ marginBottom: '200px' }}>
-                                                    <Spinner />
-                                                </div>
-                                            )
-                                        }
 
                                         {
                                             chatMessage && chatMessage?.length > 0 &&
@@ -562,10 +561,12 @@ function IndividualChat() {
                                                                                                 return (
                                                                                                     <div>
                                                                                                         {showNote && (
-                                                                                                            <p className={`text-muted text-sm font-weight-bold`}>
+                                                                                                            <p className={'text-muted text-sm font-weight-bold d-flex'}>
                                                                                                                 <div
                                                                                                                     style={{ maxWidth: '200px' }}
-                                                                                                                >{note}</div>
+                                                                                                                >
+                                                                                                                    {note}
+                                                                                                                </div>
                                                                                                             </p>
                                                                                                         )}
 
@@ -738,7 +739,6 @@ function IndividualChat() {
                                             return (
                                                 <div className={`pointer overflow-auto overflow-hide `}
                                                     onClick={() => {
-
                                                         dispatch(
                                                             selectedUserChats(item)
                                                         )
@@ -803,7 +803,7 @@ function IndividualChat() {
                         </Card>
                     </div>
                     }
-                    
+
                 </div >
             </ div >
 

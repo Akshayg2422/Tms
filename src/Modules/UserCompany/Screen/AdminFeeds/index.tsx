@@ -194,7 +194,7 @@ function AdminFeeds() {
 
     <>
       {broadCastDetails && broadCastDetails.length > 0 ?
-        <div className="col-7 text-right my-1">
+        <div className="col-7 d-flex justify-content-end my-2 ml-4">
           <Button
             text={translate("order.CREATE POST")}
             className="text-white"

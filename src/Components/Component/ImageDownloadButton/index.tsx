@@ -26,7 +26,7 @@ function ImageDownloadButton({ Url, size = 'sm', color = 'primary', title ,class
   };
 
   return (
-    <Button icon={icons.download} variant={"icon-rounded"} onClick={handleDownload} className="mt-1" size={'sm'} >
+    <Button icon={icons.download} variant={"icon-rounded"} onClick={handleDownload} className="mt-1 " size={'sm'} >
       {Array.isArray(Url) ? 'All' : 'Image'}
     </Button>
   );
