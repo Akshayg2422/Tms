@@ -2,10 +2,9 @@ import React from 'react'
 import { ImageProps, ImageVariant } from './interfaces'
 function ImageIcon({ variant = 'default', className, alt, size, ...rest }: ImageProps) {
 
-    const styles={
-        filter: 'invert(35%) sepia(100%) saturate(5908%) hue-rotate(245deg) brightness(73%) contrast(132%)'
-        // filter:'invert(31%) sepia(90%) saturate(7231%) hue-rotate(246deg) brightness(71%) contrast(142%);'
-    }
+    // const styles={
+    //     filter: 'invert(35%) sepia(100%) saturate(5908%) hue-rotate(245deg) brightness(73%) contrast(132%)'
+    // }
 
     function getVariantStyle(variant: ImageVariant) {
         let styles = ''
@@ -26,7 +25,7 @@ function ImageIcon({ variant = 'default', className, alt, size, ...rest }: Image
   
 
     return (
-        <img   style={styles} className={`${getVariantStyle(variant)} ${className}`} alt={alt} {...rest} ></img>
+        <img   className={`${getVariantStyle(variant)} ${className}`} alt={alt} {...rest} ></img>
     )
 }
 
