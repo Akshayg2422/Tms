@@ -803,6 +803,7 @@ function IndividualChat() {
                         </Card>
                     </div>
                     }
+                    
                 </div >
             </ div >
 
