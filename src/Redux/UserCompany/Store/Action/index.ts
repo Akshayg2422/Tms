@@ -1058,7 +1058,7 @@ export const postChatMessageFailure = (error: any) => {
 //GET chat message
 
 export const fetchChatMessage = (params: any) => {
-  console.log('ppppp',params)
+  console.log('fetchChatMessage========>>>>',params)
   return {
     type: ActionTypes.FETCH_CHAT_MESSAGE,
     payload: params,

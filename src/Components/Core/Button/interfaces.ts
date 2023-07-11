@@ -5,7 +5,7 @@ export interface ButtonProps extends RsButtonProps {
     color?: Color;
     variant?: ButtonVariants;
     size?: 'sm' | 'md' | 'lg';
-    icon?: any;
+    icon?: Color;
     onEnter?: () => void;
     loading?: boolean;
 }

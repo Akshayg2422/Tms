@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard, InputHeading, TextAreaInput, ImageIcon } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard, InputHeading, TextAreaInput, ImageIcon, ImagePicker } from "@Components";
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
@@ -206,12 +206,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                         task_attachments && task_attachments.length > 0 && task_attachments?.map((item, index) => (
 
                                             <PhotoView src={getPhoto(item?.attachment_file)}>
-                                                <ImageIcon
-                                                    className={'ml-1 border'}
-                                                    variant={'avatar'}
-                                                    size={'md'}
-                                                    src={getPhoto(item?.attachment_file)}
-                                                />
+
+                                                <Image className={'ml-1 border'} 
+                                                       variant={'avatar'} 
+                                                       size={'md'} 
+                                                       src={getPhoto(item?.attachment_file)}/>
                                             </PhotoView>
                                         ))
                                     }

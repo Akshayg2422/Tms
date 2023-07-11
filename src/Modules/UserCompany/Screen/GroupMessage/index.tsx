@@ -197,6 +197,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                     display: 'flex',
                     flexDirection: 'column-reverse',
                 }}
+                
                 className={'overflow-auto overflow-hide mt-4'}
             >
                 <InfiniteScroll
@@ -244,7 +245,9 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             const startDay = getCurrentDayAndDate(renderDate);
 
                             return (
+                                
                                 <GroupChat
+                                    
                                     profileImage={event_by?.profile_image}
                                     title={title}
                                     subTitle={subTitle}
@@ -264,7 +267,9 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                         deleteModal.show()
                                     }}
                                     subtitleOnclick={() => { userModal.show() }}
+                                    
                                 >
+                                    
                                     <div className='pt-2 row' onClick={() => {
                                         // imageModal.show()
                                         setImage(imageUrls)
@@ -348,6 +353,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                 </div>
 
             </Modal>
+
             <Modal isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide}>
                 <div>
                     <div className="h4"> {translate("errors.Are you sure you want to delete?")} </div>

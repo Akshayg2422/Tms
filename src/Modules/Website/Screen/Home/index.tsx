@@ -3,6 +3,7 @@ import { image } from '@Assets';
 import { Image ,Button} from '@Components';
 import {Card, Container, Row, Col } from "reactstrap";
 import { translate } from "@I18n";
+
 function Home() {
   return (
     <>

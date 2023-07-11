@@ -61,13 +61,14 @@ function ReferenceTickets() {
 
     return (
 
-        <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
-            <div className="col text-right">
+        <Card className={'overflow-auto overflow-hide mb--1 '} style={{ height: height - 15 }}>
+            <div className="col d-flex justify-content-end ml-3 mt--2">
             {referenceTickets && referenceTickets?.length >0 && <Button size={'sm'} text={translate('order.Add Reference Ticket')} onClick={() => {
                     goTo(ROUTES['ticket-module']['reference-ticket'])
                 }} />
             }
             </div>
+            <div className="mt-3">
             {referenceTickets && referenceTickets?.length > 0 ?
                 <CommonTable
                     isPagination
@@ -96,6 +97,7 @@ function ReferenceTickets() {
 
                 /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton />
                 </div>}
+                </div>
         </Card>
 
 
