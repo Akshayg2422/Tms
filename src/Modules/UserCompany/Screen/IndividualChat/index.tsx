@@ -42,10 +42,6 @@ function IndividualChat() {
     const SEND_DELAY = 1000;
     const loginLoader = useLoader(false)
     const [loading, setLoading] = useState(false);
-    // console.log(chatMessage,"chatMessage")
-    console.log(chatMessageCurrentPages,"chatMessageCurrentPages========>")
-   console.log(chatMessage,"chatMessage")
-
 
     useEffect(() => {
 
@@ -54,15 +50,10 @@ function IndividualChat() {
 
     }, [])
 
-    useEffect(() => {
-        if (chatText) {
-            // postBatchGroupChat()
-        }
-    }, [])
 
 
     useEffect(() => {
-        console.log('ttttt')
+
         if (selectedUserChat) {
             getChatMessage(selectedUserChat?.id, INITIAL_PAGE)
         }
@@ -143,7 +134,7 @@ function IndividualChat() {
             dispatch(postChatMessage({
                 params,
                 onSuccess: (success: any) => async () => {
-                  
+
                     getChatMessage(selectedUserChat?.id, INITIAL_PAGE)
                     resetValues()
                     attachmentModal.hide()
@@ -308,28 +299,28 @@ function IndividualChat() {
                                 {/** Chat Header */}
 
                                 <CardHeader>
-                                      <div className=''>
-                                            <div className='row justify-content-between d-flex mx-2'>
-                                                <div className='h3'>
+                                    <div className=''>
+                                        <div className='row justify-content-between d-flex mx-2'>
+                                            <div className='h3'>
                                                 <strong>{selectedUserChat?.name || selectedUserChat?.text}</strong>
-                                                </div>
-
                                             </div>
-                                        </div>
 
-                                        
+                                        </div>
+                                    </div>
+
+
 
                                 </CardHeader>
 
                                 <CardBody
-                                   id="scrollableDiv"
-                                   style={{
-                                        height: height - 185,
-                                       display: 'flex',
-                                       flexDirection: 'column-reverse',
-                                   }}
-                                   
-                                   className={'overflow-auto overflow-hide mt-4'}
+                                    id="scrollableDiv"
+                                    style={{
+                                       
+                                        display: 'flex',
+                                        flexDirection: 'column-reverse',
+                                    }}
+
+                                    className={'overflow-auto overflow-hide mt-4'}
                                 >
                                     <InfiniteScroll
                                         dataLength={chatMessage?.length}
@@ -350,13 +341,13 @@ function IndividualChat() {
                                         }
                                         }>
 
-{
-                        loading && (
-                            <div className='d-flex justify-content-center align-item-center' style={{ marginBottom: '200px' }}>
-                                <Spinner />
-                            </div>
-                        )
-                    }
+                                        {
+                                            loading && (
+                                                <div className='d-flex justify-content-center align-item-center' style={{ marginBottom: '200px' }}>
+                                                    <Spinner />
+                                                </div>
+                                            )
+                                        }
 
 
                                         {
@@ -535,7 +526,7 @@ function IndividualChat() {
                                                                 )}
 
                                                                 {alignChatMessage(el) &&
-                                                                    <div className=''>
+                                                                    <div className=' mb--2'>
                                                                         <div className=' mt-2'
                                                                             style={{
                                                                                 display: "flex",
@@ -566,7 +557,7 @@ function IndividualChat() {
 
                                                                                 el?.chat_attachments?.attachments && (
                                                                                     <>
-                                                                                        <div className='mr-2 pt-2'>
+                                                                                        <div className='mr-2'>
                                                                                             {el?.chat_attachments?.attachments.map((it, index) => {
 
                                                                                                 const note = it?.name;
