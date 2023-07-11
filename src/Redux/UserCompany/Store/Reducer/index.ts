@@ -917,7 +917,7 @@ case ActionTypes.REFRESH_GROUP_CHAT:
       
       state = {
         ...state,
-        chatMessage:action.payload?.details?.data,
+        chatMessage:[...state.chatMessage,...action.payload?.details?.data],
         chatMessageCurrentPages: action.payload?.details.next_page 
       
       };

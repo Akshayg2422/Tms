@@ -24,6 +24,7 @@ function IndividualChat() {
 
     const dynamicHeight: any = useDynamicHeight()
     const { height } = useWindowDimensions()
+    const [GroupCurrentPage, setGroupCurrentPage] = useState(INITIAL_PAGE)
     const [chatText, setChatText] = useState<any>("")
     const [openVideoCall, setOpenVideoCall] = useState<any>(false)
     const attachmentModal = useModal(false)
@@ -42,9 +43,7 @@ function IndividualChat() {
     const SEND_DELAY = 1000;
     const loginLoader = useLoader(false)
     const [loading, setLoading] = useState(false);
-    // console.log(chatMessage,"chatMessage")
-    console.log(chatMessageCurrentPages,"chatMessageCurrentPages========>")
-   console.log(chatMessage,"chatMessage")
+    console.log(GroupCurrentPage,"")
 
 
     useEffect(() => {
@@ -61,11 +60,11 @@ function IndividualChat() {
     }, [])
 
 
+
     useEffect(() => {
-        console.log('ttttt')
-        if (selectedUserChat) {
+     
             getChatMessage(selectedUserChat?.id, INITIAL_PAGE)
-        }
+        
     }, [selectedUserChat, refreshChatMessage])
 
     const getChatEmployeeList = (data) => {
@@ -143,7 +142,7 @@ function IndividualChat() {
             dispatch(postChatMessage({
                 params,
                 onSuccess: (success: any) => async () => {
-                  
+                    console.log('222222222222')
                     getChatMessage(selectedUserChat?.id, INITIAL_PAGE)
                     resetValues()
                     attachmentModal.hide()
@@ -211,8 +210,11 @@ function IndividualChat() {
         dispatch(fetchChatMessage({
             params,
             onSuccess: (response) => () => {
+
+                setOneToOneChatMessage(response?.details?.data)
                 updateNewEmployeeInChatBox()
                 setSelectedUserId('')
+                setGroupCurrentPage(response?.details?.next_page)
                 setLoading(false)
             },
             onError: () => () => {
@@ -333,7 +335,7 @@ function IndividualChat() {
                                 >
                                     <InfiniteScroll
                                         dataLength={chatMessage?.length}
-                                        hasMore={chatMessageCurrentPages !== -1}
+                                        hasMore={GroupCurrentPage !== -1}
                                         scrollableTarget="scrollableDiv"
                                         style={{ display: 'flex', flexDirection: 'column-reverse' }}
                                         className={'overflow-auto overflow-hide '}
@@ -344,8 +346,8 @@ function IndividualChat() {
 
                                         next={() => {
                                             console.log('testing ====>')
-                                            if (chatMessageCurrentPages !== -1) {
-                                                getChatMessage(selectedUserChat?.id, chatMessageCurrentPages)
+                                            if (GroupCurrentPage!== -1) {
+                                                getChatMessage(selectedUserChat?.id, GroupCurrentPage)
                                             }
                                         }
                                         }>
@@ -357,7 +359,6 @@ function IndividualChat() {
                             </div>
                         )
                     }
-
 
                                         {
                                             chatMessage && chatMessage?.length > 0 &&
