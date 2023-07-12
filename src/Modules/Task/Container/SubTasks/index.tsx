@@ -55,7 +55,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
     return (
 
-        <Card className="h-100  shadow-none overflow-auto overflow-hide" style={{ maxHeight: '44vh' }}>
+        <Card className="h-100  shadow-none overflow-auto overflow-hide" style={{ maxHeight: '65vh' }}>
             {(subTasks && subTasks.length > 0) && <div className='row justify-content-between px-3'>
                 <H tag={'h5'} text={translate("auth.subTask")} />
                 <Button
@@ -85,7 +85,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
                         }}
                     /> :
-                    <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton /></div>
+                    <div className='d-flex h-100 justify-content-center align-items-center' style={{paddingTop:'70px'}}> <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton /></div>
                 }
                 </div>
             {/* </Card> */}

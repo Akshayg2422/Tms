@@ -20,7 +20,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
     const { id } = useParams()
     const dispatch = useDispatch()
-    const { ticketDetails,selectedTicket } = useSelector((state: any) => state.TicketReducer);
+    const { ticketDetails, selectedTicket } = useSelector((state: any) => state.TicketReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
 
     const { title, code, description, by_user, raised_by_company, ticket_attachments, assigned_to, created_at, eta_time, start_time, end_time } = ticketDetails || {};
@@ -31,7 +31,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
     const { height } = useWindowDimensions()
-    console.log(selectedTicket,"selectedTicket====>")
+    console.log(selectedTicket, "selectedTicket====>")
 
     useEffect(() => {
         getTicketDetailsHandler()
@@ -41,6 +41,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
     useEffect(() => {
         setEta(eta_time)
     }, [ticketDetails])
+    
 
 
     const getTicketDetailsHandler = () => {
@@ -56,17 +57,16 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
         )
     }
 
-
     const editEtaSubmitApiHandler = () => {
         const params = {
-            id:selectedTicket?.id,
+            id: selectedTicket?.id,
             eta_time: getServerTimeFromMoment(getMomentObjFromServer(eta)),
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
         }
         loginLoader.show()
 
-        console.log(eta,"   ")
+        console.log(eta, "   ")
         dispatch(
             addTicketEvent({
                 params,
@@ -78,7 +78,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                 },
                 onError: () => () => {
                     loginLoader.hide()
-                 }
+                }
             })
         )
     }
@@ -113,15 +113,21 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
             >
                 <div className="col">
                     <div className="row justify-content-between">
+                        <div className="ml--2">
                         <Back />
+                        </div>
                         <TicketItemMenu />
                     </div>
+                    <div className="mt--4 ml-2">
+                    {title && <H tag={"h4"} className="mb-0" text={title} />}
+                    </div>
+                    <div className="mt--0 ml-2">
+                    {code && <H tag={"h4"} className="text-muted" text={`# ${code}`} />}
+                    </div>
+                    
                     <div className="row justify-content-between mt-3">
                         <div>
-                            {title && <H tag={"h4"} className="mb-0" text={title} />}
-                            {code && <H tag={"h4"} className="text-muted" text={`# ${code}`} />}
-
-                            <div className="mt-3">
+                            <div className="mt-3 ml--1">
                                 {description && <H tag={'h5'} text={capitalizeFirstLetter(description)} />}
                                 <div className="row">
                                     {
@@ -135,7 +141,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                                                     variant={'avatar'}
                                                     src={getPhoto(item?.attachment_file)} />
 
-                                                    </div>
+                                            </div>
                                         })
                                     }
                                 </div>
@@ -143,16 +149,16 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                         </div>
 
                         <div className="mr-3">
-                            <div>
+                            {/* <div>
                                 <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={translate('common.CREATED AT :')} />
                                 <h5 className="text-uppercase ">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
-                            </div>
+                            </div> */}
                             <div className="row mt-3">
-                                <div className="col">
+                                <div className="col pt-5">
                                     <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
                                     <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
                                 </div>
-                                <div className="row ml-1 mr-3">
+                                <div className="row ml-1 pt-5 mr-3">
                                     <div className="pointer" onClick={() => editEtaModal.show()}>
                                         <Image src={icons.edit} height={18} width={18} />
                                     </div>
@@ -211,13 +217,13 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                         value={editEtaReason.value}
                         onChange={editEtaReason.onChange}
                     /> */}
-                      <TextAreaInput
-               heading={translate("common.reason")!}
-               value={editEtaReason.value}
-               onChange={editEtaReason.onChange}
-                className="form-control form-control-sm"
-                
-                />
+                    <TextAreaInput
+                        heading={translate("common.reason")!}
+                        value={editEtaReason.value}
+                        onChange={editEtaReason.onChange}
+                        className="form-control form-control-sm"
+
+                    />
                     <DateTimePicker
                         heading={'ETA'}
                         initialValue={getDisplayDateTimeFromMoment(getMomentObjFromServer(eta))}
@@ -229,8 +235,8 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                 </div>
                 <div className="col text-right">
                     <Button text={translate('common.submit')}
-                          loading={loginLoader.loader}
-                           onClick={editEtaSubmitApiHandler} />
+                        loading={loginLoader.loader}
+                        onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
             {/**

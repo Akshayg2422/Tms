@@ -115,7 +115,7 @@ function IndividualChat() {
     }
 
     const addGroupEventAttachment = () => {
-        
+
         const validation = validate(CHAT_ATTACHMENT_RULES, {
             attachment_name: attachmentName.value.trim(),
             chat_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : '',
@@ -298,25 +298,24 @@ function IndividualChat() {
 
                                 <CardHeader>
                                     <div className=''>
-                                        <div className='row justify-content-between d-flex mx-2'>
-                                            <div className='h3'>
+                                        <div className='row'>
+                                            <div className='h3 pt-2 mx-3'>
                                                 <strong>{selectedUserChat?.name || selectedUserChat?.text}</strong>
                                             </div>
 
                                         </div>
                                     </div>
-
                                 </CardHeader>
 
                                 <CardBody
                                     id="scrollableDiv"
                                     style={{
-                                       
+
                                         display: 'flex',
                                         flexDirection: 'column-reverse',
                                     }}
 
-                                    className={'overflow-auto overflow-hide mt-4'}
+                                    className={'overflow-auto overflow-hide '}
                                 >
                                     <InfiniteScroll
                                         dataLength={chatMessage?.length}
@@ -376,6 +375,7 @@ function IndividualChat() {
                                                                     >
                                                                         {dateToShow}
                                                                     </div>
+                                                                    
                                                                     <hr className=''
                                                                         style={{
                                                                             backgroundColor: 'rgb(228,223,225)',
@@ -563,9 +563,9 @@ function IndividualChat() {
                                                                                                 return (
                                                                                                     <div>
                                                                                                         {showNote && (
-                                                                                                            <p className={'text-muted text-sm font-weight-bold d-flex'}>
+                                                                                                            <p className={'text-muted text-sm font-weight-bold d-flex justify-content-center ml--3'}>
                                                                                                                 <div
-                                                                                                                    style={{ maxWidth: '200px' }}
+                                                                                                                    style={{ maxWidth: '300px' }}
                                                                                                                 >
                                                                                                                     {note}
                                                                                                                 </div>
@@ -582,12 +582,12 @@ function IndividualChat() {
                                                                             }
 
 
-                                                                            <div className={'mt-2 mb-4 pt-2 row'}>
+                                                                            <div className={'mt-3 mb-4 pt-2 row'}>
 
                                                                                 {
                                                                                     <div className={'container'}>
                                                                                         <PhotoProvider>
-                                                                                            <div className="row pointer pl-5">
+                                                                                            <div className="row pointer d-flex justify-content-end">
                                                                                                 {imageUrls?.map((item: any, index: any) => {
 
                                                                                                     return (
@@ -688,14 +688,14 @@ function IndividualChat() {
                         <Card
                             className=' '
                             style={{
-                                height: dynamicHeight.dynamicHeight - 50,
+                                height: dynamicHeight.dynamicHeight - 20,
                             }}
                         >
                             <CardHeader className=''>
                                 <div className='mt--2'>
-                                    <div className='row justify-content-between mx-1'>
-                                        <h3>{"Members"}</h3>
-                                        <div>
+                                    <div className='row justify-content-between mx-0' >
+                                        <h3 className='pt-3'>{"Members"}</h3>
+                                        <div className='pt-3'>
                                             <Button
                                                 size='sm'
                                                 text={showAutoComplete ? 'Close' : 'Add'}

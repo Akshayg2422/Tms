@@ -46,7 +46,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     useEffect(() => {
         getTaskDetailsHandler()
-    }, [refreshTaskEvents,id])
+    }, [refreshTaskEvents, id])
 
 
 
@@ -164,7 +164,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     editDescription.set('')
                     editTitle.set('')
                 },
-                onError: () => () => { 
+                onError: () => () => {
                     loginLoader.hide()
                 }
             })
@@ -172,7 +172,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     }
     return (
         <div ref={ref} >
-            <Card className={'px-3'}>
+            <Card className={'px-2'}>
                 <div>
                     <div className="row">
                         <div className="col ">
@@ -180,12 +180,21 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                                 //   dispatch(getSelectedReference({code:code,refer:true}))
 
                             }}>
-                                <Back />
-                                <div className="ml-2">
-                                    <div>{title && <H tag={"h4"} className="mb-0" text={title} />}</div>
-                                    {code && <small>{`#${code}`}</small>}
-                                    {description && <div className="text-sm mb--2 text-black ">{capitalizeFirstLetter(description)}</div>}
+
+                                    <div className=" mt--1">
+                                        <Back />
+                                    </div>
+                                    <div className="ml-3">
+                                        {title && <H tag={"h4"} className="mb-0" text={title} />}
+                                    </div>
                                 </div>
+                                    <div className="ml-4">
+                                    {code && <small>{`#${code}`}</small>}</div>
+                                    <div className="ml--3">
+                                    {description && <div className="text-sm mb--2 text-black p-1">{capitalizeFirstLetter(description)}</div>}
+
+                                
+
                             </div>
                         </div>
                         {item !== 'reference-task' && <div className="pointer col-auto" onClick={() => {
@@ -198,7 +207,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         }
                     </div>
 
-                    <div className="container mt-3">
+                    <div className="container mt-2 ">
                         {
                             <PhotoProvider>
                                 <div className={'pointer'}>
@@ -207,10 +216,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                                             <PhotoView src={getPhoto(item?.attachment_file)}>
 
-                                                <Image className={'ml-1 border'} 
-                                                       variant={'avatar'} 
-                                                       size={'md'} 
-                                                       src={getPhoto(item?.attachment_file)}/>
+                                                <Image className={'border ml--4'}
+                                                    variant={'avatar'}
+                                                    size={'md'}
+                                                    src={getPhoto(item?.attachment_file)} />
                                             </PhotoView>
                                         ))
                                     }
@@ -219,32 +228,32 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         }
                     </div>
 
-                    <div className={'row ml-1 justify-content-between'}>
-                        <div className="row mt-4 pointer" onClick={() => userModal.show()}>
+                    <div className={'row mt--3 justify-content-between'}>
+                        <div className="row mt-2  pointer ml-1" onClick={() => userModal.show()}>
                             <div className={'align-self-center'}>{by_user?.profile_photo && <Image size={'sm'} variant={'rounded'} src={getPhoto(by_user?.profile_photo)} />}</div>
-                            <div className={'ml-2 align-self-center'}>
+                            <div className={'align-self-center'}>
                                 <div className="h5 mb-0"> {by_user?.name}</div>
                             </div>
                         </div>
                         <div className="row mt-4 mr-3">
-                            <div className={'align-self-center'}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} size={'sm'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
-                            <div className="ml-2 align-self-center">
-                                <div className="h5 mb-0"> {raised_by_company?.display_name}</div>
-                              {assigned_to?.name!==undefined &&  <div className="text-xs"><span>{`@ ${assigned_to?.name}`} </span></div>}
+                            <div className={'align-self-center '}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} size={'sm'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
+                            <div className="align-self-center">
+                                <div className="h5 mb-0 ml-2"> {raised_by_company?.display_name}</div>
+                                {assigned_to?.name !== undefined && <div className="text-xs ml-2"><span>{`@ ${assigned_to?.name}`} </span></div>}
                             </div>
                         </div>
                     </div>
 
-                    <hr className="my-4 mx--3" />
+                    <hr className="my-3 mx-0" />
 
                     {item !== 'reference-task' &&
                         <div className="row mt-2">
 
-                            <div className="col ml--3">
+                            <div className="col ml--2">
                                 {
                                     eta_time ?
                                         <>
-                                            <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
+                                            <H className="mb-0 text-uppercase text-muted " tag={"h6"} text={'ETA :'} />
                                             <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
                                         </>
                                         :
@@ -275,7 +284,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
 
-                    {item !== 'reference-task' && <div className="col text-right mt-3 ml--3">
+                    {item !== 'reference-task' && <div className="col text-right ml-3">
                         {(assigned_to?.id === dashboardDetails?.user_details?.id && !start_time) && < Button className={'text-white'} size={'sm'} text={'Start'}
                             onClick={() => {
                                 alertModal.show()
@@ -361,8 +370,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 </div>
                 <div className="text-right pt-3">
                     <Button text={translate('order.Update')}
-                      loading={loginLoader.loader}
-                     onClick={editTaskDetailsHandler} />
+                        loading={loginLoader.loader}
+                        onClick={editTaskDetailsHandler} />
                 </div>
 
             </Modal>
