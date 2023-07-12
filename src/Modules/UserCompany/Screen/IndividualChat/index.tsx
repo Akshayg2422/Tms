@@ -85,8 +85,6 @@ function IndividualChat() {
                         selectedUserChats(success?.details[0])
                     )
                 }
-
-
             },
             onError: (error: string) => () => {
                 setLoading(false)
@@ -101,7 +99,6 @@ function IndividualChat() {
         else {
             return '-'
         }
-
     }
 
     const displayDate = (inputDate: any) => {
@@ -116,8 +113,9 @@ function IndividualChat() {
             return 'Today';
         }
     }
-    const addGroupEventAttachment = () => {
 
+    const addGroupEventAttachment = () => {
+        
         const validation = validate(CHAT_ATTACHMENT_RULES, {
             attachment_name: attachmentName.value.trim(),
             chat_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : '',
@@ -308,8 +306,6 @@ function IndividualChat() {
                                         </div>
                                     </div>
 
-
-
                                 </CardHeader>
 
                                 <CardBody
@@ -352,6 +348,7 @@ function IndividualChat() {
 
                                         {
                                             chatMessage && chatMessage?.length > 0 &&
+
                                             chatMessage?.map((el, index) => {
                                                 const date = new Date(el?.created_at);
                                                 const formattedDate = displayDate(el?.created_at);
