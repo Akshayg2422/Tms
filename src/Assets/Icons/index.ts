@@ -171,5 +171,6 @@ export const icons = {
   group: require('./Group/icon.png'),
   admin: require('./Admin/icon.png'),
   vcCall: require('./VcCall/icon.png'),
-  deleteRounded: require('./DeleteRounded/icon.png')
+  deleteRounded: require('./DeleteRounded/icon.png'),
+  VideoIcon:require('./VideoIcon/icon1.png')
 };
