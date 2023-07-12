@@ -12,7 +12,6 @@ export * from './TaskUsers'
 export * from './CompanyTasks'
 export * from './AddChat'
 export * from './ProgressBarEta'
-export * from './TaskChatGroup'
 export * from './TaskFilters'
 
 

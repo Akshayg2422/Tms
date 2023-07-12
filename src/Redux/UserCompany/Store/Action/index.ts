@@ -532,7 +532,7 @@ export const setSelectedEmployee = (response: any) => {
 
 //GET EVENTS
 export const getEvents = (params: any) => {
-  console.log('params,"pppppp',params)
+  console.log('params,"pppppp', params)
   return {
     type: ActionTypes.GET_EVENTS,
     payload: params,
@@ -540,7 +540,7 @@ export const getEvents = (params: any) => {
 };
 
 export const getEventsSuccess = (response: any) => {
-  console.log('ssssssssss',response)
+  console.log('ssssssssss', response)
   return {
     type: ActionTypes.GET_EVENTS_SUCCESS,
     payload: response,
@@ -548,7 +548,7 @@ export const getEventsSuccess = (response: any) => {
 };
 
 export const getEventsFailure = (error: any) => {
-  console.log('Action ,errior',error)
+  console.log('Action ,errior', error)
   return {
     type: ActionTypes.GET_EVENTS_FAILURE,
     payload: error,
@@ -656,7 +656,7 @@ export const getTokenByUserFailure = (error: any) => {
  */
 
 export const getAssociatedCompany = (params: any) => {
-  
+
 
   return {
     type: ActionTypes.GET_ASSOCIATED_COMPANY,
@@ -756,7 +756,7 @@ export const refreshChatMessage = () => {
 ///USERcHAT
 
 export const selectedUserChats = (params) => {
-  console.log(params,"pppppppppppppppp")
+  console.log(params, "pppppppppppppppp")
   return {
     type: ActionTypes.USER_CHAT,
     payload: params,
@@ -848,9 +848,9 @@ export const getSubGroupFailure = (error: any) => {
  */
 
 
-export const setSelectedGroupChatCode = (value: any) => {
+export const setSelectedGroupChat = (value: any) => {
   return {
-    type: ActionTypes.SELECTED_GROUP_CHAT_CODE,
+    type: ActionTypes.SELECTED_GROUP_CHAT,
     payload: value,
   };
 };
@@ -920,7 +920,7 @@ export const setSelectedTaskGroupCode = (value: any) => {
  */
 
 
-export const refreshGroupChat = () => {
+export const setRefreshGroupChat = () => {
   return {
     type: ActionTypes.REFRESH_GROUP_CHAT,
   }
@@ -1058,7 +1058,7 @@ export const postChatMessageFailure = (error: any) => {
 //GET chat message
 
 export const fetchChatMessage = (params: any) => {
-  console.log('fetchChatMessage========>>>>',params)
+  console.log('fetchChatMessage========>>>>', params)
   return {
     type: ActionTypes.FETCH_CHAT_MESSAGE,
     payload: params,
@@ -1066,7 +1066,7 @@ export const fetchChatMessage = (params: any) => {
 };
 
 export const fetchChatMessageSuccess = (response: any) => {
-  console.log('psssssssssssss',response)
+  console.log('psssssssssssss', response)
   return {
     type: ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS,
     payload: response,
@@ -1074,7 +1074,7 @@ export const fetchChatMessageSuccess = (response: any) => {
 };
 
 export const fetchChatMessageFailure = (error: any) => {
-  console.log('eeeeeeeeeeeee',error)
+  console.log('eeeeeeeeeeeee', error)
   return {
     type: ActionTypes.FETCH_CHAT_MESSAGE_FAILURE,
     payload: error,

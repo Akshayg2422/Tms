@@ -223,7 +223,7 @@ function* getAssociatedCompaniesSaga(action) {
     }
   } catch (error) {
     yield put(Action.getAssociatedBranchFailure("Invalid Request"));
-    
+
     yield call(action.payload.onError(error));
   }
 }
@@ -252,7 +252,7 @@ function* addEmployeeSaga(action) {
 
   try {
     const response = yield call(Api.addEmployeeApi, action.payload.params);
-   
+
     if (response.success) {
       yield put(Action.addEmployeeSuccess(response));
       yield call(action.payload.onSuccess(response));
@@ -750,7 +750,7 @@ function* fetchChatMessageSaga(action) {
     }
   } catch (error) {
     console.log(error);
-     yield put(Action.fetchChatMessageFailure(error));
+    yield put(Action.fetchChatMessageFailure(error));
     yield call(action.payload.onError(error));
   }
 }
