@@ -113,7 +113,8 @@ function Tasks() {
                       {raised_by_company?.place}
                     </small>
                   </div>
-                </> : <div></div>
+                </> 
+                : <div></div>
               }
             </div >,
           // 'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
@@ -128,13 +129,9 @@ function Tasks() {
              <div className="col">
            
               </div> 
-
-              
-         
-         
             
           </div>
-          <div className="pl-3">
+          <div className="pl-3 ">
               <small>{getDates() > getDates(eta_time) ? 'ABOVE ETA' : ""}</small>
           </div>
           </>

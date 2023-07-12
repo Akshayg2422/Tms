@@ -41,7 +41,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
         }
     })
 
-    console.log("AttachmentEdit", AttachmentEdit)
+   
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
@@ -211,6 +211,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         <div className={'d-flex justify-content-center'}><Spinner /></div>
                     </h4>}
                     next={() => {
+                        console.log('rreeeee')
                         if (GroupCurrentPage !== -1) {
                             getGroupMessageApi(GroupCurrentPage)
                         }

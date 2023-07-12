@@ -35,14 +35,14 @@ const MultiSelectDropDown = ({
     const styles = {
 
         searchBox: {
-            borderColor: '#dee2e6',
+            borderColor: '#5533ff',
         },
         inputField: {
             margin: '5px',
-            border: 'dee2e6',
+            border: '#5533ff',
         },
         optionContainer: {
-            borderColor: '#dee2e6',
+             borderColor: ' #5533ff',
         },
         option: {
             backgroundColor: '#fff',
@@ -50,7 +50,7 @@ const MultiSelectDropDown = ({
             fontSize: '14px',
         },
         chips: {
-            background: '#fcc9e0',
+            background: '#5533ff',
             color: 'white'
         },
     };
