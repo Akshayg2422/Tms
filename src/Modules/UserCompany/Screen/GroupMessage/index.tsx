@@ -34,6 +34,8 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
     console.log("selectMessage", message)
 
+    
+
     let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
         const { id, attachment_file } = el
         return {

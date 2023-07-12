@@ -41,21 +41,6 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
     useEffect(() => {
         setEta(eta_time)
     }, [ticketDetails])
-    
-
-
-    const getTicketDetailsHandler = () => {
-        const params = {
-            code: id,
-        }
-        dispatch(
-            getTicketDetails({
-                params,
-                onSuccess: (success) => () => { },
-                onError: (error) => () => { }
-            })
-        )
-    }
 
     const editEtaSubmitApiHandler = () => {
         const params = {
@@ -66,7 +51,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
         }
         loginLoader.show()
 
-        console.log(eta, "   ")
+        console.log("eta==========>>>", eta)
         dispatch(
             addTicketEvent({
                 params,
@@ -82,6 +67,23 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
             })
         )
     }
+
+
+
+    const getTicketDetailsHandler = () => {
+        const params = {
+            code: id,
+        }
+        dispatch(
+            getTicketDetails({
+                params,
+                onSuccess: (success) => () => { },
+                onError: (error) => () => { }
+            })
+        )
+    }
+
+
 
     function proceedEventTypeApi() {
         const currentTime = getServerTimeFromMoment(getMomentObjFromServer(getDates()))
@@ -114,17 +116,18 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                 <div className="col">
                     <div className="row justify-content-between">
                         <div className="ml--2">
-                        <Back />
+                            <Back />
                         </div>
                         <TicketItemMenu />
                     </div>
+
                     <div className="mt--4 ml-2">
-                    {title && <H tag={"h4"} className="mb-0" text={title} />}
+                        {title && <H tag={"h4"} className="mb-0" text={title} />}
                     </div>
                     <div className="mt--0 ml-2">
-                    {code && <H tag={"h4"} className="text-muted" text={`# ${code}`} />}
+                        {code && <H tag={"h4"} className="text-muted" text={`# ${code}`} />}
                     </div>
-                    
+
                     <div className="row justify-content-between mt-3">
                         <div>
                             <div className="mt-3 ml--1">
@@ -148,25 +151,34 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                             </div>
                         </div>
 
-                        <div className="mr-3">
-                            {/* <div>
-                                <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={translate('common.CREATED AT :')} />
-                                <h5 className="text-uppercase ">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
-                            </div> */}
-                            <div className="row mt-3">
-                                <div className="col pt-5">
-                                    <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
-                                    <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
+                        <div className="mr-3 row">
+
+                            <div className="mt-3">
+
+                                { eta_time ?
+
+                                    <div>
+                                        <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
+                                        <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
+                                    </div>
+                                    :
+                                    <div>
+                                        <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={translate('common.CREATED AT :')} />
+                                        <h5 className="text-uppercase ">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div className="row ml-3 pt-4 mr-3">
+                                <div className="pointer" onClick={() => editEtaModal.show()}>
+                                    <Image src={icons.edit} height={18} width={18} />
                                 </div>
-                                <div className="row ml-1 pt-5 mr-3">
-                                    <div className="pointer" onClick={() => editEtaModal.show()}>
-                                        <Image src={icons.edit} height={18} width={18} />
-                                    </div>
-                                    <div className="ml-2 pointer" onClick={() => { ticketEventModal.show() }}>
-                                        <Image src={icons.history} height={18} width={18} />
-                                    </div>
+                                <div className="ml-2 pointer" onClick={() => { ticketEventModal.show() }}>
+                                    <Image src={icons.history} height={18} width={18} />
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div className="row justify-content-between mt-4 mr-3">
