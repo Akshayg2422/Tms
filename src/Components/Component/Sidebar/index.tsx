@@ -167,8 +167,9 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
       <div className="sidenav-header d-flex align-items-center">
         {logo ? (
           <NavbarBrand {...navbarBrandProps}>
-            <div className="row">
-              <Image
+            <div className="d-flex">
+             <div >
+             <Image
                 alt={logo.imgAlt}
                 className="navbar-brand-img rounded-circle "
                 src={getPhoto(user_details?.profile_photo)}
@@ -177,7 +178,8 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
 
 
               />
-              <div className="ml-2 text-sm mt-2">{user_details?.name}</div>
+              </div> 
+              <div className="ml-2 text-sm mt-2 col ">{user_details?.name}</div>
 
             </div>
           </NavbarBrand>

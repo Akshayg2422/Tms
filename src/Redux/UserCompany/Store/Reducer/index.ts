@@ -80,7 +80,7 @@ const initialState: UserCompanyStateProp = {
   chatEmployeeList: undefined,
   chatEmployeeListCurrentPages: undefined,
   chatEmployeeListNumOfPages: undefined,
-  refreshChatMessage: false,
+  refreshIndividualChatMessage: false,
   selectedUserChat:undefined,
 
 }
@@ -854,7 +854,7 @@ case ActionTypes.REFRESH_GROUP_CHAT:
 
 
   case ActionTypes.REFRESH_CHAT_MESSAGE:
-  state = { ...state, refreshChatMessage: !state.refreshChatMessage}
+  state = { ...state, refreshIndividualChatMessage: !state. refreshIndividualChatMessage}
   break;
 
 

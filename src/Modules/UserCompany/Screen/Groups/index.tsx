@@ -31,10 +31,11 @@ function Groups() {
  
 
     return (
-        <div className='m-3 v-100vh  '>
-            <div className='mx-3 mt-3 mb-0 ' >
+        <div className='m-3  '>
+            <div className='mx-3 mt-3 mb--3 ' >
                 <TaskChatGroup onClick={(code) => { dispatch(setSelectedGroupChatCode(code)) }} showAll={false} />
             </div>
+
             {loading && (
           <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '200px' }}>
             <Spinner />
@@ -48,7 +49,7 @@ function Groups() {
 
                         <GroupMessage selectedGroup={selectedGroupChatCode ? selectedGroupChatCode : chatGroups && chatGroups[0]?.id} />
                         <AddMessage AddGroup={selectedGroupChatCode ? selectedGroupChatCode : chatGroups && chatGroups[0]?.id} />
-                        {/* <ComponentLoader loading={true} children={undefined}/> */}
+                   
 
                     </Card>
 

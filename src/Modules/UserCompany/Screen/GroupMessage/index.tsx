@@ -32,7 +32,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const { raised_by_company, by_user } = taskDetails || {};
     const userModal = useModal(false)
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
-    console.log("selectMessage", message)
+ 
 
     let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
         const { id, attachment_file } = el
@@ -91,8 +91,8 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     };
 
     function getIconsFromStatus(each: any) {
-
-        const { event_type, message, eta_time, tagged_users, assigned_to, attachments, group_status, event_by } = each
+ 
+        const { event_type, message, eta_time, tagged_users, assigned_to, chat_attachments, group_status, event_by } = each
         let modifiedData = {}
 
 
@@ -114,7 +114,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                 modifiedData = { ...each, subTitle: event_by?.name, title: "Task Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
-                modifiedData = { ...each, subTitle: event_by?.name, title: attachments.name }
+                modifiedData = { ...each, subTitle: event_by?.name, title:chat_attachments.name }
                 break;
             case 'RTS':
                 modifiedData = { ...each, subTitle: event_by?.name, title: 'User Attached Reference Task' }
@@ -186,14 +186,14 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
     }
     let previousDate = '';
-    console.log('groupEvents.length--->', groupEvents.length)
+
 
     return (
         <>
             <div
                 id="scrollableDiv"
                 style={{
-                    height: height - 185,
+                    height: height -215,
                     display: 'flex',
                     flexDirection: 'column-reverse',
                 }}
@@ -211,7 +211,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         <div className={'d-flex justify-content-center'}><Spinner /></div>
                     </h4>}
                     next={() => {
-                        console.log('rreeeee')
+                      
                         if (GroupCurrentPage !== -1) {
                             getGroupMessageApi(GroupCurrentPage)
                         }
@@ -229,9 +229,10 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
-                            const { title, subTitle, created_at, attachments, event_by } = item
+                   
+                            const { title, subTitle, created_at, chat_attachments, event_by } = item
 
-                            const imageUrls = attachments?.attachments?.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
+                            const imageUrls = chat_attachments?.attachments?.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
                             const loginUser = user_details?.id === event_by?.id
 
                             const timeString = getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at));
@@ -261,7 +262,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                         setSelectMessage(item)
                                         editModal.show()
                                         message.set(title)
-                                        setSelectDropzone(attachments.attachments)
+                                        setSelectDropzone(chat_attachments.attachments)
                                     }}
                                     deleteOnClick={() => {
                                         setSelectMessage(item)
@@ -270,7 +271,6 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                     subtitleOnclick={() => { userModal.show() }}
                                     
                                 >
-                                    
                                     <div className='pt-2 row' onClick={() => {
                                         // imageModal.show()
                                         setImage(imageUrls)
@@ -307,7 +307,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                     </div>
 
                     {
-                        AttachmentEdit && AttachmentEdit.length > 0 &&
+                        AttachmentEdit && AttachmentEdit?.length > 0 &&
                         <div className="col-auto pb-2">
                             <div className="row">
                                 <ImagePicker
