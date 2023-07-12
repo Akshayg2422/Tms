@@ -163,8 +163,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-                                // let file = image.toString().replace(/^data:(.*,)?/, "")
-                                // handleImagePicker(file)
+                              
                             }}
 
 

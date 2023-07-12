@@ -22048,6 +22048,9 @@ button.section-darker:focus {
   font-size: 0.45rem !important;
 }
 
+.text-xsm {
+  font-size: 0.55rem !important;
+}
 .lh-100 {
   line-height: 1;
 }

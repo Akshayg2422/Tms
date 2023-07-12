@@ -74,7 +74,7 @@ export interface UserCompanyStateProp {
     chatEmployeeList:any,
     chatEmployeeListCurrentPages:any,
     chatEmployeeListNumOfPages:any,
-    refreshChatMessage:any,
+    refreshIndividualChatMessage:any,
     chatMessageCurrentPages:number,
     chatMessage:any,
 }

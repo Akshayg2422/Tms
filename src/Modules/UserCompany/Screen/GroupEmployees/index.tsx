@@ -4,31 +4,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { EmployeeGroupsProps } from './interfaces'
 import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image, Spinner } from '@Components'
 import { addGroupUser, getGroupsEmployees, getTokenByUser, selectedUserChats, selectedVcDetails } from '@Redux'
-import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArrayByKey } from '@Utils';
-import { useDropDown, useDynamicHeight, useLoader, useModal, useNavigation, useWindowDimensions } from '@Hooks';
-import { Employees, GroupEmployeeList } from '@Modules'
+import { TGU, getArrayFromArrayOfObject, } from '@Utils';
+import {  useLoader, useModal, useNavigation, useWindowDimensions } from '@Hooks';
+import {  GroupEmployeeList } from '@Modules'
 import { translate } from '@I18n'
 import { icons } from '@Assets';
 import { ROUTES } from '@Routes';
-import { CardHeader } from 'reactstrap';
+
 
 
 function GroupEmployees({ groupCode, otherParams }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
     const { groupEmployees, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    const { company_branch, user_details, company } = dashboardDetails || ''
-
+    const {  user_details,  } = dashboardDetails || ''
     const { goTo } = useNavigation()
-
-
     const [loading, setLoading] = useState(false)
-    useEffect(() => {
-        getGroupEmployees()
-    }, [Employees])
-
     const addUserModal = useModal(false);
     const [taggedUsers, setTaggedUsers] = useState([])
-    const [reassignUser, setReassignUser] = useState<any>({})
     const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
     const loginLoader = useLoader(false)
     const { height } = useWindowDimensions()
@@ -98,13 +90,11 @@ function GroupEmployees({ groupCode, otherParams }: EmployeeGroupsProps) {
 
     }
 
-
-
     return (
         <>
 
             <Card style={{
-                height: height - 64,
+                height: height - 93,
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
@@ -154,7 +144,11 @@ function GroupEmployees({ groupCode, otherParams }: EmployeeGroupsProps) {
                                                             onClick={() => {
 
                                                                 dispatch(selectedVcDetails(el))
+                                                                dispatch( selectedUserChats(el))
+
+                                                               
                                                                 goTo(ROUTES['user-company-module']['individual-chat'], false)
+                                                                
                                                             }}
                                                         >
                                                             <Image src={icons.Comments} width={17} height={17} />
