@@ -5,4 +5,7 @@ export interface ChatProps {
     loading?: boolean
     onNext: () => void
     height?: number
+    onDelete?: (item: any) => void
+    onEdit?: (item: any) => void
+    isSuccess?: boolean
 }

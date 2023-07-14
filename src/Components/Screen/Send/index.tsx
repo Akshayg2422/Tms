@@ -11,7 +11,6 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress }: SendProps) 
     const message = useInput('')
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
-    const [image, setImage] = useState('')
     const [photos, setPhotos] = useState<any>([])
 
     useEffect(() => {

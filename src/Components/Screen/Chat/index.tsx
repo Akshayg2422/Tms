@@ -1,7 +1,7 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { ChatProps } from './interfaces'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Spinner, Badge, Image } from '@Components'
+import { Spinner, Badge, Image, Modal, Button, ImagePicker } from '@Components'
 import { useSelector } from 'react-redux'
 import {
     capitalizeFirstLetter,
@@ -12,13 +12,50 @@ import {
     getPhoto,
     ifObjectHasKey
 } from '@Utils';
+import { icons } from '@Assets'
+import { useModal, useInput } from '@Hooks';
+import { translate } from '@I18n'
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 
-function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 100 }: ChatProps) {
+function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 100, onDelete, isSuccess, onEdit }: ChatProps) {
 
     const { dashboardDetails } = useSelector(
         (state: any) => state.UserCompanyReducer,
     );
+
+    const isAdmin = dashboardDetails?.permission_details?.is_admin
+
+    const [edit, setEdit] = useState<any>(undefined);
+    const deleteModal = useModal(false);
+    const editModal = useModal(false);
+    const editMessage = useInput('')
+    const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
+    const [photos, setPhotos] = useState<any>([]);
+    const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
+
+
+    let attachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
+        const { id, attachment_file } = el
+        return {
+            id: index + 1, photo: attachment_file,
+        }
+    })
+
+    const handleImagePicker = (file: any) => {
+        let newUpdatedPhoto = [...photos, file];
+        setPhotos(newUpdatedPhoto);
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
+            deleteModal.hide();
+            editModal.hide();
+            setSelectDropzone(undefined);
+            editMessage.set('')
+        }
+    }, [isSuccess])
+
 
     function getDisplayChats(messageArr: any) {
         return (
@@ -80,7 +117,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
     }
 
     function Received({ item }: any) {
-        const { name, message, display_created_at, attachments, date, profile_pic } =
+        const { id, name, message, display_created_at, attachments, date, profile_pic } =
             item;
 
         let modifiedArray = attachments;
@@ -88,6 +125,8 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
         if (attachments && attachments.length > 3) {
             modifiedArray = attachments?.slice(0, 4);
         }
+        const [hasHover, setHasHover] = useState(false);
+
         return (
             <div className='col'>
                 {ifObjectHasKey(item, 'date') && <DateViewer date={date} />}
@@ -97,10 +136,28 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                             <Image size={'sm'} variant={'rounded'} src={profile_pic} height={30} width={30} />
                         </div> : <div className='ml-3' style={{ width: 30, }}></div>
                     }
-                    <div className='media-comment-text' style={{
-                        maxWidth: '70%',
-                    }}>
+                    <div
+                        className={`${"media-comment-text"} ${true ? 'hovered' : ''}`}
+                        style={{
+                            maxWidth: '70%',
+                        }}
+                        onMouseEnter={() => {
+                            setHasHover(true)
+                        }}
+                        onMouseLeave={() => {
+                            setHasHover(false)
+                        }}
+                    >
                         <div>
+                            {isAdmin && <Hover
+                                show={hasHover}
+                                onDelete={() => {
+                                    setEdit(item);
+                                    deleteModal.show()
+                                }}
+                            />
+                            }
+
                             {name && variant === 'group' && (<h6 className="h5 mt-0 mb-0">{name}</h6>)}
                             <p className="text-sm lh-160 mb-0">{message}</p>
                             <div>
@@ -113,86 +170,37 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                                     />
 
                                 )}
-                                {attachments &&
-                                    attachments.length > 1 &&
-                                    modifiedArray.map((each: any, index: number) => {
-                                        const isMore =
-                                            index === modifiedArray.length - 1 &&
-                                            attachments.length > 4;
-                                        return (
-                                            <div key={index} style={{
-                                                width: "50%",
-                                                justifyContent: 'center',
-                                                alignContent: 'center'
-                                            }}>
-                                                <Image
-                                                    border-r={5}
-                                                    src={getPhoto(each?.attachment_file)}
-                                                    width={250}
-                                                    height={250}
-                                                />
-
-                                            </div>
-                                        );
-                                    }
-                                    )
-                                }
-                            </div>
-
-                            {/* <Container padding-v={3} flex-d={'row'} flex-w={'wrap'}>
-                            
-                                <Container
-                                    flex-d={'row'}
-                                    flex-w={'wrap'}
-                                    flex-ai={'flex-start'}>
+                                <div className='row' style={{
+                                    flexWrap: "wrap",
+                                    maxWidth: 350,
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
                                     {attachments &&
                                         attachments.length > 1 &&
                                         modifiedArray.map((each: any, index: number) => {
-                                            const isMore =
-                                                index === modifiedArray.length - 1 &&
-                                                attachments.length > 4;
-
                                             return (
-                                                <Touchable
-                                                    accessibilityRole="button"
-                                                    key={index + ''}
-                                                    w={'50%'}
-                                                    padding={2}
-                                                    flex-jc={'center'}
-                                                    flex-ai={'center'}
-                                                    onPress={() => {
-                                                        imageOnSelect(true, index, attachments);
-                                                    }}>
-                                                    <>
-                                                        <ImageView
-                                                            isUri
-                                                            border-r={5}
-                                                            source={getPhotos(each?.attachment_file)}
-                                                            w={'100%'}
-                                                            h={130}
-                                                        />
-
-                                                        {isMore && (
-                                                            <Container
-                                                                bc={color.transparent}
-                                                                position={'absolute'}
-                                                                overflow={'hidden'}
-                                                                padding={28}>
-                                                                <Text
-                                                                    color={color.white}
-                                                                    text-a={'center'}
-                                                                    variant={'bold'}
-                                                                    font-size={30}>
-                                                                    {attachments.length - 4 + '+'}
-                                                                </Text>
-                                                            </Container>
-                                                        )}
-                                                    </>
-                                                </Touchable>
+                                                <div key={index} style={{
+                                                    alignItems: "center",
+                                                    justifyContent: 'center',
+                                                }}>
+                                                    <Image
+                                                        style={{
+                                                            padding: 5
+                                                        }}
+                                                        className='ml-2'
+                                                        border-r={5}
+                                                        src={getPhoto(each?.attachment_file)}
+                                                        width={150}
+                                                        height={150}
+                                                    />
+                                                </div>
                                             );
-                                        })}
-                                </Container>
-                            </Container> */}
+                                        }
+                                        )
+                                    }
+                                </div>
+                            </div>
                             <div className='text-right'>
                                 <small style={{
                                     fontSize: 10
@@ -204,82 +212,147 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
             </div >
         );
     }
+
+
+    function Hover({ show, onDelete, onEdit }: any) {
+
+        return <div className='d-flex justify-content-end mr-2'>
+            {show && <div className='row justify-content-center align-items-center' style={
+                {
+                    backgroundColor: 'rgba(52, 52, 52, 0.2)',
+                    borderRadius: 5,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    paddingBottom: 5
+                }
+            }>
+                {onEdit &&
+                    <div className='pointer mr-2' onClick={onEdit}>
+                        <Image
+                            src={icons.editEta}
+                            width={12}
+                            height={12}
+                            style={{ objectFit: 'contain' }}
+                        />
+                    </div>
+                }
+
+                {onDelete &&
+                    <div className='pointer ml-1' onClick={onDelete}>
+                        <Image
+                            src={icons.deleteCurve}
+                            width={12}
+                            height={12}
+                            style={{ objectFit: 'contain' }}
+                        />
+                    </div>
+                }
+            </div>
+            }
+        </div >
+    }
+
+
     function Sent({ item }: any) {
-        const { message, display_created_at, attachments, date } = item;
+
+        const { id, message, display_created_at, attachments, date, chat_attachments, event_type } = item;
         let modifiedArray = attachments;
         if (attachments && attachments.length > 3) {
             modifiedArray = attachments?.slice(0, 4);
         }
+        const [hasHover, setHasHover] = useState(false);
 
         return (
-            <div >
-                {ifObjectHasKey(item, 'date') && <DateViewer date={date} />}
+            <div>
+                {ifObjectHasKey(item, 'date') ? <DateViewer date={date} /> : <></>}
                 <div className='d-flex justify-content-end mt-3'>
-                    <div className='media-comment-text' style={{
-                        maxWidth: '70%',
-                    }}>
-                        <p className="text-sm lh-160 mb-0">{message}</p>
-                        <div className='my-1'>
-                            {attachments && attachments.length === 1 && (
-                                <Image
-                                    style={{
-                                        borderRadius: 5
-                                    }}
-                                    src={getPhoto(attachments[0].attachment_file)}
-                                    width={250}
-                                    height={250}
-                                />
-                            )}
-                            <div className='row' style={{
-                                flexWrap: "wrap",
-                                maxWidth: 350,
-                            }}>
-                                {attachments &&
-                                    attachments.length > 1 &&
-                                    modifiedArray.map((each: any, index: number) => {
-                                        const isMore = index === modifiedArray.length - 1 && attachments.length > 4;
-                                        return (
-                                            <div key={index} style={{
-                                                alignItems: "center",
-                                                justifyContent: 'center',
-                                            }}>
-                                                <Image
-                                                    style={{
-                                                        padding: 5
-                                                    }}
-                                                    className='ml-2'
-                                                    border-r={5}
-                                                    src={getPhoto(each?.attachment_file)}
-                                                    width={150}
-                                                    height={150}
-                                                />
-
-                                                {/* {isMore && (
-                                                    <div style={
-                                                        {
-                                                            backgroundColor: 'rgba(52, 52, 52, 0.3)',
-                                                            position: 'absolute',
-                                                            overflow: 'hidden',
-                                                            padding: 20,
-                                                        }
-                                                    }>
-                                                        <h1>{'sas'}</h1>
+                    <div
+                        className={`${"media-comment-text"} ${true ? 'hovered' : ''}`}
+                        style={{
+                            maxWidth: '70%',
+                        }}
+                        onMouseEnter={() => {
+                            setHasHover(true)
+                        }}
+                        onMouseLeave={() => {
+                            setHasHover(false)
+                        }}>
+                        <Hover
+                            show={hasHover}
+                            onEdit={() => {
 
 
-                                                    </div>
-                                                )} */}
-                                            </div>
-                                        );
-                                    }
-                                    )
+
+
+                                setEdit(item);
+                                if (event_type === 'TEM') {
+                                    editMessage.set(message)
+                                    setSelectDropzone(undefined)
+                                } else if (event_type === 'MEA') {
+                                    editMessage.set(chat_attachments?.name)
+                                    setSelectDropzone(chat_attachments.attachments)
                                 }
-                            </div>
-                        </div>
 
-                        <div className='text-right'>
-                            <small style={{
-                                fontSize: 10
-                            }} className="d-block text-muted mt-0 ml-4">{display_created_at}</small>
+
+                                editModal.show()
+                            }}
+                            onDelete={() => {
+                                setEdit(item);
+                                deleteModal.show()
+                            }}
+                        />
+                        <div>
+                            <p className="text-sm lh-160 mb-0">{message}</p>
+                            <div>
+                                {attachments && attachments.length === 1 && (
+                                    <PhotoProvider>
+                                        <PhotoView src={getPhoto(attachments[0].attachment_file)}>
+                                            <Image
+                                                style={{
+                                                    borderRadius: 5
+                                                }}
+                                                src={getPhoto(attachments[0].attachment_file)}
+                                                width={250}
+                                                height={250}
+                                            />
+                                        </PhotoView>
+                                    </PhotoProvider>
+                                )}
+                                <div className='row mt-2' style={{
+                                    flexWrap: "wrap",
+                                    justifyContent: 'flex-start',
+                                    alignItems: 'center'
+                                }}>
+                                    {attachments &&
+                                        attachments.length > 1 &&
+                                        modifiedArray.map((each: any, index: number) => {
+                                            return (
+                                                <div key={index} style={{
+                                                    alignItems: "center",
+                                                    justifyContent: 'center',
+                                                }}>
+                                                    <Image
+                                                        style={{
+                                                            padding: 2
+                                                        }}
+                                                        className='ml-2'
+                                                        border-r={5}
+                                                        src={getPhoto(each?.attachment_file)}
+                                                        width={150}
+                                                        height={150}
+                                                    />
+                                                </div>
+                                            );
+                                        }
+                                        )
+                                    }
+                                </div>
+                            </div>
+                            <div className='text-right'>
+                                <small style={{
+                                    fontSize: 10
+                                }} className="d-block text-muted mt-0 ml-4">{display_created_at}</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -333,42 +406,140 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
         return modifiedData;
     }
 
+
+
     return (
-        <div
-            id="scrollableDiv"
-            style={{
-                height: height - 185,
-                display: 'flex',
-                flexDirection: 'column-reverse',
-            }}
-            className={'overflow-auto overflow-hide mt-3'}>
-            {data && data.length > 0 && <InfiniteScroll
-                dataLength={data.length}
-                hasMore={hasMore}
-                scrollableTarget="scrollableDiv"
-                style={{ display: 'flex', flexDirection: 'column-reverse' }}
-                className={'overflow-auto overflow-hide'}
-                inverse={true}
-                loader={
-                    <Spinner />
-                }
-                next={onNext}>
-                {
-                    loading && <Spinner />
-                }
+        <>
+            <div
+                id="scrollableDiv"
+                style={{
+                    height: height - 185,
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                }}
+                className={'overflow-auto overflow-hide mt-3'}>
                 {data && data.length > 0 &&
-                    getDisplayChatsWithTime(getDisplayChats(data)).map((item: any, index: number) => {
-                        const { type } = item;
-                        return type === 'sent' ? (
-                            <Sent item={item} />
-                        ) : (
-                            <Received item={item} />
-                        );
-                    })
+                    <InfiniteScroll
+                        dataLength={data.length}
+                        hasMore={hasMore}
+                        scrollableTarget="scrollableDiv"
+                        style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                        className={'overflow-auto overflow-hide'}
+                        inverse={true}
+                        loader={
+                            <Spinner />
+                        }
+                        next={onNext}>
+                        {
+                            loading && <Spinner />
+                        }
+                        {data && data.length > 0 &&
+                            getDisplayChatsWithTime(getDisplayChats(data)).map((item: any, index: number) => {
+                                const { type } = item;
+                                return type === 'sent' ? (
+                                    <Sent item={item} />
+                                ) : (
+                                    <Received item={item} />
+                                );
+                            })
+                        }
+                    </InfiniteScroll>
                 }
-            </InfiniteScroll>
+            </div>
+
+
+
+            {/**
+             * Delete Modal
+             */}
+            <Modal title={translate("errors.Are you sure you want to delete?")!} isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide}>
+                <div className="d-flex justify-content-end mt--3">
+                    <Button size={'sm'} className={'text-white'} text={'Delete'}
+                        onClick={() => {
+                            if (onDelete) {
+                                onDelete(edit)
+                            }
+                        }}
+                    />
+                </div>
+            </Modal>
+
+
+            {
+                /** 
+                 * edit Modal
+                 */
             }
-        </div>
+
+            <Modal size={'lg'} title={translate('common.Edit Chat')!} isOpen={editModal.visible} onClose={editModal.hide} >
+
+                <div className="col-md col-lg">
+                    <div className='col-md col-lg'>
+                        <textarea value={editMessage?.value} className="form-control form-control-sm" onChange={editMessage.onChange}></textarea>
+                    </div>
+                    {
+                        attachmentEdit && attachmentEdit.length > 0 && edit?.event_type === 'MEA' &&
+                        <div className="col-auto pb-2">
+                            <div className="row">
+                                <ImagePicker
+                                    defaultPicker={true}
+                                    defaultValue={attachmentEdit}
+                                    size='xl'
+                                    heading={translate("auth.attach")!}
+                                    onSelect={(image) => {
+                                        let file = image.toString().replace(/^data:(.*,)?/, "")
+                                        handleImagePicker(file)
+                                    }}
+
+                                    onSelectImagePicker={(el) => {
+                                        setSelectedNoOfPickers(el?.length)
+                                    }}
+                                    onSelectImagePickers={(el) => {
+                                        let array: any = []
+                                        for (let i = 0; i <= el.length; i++) {
+                                            let editPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                            if (editPickers !== undefined) {
+                                                array.push(editPickers)
+                                            }
+                                        }
+                                        setPhotos(array)
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div className="row justify-content-end d-flex mt-2 mr-3">
+                    <div className="col-md-5 col-lg-3 ">
+                        <Button
+                            className={'text-white'}
+                            block
+                            text={translate("order.Update")}
+                            onClick={() => {
+
+
+                                if (onEdit) {
+                                    let attach = photos.slice(-selectedNoOfPickers)
+
+                                    const params = {
+                                        id: edit?.id,
+                                        ...(edit.event_type === 'TEM' && { edited_message: editMessage?.value }),
+                                        ...(edit.event_type === 'MEA' && { group_attachments: [{ name: editMessage?.value, attachments: attach }] }),
+                                    }
+
+                                    console.log(JSON.stringify(edit) + '=====edit');
+
+                                    onEdit(params)
+                                }
+                            }}
+                        />
+                    </div>
+                </div>
+
+            </Modal>
+
+        </>
 
 
     )

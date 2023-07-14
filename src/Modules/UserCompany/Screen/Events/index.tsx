@@ -53,12 +53,12 @@ function Events() {
   const editEventModal = useModal(false)
   const MarkAsClosedEventModal = useModal(false)
   const [isSelected, setIsSelected] = useState<boolean>(false)
-const loginLoader=useLoader(false)
+  const loginLoader = useLoader(false)
 
   useEffect(() => {
     getEventsApiHandler(INITIAL_PAGE)
   }, []);
-  let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
+  let attachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
     const { id, attachment_file } = el
     return {
       id: index + 1, photo: attachment_file,
@@ -278,7 +278,7 @@ const loginLoader=useLoader(false)
           <div className={''} >
             {
               events?.map((item: any, index: number) => {
-             
+
                 return (
                   <div key={item.id} >
                     <Card className={'shadow-none border m-3 col-7 mb--2'}  >
@@ -342,7 +342,7 @@ const loginLoader=useLoader(false)
                         <EventItem key={item.id} item={item} />
                       </div>
                       <div>
-                        <CarouselImages item={item}/>
+                        <CarouselImages item={item} />
                       </div>
                     </Card>
                   </div>
@@ -441,7 +441,7 @@ const loginLoader=useLoader(false)
           <div className="row">
             <ImagePicker
               defaultPicker={true}
-              defaultValue={AttachmentEdit}
+              defaultValue={attachmentEdit}
               size='xl'
               heading={translate("auth.attach")!}
               noOfFileImagePickers={3}
@@ -480,7 +480,7 @@ const loginLoader=useLoader(false)
           <div className="h4"> Are you sure you want to delete? </div>
           <div className="row d-flex justify-content-end">
             <Button text={'Delete'}
-            loading={loginLoader.loader}
+              loading={loginLoader.loader}
               onClick={proceedDeleteHandler}
             />
           </div>
