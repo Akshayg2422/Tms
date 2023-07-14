@@ -32,7 +32,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const { raised_by_company, by_user } = taskDetails || {};
     const userModal = useModal(false)
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
- 
+
 
     let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
         const { id, attachment_file } = el
@@ -41,7 +41,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
         }
     })
 
-   
+
 
     useEffect(() => {
         getGroupMessageApi(INITIAL_PAGE)
@@ -91,7 +91,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     };
 
     function getIconsFromStatus(each: any) {
- 
+
         const { event_type, message, eta_time, tagged_users, assigned_to, chat_attachments, group_status, event_by } = each
         let modifiedData = {}
 
@@ -114,7 +114,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                 modifiedData = { ...each, subTitle: event_by?.name, title: "Task Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
-                modifiedData = { ...each, subTitle: event_by?.name, title:chat_attachments.name }
+                modifiedData = { ...each, subTitle: event_by?.name, title: chat_attachments.name }
                 break;
             case 'RTS':
                 modifiedData = { ...each, subTitle: event_by?.name, title: 'User Attached Reference Task' }
@@ -193,11 +193,11 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
             <div
                 id="scrollableDiv"
                 style={{
-                    height: height -215,
+                    height: height - 215,
                     display: 'flex',
                     flexDirection: 'column-reverse',
                 }}
-                
+
                 className={'overflow-auto overflow-hide mt-4'}
             >
                 <InfiniteScroll
@@ -211,7 +211,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                         <div className={'d-flex justify-content-center'}><Spinner /></div>
                     </h4>}
                     next={() => {
-                      
+
                         if (GroupCurrentPage !== -1) {
                             getGroupMessageApi(GroupCurrentPage)
                         }
@@ -229,7 +229,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
 
                     {groupEvents && groupEvents.length > 0 &&
                         groupEvents.map((item: any, index: number) => {
-                   
+
                             const { title, subTitle, created_at, chat_attachments, event_by } = item
 
                             const imageUrls = chat_attachments?.attachments?.map((each: { attachment_file: any; }) => getPhoto(each.attachment_file))
@@ -247,9 +247,9 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             const startDay = getCurrentDayAndDate(renderDate);
 
                             return (
-                                
+
                                 <GroupChat
-                                    
+
                                     profileImage={event_by?.profile_image}
                                     title={title}
                                     subTitle={subTitle}
@@ -269,7 +269,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                         deleteModal.show()
                                     }}
                                     subtitleOnclick={() => { userModal.show() }}
-                                    
+
                                 >
                                     <div className='pt-2 row' onClick={() => {
                                         // imageModal.show()
@@ -291,7 +291,9 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                                             </div>
                                         }
                                     </div>
-                                </GroupChat>)
+                                </GroupChat>
+
+                            )
                         })
                     }
                 </InfiniteScroll>

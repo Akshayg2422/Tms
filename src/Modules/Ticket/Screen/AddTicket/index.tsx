@@ -30,10 +30,10 @@ import {
     type,
     validate,
     PRIORITY,
-    getMomentObjFromServer,
     getDropDownDisplayData,
     getDropDownCompanyDisplayData,
     getDropDownCompanyUser,
+    generateReferenceNo,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,26 +49,19 @@ function AddTicket() {
 
     const title = useInput("");
     const description = useInput("");
-    const referenceNo = useInput("");
+    const referenceNo = useInput(generateReferenceNo());
     const [ticketType, setTicketType] = useState(type[1]);
     const [disableTicketType, setDisableTicketType] = useState([]);
-    // const [companies, setCompanies] = useState([])
-    const [companyUsers, setCompanyUsers] = useState([])
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
     const company = useDropDown({})
-    // const ticketGroup = useDropDown({})
-    // const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
-    const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
-    // const [selectNoOfPickers, setSelectNoOfPickers] = useState<any>()
     const [loading, setLoading] = useState(false)
-    // let attach = photo.slice(-selectNoOfPickers)
-    const [date, setDate] = useState<any>(moment().format())
+    // const [date, setDate] = useState<any>(moment().format())
 
     const isEnterPressed = useKeyPress("Enter");
     const loginLoader = useLoader(false);
@@ -98,11 +91,6 @@ function AddTicket() {
         ticketType?.id === type[1].id
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
-
-    // const handleImagePicker = (file: any) => {
-    //     let newUpdatedPhoto = [...photo, file];
-    //     setPhoto(newUpdatedPhoto);
-    // };
 
     function getCompanyEmployeeApi() {
 
@@ -232,7 +220,7 @@ function AddTicket() {
 
     const handleEtaChange = (value: any) => {
         setEta(value);
-        setDate(value)
+        // setDate(value)
     };
 
 
@@ -256,12 +244,9 @@ function AddTicket() {
                         noOfFileImagePickers={3}
                         onSelect={(image) => {
 
-                            // let file = image.toString().replace(/^data:(.*,)?/, "")
-                            // handleImagePicker(file)
+                          
                         }}
-                        // onSelectImagePicker={(el) => {
-                        //     setSelectNoOfPickers(el?.length)
-                        // }}
+                     
                         onSelectImagePickers={(el)=>{
                             let array: any = []
       
@@ -286,13 +271,7 @@ function AddTicket() {
                     onChange={title.onChange}
                 />
            
-                {/* <div >
-                <InputHeading heading={translate('auth.description')}/>
-                    <textarea 
-                        value={description.value}
-                        onChange={description.onChange}
-                        className="form-control form-control-sm" />
-                </div> */}
+          
                 <TextAreaInput
                 heading={translate('auth.description')!}
                 value={description.value}
@@ -312,7 +291,6 @@ function AddTicket() {
                         selectItem={ticketType}
                         disableId={disableTicketType}
                         onRadioChange={(selected) => {
-                            setSelectedUser('')
                             company.onChange({})
                             department.onChange({})
                             designation.onChange({})
@@ -375,34 +353,11 @@ function AddTicket() {
                     placeholder={'Select ETA'}
                     type="both"
                     onChange={handleEtaChange}
-                    // value={date ? getMomentObjFromServer(date) : null!}
+             
                 />
             </div>
 
-            {/* <div className="col-md-9 col-lg-5 mt-3">
-                <label className={`form-control-label`}>
-                    {translate('common.addAttachment')}
-                </label>
-                <div>
-                    {selectDropzone &&
-                        selectDropzone.map((el, index) => {
-                            return (
-                                <Dropzone
-                                    variant="ICON"
-                                    icon={image}
-                                    size="xl"
-                                    onSelect={(image) => {
-                                        let file = image.toString().replace(/^data:(.*,)?/, "");
-                                        handleImagePicker(index, file);
-                                        { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
-                                        { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
-                                        { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
-                                    }}
-                                />
-                            );
-                        })}
-                </div>
-            </div> */}
+           
         
             <div className="col mt-4">
 
@@ -413,14 +368,7 @@ function AddTicket() {
 
             </div>
 
-            {/* <div className="col mt-4">
-                <LoadingButton text={translate('common.submit')} 
-                               size={'md'}  
-                               loading={loading}
-                               onClick={submitTicketHandler}/>
-
-
-            </div> */}
+           
 
         </Card >
 

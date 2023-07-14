@@ -209,15 +209,16 @@ function AdminFeeds() {
           </div>
         )
       }
+      
       {broadCastDetails && broadCastDetails.length > 0 ?
         <InfiniteScroll
           dataLength={broadCastDetails.length}
           hasMore={broadCastCurrentPage !== -1}
+          className={'overflow-auto overflow-hide '}
           loader={<h4>
             <Spinner />
           </h4>}
-          className={'overflow-auto overflow-hide '}
-          style={{ overflowY: "auto" }}
+          style={{ overflowY: "auto"}}
           next={() => {
             if (broadCastCurrentPage !== -1) {
               getBroadCastMessage(broadCastCurrentPage)
@@ -229,9 +230,9 @@ function AdminFeeds() {
             {
               broadCastDetails?.map((item: any, index: number) => {
                 return (
-                  <div key={index}>
+                  <div key={index} >
                     <Card className={'shadow-none border m-3 col-7 mt-4 mb--2'}>
-                      <div className="row d-flex justify-content-end mt-3">
+                      <div className="row d-flex justify-content-end ">
                         <MenuBar menuData={MY_FEED_MENU}
                           onClick={(element) => {
                             if (element.id === MY_FEED_MENU[0].id) {
@@ -243,9 +244,6 @@ function AdminFeeds() {
                               setInternalCheck(for_internal_company)
                               setExternalCheck(for_external_company)
                               setSelectDropzone(attachments)
-                              console.log(attachments, "aattacchhmmm")
-
-
                               const updatedData = applicable_branches.map(item => {
                                 return {
                                   key: item.id,

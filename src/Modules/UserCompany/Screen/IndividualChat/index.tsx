@@ -50,9 +50,6 @@ function IndividualChat() {
         getCompanyEmployeeApi()
 
     }, [])
-
-
-
     useEffect(() => {
 
         if (selectedUserChat) {
@@ -335,7 +332,7 @@ function IndividualChat() {
                                         </h4>}
 
                                         next={() => {
-                                            console.log('testing ====>')
+                                        
                                             if (chatMessageCurrentPages !== -1) {
                                                 getChatMessage(selectedUserChat?.id, chatMessageCurrentPages)
                                             }

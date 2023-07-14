@@ -9,10 +9,10 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
   const { title, attachments, description, created_by, created_at } = item;
 
   return (
-    <div className="row mx--5">
+    <div className="row mx--4">
       <div className="col">
-        <div className='row d-flex align-items-center m-0 mt--2 ml-2'>
-          <div className={''}>
+        <div className='row d-flex align-items-center m-0 mt--2 '>
+          <div className={'ml--2'}>
             <div className={'align-self-center'}>{<Image variant={'avatar'} src={getPhoto(created_by?.profile_image)} />}</div>
           </div>
           <div className='ml-2'>
@@ -30,15 +30,15 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
           </div>
         </div>
 
-        <div className="row mt-4">
-          <div className="col-lg-12 col-sm-0 col-12 mt--2 ml-2">
+        <div className="row mt-4 ml--4">
+          <div className="col-lg-12 col-sm-0 col-12 mt--2 ">
             <div className={'text-xs font-weight-800 mt--2 mb-1'}>{title}</div>
             <div className={'text-xs font-weight-400 mb--2'}>{description}</div>
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-lg-12 col-sm-0 col-12 mt-3 mb--6">
+        <div className="row mt-2">
+          <div className="">
             <Carousel
             dynamicHeight>
               {attachments &&
@@ -48,8 +48,8 @@ function BroadCastListedItems({ item }: BroadCastItemsProps) {
                     <Image
                       variant={"default"}
                       src={getPhoto(attachment_logo.attachment_file)}
-                      height={'80%'}
-                      width={'80%'}
+                      height={'100%'}
+                      width={'100%'}
                     />
                   );
                 })}

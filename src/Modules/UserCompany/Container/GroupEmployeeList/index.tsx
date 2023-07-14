@@ -11,7 +11,7 @@ import { useDropDown } from '@Hooks'
 
 function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaultSelect, selectedCode }: GroupEmployeesProps) {
 
-    const { employees, departments, designations, associatedCompaniesL,dashboardDetails} = useSelector((state: any) => state.UserCompanyReducer);
+    const { employees, departments, designations, associatedCompaniesL, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const [selectedEmployee, setSelectedEmployee] = useState<any>(defaultSelect)
     const [companies, setCompanies] = useState<any>()
     const company = useDropDown({})
@@ -108,22 +108,22 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
         // if (items.id) {
 
 
-            const params = {
-                branch_id:items.id ?items.id:dashboardDetails?.permission_details?.branch_id,
-                per_page_count: -1,
-            };
+        const params = {
+            branch_id: items.id ? items.id : dashboardDetails?.permission_details?.branch_id,
+            per_page_count: -1,
+        };
 
-            dispatch(
-                getDesignations({
-                    params,
-                    onSuccess: (response) => () => {
+        dispatch(
+            getDesignations({
+                params,
+                onSuccess: (response) => () => {
 
-                    },
-                    onError: () => () => {
-                    },
-                })
+                },
+                onError: () => () => {
+                },
+            })
 
-            );
+        );
         // }
     }
 
@@ -131,20 +131,20 @@ function GroupEmployeeList({ otherParams, selection = 'none', onSelected, defaul
 
         // if (items.id) {
 
-            const params = {
-                branch_id: items.id ?items.id:dashboardDetails?.permission_details?.branch_id,
-                per_page_count: -1,
-            };
-            dispatch(
-                getDepartments({
-                    params,
-                    onSuccess: (response: any) => () => {
-                    },
-                    onError: (error) => () => {
+        const params = {
+            branch_id: items.id ? items.id : dashboardDetails?.permission_details?.branch_id,
+            per_page_count: -1,
+        };
+        dispatch(
+            getDepartments({
+                params,
+                onSuccess: (response: any) => () => {
+                },
+                onError: (error) => () => {
 
-                    },
-                })
-            );
+                },
+            })
+        );
         // }
 
     }
