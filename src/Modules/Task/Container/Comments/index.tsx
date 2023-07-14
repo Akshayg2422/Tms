@@ -1,11 +1,16 @@
 import React from "react";
 import { TaskChat, AddChat } from "@Modules";
 import { Card } from '@Components'
+import { useWindowDimensions } from "@Hooks";
+
 
 function Comments() {
+  const { height } = useWindowDimensions()
   return (
     <div className="h-100">
-      <Card>
+      <Card style={{
+        height: height - 85
+      }}>
         <TaskChat />
         <AddChat />
       </Card>

@@ -23,8 +23,8 @@ function AddMessage({ AddGroup }: AddMessageProps) {
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
     const loginLoader = useLoader(false)
-    const addGroupMessageApiHandler = () => {
 
+    const addGroupMessageApiHandler = () => {
         if (message.value.trim()) {
             const params = {
                 group_id: AddGroup,
@@ -48,6 +48,8 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         }
     };
 
+
+
     const getUserToken = () => {
         dispatch(selectedVcDetails(selectedGroupChatCode))
         const params = {
@@ -70,6 +72,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
 
 
     const addGroupEventAttachment = () => {
+        
         const validation = validate(GROUP_ATTACHMENT_RULES, {
             attachment_name: attachmentName.value.trim(),
             group_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : ''
@@ -83,6 +86,7 @@ function AddMessage({ AddGroup }: AddMessageProps) {
         };
 
         if (ifObjectExist(validation)) {
+
             loginLoader.show()
             dispatch(
                 addGroupMessage({

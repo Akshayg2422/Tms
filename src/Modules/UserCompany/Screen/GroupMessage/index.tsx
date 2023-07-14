@@ -34,7 +34,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
     const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
     console.log("selectMessage", message)
 
-    
+
 
     let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
         const { id, attachment_file } = el
@@ -309,7 +309,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                     </div>
 
                     {
-                        AttachmentEdit && AttachmentEdit.length > 0 &&
+                        AttachmentEdit && AttachmentEdit.length > 0 && 
                         <div className="col-auto pb-2">
                             <div className="row">
                                 <ImagePicker
@@ -342,6 +342,7 @@ function GroupMessage({ selectedGroup }: GroupMessageProps) {
                             </div>
                         </div>
                     }
+
                 </div>
 
                 <div className="row justify-content-end d-flex mt-2 mr-3">

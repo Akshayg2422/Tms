@@ -216,13 +216,9 @@ function AddSubTask() {
                     heading={translate("common.addAttachment")!}
                     noOfFileImagePickers={3}
                     onSelect={(image) => {
-                        // let file =image.toString().replace(/^data:(.*,)?/, "")
-                        // handleImagePicker(file)
+                     
                     }}
-                    // onSelectImagePicker={(el)=>{
-                    //     setSelectNoOfPickers(el?.length)
-
-                    // }}
+                  
                     onSelectImagePickers={(el)=>{
                         let array: any = []
   
@@ -250,15 +246,7 @@ function AddSubTask() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-        
-                 {/* <div >
-                    
-                    <InputHeading heading={translate('auth.description')}/>
-                    <textarea 
-                        value={description.value}
-                        onChange={description.onChange}
-                        className="form-control form-control-sm" />
-                </div> */}
+
                   <TextAreaInput
                 heading={translate('auth.description')!}
                 value={description.value}

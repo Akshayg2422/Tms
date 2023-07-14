@@ -45,10 +45,10 @@ function TicketChat({ }: TicketChatProps) {
 
     }
     const getTicketEventsApi = (page_number: number) => {
+
         const params = {
             code: id,
             page_number
-            
         }
 
         dispatch(
@@ -135,6 +135,7 @@ function TicketChat({ }: TicketChatProps) {
                     <Spinner />
                 </h4>}
                 next={() => {
+
                     if (ticketEventsCurrentPage !== -1) {
                         getTicketEventsApi(ticketEventsCurrentPage)
                     }
@@ -148,6 +149,7 @@ function TicketChat({ }: TicketChatProps) {
                         const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
 
                         return (
+                            
                             <TimeLine
                                 icon={icon}
                                 showDotterLine={showDotLine}
@@ -164,7 +166,8 @@ function TicketChat({ }: TicketChatProps) {
 
                                         {
                                             imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
-                                                console.log('knfn kf kf ,',each)
+                                                
+                                                console.log('imageUrls=========>>',each)
 
                                                 return (<Image className='ml-1 mb-1' src={each} width={100} height={100}
                                                  />

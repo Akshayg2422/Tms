@@ -51,7 +51,7 @@ const ImagePicker = ({
           }
         })
         .catch((error) => {
-          console.error(error);
+          // console.error(error);
         });
     }
     else {

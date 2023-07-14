@@ -19,6 +19,7 @@ function GroupChat({
     subtitleOnclick,
     onClick,
 }: GroupChatProps) {
+    
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => {

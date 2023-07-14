@@ -735,6 +735,7 @@ function IndividualChat() {
                                         <Spinner />
                                     </div>
                                 )}
+                                
                                 {!loading && <div >
                                     {employeeList && employeeList?.length > 0 ?
                                         employeeList?.map((item: any) => {
@@ -788,7 +789,6 @@ function IndividualChat() {
                                                                 </div>
                                                             </div>
                                                         </div >
-
                                                     }
                                                 </div>
                                             )

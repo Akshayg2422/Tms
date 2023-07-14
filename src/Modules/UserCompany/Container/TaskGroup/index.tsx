@@ -50,12 +50,14 @@ function TaskGroup() {
   useEffect(() => {
     getGroupEmployees()
   }, [selectedGroupChatCode])
+
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
     ...(is_parent ? [{ id: '1', name: "Create Sub Group", icon: icons.addSub }] : []),
     ...(marked_as_closed ? [{ id: '3', name: "Mark As Open", icon: icons.markAsOpen }] : [{ id: '2', name: "Mark As Closed", icon: icons.markAsClose }]),
     ...(is_parent ? [{ id: '4', name: "Add Member ", icon: icons.addSub }] : []),
   ]
+  
   const [showTaskGroup, setShowTaskGroup] = useState(false);
   const [inCludeSubGroup, setIncludeSubGroup] = useState(false)
   const addTaskGroupModal = useModal(false);
@@ -282,6 +284,7 @@ function TaskGroup() {
       group_id: addGroupId,
       users_id: addUsers.tagged_users
     }
+    
     loginLoader.show()
     dispatch(
       addGroupUser({
