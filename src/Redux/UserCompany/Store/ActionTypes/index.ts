@@ -270,7 +270,10 @@ export const HANDLE_ONE_TO_ONE_CHAT = 'HANDLE_ONE_TO_ONE_CHAT';
 
 export const ONE_TO_ONE_VC_NOTI = 'ONE_TO_ONE_VC_NOTI';
 
-//selectedUserChat
+//selectedPrivateUser
 
 export const USER_CHAT = 'USER_CHAT';
 
+
+
+export const REFRESH_PRIVATE_CHAT = 'REFRESH_PRIVATE_CHAT';

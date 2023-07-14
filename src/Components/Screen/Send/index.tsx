@@ -9,11 +9,9 @@ import { useSelector,useDispatch } from 'react-redux';
 import { getTokenByUser, selectedVcDetails } from '@Redux';
 
 
-function Send({ isSuccess, loading, onMessagePress, onAttachPress }: SendProps) {
-    const { selectedGroupChat,dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    const { user_details } = dashboardDetails || ''
-    const {goTo} = useNavigation()
-    const dispatch = useDispatch()
+function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = true, onVideoPress }: SendProps) {
+
+
     const message = useInput('')
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
@@ -42,27 +40,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress }: SendProps) 
             }
         }
     };
-    const getUserToken = () => {
-        
-        dispatch(selectedVcDetails(selectedGroupChat.id))
-        const params = {
-            room_id: selectedGroupChat.id,
-            user_name: user_details.name,
-            email_id: user_details.email,
-        }
-        console.log(params,"ppp")
-        dispatch(getTokenByUser({
-            params,
-            onSuccess: (success: any) => () => {
 
-                console.log("success============>", success)
-            },
-            onError: (error: string) => () => {
-
-            },
-
-        }))
-    }
 
 
     return (
@@ -81,24 +59,22 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress }: SendProps) 
                         >
                         </textarea>
                     </div>
-                    {message.value.trim()?.length > 0 && <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
-                        const param = { message: message.value.trim(), event_type: 'TEM' };
-                        if (onMessagePress && message.value.trim()) {
+                    {message.value?.length > 0 && <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
+                        const param = { message: message.value, event_type: 'TEM' };
+                        if (onMessagePress && message.value) {
                             onMessagePress(param);
                         }
 
                     }} />
                     }
-                    <Button
+                    {hasVideo && <Button
                         size={'lg'}
                         color={'white'}
                         variant={'icon-rounded'}
                         icon={icons.videoCall}
-                        onClick={() => {
-                             getUserToken()
-                            goTo(ROUTES['user-company-module']['video-conference'], false)
-                        }}
+                        onClick={onVideoPress}
                     />
+                    }
 
                 </div >
             </div >
