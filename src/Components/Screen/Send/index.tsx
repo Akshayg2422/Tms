@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { icons } from '@Assets';
 import { Button, ImagePicker, Input, Modal } from '@Components';
-import { useInput, useModal } from '@Hooks';
+import { useInput, useModal,useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { SendProps } from './interfaces';
+import { ROUTES } from '@Routes';
+import { useSelector,useDispatch } from 'react-redux';
+import { getTokenByUser, selectedVcDetails } from '@Redux';
+
 
 function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = true, onVideoPress }: SendProps) {
 
@@ -12,6 +16,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [photos, setPhotos] = useState<any>([])
+    
 
     useEffect(() => {
         if (isSuccess) {
@@ -29,8 +34,13 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
+            const param = { message: message.value.trim(), event_type: 'TEM' };
+            if (onMessagePress && message.value.trim()) {
+                onMessagePress(param);
+            }
         }
     };
+
 
 
     return (

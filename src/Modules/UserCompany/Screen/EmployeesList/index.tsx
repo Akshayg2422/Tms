@@ -6,7 +6,7 @@ import {
     setSelectedEmployee,
     setSelectedCompany
 } from "@Redux";
-import { useDropDown, useModal, useNavigation } from '@Hooks';
+import { useDropDown, useInput, useModal, useNavigation } from '@Hooks';
 import { Card, CommonTable, Button, Image, SearchInput, Spinner } from '@Components';
 import { translate } from "@I18n";
 import { HOME_PATH, ROUTES } from '@Routes';
@@ -18,6 +18,7 @@ function EmployeesList() {
     const { goTo, goBack } = useNavigation()
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
+    const searchEmployee=useInput('')
     const { employees, employeesCurrentPages, employeesNumOfPages, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
 
     const { company_branch } = dashboardDetails || ''
@@ -26,18 +27,24 @@ function EmployeesList() {
     useEffect(() => {
         getCompanyEmployeesApi(1)
     }, []);
+
+    
+    useEffect(() => {
+        getCompanyEmployeesApi(employeesCurrentPages)
+    }, [searchEmployee.value]);
+
   
 
-    function getCompanyEmployeesApi(page_number: number, q_many: string = '') {
+    function getCompanyEmployeesApi(page_number: number) {
         setLoading(true)
 
         const params = {
             branch_id: company_branch?.id,
-            q_many,
+            q_many:searchEmployee.value,
             page_number,
 
         };
-        // if( page_number!==null){
+    
         dispatch(getEmployees({
             params,
             onSuccess: (response) => () => {
@@ -47,8 +54,7 @@ function EmployeesList() {
                 setLoading(false)
             }
         }));
-    // }
-        
+   
     }
 
     const normalizedTableData = (data: any) => {
@@ -88,8 +94,9 @@ function EmployeesList() {
                                 {company_branch?.name}
                             </div>
                             <div className='col-4 text-right'>
-                                <SearchInput onSearch={(search: any) => {
-                                    getCompanyEmployeesApi(employeesCurrentPages, search)
+                                <SearchInput defaultValue={ searchEmployee.value} onSearch={(search: any) => {
+                                    searchEmployee.set(search)
+                                
                                 }} />
                             </div>
 

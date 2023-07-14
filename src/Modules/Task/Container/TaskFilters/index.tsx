@@ -98,11 +98,39 @@ function TaskFilters({ onParams }: TaskFilterProps) {
 
     }, [taskParams])
 
+    // const departmentFilter = (data:any)=>{
+
+    //     const params = {
+    //         branch_id: taskParams?.assigned_company ? taskParams.assigned_company : dashboardDetails?.permission_details?.branch_id,
+    //         per_page_count: -1,
+    //         department_id:data.id
+           
+    //     };
+
+    //     dispatch(
+    //         getDesignations({
+    //             params,
+    //             onSuccess: (response) => () => {
+    //                 dispatch(
+    //                     setAssignedDesignation(response?.details)
+    //                 )
+
+    //             },
+    //             onError: () => () => {
+
+    //             },
+    //         })
+
+    //     );
+
+    // }
+
     useEffect(() => {
 
         const params = {
             branch_id: taskParams?.assigned_company ? taskParams.assigned_company : dashboardDetails?.permission_details?.branch_id,
             per_page_count: -1,
+           
         };
 
 
@@ -458,6 +486,7 @@ function TaskFilters({ onParams }: TaskFilterProps) {
 
                                 console.log('department,"ddddd')
                                 department.onChange(item)
+                                // departmentFilter(item)
                                 proceedParams({ assigned_department_id: item.id, assigned_emp_id: '' })
                                 setSelectedAssignedUserId('')
 

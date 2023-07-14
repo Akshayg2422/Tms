@@ -30,10 +30,10 @@ import {
     type,
     validate,
     PRIORITY,
-    getMomentObjFromServer,
     getDropDownDisplayData,
     getDropDownCompanyDisplayData,
     getDropDownCompanyUser,
+    generateReferenceNo,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,27 +49,18 @@ function AddTicket() {
 
     const title = useInput("");
     const description = useInput("");
-    const referenceNo = useInput("");
+    const referenceNo = useInput(generateReferenceNo());
     const [ticketType, setTicketType] = useState(type[1]);
     const [disableTicketType, setDisableTicketType] = useState([]);
-    // const [companies, setCompanies] = useState([])
-    const [companyUsers, setCompanyUsers] = useState([])
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
     const company = useDropDown({})
-    // const ticketGroup = useDropDown({})
-    // const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
-    const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
-    // const [selectNoOfPickers, setSelectNoOfPickers] = useState<any>()
-    const [loading, setLoading] = useState(false)
-    // let attach = photo.slice(-selectNoOfPickers)
-    const [date, setDate] = useState<any>(moment().format())
-
+    const [loading, setLoading] = useState(false)   
     const isEnterPressed = useKeyPress("Enter");
     const loginLoader = useLoader(false);
     
@@ -98,11 +89,6 @@ function AddTicket() {
         ticketType?.id === type[1].id
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
-
-    // const handleImagePicker = (file: any) => {
-    //     let newUpdatedPhoto = [...photo, file];
-    //     setPhoto(newUpdatedPhoto);
-    // };
 
     function getCompanyEmployeeApi() {
 
@@ -232,7 +218,7 @@ function AddTicket() {
 
     const handleEtaChange = (value: any) => {
         setEta(value);
-        setDate(value)
+        // setDate(value)
     };
 
 
@@ -247,7 +233,7 @@ function AddTicket() {
             </div>
             <hr className='mt-3'></hr>
 
-            <div className="col-auto pb-2 mt--2">
+            <div className="col-auto pb-2 mt--4">
                 <div className="row">
                     <ImagePicker
                         icon={image}
@@ -256,12 +242,9 @@ function AddTicket() {
                         noOfFileImagePickers={3}
                         onSelect={(image) => {
 
-                            // let file = image.toString().replace(/^data:(.*,)?/, "")
-                            // handleImagePicker(file)
+                          
                         }}
-                        // onSelectImagePicker={(el) => {
-                        //     setSelectNoOfPickers(el?.length)
-                        // }}
+                     
                         onSelectImagePickers={(el)=>{
                             let array: any = []
       
@@ -279,40 +262,43 @@ function AddTicket() {
 
                 </div>
             </div>
-            <div className="col-md-9 col-lg-5 mt--1">
+            <div className="col-md-9 col-lg-5 ">
+                <div className="pt-2">
                 <Input
                     heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
                 />
+
+                </div>
            
-                {/* <div >
-                <InputHeading heading={translate('auth.description')}/>
-                    <textarea 
-                        value={description.value}
-                        onChange={description.onChange}
-                        className="form-control form-control-sm" />
-                </div> */}
-                <TextAreaInput
+           <div className="pt--1">
+           <TextAreaInput
                 heading={translate('auth.description')!}
                 value={description.value}
                 onChange={description.onChange}
                 className="form-control form-control-sm"
                 
                 />
-                <Input
+
+           </div>
+          
+               <div>
+               <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}
                     value={referenceNo.value}
                     onChange={referenceNo.onChange}
                 />
+
+               </div>
+              
                 <div className="mb-1">
                     <Radio
                         data={type}
                         selectItem={ticketType}
                         disableId={disableTicketType}
                         onRadioChange={(selected) => {
-                            setSelectedUser('')
                             company.onChange({})
                             department.onChange({})
                             designation.onChange({})
@@ -324,7 +310,9 @@ function AddTicket() {
                 </div>
 
                 {ticketType && ticketType?.id === "1" && (
-                    <DropDown
+                    
+                    <div>
+                        <DropDown
                         heading={translate("common.company")!}
                         placeHolder={translate('order.Select a company')!}
                         data={getDropDownCompanyDisplayData(associatedCompaniesL)}
@@ -333,9 +321,12 @@ function AddTicket() {
                         }}
                         selected={company.value}
                     />
+                    </div>
                 )}
 
-                {getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
+                {getExternalCompanyStatus() && departments && departments.length > 0 &&
+                <div>
+                     <DropDown
                     heading={translate('common.department')}
                     placeHolder={translate('order.Select a Department')!}
                     data={getDropDownDisplayData(departments)}
@@ -344,9 +335,11 @@ function AddTicket() {
                     }}
                     selected={department.value}
                 />
+                </div>
                 }
 
-                {getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
+                {getExternalCompanyStatus() && designations && designations.length > 0 &&
+                <div> <DropDown
                     heading={translate("common.department")!}
                     placeHolder={translate('order.Select a Designation')!}
                     data={getDropDownDisplayData(designations)}
@@ -355,10 +348,12 @@ function AddTicket() {
                     }}
                     selected={designation.value}
                 />
+                </div>
                 }
                
 {getExternalCompanyStatus()  && employees && employees.length > 0 &&
-                    <AutoComplete
+                  <div>
+                      <AutoComplete
                     variant={'custom'}
                         heading={translate("common.user")!}
                          data={getDropDownCompanyUser(employees)}
@@ -367,42 +362,21 @@ function AddTicket() {
                     setSelectedUserId(item)
 
                 }} 
-                    />}
+                    />
+                    </div>}
 
-                <DateTimePicker
+              <div>  <DateTimePicker
                     heading={'ETA'}
                     id="eta-picker"
                     placeholder={'Select ETA'}
                     type="both"
                     onChange={handleEtaChange}
-                    // value={date ? getMomentObjFromServer(date) : null!}
+             
                 />
+                </div>
             </div>
 
-            {/* <div className="col-md-9 col-lg-5 mt-3">
-                <label className={`form-control-label`}>
-                    {translate('common.addAttachment')}
-                </label>
-                <div>
-                    {selectDropzone &&
-                        selectDropzone.map((el, index) => {
-                            return (
-                                <Dropzone
-                                    variant="ICON"
-                                    icon={image}
-                                    size="xl"
-                                    onSelect={(image) => {
-                                        let file = image.toString().replace(/^data:(.*,)?/, "");
-                                        handleImagePicker(index, file);
-                                        { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
-                                        { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
-                                        { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }
-                                    }}
-                                />
-                            );
-                        })}
-                </div>
-            </div> */}
+           
         
             <div className="col mt-4">
 
@@ -413,14 +387,7 @@ function AddTicket() {
 
             </div>
 
-            {/* <div className="col mt-4">
-                <LoadingButton text={translate('common.submit')} 
-                               size={'md'}  
-                               loading={loading}
-                               onClick={submitTicketHandler}/>
-
-
-            </div> */}
+           
 
         </Card >
 

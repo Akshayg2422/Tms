@@ -424,7 +424,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
             <div
                 id="scrollableDiv"
                 style={{
-                    height: height - 185,
+                    height: height -225,
                     display: 'flex',
                     flexDirection: 'column-reverse',
                 }}

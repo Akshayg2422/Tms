@@ -21,20 +21,19 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
 
     ]
 
-    const { title, attachments, description, created_by, created_at, applicable_branches, for_internal_company, for_external_company } = item;
+    const { title, attachments, description, created_by, created_at, applicable_branches } = item;
 
-    const imageModal = useModal(false)
-    const [image, setImage] = useState([])
+
 
     return (
         <>
-            <div className="row mx--5">
-                <div className="col">
-                    <div className='row d-flex justify-content-between m-0 mt--2 ml-2'>
-                        <div className="col-lg-6">
+            <div className="row ">
+                <div className=" mx--2">
+                    <div className='row d-flex justify-content-between m-0 mt--2 '>
+                        <div className="col-lg-6 ">
                             <div className={'row'}>
                                 <div className={'align-self-center'}>{<Image variant={'avatar'} src={getPhoto(created_by?.profile_image)} />}</div>
-                                <div className='ml-1 '>
+                                <div className='ml-2'>
                                     <H
                                         className="py-1 m-0 pointer mb-0"
                                         tag={'h4'}
@@ -53,13 +52,13 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
 
 
                     <div className="row mt-4">
-                        <div className="col-lg-12 col-sm-0 col-12 mt--2 ml-2">
+                        <div className="col-lg-12 col-sm-0 col-12 mt--2 ">
                             <div className={'text-xs font-weight-600 mt--2'}>{title}</div>
                             <div className={'text-xs font-weight-600 mb--2'}>{description}</div>
                         </div>
                     </div>
 
-                    <div className="mt-1 ml-2">
+                    <div className="mt-1 ">
                         <div className="h5 text-uppercase mt-3 mb--1 m-0"> Shared Across: </div>
                         <span> {''} </span>
                         {applicable_branches &&
@@ -76,7 +75,7 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
                     </div>
 
                     <div className="row">
-                        <div className="col-lg-12 col-sm-0 col-12 mt-2 mb--6">
+                        <div className="">
                             <Carousel
                                 dynamicHeight
                             >
@@ -87,11 +86,9 @@ function MyFeedItem({ item }: MyfeedItemsProps) {
                                         return (
                                             <div className={'container'}>
                                                 <div className="row pointer">
-                                                    {/* <PhotoProvider>
-                                                        <PhotoView src={getPhoto(attachment_logo?.attachment_file)}> */}
+                                                 
                                                     <Image className={'p-1'} src={getPhoto(attachment_logo?.attachment_file)} alt={'Task Attachments'} width={'100%'} height={'100%'} />
-                                                    {/* </PhotoView>
-                                                    </PhotoProvider> */}
+                                                 
                                                 </div>
                                             </div>
                                         );

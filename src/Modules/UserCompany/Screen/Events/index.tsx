@@ -242,9 +242,9 @@ function Events() {
 
   return (
 
-    <>
+    <div className="ml-3">
       {events && events.length > 0 ?
-        <div className="col-7 text-right my-1 ml-4">
+        <div className="col-7 text-right  ml-3 mt-3 mb-3">
           <Button
             text={translate('order.CREATE EVENT')}
             className="text-white"
@@ -269,8 +269,9 @@ function Events() {
             <Spinner />
           </h4>}
           next={() => {
+         
             if (eventsCurrentPages !== -1) {
-              getEvents(eventsCurrentPages)
+              getEventsApiHandler(eventsCurrentPages)
             }
           }
           }>
@@ -281,7 +282,7 @@ function Events() {
 
                 return (
                   <div key={item.id} >
-                    <Card className={'shadow-none border m-3 col-7 mb--2'}  >
+                    <Card className={'shadow-none border col-7 '}  >
                       <div className="row">
                         <div className="col-11" onClick={() => {
                           if (item.mark_as_completed !== true) {
@@ -487,7 +488,7 @@ function Events() {
         </div>
       </Modal>
 
-    </>
+    </div>
 
   )
 }
