@@ -32,6 +32,7 @@ function GroupChat({
 
     return (
         <div className="container">
+            
             <div className="text-center">
                 <small className="text-muted">
                     {date === 'Invalid Date' ? (
@@ -72,8 +73,7 @@ function GroupChat({
                 <div className="col-11">
                     <div className="mb-0">
                         <h6
-                            className={`h5 mt-0 mb-0 d-flex justify-content-between text-primary ${isHovered ? 'hovered' : ''
-                                }`}
+                            className={`h5 mt-0 mb-0 d-flex justify-content-between text-primary ${isHovered ? 'hovered' : ''}`}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                         >

@@ -65,17 +65,18 @@ export interface UserCompanyStateProp {
   timeStatus: any,
   enableRequestDataList: any,
   enableRequest: any,
-  selectedUserChat: any,
+  selectedPrivateUser: any,
   settingVcDetails: any,
   vcNotificationData: any
   employeeListData: any
   oneToOneChat: any
   oneToOneVcNoti: any,
-  chatEmployeeList: any,
+  chatEmployees: any,
   chatEmployeeListCurrentPages: any,
   chatEmployeeListNumOfPages: any,
   refreshChatMessage: any,
   chatMessageCurrentPages: number,
-  chatMessage: any,
+  chatMessages: any,
   groupMessageCurrentPage: number;
+  refreshPrivateChat?: boolean
 }

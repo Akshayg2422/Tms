@@ -22,7 +22,8 @@ import {
     getDepartments,
     getDesignations,
     getAssociatedCompaniesL,
-    getSubTaskGroups
+    getSubTaskGroups,
+    getSubTaskGroupsSuccess
 } from "@Redux";
 import {
     CREATE_INTERNAL,
@@ -36,7 +37,8 @@ import {
     getDropDownCompanyDisplayData,
     getDropDownDisplayData,
     getPhoto,
-    getDropDownCompanyUser
+    getDropDownCompanyUser,
+    generateReferenceNo
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,36 +47,23 @@ import moment from "moment";
 
 function AddTask() {
 
+
+
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
     const { dashboardDetails, departments, designations, associatedCompaniesL, employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
+
+    const DEFAULT_COMPANY = { id: dashboardDetails?.permission_details?.branch_id, display_name: '𝗦𝗘𝗟𝗙', name: 'self' }
+
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
 
     const title = useInput("");
     const description = useInput("");
-    const generateReferenceNo = () => {
-        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const numbers = '0123456789';
 
-        let randomLetters = '';
-        let randomNumbers = '';
-
-        // Generate random letters
-        for (let i = 0; i < 6; i++) {
-            randomLetters += letters.charAt(Math.floor(Math.random() * letters.length));
-        }
-
-        // Generate random numbers
-        for (let i = 0; i < 4; i++) {
-            randomNumbers += numbers.charAt(Math.floor(Math.random() * numbers.length));
-        }
-
-        return randomLetters + randomNumbers;
-    };
 
     const [referenceNo, setReferenceNo] = useState(generateReferenceNo());
     const [taskType, setTaskType] = useState(type[1]);
@@ -83,7 +72,7 @@ function AddTask() {
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
-    const company = useDropDown({})
+    const company = useDropDown(DEFAULT_COMPANY)
     const taskGroup = useDropDown({})
     const [selectNoPickers, setSelectNoPickers] = useState<any>();
     const [image, setImage] = useState("");
@@ -105,7 +94,6 @@ function AddTask() {
 
     useEffect(() => {
         getAssociatedCompaniesApi();
-        getSubTaskGroupsApi();
     }, [])
 
 
@@ -117,7 +105,15 @@ function AddTask() {
     useEffect(() => {
         getDepartmentsApiHandler();
         getDesignationApiHandler();
+
     }, [company.value, taskType])
+
+    useEffect(() => {
+        // if(taskType?.id==='2'){
+        getSubTaskGroupsApi();
+
+        // }
+    }, [company.value])
 
 
 
@@ -221,7 +217,8 @@ function AddTask() {
 
         const params = {
             per_page_count: -1,
-            branch_id: dashboardDetails?.permission_details?.branch_id
+            branch_id: company.value?.id ? company.value?.id : dashboardDetails?.permission_details?.branch_id
+
         };
 
         dispatch(
@@ -295,7 +292,7 @@ function AddTask() {
             </div>
             <hr className='mt-2'></hr>
 
-            <div className="col-auto pb-4 mt--3">
+            <div className="col-auto pb-4 mt--4">
                 <div className="row">
                     <ImagePicker
                         icon={image}
@@ -324,59 +321,67 @@ function AddTask() {
             </div>
 
             <div className="col-md-9 col-lg-5">
+                <div className="mt--2">
+                    <Input
 
-                <Input
+                        heading={translate("common.title")}
+                        value={title.value}
+                        onChange={title.onChange}
 
-                    heading={translate("common.title")}
-                    value={title.value}
-                    onChange={title.onChange}
-                />
-
-                {/* <div >
-                <InputHeading heading={translate('auth.description')}/>
-                    <textarea 
-                        value={description.value}
-                        onChange={description.onChange}
-                        className="form-control form-control-sm" />
-                </div> */}
-
-                <TextAreaInput
-                    heading={translate('auth.description')!}
-                    value={description.value}
-                    onChange={description.onChange}
-                    className="form-control form-control-sm"
-
-                />
-
-                <div>
+                    />
 
                 </div>
 
-                <Input
-                    type={"text"}
-                    heading={translate("auth.referenceNo")}
-                    value={referenceNo}
-                    onChange={(e) => { setReferenceNo(e.target.value) }}
-                />
 
-                <DropDown
-                    heading={translate("auth.Task Priority")!}
-                    selected={selectedTicketPriority.value}
-                    placeHolder={translate('order.please select a task priority')!}
-                    data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange}
-                />
+
+                <div className="mt--2">
+                    <TextAreaInput
+                        heading={translate('auth.description')!}
+                        value={description.value}
+                        onChange={description.onChange}
+                        className="form-control form-control-sm "
+
+                    />
+
+                </div>
+
+
+
+                <div className="mt--2">
+                    <Input
+                        type={"text"}
+                        heading={translate("auth.referenceNo")}
+                        value={referenceNo}
+                        onChange={(e) => { setReferenceNo(e.target.value) }}
+                    />
+                </div>
+
+
+                <div className="mt--2">
+                    <DropDown
+                        heading={translate("auth.Task Priority")!}
+                        selected={selectedTicketPriority.value}
+                        placeHolder={translate('order.please select a task priority')!}
+                        data={PRIORITY}
+                        onChange={selectedTicketPriority.onChange}
+                    />
+                </div>
                 <div className="my-3">
                     <Radio
                         data={type}
                         selectItem={taskType}
                         disableId={disableTaskType}
                         onRadioChange={(selected) => {
-                            company.onChange({})
+                            // company.onChange({})
                             department.onChange({})
                             designation.onChange({})
+                            dispatch(
+                                getSubTaskGroupsSuccess([])
+                            )
                             if (selected) {
                                 setTaskType(selected);
+
+
                             }
                         }}
                     />
@@ -384,80 +389,98 @@ function AddTask() {
 
                 {
                     taskType && taskType?.id === "1" && (
-                        <DropDown
-                            heading={translate("common.company")!}
-                            placeHolder={translate('order.Select a company')!}
-                            data={getDropDownCompanyDisplayData(associatedCompaniesL)}
-                            onChange={(item) => {
-                                company.onChange(item)
-                            }}
-                            selected={company.value}
-                        />
+                        <div className="mt--2">
+                            <DropDown
+                                heading={translate("common.company")!}
+                                placeHolder={translate('order.Select a company')!}
+                                data={getDropDownCompanyDisplayData(associatedCompaniesL)}
+                                onChange={(item) => {
+                                    company.onChange(item)
+                                    // getSubTaskGroupsApi()
+                                }}
+                                selected={company.value}
+                            />
+                        </div>
                     )
                 }
 
                 {
-                    getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
-                        heading={translate("common.department")!}
-                        placeHolder={translate("order.Select a Department")!}
-                        data={getDropDownDisplayData(departments)}
-                        onChange={(item) => {
-                            department.onChange(item)
-                        }}
-                        selected={department.value}
-                    />
+                    getExternalCompanyStatus() && departments && departments.length > 0 &&
+                    <div className="mt--2">
+
+                        <DropDown
+                            heading={translate("common.department")!}
+                            placeHolder={translate("order.Select a Department")!}
+                            data={getDropDownDisplayData(departments)}
+                            onChange={(item) => {
+                                department.onChange(item)
+                            }}
+                            selected={department.value}
+                        />
+                    </div>
                 }
 
                 {
-                    getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
-                        heading={translate("auth.designation")}
-                        placeHolder={translate('order.Select a Designation')!}
-                        data={getDropDownDisplayData(designations)}
-                        onChange={(item) => {
-                            designation.onChange(item)
-                        }}
-                        selected={designation.value}
-                    />
+                    getExternalCompanyStatus() && designations && designations.length > 0 &&
+
+                    <div className="mt--2">
+                        <DropDown
+                            heading={translate("auth.designation")}
+                            placeHolder={translate('order.Select a Designation')!}
+                            data={getDropDownDisplayData(designations)}
+                            onChange={(item) => {
+                                designation.onChange(item)
+                            }}
+                            selected={designation.value}
+                        />
+                    </div>
                 }
 
                 {
                     getExternalCompanyStatus() && employees && employees.length > 0 &&
-                    <AutoComplete
-                        variant={'custom'}
-                        heading={translate("common.user")!}
-                        data={getDropDownCompanyUser(employees)}
-                        selected={selectedUserId}
-                        onChange={(item) => {
-                            setSelectedUserId(item)
+                    <div className="mt--2">
+                        <AutoComplete
+                            variant={'custom'}
+                            heading={translate("common.user")!}
+                            data={getDropDownCompanyUser(employees)}
+                            selected={selectedUserId}
+                            onChange={(item) => {
+                                setSelectedUserId(item)
 
 
-                        }}
-                    />
+                            }}
+                        />
+                    </div>
                 }
 
 
 
                 {
-                    subTaskGroups && subTaskGroups.length > 0 && <DropDown
+                    subTaskGroups && subTaskGroups.length > 0 &&
+                    <div className="mt-3"><DropDown
                         heading={translate("common.selectGroup")}
                         placeHolder={translate('order.Select a Group')!}
                         data={getDropDownDisplayData(subTaskGroups)}
                         onChange={taskGroup.onChange}
                         selected={taskGroup.value}
                     />
+                    </div>
                 }
-                <DateTimePicker
-                    heading={'ETA'}
-                    id="eta-picker"
-                    placeholder={'Select ETA'}
-                    type="both"
-                    onChange={handleEtaChange}
-                // value={date ? getMomentObjFromServer(date) : null!}
 
-                />
+                <div className="mt--2">
+                    <DateTimePicker
+                        heading={'ETA'}
+                        id="eta-picker"
+                        placeholder={'Select ETA'}
+                        type="both"
+                        onChange={handleEtaChange}
+
+
+                    />
+                </div>
             </div >
 
-            <div className="col mt-4">
+            <div className="col ">
                 <Button size={'md'}
                     loading={loginLoader.loader}
                     text={translate('common.submit')}

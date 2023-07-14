@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ChatProps } from './interfaces'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Spinner, Badge, Image, Modal, Button, ImagePicker } from '@Components'
-import { useSelector } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import {
     capitalizeFirstLetter,
     getDisplayTimeFromMoment,
@@ -18,7 +18,7 @@ import { translate } from '@I18n'
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 
-function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 100, onDelete, isSuccess, onEdit }: ChatProps) {
+function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 100, onDelete, isSuccess, onEdit, }: ChatProps) {
 
     const { dashboardDetails } = useSelector(
         (state: any) => state.UserCompanyReducer,
@@ -134,7 +134,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                     {variant === 'group' && profile_pic ?
                         <div className='mr-2'>
                             <Image size={'sm'} variant={'rounded'} src={profile_pic} height={30} width={30} />
-                        </div> : <div className='ml-3' style={{ width: 30, }}></div>
+                        </div> : <div className='ml-3' style={variant === 'group' ? { width: 30, } : {}}></div>
                     }
                     <div
                         className={`${"media-comment-text"} ${true ? 'hovered' : ''}`}
@@ -149,7 +149,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                         }}
                     >
                         <div>
-                            {isAdmin && <Hover
+                            {isAdmin && variant === 'group' && <Hover
                                 show={hasHover}
                                 onDelete={() => {
                                     setEdit(item);
@@ -159,46 +159,57 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                             }
 
                             {name && variant === 'group' && (<h6 className="h5 mt-0 mb-0">{name}</h6>)}
-                            <p className="text-sm lh-160 mb-0">{message}</p>
+                            <p className="text-sm lh-160 mb-0" style={{ whiteSpace: 'pre-line' }}>{message}</p>
                             <div>
+
                                 {attachments && attachments.length === 1 && (
-                                    <Image
-                                        border-r={5}
-                                        src={getPhoto(attachments[0].attachment_file)}
-                                        width={250}
-                                        height={250}
-                                    />
+                                    <PhotoProvider>
+                                        <PhotoView src={getPhoto(attachments[0].attachment_file)}>
+                                            <Image
+                                                border-r={5}
+                                                src={getPhoto(attachments[0].attachment_file)}
+                                                width={250}
+                                                height={250}
+                                            />
+                                        </PhotoView>
+                                    </PhotoProvider>
 
                                 )}
+
+
                                 <div className='row' style={{
                                     flexWrap: "wrap",
                                     maxWidth: 350,
                                     justifyContent: 'center',
                                     alignItems: 'center'
                                 }}>
-                                    {attachments &&
-                                        attachments.length > 1 &&
-                                        modifiedArray.map((each: any, index: number) => {
-                                            return (
-                                                <div key={index} style={{
-                                                    alignItems: "center",
-                                                    justifyContent: 'center',
-                                                }}>
-                                                    <Image
-                                                        style={{
-                                                            padding: 5
-                                                        }}
-                                                        className='ml-2'
-                                                        border-r={5}
-                                                        src={getPhoto(each?.attachment_file)}
-                                                        width={150}
-                                                        height={150}
-                                                    />
-                                                </div>
-                                            );
+                                    <PhotoProvider>
+                                        {attachments &&
+                                            attachments.length > 1 &&
+                                            modifiedArray.map((each: any, index: number) => {
+                                                return (
+                                                    <div key={index} style={{
+                                                        alignItems: "center",
+                                                        justifyContent: 'center',
+                                                    }}>
+                                                        <PhotoView src={getPhoto(each?.attachment_file)}>
+                                                            <Image
+                                                                style={{
+                                                                    padding: 5
+                                                                }}
+                                                                className='ml-2'
+                                                                border-r={5}
+                                                                src={getPhoto(each?.attachment_file)}
+                                                                width={150}
+                                                                height={150}
+                                                            />
+                                                        </PhotoView>
+                                                    </div>
+                                                );
+                                            }
+                                            )
                                         }
-                                        )
-                                    }
+                                    </PhotoProvider>
                                 </div>
                             </div>
                             <div className='text-right'>
@@ -280,10 +291,6 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                         <Hover
                             show={hasHover}
                             onEdit={() => {
-
-
-
-
                                 setEdit(item);
                                 if (event_type === 'TEM') {
                                     editMessage.set(message)
@@ -292,8 +299,6 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                                     editMessage.set(chat_attachments?.name)
                                     setSelectDropzone(chat_attachments.attachments)
                                 }
-
-
                                 editModal.show()
                             }}
                             onDelete={() => {
@@ -302,7 +307,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                             }}
                         />
                         <div>
-                            <p className="text-sm lh-160 mb-0">{message}</p>
+                            <p className="text-sm mb-0 d-inline" style={{ whiteSpace: 'pre-line' }}>{message}</p>
                             <div>
                                 {attachments && attachments.length === 1 && (
                                     <PhotoProvider>
@@ -323,29 +328,35 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                                     justifyContent: 'flex-start',
                                     alignItems: 'center'
                                 }}>
-                                    {attachments &&
-                                        attachments.length > 1 &&
-                                        modifiedArray.map((each: any, index: number) => {
-                                            return (
-                                                <div key={index} style={{
-                                                    alignItems: "center",
-                                                    justifyContent: 'center',
-                                                }}>
-                                                    <Image
-                                                        style={{
-                                                            padding: 2
-                                                        }}
-                                                        className='ml-2'
-                                                        border-r={5}
-                                                        src={getPhoto(each?.attachment_file)}
-                                                        width={150}
-                                                        height={150}
-                                                    />
-                                                </div>
-                                            );
+                                    <PhotoProvider>
+                                        {attachments &&
+                                            attachments.length > 1 &&
+                                            modifiedArray.map((each: any, index: number) => {
+                                                return (
+                                                    <div key={index} style={{
+                                                        alignItems: "center",
+                                                        justifyContent: 'center',
+                                                    }}>
+
+                                                        <PhotoView src={getPhoto(each?.attachment_file)}>
+                                                            <Image
+                                                                style={{
+                                                                    padding: 2
+                                                                }}
+                                                                className='ml-2'
+                                                                border-r={5}
+                                                                src={getPhoto(each?.attachment_file)}
+                                                                width={150}
+                                                                height={150}
+                                                            />
+                                                        </PhotoView>
+
+                                                    </div>
+                                                );
+                                            }
+                                            )
                                         }
-                                        )
-                                    }
+                                    </PhotoProvider>
                                 </div>
                             </div>
                             <div className='text-right'>
@@ -377,8 +388,8 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
             case 'TEM':
                 modifiedData = {
                     ...modifiedData,
-                    name: capitalizeFirstLetter(event_by?.name),
-                    message: capitalizeFirstLetter(message),
+                    name: event_by?.name ? capitalizeFirstLetter(event_by?.name) : '',
+                    message: message ? capitalizeFirstLetter(message) : '',
                     display_created_at: getDisplayTimeFromMoment(
                         getMomentObjFromServer(created_at),
                     ),
@@ -413,7 +424,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
             <div
                 id="scrollableDiv"
                 style={{
-                    height: height - 185,
+                    height: height -225,
                     display: 'flex',
                     flexDirection: 'column-reverse',
                 }}

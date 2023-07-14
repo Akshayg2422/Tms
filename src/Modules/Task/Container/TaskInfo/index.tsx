@@ -135,6 +135,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 params,
                 onSuccess: (response) => () => {
                     alertModal.hide()
+                    console.log('kjfbvjikdfbvjbnccncncj',response)
                     getTaskDetailsHandler()
                 },
                 onError: () => () => {

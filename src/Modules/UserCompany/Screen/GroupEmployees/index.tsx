@@ -92,16 +92,21 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
                 flexDirection: 'column-reverse',
             }}
                 className={'overflow-auto overflow-hide'}>
-                <div className='row'>
-                    <div className='mx--1  col-3'>
-                        <span className="h4">{'Others'}</span>
+                <div className='row '>
+                    <div className='   col-3'>
+                        <span className="h4 ml--2">{'Others'}</span>
                     </div>
-                    <div className='d-flex col-9 justify-content-end '>
+                    <div className='d-flex col-9  justify-content-end'>
                         <div className='row align-items-center'>
+                            <div className='col-10 '>
                             <SearchInput onSearch={(search) => {
                                 getGroupEmployees(search)
-                            }} />
-                            <div className='ml-3'>
+                            }} 
+                            />
+
+                            </div>
+                        
+                            <div className='ml--3  col-2'>
                                 <Button className={'text-white'} text={translate("common.add")} size='sm' onClick={() => {
                                     addUserModal.show()
                                 }} />

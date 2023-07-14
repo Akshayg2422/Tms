@@ -77,7 +77,7 @@ function Tasks() {
                 </div>
               </div>
             </>,
-          'description': <><div  >
+          'description': <><div className="col-11" >
             {capitalizeFirstLetter(description)}
 
           </div>
@@ -107,7 +107,7 @@ function Tasks() {
 
             </div >,
           "raised by":
-            <div className="h5  col"> {by_user?.name} </div>,
+            <div className="h5 row pl-1"> {by_user?.name} </div>,
           "Assigned To":
             <div className="row">
               {assigned_to ?

@@ -39,9 +39,9 @@ function Broadcast() {
     );
   }
 
-  function proceedCreateBroadcast() {
-    goTo(ROUTES["message-module"]["create-broadcast"])
-  }
+  // function proceedCreateBroadcast() {
+  //   goTo(ROUTES["message-module"]["create-broadcast"])
+  // }
 
   return (
     <>
@@ -51,7 +51,7 @@ function Broadcast() {
         <InfiniteScroll
           dataLength={broadCastDetails.length}
           hasMore={broadCastCurrentPage !== -1}
-          className={'overflow-auto overflow-hide'}
+          // className={'overflow-auto overflow-hide'}
           loader={<h4>
           </h4>}
           next={() => {
@@ -67,7 +67,13 @@ function Broadcast() {
               broadCastDetails?.map((company: any, index: number) => {
                 return (
                   <div key={company.id}>
-                    <Card className={'shadow-none border m-3 col-7 mb--2'}><BroadCastListedItems key={company.id} item={company} /></Card>
+                    <Card className={'shadow-none border my-3 ml-3  col-7 '}>
+                 
+                      <BroadCastListedItems key={company.id} item={company}  />
+
+                   
+                     
+                      </Card>
                   </div>
                 );
               })}
@@ -82,7 +88,7 @@ function Broadcast() {
             </div>
           )
         }
-          {!loading && <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />}
+          {/* {!loading && <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />} */}
         </div>
       }
     </>
