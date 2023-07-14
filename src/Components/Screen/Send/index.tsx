@@ -5,7 +5,7 @@ import { useInput, useModal } from '@Hooks';
 import { translate } from '@I18n';
 import { SendProps } from './interfaces';
 
-function Send({ isSuccess, loading, onMessagePress, onAttachPress }: SendProps) {
+function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = true, onVideoPress }: SendProps) {
 
 
     const message = useInput('')
@@ -49,22 +49,22 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress }: SendProps) 
                         >
                         </textarea>
                     </div>
-                    {message.value.trim()?.length > 0 && <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
-                        const param = { message: message.value.trim(), event_type: 'TEM' };
-                        if (onMessagePress && message.value.trim()) {
+                    {message.value?.length > 0 && <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
+                        const param = { message: message.value, event_type: 'TEM' };
+                        if (onMessagePress && message.value) {
                             onMessagePress(param);
                         }
 
                     }} />
                     }
-                    <Button
+                    {hasVideo && <Button
                         size={'lg'}
                         color={'white'}
                         variant={'icon-rounded'}
                         icon={icons.videoCall}
-                        onClick={() => {
-                        }}
+                        onClick={onVideoPress}
                     />
+                    }
 
                 </div >
             </div >

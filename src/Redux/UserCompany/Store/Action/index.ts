@@ -755,7 +755,7 @@ export const refreshChatMessage = () => {
 
 ///USERcHAT
 
-export const selectedUserChats = (params) => {
+export const setSelectedPrivateUser = (params) => {
   console.log(params, "pppppppppppppppp")
   return {
     type: ActionTypes.USER_CHAT,
@@ -1058,7 +1058,6 @@ export const postChatMessageFailure = (error: any) => {
 //GET chat message
 
 export const fetchChatMessage = (params: any) => {
-  console.log('fetchChatMessage========>>>>', params)
   return {
     type: ActionTypes.FETCH_CHAT_MESSAGE,
     payload: params,
@@ -1066,7 +1065,6 @@ export const fetchChatMessage = (params: any) => {
 };
 
 export const fetchChatMessageSuccess = (response: any) => {
-  console.log('psssssssssssss', response)
   return {
     type: ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS,
     payload: response,
@@ -1074,7 +1072,6 @@ export const fetchChatMessageSuccess = (response: any) => {
 };
 
 export const fetchChatMessageFailure = (error: any) => {
-  console.log('eeeeeeeeeeeee', error)
   return {
     type: ActionTypes.FETCH_CHAT_MESSAGE_FAILURE,
     payload: error,
@@ -1126,10 +1123,20 @@ export const handleOneToOneChat = (response: any) => {
 
 
 export const handleOneToOneVcNoti = (response: any) => {
-  console.log("response090909===>", response)
   return {
     type: ActionTypes.ONE_TO_ONE_VC_NOTI,
     payload: response,
   }
 }
 
+
+/**
+ * set refresh private chat
+ */
+
+
+export const setRefreshPrivateChat = () => {
+  return {
+    type: ActionTypes.REFRESH_PRIVATE_CHAT,
+  }
+}

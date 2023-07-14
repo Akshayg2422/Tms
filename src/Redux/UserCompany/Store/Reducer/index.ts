@@ -2,6 +2,7 @@
 import * as ActionTypes from '../ActionTypes'
 import { UserCompanyStateProp } from '../../Interfaces';
 import { INITIAL_PAGE, ifObjectKeyExist } from '@Utils'
+import { refreshChatMessage } from '../Action';
 
 // import * as ActionTypes from '../ActionTypes'
 
@@ -38,7 +39,7 @@ const initialState: UserCompanyStateProp = {
   taskGroupDetails: undefined,
   taskGroupCurrentPages: undefined,
   taskGroupNumOfPages: undefined,
-  chatMessage: [],
+  chatMessages: [],
   addTaskGroup: undefined,
   associatedCompanies: undefined,
   associatedCompaniesNumOfPages: undefined,
@@ -76,13 +77,14 @@ const initialState: UserCompanyStateProp = {
   employeeListData: undefined,
   oneToOneChat: false,
   oneToOneVcNoti: undefined,
-  chatEmployeeList: undefined,
+  chatEmployees: undefined,
   chatEmployeeListCurrentPages: undefined,
   chatEmployeeListNumOfPages: undefined,
   refreshChatMessage: false,
-  selectedUserChat: undefined,
+  selectedPrivateUser: undefined,
   groupMessages: undefined,
   groupMessageCurrentPage: INITIAL_PAGE,
+  refreshPrivateChat: false,
 
 }
 
@@ -864,7 +866,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     case ActionTypes.USER_CHAT:
 
-      state = { ...state, selectedUserChat: action.payload }
+      state = { ...state, selectedPrivateUser: action.payload }
       break;
 
 
@@ -911,7 +913,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       state = {
         ...state,
-        chatMessage: action.payload.params.page_number === 1 ? [] : state.chatMessage
+        chatMessages: action.payload.params.page_number === 1 ? [] : state.chatMessages
 
       };
       break;
@@ -919,14 +921,14 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       state = {
         ...state,
-        chatMessage: [...state.chatMessage, ...action.payload?.details?.data],
+        chatMessages: [...state.chatMessages, ...action.payload?.details?.data],
         chatMessageCurrentPages: action.payload?.details.next_page
 
       };
       break;
     case ActionTypes.FETCH_CHAT_MESSAGE_FAILURE:
 
-      state = { ...state, chatMessage: undefined };
+      state = { ...state, chatMessages: undefined };
       break;
 
 
@@ -937,19 +939,19 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
     //       state = {
     //         ...state,
-    //         chatMessage: action?.payload?.params?.page_number === 1 ? [] : state.events
+    //         chatMessages: action?.payload?.params?.page_number === 1 ? [] : state.events
     //       };
     //       break;
     //     case ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS:
     // console.log(action?.payload?.details?.data,"action?.payload?.details?.data]")
     //       state = {
     //         ...state,
-    //         chatMessage: [...state.events, ...action?.payload?.details?.data],
+    //         chatMessages: [...state.events, ...action?.payload?.details?.data],
     //         chatMessageCurrentPages: action?.payload?.details?.next_page
     //       };
     //       break;
     //     case ActionTypes.FETCH_CHAT_MESSAGE_FAILURE:
-    //       state = { ...state,  chatMessage: undefined };
+    //       state = { ...state,  chatMessages: undefined };
     //       break;
 
 
@@ -959,7 +961,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 
       state = {
         ...state,
-        chatEmployeeList: undefined,
+        chatEmployees: undefined,
         chatEmployeeListCurrentPages: 1,
         chatEmployeeListNumOfPages: 0,
       };
@@ -967,7 +969,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_SUCCESS:
       state = {
         ...state,
-        chatEmployeeList: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
+        chatEmployees: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
         chatEmployeeListCurrentPages: action.payload?.details.next_page === -1
           ? action?.payload?.details.num_pages
           : action?.payload?.details.next_page - 1,
@@ -975,7 +977,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_FAILURE:
-      state = { ...state, chatEmployeeList: undefined };
+      state = { ...state, chatEmployees: undefined };
       break;
 
 
@@ -997,6 +999,17 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.ONE_TO_ONE_VC_NOTI:
       state = { ...state, oneToOneVcNoti: action.payload }
       break;
+
+    /**
+     * refresh private chat
+     */
+
+
+    case ActionTypes.REFRESH_PRIVATE_CHAT:
+      state = { ...state, refreshPrivateChat: !state.refreshPrivateChat }
+      break;
+
+
 
     default:
       state = state;
