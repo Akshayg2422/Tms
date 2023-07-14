@@ -19,38 +19,17 @@ function Groups() {
 
 
     return (
-<<<<<<< HEAD
         <div className='m-3 v-100vh  '>
             <div className='mx-3 mt-3 mb-0' >
                 <ChatGroups />
             </div>
-=======
-        <div className='m-3  '>
-            <div className='mx-3 mt-3 mb--3 ' >
-                <TaskChatGroup onClick={(code) => { dispatch(setSelectedGroupChatCode(code)) }} showAll={false} />
-            </div>
-
-            {loading && (
-          <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '200px' }}>
-            <Spinner />
-          </div>
-        )}
->>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
 
             {selectedGroupChat ? <div className='row mt--3'>
                 <div className='col-8' ref={ref}>
                     <Card>
-<<<<<<< HEAD
                         <GroupMessage />
                         <div className='mb-3'></div>
                         <AddGroupChat />
-=======
-
-                        <GroupMessage selectedGroup={selectedGroupChatCode ? selectedGroupChatCode : chatGroups && chatGroups[0]?.id} />
-                        <AddMessage AddGroup={selectedGroupChatCode ? selectedGroupChatCode : chatGroups && chatGroups[0]?.id} />
-                   
-
->>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
                     </Card>
 
                 </div>

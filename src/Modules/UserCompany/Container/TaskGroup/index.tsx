@@ -592,11 +592,7 @@ function TaskGroup() {
                 type="both"
 
                 onChange={handleStartTimeEtaChange}
-<<<<<<< HEAD
               // value={date ? getMomentObjFromServer(date) : null!}
-=======
-
->>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
               />
             </div>
             <div className="col-6">
@@ -605,11 +601,7 @@ function TaskGroup() {
 
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
-<<<<<<< HEAD
               // value={endDate ? getMomentObjFromServer(endDate) : null!}
-=======
-
->>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
               />
             </div>
           </div>
@@ -662,13 +654,7 @@ function TaskGroup() {
       }
 
       <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '90vh', }}>
-<<<<<<< HEAD
         <EmployeesV1
-=======
-
-
-        <GroupEmployeeList
->>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
           selection={'multiple'}
           defaultSelected={defaultSelectedUsers}
           selectedCode={addGroupId}

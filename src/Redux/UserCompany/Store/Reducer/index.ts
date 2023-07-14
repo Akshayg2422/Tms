@@ -79,15 +79,10 @@ const initialState: UserCompanyStateProp = {
   chatEmployeeList: undefined,
   chatEmployeeListCurrentPages: undefined,
   chatEmployeeListNumOfPages: undefined,
-<<<<<<< HEAD
   refreshChatMessage: false,
   selectedUserChat: undefined,
   groupMessages: undefined,
   groupMessageCurrentPage: INITIAL_PAGE,
-=======
-  refreshIndividualChatMessage: false,
-  selectedUserChat:undefined,
->>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
 
 }
 
@@ -860,15 +855,9 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
 
 
-<<<<<<< HEAD
     case ActionTypes.REFRESH_CHAT_MESSAGE:
       state = { ...state, refreshChatMessage: !state.refreshChatMessage }
       break;
-=======
-  case ActionTypes.REFRESH_CHAT_MESSAGE:
-  state = { ...state, refreshIndividualChatMessage: !state. refreshIndividualChatMessage}
-  break;
->>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
 
 
     //SELECTED USER
