@@ -51,4 +51,24 @@ export const getDisplayTimeDateMonthYearTime = (momentObj: any) => {
 }
 
 
+export function getDayAndFormattedDate(dateString: string) {
+  const date = new Date(dateString);
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const options: any = { year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate = date.toLocaleDateString(undefined, options);
+
+  if (date.toDateString() === today.toDateString()) {
+    return { day: 'Today', date: formattedDate };
+  } else if (date.toDateString() === yesterday.toDateString()) {
+    return { day: 'Yesterday', date: formattedDate };
+  } else {
+    return {
+      day: getDisplayDateFromMoment(getMomentObjFromServer(date)),
+      date: formattedDate,
+    };
+  }
+}
 

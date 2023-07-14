@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
 import { useModal, useDynamicHeight, useInput, useLoader } from "@Hooks";
 import { icons } from "@Assets";
-import { Employees, GroupEmployeeList } from '@Modules'
+import { EmployeesV1 } from '@Modules'
 import moment from "moment";
 
 
@@ -39,7 +39,7 @@ function TaskGroup() {
     taskGroups,
     taskGroupCurrentPages,
     taskGroupNumOfPages,
-    selectedGroupChatCode,
+    selectedGroupChat,
     dashboardDetails
   } = useSelector(
     (state: any) => state.UserCompanyReducer
@@ -49,7 +49,7 @@ function TaskGroup() {
   const dynamicHeight: any = useDynamicHeight()
   useEffect(() => {
     getGroupEmployees()
-  }, [selectedGroupChatCode])
+  }, [selectedGroupChat])
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
     ...(is_parent ? [{ id: '1', name: "Create Sub Group", icon: icons.addSub }] : []),
@@ -249,13 +249,13 @@ function TaskGroup() {
   const getGroupEmployees = (q: string = '') => {
 
     const params = {
-      group_id: selectedGroupChatCode,
+      group_id: selectedGroupChat,
       // ...(otherParams && { ...otherParams }),
       q
     }
 
 
-    if (selectedGroupChatCode) {
+    if (selectedGroupChat) {
       dispatch(
         getGroupsEmployees({
           params,
@@ -592,7 +592,7 @@ function TaskGroup() {
                 type="both"
 
                 onChange={handleStartTimeEtaChange}
-
+              // value={date ? getMomentObjFromServer(date) : null!}
               />
             </div>
             <div className="col-6">
@@ -601,7 +601,7 @@ function TaskGroup() {
 
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
-
+              // value={endDate ? getMomentObjFromServer(endDate) : null!}
               />
             </div>
           </div>
@@ -654,11 +654,9 @@ function TaskGroup() {
       }
 
       <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '90vh', }}>
-
-
-        <GroupEmployeeList
+        <EmployeesV1
           selection={'multiple'}
-          defaultSelect={defaultSelectedUsers}
+          defaultSelected={defaultSelectedUsers}
           selectedCode={addGroupId}
           onSelected={(users) => {
             const taggedUserIds = getArrayFromArrayOfObject(users, 'id')

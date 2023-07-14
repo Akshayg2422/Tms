@@ -39,9 +39,9 @@ function AdminFeeds() {
 
   const editFeedModal = useModal(false)
   const loginLoader = useLoader(false)
-  
 
-  let AttachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
+
+  let attachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
     const { id, attachment_file } = el
     return {
       id: index + 1, photo: attachment_file,
@@ -224,7 +224,7 @@ function AdminFeeds() {
             }
           }
           }
-          >
+        >
           <div className={''} >
             {
               broadCastDetails?.map((item: any, index: number) => {
@@ -329,7 +329,7 @@ function AdminFeeds() {
           <div className="row">
             <ImagePicker
               defaultPicker={true}
-              defaultValue={AttachmentEdit}
+              defaultValue={attachmentEdit}
               noOfFileImagePickers={3}
               size='xl'
               heading={translate("auth.attach")!}

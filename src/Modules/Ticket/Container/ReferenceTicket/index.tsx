@@ -36,7 +36,7 @@ function ReferenceTickets() {
             getReferenceTickets({
                 params,
                 onSuccess: (response) => () => {
-          
+
                 },
                 onError: () => () => { },
             })
@@ -46,7 +46,7 @@ function ReferenceTickets() {
 
     const normalizedTableData = (data: any) => {
 
-        console.log("data>>>>>>>>",data)
+
 
         return data?.map((el: any) => {
             return {
@@ -63,41 +63,41 @@ function ReferenceTickets() {
 
         <Card className={'overflow-auto overflow-hide mb--1 '} style={{ height: height - 15 }}>
             <div className="col d-flex justify-content-end ml-3 mt--2">
-            {referenceTickets && referenceTickets?.length >0 && <Button size={'sm'} text={translate('order.Add Reference Ticket')} onClick={() => {
+                {referenceTickets && referenceTickets?.length > 0 && <Button size={'sm'} text={translate('order.Add Reference Ticket')} onClick={() => {
                     goTo(ROUTES['ticket-module']['reference-ticket'])
                 }} />
-            }
+                }
             </div>
             <div className="mt-3">
-            {referenceTickets && referenceTickets?.length > 0 ?
-                <CommonTable
-                    isPagination
-                    tableDataSet={referenceTickets}
-                    currentPage={referenceTicketCurrentPages}
-                    noOfPage={referenceTicketNoOfPages}
-                    displayDataSet={normalizedTableData(referenceTickets)}
-                    paginationNumberClick={(currentPage) => {
-                        proceedgetReferenceTickets(paginationHandler("current", currentPage));
-                    }}
-                    previousClick={() => {
-                        proceedgetReferenceTickets(paginationHandler("prev", referenceTicketCurrentPages))
-                    }
-                    }
-                    nextClick={() => {
-                        proceedgetReferenceTickets(paginationHandler("next", referenceTicketCurrentPages));
-                    }
-                    }
-                    tableOnClick={(e, index, item) => {
+                {referenceTickets && referenceTickets?.length > 0 ?
+                    <CommonTable
+                        isPagination
+                        tableDataSet={referenceTickets}
+                        currentPage={referenceTicketCurrentPages}
+                        noOfPage={referenceTicketNoOfPages}
+                        displayDataSet={normalizedTableData(referenceTickets)}
+                        paginationNumberClick={(currentPage) => {
+                            proceedgetReferenceTickets(paginationHandler("current", currentPage));
+                        }}
+                        previousClick={() => {
+                            proceedgetReferenceTickets(paginationHandler("prev", referenceTicketCurrentPages))
+                        }
+                        }
+                        nextClick={() => {
+                            proceedgetReferenceTickets(paginationHandler("next", referenceTicketCurrentPages));
+                        }
+                        }
+                        tableOnClick={(e, index, item) => {
 
-                        console.log("item.code==>",item.code)
+                            console.log("item.code==>", item.code)
 
-                        dispatch(setSelectedTicket(item))
-                        goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item.code)
-                    }}
+                            dispatch(setSelectedTicket(item))
+                            goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item.code)
+                        }}
 
-                /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton />
-                </div>}
-                </div>
+                    /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton />
+                    </div>}
+            </div>
         </Card>
 
 

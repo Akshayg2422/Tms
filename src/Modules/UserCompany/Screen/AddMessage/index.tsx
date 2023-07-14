@@ -1,199 +1,62 @@
-import React, { useState } from 'react'
-import { AddMessageProps } from './interfaces';
-import { Button, Modal, Input, ImagePicker, showToast } from '@Components'
-import { icons } from '@Assets'
-import { addGroupMessage, getTokenByUser, refreshGroupEvents, selectedVcDetails } from '@Redux'
-import { useDispatch, useSelector } from 'react-redux'
-import { useModal, useInput, useNavigation, useLoader } from '@Hooks'
-import { TEM, MEA, validate, ifObjectExist, getValidateError, GROUP_ATTACHMENT_RULES } from '@Utils'
-import { translate } from '@I18n'
-import { ROUTES } from '@Routes';
+import { Send } from '@Components';
+import { useLoader } from '@Hooks';
+import { addGroupMessage, setRefreshGroupChat } from '@Redux';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddGroupChatProps } from './interfaces';
 
-function AddMessage({ AddGroup }: AddMessageProps) {
-    const { selectedGroupChatCode, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    const { user_details } = dashboardDetails || ''
+
+function AddGroupChat({ }: AddGroupChatProps) {
+
+    const { selectedGroupChat } = useSelector((state: any) => state.UserCompanyReducer);
     const dispatch = useDispatch()
-    const message = useInput('')
-    const attachmentModal = useModal(false)
-    const attachmentName = useInput('')
-    const [selectDropzone, setSelectDropzone] = useState<any>([{}])
-    const [image, setImage] = useState('')
-    const [photo, setPhoto] = useState<any>([])
-    const { goTo } = useNavigation()
-    const [isSendingMessage, setIsSendingMessage] = useState(false);
-    const SEND_DELAY = 1000;
-    const loginLoader = useLoader(false)
-    const addGroupMessageApiHandler = () => {
+    const [success, setSuccess] = useState(false);
+    const loader = useLoader(false)
 
-        if (message.value.trim()) {
-            const params = {
-                group_id: AddGroup,
-                message: message.value,
-                event_type: TEM,
-            }
 
-            dispatch(
-                addGroupMessage({
-                    params,
-                    onSuccess: (response) => () => {
-                        message.set('')
-                        dispatch(refreshGroupEvents())
+    const addGroupMessageApiHandler = (params: any) => {
 
-                    },
-                    onError: () => () => { },
-                })
-            );
-        } else {
+        loader.show();
+        dispatch(
+            addGroupMessage({
+                params,
+                onSuccess: () => () => {
+                    loader.hide();
+                    setSuccess(true)
+                    dispatch(setRefreshGroupChat())
+                },
+                onError: () => () => {
+                    loader.hide();
+                },
+            })
+        );
 
-        }
     };
-
-    const getUserToken = () => {
-        dispatch(selectedVcDetails(selectedGroupChatCode))
-        const params = {
-            room_id: selectedGroupChatCode,
-            user_name: user_details.name,
-            email_id: user_details.email,
-        }
-        dispatch(getTokenByUser({
-            params,
-            onSuccess: (success: any) => () => {
-
-                console.log("success============>", success)
-            },
-            onError: (error: string) => () => {
-
-            },
-
-        }))
-    }
-
-
-    const addGroupEventAttachment = () => {
-        const validation = validate(GROUP_ATTACHMENT_RULES, {
-            attachment_name: attachmentName.value.trim(),
-            group_attachments: photo.length > 0 ? [{ name: attachmentName.value, attachments: photo }] : ''
-        })
-
-
-        const params = {
-            event_type: MEA,
-            group_id: AddGroup,
-            group_attachments: [{ name: attachmentName.value, attachments: photo }],
-        };
-
-        if (ifObjectExist(validation)) {
-            loginLoader.show()
-            dispatch(
-                addGroupMessage({
-                    params,
-                    onSuccess: (response) => () => {
-                        resetValues();
-                        attachmentModal.hide()
-                        dispatch(refreshGroupEvents())
-                        loginLoader.hide()
-                    },
-                    onError: (error) => () => {
-                        loginLoader.hide()
-
-                    },
-                }),
-            );
-        } else {
-            showToast(getValidateError(validation));
-        }
-    };
-    const resetValues = () => {
-        attachmentName.set('');
-        setSelectDropzone([{}]);
-        setPhoto([])
-    };
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-
-            if (!isSendingMessage && message.value.trim().length > 0) {
-                setIsSendingMessage(true);
-                addGroupMessageApiHandler();
-
-                setTimeout(() => {
-                    setIsSendingMessage(false);
-                }, SEND_DELAY);
-            }
-        }
-    };
-
 
     return (
-        <>
-            <div className='col'>
-                <div className='row justify-content-center align-items-center'>
-                    <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
-                    <div className='col'>
-                        <textarea
-                            placeholder={translate("order.Write your comment")!}
-                            value={message.value}
-                            className="form-control form-control-sm"
-                            onKeyDown={handleKeyDown}
-                            onChange={message.onChange}
-                            style={{ resize: 'vertical', minHeight: '50px' }}
-                        ></textarea>
-                    </div>
+        <Send
+            isSuccess={success}
+            loading={loader.loader}
+            onMessagePress={(message) => {
+                setSuccess(false);
+                const params = {
+                    group_id: selectedGroupChat.id,
+                    ...message,
+                };
 
-                    <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={addGroupMessageApiHandler} />
-                    <Button
-                        size={'lg'}
-                        color={'white'}
-                        variant={'icon-rounded'}
-                        icon={icons.videoCall}
-                        onClick={() => {
-                            getUserToken()
-                            goTo(ROUTES['user-company-module']['video-conference'], false)
-                        }}
-                    />
+                addGroupMessageApiHandler(params);
 
-                </div >
-            </div >
-            <Modal isOpen={attachmentModal.visible}
-                onClose={attachmentModal.hide}>
-                <div className='col-7 mt--6'>
-                    <div className={'mt-2'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
-                    <div className='row mt--4'>
-                        <ImagePicker
-                            icon={image}
-                            size='xl'
-                            onSelect={(image) => {
-                              
-                            }}
-
-
-
-                            onSelectImagePickers={(el) => {
-                                let array: any = []
-
-                                for (let i = 0; i <= el.length; i++) {
-                                    let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                                    if (eventPickers !== undefined) {
-                                        array.push(eventPickers)
-                                    }
-
-                                }
-                                setPhoto(array)
-
-                            }}
-                        />
-                    </div>
-                </div>
-
-                <div className='col-6 pt-2'>
-                    <div className=''>
-                        <Button text={translate("common.submit")} onClick={addGroupEventAttachment}
-                            loading={loginLoader.loader} />
-                    </div>
-                </div>
-
-            </Modal>
-        </>
+            }}
+            onAttachPress={response => {
+                setSuccess(false);
+                const params = {
+                    group_id: selectedGroupChat.id,
+                    group_attachments: [response.attachments],
+                    ...response.type
+                };
+                addGroupMessageApiHandler(params);
+            }}
+        />
     )
 }
-export { AddMessage }
+export { AddGroupChat };
