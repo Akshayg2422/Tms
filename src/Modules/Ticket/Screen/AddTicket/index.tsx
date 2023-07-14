@@ -60,9 +60,7 @@ function AddTicket() {
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [eta, setEta] = useState("")
-    const [loading, setLoading] = useState(false)
-    // const [date, setDate] = useState<any>(moment().format())
-
+    const [loading, setLoading] = useState(false)   
     const isEnterPressed = useKeyPress("Enter");
     const loginLoader = useLoader(false);
     
@@ -235,7 +233,7 @@ function AddTicket() {
             </div>
             <hr className='mt-3'></hr>
 
-            <div className="col-auto pb-2 mt--2">
+            <div className="col-auto pb-2 mt--4">
                 <div className="row">
                     <ImagePicker
                         icon={image}
@@ -264,27 +262,37 @@ function AddTicket() {
 
                 </div>
             </div>
-            <div className="col-md-9 col-lg-5 mt--1">
+            <div className="col-md-9 col-lg-5 ">
+                <div className="pt-2">
                 <Input
                     heading={translate("common.title")}
                     value={title.value}
                     onChange={title.onChange}
                 />
+
+                </div>
            
-          
-                <TextAreaInput
+           <div className="pt--1">
+           <TextAreaInput
                 heading={translate('auth.description')!}
                 value={description.value}
                 onChange={description.onChange}
                 className="form-control form-control-sm"
                 
                 />
-                <Input
+
+           </div>
+          
+               <div>
+               <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}
                     value={referenceNo.value}
                     onChange={referenceNo.onChange}
                 />
+
+               </div>
+              
                 <div className="mb-1">
                     <Radio
                         data={type}
@@ -302,7 +310,9 @@ function AddTicket() {
                 </div>
 
                 {ticketType && ticketType?.id === "1" && (
-                    <DropDown
+                    
+                    <div>
+                        <DropDown
                         heading={translate("common.company")!}
                         placeHolder={translate('order.Select a company')!}
                         data={getDropDownCompanyDisplayData(associatedCompaniesL)}
@@ -311,9 +321,12 @@ function AddTicket() {
                         }}
                         selected={company.value}
                     />
+                    </div>
                 )}
 
-                {getExternalCompanyStatus() && departments && departments.length > 0 && <DropDown
+                {getExternalCompanyStatus() && departments && departments.length > 0 &&
+                <div>
+                     <DropDown
                     heading={translate('common.department')}
                     placeHolder={translate('order.Select a Department')!}
                     data={getDropDownDisplayData(departments)}
@@ -322,9 +335,11 @@ function AddTicket() {
                     }}
                     selected={department.value}
                 />
+                </div>
                 }
 
-                {getExternalCompanyStatus() && designations && designations.length > 0 && <DropDown
+                {getExternalCompanyStatus() && designations && designations.length > 0 &&
+                <div> <DropDown
                     heading={translate("common.department")!}
                     placeHolder={translate('order.Select a Designation')!}
                     data={getDropDownDisplayData(designations)}
@@ -333,10 +348,12 @@ function AddTicket() {
                     }}
                     selected={designation.value}
                 />
+                </div>
                 }
                
 {getExternalCompanyStatus()  && employees && employees.length > 0 &&
-                    <AutoComplete
+                  <div>
+                      <AutoComplete
                     variant={'custom'}
                         heading={translate("common.user")!}
                          data={getDropDownCompanyUser(employees)}
@@ -345,9 +362,10 @@ function AddTicket() {
                     setSelectedUserId(item)
 
                 }} 
-                    />}
+                    />
+                    </div>}
 
-                <DateTimePicker
+              <div>  <DateTimePicker
                     heading={'ETA'}
                     id="eta-picker"
                     placeholder={'Select ETA'}
@@ -355,6 +373,7 @@ function AddTicket() {
                     onChange={handleEtaChange}
              
                 />
+                </div>
             </div>
 
            

@@ -334,37 +334,37 @@ function AddTask() {
 
 
 
-<div className="mt--2">
-<TextAreaInput
-                    heading={translate('auth.description')!}
-                    value={description.value}
-                    onChange={description.onChange}
-                    className="form-control form-control-sm "
+                <div className="mt--2">
+                    <TextAreaInput
+                        heading={translate('auth.description')!}
+                        value={description.value}
+                        onChange={description.onChange}
+                        className="form-control form-control-sm "
 
-                />
+                    />
 
-</div>
-               
-
-             
-<div className="mt--2">
-                <Input
-                    type={"text"}
-                    heading={translate("auth.referenceNo")}
-                    value={referenceNo}
-                    onChange={(e) => { setReferenceNo(e.target.value) }}
-                />
                 </div>
 
-                
+
+
                 <div className="mt--2">
-                <DropDown
-                    heading={translate("auth.Task Priority")!}
-                    selected={selectedTicketPriority.value}
-                    placeHolder={translate('order.please select a task priority')!}
-                    data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange}
-                />
+                    <Input
+                        type={"text"}
+                        heading={translate("auth.referenceNo")}
+                        value={referenceNo}
+                        onChange={(e) => { setReferenceNo(e.target.value) }}
+                    />
+                </div>
+
+
+                <div className="mt--2">
+                    <DropDown
+                        heading={translate("auth.Task Priority")!}
+                        selected={selectedTicketPriority.value}
+                        placeHolder={translate('order.please select a task priority')!}
+                        data={PRIORITY}
+                        onChange={selectedTicketPriority.onChange}
+                    />
                 </div>
                 <div className="my-3">
                     <Radio
@@ -390,73 +390,73 @@ function AddTask() {
                 {
                     taskType && taskType?.id === "1" && (
                         <div className="mt--2">
-                        <DropDown
-                            heading={translate("common.company")!}
-                            placeHolder={translate('order.Select a company')!}
-                            data={getDropDownCompanyDisplayData(associatedCompaniesL)}
-                            onChange={(item) => {
-                                company.onChange(item)
-                                // getSubTaskGroupsApi()
-                            }}
-                            selected={company.value}
-                        />
+                            <DropDown
+                                heading={translate("common.company")!}
+                                placeHolder={translate('order.Select a company')!}
+                                data={getDropDownCompanyDisplayData(associatedCompaniesL)}
+                                onChange={(item) => {
+                                    company.onChange(item)
+                                    // getSubTaskGroupsApi()
+                                }}
+                                selected={company.value}
+                            />
                         </div>
                     )
                 }
 
                 {
-                    getExternalCompanyStatus() && departments && departments.length > 0 && 
+                    getExternalCompanyStatus() && departments && departments.length > 0 &&
                     <div className="mt--2">
-                    
-                    <DropDown
-                        heading={translate("common.department")!}
-                        placeHolder={translate("order.Select a Department")!}
-                        data={getDropDownDisplayData(departments)}
-                        onChange={(item) => {
-                            department.onChange(item)
-                        }}
-                        selected={department.value}
-                    />
+
+                        <DropDown
+                            heading={translate("common.department")!}
+                            placeHolder={translate("order.Select a Department")!}
+                            data={getDropDownDisplayData(departments)}
+                            onChange={(item) => {
+                                department.onChange(item)
+                            }}
+                            selected={department.value}
+                        />
                     </div>
                 }
 
                 {
                     getExternalCompanyStatus() && designations && designations.length > 0 &&
-                    
+
                     <div className="mt--2">
                         <DropDown
-                        heading={translate("auth.designation")}
-                        placeHolder={translate('order.Select a Designation')!}
-                        data={getDropDownDisplayData(designations)}
-                        onChange={(item) => {
-                            designation.onChange(item)
-                        }}
-                        selected={designation.value}
-                    />
+                            heading={translate("auth.designation")}
+                            placeHolder={translate('order.Select a Designation')!}
+                            data={getDropDownDisplayData(designations)}
+                            onChange={(item) => {
+                                designation.onChange(item)
+                            }}
+                            selected={designation.value}
+                        />
                     </div>
                 }
 
                 {
                     getExternalCompanyStatus() && employees && employees.length > 0 &&
                     <div className="mt--2">
-                    <AutoComplete
-                        variant={'custom'}
-                        heading={translate("common.user")!}
-                        data={getDropDownCompanyUser(employees)}
-                        selected={selectedUserId}
-                        onChange={(item) => {
-                            setSelectedUserId(item)
+                        <AutoComplete
+                            variant={'custom'}
+                            heading={translate("common.user")!}
+                            data={getDropDownCompanyUser(employees)}
+                            selected={selectedUserId}
+                            onChange={(item) => {
+                                setSelectedUserId(item)
 
 
-                        }}
-                    />
+                            }}
+                        />
                     </div>
                 }
 
 
 
                 {
-                    subTaskGroups && subTaskGroups.length > 0 && 
+                    subTaskGroups && subTaskGroups.length > 0 &&
                     <div className="mt-3"><DropDown
                         heading={translate("common.selectGroup")}
                         placeHolder={translate('order.Select a Group')!}
@@ -467,16 +467,16 @@ function AddTask() {
                     </div>
                 }
 
-<div className="mt--2">
-                <DateTimePicker
-                    heading={'ETA'}
-                    id="eta-picker"
-                    placeholder={'Select ETA'}
-                    type="both"
-                    onChange={handleEtaChange}
-             
+                <div className="mt--2">
+                    <DateTimePicker
+                        heading={'ETA'}
+                        id="eta-picker"
+                        placeholder={'Select ETA'}
+                        type="both"
+                        onChange={handleEtaChange}
 
-                />
+
+                    />
                 </div>
             </div >
 
