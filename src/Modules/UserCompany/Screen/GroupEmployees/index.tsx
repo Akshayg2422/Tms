@@ -1,4 +1,16 @@
 
+<<<<<<< HEAD
+=======
+import React, { useEffect, useState, } from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import { EmployeeGroupsProps } from './interfaces'
+import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image, Spinner } from '@Components'
+import { addGroupUser, getGroupsEmployees, getTokenByUser, selectedUserChats, selectedVcDetails } from '@Redux'
+import { TGU, getArrayFromArrayOfObject, } from '@Utils';
+import {  useLoader, useModal, useNavigation, useWindowDimensions } from '@Hooks';
+import {  GroupEmployeeList } from '@Modules'
+import { translate } from '@I18n'
+>>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
 import { icons } from '@Assets';
 import { Button, Card, Divider, H, Image, Modal, NoDataFound, SearchInput, Spinner } from '@Components';
 import { useLoader, useModal, useNavigation, useWindowDimensions } from '@Hooks';
@@ -6,14 +18,19 @@ import { translate } from '@I18n';
 import { EmployeesV1 } from '@Modules';
 import { addGroupUser, getGroupsEmployees, selectedVcDetails } from '@Redux';
 import { ROUTES } from '@Routes';
+<<<<<<< HEAD
 import { TGU, getArrayFromArrayOfObject } from '@Utils';
 import { useEffect, useState, } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { EmployeeGroupsProps } from './interfaces';
+=======
+
+>>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
 
 
 function GroupEmployees({ }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
+<<<<<<< HEAD
     const { groupEmployees, selectedGroupChat, } = useSelector((state: any) => state.UserCompanyReducer);
 
     const { goTo } = useNavigation()
@@ -24,6 +41,14 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
 
     const addUserModal = useModal(false);
     const [selectedUsers, setSelectedUsers] = useState([])
+=======
+    const { groupEmployees, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    const {  user_details,  } = dashboardDetails || ''
+    const { goTo } = useNavigation()
+    const [loading, setLoading] = useState(false)
+    const addUserModal = useModal(false);
+    const [taggedUsers, setTaggedUsers] = useState([])
+>>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
     const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
 
     const loader = useLoader(false)
@@ -87,7 +112,7 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
     return (
         <>
             <Card style={{
-                height: height - 64,
+                height: height - 93,
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
@@ -117,6 +142,7 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
                             groupEmployees && groupEmployees.length > 0 && groupEmployees.map((el: any, index: number) => {
                                 const { name, designation, department, id } = el
 
+<<<<<<< HEAD
                                 return (
                                     <>
                                         <div >
@@ -126,6 +152,20 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
                                                         tag={'h4'}
                                                         text={name}
                                                     />
+=======
+                                                                dispatch(selectedVcDetails(el))
+                                                                dispatch( selectedUserChats(el))
+
+                                                               
+                                                                goTo(ROUTES['user-company-module']['individual-chat'], false)
+                                                                
+                                                            }}
+                                                        >
+                                                            <Image src={icons.Comments} width={17} height={17} />
+                                                        </div>
+
+                                                    </div>
+>>>>>>> ed20cf4bb287e6ce0eb53e652789561f65844f2b
                                                     <div className={'row col mt--2'}>
                                                         <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
                                                         <div className='text-muted mt--1'><Image src={icons.verticalLine} height={12} width={7} /></div>

@@ -122,7 +122,7 @@ function Otp() {
             value={otp.value}
             onChange={otp.set}
             numInputs={4}
-            inputStyle={'otp-input'}
+            inputStyle={'otp-input border-primary'}
             shouldAutoFocus={true}
           />
         </div>
