@@ -15,7 +15,7 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
     const DEFAULT_COMPANY = { id: dashboardDetails?.permission_details?.branch_id, display_name: '𝗦𝗘𝗟𝗙', name: 'self' }
 
     const DEFAULT_DATA = { id: 'ALL', name: 'All' }
-    const [selectedEmployee, setSelectedEmployee] = useState<any>(defaultSelected)
+    const [selectedEmployee, setSelectedEmployee] = useState<any>()
 
     const company = useDropDown(DEFAULT_COMPANY)
     const department = useDropDown(DEFAULT_DATA)

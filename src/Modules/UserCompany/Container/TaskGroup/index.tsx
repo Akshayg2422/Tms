@@ -391,7 +391,6 @@ function TaskGroup() {
 
   async function toDataUrl(url, callback) {
     var xhr = new XMLHttpRequest();
-    console.log("xhr---->", xhr)
     xhr.onload = function () {
       var reader = new FileReader();
       console.log("reader", reader)
@@ -403,6 +402,7 @@ function TaskGroup() {
     xhr.open('GET', url);
     xhr.responseType = 'blob';
     xhr.send();
+    console.log("xhr===========>", xhr)
   }
 
   return (
@@ -520,7 +520,6 @@ function TaskGroup() {
             </div>
           </div>
 
-
           <TextAreaInput
             heading={translate('auth.description')!}
             value={taskGroupDescription.value}
@@ -558,6 +557,7 @@ function TaskGroup() {
           />
         </div>
       </Modal>
+     
       <Modal
         isOpen={addSubTaskGroupModal.visible}
         onClose={() => {
@@ -567,6 +567,7 @@ function TaskGroup() {
         title={translate("auth.task")!}
       >
         <div className="mt--4">
+
           <div className='row'>
             <div className="col-6">
               <Input
@@ -589,22 +590,23 @@ function TaskGroup() {
           </div>
 
           <div className="row">
+
             <div className="col-6">
               <DateTimePicker
                 placeholder={'Start Time'}
                 type="both"
-
+                value={date ? getMomentObjFromServer(date) : null!}
                 onChange={handleStartTimeEtaChange}
-              // value={date ? getMomentObjFromServer(date) : null!}
+              
               />
             </div>
             <div className="col-6">
               <DateTimePicker
                 type="both"
-
-                placeholder={'End Time'}
+                value={endDate ? getMomentObjFromServer(endDate) : null!}
                 onChange={handleEndTimeEtaChange}
-              // value={endDate ? getMomentObjFromServer(endDate) : null!}
+                placeholder={'End Time'}
+              
               />
             </div>
           </div>
