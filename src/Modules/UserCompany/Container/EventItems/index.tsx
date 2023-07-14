@@ -55,12 +55,7 @@ function EventItem({ item }: EventItemProps) {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="col-lg-6">
-                            <div className="row d-flex justify-content-end mt-3">
-                                <MenuBar menuData={MY_FEED_MENU}
-                                />
-                            </div>
-                        </div> */}
+                    
                     </div>
 
 

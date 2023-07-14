@@ -18,6 +18,8 @@ function GroupMessage({ }: GroupMessageProps) {
     useEffect(() => {
         getGroupMessageApiHandler(INITIAL_PAGE)
     }, [selectedGroupChat, refreshGroupChat])
+    const [isSendingMessage, setIsSendingMessage] = useState(false);
+    const SEND_DELAY = 1000;
 
 
     const getGroupMessageApiHandler = (page_number: number) => {
@@ -57,6 +59,8 @@ function GroupMessage({ }: GroupMessageProps) {
         );
 
     };
+
+   
 
     return (
 

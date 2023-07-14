@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { icons } from '@Assets';
 import { Button, ImagePicker, Input, Modal } from '@Components';
-import { useInput, useModal } from '@Hooks';
+import { useInput, useModal,useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { SendProps } from './interfaces';
+import { ROUTES } from '@Routes';
+import { useSelector,useDispatch } from 'react-redux';
+import { getTokenByUser, selectedVcDetails } from '@Redux';
+
 
 function Send({ isSuccess, loading, onMessagePress, onAttachPress }: SendProps) {
-
-
+    const { selectedGroupChat,dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    const { user_details } = dashboardDetails || ''
+    const {goTo} = useNavigation()
+    const dispatch = useDispatch()
     const message = useInput('')
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [photos, setPhotos] = useState<any>([])
+    
 
     useEffect(() => {
         if (isSuccess) {
@@ -29,8 +36,33 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress }: SendProps) 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
+            const param = { message: message.value.trim(), event_type: 'TEM' };
+            if (onMessagePress && message.value.trim()) {
+                onMessagePress(param);
+            }
         }
     };
+    const getUserToken = () => {
+        
+        dispatch(selectedVcDetails(selectedGroupChat.id))
+        const params = {
+            room_id: selectedGroupChat.id,
+            user_name: user_details.name,
+            email_id: user_details.email,
+        }
+        console.log(params,"ppp")
+        dispatch(getTokenByUser({
+            params,
+            onSuccess: (success: any) => () => {
+
+                console.log("success============>", success)
+            },
+            onError: (error: string) => () => {
+
+            },
+
+        }))
+    }
 
 
     return (
@@ -63,6 +95,8 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress }: SendProps) 
                         variant={'icon-rounded'}
                         icon={icons.videoCall}
                         onClick={() => {
+                             getUserToken()
+                            goTo(ROUTES['user-company-module']['video-conference'], false)
                         }}
                     />
 

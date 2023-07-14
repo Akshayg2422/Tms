@@ -50,9 +50,6 @@ function IndividualChat() {
         getCompanyEmployeeApi()
 
     }, [])
-
-
-
     useEffect(() => {
 
         if (selectedUserChat) {
@@ -245,7 +242,7 @@ function IndividualChat() {
     const activeStatus = (value) => {
         if (value) {
             const convert = moment(value).format("YYYY-MM-DD HH:mm:ss")
-            console.log("fiveMinutesAgoStatus", fiveMinutesAgoStatus, "convert", convert);
+           
 
             if (fiveMinutesAgoStatus < convert) {
                 return true
@@ -335,7 +332,7 @@ function IndividualChat() {
                                         </h4>}
 
                                         next={() => {
-                                            console.log('testing ====>')
+                                        
                                             if (chatMessageCurrentPages !== -1) {
                                                 getChatMessage(selectedUserChat?.id, chatMessageCurrentPages)
                                             }

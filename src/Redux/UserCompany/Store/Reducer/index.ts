@@ -16,7 +16,7 @@ const initialState: UserCompanyStateProp = {
   departmentsCurrentPages: undefined,
   departmentsNumOfPages: undefined,
   employees: undefined,
-  employeesCurrentPages: undefined,
+  employeesCurrentPages:1,
   employeesNumOfPages: undefined,
   employeesl: undefined,
   employeeslCurrentPages: undefined,
@@ -419,9 +419,9 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
     case ActionTypes.GET_EMPLOYEES_SUCCESS:
 
-      const employeeResponse = action.payload.details
-      const isPagination = ifObjectKeyExist(employeeResponse, "data")
-      console.log(isPagination, "ppp")
+      // const employeeResponse = action.payload.details
+      // const isPagination = ifObjectKeyExist(employeeResponse, "data")
+      // console.log(isPagination, "ppp")
 
       state = {
         ...state,

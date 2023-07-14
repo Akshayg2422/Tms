@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, setSelectedCompany, setSelectedTabPosition } from "@Redux";
-import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton, Spinner } from "@Components";
-import { useNavigation, useModal, useDynamicHeight, useDropDown, useLoader } from "@Hooks";
+import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton, Spinner, SearchInput } from "@Components";
+import { useNavigation, useModal, useDynamicHeight, useDropDown, useLoader, useInput } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
 import { getPhoto, paginationHandler } from "@Utils";
@@ -18,24 +18,33 @@ function Companies() {
 
   const associatedCompanyModal = useModal(false);
   const associatedCompanyDropDown = useDropDown({})
+  const searchCompany=useInput('')
   const dynamicHeight: any = useDynamicHeight()
   const [loading, setLoading] = useState(false)
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany, dashboardDetails } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+ 
   const  loginLoader=useLoader(false)
 
 
   useEffect(() => {
-    getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
+   
     getAssociatedCompanyApi()
   }, [])
+
+  useEffect(() => {
+    getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
+   
+  }, [searchCompany.value])
+
 
 
   const getAssociatedCompaniesHandler = (page_number: number) => {
     setLoading(true)
     const params = {
-      page_number
+      page_number,
+      q:searchCompany.value
     };
 
     dispatch(
@@ -72,8 +81,6 @@ function Companies() {
 
 
   const addAssociatedCompanyApi = () => {
-
-
     const params = {
       id:dashboardDetails.company_branch.id ,
       company_id: associatedCompanyDropDown.value.id,
@@ -126,17 +133,34 @@ function Companies() {
   return (
     <>
       <Card className="m-3">
-        {associatedCompanies && associatedCompanies?.length > 0 ?
-          <div className="text-right mb-3">
-            <Button
-              className={'text-white'}
-              size={'sm'}
-              text={translate("auth.associatedCompany")}
-              onClick={() => {
-                associatedCompanyModal.show()
-              }}
-            />
-          </div> : null}
+      <div className="d-flex justify-content-end">
+      <div className="col-3 mt--1" >
+                    <SearchInput onSearch={(search) => {
+                      searchCompany.set(search)
+                  
+                    }} />
+                </div>
+                <div>
+                {associatedCompanies && associatedCompanies?.length > 0 ?
+    
+          
+
+    <div className="text-right mb-3">
+      <Button
+        className={'text-white'}
+        size={'sm'}
+        text={translate("auth.associatedCompany")}
+        onClick={() => {
+          associatedCompanyModal.show()
+        }}
+      />
+    </div> 
+ 
+    : null}
+                </div>
+                
+                </div>
+   
 
         {
           loading && (
