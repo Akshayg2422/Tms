@@ -4,6 +4,6 @@ export type TaggedElementProps =
         name?: string;
     }
 
-export interface AddMessageProps {
-    AddGroup?:any
+export interface AddGroupChatProps {
+
 }

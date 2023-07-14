@@ -38,10 +38,21 @@ export function getStatusFromCode(dashboardDetails: any, status: string) {
     });
 
 
-   
+
   return statusCodes[status];
 
 }
+
+export const ifObjectHasKey = (object: any, key: string) => {
+  let isExist = false;
+  if (object.hasOwnProperty(key)) {
+    isExist = true;
+  } else {
+    isExist = false;
+  }
+
+  return isExist;
+};
 
 
 export const getObjectFromArrayByKey = (array: any, key: string, value: any) => {
@@ -128,6 +139,7 @@ export const getCurrentDayAndDate = (date: any) => {
 };
 
 export function getDropDownDisplayData(data: any) {
+  
   return data && data?.map((item: any) => {
     return {
       ...item,
@@ -149,9 +161,10 @@ export function getDropDownCompanyDisplayData(data: any) {
 export function getDropDownCompanyUser(data: any) {
   return data && data?.map((item: any) => {
     return {
-      text:item.name,
+      text: item.name,
       id: item.id,
-      title: JSON.stringify({ designation: item?.designation?.name, department: item?.department?.name,image:getPhoto(item?.profile_image)}),}
+      title: JSON.stringify({ designation: item?.designation?.name, department: item?.department?.name, image: getPhoto(item?.profile_image) }),
+    }
   })
 }
 

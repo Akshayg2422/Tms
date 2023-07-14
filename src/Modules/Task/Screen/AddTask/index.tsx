@@ -183,7 +183,7 @@ function AddTask() {
                     onError: (error) => () => {
                         showToast(error.error_message);
                         setLoading(false)
-                        
+
                         loginLoader.hide()
                     },
                 })
@@ -221,8 +221,7 @@ function AddTask() {
 
         const params = {
             per_page_count: -1,
-            branch_id:dashboardDetails?.permission_details?.branch_id
-
+            branch_id: dashboardDetails?.permission_details?.branch_id
         };
 
         dispatch(
@@ -453,14 +452,14 @@ function AddTask() {
                     placeholder={'Select ETA'}
                     type="both"
                     onChange={handleEtaChange}
-                    // value={date ? getMomentObjFromServer(date) : null!}
+                // value={date ? getMomentObjFromServer(date) : null!}
 
                 />
             </div >
 
             <div className="col mt-4">
                 <Button size={'md'}
-                  loading={loginLoader.loader}
+                    loading={loginLoader.loader}
                     text={translate('common.submit')}
                     onClick={submitTaskHandler} />
             </div>

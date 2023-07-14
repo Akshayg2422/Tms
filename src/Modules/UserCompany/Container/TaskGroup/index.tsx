@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
 import { useModal, useDynamicHeight, useInput, useLoader } from "@Hooks";
 import { icons } from "@Assets";
-import { Employees, GroupEmployeeList } from '@Modules'
+import { EmployeesV1 } from '@Modules'
 import moment from "moment";
 
 
@@ -39,7 +39,7 @@ function TaskGroup() {
     taskGroups,
     taskGroupCurrentPages,
     taskGroupNumOfPages,
-    selectedGroupChatCode,
+    selectedGroupChat,
     dashboardDetails
   } = useSelector(
     (state: any) => state.UserCompanyReducer
@@ -49,7 +49,7 @@ function TaskGroup() {
   const dynamicHeight: any = useDynamicHeight()
   useEffect(() => {
     getGroupEmployees()
-  }, [selectedGroupChatCode])
+  }, [selectedGroupChat])
 
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
@@ -61,13 +61,13 @@ function TaskGroup() {
   const [showTaskGroup, setShowTaskGroup] = useState(false);
   const [inCludeSubGroup, setIncludeSubGroup] = useState(false)
   const addTaskGroupModal = useModal(false);
-  const [loading,setLoading] =useState(false)
+  const [loading, setLoading] = useState(false)
   const taskGroupName = useInput("");
   const taskGroupCode = useInput("");
   const taskGroupDescription = useInput("");
   const [photo, setPhoto] = useState("");
   const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(undefined);
-  const loginLoader=useLoader(false)
+  const loginLoader = useLoader(false)
 
   /**
    * add sub task State
@@ -84,7 +84,7 @@ function TaskGroup() {
   const addMemberModal = useModal(false);
   const [taggedUsers, setTaggedUsers] = useState([])
   const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
-  const [addGroupId,setGroupId]=useState<any>()
+  const [addGroupId, setGroupId] = useState<any>()
   const startDate = new Date(startTimeEta)
   const startTime = startDate.getHours()
   const [date, setDate] = useState<any>(moment().format())
@@ -102,7 +102,7 @@ function TaskGroup() {
   };
 
   const getTaskGroupList = (page_number: number, include: boolean = inCludeSubGroup) => {
-      setLoading(true)
+    setLoading(true)
     const params = {
       page_number,
       include_closed_taskgroup: include
@@ -115,14 +115,14 @@ function TaskGroup() {
           setLoading(false)
         },
         onError: (error: string) => () => {
-               setLoading(false)
+          setLoading(false)
         },
       })
     );
   };
 
   const addTaskGroupApiHandler = async () => {
-   
+
 
     toDataUrl(photo, function (myBase64) {
 
@@ -133,9 +133,9 @@ function TaskGroup() {
       }
 
       const params = {
-        
+
         ...(selectedTaskGroup && { id: selectedTaskGroup.id }),
-        branch_id:company?.id,
+        branch_id: company?.id,
         name: taskGroupName.value,
         description: taskGroupDescription.value,
         code: taskGroupCode.value.trim(),
@@ -205,7 +205,7 @@ function TaskGroup() {
       const params = {
         name: convertToUpperCase(subTaskGroupName.value),
         description: convertToUpperCase(subTaskGroupDescription.value),
-        branch_id:company?.id,
+        branch_id: company?.id,
         code: subTaskGroupCode.value.trim(),
         photo: updatedPhoto,
         parent_id: selectedSubTaskGroup?.id,
@@ -215,7 +215,7 @@ function TaskGroup() {
       };
 
       const validation = validate(ADD_SUB_TASK_GROUP, params)
-      console.log(params,"ooppppp")
+      console.log(params, "ooppppp")
 
 
       if (ifObjectExist(validation)) {
@@ -251,13 +251,13 @@ function TaskGroup() {
   const getGroupEmployees = (q: string = '') => {
 
     const params = {
-      group_id: selectedGroupChatCode,
+      group_id: selectedGroupChat,
       // ...(otherParams && { ...otherParams }),
       q
     }
 
 
-    if (selectedGroupChatCode) {
+    if (selectedGroupChat) {
       dispatch(
         getGroupsEmployees({
           params,
@@ -358,11 +358,11 @@ function TaskGroup() {
           }
           else if (el.id === '4') {
             const { id } = taskGroup
-           
+
             // addGroupUsers(id)
             addMemberModal.show()
             setGroupId(taskGroup.id)
-           
+
           }
         }} />
 
@@ -457,12 +457,12 @@ function TaskGroup() {
           }}
         >
           {
-              loading && (
-                <div className='d-flex justify-content-center align-item-center' style={{marginTop:'200px'}}>
-                  <Spinner/>
-                </div>
-              )
-            }
+            loading && (
+              <div className='d-flex justify-content-center align-item-center' style={{ marginTop: '200px' }}>
+                <Spinner />
+              </div>
+            )
+          }
           {taskGroups && taskGroups?.length > 0 ? (
             <CommonTable
               isPagination
@@ -520,14 +520,14 @@ function TaskGroup() {
             </div>
           </div>
 
-     
-                <TextAreaInput
-               heading={translate('auth.description')!}
-                value={taskGroupDescription.value}
-                onChange={taskGroupDescription.onChange}
-                className="form-control form-control-sm"
-                
-                />
+
+          <TextAreaInput
+            heading={translate('auth.description')!}
+            value={taskGroupDescription.value}
+            onChange={taskGroupDescription.onChange}
+            className="form-control form-control-sm"
+
+          />
         </div>
         <div className="pb-3">
           <Dropzone
@@ -550,7 +550,7 @@ function TaskGroup() {
             }}
           />
           <Button
-          loading={loginLoader.loader}
+            loading={loginLoader.loader}
             text={translate("common.submit")}
             onClick={() => {
               addTaskGroupApiHandler()
@@ -593,30 +593,30 @@ function TaskGroup() {
               <DateTimePicker
                 placeholder={'Start Time'}
                 type="both"
-                // initialValue={(getMomentObjFromServer(startTimeEta))}
+
                 onChange={handleStartTimeEtaChange}
-                // value={date ? getMomentObjFromServer(date) : null!}
+              // value={date ? getMomentObjFromServer(date) : null!}
               />
             </div>
             <div className="col-6">
               <DateTimePicker
                 type="both"
-                // initialValue={(getMomentObjFromServer(endTimeEta))}
+
                 placeholder={'End Time'}
                 onChange={handleEndTimeEtaChange}
-                // value={endDate ? getMomentObjFromServer(endDate) : null!}
+              // value={endDate ? getMomentObjFromServer(endDate) : null!}
               />
             </div>
           </div>
 
-    
-                <TextAreaInput
-               heading={translate('auth.description')!}
-                value={subTaskGroupDescription.value}
-                onChange={subTaskGroupDescription.onChange}
-                className="form-control form-control-sm"
-                
-                />
+
+          <TextAreaInput
+            heading={translate('auth.description')!}
+            value={subTaskGroupDescription.value}
+            onChange={subTaskGroupDescription.onChange}
+            className="form-control form-control-sm"
+
+          />
 
         </div>
         <div className="pb-3">
@@ -657,23 +657,14 @@ function TaskGroup() {
       }
 
       <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '90vh', }}>
-        
-        {/* <Employees selection={'multiple'}
-          defaultSelect={defaultSelectedUsers}
-          onSelected={(users) => {
-            const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
-            setTaggedUsers(taggedUserIds)
-          }}
-          
-          /> */}
-          <GroupEmployeeList
+        <EmployeesV1
           selection={'multiple'}
-          defaultSelect={defaultSelectedUsers}
+          defaultSelected={defaultSelectedUsers}
           selectedCode={addGroupId}
           onSelected={(users) => {
             const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
             setTaggedUsers(taggedUserIds)
-          }}/>
+          }} />
         <div className="pt-3 mr-2 text-right">
           <Button
             size={'sm'}

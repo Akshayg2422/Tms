@@ -1,7 +1,7 @@
 
 import * as ActionTypes from '../ActionTypes'
 import { UserCompanyStateProp } from '../../Interfaces';
-import { DEFAULT_TASK_GROUP, ifObjectKeyExist } from '@Utils'
+import { INITIAL_PAGE, ifObjectKeyExist } from '@Utils'
 
 // import * as ActionTypes from '../ActionTypes'
 
@@ -38,7 +38,7 @@ const initialState: UserCompanyStateProp = {
   taskGroupDetails: undefined,
   taskGroupCurrentPages: undefined,
   taskGroupNumOfPages: undefined,
-  chatMessage:[],
+  chatMessage: [],
   addTaskGroup: undefined,
   associatedCompanies: undefined,
   associatedCompaniesNumOfPages: undefined,
@@ -58,12 +58,11 @@ const initialState: UserCompanyStateProp = {
   updateAssociatedCompany: undefined,
   refreshUserCompany: false,
   groupEmployees: undefined,
-  groupMessage: undefined,
   addGroupMessages: undefined,
   refreshGroupEvents: false,
   selectedGroup: undefined,
   getSubGroups: undefined,
-  selectedGroupChatCode: undefined,
+  selectedGroupChat: undefined,
   chatGroups: undefined,
   selectedTaskGroupCode: "ALL",
   employeesDetails: undefined,
@@ -81,7 +80,9 @@ const initialState: UserCompanyStateProp = {
   chatEmployeeListCurrentPages: undefined,
   chatEmployeeListNumOfPages: undefined,
   refreshChatMessage: false,
-  selectedUserChat:undefined,
+  selectedUserChat: undefined,
+  groupMessages: undefined,
+  groupMessageCurrentPage: INITIAL_PAGE,
 
 }
 
@@ -178,18 +179,18 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       break;
     case ActionTypes.FETCH_DESIGNATION_SUCCESS:
       const designation = action.payload.details
-     
+
       const isDesignations = ifObjectKeyExist(designation, 'data')
 
       state = {
         ...state,
         loading: false,
-        designations: action.payload?.details?.data? action.payload?.details?.data : action.payload?.details,
+        designations: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
         designationNumOfPages: action.payload?.details?.num_pages,
         designationCurrentPages:
-        action.payload.details.next_page === -1?
-          action?.payload?.details.num_pages
-            :action?.payload?.details?.next_page - 1,
+          action.payload.details.next_page === -1 ?
+            action?.payload?.details.num_pages
+            : action?.payload?.details?.next_page - 1,
       };
       break;
     case ActionTypes.FETCH_DESIGNATION_FAILURE:
@@ -684,17 +685,18 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.GET_GROUP_MESSAGE:
       state = {
         ...state,
-        groupMessage: undefined,
+        groupMessages: action.payload.params.page_number === 1 ? [] : state.groupMessages,
       };
       break;
     case ActionTypes.GET_GROUP_MESSAGE_SUCCESS:
       state = {
         ...state,
-        groupMessage: action.payload.details,
+        groupMessages: [...state.groupMessages, ...action.payload.details.data],
+        groupMessageCurrentPage: action.payload.details.next_page
       };
       break;
     case ActionTypes.GET_GROUP_MESSAGE_FAILURE:
-      state = { ...state, groupMessage: action.payload };
+      state = { ...state, groupMessages: undefined };
       break;
 
     /**
@@ -760,7 +762,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.GET_CHAT_GROUPS_SUCCESS:
       state = {
         ...state,
-        chatGroups: action.payload?.details?.data?action.payload?.details?.data:action.payload?.details,
+        chatGroups: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
       };
       break;
     case ActionTypes.GET_CHAT_GROUPS_FAILURE:
@@ -833,8 +835,8 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     /**
      * selected Group chat code
      */
-    case ActionTypes.SELECTED_GROUP_CHAT_CODE:
-      state = { ...state, selectedGroupChatCode: action.payload };
+    case ActionTypes.SELECTED_GROUP_CHAT:
+      state = { ...state, selectedGroupChat: action.payload };
       break;
 
     /**
@@ -848,23 +850,23 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
 * refresh Group Chat
 */
 
-case ActionTypes.REFRESH_GROUP_CHAT:
-  state = { ...state, refreshGroupChat: !state.refreshGroupChat }
-  break;
+    case ActionTypes.REFRESH_GROUP_CHAT:
+      state = { ...state, refreshGroupChat: !state.refreshGroupChat }
+      break;
 
 
-  case ActionTypes.REFRESH_CHAT_MESSAGE:
-  state = { ...state, refreshChatMessage: !state.refreshChatMessage}
-  break;
+    case ActionTypes.REFRESH_CHAT_MESSAGE:
+      state = { ...state, refreshChatMessage: !state.refreshChatMessage }
+      break;
 
 
-  //SELECTED USER
+    //SELECTED USER
 
-  case ActionTypes.USER_CHAT:
+    case ActionTypes.USER_CHAT:
 
-    state = { ...state,  selectedUserChat: action.payload}
-    break;
-  
+      state = { ...state, selectedUserChat: action.payload }
+      break;
+
 
 
     /**
@@ -906,49 +908,49 @@ case ActionTypes.REFRESH_GROUP_CHAT:
     // GET chat message
 
     case ActionTypes.FETCH_CHAT_MESSAGE:
-     
+
       state = {
         ...state,
         chatMessage: action.payload.params.page_number === 1 ? [] : state.chatMessage
-       
+
       };
       break;
     case ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS:
-      
+
       state = {
         ...state,
-        chatMessage:[...state.chatMessage,...action.payload?.details?.data],
-        chatMessageCurrentPages: action.payload?.details.next_page 
-      
+        chatMessage: [...state.chatMessage, ...action.payload?.details?.data],
+        chatMessageCurrentPages: action.payload?.details.next_page
+
       };
       break;
     case ActionTypes.FETCH_CHAT_MESSAGE_FAILURE:
-   
-      state = { ...state,  chatMessage: undefined};
+
+      state = { ...state, chatMessage: undefined };
       break;
 
 
 
-      ///chat 
+    ///chat 
 
-//       case ActionTypes.FETCH_CHAT_MESSAGE:
+    //       case ActionTypes.FETCH_CHAT_MESSAGE:
 
-//       state = {
-//         ...state,
-//         chatMessage: action?.payload?.params?.page_number === 1 ? [] : state.events
-//       };
-//       break;
-//     case ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS:
-// console.log(action?.payload?.details?.data,"action?.payload?.details?.data]")
-//       state = {
-//         ...state,
-//         chatMessage: [...state.events, ...action?.payload?.details?.data],
-//         chatMessageCurrentPages: action?.payload?.details?.next_page
-//       };
-//       break;
-//     case ActionTypes.FETCH_CHAT_MESSAGE_FAILURE:
-//       state = { ...state,  chatMessage: undefined };
-//       break;
+    //       state = {
+    //         ...state,
+    //         chatMessage: action?.payload?.params?.page_number === 1 ? [] : state.events
+    //       };
+    //       break;
+    //     case ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS:
+    // console.log(action?.payload?.details?.data,"action?.payload?.details?.data]")
+    //       state = {
+    //         ...state,
+    //         chatMessage: [...state.events, ...action?.payload?.details?.data],
+    //         chatMessageCurrentPages: action?.payload?.details?.next_page
+    //       };
+    //       break;
+    //     case ActionTypes.FETCH_CHAT_MESSAGE_FAILURE:
+    //       state = { ...state,  chatMessage: undefined };
+    //       break;
 
 
     // get chat employee list

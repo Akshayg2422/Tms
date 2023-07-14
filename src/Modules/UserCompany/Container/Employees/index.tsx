@@ -88,17 +88,6 @@ function Employees({ otherParams, selection = 'none', onSelected, defaultSelect 
                             return each.id === id
                         })
 
-                        // const isSelected =  defaultSelect? selectedEmployee.some((each: any) => {
-                        //     return each.id === id
-                        // })
-                        // :defaultSelect.some((each: any) => {
-                        //     return each.id === id
-                        // })
-
-
-
-
-
                         return (
                             <div className='container pointer' key={id} onClick={selection !== 'none' ? () => proceedSelectEmployee(employee) : undefined}>
                                 <div className='row d-flex align-items-center'>

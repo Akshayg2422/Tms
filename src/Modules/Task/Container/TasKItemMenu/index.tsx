@@ -15,7 +15,7 @@ import {
     addTaskEvent,
     refreshTaskEvents
 } from "@Redux";
-import { Employees } from '@Modules'
+import { Employees, EmployeesV1 } from '@Modules'
 import { useDropDown, useInput, useLoader, useModal, useNavigation } from "@Hooks";
 import { icons } from "@Assets";
 import { TGU, RGU, getArrayFromArrayOfObject, EVS, TASK_STATUS_LIST, getObjectFromArrayByKey } from '@Utils';
@@ -26,7 +26,7 @@ import { useParams } from "react-router-dom";
 
 function TaskItemMenu() {
 
-    const { id } = useParams()
+    const {id}=useParams()
 
     const dynamicHeight: any = useDynamicHeight()
     const TASK_STATUS_MENU = [
@@ -34,17 +34,17 @@ function TaskItemMenu() {
             id: 0, name: translate('auth.Tag User'), icon: icons.tagUser,
         },
         {
-            id: 1, name: translate('auth.Reassign User'), icon: icons.reassignUser,
+            id: 1, name:translate('auth.Reassign User'), icon: icons.reassignUser,
         },
         {
             id: 2, name: translate('auth.Change Task Status'), icon: icons.taskStatus,
         }
     ]
     const loginLoader = useLoader(false);
-
+   
     const dispatch = useDispatch()
-    const { selectedTaskId } = useSelector((state: any) => state.TaskReducer);
-
+    const { selectedTaskId} = useSelector((state: any) => state.TaskReducer);
+   
 
     const tagUserModal = useModal(false);
     const reassignUserModal = useModal(false);
@@ -60,7 +60,7 @@ function TaskItemMenu() {
         const params = {
             ...(taskEventParams && { ...taskEventParams }),
             // id: selectedTask.id
-            code: id
+            code:id
         };
 
         loginLoader.show()
@@ -79,16 +79,16 @@ function TaskItemMenu() {
             },
             onError: (error) => () => {
                 loginLoader.hide()
-
+              
             }
         }))
     }
 
-    console.log(status.value, "lllll")
+console.log(status.value,"lllll")
     function proceedTaskStatusChangeHandler() {
         const params = {
-            event_type: EVS,
-            taskstatus_changeto: status.value?.id,
+            event_type:EVS,
+            taskstatus_changeto:status.value?.id,
             reason: taskStatusReason.value,
         }
         proceedAddTaskEvents(params)
@@ -116,7 +116,7 @@ function TaskItemMenu() {
             }
 
             <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ maxHeight: '80vh' }}>
-                <Employees selection={'multiple'} onSelected={(users) => {
+                <EmployeesV1 selection={'multiple'} onSelected={(users) => {
                     const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
                     setTaggedUsers(taggedUserIds)
                 }} />
@@ -138,7 +138,7 @@ function TaskItemMenu() {
             }
 
             <Modal fade={false} isOpen={reassignUserModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={reassignUserModal.hide}>
-                <Employees selection={'single'} onSelected={setReassignUser} />
+                <EmployeesV1 selection={'single'} onSelected={setReassignUser} />
                 <div className="text-right">
                     <Button
                         size={'sm'}
@@ -168,15 +168,15 @@ function TaskItemMenu() {
                         onChange={status.onChange}
                     />
 
-                    <TextAreaInput
-                        heading={translate("common.reason")!}
-                        value={taskStatusReason.value}
-                        onChange={taskStatusReason.onChange}
-                        className="form-control form-control-sm"
+<TextAreaInput 
+               heading={translate("common.reason")!}
+                value={taskStatusReason.value}
+                onChange={taskStatusReason.onChange}
+                className="form-control form-control-sm"
+                
+                />
 
-                    />
-
-
+            
                 </div>
 
                 <div className="pt-3 text-right">

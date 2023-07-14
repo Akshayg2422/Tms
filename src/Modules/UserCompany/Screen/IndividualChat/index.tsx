@@ -15,7 +15,7 @@ import 'react-photo-view/dist/react-photo-view.css';
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 function IndividualChat() {
-    const { dashboardDetails, oneToOneChat, employees, chatMessageCurrentPages, refreshChatMessage, selectedUserChat, chatMessage } = useSelector(
+    const { dashboardDetails, oneToOneChat, employees, chatMessageCurrentPages,  refreshIndividualChatMessage, selectedUserChat, chatMessage } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || ''
@@ -42,6 +42,7 @@ function IndividualChat() {
     const SEND_DELAY = 1000;
     const loginLoader = useLoader(false)
     const [loading, setLoading] = useState(false);
+    const [employeeListLoading, setEmployeeListLoading] = useState(false);
 
     useEffect(() => {
 
@@ -57,7 +58,7 @@ function IndividualChat() {
         if (selectedUserChat) {
             getChatMessage(selectedUserChat?.id, INITIAL_PAGE)
         }
-    }, [selectedUserChat, refreshChatMessage])
+    }, [selectedUserChat, refreshIndividualChatMessage])
 
     const getChatEmployeeList = (data) => {
 
@@ -66,12 +67,12 @@ function IndividualChat() {
             per_page_count: -1
 
         }
-        setLoading(true)
+        setEmployeeListLoading(true)
         dispatch(fetchChatEmployeeList({
             params,
             onSuccess: (success: any) => () => {
                 let modifiedData: any = []
-                setLoading(false)
+                setEmployeeListLoading(false)
                 success?.details?.map((el) => {
                     if (el.id !== user_details.id) {
                         modifiedData.push(el)
@@ -87,7 +88,7 @@ function IndividualChat() {
                 }
             },
             onError: (error: string) => () => {
-                setLoading(false)
+                setEmployeeListLoading(false)
             },
         }))
     }
@@ -163,6 +164,7 @@ function IndividualChat() {
             })
         );
     }
+    
     const addChatMessage = () => {
         const params = {
             event_type: "TEM",
@@ -292,7 +294,7 @@ function IndividualChat() {
                         <div className={`${!oneToOneChat ? 'col-sm-8' : ' col-sm-4'} p-0 m-0 `}>
                             <Card
                                 style={{
-                                    height: dynamicHeight.dynamicHeight - 20
+                                    height: dynamicHeight.dynamicHeight - 50
                                 }}>
                                 {/** Chat Header */}
 
@@ -310,12 +312,11 @@ function IndividualChat() {
                                 <CardBody
                                     id="scrollableDiv"
                                     style={{
-
                                         display: 'flex',
                                         flexDirection: 'column-reverse',
                                     }}
 
-                                    className={'overflow-auto overflow-hide '}
+                                    className={'overflow-auto overflow-hide mt-3'}
                                 >
                                     <InfiniteScroll
                                         dataLength={chatMessage?.length}
@@ -414,7 +415,7 @@ function IndividualChat() {
                                                             <div>
                                                                 {!alignChatMessage(el) && (el?.message || el?.chat_attachments?.attachments?.length > 0) && (
                                                                     <>
-                                                                        <div className='row '>
+                                                                        <div className='row pl-2 '>
                                                                             <Image
                                                                                 variant="rounded"
                                                                                 className=""
@@ -730,13 +731,12 @@ function IndividualChat() {
                                 style={{ height: "90vh" }}
 
                             >
-                                {loading && (
+                                {employeeListLoading&& (
                                     <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '100px' }}>
                                         <Spinner />
                                     </div>
                                 )}
-                                
-                                {!loading && <div >
+                                {!employeeListLoading && <div >
                                     {employeeList && employeeList?.length > 0 ?
                                         employeeList?.map((item: any) => {
                                             return (

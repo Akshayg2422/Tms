@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { GroupChatProps } from './interfaces';
-import { Button, Image } from '@Components';
 import { icons } from '@Assets';
+import { Image } from '@Components';
 import { getPhoto } from '@Utils';
+import { useState } from 'react';
+import { GroupChatProps } from './interfaces';
 
 function GroupChat({
     children,
@@ -90,37 +90,6 @@ function GroupChat({
                             <div className="col">
                                 <small className="text-muted">{time}</small>
                             </div>
-
-                            {isHovered && (
-                                <span>
-                                    {isEdit && (
-                                        <small>
-                                            <div style={{ width: '20px', height: '20px', borderRadius: '4px' }} className="myLink pointer d-inline-flex justify-content-center align-items-center">
-                                                <Image
-                                                    src={icons.editEta}
-                                                    onClick={editOnClick}
-                                                    width={12}
-                                                    height={12}
-                                                    style={{ objectFit: 'contain' }}
-                                                />
-                                            </div>
-                                        </small>
-                                    )}
-                                    {isDelete && (
-                                        <small>
-                                            <div style={{ width: '20px', height: '20px', borderRadius: '4px' }} className="pointer myLink d-inline-flex justify-content-center align-items-center">
-                                                <Image
-                                                    src={icons.deleteCurve}
-                                                    onClick={deleteOnClick}
-                                                    width={12}
-                                                    height={12}
-                                                    style={{ objectFit: 'contain' }}
-                                                />
-                                            </div>
-                                        </small>
-                                    )}
-                                </span>
-                            )}
                         </h6>
                     </div>
                     <div>

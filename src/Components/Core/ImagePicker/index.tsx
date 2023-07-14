@@ -63,7 +63,7 @@ const ImagePicker = ({
 
 
   const handleRefClick = (el) => {
-   
+
     fileInputRef?.current?.click();
 
     if (el.id > 0) {
@@ -186,9 +186,10 @@ const ImagePicker = ({
         onChange={handleChange}
         accept="image/*"
       />
-      <div className="col-12 pt-2"><InputHeading heading={heading} /></div>
+      <div className="col-12 pt-2">
+        <InputHeading heading={heading} />
+      </div>
       {photo && photo.map((el, index) => {
-
         return (
 
           <div className={`${className} col-auto ml-0  pr-3`}>

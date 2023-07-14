@@ -1,95 +1,81 @@
 
-import React, { useEffect, useState, } from 'react'
-import { useDispatch, useSelector } from "react-redux";
-import { EmployeeGroupsProps } from './interfaces'
-import { Card, Divider, NoDataFound, H, SearchInput, Button, Modal, Image, Spinner } from '@Components'
-import { addGroupUser, getGroupsEmployees, getTokenByUser, selectedUserChats, selectedVcDetails } from '@Redux'
-import { EVS, TASK_STATUS_LIST, TGU, getArrayFromArrayOfObject, getObjectFromArrayByKey } from '@Utils';
-import { useDropDown, useDynamicHeight, useLoader, useModal, useNavigation, useWindowDimensions } from '@Hooks';
-import { Employees, GroupEmployeeList } from '@Modules'
-import { translate } from '@I18n'
 import { icons } from '@Assets';
+import { Button, Card, Divider, H, Image, Modal, NoDataFound, SearchInput, Spinner } from '@Components';
+import { useLoader, useModal, useNavigation, useWindowDimensions } from '@Hooks';
+import { translate } from '@I18n';
+import { EmployeesV1 } from '@Modules';
+import { addGroupUser, getGroupsEmployees, selectedVcDetails } from '@Redux';
 import { ROUTES } from '@Routes';
-import { CardHeader } from 'reactstrap';
+import { TGU, getArrayFromArrayOfObject } from '@Utils';
+import { useEffect, useState, } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { EmployeeGroupsProps } from './interfaces';
 
 
-function GroupEmployees({ groupCode, otherParams }: EmployeeGroupsProps) {
+function GroupEmployees({ }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
-    const { groupEmployees, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    const { company_branch, user_details, company } = dashboardDetails || ''
+    const { groupEmployees, selectedGroupChat, } = useSelector((state: any) => state.UserCompanyReducer);
 
     const { goTo } = useNavigation()
 
-
-    const [loading, setLoading] = useState(false)
     useEffect(() => {
         getGroupEmployees()
-    }, [Employees])
+    }, [selectedGroupChat])
 
     const addUserModal = useModal(false);
-    const [taggedUsers, setTaggedUsers] = useState([])
-    const [reassignUser, setReassignUser] = useState<any>({})
+    const [selectedUsers, setSelectedUsers] = useState([])
     const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
-    const loginLoader = useLoader(false)
+
+    const loader = useLoader(false)
+    const addUserLoader = useLoader(false)
+
+
     const { height } = useWindowDimensions()
 
-
-    useEffect(() => {
-        getGroupEmployees()
-
-    }, [groupCode])
-
     const getGroupEmployees = (q: string = '') => {
-        setLoading(true)
+        loader.show()
         const params = {
-            group_id: groupCode,
-            ...(otherParams && { ...otherParams }),
+            group_id: selectedGroupChat?.id,
             q,
-
         }
-        if (groupCode) {
-            loginLoader.show()
-
-            dispatch(
-                getGroupsEmployees({
-                    params,
-                    onSuccess: (response) => () => {
-                        const selectedUsers = response.details
-                        loginLoader.hide()
-                        if (selectedUsers && selectedUsers.length > 0) {
-                            setDefaultSelectedUser(selectedUsers)
-                        }
-                        setLoading(false)
-                    },
-                    onError: () => () => {
-                        setLoading(false)
-                        loginLoader.hide()
+        dispatch(
+            getGroupsEmployees({
+                params,
+                onSuccess: (response) => () => {
+                    const selectedUsers = response.details
+                    if (selectedUsers && selectedUsers.length > 0) {
+                        setDefaultSelectedUser(selectedUsers)
                     }
-                })
-            )
-        }
+                    loader.hide()
+                },
+                onError: () => () => {
+                    loader.hide()
+                }
+            })
+        )
+
     }
 
-
-
-    const addGroupUsers = (addUsers: any) => {
+    const addGroupUsersApiHandler = (addUsers: any) => {
 
         const params = {
-            group_id: groupCode,
+            group_id: selectedGroupChat?.id,
             users_id: addUsers.tagged_users
         }
-        loginLoader.show()
+
+
+        addUserLoader.show()
 
         dispatch(
             addGroupUser({
                 params,
-                onSuccess: (response) => () => {
+                onSuccess: () => () => {
                     addUserModal.hide()
                     getGroupEmployees()
-                    loginLoader.hide()
+                    addUserLoader.hide()
                 },
                 onError: () => () => {
-                    loginLoader.hide()
+                    addUserLoader.hide()
                 }
 
 
@@ -98,87 +84,76 @@ function GroupEmployees({ groupCode, otherParams }: EmployeeGroupsProps) {
 
     }
 
-
-
     return (
         <>
-
             <Card style={{
-                height: height - 64,
+                height: height - 93,
                 display: 'flex',
                 flexDirection: 'column-reverse',
             }}
                 className={'overflow-auto overflow-hide'}>
                 <div className='row'>
-                    <div className='mx--1'>
-                        <span className="h4 col-3">{'Others'}</span>
+                    <div className='mx--1  col-3'>
+                        <span className="h4">{'Others'}</span>
                     </div>
-                    <div className='col-6 my--1 p-0'>
-                        <SearchInput onSearch={(search) => {
-                            getGroupEmployees(search)
-                        }} />
+                    <div className='d-flex col-9 justify-content-end '>
+                        <div className='row align-items-center'>
+                            <SearchInput onSearch={(search) => {
+                                getGroupEmployees(search)
+                            }} />
+                            <div className='ml-3'>
+                                <Button className={'text-white'} text={translate("common.add")} size='sm' onClick={() => {
+                                    addUserModal.show()
+                                }} />
+                            </div>
+                        </div>
                     </div>
-                    <div className='col-1'>
-                        <Button className={'text-white'} text={translate("common.add")} size='sm' onClick={() => {
-                            addUserModal.show()
-                        }} />
-                    </div>
+
                 </div>
 
-                <div className=' col overflow-auto overflow-hide mt-1 mx--3' style={{ maxHeight: '80vh' }}>
-                    {
-                        loading && (
-                            <div className='d-flex justify-content-center align-item-center' style={{ marginTop: '200px' }}>
-                                <Spinner />
-                            </div>
-                        )
-                    }
-
-                    {!loading && <div className='mt-3 '>
+                <div className='col overflow-auto overflow-hide mt-1 mx--3' style={{ maxHeight: '80vh' }}>
+                    <div className='mt-4 mb-3'>
                         {
-                            groupEmployees && groupEmployees.length > 0 ? groupEmployees.map((el: any, index: number) => {
-                                const { name, mobile_number, designation, department, id } = el
-                                if (user_details?.id !== id) {
-                                    return (
-                                        <>
-                                            <div >
-                                                <div className='align-items-center'>
-                                                    <div className='row  justify-content-center align-items-center'>
-                                                        <div className='col pt-1'>
-                                                            <H
-                                                                tag={'h4'}
-                                                                text={name}
-                                                            />
-                                                        </div>
-                                                        <div className='mr-3 pointer'
-                                                            onClick={() => {
+                            groupEmployees && groupEmployees.length > 0 && groupEmployees.map((el: any, index: number) => {
+                                const { name, designation, department, id } = el
 
-                                                                dispatch(selectedVcDetails(el))
-                                                                goTo(ROUTES['user-company-module']['individual-chat'], false)
-                                                            }}
-                                                        >
-                                                            <Image src={icons.Comments} width={17} height={17} />
-                                                        </div>
-
-                                                    </div>
+                                return (
+                                    <>
+                                        <div >
+                                            <div className='row justify-space-between align-items-center'>
+                                                <div className='col'>
+                                                    <H
+                                                        tag={'h4'}
+                                                        text={name}
+                                                    />
                                                     <div className={'row col mt--2'}>
                                                         <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department : '-'}</div>
                                                         <div className='text-muted mt--1'><Image src={icons.verticalLine} height={12} width={7} /></div>
                                                         <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
                                                     </div>
                                                 </div>
-                                                <div className={'mx--2 my--2'}>
-                                                    {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
+                                                <div className='pointer'
+                                                    onClick={() => {
+                                                        goTo(ROUTES['user-company-module']['individual-chat'], false)
+                                                    }}>
+                                                    <Image src={icons.Comments} width={18} height={18} />
                                                 </div>
+
                                             </div>
-                                        </>
-                                    )
-                                }
-                            }) : <div className='pt-6 mt-5'>
-                                <NoDataFound type={'text'} />
-                            </div>
+                                            <div className={'mx--2'}>
+                                                {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
+                                            </div>
+                                        </div>
+                                    </>
+                                )
+
+                            })
                         }
-                    </div>}
+                        {loader.loader && (<Spinner />)
+                        }
+                        {!loader.loader && groupEmployees?.length <= 0 && <div className='pt-6 mt-5'> <NoDataFound type={'text'} /></div>}
+                    </div>
+
                 </div>
             </Card >
 
@@ -188,22 +163,24 @@ function GroupEmployees({ groupCode, otherParams }: EmployeeGroupsProps) {
                  */
             }
 
-            <Modal Modal fade={false} isOpen={addUserModal.visible} onClose={addUserModal.hide}>
-                <GroupEmployeeList selection={'multiple'}
-                    defaultSelect={defaultSelectedUsers}
-                    selectedCode={groupCode}
+            <Modal fade={false} isOpen={addUserModal.visible} onClose={addUserModal.hide}>
+                <EmployeesV1
+                    selection={'multiple'}
+                    defaultSelected={defaultSelectedUsers}
+                    selectedCode={selectedGroupChat?.id}
                     onSelected={(users) => {
-                        const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
-                        setTaggedUsers(taggedUserIds)
+                        const userIds = getArrayFromArrayOfObject(users, 'id')
+                        setSelectedUsers(userIds)
 
                     }} />
+
                 <div className="pt-3 mr-2 text-right">
                     <Button
                         size={'sm'}
-                        loading={loginLoader.loader}
+                        loading={addUserLoader.loader}
                         text={translate("common.submit")}
                         onClick={() => {
-                            addGroupUsers({ event_type: TGU, tagged_users: taggedUsers })
+                            addGroupUsersApiHandler({ event_type: TGU, tagged_users: selectedUsers })
                         }} />
                 </div>
             </Modal >
@@ -211,4 +188,5 @@ function GroupEmployees({ groupCode, otherParams }: EmployeeGroupsProps) {
         </>
     )
 }
-export { GroupEmployees }
+export { GroupEmployees };
+
