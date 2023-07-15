@@ -46,7 +46,7 @@ function Designation() {
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const loginLoader = useLoader(false)
 
- 
+ console.log(designationCurrentPages,"cccccccccccc")
   const getDesignationApiHandler = (page_number: number) => {
 
     setLoading(true)

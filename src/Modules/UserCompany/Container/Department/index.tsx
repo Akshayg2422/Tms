@@ -1,7 +1,7 @@
 import { addDepartment, getDepartments } from "@Redux";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ifObjectExist, validate, getValidateError, INITIAL_PAGE, } from "@Utils";
+import {  paginationHandler,  INITIAL_PAGE, } from "@Utils";
 import { useDynamicHeight, useModal, useInput, useLoader } from "@Hooks";
 import {
   Button,
@@ -41,6 +41,7 @@ function Department() {
   const [selectedDepartment, setSelectedDepartment] = useState<any>(undefined);
   const [isSubTask, setIsSubTask] = useState(false);
   const [loading, setLoading] = useState(false)
+  const [department,setDepartment]=useState<any>()
   const loginLoader=useLoader(false)
 
 
@@ -85,6 +86,8 @@ function Department() {
       getDepartments({
         params,
         onSuccess: (response: any) => () => {
+
+
           setLoading(false)
        
         },
