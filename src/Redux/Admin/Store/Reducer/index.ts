@@ -67,38 +67,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
       state = { ...state };
       break;
 
-    //get designations
-
-    // case FETCH_DESIGNATION:
-
-    //   state = {
-    //     ...state,
-    //     designations: undefined,
-    //     designationNumOfPages: 0,
-    //     designationCurrentPages: 1,
-    //     loading: true
-    //   };
-
-    //   break;
-    // case FETCH_DESIGNATION_SUCCESS:
-    //   state = {
-    //     ...state,
-    //     loading: false,
-    //     designations: action?.payload?.data,
-    //     designationNumOfPages: action?.payload?.num_pages,
-    //     designationCurrentPages:
-    //       action?.payload?.next_page === -1
-    //         ? action?.payload?.num_pages
-    //         : action?.payload?.next_page - 1,
-    //   };
-    //   break;
-    // case FETCH_DESIGNATION_FAILURE:
-    //   state = {
-    //     ...state,
-    //     error: action.payload,
-    //     loading: false,
-    //   };
-    //   break;
+   
     /**
      * COMPANY SELECTED DETAILS
      */

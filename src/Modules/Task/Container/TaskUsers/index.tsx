@@ -33,7 +33,7 @@ function TaskUsers() {
 
 
   return (
-    <div className={'overflow-auto overflow-hide'} style={{ height: height - 15 }}>
+    <div className={'overflow-auto overflow-hide '} style={{height:'480px'}}>
       {taskUsers && taskUsers.length > 0 && <div>
         <div>
           <h5 className="text-muted mt-4">ASSIGNED TO </h5>
@@ -54,6 +54,7 @@ function TaskUsers() {
         {taskUsers && taskUsers[0].tagged_to.length > 0 && <> <div>
           <h5 className="text-muted">INVOLVED USER</h5>
         </div>
+           <div style={{height:'10px'}}>
           <Card className="mt-1 py-2 shadow-none" >
             {taskUsers &&
               taskUsers[0].tagged_to.length > 0 &&
@@ -66,6 +67,7 @@ function TaskUsers() {
                 );
               })}
           </Card>
+          </div>
         </>
         }
 

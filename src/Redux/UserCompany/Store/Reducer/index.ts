@@ -12,7 +12,7 @@ const initialState: UserCompanyStateProp = {
   error: '',
   designations: undefined,
   departments: undefined,
-  designationCurrentPages: undefined,
+  designationCurrentPages:1,
   designationNumOfPages: undefined,
   departmentsCurrentPages: undefined,
   departmentsNumOfPages: undefined,

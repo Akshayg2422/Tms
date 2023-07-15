@@ -29,7 +29,7 @@ function Events() {
       id: 1, name: translate('common.delete'), icon: icons.deleteCurve,
     },
     {
-      id: 2, name: translate('common.Mark as closed'),
+      id: 2, name: translate('common.Mark as closed'),icon: icons.markAsOpen
     },
 
   ]
@@ -56,10 +56,12 @@ function Events() {
   const loginLoader = useLoader(false)
 
   useEffect(() => {
+    
     getEventsApiHandler(INITIAL_PAGE)
   }, []);
   let attachmentEdit = selectDropzone && selectDropzone.map((el, index) => {
     const { id, attachment_file } = el
+    
     return {
       id: index + 1, photo: attachment_file,
     }

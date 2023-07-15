@@ -68,7 +68,7 @@ function ReferenceTasks() {
 
   return (
 
-    <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 15 }}>
+    <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 85 }}>
       {referencesTasks && referencesTasks?.length > 0 && item!=='reference-task' && <div className="col text-right">
         <Button size={'sm'} className={'text-white'} text={translate("auth.addReferenceTask")} onClick={() => {
           dispatch(setSelectedTask(id))

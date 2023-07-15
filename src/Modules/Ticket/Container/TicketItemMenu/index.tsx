@@ -15,7 +15,7 @@ import {
     addTicketEvent,
     refreshTicketEvents
 } from "@Redux";
-import { Employees } from '@Modules'
+import { Employees, EmployeesV1 } from '@Modules'
 import { useDropDown, useInput, useLoader, useModal } from "@Hooks";
 import { icons } from "@Assets";
 import { TGU, RGU, getArrayFromArrayOfObject, EVS, getObjectFromArrayByKey, TICKET_STATUS_LIST } from '@Utils';
@@ -119,7 +119,7 @@ function TicketItemMenu() {
             }
 
             <Modal isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ maxHeight: '80vh' }}>
-                <Employees selection={'multiple'} onSelected={(users) => {
+                <EmployeesV1 selection={'multiple'} onSelected={(users) => {
                     const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
                     setTaggedUsers(taggedUserIds)
                 }} />
@@ -141,7 +141,7 @@ function TicketItemMenu() {
             }
 
             <Modal isOpen={reassignUserModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={reassignUserModal.hide}>
-                <Employees selection={'single'} onSelected={setReassignUser} />
+                <EmployeesV1 selection={'single'} onSelected={setReassignUser} />
                 <div className="text-right">
                     <Button
                         size={'sm'}

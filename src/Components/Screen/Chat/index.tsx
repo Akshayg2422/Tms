@@ -42,6 +42,9 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
         }
     })
 
+
+  
+
     const handleImagePicker = (file: any) => {
         let newUpdatedPhoto = [...photos, file];
         setPhotos(newUpdatedPhoto);
@@ -58,6 +61,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
 
 
     function getDisplayChats(messageArr: any) {
+      
         return (
             messageArr &&
             messageArr.length > 0 &&
@@ -117,8 +121,12 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
     }
 
     function Received({ item }: any) {
-        const { id, name, message, display_created_at, attachments, date, profile_pic } =
-            item;
+        const { id, name, message, display_created_at, attachments, date, profile_pic } =item;
+
+          const isLink = (message) => {
+        const urlPattern = /(https?:\/\/[^\s]+)/g;
+        return message.match(urlPattern);
+      };
 
         let modifiedArray = attachments;
 
@@ -127,9 +135,12 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
         }
         const [hasHover, setHasHover] = useState(false);
 
+        
+
         return (
             <div className='col'>
                 {ifObjectHasKey(item, 'date') && <DateViewer date={date} />}
+                
                 <div className='d-flex row mt-3'>
                     {variant === 'group' && profile_pic ?
                         <div className='mr-2'>
@@ -379,16 +390,19 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
         );
     }
 
+
     function getItemData(each: any) {
         const { event_type, message, chat_attachments, event_by, created_at } = each;
         const isCurrentUser = event_by?.id === dashboardDetails?.user_details?.id;
         let modifiedData = { type: isCurrentUser ? 'sent' : 'received', ...each };
-
+   
+   
         switch (event_type) {
             case 'TEM':
                 modifiedData = {
                     ...modifiedData,
                     name: event_by?.name ? capitalizeFirstLetter(event_by?.name) : '',
+                
                     message: message ? capitalizeFirstLetter(message) : '',
                     display_created_at: getDisplayTimeFromMoment(
                         getMomentObjFromServer(created_at),
@@ -416,7 +430,6 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
         }
         return modifiedData;
     }
-
 
 
     return (
