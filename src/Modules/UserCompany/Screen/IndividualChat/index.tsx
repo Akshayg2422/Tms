@@ -178,7 +178,7 @@ function IndividualChat() {
                                         selectedPrivateUser &&
                                         <Chat
                                             isSuccess={success}
-                                            height={dynamicHeight.dynamicHeight - 50}
+                                            height={dynamicHeight.dynamicHeight}
                                             variant={'private'}
                                             data={chatMessages}
                                             hasMore={chatMessageCurrentPages !== -1}
