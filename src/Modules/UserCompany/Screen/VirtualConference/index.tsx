@@ -1,5 +1,5 @@
 import { icons } from '@Assets'
-import { Back, Button, Card, Dropzone, Image, Spinner } from '@Components'
+import { Back, Button, Card, Dropzone, Image, ImageIcon, Spinner } from '@Components'
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { translate } from '@I18n'
 import { getTokenByUser, getVideoConferenceList, selectedVcDetails } from '@Redux'
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Nav, NavItem, NavLink } from 'reactstrap'
 import { VideoConference } from '../../Container'
 import { join } from 'path'
+import styled from 'styled-components'
 
 
 const LIST_ITEMS = [
@@ -42,7 +43,7 @@ function VirtualConference() {
             params,
             onSuccess: (success: any) => () => {
                 setLoading(false)
-               
+
             },
             onError: (error: string) => () => {
                 setLoading(false)
@@ -51,7 +52,7 @@ function VirtualConference() {
         }))
     }
 
-    console.log("vcNotificationData",vcNotificationData)
+    console.log("vcNotificationData", vcNotificationData)
 
 
     const getUserToken = (data) => {
@@ -73,7 +74,12 @@ function VirtualConference() {
         }))
     }
 
-  
+    const styles = {
+        height: '40px',
+        filter: 'invert(35%) sepia(100%) saturate(5908%) hue-rotate(245deg) brightness(73%) contrast(132%) '
+        
+        
+    }
 
 
     return (
@@ -113,8 +119,12 @@ function VirtualConference() {
                                             )
                                         }
 
-                                        <div className='text-center mb-3'>
-                                            <Image size={'xl'} variant={'rounded'} src={icons.videoConference} />
+                                        {/* <div className='text-center mb-3' style={{background:'white',borderRadius:'50%',width:'100px',height:'100px'}}>
+                                            <ImageIcon size={'xl'}  src={icons.VideoIcon} style={styles}/>
+                                        </div> */}
+
+                                        <div className=' mb-3 ml-5 ' style={{ background: 'white', borderRadius: '50%', width: '85px', height: '85px' }}>
+                                        <ImageIcon size={'xl'}  src={icons.VideoIcon} style={styles} className=' ml-3 mt-4'/>
                                         </div>
 
                                         <div className='text-center '>
@@ -147,7 +157,9 @@ function VirtualConference() {
                                                     getUserToken(el)
                                                     goTo(ROUTES['user-company-module']['video-conference'], false)
 
-                                                }} />
+                                                }} ></Button>
+
+                                                
                                         </div>
 
                                         {/* </Image> */}

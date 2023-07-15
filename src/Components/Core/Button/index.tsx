@@ -1,5 +1,6 @@
 
 
+
 import React from 'react';
 import { Button as RSButton } from 'reactstrap';
 import { ButtonProps } from './interfaces';
@@ -67,13 +68,14 @@ function Button({
           onClick={onClick}
           {...rest}
         >
-          <ImageIcon src={icon} alt="" height={height} width={width} />
+          <img src={icon} alt="" height={height} width={width} />
         </RSButton>
-      )}
+      )} 
+      
 
       {/* {variant === 'icon-rounded' &&
         <RSButton type={'button'} size={size} className={'btn-icon-only rounded-circle d-flex align-items-center justify-content-center'} color={color} onClick={onClick}  {...rest} >
-          <img src={icon} height={height} width={width} />
+          <ImageIcon src={icon} height={height} width={width} />
         </RSButton>
       } */}
 

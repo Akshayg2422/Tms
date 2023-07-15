@@ -1,5 +1,6 @@
 import React from 'react'
 import { ImageProps, ImageVariant } from './interfaces'
+
 function ImageIcon({ variant = 'default', className, alt, size, ...rest }: ImageProps) {
 
     const styles={

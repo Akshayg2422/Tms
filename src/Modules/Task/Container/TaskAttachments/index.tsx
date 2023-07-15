@@ -43,7 +43,7 @@ console.log('taskAttachments==============>')
   return (
     <>
       <Card className="overflow-auto" style={{
-        height: height - 15
+        height: height - 85
       }}>
         <div className="row text-right">
           <div className="col-5" >
