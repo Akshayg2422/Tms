@@ -277,7 +277,7 @@ function Designation() {
 
           <div className="mt--2">
             <DropDown
-              heading={translate("common.department")!}
+              
               placeHolder={translate("order.Select a Department")!}
               data={getDropDownDisplayData(departments)}
               onChange={(item) => {
@@ -293,14 +293,7 @@ function Designation() {
           value={designationName.value}
           onChange={designationName.onChange}
         />
-          <DropDown
-                           
-                            placeHolder={translate("common.department")!}
-                            data={getDropDownDisplayData(departments)}
-                            selected={department.value}
-                            onChange={(el:any)=>{
-                              department.onChange(el)} }
-                        />
+  
 
         <div className="col">
           <div className='row'>
