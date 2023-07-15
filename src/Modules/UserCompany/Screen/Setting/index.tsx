@@ -7,16 +7,16 @@ function Setting() {
       <div className='row'>
         <div className='col-6'>
           <Tag />
-          <div className='mt--3'>
-            <Designation /></div>
+          <div className='my--3'>
+            <Designation />
+          </div>
           <TaskGroup />
         </div>
         <div className='col-6 ml--2'>
           <BrandSector />
+          <div className='mt--3'></div>
           <Department />
-
         </div>
-
       </div>
 
     </div>

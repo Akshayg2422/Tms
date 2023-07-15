@@ -1,7 +1,3 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_SECTOR, ifObjectExist, validate, getValidateError, INITIAL_PAGE } from "@Utils";
-import { useDynamicHeight, useModal, useInput, useLoader } from "@Hooks";
 import {
   Button,
   Card,
@@ -11,10 +7,13 @@ import {
   NoRecordsFound,
   Spinner,
   showToast,
-
 } from "@Components";
+import { useDynamicHeight, useInput, useLoader, useModal } from "@Hooks";
 import { translate } from "@I18n";
 import { addBrandSector, getBrandSector } from "@Redux";
+import { ADD_SECTOR, INITIAL_PAGE, capitalizeFirstLetter, getValidateError, ifObjectExist, paginationHandler, validate } from "@Utils";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 
 function BrandSector() {
@@ -35,7 +34,7 @@ function BrandSector() {
   const addSectorModal = useModal(false);
   const sector = useInput('')
   const [loading, setLoading] = useState(false)
-  const loginLoader=useLoader(false)
+  const loginLoader = useLoader(false)
 
   const getBrandSectorList = (page_number: number) => {
     setLoading(true)
@@ -93,15 +92,15 @@ function BrandSector() {
   const normalizedBrandSectorData = (data: any) => {
     return data.map((el: any) => {
       return {
-        name: el.name,
+        name: capitalizeFirstLetter(el.name),
       };
     });
   };
 
   return (
     <>
-      <Card className={'mb-3'} style={{ height: showSector ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
-        <div className="row">
+      <div className={'card justify-content-center'} style={{ height: showSector ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
+        <div className="row mx-2">
           <div className="col">
             <h3>{translate("auth.sector")}</h3>
           </div>
@@ -135,8 +134,6 @@ function BrandSector() {
           className="overflow-auto overflow-hide"
           style={{
             height: showSector ? dynamicHeight.dynamicHeight - 100 : '0px',
-            marginLeft: "-23px",
-            marginRight: "-23px"
           }}>
           {
             loading && (
@@ -170,7 +167,7 @@ function BrandSector() {
               </div>
             )}
         </div>
-      </Card >
+      </div>
       <Modal
         isOpen={addSectorModal.visible}
         onClose={addSectorModal.hide}
@@ -194,7 +191,7 @@ function BrandSector() {
             }}
           />
           <Button
-          loading={loginLoader.loader}
+            loading={loginLoader.loader}
             text={translate("common.submit")}
             onClick={addBrandSectorApiHandler}
           />
@@ -204,4 +201,4 @@ function BrandSector() {
   )
 }
 
-export { BrandSector }
+export { BrandSector };

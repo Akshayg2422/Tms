@@ -1,21 +1,21 @@
-import { addDesignation, getDepartments, getDesignations, getEmployees } from '@Redux';
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE, type, getDropDownDisplayData } from "@Utils";
-import { useDynamicHeight, useModal, useInput, useLoader, useDropDown } from "@Hooks";
 import {
   Button,
   Card,
+  Checkbox,
   CommonTable,
+  DropDown,
   Input,
   Modal,
   NoRecordsFound,
-  showToast,
-  Checkbox,
   Spinner,
-  DropDown,
+  showToast,
 } from "@Components";
+import { useDropDown, useDynamicHeight, useInput, useLoader, useModal } from "@Hooks";
 import { translate } from "@I18n";
+import { addDesignation, getDepartments, getDesignations } from '@Redux';
+import { ADD_DESIGNATION, INITIAL_PAGE, getDropDownDisplayData, getValidateError, ifObjectExist, paginationHandler, type, validate } from "@Utils";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 
 function Designation() {
@@ -45,15 +45,15 @@ function Designation() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const loginLoader = useLoader(false)
- console.log('department======>',departments);
- 
+  console.log('department======>', departments);
+
   const getDesignationApiHandler = (page_number: number) => {
 
     setLoading(true)
     const params = {
       page_number,
       // per_page_count: -1,
-      
+
     };
     loginLoader.show()
     dispatch(
@@ -102,31 +102,29 @@ function Designation() {
   };
 
 
-  useEffect (()=>{
-      
+  useEffect(() => {
 
-        const params = {
-            branch_id: dashboardDetails?.permission_details?.branch_id,
-            per_page_count: -1,
-    
-        };
 
-        dispatch(
-            getDepartments({
-                params,
-                onSuccess: (response) => () => {
-                 
-                },
-                onError: () => () => {
+    const params = {
+      branch_id: dashboardDetails?.permission_details?.branch_id,
+      per_page_count: -1,
 
-                },
-            })
+    };
 
-        );
+    dispatch(
+      getDepartments({
+        params,
+        onSuccess: () => () => {
+        },
+        onError: () => () => {
+        },
+      })
 
-  
+    );
 
-  },[])
+
+
+  }, [])
 
   const normalizedDesignationData = (data: any) => {
 
@@ -180,10 +178,10 @@ function Designation() {
 
   return (
     <>
-      <Card className={'mb-3'} style={{
+      <div className={'card justify-content-center'} style={{
         height: showDesignations ? dynamicHeight.dynamicHeight - 35 : '5em',
       }}>
-        <div className="row">
+        <div className="row mx-2">
           <div className="col">
             <h3>{translate("auth.designation")}</h3>
           </div>
@@ -218,8 +216,6 @@ function Designation() {
           className="overflow-auto overflow-hide"
           style={{
             height: showDesignations ? dynamicHeight.dynamicHeight - 100 : '0px',
-            marginLeft: "-23px",
-            marginRight: "-23px"
           }}>
           {
             loading && (
@@ -255,7 +251,7 @@ function Designation() {
             </div>
           )}
         </div>
-      </Card>
+      </div>
 
       {
         /**
@@ -277,7 +273,7 @@ function Designation() {
 
           <div className="mt--2">
             <DropDown
-              
+
               placeHolder={translate("order.Select a Department")!}
               data={getDropDownDisplayData(departments)}
               onChange={(item) => {
@@ -293,7 +289,7 @@ function Designation() {
           value={designationName.value}
           onChange={designationName.onChange}
         />
-  
+
 
         <div className="col">
           <div className='row'>
@@ -319,7 +315,7 @@ function Designation() {
 
               const params = {
                 name: designationName.value,
-                department_id:department.value?.id,
+                department_id: department.value?.id,
                 is_admin: isAdmin,
                 ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
               };
@@ -334,4 +330,4 @@ function Designation() {
   )
 }
 
-export { Designation }
+export { Designation };
