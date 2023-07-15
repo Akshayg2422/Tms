@@ -7,7 +7,7 @@ function Setting() {
       <div className='row'>
         <div className='col-6'>
           <Tag />
-          <div className='my--3'>
+          <div className='mt--3'>
             <Designation />
           </div>
           <TaskGroup />

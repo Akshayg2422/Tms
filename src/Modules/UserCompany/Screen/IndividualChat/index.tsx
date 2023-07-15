@@ -200,7 +200,10 @@ function IndividualChat() {
 
                                             }}
 
-                                            onEdit={() => { }}
+                                            onEdit={(params) => { 
+                                                setSuccess(false)
+                                                addChatMessageApiHandler(params)
+                                            }}
                                         />
                                     }
                                     <div className='my-3'>

@@ -24,7 +24,7 @@ import {
   getGroupsEmployees
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer, getDisplayTimeDateMonthYearTime, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
+import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE,  getMomentObjFromServer, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
 import { useModal, useDynamicHeight, useInput, useLoader } from "@Hooks";
 import { icons } from "@Assets";
 import { EmployeesV1 } from '@Modules'
@@ -47,9 +47,9 @@ function TaskGroup() {
   const { company } = dashboardDetails || ''
 
   const dynamicHeight: any = useDynamicHeight()
-  useEffect(() => {
-    getGroupEmployees()
-  }, [selectedGroupChat])
+  // useEffect(() => {
+  //   getGroupEmployees()
+  // }, [selectedGroupChat])
 
   const getGroupMenuItem = (marked_as_closed: boolean, is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
