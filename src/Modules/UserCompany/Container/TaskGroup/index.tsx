@@ -569,7 +569,7 @@ const [endTimeValue, setEndTimeValue] = useState(null);
           />
         </div>
       </Modal>
-     
+
          <Modal
          isOpen={addSubTaskGroupModal.visible}
          onClose={() => {
@@ -623,14 +623,11 @@ const [endTimeValue, setEndTimeValue] = useState(null);
                  />
                </div>
              </div>
-       
- 
            <TextAreaInput
              heading={translate('auth.description')!}
              value={subTaskGroupDescription.value}
              onChange={subTaskGroupDescription.onChange}
              className="form-control form-control-sm"
- 
            />
  
          </div>
@@ -666,9 +663,9 @@ const [endTimeValue, setEndTimeValue] = useState(null);
            />
          </div>
        </Modal>
-     {/* } */}
-      
 
+
+        
       {
         /**
          * Tag User
