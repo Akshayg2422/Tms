@@ -35,7 +35,7 @@ function App() {
         return getRoutes(prop.views);
       }
 
-      const path = prop.layout ? prop.layout + prop.path : prop.path; 
+      const path = prop.layout ? prop.layout + prop.path : prop.path;
 
       return (
         <Route

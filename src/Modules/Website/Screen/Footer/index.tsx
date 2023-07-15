@@ -2,13 +2,15 @@ import React from 'react'
 import { image } from '@Assets';
 import { Input, Card, Image, Divider, Badge, Heading, Paragraph, Button, Title } from '@Components';
 import { translate } from "@I18n";
-import {useNavigation} from '@Hooks'
+import { useNavigation } from '@Hooks'
+import { ROUTES } from '@Routes'
+
 function Footer() {
 
-  const {goTo} = useNavigation();
+  const { goTo } = useNavigation();
   return (
     <div className='container-fluid'>
-       <div className=' pb-5 gradient'>
+      <div className=' pb-5 gradient'>
         <div className={'text-center z-index'}>
           <div className={'row'}>
             <Image
@@ -42,11 +44,11 @@ function Footer() {
             />
           </div>
         </div>
-      </div> 
+      </div>
       <div className={'text-center pt-5 mt--5'}>
         <div className={'pt-sm-2  h3 display-1'}><b> {translate('TMS.ninethScreen.readyToUseQuantaTMS?')} </b></div>
         <p className={'  mt-lg-0 mt-sm-0 mt-3 h1'}>
-         <b> {translate('TMS.ninethScreen.subText')}</b>
+          <b> {translate('TMS.ninethScreen.subText')}</b>
         </p>
       </div>
 
@@ -123,7 +125,7 @@ function Footer() {
             <div className='verticalLine d-none d-lg-block d-print-block'></div>
           </div>
 
-          
+
 
           <div className='col-lg-3 col-md-3 col-sm-12 pt-sm-5 '>
             <th className={' h3 pb-4'}><b>{translate('common.company')}</b></th>
@@ -136,16 +138,16 @@ function Footer() {
             <div className='verticalLine d-none d-lg-block d-print-block'></div>
           </div>
 
-          
+
 
           <div className='col-lg-3 col-md-3 col-sm-12 pt-sm-5 '>
-            
+
             <th className={'pb-4  h3'}><b>{translate('TMS.community')}</b></th>
             <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.help')}</p>
             <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.discord')}</p>
             <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.twitter')}</p>
             <p className={'text h4 pb-2  d-lg-block d-print-block'}>{translate('TMS.linkedin')}</p>
-            
+
             <div className='d-block d-lg-none'>
               {/* <Divider space={'0'} /> */}
             </div>
@@ -153,7 +155,7 @@ function Footer() {
           </div>
 
 
-          
+
 
           <div className='col-sm-3 pt-5 pb-5'>
             <div className='row '>
@@ -175,9 +177,9 @@ function Footer() {
       </div>
       <footer className={'row justify-content-between m-0'}>
         <p className=' col-sm-6 small pl-sm-0 pl-8 h4'><b> {translate('TMS.copyrightcontent')} </b></p>
-         <p style={{cursor : 'pointer'}}  className='col-sm-2 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' href="./PrivacyPolicy" target='_blank'><b> {translate('auth.PrivacyPolicy')} </b> </a></p> 
-         <p style={{cursor : 'pointer'}}  className='col-sm-2 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' href="https://www.quantaone.in/TermsAndConditions"><b> {translate('auth.Term & Conditions')} </b> </a></p>
-         <p style={{cursor : 'pointer'}}  className='col-sm-2 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' href="https://www.quantaone.in/ReturnAndRefund"><b> {translate('auth.Return & Refund')} </b> </a></p>
+        <p style={{ cursor: 'pointer' }} className='col-sm-2 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' onClick={() => goTo(ROUTES["auth-module"].privacy)}><b> {translate('auth.PrivacyPolicy')} </b> </a></p>
+        <p style={{ cursor: 'pointer' }} className='col-sm-2 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' onClick={() => goTo(ROUTES["auth-module"].TermsAndConditions)}><b> {translate('auth.Term & Conditions')} </b> </a></p>
+        <p style={{ cursor: 'pointer' }} className='col-sm-2 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' onClick={() => goTo(ROUTES["auth-module"].ReturnAndRefund)}><b> {translate('auth.Return & Refund')} </b> </a></p>
       </footer>
     </div>
   )
