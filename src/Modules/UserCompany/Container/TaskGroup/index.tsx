@@ -90,6 +90,10 @@ function TaskGroup() {
   const [date, setDate] = useState<any>(moment().format())
   const [endDate, setEndDate] = useState<any>(moment().format())
 
+  const [startTimeValue, setStartTimeValue] = useState(null);
+const [endTimeValue, setEndTimeValue] = useState(null);
+
+
 
   const handleStartTimeEtaChange = (value: any) => {
     setStatTimeEta(value)
@@ -202,6 +206,12 @@ function TaskGroup() {
         let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
         updatedPhoto = encoded
       }
+
+      if (!startTimeValue || !endTimeValue) {
+        showToast('Please select both start time and end time.');
+        return;
+      }
+
       const params = {
         name: convertToUpperCase(subTaskGroupName.value),
         description: convertToUpperCase(subTaskGroupDescription.value),
@@ -304,6 +314,7 @@ function TaskGroup() {
 
   }
 
+  
   const normalizedTaskGroupData = (data: any) => {
     return data.map((taskGroup: any,) => {
 
@@ -463,6 +474,7 @@ function TaskGroup() {
               </div>
             )
           }
+          
           {taskGroups && taskGroups?.length > 0 ? (
             <CommonTable
               isPagination
@@ -558,99 +570,104 @@ function TaskGroup() {
         </div>
       </Modal>
      
-      <Modal
-        isOpen={addSubTaskGroupModal.visible}
-        onClose={() => {
-          addSubTaskGroupModal.hide();
-          resetSubTaskValues();
-        }}
-        title={translate("auth.task")!}
-      >
-        <div className="mt--4">
-
-          <div className='row'>
-            <div className="col-6">
-              <Input
-                placeholder={translate("auth.task")}
-                value={stringSlices(subTaskGroupName.value)}
-                onChange={(e) => {
-                  subTaskGroupName.onChange(e)
-                  subTaskGroupCode.set(stringToUpperCase(stringSlice(e.target.value)))
-                }}
-              />
-            </div>
-            <div className="pt-2 pr-2 text-sm col-auto"> {selectedSubTaskGroup?.parent?.code}-</div>
-            <div className="col">
-              <Input
-                placeholder={translate("auth.code")}
-                value={subTaskGroupCode.value}
-                onChange={(e) => { subTaskGroupCode.set(stringToUpperCase((stringSlice(e.target.value)))) }}
-              />
-            </div>
-          </div>
-
-          <div className="row">
-
-            <div className="col-6">
-              <DateTimePicker
-                placeholder={'Start Time'}
-                type="both"
-                value={date ? getMomentObjFromServer(date) : null!}
-                onChange={handleStartTimeEtaChange}
-              
-              />
-            </div>
-            <div className="col-6">
-              <DateTimePicker
-                type="both"
-                value={endDate ? getMomentObjFromServer(endDate) : null!}
-                onChange={handleEndTimeEtaChange}
-                placeholder={'End Time'}
-              
-              />
-            </div>
-          </div>
-
-
-          <TextAreaInput
-            heading={translate('auth.description')!}
-            value={subTaskGroupDescription.value}
-            onChange={subTaskGroupDescription.onChange}
-            className="form-control form-control-sm"
-
-          />
-
-        </div>
-        <div className="pb-3">
-          <Dropzone
-            variant="ICON"
-            icon={subTaskPhoto}
-            size="xl"
-            onSelect={(image) => {
-              let encoded = image.toString().replace(/^data:(.*,)?/, "");
-              setSubTaskPhoto(encoded);
-            }}
-          />
-
-        </div>
-        <div className="text-right">
-          <Button
-            color={"secondary"}
-            text={translate("common.cancel")}
-            onClick={() => {
-              addSubTaskGroupModal.hide();
-              resetSubTaskValues();
-            }}
-          />
-          <Button
-            text={translate("common.submit")}
-            loading={loginLoader.loader}
-            onClick={() => {
-              addSubTaskGroupApiHandler();
-            }}
-          />
-        </div>
-      </Modal>
+         <Modal
+         isOpen={addSubTaskGroupModal.visible}
+         onClose={() => {
+           addSubTaskGroupModal.hide();
+           resetSubTaskValues();
+         }}
+         title={translate("auth.task")!}
+       >
+         
+         <div className="mt--4">
+       
+               <div className='row'>
+               <div className="col-6">
+                 <Input
+                   placeholder={translate("auth.task")}
+                   value={stringSlices(subTaskGroupName.value)}
+                   onChange={(e) => {
+                     subTaskGroupName.onChange(e)
+                     subTaskGroupCode.set(stringToUpperCase(stringSlice(e.target.value)))
+                   }}
+                 />
+               </div>
+               <div className="pt-2 pr-2 text-sm col-auto"> {selectedSubTaskGroup?.parent?.code}-</div>
+               <div className="col">
+                 <Input
+                   placeholder={translate("auth.code")}
+                   value={subTaskGroupCode.value}
+                   onChange={(e) => { subTaskGroupCode.set(stringToUpperCase((stringSlice(e.target.value)))) }}
+                 />
+               </div>
+             </div>
+             
+             <div className="row">
+   
+               <div className="col-6">
+                 <DateTimePicker
+                   placeholder={'Start Time'}
+                   type="both"
+                   value={date ? getMomentObjFromServer(date) : null!}
+                   onChange={handleStartTimeEtaChange}
+                 
+                 />
+               </div>
+               <div className="col-6">
+                 <DateTimePicker
+                   type="both"
+                   value={endDate ? getMomentObjFromServer(endDate) : null!}
+                   onChange={handleEndTimeEtaChange}
+                   placeholder={'End Time'}
+                 
+                 />
+               </div>
+             </div>
+       
+ 
+           <TextAreaInput
+             heading={translate('auth.description')!}
+             value={subTaskGroupDescription.value}
+             onChange={subTaskGroupDescription.onChange}
+             className="form-control form-control-sm"
+ 
+           />
+ 
+         </div>
+         <div className="pb-3">
+           <Dropzone
+             variant="ICON"
+             icon={subTaskPhoto}
+             size="xl"
+             onSelect={(image) => {
+               let encoded = image.toString().replace(/^data:(.*,)?/, "");
+               setSubTaskPhoto(encoded);
+             }}
+           />
+ 
+         </div>
+         
+         <div className="text-right">
+           <Button
+             color={"secondary"}
+             text={translate("common.cancel")}
+             onClick={() => {
+               addSubTaskGroupModal.hide();
+               resetSubTaskValues();
+             }}
+           />
+ 
+           <Button
+             text={translate("common.submit")}
+             loading={loginLoader.loader}
+             onClick={() => {
+               addSubTaskGroupApiHandler();
+             }}
+           />
+         </div>
+       </Modal>
+     {/* } */}
+      
 
       {
         /**
