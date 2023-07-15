@@ -10,8 +10,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Card, CardBody, CardHeader } from 'reactstrap'
 import { VideoConference } from '../../Container'
 
-function IndividualChat() {
 
+function IndividualChat() {
+    
     const { dashboardDetails, oneToOneChat, employees, chatMessageCurrentPages, selectedPrivateUser, chatEmployees, chatMessages, refreshPrivateChat } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
