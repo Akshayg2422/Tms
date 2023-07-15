@@ -1,8 +1,8 @@
-import { addDesignation, getDesignations } from '@Redux';
-import React, { useState } from "react";
+import { addDesignation, getDesignations, getEmployees } from '@Redux';
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE } from "@Utils";
-import { useDynamicHeight, useModal, useInput, useLoader } from "@Hooks";
+import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE, type, getDropDownDisplayData } from "@Utils";
+import { useDynamicHeight, useModal, useInput, useLoader, useDropDown } from "@Hooks";
 import {
   Button,
   Card,
@@ -13,6 +13,7 @@ import {
   showToast,
   Checkbox,
   Spinner,
+  DropDown,
 } from "@Components";
 import { translate } from "@I18n";
 
@@ -21,31 +22,37 @@ function Designation() {
 
   const {
     designations,
+    departments,
     designationCurrentPages,
     designationNumOfPages,
     dashboardDetails
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-
+  const DEFAULT_COMPANY = { id: dashboardDetails?.permission_details?.branch_id, display_name: '𝗦𝗘𝗟𝗙', name: 'self' }
   const isUserAdmin = dashboardDetails?.permission_details?.is_admin
   const isUserSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
-
-  const [loading,setLoading] = useState(false)
+  const company = useDropDown(DEFAULT_COMPANY)
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
+  const [taskType, setTaskType] = useState(type[1]);
+  const department = useDropDown({})
   const dynamicHeight: any = useDynamicHeight()
   const [showDesignations, setShowDesignations] = useState(false);
   const addDesignationModal = useModal(false);
   const designationName = useInput('')
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
-  const loginLoader=useLoader(false)
-
-  const getDesignationApiHandler = (page_number: number) => {
+  const loginLoader = useLoader(false)
+ console.log('department======>',departments);
  
+  const getDesignationApiHandler = (page_number: number) => {
+
     setLoading(true)
     const params = {
-      page_number
+      page_number,
+      per_page_count: -1,
+      
     };
     loginLoader.show()
     dispatch(
@@ -63,6 +70,7 @@ function Designation() {
     );
   };
 
+
   const addDesignationApiHandler = (params: any) => {
 
     const validation = validate(ADD_DESIGNATION, params)
@@ -75,7 +83,7 @@ function Designation() {
           onSuccess: (success: any) => () => {
             addDesignationModal.hide()
             loginLoader.hide()
-          getDesignationApiHandler(designationCurrentPages)
+            getDesignationApiHandler(designationCurrentPages)
             resetValues()
           },
           onError: (error: string) => () => {
@@ -86,6 +94,7 @@ function Designation() {
       );
     }
     else {
+      setTaskType(type[1])
       showToast(getValidateError(validation));
     }
   };
@@ -134,9 +143,12 @@ function Designation() {
 
   function resetValues() {
     designationName.set('')
+
     setIsAdmin(false)
     setIsSuperAdmin(false)
   }
+
+  const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
   return (
     <>
@@ -160,7 +172,7 @@ function Designation() {
               onClick={() => {
                 setShowDesignations(!showDesignations)
                 if (!showDesignations) {
-                   getDesignationApiHandler(INITIAL_PAGE);
+                  getDesignationApiHandler(INITIAL_PAGE);
                 }
               }}
             />
@@ -181,13 +193,13 @@ function Designation() {
             marginLeft: "-23px",
             marginRight: "-23px"
           }}>
-            {
-              loading && (
-                <div className='d-flex justify-content-center align-item-center' style={{marginTop:'200px'}}>
-                  <Spinner/>
-                </div>
-              )
-            }
+          {
+            loading && (
+              <div className='d-flex justify-content-center align-item-center' style={{ marginTop: '200px' }}>
+                <Spinner />
+              </div>
+            )
+          }
           {designations && designations?.length > 0 ? (
             <CommonTable
               isPagination
@@ -222,6 +234,7 @@ function Designation() {
          * add Designation Modal
          */
       }
+
       <Modal
         isOpen={addDesignationModal.visible}
         onClose={() => {
@@ -231,6 +244,21 @@ function Designation() {
         title={translate("auth.designation")!}
         size='md'
       >
+        {
+          getExternalCompanyStatus() && departments && departments.length > 0 &&
+
+          <div className="mt--2">
+            <DropDown
+              heading={translate("common.department")!}
+              placeHolder={translate("order.Select a Department")!}
+              data={getDropDownDisplayData(departments)}
+              onChange={(item) => {
+                department.onChange(item)
+              }}
+              selected={department.value}
+            />
+          </div>
+        }
 
         <Input
           placeholder={translate("auth.designation")!}

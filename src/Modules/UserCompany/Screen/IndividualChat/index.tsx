@@ -209,11 +209,7 @@ function IndividualChat() {
                                                     receiver_by: selectedPrivateUser.id,
                                                     ...message,
                                                 };
-
-
-
                                                 addChatMessageApiHandler(params);
-
                                             }}
                                             onAttachPress={response => {
                                                 setSuccess(false);
@@ -274,7 +270,6 @@ function IndividualChat() {
                                         }
                                     </div>
                                 </CardHeader>
-
 
                                 <div
                                     className={`overflow-auto overflow-hide`}>

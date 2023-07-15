@@ -8,5 +8,6 @@ export * from './RealTime'
 export * from './Experiences'
 export * from './Footer'
 export * from './Header'
-export * from './Privacy'
-
+export * from './PrivacyPolicy'
+export * from './TermsAndConditions'
+export * from './ReturnAndRefund'

@@ -175,7 +175,9 @@ function Footer() {
       </div>
       <footer className={'row justify-content-between m-0'}>
         <p className=' col-sm-6 small pl-sm-0 pl-8 h4'><b> {translate('TMS.copyrightcontent')} </b></p>
-         <p style={{cursor : 'pointer'}}  className='col-sm-6 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' href="https://www.quantaone.in/PrivacyPolicy"><b> {translate('TMS.privacy')} </b> </a></p> 
+         <p style={{cursor : 'pointer'}}  className='col-sm-2 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' href="./PrivacyPolicy" target='_blank'><b> {translate('auth.PrivacyPolicy')} </b> </a></p> 
+         <p style={{cursor : 'pointer'}}  className='col-sm-2 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' href="https://www.quantaone.in/TermsAndConditions"><b> {translate('auth.Term & Conditions')} </b> </a></p>
+         <p style={{cursor : 'pointer'}}  className='col-sm-2 small h4 text-lg-right mr-sm-0  text-sm-center pl-sm-0 pl-8   '>  <a className='h4' href="https://www.quantaone.in/ReturnAndRefund"><b> {translate('auth.Return & Refund')} </b> </a></p>
       </footer>
     </div>
   )
