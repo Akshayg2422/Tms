@@ -33,7 +33,7 @@ function Groups() {
                     </Card>
 
                 </div>
-                <div className='col ml--3' style={{
+                <div className='col ml--3 ' style={{
                     height: infoHeight - 30
                 }}>
                     <GroupEmployees />

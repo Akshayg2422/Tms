@@ -500,7 +500,10 @@ function* getVideoConferenceListSaga(action) {
 function* getTokenByUserSaga(action) {
   try {
     const response = yield call(Api.getTokenByUserApi, action.payload.params);
+    console.log(JSON.stringify(action,
+      "aaaaaaaaaaaaa"))
     if (response.success) {
+      console.log(JSON.stringify(response,"ppppppppppprrrrrrr"))
       yield put(Action.getTokenByUserSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {

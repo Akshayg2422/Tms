@@ -10,17 +10,14 @@ import { Chat } from '@Components'
 function GroupMessage({ }: GroupMessageProps) {
 
     const dispatch = useDispatch()
-    const { selectedGroupChat, refreshGroupChat, groupMessages, groupMessageCurrentPage } = useSelector((state: any) => state.UserCompanyReducer);
+    const { selectedGroupChat, refreshGroupChat, groupMessages, groupMessageCurrentPage,refreshGroupEvents } = useSelector((state: any) => state.UserCompanyReducer);
 
     const { height } = useWindowDimensions()
     const [hasSuccess, setHasSuccess] = useState(false)
 
     useEffect(() => {
         getGroupMessageApiHandler(INITIAL_PAGE)
-    }, [selectedGroupChat, refreshGroupChat])
-    const [isSendingMessage, setIsSendingMessage] = useState(false);
-    const SEND_DELAY = 1000;
-
+    }, [selectedGroupChat, refreshGroupChat,refreshGroupEvents])
 
     const getGroupMessageApiHandler = (page_number: number) => {
 

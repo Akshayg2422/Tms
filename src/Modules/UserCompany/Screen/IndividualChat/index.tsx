@@ -1,6 +1,6 @@
 import { icons } from '@Assets'
 import { AutoComplete, Button, Chat, Image, NoDataFound, Send, Spinner } from '@Components'
-import { useDynamicHeight, useLoader } from '@Hooks'
+import { useDynamicHeight, useLoader, useNavigation  } from '@Hooks'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneVcNoti, postChatMessage, selectedVcDetails, setRefreshPrivateChat, setSelectedPrivateUser } from '@Redux'
 import { SERVER } from '@Services'
 import { INITIAL_PAGE, convertToUpperCase, getDropDownCompanyUser } from '@Utils'
@@ -9,6 +9,8 @@ import 'react-photo-view/dist/react-photo-view.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, CardBody, CardHeader } from 'reactstrap'
 import { VideoConference } from '../../Container'
+import { ROUTES } from '@Routes'
+
 
 
 function IndividualChat() {
@@ -21,11 +23,7 @@ function IndividualChat() {
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const dispatch = useDispatch()
     const [showAutoComplete, setAutoComplete] = useState<any>(false)
-
-
-
-
-
+    const {goTo}=useNavigation()
 
     const loader = useLoader(false);
     const messageLoader = useLoader(false);
@@ -229,6 +227,8 @@ function IndividualChat() {
                                             }}
                                             onVideoPress={() => {
                                                 getUserToken()
+                                                goTo(ROUTES['user-company-module']['video-conference'], false)
+
                                             }}
                                         />
 
