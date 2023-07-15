@@ -50,7 +50,7 @@ function CommonTable({ card = false, title, displayDataSet, tableDataSet, isPagi
             <div className='mt-2'>{children}</div>
           </div>
         </div > :
-          <div className='mt-2 '>{children}</div>
+          <div className='mt-2'>{children}</div>
         }
       </>
     )

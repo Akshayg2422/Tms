@@ -1,23 +1,21 @@
-import { addDepartment, getDepartments } from "@Redux";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {  paginationHandler,  INITIAL_PAGE, } from "@Utils";
-import { useDynamicHeight, useModal, useInput, useLoader } from "@Hooks";
+import { icons } from "@Assets";
 import {
   Button,
   Card,
+  Checkbox,
   CommonTable,
   Input,
+  MenuBar,
   Modal,
   NoRecordsFound,
-  showToast,
-  Checkbox,
-  MenuBar,
-  Spinner,
-
+  Spinner
 } from "@Components";
+import { useDynamicHeight, useInput, useLoader, useModal } from "@Hooks";
 import { translate } from "@I18n";
-import { icons } from "@Assets";
+import { addDepartment, getDepartments } from "@Redux";
+import { paginationHandler, capitalizeFirstLetter, INITIAL_PAGE } from "@Utils";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function Department() {
   const {
@@ -41,8 +39,7 @@ function Department() {
   const [selectedDepartment, setSelectedDepartment] = useState<any>(undefined);
   const [isSubTask, setIsSubTask] = useState(false);
   const [loading, setLoading] = useState(false)
-  const [department,setDepartment]=useState<any>()
-  const loginLoader=useLoader(false)
+  const loginLoader = useLoader(false)
 
 
 
@@ -60,7 +57,7 @@ function Department() {
         },
         onError: (error: string) => () => {
           loginLoader.hide()
-         },
+        },
       })
     );
 
@@ -71,17 +68,14 @@ function Department() {
   ]
 
   const dispatch = useDispatch();
-  useEffect(()=>{
-    getDepartmentList(INITIAL_PAGE)
 
-  },[])
 
   const getDepartmentList = (page_number: number) => {
     setLoading(true)
     const params = {
       page_number
     };
-   
+
     dispatch(
       getDepartments({
         params,
@@ -89,11 +83,11 @@ function Department() {
 
 
           setLoading(false)
-       
+
         },
         onError: (error: string) => () => {
           setLoading(false)
-          
+
         },
       })
     );
@@ -105,7 +99,7 @@ function Department() {
       const { name, id, is_admin, is_super_admin, is_parent, parent } = item
       return {
         name: <div >
-          <span>{name}</span><br></br>
+          <span>{capitalizeFirstLetter(name)}</span><br></br>
           {!is_parent && <small>{parent?.name}</small>
           }
         </div>,
@@ -169,8 +163,8 @@ function Department() {
 
   return (
     <>
-      <Card className={'mb-3'} style={{ height: showDepartments ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
-        <div className="row">
+      <div className={'card justify-content-center'} style={{ height: showDepartments ? dynamicHeight.dynamicHeight - 35 : "5em" }} >
+        <div className="row mx-2">
           <div className="col">
             <h3>{translate("common.department")}</h3>
           </div>
@@ -187,7 +181,7 @@ function Department() {
                 setShowDepartments(!showDepartments)
 
                 if (!showDepartments) {
-                  console.log(departmentsCurrentPages,"departmentsCurrentPages")
+                 
                   departmentsCurrentPages? getDepartmentList(departmentsCurrentPages):getDepartmentList(INITIAL_PAGE)
                 }
 
@@ -211,9 +205,6 @@ function Department() {
           className="overflow-auto overflow-hide"
           style={{
             height: showDepartments ? dynamicHeight.dynamicHeight - 100 : '0px',
-            marginLeft: "-23px",
-            marginRight: "-23px"
-
           }}
         >
           {
@@ -222,8 +213,8 @@ function Department() {
                 <Spinner />
               </div>
             )
-          } 
-          
+          }
+
           {departments && departments?.length > 0 ? (
             <CommonTable
               isPagination
@@ -251,7 +242,7 @@ function Department() {
             </div>
           )}
         </div>
-      </Card>
+      </div>
       <Modal
         isOpen={addDepartmentModal.visible}
         onClose={() => {
@@ -305,4 +296,4 @@ function Department() {
   )
 }
 
-export { Department }
+export { Department };

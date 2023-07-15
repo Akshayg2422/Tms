@@ -1,26 +1,25 @@
-import React, { useRef, useState, useLayoutEffect, RefObject } from "react";
 import {
   Button,
   Card,
   CommonTable,
+  Image,
+  ImagePicker,
   Input,
   Modal,
   NoRecordsFound,
-  showToast,
-  Dropzone,
-  Image,
-  ImagePicker,
   Spinner,
   TextAreaInput,
+  showToast
 } from "@Components";
+import { useDynamicHeight, useInput, useLoader, useModal } from "@Hooks";
 import { translate } from "@I18n";
 import {
   addTicketTag,
   getTicketTag,
 } from "@Redux";
+import { ADD_TASK_GROUP, INITIAL_PAGE, capitalizeFirstLetter, getPhoto, getValidateError, ifObjectExist, paginationHandler, stringSlice, stringToUpperCase, validate } from "@Utils";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, stringSlice, stringToUpperCase, INITIAL_PAGE } from "@Utils";
-import { useModal, useDynamicHeight, useInput, useLoader } from "@Hooks";
 
 
 
@@ -36,7 +35,7 @@ function Tag() {
   const [loading, setLoading] = useState(false)
   // const [description, setDescription] = useState("");
   const description = useInput("");
-  const loginLoader=useLoader(false)
+  const loginLoader = useLoader(false)
 
   const getTicketTagList = (page_number: number) => {
     setLoading(true)
@@ -58,7 +57,7 @@ function Tag() {
   };
 
   const addTicketTagApiHandler = () => {
-    
+
     const params = {
       name: tagName,
       description: description.value,
@@ -78,12 +77,12 @@ function Tag() {
             showToast(success.message, "success");
             getTicketTagList(INITIAL_PAGE);
             description.set('')
-            
+
           },
           onError: (error: string) => () => {
             showToast('Tags is already exists');
             loginLoader.hide()
-            
+
           },
         })
       );
@@ -97,18 +96,19 @@ function Tag() {
   const normalizedTicketTagData = (data: any) => {
     return data?.map((el: any) => {
       return {
-        name: <div className="row"><div><Image variant={'rounded'} src={getPhoto(el?.photo)} /></div>
-          <div className="pt-3 pl-2">{el.name}</div>
-        </div>,
+        name:
+          <div className="row pl-3">
+            <div><Image size={'md'} variant={'rounded'} src={getPhoto(el?.photo)} /></div>
+            <div className="pt-3 pl-2">{capitalizeFirstLetter(el.name)}</div>
+          </div>,
         tag: el?.code,
-
       };
     });
   };
 
   function resetValue() {
     setTagName("")
-  description.set('')
+    description.set('')
     setTagPhoto('')
     setTagCode('')
   }
@@ -118,8 +118,8 @@ function Tag() {
 
   return (
     <>
-      <Card style={{ height: showTags ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
-        <div className="row">
+      <div className="card justify-content-center" style={{ height: showTags ? dynamicHeight.dynamicHeight - 35 : '5em' }}>
+        <div className="row mx-2">
           <div className="col">
             <h3>{translate("auth.tag")}</h3>
           </div>
@@ -142,7 +142,7 @@ function Tag() {
 
               }}
             />
-            
+
             <Button
               className={'text-white'}
               text={translate("product.addItem")}
@@ -151,21 +151,17 @@ function Tag() {
             />
           </div>
         </div>
-
-
         <div
           className="overflow-auto overflow-hide"
           style={{
             height: showTags ? dynamicHeight.dynamicHeight - 100 : '0px',
-            marginLeft: "-23px",
-            marginRight: "-23px"
           }}
         >
-         {loading && (
-              <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px', marginTop: '200px' }}>
-                <Spinner />
-              </div>
-            )}
+          {loading && (
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px', marginTop: '200px' }}>
+              <Spinner />
+            </div>
+          )}
 
           {ticketTag && ticketTag?.length > 0 ? (
             <CommonTable
@@ -194,7 +190,7 @@ function Tag() {
             </div>
           )}
         </div>
-      </Card>
+      </div>
 
       <Modal
         isOpen={addTagsModal.visible}
@@ -224,14 +220,14 @@ function Tag() {
           </div>
         </div>
         <div>
-          
-        <TextAreaInput
-                heading={translate('auth.description')!}
-                value={description.value}
-                onChange={description.onChange}
-                className="form-control form-control-sm"
-                
-                />
+
+          <TextAreaInput
+            heading={translate('auth.description')!}
+            value={description.value}
+            onChange={description.onChange}
+            className="form-control form-control-sm"
+
+          />
           {/* <Input
             placeholder={translate("auth.description")}
             value={description}
@@ -260,7 +256,7 @@ function Tag() {
               let file = image.toString().replace(/^data:(.*,)?/, "")
               setTagPhoto(file)
             }}
-       
+
           />
 
         </div>
@@ -286,4 +282,4 @@ function Tag() {
   )
 }
 
-export { Tag }
+export { Tag };
