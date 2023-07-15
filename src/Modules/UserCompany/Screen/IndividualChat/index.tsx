@@ -12,8 +12,9 @@ import { VideoConference } from '../../Container'
 import { ROUTES } from '@Routes'
 
 
-function IndividualChat() {
 
+function IndividualChat() {
+    
     const { dashboardDetails, oneToOneChat, employees, chatMessageCurrentPages, selectedPrivateUser, chatEmployees, chatMessages, refreshPrivateChat } = useSelector(
         (state: any) => state.UserCompanyReducer
     );

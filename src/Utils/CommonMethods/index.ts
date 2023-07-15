@@ -139,6 +139,7 @@ export const getCurrentDayAndDate = (date: any) => {
 };
 
 export function getDropDownDisplayData(data: any) {
+  
   return data && data?.map((item: any) => {
     return {
       ...item,

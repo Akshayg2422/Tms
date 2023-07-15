@@ -15,7 +15,7 @@ import {
     addTaskEvent,
     refreshTaskEvents
 } from "@Redux";
-import { Employees } from '@Modules'
+import { Employees, EmployeesV1 } from '@Modules'
 import { useDropDown, useInput, useLoader, useModal, useNavigation } from "@Hooks";
 import { icons } from "@Assets";
 import { TGU, RGU, getArrayFromArrayOfObject, EVS, TASK_STATUS_LIST, getObjectFromArrayByKey } from '@Utils';
@@ -116,7 +116,7 @@ console.log(status.value,"lllll")
             }
 
             <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ maxHeight: '80vh' }}>
-                <Employees selection={'multiple'} onSelected={(users) => {
+                <EmployeesV1 selection={'multiple'} onSelected={(users) => {
                     const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
                     setTaggedUsers(taggedUserIds)
                 }} />
@@ -138,7 +138,7 @@ console.log(status.value,"lllll")
             }
 
             <Modal fade={false} isOpen={reassignUserModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={reassignUserModal.hide}>
-                <Employees selection={'single'} onSelected={setReassignUser} />
+                <EmployeesV1 selection={'single'} onSelected={setReassignUser} />
                 <div className="text-right">
                     <Button
                         size={'sm'}
