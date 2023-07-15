@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ChatProps } from './interfaces'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Spinner, Badge, Image, Modal, Button, ImagePicker } from '@Components'
-import { Provider, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import {
     capitalizeFirstLetter,
     getDisplayTimeFromMoment,
@@ -43,7 +43,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
     })
 
 
-  
+
 
     const handleImagePicker = (file: any) => {
         let newUpdatedPhoto = [...photos, file];
@@ -61,7 +61,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
 
 
     function getDisplayChats(messageArr: any) {
-      
+
         return (
             messageArr &&
             messageArr.length > 0 &&
@@ -121,12 +121,12 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
     }
 
     function Received({ item }: any) {
-        const { id, name, message, display_created_at, attachments, date, profile_pic } =item;
+        const { id, name, message, display_created_at, attachments, date, profile_pic } = item;
 
-          const isLink = (message) => {
-        const urlPattern = /(https?:\/\/[^\s]+)/g;
-        return message.match(urlPattern);
-      };
+        const isLink = (message) => {
+            const urlPattern = /(https?:\/\/[^\s]+)/g;
+            return message.match(urlPattern);
+        };
 
         let modifiedArray = attachments;
 
@@ -135,12 +135,12 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
         }
         const [hasHover, setHasHover] = useState(false);
 
-        
+
 
         return (
             <div className='col'>
                 {ifObjectHasKey(item, 'date') && <DateViewer date={date} />}
-                
+
                 <div className='d-flex row mt-3'>
                     {variant === 'group' && profile_pic ?
                         <div className='mr-2'>
@@ -395,14 +395,14 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
         const { event_type, message, chat_attachments, event_by, created_at } = each;
         const isCurrentUser = event_by?.id === dashboardDetails?.user_details?.id;
         let modifiedData = { type: isCurrentUser ? 'sent' : 'received', ...each };
-   
-   
+
+
         switch (event_type) {
             case 'TEM':
                 modifiedData = {
                     ...modifiedData,
                     name: event_by?.name ? capitalizeFirstLetter(event_by?.name) : '',
-                
+
                     message: message ? capitalizeFirstLetter(message) : '',
                     display_created_at: getDisplayTimeFromMoment(
                         getMomentObjFromServer(created_at),
@@ -437,7 +437,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
             <div
                 id="scrollableDiv"
                 style={{
-                    height: height -225,
+                    height: height - 225,
                     display: 'flex',
                     flexDirection: 'column-reverse',
                 }}
@@ -449,34 +449,41 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                         scrollableTarget="scrollableDiv"
                         style={{ display: 'flex', flexDirection: 'column-reverse' }}
                         className={'overflow-auto overflow-hide'}
-                        inverse={true}
-                        loader={
-                            <Spinner />
-                        }
-                        next={onNext}>
-                        {
-                            loading && <Spinner />
-                        }
+                        inverse
+                        loader={<Spinner />}
+                        next={() => {
+                            if (onNext) {
+                                onNext()
+                            }
+                        }}
+                    >
                         {data && data.length > 0 &&
-                            getDisplayChatsWithTime(getDisplayChats(data)).map((item: any, index: number) => {
-                                const { type } = item;
-                                return type === 'sent' ? (
-                                    <Sent item={item} />
-                                ) : (
-                                    <Received item={item} />
-                                );
+                            getDisplayChatsWithTime(getDisplayChats(data)).map((item: any) => {
+                                const { type, id } = item;
+                                return (
+                                    <div key={id}>
+                                        {
+                                            type === 'sent' ? (
+                                                <Sent item={item} />
+                                            ) : (
+                                                <Received item={item} />
+                                            )
+                                        }
+                                    </div>
+                                )
                             })
                         }
                     </InfiniteScroll>
                 }
-            </div>
+            </div >
 
 
 
             {/**
              * Delete Modal
              */}
-            <Modal title={translate("errors.Are you sure you want to delete?")!} isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide}>
+            <Modal title={translate("errors.Are you sure you want to delete?")!
+            } isOpen={deleteModal.visible} size={'md'} onClose={deleteModal.hide} >
                 <div className="d-flex justify-content-end mt--3">
                     <Button size={'sm'} className={'text-white'} text={'Delete'}
                         onClick={() => {
@@ -495,7 +502,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                  */
             }
 
-            <Modal size={'lg'} title={translate('common.Edit Chat')!} isOpen={editModal.visible} onClose={editModal.hide} >
+            < Modal size={'lg'} title={translate('common.Edit Chat')!} isOpen={editModal.visible} onClose={editModal.hide} >
 
                 <div className="col-md col-lg">
                     <div className='col-md col-lg'>
@@ -561,7 +568,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                     </div>
                 </div>
 
-            </Modal>
+            </Modal >
 
         </>
 
