@@ -1,7 +1,7 @@
 import { addDepartment, getDepartments } from "@Redux";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ifObjectExist, validate, getValidateError, } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DEPARTMENT, ifObjectExist, validate, getValidateError, INITIAL_PAGE, } from "@Utils";
 import { useDynamicHeight, useModal, useInput, useLoader } from "@Hooks";
 import {
   Button,
@@ -70,6 +70,10 @@ function Department() {
   ]
 
   const dispatch = useDispatch();
+  useEffect(()=>{
+    getDepartmentList(INITIAL_PAGE)
+
+  },[])
 
   const getDepartmentList = (page_number: number) => {
     setLoading(true)
@@ -180,7 +184,8 @@ function Department() {
                 setShowDepartments(!showDepartments)
 
                 if (!showDepartments) {
-                  getDepartmentList(departmentsCurrentPages)
+                  console.log(departmentsCurrentPages,"departmentsCurrentPages")
+                  departmentsCurrentPages? getDepartmentList(departmentsCurrentPages):getDepartmentList(INITIAL_PAGE)
                 }
 
               }}

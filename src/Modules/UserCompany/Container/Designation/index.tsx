@@ -45,7 +45,7 @@ function Designation() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const loginLoader = useLoader(false)
- console.log('department======>',departments);
+
  
   const getDesignationApiHandler = (page_number: number) => {
 
@@ -102,9 +102,7 @@ function Designation() {
   };
 
 
-  useEffect (()=>{
-      
-
+const getDepartmentList=()=>{
         const params = {
             branch_id: dashboardDetails?.permission_details?.branch_id,
             per_page_count: -1,
@@ -123,10 +121,11 @@ function Designation() {
             })
 
         );
+          }
 
   
 
-  },[])
+
 
   const normalizedDesignationData = (data: any) => {
 
@@ -208,7 +207,8 @@ function Designation() {
               className={'text-white'}
               text={translate("product.addItem")}
               size={"sm"}
-              onClick={() => { addDesignationModal.show() }}
+              onClick={() => { addDesignationModal.show() 
+                getDepartmentList()}}
             />
           </div>
         </div>
