@@ -1,7 +1,7 @@
-import { addDesignation, getDesignations } from '@Redux';
-import React, { useState } from "react";
+import { addDesignation, getDepartments, getDesignations } from '@Redux';
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE, getDropDownDisplayData } from "@Utils";
 import { useDynamicHeight, useModal, useInput, useLoader } from "@Hooks";
 import {
   Button,
@@ -13,6 +13,7 @@ import {
   showToast,
   Checkbox,
   Spinner,
+  DropDown,
 } from "@Components";
 import { translate } from "@I18n";
 
@@ -23,14 +24,14 @@ function Designation() {
     designations,
     designationCurrentPages,
     designationNumOfPages,
-    dashboardDetails
+    dashboardDetails,
+    departments
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
 
   const isUserAdmin = dashboardDetails?.permission_details?.is_admin
   const isUserSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
-
   const [loading,setLoading] = useState(false)
   const dispatch = useDispatch();
   const dynamicHeight: any = useDynamicHeight()
@@ -40,6 +41,7 @@ function Designation() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const loginLoader=useLoader(false)
+  const [department,setDepartment]=useState<any>('')
 
   const getDesignationApiHandler = (page_number: number) => {
  
@@ -90,6 +92,32 @@ function Designation() {
     }
   };
 
+
+  useEffect (()=>{
+      
+
+        const params = {
+            branch_id: dashboardDetails?.permission_details?.branch_id,
+            per_page_count: -1,
+    
+        };
+
+        dispatch(
+            getDepartments({
+                params,
+                onSuccess: (response) => () => {
+                 
+                },
+                onError: () => () => {
+
+                },
+            })
+
+        );
+
+  
+
+  },[])
 
   const normalizedDesignationData = (data: any) => {
 
@@ -237,6 +265,13 @@ function Designation() {
           value={designationName.value}
           onChange={designationName.onChange}
         />
+          <DropDown
+                           
+                            placeHolder={translate("common.department")!}
+                            data={getDropDownDisplayData(departments)}
+                            selected={department}
+                            onChange={(el:any)=>{setDepartment(el)} }
+                        />
 
         <div className="col">
           <div className='row'>
@@ -262,6 +297,8 @@ function Designation() {
 
               const params = {
                 name: designationName.value,
+                
+                department_id:department?.id,
                 is_admin: isAdmin,
                 ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
               };
