@@ -34,7 +34,7 @@ function Header() {
                 onClick={() => {
                   goTo(ROUTES['auth-module'].splash);
                 }}
-                className={' bg-primary border-0 px-4 py-3  text-white shadow-none  '}
+                className={' bg-primary border-0 px-4 py-3  text-white shadow-none'}
               />
 
             </form>

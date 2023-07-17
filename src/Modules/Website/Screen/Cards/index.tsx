@@ -3,7 +3,7 @@ import React from 'react'
 
 function Cards() {
   return (
-    <div className='d-flex justify-content-center pt-5'>
+    <div className='d-flex justify-content-center pt-5 '>
         <div className='container'>
         <div className={'row pt-5'}>
         <div className={'col-lg-3 col-md-6'}>
@@ -21,8 +21,8 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
-                      <i className="fas fa-terminal bg-primary" />
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -35,8 +35,11 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
+                    {/* <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
                       <i className="fas fa-pen-fancy bg-primary" />
+                    </div> */}
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -49,8 +52,11 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
+                    {/* <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
                       <i className="fas fa-hdd bg-primary" />
+                    </div> */}
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -61,9 +67,10 @@ function Cards() {
                 </div>
               </li>
             </ul>
-            <Button className=" mb-3" text={" By Know"}size={'md'} />
+            <Button className=" mb-3" text={"Buy Now"}size={'md'} />
+             
           </div>
-          <div className="bg-transparent">
+          <div className="bg-transparent ">
             <a
               className="text-black"
               href="#pablo"
@@ -89,8 +96,8 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
-                      <i className="fas fa-terminal bg-primary" />
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -103,8 +110,11 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
+                    {/* <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
                       <i className="fas fa-pen-fancy bg-primary" />
+                    </div> */}
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -117,8 +127,11 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
+                    {/* <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
                       <i className="fas fa-hdd bg-primary" />
+                    </div> */}
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -129,9 +142,10 @@ function Cards() {
                 </div>
               </li>
             </ul>
-            <Button className="mb-3 " text={" By Know"}size={'md'} />
+            <Button className=" mb-3" text={"Buy Now"}size={'md'} />
+             
           </div>
-          <div className="bg-transparent">
+          <div className="bg-transparent ">
             <a
               className="text-black"
               href="#pablo"
@@ -157,8 +171,8 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
-                      <i className="fas fa-terminal bg-primary" />
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -171,8 +185,11 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
+                    {/* <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
                       <i className="fas fa-pen-fancy bg-primary" />
+                    </div> */}
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -185,8 +202,11 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
+                    {/* <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
                       <i className="fas fa-hdd bg-primary" />
+                    </div> */}
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -197,9 +217,10 @@ function Cards() {
                 </div>
               </li>
             </ul>
-            <Button className="mb-3 " text={" By Know"}size={'md'} />
+            <Button className=" mb-3" text={"Buy Now"}size={'md'} />
+             
           </div>
-          <div className="bg-transparent">
+          <div className="bg-transparent ">
             <a
               className="text-black"
               href="#pablo"
@@ -225,8 +246,8 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
-                      <i className="fas fa-terminal bg-primary" />
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -239,8 +260,11 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
+                    {/* <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
                       <i className="fas fa-pen-fancy bg-primary" />
+                    </div> */}
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -253,8 +277,11 @@ function Cards() {
               <li>
                 <div className="d-flex align-items-center">
                   <div>
-                    <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
+                    {/* <div className="icon icon-xs icon-shape bg-white shadow rounded-circle">
                       <i className="fas fa-hdd bg-primary" />
+                    </div> */}
+                    <div className="icon-md">
+                      <i className="bi bi-check-lg "></i>
                     </div>
                   </div>
                   <div>
@@ -265,7 +292,7 @@ function Cards() {
                 </div>
               </li>
             </ul>
-            <Button className=" mb-3" text={" By Know"}size={'md'} />
+            <Button className=" mb-3" text={"Buy Now"}size={'md'} />
              
           </div>
           <div className="bg-transparent ">
