@@ -200,7 +200,8 @@ function IndividualChat() {
 
                                             }}
 
-                                            onEdit={() => { }}
+                                            onEdit={(params) => {
+                                            }}
                                         />
                                     }
                                     <div className='my-3'>
