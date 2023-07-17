@@ -22,7 +22,7 @@ const VideoConference = ({ iframeHeight = "100vh", chatCall = false }: VideoConf
 
     const { scheduledListData, dashboardDetails, userToken, settingVcDetails, vcNotificationData, oneToOneVcNoti } = useSelector((state: any) => state.UserCompanyReducer);
 
-    console.log("userToken", settingVcDetails)
+    console.log("userToken=======<>>>", settingVcDetails)
 
     const apiRef = useRef<any>();
     const [logItems, updateLog] = useState<any>([]);
@@ -35,8 +35,6 @@ const VideoConference = ({ iframeHeight = "100vh", chatCall = false }: VideoConf
 
 
     console.log("vcNotificationData", settingVcDetails)
-
-
 
 
     useEffect(() => {
@@ -53,6 +51,7 @@ const VideoConference = ({ iframeHeight = "100vh", chatCall = false }: VideoConf
     const getUserToken = () => {
 
         const params = {
+
             user_name: user_details.name,
             email_id: user_details.email,
         }
@@ -68,10 +67,7 @@ const VideoConference = ({ iframeHeight = "100vh", chatCall = false }: VideoConf
 
         }))
     }
-
-
-    // oneToOneVcNoti
-
+    
 
     const addChatMessage = () => {
         const params = {
@@ -90,9 +86,8 @@ const VideoConference = ({ iframeHeight = "100vh", chatCall = false }: VideoConf
     }
 
 
-
-
     const printEventOutput = payload => {
+        
         updateLog(items => [...items, JSON.stringify(payload)]);
     };
 
