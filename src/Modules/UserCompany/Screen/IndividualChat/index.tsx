@@ -201,6 +201,8 @@ function IndividualChat() {
                                             }}
 
                                             onEdit={(params) => {
+                                                setSuccess(false)
+                                                addChatMessageApiHandler(params)
                                             }}
                                         />
                                     }

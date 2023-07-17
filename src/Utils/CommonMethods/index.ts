@@ -139,7 +139,7 @@ export const getCurrentDayAndDate = (date: any) => {
 };
 
 export function getDropDownDisplayData(data: any) {
-  
+
   return data && data?.map((item: any) => {
     return {
       ...item,
@@ -169,7 +169,7 @@ export function getDropDownCompanyUser(data: any) {
 }
 
 
-export   const generateReferenceNo = () => {
+export const generateReferenceNo = () => {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const numbers = '0123456789';
 
@@ -178,16 +178,17 @@ export   const generateReferenceNo = () => {
 
   // Generate random letters
   for (let i = 0; i < 6; i++) {
-      randomLetters += letters.charAt(Math.floor(Math.random() * letters.length));
+    randomLetters += letters.charAt(Math.floor(Math.random() * letters.length));
   }
 
   // Generate random numbers
   for (let i = 0; i < 4; i++) {
-      randomNumbers += numbers.charAt(Math.floor(Math.random() * numbers.length));
+    randomNumbers += numbers.charAt(Math.floor(Math.random() * numbers.length));
   }
 
   return randomLetters + randomNumbers;
 };
+
 
 
 

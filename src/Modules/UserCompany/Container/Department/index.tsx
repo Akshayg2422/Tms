@@ -69,6 +69,7 @@ function Department() {
 
   const dispatch = useDispatch();
 
+
   const getDepartmentList = (page_number: number) => {
     setLoading(true)
     const params = {
@@ -79,6 +80,8 @@ function Department() {
       getDepartments({
         params,
         onSuccess: (response: any) => () => {
+
+
           setLoading(false)
 
         },
@@ -178,7 +181,8 @@ function Department() {
                 setShowDepartments(!showDepartments)
 
                 if (!showDepartments) {
-                  getDepartmentList(INITIAL_PAGE)
+                 
+                  departmentsCurrentPages? getDepartmentList(departmentsCurrentPages):getDepartmentList(INITIAL_PAGE)
                 }
 
               }}

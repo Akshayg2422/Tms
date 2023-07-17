@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { ChatProps } from './interfaces'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Spinner, Badge, Image, Modal, Button, ImagePicker } from '@Components'
-import { useSelector } from 'react-redux'
+import { Spinner, Badge, Image, Modal, Button, ImagePicker, FilterLinkMessage } from '@Components'
+import { Provider, useSelector } from 'react-redux'
 import {
     capitalizeFirstLetter,
     getDisplayTimeFromMoment,
@@ -10,7 +10,8 @@ import {
     getServerDateFromMoment,
     getDayAndFormattedDate,
     getPhoto,
-    ifObjectHasKey
+    ifObjectHasKey,
+  
 } from '@Utils';
 import { icons } from '@Assets'
 import { useModal, useInput } from '@Hooks';
@@ -122,11 +123,6 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
 
     function Received({ item }: any) {
         const { id, name, message, display_created_at, attachments, date, profile_pic } = item;
-
-        const isLink = (message) => {
-            const urlPattern = /(https?:\/\/[^\s]+)/g;
-            return message.match(urlPattern);
-        };
 
         let modifiedArray = attachments;
 
@@ -277,7 +273,9 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
 
     function Sent({ item }: any) {
 
-        const { id, message, display_created_at, attachments, date, chat_attachments, event_type } = item;
+        const { id, message, filter, display_created_at, attachments, date, chat_attachments, event_type } = item;
+
+
         let modifiedArray = attachments;
         if (attachments && attachments.length > 3) {
             modifiedArray = attachments?.slice(0, 4);
@@ -304,7 +302,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                             onEdit={() => {
                                 setEdit(item);
                                 if (event_type === 'TEM') {
-                                    editMessage.set(message)
+                                    editMessage.set(filter)
                                     setSelectDropzone(undefined)
                                 } else if (event_type === 'MEA') {
                                     editMessage.set(chat_attachments?.name)
@@ -391,19 +389,23 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
     }
 
 
+
     function getItemData(each: any) {
         const { event_type, message, chat_attachments, event_by, created_at } = each;
+        console.log(message,'message===>')
         const isCurrentUser = event_by?.id === dashboardDetails?.user_details?.id;
         let modifiedData = { type: isCurrentUser ? 'sent' : 'received', ...each };
-
-
+        
+  
         switch (event_type) {
             case 'TEM':
                 modifiedData = {
                     ...modifiedData,
                     name: event_by?.name ? capitalizeFirstLetter(event_by?.name) : '',
 
-                    message: message ? capitalizeFirstLetter(message) : '',
+                   message:message?<FilterLinkMessage message={message}/>:'',
+                    filter:message?message:'',
+               
                     display_created_at: getDisplayTimeFromMoment(
                         getMomentObjFromServer(created_at),
                     ),
@@ -558,10 +560,9 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                                         ...(edit.event_type === 'TEM' && { edited_message: editMessage?.value }),
                                         ...(edit.event_type === 'MEA' && { group_attachments: [{ name: editMessage?.value, attachments: attach }] }),
                                     }
-
-                                    console.log(JSON.stringify(edit) + '=====edit');
-
+                                    // console.log(JSON.stringify(edit) + '=====edit');
                                     onEdit(params)
+                                    console.log(params,"pppp========>///")
                                 }
                             }}
                         />
