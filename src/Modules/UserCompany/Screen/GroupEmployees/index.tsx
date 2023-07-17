@@ -4,7 +4,7 @@ import { Button, Card, Divider, H, Image, Modal, NoDataFound, SearchInput, Spinn
 import { useLoader, useModal, useNavigation, useWindowDimensions } from '@Hooks';
 import { translate } from '@I18n';
 import { EmployeesV1 } from '@Modules';
-import { addGroupUser, getGroupsEmployees, selectedVcDetails } from '@Redux';
+import { addGroupUser, getGroupsEmployees, selectedVcDetails, setSelectedPrivateUser } from '@Redux';
 import { ROUTES } from '@Routes';
 import { TGU, getArrayFromArrayOfObject } from '@Utils';
 import { useEffect, useState, } from 'react';
@@ -116,7 +116,7 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
 
                 </div>
 
-                <div className='col overflow-auto overflow-hide mt-1 mx--3' style={{ maxHeight: '80vh' }}>
+                <div className='col overflow-auto overflow-hide  mx--3 ' style={{ maxHeight: '75vh' }}>
                     <div className='mt-4 mb-3'>
                         {
                             groupEmployees && groupEmployees.length > 0 && groupEmployees.map((el: any, index: number) => {
@@ -140,12 +140,14 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
                                                 <div className='pointer'
                                                     onClick={() => {
                                                         goTo(ROUTES['user-company-module']['individual-chat'], false)
+                                                        dispatch(setSelectedPrivateUser(el))
+                                                   
                                                     }}>
                                                     <Image src={icons.Comments} width={18} height={18} />
                                                 </div>
 
                                             </div>
-                                            <div className={'mx--2'}>
+                                            <div className={'mx--2'} >
                                                 {index !== groupEmployees.length - 1 && <Divider space={'3'} />}
                                             </div>
                                         </div>

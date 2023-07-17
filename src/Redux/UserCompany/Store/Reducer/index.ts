@@ -12,12 +12,12 @@ const initialState: UserCompanyStateProp = {
   error: '',
   designations: undefined,
   departments: undefined,
-  designationCurrentPages: undefined,
+  designationCurrentPages: 1,
   designationNumOfPages: undefined,
   departmentsCurrentPages: undefined,
   departmentsNumOfPages: undefined,
   employees: undefined,
-  employeesCurrentPages:1,
+  employeesCurrentPages: 1,
   employeesNumOfPages: undefined,
   employeesl: undefined,
   employeeslCurrentPages: undefined,
@@ -918,7 +918,6 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       };
       break;
     case ActionTypes.FETCH_CHAT_MESSAGE_SUCCESS:
-
       state = {
         ...state,
         chatMessages: [...state.chatMessages, ...action.payload?.details?.data],

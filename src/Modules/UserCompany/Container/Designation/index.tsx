@@ -1,4 +1,4 @@
-import { addDesignation, getDesignations, getEmployees } from '@Redux';
+import { addDesignation, getDepartments, getDesignations, getEmployees } from '@Redux';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE, type, getDropDownDisplayData } from "@Utils";
@@ -25,7 +25,8 @@ function Designation() {
     departments,
     designationCurrentPages,
     designationNumOfPages,
-    dashboardDetails
+    dashboardDetails,
+
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
@@ -44,14 +45,14 @@ function Designation() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const loginLoader = useLoader(false)
- console.log('department======>',departments);
- 
+
+ console.log(designationCurrentPages,"cccccccccccc")
   const getDesignationApiHandler = (page_number: number) => {
 
     setLoading(true)
     const params = {
       page_number,
-      per_page_count: -1,
+      // per_page_count: -1,
       
     };
     loginLoader.show()
@@ -98,6 +99,31 @@ function Designation() {
       showToast(getValidateError(validation));
     }
   };
+
+
+const getDepartmentList=()=>{
+        const params = {
+            branch_id: dashboardDetails?.permission_details?.branch_id,
+            per_page_count: -1,
+    
+        };
+
+        dispatch(
+            getDepartments({
+                params,
+                onSuccess: (response) => () => {
+                 
+                },
+                onError: () => () => {
+
+                },
+            })
+
+        );
+          }
+
+  
+
 
 
   const normalizedDesignationData = (data: any) => {
@@ -180,7 +206,8 @@ function Designation() {
               className={'text-white'}
               text={translate("product.addItem")}
               size={"sm"}
-              onClick={() => { addDesignationModal.show() }}
+              onClick={() => { addDesignationModal.show() 
+                getDepartmentList()}}
             />
           </div>
         </div>
@@ -249,7 +276,7 @@ function Designation() {
 
           <div className="mt--2">
             <DropDown
-              heading={translate("common.department")!}
+              
               placeHolder={translate("order.Select a Department")!}
               data={getDropDownDisplayData(departments)}
               onChange={(item) => {
@@ -265,6 +292,7 @@ function Designation() {
           value={designationName.value}
           onChange={designationName.onChange}
         />
+  
 
         <div className="col">
           <div className='row'>
@@ -290,6 +318,7 @@ function Designation() {
 
               const params = {
                 name: designationName.value,
+                department_id:department.value?.id,
                 is_admin: isAdmin,
                 ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
               };

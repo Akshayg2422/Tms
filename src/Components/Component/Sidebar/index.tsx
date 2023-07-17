@@ -48,6 +48,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
   const getCollapseStates = (routes) => {
     let initialState = {};
     routes.map((prop, key) => {
+      
       if (prop.collapse) {
         initialState = {
           [prop.state]: getCollapseInitialState(prop.views),

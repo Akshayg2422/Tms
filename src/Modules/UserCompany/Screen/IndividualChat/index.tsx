@@ -1,6 +1,6 @@
 import { icons } from '@Assets'
 import { AutoComplete, Button, Chat, Image, NoDataFound, Send, Spinner } from '@Components'
-import { useDynamicHeight, useLoader } from '@Hooks'
+import { useDynamicHeight, useLoader, useNavigation } from '@Hooks'
 import { fetchChatEmployeeList, fetchChatMessage, getEmployees, getTokenByUser, handleOneToOneVcNoti, postChatMessage, selectedVcDetails, setRefreshPrivateChat, setSelectedPrivateUser } from '@Redux'
 import { SERVER } from '@Services'
 import { INITIAL_PAGE, convertToUpperCase, getDropDownCompanyUser } from '@Utils'
@@ -9,6 +9,9 @@ import 'react-photo-view/dist/react-photo-view.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, CardBody, CardHeader } from 'reactstrap'
 import { VideoConference } from '../../Container'
+import { ROUTES } from '@Routes'
+
+
 
 function IndividualChat() {
 
@@ -20,11 +23,7 @@ function IndividualChat() {
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const dispatch = useDispatch()
     const [showAutoComplete, setAutoComplete] = useState<any>(false)
-
-
-
-
-
+    const { goTo } = useNavigation()
 
     const loader = useLoader(false);
     const messageLoader = useLoader(false);
@@ -113,6 +112,9 @@ function IndividualChat() {
             emp_id: selectedPrivateUser?.id,
             page_number
         }
+
+        console.log(JSON.stringify(params) + "====");
+
         messageLoader.show();
         dispatch(fetchChatMessage({
             params,
@@ -159,7 +161,8 @@ function IndividualChat() {
                             <Card
                                 style={{
                                     height: dynamicHeight.dynamicHeight - 30
-                                }}>
+                                }}
+                            >
                                 {
                                     selectedPrivateUser && <CardHeader>
                                         <div className=''>
@@ -178,7 +181,7 @@ function IndividualChat() {
                                         selectedPrivateUser &&
                                         <Chat
                                             isSuccess={success}
-                                            height={dynamicHeight.dynamicHeight - 50}
+                                            height={dynamicHeight.dynamicHeight}
                                             variant={'private'}
                                             data={chatMessages}
                                             hasMore={chatMessageCurrentPages !== -1}
@@ -196,7 +199,11 @@ function IndividualChat() {
                                                 addChatMessageApiHandler(params)
 
                                             }}
-                                            onEdit={() => { }}
+
+                                            onEdit={(params) => { 
+                                                setSuccess(false)
+                                                addChatMessageApiHandler(params)
+                                            }}
                                         />
                                     }
                                     <div className='my-3'>
@@ -224,6 +231,8 @@ function IndividualChat() {
                                             }}
                                             onVideoPress={() => {
                                                 getUserToken()
+                                                goTo(ROUTES['user-company-module']['video-conference'], false)
+
                                             }}
                                         />
 
