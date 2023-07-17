@@ -9,7 +9,7 @@ function Footer() {
 
   const { goTo } = useNavigation();
   return (
-    <div className='container-fluid '>
+    <div className='container-fluid bg-secondary'>
       <div className=' pb-5 gradient'>
         <div className={'text-center z-index'}>
           <div className={'row'}>
