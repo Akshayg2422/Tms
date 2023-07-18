@@ -72,7 +72,6 @@ function Designation() {
   };
 
 
-
   const addDesignationApiHandler = (params: any) => {
 
     const validation = validate(ADD_DESIGNATION, params)

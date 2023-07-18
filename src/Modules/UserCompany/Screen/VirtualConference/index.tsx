@@ -31,14 +31,19 @@ function VirtualConference() {
     const { scheduledListData, dashboardDetails, vcNotificationData } = useSelector((state: any) => state.UserCompanyReducer);
     const { company_branch, user_details, company } = dashboardDetails || ''
     const { height } = useWindowDimensions()
+
     const [loading, setLoading] = useState(false)
+
     useEffect(() => {
         getScheduledMeetingList()
     }, [])
 
     const getScheduledMeetingList = () => {
         setLoading(true)
-        const params = {}
+        const params = {
+
+        }
+
         dispatch(getVideoConferenceList({
             params,
             onSuccess: (success: any) => () => {
@@ -77,8 +82,6 @@ function VirtualConference() {
     const styles = {
         height: '40px',
         filter: 'invert(35%) sepia(100%) saturate(5908%) hue-rotate(245deg) brightness(73%) contrast(132%) '
-        
-        
     }
 
 
@@ -111,6 +114,7 @@ function VirtualConference() {
                                 <div style={{ width: '300px' }}>
 
                                     <Card className='shadow-sm mt-3 m-4' style={{ backgroundColor: 'rgb(246, 248, 253)' }} >
+                                        
                                         {
                                             loading && (
                                                 <div className='d-flex justify-content-center align-item-center' style={{ minHeight: '200px', marginTop: '250px' }}>
