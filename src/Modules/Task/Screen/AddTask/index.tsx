@@ -429,6 +429,7 @@ function AddTask() {
                             placeHolder={translate('order.Select a Designation')!}
                             data={getDropDownDisplayData(designations)}
                             onChange={(item) => {
+                           
                                 designation.onChange(item)
                             }}
                             selected={designation.value}
@@ -467,7 +468,7 @@ function AddTask() {
                     </div>
                 }
 
-                <div className="mt--2">
+                <div className={`${ subTaskGroups && `mt--2`}`}>
                     <DateTimePicker
                         heading={'ETA'}
                         id="eta-picker"

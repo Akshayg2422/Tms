@@ -82,22 +82,28 @@ function Tickets() {
               </div>
                */}
             </div>,
-          'description': <div>
+          'description': <div className="col-11">
             {el?.description}
 
           </div>,
 
           "":
-            <div className="avatar-group">
+            <div className=" row avatar-group">
               {
                 el?.ticket_attachments &&
                 el?.ticket_attachments.length > 0 && el?.ticket_attachments.map((item) => {
 
                   return (
+                    <div className="row ">
                     <Image
                       variant={'avatar'}
-                      src={getPhoto(item?.attachment_file)} />)
-                })
+                      src={getPhoto(item?.attachment_file)} 
+                      className={'row'}
+                      />
+                      
+                      </div>)
+                }
+                )
               }
 
             </div>,

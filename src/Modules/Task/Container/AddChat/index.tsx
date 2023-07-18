@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Modal, Input, Dropzone, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
-import { addTaskEvent, refreshTaskEvents, } from '@Redux'
+import { addTaskEvent, refreshTaskEvent, } from '@Redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { useModal, useInput, useLoader } from '@Hooks'
 import { TEM, MEA, validate, ifObjectExist, getValidateError, TASK_ATTACHMENT_RULES } from '@Utils'
@@ -44,7 +44,7 @@ function AddChat() {
                     onSuccess: (response) => () => {
                         loginLoader.hide()
                         message.set('')
-                        dispatch(refreshTaskEvents())
+                        dispatch(refreshTaskEvent())
                     },
                     onError: () => () => {
                         loginLoader.hide()
@@ -81,7 +81,7 @@ function AddChat() {
                         attachmentModal.hide()
                         
             loginLoader.hide()
-                        dispatch(refreshTaskEvents()
+                        dispatch(refreshTaskEvent()
                         )
                     },
                     onError: (error) => () => { 

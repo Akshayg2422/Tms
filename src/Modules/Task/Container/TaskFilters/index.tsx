@@ -40,13 +40,7 @@ function TaskFilters({ onParams }: TaskFilterProps) {
     const [selectedCreatedUserId, setSelectedCreatedUserId] = useState<any>();
 
 
-    console.log(createdDesignation,"createdDesignation]---->")
-
-
     useEffect(() => {
-
-
-
         if (taskParams) {
 
             const { q_many, task_status, priority, include_subtask, assigned_tasks_by, created_tasks_by, assigned_company, assigned_department_id, assigned_designation_id, assigned_emp_id, created_department_id, created_company, created_emp_id, created_designation_id } = taskParams
@@ -353,32 +347,7 @@ function TaskFilters({ onParams }: TaskFilterProps) {
 
 
         
-    // const CreateDepartmentFilter = (data:any)=>{
-
-    //     const params = {
-    //         branch_id: createdCompany?.value?.id ? createdCompany?.value?.id : dashboardDetails?.permission_details?.branch_id,
-    //         per_page_count: -1,
-    //         department_id:data.id
-           
-    //     };
-
-    //     dispatch(
-    //         getDesignations({
-    //             params,
-    //             onSuccess: (response) => () => {
-    //                 dispatch(
-    //                     setAssignedDesignation(response?.details)
-    //                 )
-
-    //             },
-    //             onError: () => () => {
-
-    //             },
-    //         })
-
-    //     );
-
-    // }
+   
 
     useEffect (()=>{
 
@@ -439,10 +408,13 @@ function TaskFilters({ onParams }: TaskFilterProps) {
                             selected={filteredTaskAssigned.value}
                             data={TASK_FILTER_LIST}
                             onChange={(item) => {
+                                console.log('kjfbvujfbvkjb=========>')
+                               
                                 if (item.id === 'advance') {
                                     setAdvanceFiltersAssignedTo(true)
                                     getCompanyEmployeeApi()
                                     proceedParams({ assigned_tasks_by: item.id })
+                              
 
                                 }
                                 else {

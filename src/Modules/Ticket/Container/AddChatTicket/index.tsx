@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Modal, Input, Dropzone, ImagePicker } from '@Components'
 import { icons } from '@Assets'
-import {  refreshTaskEvents, refreshTicketEvents, addTicketEvent, } from '@Redux'
-import { useSelector, useDispatch } from 'react-redux'
+import {  refreshTicketEvents, addTicketEvent, } from '@Redux'
+import {  useDispatch } from 'react-redux'
 import {  useModal, useInput } from '@Hooks'
 import { TEM, MEA } from '@Utils'
 import { translate } from '@I18n'
@@ -10,13 +10,11 @@ import { useParams } from 'react-router-dom'
 
 function AddChatTicket() {
 
-    const { selectedTicket } = useSelector((state: any) => state.TicketReducer);
     const dispatch = useDispatch()
     const {id}=useParams()
     const message = useInput('')
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
-    const [selectDropzone, setSelectDropzone] = useState<any>([{}])
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
 
@@ -74,16 +72,10 @@ function AddChatTicket() {
     
     const resetValues = () => {
         attachmentName.set('');
-        setSelectDropzone([{}]);
+     
         setPhoto([])
     };
 
-    // const handleImagePicker = (index: number, file: any) => {
-    //     let updatedPhoto = [...selectDropzone, file]
-    //     let newUpdatedPhoto = [...photo, file]
-    //     setSelectDropzone(updatedPhoto)
-    //     setPhoto(newUpdatedPhoto)
-    // }
 
     return (
         <>
@@ -102,32 +94,14 @@ function AddChatTicket() {
                 <div className='col-6'>
                     <Input heading={'Name'} value={attachmentName.value} onChange={attachmentName.onChange} />
                     <div >
-                        {/* <div className='row'>
-                            {selectDropzone && selectDropzone.map((el, index) => {
-
-                                return (
-                                    <div className={`${index !== 0 && 'ml-2'}`}>
-                                        <Dropzone variant='ICON'
-
-                                            icon={image}
-                                            size='xl'
-                                            onSelect={(image) => {
-                                                let file = image.toString().replace(/^data:(.*,)?/, '');
-                                                handleImagePicker(index, file)
-                                            }}
-                                        />
-                                    </div>
-                                )
-                            })}
-                        </div> */}
+                       
                           <div className='row mt--4'>
                         <ImagePicker
                             noOfFileImagePickers={3}
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-                                // let file = image.toString().replace(/^data:(.*,)?/, "")
-                                // handleImagePicker(file)
+                              
                             }}
 
                             onSelectImagePickers={(el)=>{
