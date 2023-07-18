@@ -9,7 +9,7 @@ export const getTaskGroupsL = (params: any) => {
 };
 
 export const getTaskGroupsLSuccess = (response: any) => {
-  
+
     return {
         type: ActionTypes.GET_TASK_GROUPS_L_SUCCESS,
         payload: response,
@@ -229,7 +229,7 @@ export const getTaskUsersFailure = (error: any) => {
 }
 
 //
-export const selectedTaskIds=(params)=>{
+export const selectedTaskIds = (params) => {
     return {
         type: ActionTypes.SELECTED_TASK_ID,
         payload: params
@@ -286,7 +286,7 @@ export const setSelectedTabPosition = (params: any) => {
 /* GET TASK DETAILS */
 
 export const getTaskDetails = (params: any) => {
-    
+
     return {
         type: ActionTypes.GET_TASK_DETAILS,
         payload: params
@@ -360,18 +360,6 @@ export const getAssignedTaskFailure = (error: any) => {
     }
 }
 
-/**
- * TASK FILTER PARAMS\\
- * 
- * 
- * 
- */
-export const setTaskParams = (params: any) => {
-    return {
-        type: ActionTypes.TASK_DEFAULT_PARAMS,
-        payload: params
-    }
-}
 
 
 //assigned
@@ -379,7 +367,7 @@ export const setTaskParams = (params: any) => {
 export const setAssignedDepartment = (response: any) => {
     return {
         type: ActionTypes.ASSIGNED_DEPARTMENT,
-        payload:response
+        payload: response
     }
 }
 
@@ -401,7 +389,7 @@ export const setAssignedEmployee = (response: any) => {
 export const setCreatedDepartment = (response: any) => {
     return {
         type: ActionTypes.CREATED_DEPARTMENT,
-        payload:response
+        payload: response
     }
 }
 
@@ -420,10 +408,10 @@ export const setCreatedEmployee = (response: any) => {
 }
 
 
-export const getTimeLineBreakdown= (response: any) => {
+export const getTimeLineBreakdown = (response: any) => {
     return {
         type: ActionTypes.GET_TIMELINE_BREAKDOWN,
-        payload:response
+        payload: response
     }
 }
 
@@ -444,10 +432,10 @@ export const getTimeLineBreakdownFailure = (response: any) => {
 // addAttachmentsMessage
 
 export const getSelectedReference = (params: any) => {
-    console.log(params,"ppppppppppppp")
+    console.log(params, "ppppppppppppp")
     return {
         type: ActionTypes.SELECTED_REFERENCE,
-        payload:params
+        payload: params
     }
 }
 
@@ -455,23 +443,23 @@ export const getSelectedReference = (params: any) => {
 /**
  * refresh Events message
  */
-export const refreshEventMessage =()=>{
-    return{
+export const refreshEventMessage = () => {
+    return {
         type: ActionTypes.REFRESH_EVENT_MESSAGE
     }
 }
 
-export const refreshEventsMessage = (response:any) => {
+export const refreshEventsMessage = (response: any) => {
     return {
         type: ActionTypes.REFRESH_EVENTS_MESSAGE,
-         payload: response
+        payload: response
     }
 }
 
-export const addAttachmentsMessage= (response: any) => {
+export const addAttachmentsMessage = (response: any) => {
     return {
         type: ActionTypes.ADD_ATTACHMENTS_MESSAGE,
-        payload:response
+        payload: response
     }
 }
 
@@ -491,10 +479,10 @@ export const addAttachmentsMessageFailure = (response: any) => {
 
 // getAttachmentsMessage
 
-export const getAttachmentsMessage= (response: any) => {
+export const getAttachmentsMessage = (response: any) => {
     return {
         type: ActionTypes.GET_ATTACHMENTS_MESSAGE,
-        payload:response
+        payload: response
     }
 }
 
@@ -505,9 +493,20 @@ export const getAttachmentsMessageSuccess = (response: any) => {
     }
 }
 
+
 export const getAttachmentsMessageFailure = (response: any) => {
     return {
         type: ActionTypes.GET_ATTACHMENTS_MESSAGE_FAILURE,
         payload: response
     }
 }
+
+export const setTaskParams = (params: any) => {
+    return {
+        type: ActionTypes.SET_TASK_PARAMS,
+        payload: params
+    }
+}
+
+
+

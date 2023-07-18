@@ -24,7 +24,7 @@ import {
   getGroupsEmployees
 } from "@Redux";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE,  getMomentObjFromServer, stringSlices, getArrayFromArrayOfObject, TGU } from "@Utils";
+import { convertToUpperCase, paginationHandler, ifObjectExist, validate, getValidateError, ADD_TASK_GROUP, getPhoto, ADD_SUB_TASK_GROUP, stringSlice, stringToUpperCase, INITIAL_PAGE, getMomentObjFromServer, stringSlices, getArrayFromArrayOfObject, TGU, ifObjectHasKey, ADD_SUB_TASK_GROUP_WITH_TIME } from "@Utils";
 import { useModal, useDynamicHeight, useInput, useLoader } from "@Hooks";
 import { icons } from "@Assets";
 import { EmployeesV1 } from '@Modules'
@@ -207,10 +207,6 @@ function TaskGroup() {
         updatedPhoto = encoded
       }
 
-      if (!startTimeValue || !endTimeValue) {
-        showToast('Please select both start time and end time.');
-        return;
-      }
 
       const params = {
         name: convertToUpperCase(subTaskGroupName.value),
@@ -219,13 +215,16 @@ function TaskGroup() {
         code: subTaskGroupCode.value.trim(),
         photo: updatedPhoto,
         parent_id: selectedSubTaskGroup?.id,
-        start_time: startTimeEta,
-        end_time: endTimeEta,
+        ...(startTimeEta && { start_time: startTimeEta }),
+        ...(endTimeEta && { end_time: endTimeEta }),
         ...(isEdit && { id: selectedSubTaskGroup.id }),
       };
 
-      const validation = validate(ADD_SUB_TASK_GROUP, params)
-      console.log(params, "ooppppp")
+
+      console.log(JSON.stringify(params) + "=====params");
+
+      const RULES = ifObjectHasKey(params, 'start_time') || ifObjectHasKey(params, 'end_time') ? ADD_SUB_TASK_GROUP_WITH_TIME : ADD_SUB_TASK_GROUP
+      const validation = validate(RULES, params)
 
 
       if (ifObjectExist(validation)) {
@@ -413,7 +412,6 @@ function TaskGroup() {
     xhr.open('GET', url);
     xhr.responseType = 'blob';
     xhr.send();
-    console.log("xhr===========>", xhr)
   }
 
   return (

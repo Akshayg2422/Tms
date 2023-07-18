@@ -18,16 +18,19 @@ function Tasks() {
   const { tasks, taskNumOfPages, taskCurrentPages, taskParams } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company } = dashboardDetails || ''
-  const [params, setParams] = useState(taskParams)
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
-    
-  }, [params])
+  }, [taskParams])
 
   const getTaskHandler = (page_number: number) => {
+
+
+
+    console.log(JSON.stringify(taskParams) + '=======taskParams');
+
     setLoading(true);
     const updatedParams = { ...taskParams, page_number }
     dispatch(
@@ -38,7 +41,7 @@ function Tasks() {
         },
         onError: () => () => {
           setLoading(false);
-        
+
         },
       })
     );
@@ -54,26 +57,26 @@ function Tasks() {
               <div className="row">
                 <div className="d-flex ">
 
-               
-                <div className="col-auto ">
 
-                <div className="mr--3"><Priority priority={priority} /></div>
-                
-               
-                </div>
-                <div className="col-auto ml--3 ">
-                <span>{capitalizeFirstLetter(title)}</span>
-                <div className=" text-primary  ">
-                    {parent && parent?.name && <div>{parent?.name}
+                  <div className="col-auto ">
+
+                    <div className="mr--3"><Priority priority={priority} /></div>
+
+
+                  </div>
+                  <div className="col-auto ml--3 ">
+                    <span>{capitalizeFirstLetter(title)}</span>
+                    <div className=" text-primary  ">
+                      {parent && parent?.name && <div>{parent?.name}
+                      </div>
+                      }
                     </div>
-                    }
                   </div>
                 </div>
-                </div>
-            
+
                 <div>
                   {/* <span>{capitalizeFirstLetter(title)}</span> */}
-               
+
                 </div>
               </div>
             </>,
@@ -85,25 +88,25 @@ function Tasks() {
 
           '':
             <div className="row avatar-group">
-            
+
               {
                 task_attachments &&
                 task_attachments.length > 0 && task_attachments.map((item) => {
                   return (
                     <div className="row">
-                      
-                    <Image
-                      variant={'avatar'}
-                      src={getPhoto(item?.attachment_file)}
-                      className="row"
-                    />
-                 
-                    
+
+                      <Image
+                        variant={'avatar'}
+                        src={getPhoto(item?.attachment_file)}
+                        className="row"
+                      />
+
+
                     </div>
                   )
                 })
               }
-             
+
 
             </div >,
           "raised by":
@@ -112,11 +115,11 @@ function Tasks() {
             <div className="row">
               {assigned_to ?
                 <>
-               
+
                   {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.attachment_logo &&
                     <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} size={"sm"} />
                   }
-                  
+
                   <div className={"ml-2"}>
                     <div className={"h5 mb-0"}> {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.display_name}</div>
                     <div className={`h5 mb-0 text-truncate ${company?.name === raised_by_company?.display_name ? 'mt--3' : ""} `}>@<span className="h5"> {capitalizeFirstLetter(assigned_to?.name)} </span></div>
@@ -126,35 +129,35 @@ function Tasks() {
                   </div>
 
 
-                </> 
+                </>
                 : <div></div>
               }
             </div >,
           // 'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
           status:
-          <>
-           <div className="d-flex">
-         
-              <div className="col-auto"><Status status={task_status} />
+            <>
+              <div className="d-flex">
+
+                <div className="col-auto"><Status status={task_status} />
+                </div>
+
+
+                <div className="col">
+
+                </div>
+
               </div>
-            
-           
-             <div className="col">
-           
-              </div> 
-            
-          </div>
-          <div className="pl-3 ">
-              <small style={{fontSize:'9px'}}>{getDates() > getDates(eta_time) ? 'ABOVE ETA' : ""}</small>
-          </div>
-          </>
+              <div className="pl-3 ">
+                <small style={{ fontSize: '9px' }}>{getDates() > getDates(eta_time) ? 'ABOVE ETA' : ""}</small>
+              </div>
+            </>
         };
       });
   };
 
 
 
-  return ( 
+  return (
     <div className="mx-3 mt-3">
       <div className="d-flex justify-content-end">
         <Button
@@ -166,30 +169,28 @@ function Tasks() {
           }}
         />
       </div>
-   
+
 
       <div className="row mt-3 mx-2 mb-2">
         <div className="col">
-          <TaskGroups onClick={(code) => {
-            dispatch(setTaskParams({ ...taskParams, group: code }))
-            setParams({ ...params, group: code } as any)
-          }} />
+          <TaskGroups
+            onClick={(code) => {
+              dispatch(setTaskParams({ ...taskParams, group: code }))
+            }}
+          />
         </div>
       </div>
       <HomeContainer type={'card'}>
-        <TaskFilters onParams={(filteredParams) => {
-          dispatch(setTaskParams({ ...taskParams, ...filteredParams }))
-          setParams({ ...params, ...filteredParams })
-        }} />
+        <TaskFilters />
         {loading && (
           <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '200px' }}>
             <Spinner />
           </div>
         )}
 
-  
 
-        {!loading && <div  style={{ marginRight: '-23px', marginLeft: '-23px' }}>
+
+        {!loading && <div style={{ marginRight: '-23px', marginLeft: '-23px' }}>
 
           {tasks && tasks.length > 0 ?
             <CommonTable
@@ -223,7 +224,7 @@ function Tasks() {
           }
         </div>}
 
-     
+
 
 
       </HomeContainer>
