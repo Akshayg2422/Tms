@@ -39,6 +39,7 @@ function TicketFilter({ onParams }: TicketFilterProps) {
  
 
 console.log(associatedCompaniesL,"associatedCompaniesL==>")
+
     useEffect(() => {
         const params = { q: '' };
         if (advanceFilter) {
@@ -203,12 +204,14 @@ console.log(associatedCompaniesL,"associatedCompaniesL==>")
                     <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
                         if (el.id === FILTER_MENU[1].id) {
                             setAdvanceFilter(true)
+                            console.log('ccccccc')
 
                             company.onChange({})
                             proceedParams({ company: '', designation_id: 'ALL', department_id: 'ALL' })
 
                         } else {
                             setAdvanceFilter(false)
+                            console.log('yttttttt')
                             company.onChange({})
 
                         }

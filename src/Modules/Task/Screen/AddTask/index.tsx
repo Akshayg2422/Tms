@@ -12,7 +12,7 @@ import {
     AutoComplete,
     InputHeading,
     TextAreaInput,
-    Button
+    Button,
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -43,7 +43,8 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
-import moment from "moment";
+
+
 
 function AddTask() {
 
@@ -429,6 +430,7 @@ function AddTask() {
                             placeHolder={translate('order.Select a Designation')!}
                             data={getDropDownDisplayData(designations)}
                             onChange={(item) => {
+                           
                                 designation.onChange(item)
                             }}
                             selected={designation.value}
@@ -467,7 +469,7 @@ function AddTask() {
                     </div>
                 }
 
-                <div className="mt--2">
+                <div className={`${ subTaskGroups && `mt--2`}`}>
                     <DateTimePicker
                         heading={'ETA'}
                         id="eta-picker"
@@ -478,6 +480,8 @@ function AddTask() {
 
                     />
                 </div>
+
+             
             </div >
 
             <div className="col ">
