@@ -250,7 +250,24 @@ export const ADD_SUB_TASK_GROUP = {
   code: {
     presence: { allowEmpty: false, message: "code name cannot be empty" },
     length: { minimum: 3, message: "Code minimum 3 chars" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  photo: {
+    presence: { allowEmpty: false, message: "Photo cannot be empty" }
+  },
 
+}
+
+
+export const ADD_SUB_TASK_GROUP_WITH_TIME = {
+  name: {
+    presence: { allowEmpty: false, message: "tag name cannot be empty" },
+  },
+  code: {
+    presence: { allowEmpty: false, message: "code name cannot be empty" },
+    length: { minimum: 3, message: "Code minimum 3 chars" },
   },
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
@@ -261,7 +278,6 @@ export const ADD_SUB_TASK_GROUP = {
   start_time: {
     presence: { allowEmpty: false, message: " please select Stat Time  cannot be empty" },
   },
-
   end_time: {
     presence: { allowEmpty: false, message: " please select End Time cannot be empty" },
   }
@@ -392,7 +408,7 @@ export const CHAT_ATTACHMENT_RULES = {
   chat_attachments: {
     presence: { allowEmpty: false, message: "Attachment cannot be empty." }
   },
-  receiver_by:{
+  receiver_by: {
     presence: { allowEmpty: false, message: "Add user else select user" }
 
   }
@@ -401,11 +417,11 @@ export const CHAT_ATTACHMENT_RULES = {
 
 
 export const CHAT_MESSAGE_RULES = {
-  message:{
+  message: {
     presence: { allowEmpty: false, message: "Message cannot be empty" }
   },
- 
-  receiver_by:{
+
+  receiver_by: {
     presence: { allowEmpty: false, message: "Add user else select user" }
 
   }

@@ -46,14 +46,14 @@ function Designation() {
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const loginLoader = useLoader(false)
 
- console.log(designationCurrentPages,"cccccccccccc")
+  console.log(designationCurrentPages, "cccccccccccc")
   const getDesignationApiHandler = (page_number: number) => {
 
     setLoading(true)
     const params = {
       page_number,
       // per_page_count: -1,
-      
+
     };
     loginLoader.show()
     dispatch(
@@ -101,28 +101,28 @@ function Designation() {
   };
 
 
-const getDepartmentList=()=>{
-        const params = {
-            branch_id: dashboardDetails?.permission_details?.branch_id,
-            per_page_count: -1,
-    
-        };
+  const getDepartmentList = () => {
+    const params = {
+      branch_id: dashboardDetails?.permission_details?.branch_id,
+      per_page_count: -1,
 
-        dispatch(
-            getDepartments({
-                params,
-                onSuccess: (response) => () => {
-                 
-                },
-                onError: () => () => {
+    };
 
-                },
-            })
+    dispatch(
+      getDepartments({
+        params,
+        onSuccess: (response) => () => {
 
-        );
-          }
+        },
+        onError: () => () => {
 
-  
+        },
+      })
+
+    );
+  }
+
+
 
 
 
@@ -169,12 +169,12 @@ const getDepartmentList=()=>{
 
   function resetValues() {
     designationName.set('')
-
+    department.set({})
     setIsAdmin(false)
     setIsSuperAdmin(false)
+
   }
 
-  const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
   return (
     <>
@@ -206,8 +206,10 @@ const getDepartmentList=()=>{
               className={'text-white'}
               text={translate("product.addItem")}
               size={"sm"}
-              onClick={() => { addDesignationModal.show() 
-                getDepartmentList()}}
+              onClick={() => {
+                addDesignationModal.show()
+                getDepartmentList()
+              }}
             />
           </div>
         </div>
@@ -272,27 +274,22 @@ const getDepartmentList=()=>{
         size='md'
       >
         {
-          getExternalCompanyStatus() && departments && departments.length > 0 &&
-
-          <div className="mt--2">
-            <DropDown
-              
-              placeHolder={translate("order.Select a Department")!}
-              data={getDropDownDisplayData(departments)}
-              onChange={(item) => {
-                department.onChange(item)
-              }}
-              selected={department.value}
-            />
-          </div>
+          departments && departments.length > 0 &&
+          <DropDown
+            heading={translate("common.department")}
+            placeHolder={translate("order.Select a Department")!}
+            data={getDropDownDisplayData(departments)}
+            onChange={(item) => {
+              department.onChange(item)
+            }}
+            selected={department.value}
+          />
         }
-
         <Input
-          placeholder={translate("auth.designation")!}
+          placeholder={'Enter Designation'}
           value={designationName.value}
           onChange={designationName.onChange}
         />
-  
 
         <div className="col">
           <div className='row'>
@@ -318,7 +315,7 @@ const getDepartmentList=()=>{
 
               const params = {
                 name: designationName.value,
-                department_id:department.value?.id,
+                department_id: department.value?.id,
                 is_admin: isAdmin,
                 ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
               };

@@ -11,7 +11,7 @@ import {
     getDayAndFormattedDate,
     getPhoto,
     ifObjectHasKey,
-  
+
 } from '@Utils';
 import { icons } from '@Assets'
 import { useModal, useInput } from '@Hooks';
@@ -392,20 +392,20 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
 
     function getItemData(each: any) {
         const { event_type, message, chat_attachments, event_by, created_at } = each;
-        console.log(message,'message===>')
+        console.log(message, 'message===>')
         const isCurrentUser = event_by?.id === dashboardDetails?.user_details?.id;
         let modifiedData = { type: isCurrentUser ? 'sent' : 'received', ...each };
-        
-  
+
+
         switch (event_type) {
             case 'TEM':
                 modifiedData = {
                     ...modifiedData,
                     name: event_by?.name ? capitalizeFirstLetter(event_by?.name) : '',
 
-                   message:message?<FilterLinkMessage message={message}/>:'',
-                    filter:message?message:'',
-               
+                    message: message ? <FilterLinkMessage message={message} /> : '',
+                    filter: message ? message : '',
+
                     display_created_at: getDisplayTimeFromMoment(
                         getMomentObjFromServer(created_at),
                     ),
@@ -551,18 +551,15 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                             text={translate("order.Update")}
                             onClick={() => {
 
-
                                 if (onEdit) {
                                     let attach = photos.slice(-selectedNoOfPickers)
 
                                     const params = {
                                         id: edit?.id,
                                         ...(edit.event_type === 'TEM' && { edited_message: editMessage?.value }),
-                                        ...(edit.event_type === 'MEA' && { group_attachments: [{ name: editMessage?.value, attachments: attach }] }),
+                                        ...(edit.event_type === 'MEA' && { chat_attachments: [{ name: editMessage?.value, attachments: attach }] }),
                                     }
-                                    // console.log(JSON.stringify(edit) + '=====edit');
                                     onEdit(params)
-                                    console.log(params,"pppp========>///")
                                 }
                             }}
                         />

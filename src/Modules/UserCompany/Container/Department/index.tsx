@@ -181,8 +181,8 @@ function Department() {
                 setShowDepartments(!showDepartments)
 
                 if (!showDepartments) {
-                 
-                  departmentsCurrentPages? getDepartmentList(departmentsCurrentPages):getDepartmentList(INITIAL_PAGE)
+
+                  departmentsCurrentPages ? getDepartmentList(departmentsCurrentPages) : getDepartmentList(INITIAL_PAGE)
                 }
 
               }}
@@ -252,23 +252,21 @@ function Department() {
         title={translate("common.department")!}
         size='md'
       >
-        <div className="col-12">
-          <Input
-            placeholder={translate("common.department")!}
-            value={departmentName.value}
-            onChange={departmentName.onChange}
-          />
+        <Input
+          placeholder={'Enter Department'}
+          value={departmentName.value}
+          onChange={departmentName.onChange}
+        />
+
+        <div className="row">
+          <span className="col-2">
+            {(isUserAdmin && isSubTask ? selectedDepartment?.is_admin : true) && <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />}
+          </span>
+          <span className="col-2">
+            {(isUserSuperAdmin && isSubTask ? selectedDepartment?.is_super_admin : true) && <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />}
+          </span>
         </div>
-        <div className="col">
-          <div className="row">
-            <span className="col-2">
-              {(isUserAdmin && isSubTask ? selectedDepartment?.is_admin : true) && <Checkbox id={'Admin'} text={'Admin'} defaultChecked={isAdmin} onCheckChange={() => { setIsAdmin(!isAdmin) }} />}
-            </span>
-            <span className="col-2">
-              {(isUserSuperAdmin && isSubTask ? selectedDepartment?.is_super_admin : true) && <Checkbox id={'SuperAdmin'} text={'SuperAdmin'} defaultChecked={isSuperAdmin} onCheckChange={() => { setIsSuperAdmin(!isSuperAdmin) }} />}
-            </span>
-          </div>
-        </div>
+
         <div className="text-right">
           <Button
             color={"secondary"}

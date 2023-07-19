@@ -298,7 +298,7 @@ function AddTask() {
                     <ImagePicker
                         icon={image}
                         size='xl'
-                        heading={translate("common.addAttachment")!}
+                        heading={translate("common.attach")!}
                         noOfFileImagePickers={3}
                         onSelect={(image) => { }}
                         onSelectImagePickers={(el) => {
@@ -322,51 +322,42 @@ function AddTask() {
             </div>
 
             <div className="col-md-9 col-lg-5">
-                <div className="mt--2">
-                    <Input
 
-                        heading={translate("common.title")}
-                        value={title.value}
-                        onChange={title.onChange}
+                <Input
 
-                    />
-
-                </div>
+                    heading={translate("common.title")}
+                    value={title.value}
+                    onChange={title.onChange}
+                />
 
 
 
-                <div className="mt--2">
-                    <TextAreaInput
-                        heading={translate('auth.description')!}
-                        value={description.value}
-                        onChange={description.onChange}
-                        className="form-control form-control-sm "
-
-                    />
-
-                </div>
 
 
+                <TextAreaInput
+                    heading={translate('auth.description')!}
+                    value={description.value}
+                    onChange={description.onChange}
+                    className="form-control form-control-sm "
 
-                <div className="mt--2">
-                    <Input
-                        type={"text"}
-                        heading={translate("auth.referenceNo")}
-                        value={referenceNo}
-                        onChange={(e) => { setReferenceNo(e.target.value) }}
-                    />
-                </div>
+                />
 
 
-                <div className="mt--2">
-                    <DropDown
-                        heading={translate("auth.Task Priority")!}
-                        selected={selectedTicketPriority.value}
-                        placeHolder={translate('order.please select a task priority')!}
-                        data={PRIORITY}
-                        onChange={selectedTicketPriority.onChange}
-                    />
-                </div>
+                <Input
+                    type={"text"}
+                    heading={translate("auth.referenceNo")}
+                    value={referenceNo}
+                    onChange={(e) => { setReferenceNo(e.target.value) }}
+                />
+
+                <DropDown
+                    heading={translate("auth.Task Priority")!}
+                    selected={selectedTicketPriority.value}
+                    placeHolder={translate('order.please select a task priority')!}
+                    data={PRIORITY}
+                    onChange={selectedTicketPriority.onChange}
+                />
+
                 <div className="my-3">
                     <Radio
                         data={type}
@@ -390,86 +381,69 @@ function AddTask() {
 
                 {
                     taskType && taskType?.id === "1" && (
-                        <div className="mt--2">
-                            <DropDown
-                                heading={translate("common.company")!}
-                                placeHolder={translate('order.Select a company')!}
-                                data={getDropDownCompanyDisplayData(associatedCompaniesL)}
-                                onChange={(item) => {
-                                    company.onChange(item)
-                                    // getSubTaskGroupsApi()
-                                }}
-                                selected={company.value}
-                            />
-                        </div>
+                        <DropDown
+                            heading={translate("common.company")!}
+                            placeHolder={translate('order.Select a company')!}
+                            data={getDropDownCompanyDisplayData(associatedCompaniesL)}
+                            onChange={(item) => {
+                                company.onChange(item)
+                            }}
+                            selected={company.value}
+                        />
                     )
                 }
 
                 {
                     getExternalCompanyStatus() && departments && departments.length > 0 &&
-                    <div className="mt--2">
-
-                        <DropDown
-                            heading={translate("common.department")!}
-                            placeHolder={translate("order.Select a Department")!}
-                            data={getDropDownDisplayData(departments)}
-                            onChange={(item) => {
-                                department.onChange(item)
-                            }}
-                            selected={department.value}
-                        />
-                    </div>
+                    <DropDown
+                        heading={translate("common.department")!}
+                        placeHolder={translate("order.Select a Department")!}
+                        data={getDropDownDisplayData(departments)}
+                        onChange={(item) => {
+                            department.onChange(item)
+                        }}
+                        selected={department.value}
+                    />
                 }
 
                 {
                     getExternalCompanyStatus() && designations && designations.length > 0 &&
-
-                    <div className="mt--2">
-                        <DropDown
-                            heading={translate("auth.designation")}
-                            placeHolder={translate('order.Select a Designation')!}
-                            data={getDropDownDisplayData(designations)}
-                            onChange={(item) => {
-                           
-                                designation.onChange(item)
-                            }}
-                            selected={designation.value}
-                        />
-                    </div>
+                    <DropDown
+                        heading={translate("auth.designation")}
+                        placeHolder={translate('order.Select a Designation')!}
+                        data={getDropDownDisplayData(designations)}
+                        onChange={(item) => {
+                            designation.onChange(item)
+                        }}
+                        selected={designation.value}
+                    />
                 }
 
                 {
                     getExternalCompanyStatus() && employees && employees.length > 0 &&
-                    <div className="mt--2">
-                        <AutoComplete
-                            variant={'custom'}
-                            heading={translate("common.user")!}
-                            data={getDropDownCompanyUser(employees)}
-                            selected={selectedUserId}
-                            onChange={(item) => {
-                                setSelectedUserId(item)
-
-
-                            }}
-                        />
-                    </div>
+                    <AutoComplete
+                        variant={'custom'}
+                        heading={translate("common.user")!}
+                        data={getDropDownCompanyUser(employees)}
+                        selected={selectedUserId}
+                        onChange={(item) => {
+                            setSelectedUserId(item)
+                        }}
+                    />
                 }
-
-
-
                 {
                     subTaskGroups && subTaskGroups.length > 0 &&
-                    <div className="mt-3"><DropDown
+                    <DropDown
                         heading={translate("common.selectGroup")}
                         placeHolder={translate('order.Select a Group')!}
                         data={getDropDownDisplayData(subTaskGroups)}
                         onChange={taskGroup.onChange}
                         selected={taskGroup.value}
                     />
-                    </div>
+
                 }
 
-                <div className={`${ subTaskGroups && `mt--2`}`}>
+                <div>
                     <DateTimePicker
                         heading={'ETA'}
                         id="eta-picker"
@@ -481,10 +455,10 @@ function AddTask() {
                     />
                 </div>
 
-             
+
             </div >
 
-            <div className="col ">
+            <div className="col">
                 <Button size={'md'}
                     loading={loginLoader.loader}
                     text={translate('common.submit')}

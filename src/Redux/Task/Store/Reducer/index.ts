@@ -23,23 +23,23 @@ const initialState: TaskStateProp = {
   referencesTasksNumOfPages: undefined,
   referencesTasksCurrentPages: 1,
   taskUsers: undefined,
-  eventsMessage:undefined,
+  eventsMessage: undefined,
   refreshTaskEvents: false,
-  refreshEventMessage:false,
-  refreshEventsMessage:false,
+  refreshEventMessage: false,
+  refreshEventsMessage: false,
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
   selectedTabPositions: { id: '1' },
   taskDetails: {},
-  breakDownTimeLine:undefined,
+  breakDownTimeLine: undefined,
   subTaskGroups: undefined,
   assignedTask: undefined,
-  selectedTaskId:undefined,
-  selectedReferenceDetails:true,
-  addNormalMessage:undefined,
-  addAttachmentsMessage:undefined,
-  getAttachmentsMessage:undefined,
-  taskParams: { q_many: "", assigned_tasks_by: "assigned_to",assigned_company: '', created_company: 'ALL', "created_tasks_by": "ALL", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL", "created_department_id": "ALL", "created_designation_id": "ALL", page_number: 1, assigned_emp_id: "", created_emp_id: "" },
+  selectedTaskId: undefined,
+  selectedReferenceDetails: true,
+  addNormalMessage: undefined,
+  addAttachmentsMessage: undefined,
+  getAttachmentsMessage: undefined,
+  taskParams: { q_many: "", assigned_tasks_by: "assigned_to", assigned_company: 'ALL', created_company: 'ALL', "created_tasks_by": "ALL", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL", "created_department_id": "ALL", "created_designation_id": "ALL", page_number: 1, assigned_emp_id: "", created_emp_id: "" },
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -95,12 +95,12 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.SELECTED_TASK_ITEM:
       state = { ...state, selectedTask: action.payload }
       break;
- /**
-     * selected Task Id
-     */
- case ActionTypes.SELECTED_TASK_ID:
-  state = { ...state, selectedTaskId: action.payload }
-  break;
+    /**
+        * selected Task Id
+        */
+    case ActionTypes.SELECTED_TASK_ID:
+      state = { ...state, selectedTaskId: action.payload }
+      break;
     /** 
      * Add Task Event
      */
@@ -135,7 +135,7 @@ const TaskReducer = (state = initialState, action: any) => {
       state = {
         ...state,
         // taskEventHistories: [...state.taskEventHistories, ...action.payload.details.data,],
-        taskEventHistories: action.payload.details?.data?action.payload.details.data:action.payload.details,
+        taskEventHistories: action.payload.details?.data ? action.payload.details.data : action.payload.details,
         // taskEventHistories: [...state.taskEventHistories, ...action.payload.details.data,],
         taskEventsCurrentPages:
           action.payload.details.next_page
@@ -256,7 +256,7 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
 
     case ActionTypes.REFRESH_EVENTS_MESSAGE:
-      console.log("aaaaaaaaaaaa=====",action)
+      console.log("aaaaaaaaaaaa=====", action)
 
       state = { ...state, eventsMessage: action.payload }
       break;
@@ -266,7 +266,7 @@ const TaskReducer = (state = initialState, action: any) => {
     // SELECTED TABS
 
     case ActionTypes.SELECTED_TAB_POSITION:
-    
+
       state = {
         ...state,
         selectedTabPositions: action.payload,
@@ -316,7 +316,7 @@ const TaskReducer = (state = initialState, action: any) => {
       state = { ...state, subTaskGroups: undefined }
       break;
     case ActionTypes.GET_SUB_TASK_GROUPS_SUCCESS:
-   
+
       state = { ...state, subTaskGroups: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details }
       break;
     case ActionTypes.GET_SUB_TASK_GROUPS_FAILURE:
@@ -337,35 +337,27 @@ const TaskReducer = (state = initialState, action: any) => {
       state = { ...state, assignedTask: undefined }
       break;
 
-      //GET TIME LINE BREAK DOWN
+    //GET TIME LINE BREAK DOWN
 
-      case ActionTypes.GET_TIMELINE_BREAKDOWN:
-        state = { ...state, breakDownTimeLine: undefined }
-        break;
-      case ActionTypes.GET_TIMELINE_BREAKDOWN_SUCCESS:
-  
-        state = { ...state,breakDownTimeLine: action.payload?.details }
-  
-        break;
-      case ActionTypes.GET_TIMELINE_BREAKDOWN_FAILURE:
-        state = { ...state, breakDownTimeLine: undefined }
-        break;
-
-        ///
-        case ActionTypes.SELECTED_REFERENCE:
-         
-        state = { ...state, selectedReferenceDetails:action.payload}
-        break;
-
-
-
-
-    /**
- * TASK FILTER GROUPS
- */
-    case ActionTypes.TASK_DEFAULT_PARAMS:
-      state = { ...state, taskParams: action.payload }
+    case ActionTypes.GET_TIMELINE_BREAKDOWN:
+      state = { ...state, breakDownTimeLine: undefined }
       break;
+    case ActionTypes.GET_TIMELINE_BREAKDOWN_SUCCESS:
+
+      state = { ...state, breakDownTimeLine: action.payload?.details }
+
+      break;
+    case ActionTypes.GET_TIMELINE_BREAKDOWN_FAILURE:
+      state = { ...state, breakDownTimeLine: undefined }
+      break;
+
+    ///
+    case ActionTypes.SELECTED_REFERENCE:
+
+      state = { ...state, selectedReferenceDetails: action.payload }
+      break;
+
+
 
     //assigned
     case ActionTypes.ASSIGNED_DEPARTMENT:
@@ -389,21 +381,21 @@ const TaskReducer = (state = initialState, action: any) => {
     case ActionTypes.CREATED_EMPLOYEE:
       state = { ...state, createdEmployee: action.payload }
       break;
-      
-        /**
-     * add Attachments message
-     */
+
+    /**
+ * add Attachments message
+ */
 
     case ActionTypes.ADD_ATTACHMENTS_MESSAGE:
       state = {
         ...state,
-        addAttachmentsMessage:undefined
+        addAttachmentsMessage: undefined
       };
       break;
     case ActionTypes.ADD_ATTACHMENTS_MESSAGE_SUCCESS:
       state = {
         ...state,
-        addAttachmentsMessage:action.payload,
+        addAttachmentsMessage: action.payload,
       };
       break;
 
@@ -412,15 +404,16 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
 
 
-       /**
-     * add Normal message
-     */
+    /**
+  * add Normal message
+  */
 
 
     case ActionTypes.GET_ATTACHMENTS_MESSAGE:
       state = {
         ...state,
-        getAttachmentsMessage: action.payload};
+        getAttachmentsMessage: action.payload
+      };
       break;
     case ActionTypes.GET_ATTACHMENTS_MESSAGE_SUCCESS:
       state = {
@@ -431,6 +424,15 @@ const TaskReducer = (state = initialState, action: any) => {
 
     case ActionTypes.GET_ATTACHMENTS_MESSAGE_FAILURE:
       state = { ...state, getAttachmentsMessage: undefined };
+      break;
+
+
+    /**
+     * SET_TASK_PARAMS
+     */
+
+    case ActionTypes.SET_TASK_PARAMS:
+      state = { ...state, taskParams: action.payload };
       break;
 
 
