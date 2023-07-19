@@ -44,15 +44,6 @@ function CreateBroadCast() {
   const [internalCheck, setInternalCheck] = useState(true)
   const [externalCheck, setExternalCheck] = useState(false)
   const [isExternalDisable, setExternalDisable] = useState(false)
-  // const [selectedNoOfPickers, setSelectedNoOfPickers] = useState<any>()
-
-
-  // let attach = photo.slice(-selectedNoOfPickers)
-
-  // const handleImagePicker = (file: any) => {
-  //   let newUpdatedPhoto = [...photo, file];
-  //   setPhoto(newUpdatedPhoto);
-  // };
 
   const isEnterPressed = useKeyPress("Enter");
   const   loginLoader=useLoader(false)
@@ -140,31 +131,25 @@ function CreateBroadCast() {
 
 
   return (
-    <div>
-      <HomeContainer type={'card'} className="m-3">
-        <div className='row mx-3 d-inline-flex justify-content-center'>
-          <Back />
+    <div className="m-3">
+      <HomeContainer type={'card'} >
+        <div className=" m-3">
+        <div className={"col"}>
+          <div className="row">
+          <div ><Back /></div>
           <div className='ml-2 text-center'><h3>{translate("auth.addBroadCast")!}</h3></div>
+          </div>
+        
         </div>
         <hr className='mt-3'></hr>
+
         <div className="col-md-9 col-lg-7">
           <Input
             heading={translate("common.title")}
             value={title.value}
             onChange={title.onChange}
           />
-          {/* <Input
-            heading={translate("auth.description")}
-            value={description.value}
-            onChange={description.onChange}
-          /> */}
-          {/* <div >
-          <InputHeading heading={translate('auth.description')}/>
-            <textarea 
-              value={description.value}
-              onChange={description.onChange}
-              className="form-control form-control-sm" />
-          </div> */}
+         
               <TextAreaInput
                 heading={translate('auth.description')!}
                 value={description.value}
@@ -215,13 +200,9 @@ function CreateBroadCast() {
               heading={translate("auth.attach")!}
               noOfFileImagePickers={3}
               onSelect={(image) => {
-                // let file = image.toString().replace(/^data:(.*,)?/, "")
-                // handleImagePicker(file)
+      
               }}
-              // onSelectImagePicker={(el) => {
-              //   setSelectedNoOfPickers(el?.length)
-
-              // }}
+         
 
               onSelectImagePickers={(el) => {
                 let array: any = []
@@ -246,15 +227,16 @@ function CreateBroadCast() {
 
         </div>
 
-        <div className="row justify-content-end">
-          <div className="">
+        <div className="col mt-3">
+         
             <Button
-              block
               loading={  loginLoader.loader}
               text={translate("common.submit")}
               onClick={submitTicketHandler}
             />
-          </div>
+        
+        </div>
+
         </div>
       </HomeContainer>
     </div>

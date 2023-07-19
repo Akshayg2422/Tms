@@ -174,13 +174,12 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
                 alt={logo.imgAlt}
                 className="navbar-brand-img rounded-circle "
                 src={getPhoto(user_details?.profile_photo)}
-                height={33}
-                width={33}
-
-
+                 height={35}
+                 width={35}
+            
               />
               </div> 
-              <div className="ml-2 text-sm mt-2 col ">{user_details?.name}</div>
+              <div className=" text-sm mt-2 col mr--2 ">{user_details?.name}</div>
 
             </div>
           </NavbarBrand>

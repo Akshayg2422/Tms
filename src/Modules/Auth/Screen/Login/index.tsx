@@ -66,7 +66,7 @@ function Login() {
   };
 
   return (
-    <div className="custom-gradient vh-100 d-flex justify-content-center align-items-center">
+    <div className=" vh-100 d-flex justify-content-center align-items-center">
       <div className="col-sm-9 col-md-6 col-lg-4">
         <Logo />
         <div className="my-5">

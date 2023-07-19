@@ -158,10 +158,12 @@ function Tickets() {
 
         <HomeContainer type={'card'}>
           <div className="m-4">
-            <TicketFilter onParams={(filteredParams) => {
-              setParams({ ...params, ...filteredParams })
-            }} />
-          </div>
+            
+       
+          <TicketFilter onParams={(filteredParams) => {
+            setParams({ ...params, ...filteredParams })
+          }} />
+             </div>
 
           {
             loading && (

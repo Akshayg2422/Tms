@@ -65,15 +65,12 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
         }
 
-
     }, [subTasks])
 
 
     useEffect(() => {
         setEta(eta_time)
     }, [taskDetails])
-
-
 
 
     function resetValues() {

@@ -3,6 +3,7 @@
 export const getFilter = (hexColor) =>
 {
 class Color {
+  
   constructor(r, g, b) {
     this.set(r, g, b);
   }

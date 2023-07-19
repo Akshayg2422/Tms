@@ -10,9 +10,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 
-
-
-
 function Tasks() {
   const dispatch = useDispatch()
   const { tasks, taskNumOfPages, taskCurrentPages, taskParams } = useSelector((state: any) => state.TaskReducer);
@@ -26,10 +23,6 @@ function Tasks() {
   }, [taskParams])
 
   const getTaskHandler = (page_number: number) => {
-
-
-
-    console.log(JSON.stringify(taskParams) + '=======taskParams');
 
     setLoading(true);
     const updatedParams = { ...taskParams, page_number }
@@ -75,7 +68,6 @@ function Tasks() {
                 </div>
 
                 <div>
-                  {/* <span>{capitalizeFirstLetter(title)}</span> */}
 
                 </div>
               </div>
@@ -133,7 +125,7 @@ function Tasks() {
                 : <div></div>
               }
             </div >,
-          // 'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
+       
           status:
             <>
               <div className="d-flex">
@@ -181,7 +173,7 @@ function Tasks() {
         </div>
       </div>
       <HomeContainer type={'card'}>
-        <div className="m-4">
+        <div className="mx-4 mt-4 mb-2">
           <TaskFilters />
         </div>
         {loading && (
