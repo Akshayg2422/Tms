@@ -36,8 +36,6 @@ function TaskFilters({ }: TaskFilterProps) {
 
 
 
-
-
     /**
      * Advance  Assign
      */
@@ -128,7 +126,7 @@ function TaskFilters({ }: TaskFilterProps) {
     }, [taskParams,
         associatedCompaniesL,
         assignedToDepartments,
-        assignedToDepartments,
+        assignedToDesignations,
         createByDepartments,
         createByDesignations,
         createByEmployees,

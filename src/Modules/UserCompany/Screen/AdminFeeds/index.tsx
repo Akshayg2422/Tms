@@ -194,7 +194,7 @@ function AdminFeeds() {
 
     <>
       {broadCastDetails && broadCastDetails.length > 0 ?
-        <div className="col-7 d-flex justify-content-end my-2 ml-4">
+        <div className="col-7 d-flex justify-content-end mt-3 ml-4">
           <Button
             text={translate("order.CREATE POST")}
             className="text-white"
@@ -214,7 +214,7 @@ function AdminFeeds() {
         <InfiniteScroll
           dataLength={broadCastDetails.length}
           hasMore={broadCastCurrentPage !== -1}
-          className={'overflow-auto overflow-hide '}
+          className={'overflow-auto overflow-hide mt-0 '}
           loader={<h4>
             <Spinner />
           </h4>}

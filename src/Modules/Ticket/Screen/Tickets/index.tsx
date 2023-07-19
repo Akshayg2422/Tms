@@ -157,9 +157,13 @@ function Tickets() {
         </div>
 
         <HomeContainer type={'card'}>
+          <div className="m-4">
+            
+       
           <TicketFilter onParams={(filteredParams) => {
             setParams({ ...params, ...filteredParams })
           }} />
+             </div>
 
           {
             loading && (
@@ -169,7 +173,7 @@ function Tickets() {
             )
           }
 
-          {!loading && <div style={{ marginRight: '-23px', marginLeft: '-23px' }}>
+          {!loading && <div>
 
             {tickets && tickets.length > 0 ?
               <div>

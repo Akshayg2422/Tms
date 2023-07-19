@@ -61,12 +61,7 @@ const loginLoader= useLoader(false)
     };
 
 
-    // let attach = photo.slice(-selectedNoOfPickers)
-
-    // const handleImagePicker = ( file: any) => {
-    //   let newUpdatedPhoto = [...photo, file];
-    //   setPhoto(newUpdatedPhoto);
-    // };
+ 
 
     const isEnterPressed = useKeyPress("Enter");
 
@@ -159,13 +154,18 @@ const loginLoader= useLoader(false)
 
 
     return (
-        <div>
-            <HomeContainer type={'card'} className="m-3">
-                <div className='row mx-3 d-inline-flex justify-content-center'>
-                    <Back />
-                    <div className='ml-2 text-center'><h3>{translate('order.ADD EVENT')}</h3></div>
-                </div>
-                <hr className='mt-3'></hr>
+        <div className="m-3">
+            <HomeContainer type={'card'}>
+            <div className=" m-3">
+        <div className={"col"}>
+          <div className="row">
+          <div ><Back /></div>
+          <div className='ml-2 text-center'><h3>{translate('order.ADD EVENT')}</h3></div>
+          </div>
+        </div>
+     
+                
+                <hr className='mt-2'></hr>
                 <div className="col-md-9 col-lg-7">
                     <Input
                         heading={translate("common.title")}
@@ -173,13 +173,7 @@ const loginLoader= useLoader(false)
                         onChange={title.onChange}
                     />
                  
-                    {/* <div >
-                    <InputHeading heading={translate('auth.description')}/>
-                    <textarea 
-                        value={description.value}
-                        onChange={description.onChange}
-                        className="form-control form-control-sm" />
-                </div> */}
+             
                 <TextAreaInput
                 heading={translate('auth.description')!}
                 value={description.value}
@@ -255,13 +249,9 @@ const loginLoader= useLoader(false)
                     heading= {translate("auth.attach")!}
                     noOfFileImagePickers={3}
                     onSelect={(image) => {
-                        // let file =image.toString().replace(/^data:(.*,)?/, "")
-                        // handleImagePicker(file)
+                        
                     }}
-                    // onSelectImagePicker={(el)=>{
-                    //   setSelectedNoOfPickers(el?.length)
-
-                    // }}
+                   
 
                     onSelectImagePickers={(el)=>{
                     
@@ -287,14 +277,16 @@ const loginLoader= useLoader(false)
             </div>
 
                 <div className="row justify-content-end">
-                    <div className="col-md-6 col-lg-4 ">
+                    <div className="mx-3">
                         <Button
-                            block
+    
                             text={translate("common.submit")}
                             onClick={submitAddEventHandler}
                             loading={loginLoader.loader}
                         />
                     </div>
+                </div>
+
                 </div>
             </HomeContainer>
         </div>

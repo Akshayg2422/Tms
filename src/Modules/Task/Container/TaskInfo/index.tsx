@@ -1,13 +1,13 @@
 import React, { useState, forwardRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard, InputHeading, TextAreaInput, ImageIcon, ImagePicker } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, ProfileCard,TextAreaInput, ImageIcon} from "@Components";
 import { getDisplayDateFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates, getDisplayTimeDateMonthYearTime } from '@Utils'
 import { icons } from "@Assets";
 import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useNavigation, useLoader } from '@Hooks'
-import { addTaskEvent, getSelectedReference, getTaskDetails, refreshTaskEvent, selectedVcDetails } from '@Redux'
+import { addTaskEvent, getTaskDetails, refreshTaskEvent, selectedVcDetails } from '@Redux'
 import { useParams } from 'react-router-dom'
 import { CardFooter } from "reactstrap";
 import { ROUTES } from "@Routes";
@@ -22,10 +22,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const { id, item } = useParams()
     const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
-    console.log(refreshTaskEvents,"refreshTaskEvents========>")
-
     const dispatch = useDispatch()
-    const { taskDetails, selectedTask, selectedReferenceDetails, referencesTasks, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
+    const { taskDetails,  selectedReferenceDetails,subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
 
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time } = taskDetails || {};
@@ -66,15 +64,12 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
         }
 
-
     }, [subTasks])
 
 
     useEffect(() => {
         setEta(eta_time)
     }, [taskDetails])
-
-
 
 
     function resetValues() {
@@ -91,8 +86,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
         }
-        console.log('ppuuuu',params)
-
+    
         dispatch(
             addTaskEvent({
                 params,
@@ -113,7 +107,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         const params = {
             code: id,
         }
-        console.log(params,"ppjhgyhyfffff")
+ 
         dispatch(
             getTaskDetails({
                 params,
@@ -177,14 +171,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 <div>
                     <div className="row">
                         <div className="col ">
-                            <div className="row" onClick={() => {
-                                //   dispatch(getSelectedReference({code:code,refer:true}))
-
-                            }}>
-
-                                    <div className=" mt--1">
+                            <div className="row">
+                                    
                                         <Back />
-                                    </div>
+                                
                                     <div className="ml-3">
                                         {title && <H tag={"h4"} className="mb-0" text={title} />}
                                     </div>
@@ -208,7 +198,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         }
                     </div>
 
-                    <div className="container mt-2 ">
+                    <div className=" row mt-2 ">
                         {
                             <PhotoProvider>
                                 <div className={'pointer'}>
@@ -217,7 +207,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                                             <PhotoView src={getPhoto(item?.attachment_file)}>
 
-                                                <Image className={'border ml--4'}
+                                                <Image className={'border mr-1 '}
                                                     variant={'avatar'}
                                                     size={'md'}
                                                     src={getPhoto(item?.attachment_file)} />
@@ -312,7 +302,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 }}
                 size={'md'}
             >
-                <div className="col-12">
+                <div >
 
                     <Input
                         type={"text"}
@@ -354,12 +344,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     />
 
                     <div >
-                        {/* <InputHeading heading={translate('auth.description')}/>
-                    <textarea 
-                    style={{height:'140px'}}
-                        value={editDescription.value}
-                        onChange={editDescription.onChange}
-                        className="form-control form-control-sm" /> */}
+             
                         <TextAreaInput
                             heading={translate('auth.description')!}
                             value={editDescription.value}
