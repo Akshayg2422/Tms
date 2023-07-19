@@ -181,48 +181,48 @@ function Tasks() {
         </div>
       </div>
       <HomeContainer type={'card'}>
-        <TaskFilters />
+        <div className="m-4">
+          <TaskFilters />
+        </div>
         {loading && (
           <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '200px' }}>
             <Spinner />
           </div>
         )}
 
-
-
-        {!loading && <div style={{ marginRight: '-23px', marginLeft: '-23px' }}>
-
-          {tasks && tasks.length > 0 ?
-            <CommonTable
-              isPagination
-              tableDataSet={tasks}
-              displayDataSet={normalizedTableData(tasks)}
-              noOfPage={taskNumOfPages}
-              currentPage={taskCurrentPages}
-              paginationNumberClick={(currentPage) => {
-                getTaskHandler(paginationHandler("current", currentPage));
-              }}
-              previousClick={() => {
-                getTaskHandler(paginationHandler("prev", taskCurrentPages))
-              }
-              }
-              nextClick={() => {
-                getTaskHandler(paginationHandler("next", taskCurrentPages));
-              }
-              }
-              tableOnClick={(idx, index, item) => {
-                dispatch(setSelectedTask(item?.code));
-                dispatch(selectedTaskIds(item))
-                dispatch(getSelectedReference({ code: item?.code, refer: true }))
-                dispatch(setSelectedTabPosition({ id: '1' }))
-                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'task');
-              }
-              }
-            />
-            :
-            <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
-          }
-        </div>}
+        {!loading &&
+          <div >
+            {tasks && tasks.length > 0 ?
+              <CommonTable
+                isPagination
+                tableDataSet={tasks}
+                displayDataSet={normalizedTableData(tasks)}
+                noOfPage={taskNumOfPages}
+                currentPage={taskCurrentPages}
+                paginationNumberClick={(currentPage) => {
+                  getTaskHandler(paginationHandler("current", currentPage));
+                }}
+                previousClick={() => {
+                  getTaskHandler(paginationHandler("prev", taskCurrentPages))
+                }
+                }
+                nextClick={() => {
+                  getTaskHandler(paginationHandler("next", taskCurrentPages));
+                }
+                }
+                tableOnClick={(idx, index, item) => {
+                  dispatch(setSelectedTask(item?.code));
+                  dispatch(selectedTaskIds(item))
+                  dispatch(getSelectedReference({ code: item?.code, refer: true }))
+                  dispatch(setSelectedTabPosition({ id: '1' }))
+                  goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'task');
+                }
+                }
+              />
+              :
+              <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
+            }
+          </div>}
 
 
 

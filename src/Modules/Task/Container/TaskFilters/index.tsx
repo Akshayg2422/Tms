@@ -242,7 +242,12 @@ function TaskFilters({ }: TaskFilterProps) {
             }
 
             if (assignedToEmployees && assignedToEmployees.length > 0) {
-                assignToEmployee.onChange(getObjectFromArrayByKey(assignedToEmployees, 'id', assigned_emp_id))
+                console.log('came-----' + assignedToEmployees.length);
+
+                console.log(getObjectFromArrayByKey(assignedToEmployees, 'id', assigned_emp_id));
+
+
+                assignToEmployee.set(getObjectFromArrayByKey(assignedToEmployees, 'id', assigned_emp_id))
             }
 
         }
@@ -383,7 +388,6 @@ function TaskFilters({ }: TaskFilterProps) {
                                     selected={assignToCompany.value}
                                     onChange={(item) => {
                                         assignToCompany.onChange(item)
-                                        getDepartmentsApiHandler(assignToCompany.value.id, ASSIGNED)
                                         proceedParams({ ...ASSIGN_TO_DEFAULT_PARAMS, assigned_company: item.id })
                                     }}
                                 />
@@ -399,7 +403,6 @@ function TaskFilters({ }: TaskFilterProps) {
                             onChange={(item: any) => {
                                 console.log('came----->department');
                                 assignToDepartment.onChange(item);
-                                getDesignationApiHandler(assignToCompany?.value.id, item.id, ASSIGNED)
                                 proceedParams({ assigned_department_id: item.id, assigned_designation_id: "ALL", assigned_emp_id: '' })
                             }}
                         />
@@ -423,7 +426,6 @@ function TaskFilters({ }: TaskFilterProps) {
                     {
                         assignedToEmployees && assignedToEmployees.length > 0 &&
                         <div className="col-lg-3 col-md-3 col-sm-12">
-
                             <AutoComplete
                                 className="form-control-sm"
                                 variant={'custom'}
@@ -432,7 +434,6 @@ function TaskFilters({ }: TaskFilterProps) {
                                 selected={assignToEmployee.value}
                                 placeHolder={'search user...'}
                                 onChange={(item) => {
-                                    console.log('came----->user');
                                     assignToEmployee.onChange(item)
                                     proceedParams({ assigned_emp_id: item.id })
                                 }}
@@ -462,7 +463,6 @@ function TaskFilters({ }: TaskFilterProps) {
                                     selected={createByCompany.value}
                                     onChange={(item) => {
                                         createByCompany.onChange(item)
-                                        getDepartmentsApiHandler(createByCompany.value.id, CREATED)
                                         proceedParams({ ...CREATED_BY_TO_DEFAULT_PARAMS, created_company: item.id })
                                     }}
                                 />
@@ -477,7 +477,6 @@ function TaskFilters({ }: TaskFilterProps) {
                             selected={createdByDepartment.value}
                             onChange={(item: any) => {
                                 createdByDepartment.onChange(item);
-                                getDesignationApiHandler(createByCompany?.value.id, item.id, CREATED)
                                 proceedParams({ created_department_id: item.id, created_designation_id: "ALL", created_emp_id: '' })
                             }}
                         />
@@ -500,7 +499,6 @@ function TaskFilters({ }: TaskFilterProps) {
                     {
                         createByEmployees && createByEmployees.length > 0 &&
                         <div className="col-lg-3 col-md-3 col-sm-12">
-
                             <AutoComplete
                                 className="form-control-sm"
                                 variant={'custom'}

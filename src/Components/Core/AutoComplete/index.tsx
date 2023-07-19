@@ -4,17 +4,17 @@ import { AutoCompleteProps } from './interfaces'
 import { Form, FormGroup } from 'reactstrap'
 import { Option, InputHeading } from '@Components'
 
-function  AutoComplete ({ variant = 'default', data, id, heading, selected, className, onChange ,inputType,placeHolder}: AutoCompleteProps) {
+function AutoComplete({ variant = 'default', data, id, heading, selected, className, onChange, inputType, placeHolder }: AutoCompleteProps) {
 
     const formatOption = (option: any) => {
-       console.log(option,"oooooooooooo")
-         
+        console.log(option, "oooooooooooo")
+
 
         let others = {} as any
         if (option?.title) {
             others = JSON.parse(option.title);
         }
-        
+
 
 
         return $(`<div class="col">
@@ -35,7 +35,7 @@ function  AutoComplete ({ variant = 'default', data, id, heading, selected, clas
     };
 
     function proceedOnChange(e: any) {
-       
+
         const selectedId = e.target.value
         if (onChange) {
 
@@ -54,11 +54,12 @@ function  AutoComplete ({ variant = 'default', data, id, heading, selected, clas
 
 
     return (
-        <Form>
+        <Form className='mb-3'>
             <InputHeading heading={heading} id={id} />
             <Select2
+                key={Math.random() + ""}
                 data={data}
-                 data-minimum-results-for-search={inputType}
+                data-minimum-results-for-search={inputType}
                 className={className}
                 value={selected && selected.id}
                 options={{
@@ -73,4 +74,4 @@ function  AutoComplete ({ variant = 'default', data, id, heading, selected, clas
 
 }
 
-export {  AutoComplete }
+export { AutoComplete }
