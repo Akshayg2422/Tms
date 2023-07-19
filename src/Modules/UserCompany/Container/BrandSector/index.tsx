@@ -174,13 +174,13 @@ function BrandSector() {
         title={translate("auth.sector")!}
         size="md"
       >
-        <div className="col-12">
-          <Input
-            placeholder={translate("auth.sector")}
-            value={sector.value}
-            onChange={sector.onChange}
-          />
-        </div>
+
+        <Input
+          placeholder={translate("auth.sector")}
+          value={sector.value}
+          onChange={sector.onChange}
+        />
+
         <div className="text-right">
           <Button
             color={"secondary"}

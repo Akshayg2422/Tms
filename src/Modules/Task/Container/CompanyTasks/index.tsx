@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HomeContainer, NoDataFound, Spinner } from "@Components";
-import { TaskGroups, TaskFilter } from '@Modules'
+import { TaskGroups } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
-import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter,getDates  } from '@Utils'
+import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
 import { getTasks, setSelectedTask } from '@Redux'
 import { useNavigation } from '@Hooks'
 import { ROUTES } from '@Routes'
@@ -14,10 +14,10 @@ function CompanyTasks() {
 
   const dispatch = useDispatch()
   const { tasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
-  const { selectedCompany,dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+  const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company } = dashboardDetails || ''
 
-  console.log(selectedCompany.branch_id ,"selectedCompany.branch_id ====>")
+  console.log(selectedCompany.branch_id, "selectedCompany.branch_id ====>")
 
   const date = new Date();
   const time = date.getHours()
@@ -30,9 +30,11 @@ function CompanyTasks() {
   }, [])
 
   const getTaskHandler = (page_number: number) => {
-    const updatedParams = { page_number,
-       branch_id: selectedCompany.branch_id }
-       setLoading(true);
+    const updatedParams = {
+      page_number,
+      branch_id: selectedCompany.branch_id
+    }
+    setLoading(true);
 
     dispatch(
       getTasks({
@@ -43,7 +45,7 @@ function CompanyTasks() {
           console.log(JSON.stringify(response) + '=====');
 
         },
-        onError: () => () => { 
+        onError: () => () => {
           setLoading(false);
         },
       })
@@ -122,35 +124,35 @@ function CompanyTasks() {
 
   return (
     <HomeContainer type={'card'} className="mt-3 100-vh">
-          {loading && (
-          <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '100px' }}>
-            <Spinner />
-          </div>
-        )}
+      {loading && (
+        <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '100px' }}>
+          <Spinner />
+        </div>
+      )}
 
-{!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
-      { tasks && tasks.length > 0 ?
-        <CommonTable
-          isPagination
-          tableDataSet={tasks}
-          displayDataSet={normalizedTableData(tasks)}
-          noOfPage={taskNumOfPages}
-          currentPage={taskCurrentPages}
-          paginationNumberClick={(currentPage) => {
-            getTaskHandler(paginationHandler("current", currentPage));
-          }}
-          previousClick={() => {
-            getTaskHandler(paginationHandler("prev", taskCurrentPages))
-          }
-          }
-          nextClick={() => {
-            getTaskHandler(paginationHandler("next", taskCurrentPages));
-          }
-          }
-       
-        />
-        : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={translate("auth.noTaskFound")!} /></div>
-      }
+      {!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
+        {tasks && tasks.length > 0 ?
+          <CommonTable
+            isPagination
+            tableDataSet={tasks}
+            displayDataSet={normalizedTableData(tasks)}
+            noOfPage={taskNumOfPages}
+            currentPage={taskCurrentPages}
+            paginationNumberClick={(currentPage) => {
+              getTaskHandler(paginationHandler("current", currentPage));
+            }}
+            previousClick={() => {
+              getTaskHandler(paginationHandler("prev", taskCurrentPages))
+            }
+            }
+            nextClick={() => {
+              getTaskHandler(paginationHandler("next", taskCurrentPages));
+            }
+            }
+
+          />
+          : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={translate("auth.noTaskFound")!} /></div>
+        }
       </div>}
     </HomeContainer>
   );

@@ -1,4 +1,4 @@
-import { takeLatest, put, call } from "redux-saga/effects";
+import { takeLatest, put, call, takeEvery } from "redux-saga/effects";
 import * as Api from '@Services'
 import * as Action from '../Store'
 
@@ -503,7 +503,7 @@ function* getTokenByUserSaga(action) {
     console.log(JSON.stringify(action,
       "aaaaaaaaaaaaa"))
     if (response.success) {
-      console.log(JSON.stringify(response,"ppppppppppprrrrrrr"))
+      console.log(JSON.stringify(response, "ppppppppppprrrrrrr"))
       yield put(Action.getTokenByUserSuccess(response));
       yield call(action.payload.onSuccess(response));
     } else {
@@ -779,7 +779,7 @@ function* fetchChatEmployeeListSaga(action) {
 
 function* UserCompanySaga() {
 
-  yield takeLatest(Action.GET_EMPLOYEES, getEmployeesSaga);
+  yield takeEvery(Action.GET_EMPLOYEES, getEmployeesSaga);
   yield takeLatest(Action.GET_EMPLOYEESL, getEmployeeslSaga);
   yield takeLatest(Action.GET_TASK_GROUP, getTaskGroupSaga)
   yield takeLatest(Action.ADD_TASK_GROUP, addTaskGroupSaga)
@@ -789,8 +789,8 @@ function* UserCompanySaga() {
   yield takeLatest(Action.GET_TICKET_TAG, getTicketTag);
   yield takeLatest(Action.ADD_DEPARTMENT, addDepartment);
   yield takeLatest(Action.ADD_DESIGNATION, addDesignation);
-  yield takeLatest(Action.FETCH_DESIGNATION, getDesignation);
-  yield takeLatest(Action.FETCH_DEPARTMENT, getDepartmentsSaga);
+  yield takeEvery(Action.FETCH_DESIGNATION, getDesignation);
+  yield takeEvery(Action.FETCH_DEPARTMENT, getDepartmentsSaga);
   yield takeLatest(Action.GET_ASSOCIATED_BRANCH, getAssociatedCompaniesSaga);
   yield takeLatest(Action.ADD_EMPLOYEE, addEmployeeSaga);
   yield takeLatest(Action.UPDATE_EMPLOYEE_PROFILE_PHOTO, addUpdateEmployeePhotoSaga);
