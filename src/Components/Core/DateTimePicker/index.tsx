@@ -22,7 +22,6 @@ function DateTimePicker({ id, heading, placeholder, type = 'both', format = "", 
             {heading && <InputHeading id={id} heading={heading} />}
 
             <ReactDatetime
-            className=' '
 
                 {...rest}
                 inputProps={
@@ -41,9 +40,9 @@ function DateTimePicker({ id, heading, placeholder, type = 'both', format = "", 
                 //     console.log(viewMode);   
                 // }}
 
+
                 onChange={
                     (date: Moment | string) => {
-                    
 
                         if (onChange) {
                             if (isMoment(date)) {

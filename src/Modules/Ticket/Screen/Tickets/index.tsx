@@ -65,9 +65,9 @@ function Tickets() {
                 <div className="col ml--2 ">
                   <span>{capitalizeFirstLetter(el?.title)}</span>
                   <div className=" text-primary  ">
-                    {el?.parent &&el
-                    ?.parent?.name && <div>{el?.parent?.name}
-                    </div>
+                    {el?.parent && el
+                      ?.parent?.name && <div>{el?.parent?.name}
+                      </div>
                     }
                   </div>
                 </div>
@@ -95,13 +95,13 @@ function Tickets() {
 
                   return (
                     <div className="row ">
-                    <Image
-                      variant={'avatar'}
-                      src={getPhoto(item?.attachment_file)} 
-                      className={'row'}
+                      <Image
+                        variant={'avatar'}
+                        src={getPhoto(item?.attachment_file)}
+                        className={'row'}
                       />
-                      
-                      </div>)
+
+                    </div>)
                 }
                 )
               }
@@ -127,8 +127,8 @@ function Tickets() {
               </div>
             </>,
 
-          'Assigned At': 
-          <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))} </div>,
+          'Assigned At':
+            <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(el.created_at))} </div>,
           status: <div> <Status status={el?.ticket_status} />
             <small>{
               getDates() > getDates(el.eta_time) ? 'ABOVE ETA' : ""
