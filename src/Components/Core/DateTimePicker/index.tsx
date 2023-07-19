@@ -17,16 +17,17 @@ function DateTimePicker({ id, heading, placeholder, type = 'both', format = "", 
         : disableFuture === 'before' ? (current: any) => current.isBefore(beforeCurrentDate, 'day') : disableFuture === 'weekend' ? (current: any) => current.day() !== 0 && current.day() !== 6 : disableFuture === 'afterWeekend' ?
             (current: any) => current.day() !== 0 && current.day() !== 6 && current.isAfter(AfterCurrentDate, 'day') : (current: any) => current;
 
-    return (
-        <FormGroup >
+    return ( 
+        <FormGroup className='bootstrap-datetimepicker-widget' >
             {heading && <InputHeading id={id} heading={heading} />}
 
             <ReactDatetime
-            className='datepicker'
+            className=' '
 
                 {...rest}
                 inputProps={
                     {
+                    
                         
                         placeholder: placeholder
 
@@ -40,9 +41,9 @@ function DateTimePicker({ id, heading, placeholder, type = 'both', format = "", 
                 //     console.log(viewMode);   
                 // }}
 
-
                 onChange={
                     (date: Moment | string) => {
+                    
 
                         if (onChange) {
                             if (isMoment(date)) {
