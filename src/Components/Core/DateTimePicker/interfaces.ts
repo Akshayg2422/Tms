@@ -6,5 +6,6 @@ export interface DateTimePickerProps extends InputHeadingProps, DefaultProps {
     type?: 'date' | 'time' | 'both';
     placeholder?: string,
     format?:string,
+    disableFuture ?:any,
     
 }

@@ -7,7 +7,7 @@ import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
-import { handleOneToOneChat, handleOneToOneVcNoti, refreshChatMessage, refreshEventsMessage, refreshGroupEvents, refreshTaskEvents, vcNotificationDetails } from '@Redux'
+import { handleOneToOneChat, handleOneToOneVcNoti, refreshChatMessage, refreshEventsMessage, refreshGroupEvents, refreshTaskEvent, vcNotificationDetails } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { Groups } from "../UserCompany";
 
@@ -144,7 +144,7 @@ const PushNotification = () => {
             } else if (route_type === NOTIFICATION_TASK_CHANNEL_EVENT) {
 
                 try {
-                    dispatch(refreshTaskEvents())
+                    dispatch(refreshTaskEvent())
                     goTo(ROUTES['tasks-details']['tasks-details'])
                 } catch (e) {
 

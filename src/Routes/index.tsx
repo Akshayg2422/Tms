@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat,EventChatting} from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -23,7 +23,7 @@ export const HOME_PATH = {
   TICKET_DETAILS: '/ticket-details',
   ADD_TICKET: './add-ticket',
   EMPLOYEE_TIME_SHEET: './employee-time-sheet',
-  GROUPS: './groups'
+  GROUPS: './groups',
 }
 
 export const ROUTES = {
@@ -32,7 +32,10 @@ export const ROUTES = {
     otp: '/otp',
     splash: '/splash',
     register: '/register',
-    landing: '/'
+    landing: '/',
+    privacy: '/privacy-policy',
+    TermsAndConditions: '/terms-and-condition',
+    ReturnAndRefund: '/return-and-refund'
   },
   'task-module': {
     tasks: '/tasks',
@@ -97,6 +100,21 @@ export const AUTH_ROUTES = [
     key: 4,
     path: ROUTES['auth-module'].splash,
     component: <Splash />
+  },
+  {
+    key: 5,
+    path: ROUTES['auth-module'].privacy,
+    component: <PrivacyPolicy />
+  },
+  {
+    key: 6,
+    path: ROUTES['auth-module'].TermsAndConditions,
+    component: <TermsAndConditions />
+  },
+  {
+    key: 7,
+    path: ROUTES['auth-module'].ReturnAndRefund,
+    component: <ReturnAndRefund />
   },
 
 ];
@@ -221,7 +239,7 @@ export const HOME_ROUTES = [
 export const TASK_ROUTES = [
   {
     key: 1,
-    path: ROUTES['task-module']['tasks-details'] + '/:id'+'/:item',
+    path: ROUTES['task-module']['tasks-details'] + '/:id' + '/:item',
     component: <TaskDetails />
   },
   {
@@ -331,7 +349,7 @@ export const USER_COMPANY_ROTES = [
   {
     key: 11,
     path: ROUTES['user-company-module']['event-chatting'],
-    component: <EventChatting/>
+    component: <EventChatting />
   },
 
   {
@@ -389,6 +407,10 @@ export const ADMIN_ROUTES = [
     component: <Setting />
   }
 ];
+
+
+
+
 
 export * from "./RequireAuth";
 export * from "./RequireHome";

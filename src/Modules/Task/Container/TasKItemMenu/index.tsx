@@ -13,7 +13,7 @@ import {
 } from "react-redux";
 import {
     addTaskEvent,
-    refreshTaskEvents
+    refreshTaskEvent
 } from "@Redux";
 import { Employees, EmployeesV1 } from '@Modules'
 import { useDropDown, useInput, useLoader, useModal, useNavigation } from "@Hooks";
@@ -72,7 +72,7 @@ function TaskItemMenu() {
                     reassignUserModal.hide()
                     loginLoader.hide()
                     taskCloseModal.hide()
-                    dispatch(refreshTaskEvents())
+                    dispatch(refreshTaskEvent())
                 } catch (e) {
                     loginLoader.hide()
                 }
@@ -115,12 +115,12 @@ console.log(status.value,"lllll")
                  */
             }
 
-            <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ maxHeight: '80vh' }}>
+            <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }}>
                 <EmployeesV1 selection={'multiple'} onSelected={(users) => {
                     const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
                     setTaggedUsers(taggedUserIds)
                 }} />
-                <div className="pt-3 mr-2 text-right">
+                <div className=" text-right">
                     <Button
                         size={'sm'}
                         loading={loginLoader.loader}

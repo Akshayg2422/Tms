@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, TextAreaInput } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, TextAreaInput, ProfileCard } from "@Components";
 import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates } from '@Utils'
 import { icons } from "@Assets";
 import { TicketInfoProps } from "./interface";
 import { TicketItemMenu, TicketEventHistory } from "@Modules";
 import { translate } from "@I18n";
-import { useModal, useInput, useWindowDimensions, useLoader } from '@Hooks'
-import { addTicketEvent, getTicketDetails } from '@Redux'
+import { useModal, useInput, useWindowDimensions, useLoader,useNavigation } from '@Hooks'
+import { addTicketEvent, getTicketDetails, selectedVcDetails } from '@Redux'
 import { useParams } from "react-router-dom";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+import { ROUTES } from "@Routes";
 
 const START_TASK = 1
 const END_TASK = 2
@@ -17,7 +19,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
 
     const loginLoader = useLoader(false)
-
+const {goTo}=useNavigation()
     const { id } = useParams()
     const dispatch = useDispatch()
     const { ticketDetails, selectedTicket } = useSelector((state: any) => state.TicketReducer);
@@ -28,6 +30,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
     const editEtaModal = useModal(false)
     const editEtaReason = useInput('')
     const ticketEventModal = useModal(false)
+    const userModal = useModal(false)
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
     const { height } = useWindowDimensions()
@@ -74,6 +77,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
         const params = {
             code: id,
         }
+        console.log(params,"pppp---->")
         dispatch(
             getTicketDetails({
                 params,
@@ -132,7 +136,9 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                         <div>
                             <div className="mt-3 ml--1">
                                 {description && <H tag={'h5'} text={capitalizeFirstLetter(description)} />}
-                                <div className="row">
+
+
+                                {/* <div className="row">
                                     {
                                         ticket_attachments &&
                                         ticket_attachments?.length > 0 && ticket_attachments?.map((item) => {
@@ -147,7 +153,31 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                                             </div>
                                         })
                                     }
+                                </div> */}
+
+                                <div className="container mt-2 ml-2">
+                        {
+                            <PhotoProvider>
+                                <div className={'pointer'}>
+                                    {
+                                       ticket_attachments  && ticket_attachments .length > 0 && ticket_attachments ?.map((item, index) => (
+
+                                            <PhotoView src={getPhoto(item?.attachment_file)}>
+
+                                                <Image className={'border ml--4'}
+                                                    variant={'avatar'}
+                                                    size={'md'}
+                                                    src={getPhoto(item?.attachment_file)} />
+                                            </PhotoView>
+                                        ))
+                                    }
                                 </div>
+                            </PhotoProvider>
+                        }
+                    </div>
+
+
+                                
                             </div>
                         </div>
 
@@ -182,13 +212,18 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                         </div>
                     </div>
                     <div className="row justify-content-between mt-4 mr-3">
-                        <div>
+                        <div className="row">
+                        <div className={'align-self-center pr-2 pl-2 '} onClick={() => userModal.show()}>{by_user?.profile_photo && <Image size={'sm'} variant={'rounded'} src={getPhoto(by_user?.profile_photo)} />}</div>
+                       
+                        <div className="pt-3" >
+                       
                             <div className="h5 mb-0"> {by_user?.name} </div>
                             <div className="mt--1"><small > {by_user?.phone} </small></div>
                             <div className="mt--2"><small > {by_user?.email} </small></div>
                         </div>
+                        </div>
 
-                        <div>
+                        <div className="mt-4">
                             <div className="row">
                                 {raised_by_company?.attachment_logo && <Image variant={'rounded'}
                                     src={getPhoto(raised_by_company?.attachment_logo)} />}
@@ -223,12 +258,7 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
              */}
             <Modal isOpen={editEtaModal.visible} onClose={() => { editEtaModal.hide() }} >
                 <div className="col-6">
-                    {/* <Input
-                        type={"text"}
-                        heading={translate("common.reason")}
-                        value={editEtaReason.value}
-                        onChange={editEtaReason.onChange}
-                    /> */}
+                 
                     <TextAreaInput
                         heading={translate("common.reason")!}
                         value={editEtaReason.value}
@@ -251,6 +281,24 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                         onClick={editEtaSubmitApiHandler} />
                 </div>
             </Modal>
+
+            <Modal size={'sm'} isOpen={userModal.visible} onClose={userModal.hide}>
+
+<ProfileCard
+    coverPhoto={by_user?.profile_photo}
+    profilePhoto={by_user?.profile_photo}
+    name={by_user?.name}
+    department={by_user?.department?.name}
+    designation={by_user?.designation?.name}
+    company={raised_by_company?.display_name}
+    userId={by_user?.id}
+    messageOnClick={() => {
+        dispatch(selectedVcDetails(by_user))
+        goTo(ROUTES['user-company-module']['individual-chat'], false)
+    }}
+/>
+
+</Modal>
             {/**
              * show Event Time Line
              */}

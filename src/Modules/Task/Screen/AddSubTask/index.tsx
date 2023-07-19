@@ -33,6 +33,7 @@ import {
     getMomentObjFromServer,
     getDropDownCompanyDisplayData,
     getDropDownCompanyUser,
+    generateReferenceNo,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,7 +47,7 @@ function AddSubTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, departments, designations,associatedCompaniesL,employees } = useSelector(
+    const { dashboardDetails,associatedCompaniesL,employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { selectedTask } = useSelector(
@@ -56,24 +57,20 @@ function AddSubTask() {
 
     const title = useInput("");
     const description = useInput("");
-    const referenceNo = useInput("");
+    const referenceNo = useInput(generateReferenceNo());
     const [taskType, setTaskType] = useState(type[1]);
     const [disableTaskType, setDisableTaskType] = useState([]);
     const [photo, setPhoto] = useState<any>([]);
     const department = useDropDown({})
     const designation = useDropDown({})
     const company = useDropDown({})
-    // const taskGroup = useDropDown({})
-    // const [selectDropzone, setSelectDropzone] = useState<any>([{ id: "1" }]);
     const [image, setImage] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
-    // const [, setDesignations] = useState([])
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [date, setDate] = useState<any>(moment().format())
     const [eta, setEta] = useState("")
-    // const [selectedNoOfPickers,setSelectNoOfPickers]=useState<any>()
-    // let attach = photo.slice(-selectedNoOfPickers)
+ 
 
     const isEnterPressed = useKeyPress("Enter");
 
@@ -259,6 +256,7 @@ function AddSubTask() {
                     heading={translate("auth.referenceNo")}
                     value={referenceNo.value}
                     onChange={referenceNo.onChange}
+                    
                 />
                 <div className="mb-2">
                     <Radio
@@ -309,7 +307,7 @@ function AddSubTask() {
                     placeholder={'Select ETA'}
                     type="both"
                     onChange={handleEtaChange}
-                    value={date ? getMomentObjFromServer(date) : null!}
+                    // value={date ? getMomentObjFromServer(date) : null!}
                 />
             </div>
 

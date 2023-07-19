@@ -7,7 +7,7 @@ import { TaskInfoProps } from './interfaces'
 import { TaskItemMenu, TaskEventHistory } from "@Modules";
 import { translate } from "@I18n";
 import { useModal, useInput, useNavigation, useLoader } from '@Hooks'
-import { addTaskEvent, getSelectedReference, getTaskDetails, refreshTaskEvents, selectedVcDetails } from '@Redux'
+import { addTaskEvent, getSelectedReference, getTaskDetails, refreshTaskEvent, selectedVcDetails } from '@Redux'
 import { useParams } from 'react-router-dom'
 import { CardFooter } from "reactstrap";
 import { ROUTES } from "@Routes";
@@ -22,6 +22,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const { id, item } = useParams()
     const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
+    console.log(refreshTaskEvents,"refreshTaskEvents========>")
 
     const dispatch = useDispatch()
     const { taskDetails, selectedTask, selectedReferenceDetails, referencesTasks, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
@@ -69,10 +70,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     }, [subTasks])
 
 
-    // console.log(selected,"sssssssssss")
-    // console.log(selectedReferenceDetails?.refer,":::::::::::::p")
-    // console.log(selectedTaskId,"selectedTaskId=====>")
-
     useEffect(() => {
         setEta(eta_time)
     }, [taskDetails])
@@ -94,6 +91,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             event_type: TASK_EVENT_ETA,
             reason: editEtaReason.value
         }
+        console.log('ppuuuu',params)
 
         dispatch(
             addTaskEvent({
@@ -101,8 +99,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 onSuccess: () => () => {
                     editEtaReason.set('')
                     editEtaModal.hide();
-                    dispatch(refreshTaskEvents())
                     getTaskDetailsHandler();
+                    dispatch(refreshTaskEvent())
+                 
                 },
                 onError: () => () => { }
             })
@@ -114,6 +113,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         const params = {
             code: id,
         }
+        console.log(params,"ppjhgyhyfffff")
         dispatch(
             getTaskDetails({
                 params,
@@ -135,7 +135,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 params,
                 onSuccess: (response) => () => {
                     alertModal.hide()
-                    console.log('kjfbvjikdfbvjbnccncncj',response)
+                  
                     getTaskDetailsHandler()
                 },
                 onError: () => () => {
@@ -198,7 +198,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                             </div>
                         </div>
-                        {item !== 'reference-task' && <div className="pointer col-auto" onClick={() => {
+                        {item !== 'reference-task' && <div className="pointer col-auto " onClick={() => {
                             editTaskModal.show()
                             editTitle.set(title)
                             editDescription.set(description)
@@ -229,14 +229,14 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         }
                     </div>
 
-                    <div className={'row mt--3 justify-content-between'}>
-                        <div className="row mt-2  pointer ml-1" onClick={() => userModal.show()}>
-                            <div className={'align-self-center'}>{by_user?.profile_photo && <Image size={'sm'} variant={'rounded'} src={getPhoto(by_user?.profile_photo)} />}</div>
+                    <div className={'row  justify-content-between'}>
+                        <div className="row mt-2  pointer ml-1 " onClick={() => userModal.show()}>
+                            <div className={'align-self-center mr-2'}>{by_user?.profile_photo && <Image size={'sm'} variant={'rounded'} src={getPhoto(by_user?.profile_photo)} />}</div>
                             <div className={'align-self-center'}>
                                 <div className="h5 mb-0"> {by_user?.name}</div>
                             </div>
                         </div>
-                        <div className="row mt-4 mr-3">
+                        <div className="row mt-3 mr-3">
                             <div className={'align-self-center '}>{raised_by_company?.attachment_logo && <Image variant={'rounded'} size={'sm'} src={getPhoto(raised_by_company?.attachment_logo)} />}</div>
                             <div className="align-self-center">
                                 <div className="h5 mb-0 ml-2"> {raised_by_company?.display_name}</div>

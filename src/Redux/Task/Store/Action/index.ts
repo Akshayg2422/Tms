@@ -243,7 +243,7 @@ export const selectedTaskIds = (params) => {
  */
 
 
-export const refreshTaskEvents = () => {
+export const refreshTaskEvent = () => {
     return {
         type: ActionTypes.REFRESH_TASK_EVENTS,
     }
