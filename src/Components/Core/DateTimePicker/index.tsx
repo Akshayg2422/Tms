@@ -8,21 +8,21 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 
 
-function DateTimePicker({ id, heading, placeholder, type = 'both', format = "", onChange,disableFuture = 'after', ...rest }: DateTimePickerProps) {
+function DateTimePicker({ id, heading, placeholder, type = 'both', format = "", onChange, disableFuture = 'after', ...rest }: DateTimePickerProps) {
     // const [viewMode, setViewMode] = useState<any>('days')
-    const beforeCurrentDate = moment().add(1,'day');
+    const beforeCurrentDate = moment().add(1, 'day');
     const AfterCurrentDate = moment().subtract(1, 'day')
     const disableDt = disableFuture === 'after'
-      ? (current: any) => current.isAfter(AfterCurrentDate, 'day')
-      : disableFuture === 'before'? (current: any) => current.isBefore(beforeCurrentDate, 'day'): disableFuture === 'weekend' ?(current: any)=> current.day() !== 0 && current.day() !== 6:  disableFuture === 'afterWeekend' ?
-      (current: any) => current.day() !== 0 && current.day() !== 6 && current.isAfter(AfterCurrentDate, 'day'):(current: any) => current;
+        ? (current: any) => current.isAfter(AfterCurrentDate, 'day')
+        : disableFuture === 'before' ? (current: any) => current.isBefore(beforeCurrentDate, 'day') : disableFuture === 'weekend' ? (current: any) => current.day() !== 0 && current.day() !== 6 : disableFuture === 'afterWeekend' ?
+            (current: any) => current.day() !== 0 && current.day() !== 6 && current.isAfter(AfterCurrentDate, 'day') : (current: any) => current;
 
     return (
         <FormGroup>
             {heading && <InputHeading id={id} heading={heading} />}
 
             <ReactDatetime
-        
+
                 {...rest}
                 inputProps={
                     {
@@ -33,16 +33,16 @@ function DateTimePicker({ id, heading, placeholder, type = 'both', format = "", 
                 }
                 dateFormat={type !== 'time' && 'DD MMM YYYY'}
                 timeFormat={type !== 'date' && 'hh:mm A'}
-                
+
 
                 // onNavigate={(viewMode) => {
                 //     console.log(viewMode);
                 // }}
-                    
-                
+
+
                 onChange={
                     (date: Moment | string) => {
-                    
+
                         if (onChange) {
                             if (isMoment(date)) {
                                 onChange(date.format(format).toString())

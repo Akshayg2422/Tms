@@ -26,7 +26,7 @@ import { useParams } from "react-router-dom";
 
 function TaskItemMenu() {
 
-    const {id}=useParams()
+    const { id } = useParams()
 
     const dynamicHeight: any = useDynamicHeight()
     const TASK_STATUS_MENU = [
@@ -34,17 +34,17 @@ function TaskItemMenu() {
             id: 0, name: translate('auth.Tag User'), icon: icons.tagUser,
         },
         {
-            id: 1, name:translate('auth.Reassign User'), icon: icons.reassignUser,
+            id: 1, name: translate('auth.Reassign User'), icon: icons.reassignUser,
         },
         {
             id: 2, name: translate('auth.Change Task Status'), icon: icons.taskStatus,
         }
     ]
     const loginLoader = useLoader(false);
-   
+
     const dispatch = useDispatch()
-    const { selectedTaskId} = useSelector((state: any) => state.TaskReducer);
-   
+    const { selectedTaskId } = useSelector((state: any) => state.TaskReducer);
+
 
     const tagUserModal = useModal(false);
     const reassignUserModal = useModal(false);
@@ -60,7 +60,7 @@ function TaskItemMenu() {
         const params = {
             ...(taskEventParams && { ...taskEventParams }),
             // id: selectedTask.id
-            code:id
+            code: id
         };
 
         loginLoader.show()
@@ -79,16 +79,16 @@ function TaskItemMenu() {
             },
             onError: (error) => () => {
                 loginLoader.hide()
-              
+
             }
         }))
     }
 
-console.log(status.value,"lllll")
+
     function proceedTaskStatusChangeHandler() {
         const params = {
-            event_type:EVS,
-            taskstatus_changeto:status.value?.id,
+            event_type: EVS,
+            taskstatus_changeto: status.value?.id,
             reason: taskStatusReason.value,
         }
         proceedAddTaskEvents(params)
@@ -157,28 +157,21 @@ console.log(status.value,"lllll")
             }
 
             <Modal fade={false} isOpen={taskCloseModal.visible} onClose={taskCloseModal.hide} size="md">
-
-
-                <div className="col-12">
-                    <DropDown
-                        className="form-control-md"
-                        heading={translate("common.taskStatus")}
-                        data={TASK_STATUS_LIST}
-                        selected={status.value}
-                        onChange={status.onChange}
-                    />
-
-<TextAreaInput 
-               heading={translate("common.reason")!}
-                value={taskStatusReason.value}
-                onChange={taskStatusReason.onChange}
-                className="form-control form-control-sm"
-                
+                <DropDown
+                    className="form-control-md"
+                    heading={translate("common.taskStatus")}
+                    data={TASK_STATUS_LIST}
+                    selected={status.value}
+                    onChange={status.onChange}
                 />
 
-            
-                </div>
+                <TextAreaInput
+                    heading={translate("common.reason")!}
+                    value={taskStatusReason.value}
+                    onChange={taskStatusReason.onChange}
+                    className="form-control form-control-sm"
 
+                />
                 <div className="pt-3 text-right">
                     <Button
                         size={'sm'}
