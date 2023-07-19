@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, setSelectedCompany, setSelectedTabPosition } from "@Redux";
-import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton, Spinner, SearchInput } from "@Components";
+import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton, Spinner, SearchInput, HomeContainer } from "@Components";
 import { useNavigation, useModal, useDynamicHeight, useDropDown, useLoader, useInput } from "@Hooks";
 import { ROUTES } from "@Routes";
 import { translate } from "@I18n";
@@ -18,24 +18,24 @@ function Companies() {
 
   const associatedCompanyModal = useModal(false);
   const associatedCompanyDropDown = useDropDown({})
-  const searchCompany=useInput('')
+  const searchCompany = useInput('')
   const dynamicHeight: any = useDynamicHeight()
   const [loading, setLoading] = useState(false)
   const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany, dashboardDetails } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
- 
-  const  loginLoader=useLoader(false)
+
+  const loginLoader = useLoader(false)
 
 
   useEffect(() => {
-   
+
     getAssociatedCompanyApi()
   }, [])
 
   useEffect(() => {
     getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
-   
+
   }, [searchCompany.value])
 
 
@@ -44,7 +44,7 @@ function Companies() {
     setLoading(true)
     const params = {
       page_number,
-      q:searchCompany.value
+      q: searchCompany.value
     };
 
     dispatch(
@@ -82,7 +82,7 @@ function Companies() {
 
   const addAssociatedCompanyApi = () => {
     const params = {
-      id:dashboardDetails.company_branch.id ,
+      id: dashboardDetails.company_branch.id,
       company_id: associatedCompanyDropDown.value.id,
     }
     loginLoader.show()
@@ -109,10 +109,13 @@ function Companies() {
   const normalizedTableData = (data: any) => {
     return data?.map((el: any) => {
       return {
-        Company: <div className="row"> <div>
-          <Image variant={'rounded'} src={getPhoto(el?.attachment_logo)} /></div>
-          <div className="text-center pt-3 pl-1"> {el.display_name}<div></div></div>
-        </div>,
+        Company:
+          <div className="col">
+            <div className="row">
+              <Image size={'md'} variant={'rounded'} src={getPhoto(el?.attachment_logo)} />
+              <div className="text-center pt-3 pl-1"> {el.display_name}<div></div></div>
+            </div>
+          </div>,
         phone: el?.phone,
         email: el?.email,
         address: el?.address,
@@ -132,35 +135,30 @@ function Companies() {
 
   return (
     <>
-      <Card className="m-3">
-      <div className="d-flex justify-content-end">
-      <div className="col-3 mt--1" >
-                    <SearchInput onSearch={(search) => {
-                      searchCompany.set(search)
-                  
-                    }} />
-                </div>
-                <div>
-                {associatedCompanies && associatedCompanies?.length > 0 ?
-    
-          
+      <HomeContainer type={'card'} className="m-3">
+        <div className="d-flex  justify-content-end m-3 align-items-center">
+          <div className="col-3">
+            <SearchInput onSearch={(search) => {
+              searchCompany.set(search)
 
-    <div className="text-right mb-3">
-      <Button
-        className={'text-white'}
-        size={'sm'}
-        text={translate("auth.associatedCompany")}
-        onClick={() => {
-          associatedCompanyModal.show()
-        }}
-      />
-    </div> 
- 
-    : null}
-                </div>
-                
-                </div>
-   
+            }}
+            />
+          </div>
+
+          {associatedCompanies && associatedCompanies?.length > 0 &&
+            <div className="text-right">
+              <Button
+                className={'text-white'}
+                size={'sm'}
+                text={translate("auth.associatedCompany")}
+                onClick={() => {
+                  associatedCompanyModal.show()
+                }}
+              />
+            </div>
+          }
+        </div>
+
 
         {
           loading && (
@@ -170,41 +168,39 @@ function Companies() {
           )
         }
 
-        {!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
+        {associatedCompanies && associatedCompanies?.length > 0 ?
+          <CommonTable
+            isPagination
+            title={'Companies'}
+            tableDataSet={associatedCompanies}
+            currentPage={associatedCompaniesCurrentPages}
+            noOfPage={associatedCompaniesNumOfPages}
+            displayDataSet={normalizedTableData(associatedCompanies)}
+            paginationNumberClick={(currentPage) => {
+              getAssociatedCompaniesHandler(paginationHandler("current", currentPage));
+            }}
+            previousClick={() => {
+              getAssociatedCompaniesHandler(paginationHandler("prev", associatedCompaniesCurrentPages))
+            }
+            }
+            nextClick={() => {
+              getAssociatedCompaniesHandler(paginationHandler("next", associatedCompaniesCurrentPages));
+            }
+            }
+            tableOnClick={(idx, index, item) => {
+              dispatch(setSelectedCompany(item));
+              goTo(ROUTES["user-company-module"]["company-details"]);
+              dispatch(setSelectedTabPosition({ id: '1' }))
 
-          {associatedCompanies && associatedCompanies?.length > 0 ?
-            <CommonTable
-              isPagination
-              title={'Companies'}
-              tableDataSet={associatedCompanies}
-              currentPage={associatedCompaniesCurrentPages}
-              noOfPage={associatedCompaniesNumOfPages}
-              displayDataSet={normalizedTableData(associatedCompanies)}
-              paginationNumberClick={(currentPage) => {
-                getAssociatedCompaniesHandler(paginationHandler("current", currentPage));
-              }}
-              previousClick={() => {
-                getAssociatedCompaniesHandler(paginationHandler("prev", associatedCompaniesCurrentPages))
-              }
-              }
-              nextClick={() => {
-                getAssociatedCompaniesHandler(paginationHandler("next", associatedCompaniesCurrentPages));
-              }
-              }
-              tableOnClick={(idx, index, item) => {
-                dispatch(setSelectedCompany(item));
-                goTo(ROUTES["user-company-module"]["company-details"]);
-                dispatch(setSelectedTabPosition({id:'1'}))
+            }} />
+          :
+          <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text={translate("common.No Companies found")!} buttonText={translate("common.addCompany")!} onClick={() => {
+            goTo(ROUTES["user-company-module"]["add-company"]);
+          }} isButton /></div>
 
-              }} />
-            :
-            <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text={translate("common.No Companies found")!} buttonText={translate("common.addCompany")!} onClick={() => {
-              goTo(ROUTES["user-company-module"]["add-company"]);
-            }} isButton /></div>
+        }
 
-          }
-        </div>}
-      </Card>
+      </HomeContainer>
 
       <Modal size={"md"} fade={false} isOpen={associatedCompanyModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={associatedCompanyModal.hide}>
 
@@ -215,7 +211,7 @@ function Companies() {
               data={getAssociatedCompanyDropDownDisplayData(associatedCompany)}
               onChange={(item) => {
                 associatedCompanyDropDown.onChange(item)
-             
+
               }}
               value={associatedCompanyDropDown.value}
               selected={associatedCompanyDropDown.value}

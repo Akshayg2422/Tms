@@ -8,7 +8,7 @@ function TimeLine({ showDotterLine, children, title, time, icon, color = 'white'
 
     return (
         <div
-            className={`${showDotterLine && 'timeline '} timeline-one-side  `}
+            className={`${showDotterLine && 'timeline '} timeline-one-side ml-2`}
             data-timeline-axis-style="dashed"
             data-timeline-content="axis"
         >

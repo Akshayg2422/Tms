@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { getTaskEventHistory } from '@Redux';
-import { HDD_MMMM_YYYY_HH_MM_A, TASK_STATUS_LIST, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getDisplayDateTimeFromMoment, getMomentObjFromServer, getObjectFromArrayByKey, INITIAL_PAGE, } from '@Utils';
-import { TaskEventHistoryProps } from './interfaces'
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { TimeLine, Spinner } from '@Components'
 import { icons } from '@Assets';
+import { TimeLine } from '@Components';
+import { getTaskEventHistory } from '@Redux';
+import { HDD_MMMM_YYYY_HH_MM_A, INITIAL_PAGE, TASK_STATUS_LIST, getDisplayDateFromMomentByType, getMomentObjFromServer, getObjectFromArrayByKey } from '@Utils';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { TaskEventHistoryProps } from './interfaces';
 
 function TaskEventHistory({ }: TaskEventHistoryProps) {
     const { id } = useParams();
     const dispatch = useDispatch();
     const [taskEventHistory, setTaskEventHistory] = useState([])
     const [taskEventsCurrentPage, setEventsTaskCurrentPage] = useState(INITIAL_PAGE)
-    const { selectedTask, taskEventHistories, refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
+    const { taskEventHistories, refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
 
 
 
@@ -108,7 +107,7 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
     return (
 
 
-        <div className='m-1 mt--3 shadow-none overflow-auto overflow-hide' style={{ maxHeight: '58vh' }}>
+        <div className='shadow-none overflow-auto overflow-hide' style={{ maxHeight: '58vh' }}>
 
             {
                 taskEventHistories && taskEventHistory?.length > 0 && taskEventHistory?.map((taskEvent: any, index: number, event: any) => {
@@ -117,8 +116,8 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
                     const { icon, title, subTitle, created_at, }: any = getIconsFromStatus(taskEvent)
 
                     return (
-
-                        <TimeLine icon={icon}
+                        <TimeLine
+                            icon={icon}
                             subTitle={subTitle}
                             showDotterLine={showDotLine}
                             title={title}
@@ -133,4 +132,4 @@ function TaskEventHistory({ }: TaskEventHistoryProps) {
     )
 }
 
-export { TaskEventHistory }
+export { TaskEventHistory };
