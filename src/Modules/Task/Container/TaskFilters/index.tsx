@@ -232,7 +232,7 @@ function TaskFilters({ }: TaskFilterProps) {
             }
 
             if (assignedToEmployees && assignedToEmployees.length > 0) {
-                console.log('came-----' + assignedToEmployees.length);
+              
 
                 console.log(getObjectFromArrayByKey(assignedToEmployees, 'id', assigned_emp_id));
 
@@ -263,6 +263,7 @@ function TaskFilters({ }: TaskFilterProps) {
         }
     }
     function proceedParams(object: any) {
+        console.log(object,"oooppp")
         const updatedParams = { ...taskParams, ...object }
         dispatch(setTaskParams(updatedParams))
     }
@@ -281,7 +282,7 @@ function TaskFilters({ }: TaskFilterProps) {
 
     }
 
-    console.log('came');
+
 
 
 
@@ -391,7 +392,7 @@ function TaskFilters({ }: TaskFilterProps) {
                             data={getDropDownDisplayData(assignedToDepartments)}
                             selected={assignToDepartment.value}
                             onChange={(item: any) => {
-                                console.log('came----->department');
+                              
                                 assignToDepartment.onChange(item);
                                 proceedParams({ assigned_department_id: item.id, assigned_designation_id: "ALL", assigned_emp_id: '' })
                             }}

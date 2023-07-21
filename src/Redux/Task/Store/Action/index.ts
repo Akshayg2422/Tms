@@ -508,5 +508,13 @@ export const setTaskParams = (params: any) => {
     }
 }
 
+export const setSelectedModal = (params: any) => {
+    return {
+        type: ActionTypes.SET_SELECTED_MODAL,
+        payload: params
+    }
+}
+
+
 
 

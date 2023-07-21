@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-
 import { FilePickerProps } from './interfaces'
 import { useDropzone } from 'react-dropzone'
 import { icons } from "@Assets";

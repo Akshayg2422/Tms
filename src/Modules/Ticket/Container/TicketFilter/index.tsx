@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { TicketFilterProps } from './interface'
 import { DropDown, Checkbox, SearchInput, MenuBar, AutoComplete } from '@Components'
 import { translate } from '@I18n'
-import { TICKET_FILTER_LIST, TICKET_STATUS_LIST, TICKET_PRIORITY_LIST, getDropDownDisplayData, getDropDownCompanyDisplayData, getDropDownCompanyUser, } from '@Utils'
+import { TICKET_FILTER_LIST, TICKET_STATUS_LIST, TICKET_PRIORITY_LIST, getDropDownDisplayData, getDropDownCompanyDisplayData, getDropDownCompanyUser, getObjectFromArrayByKey, } from '@Utils'
 import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartments, getDesignations, getEmployees } from '@Redux'
+import { getAssociatedCompaniesL, getDepartments, getDesignations, selectedTicketParams } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { icons } from '@Assets'
 
@@ -24,38 +24,44 @@ function TicketFilter({ onParams }: TicketFilterProps) {
     const { departments, designations, associatedCompaniesL ,dashboardDetails,employees} = useSelector((state: any) => state.UserCompanyReducer);
 
     const dispatch = useDispatch()
+    
+    const {ticketParams} = useSelector((state: any) => state.TicketReducer);
+    
+
     const filteredTicket = useDropDown(TICKET_FILTER_LIST[0]);
     const ticketStatus = useDropDown(TICKET_STATUS_LIST[0]);
     const ticketPriority = useDropDown(TICKET_PRIORITY_LIST[0]);
-    const company = useDropDown({})
+    const companies = useDropDown({})
     const department = useDropDown({ id: 'ALL', name: 'All' })
     const designation = useDropDown({ id: 'ALL', name: 'All' })
-    // const [companies, setCompanies] = useState([])
     const [params, setParams] = useState({})
     const [advanceFilter, setAdvanceFilter] = useState(false)
+    const DEFAULT_COMPANY_PARAMS={ company:'', designation_id: 'ALL', department_id: 'ALL' }
     const modifiedDepartment = departments ? [{ id: 'ALL', name: 'All' }, ...departments] : [{ id: 'ALL', name: 'All' }]
     const modifiedDesignation = designations ? [{ id: 'ALL', name: 'All' }, ...designations] : [{ id: 'ALL', name: 'All' }]
     const modifiedCompany = associatedCompaniesL && associatedCompaniesL.length > 0 && [{ id: '', display_name: '𝗦𝗘𝗟𝗙', name: 'self' }, ...associatedCompaniesL]
  
 
-console.log(associatedCompaniesL,"associatedCompaniesL==>")
-
     useEffect(() => {
+        getAssociatedCompanies()
+    }, []);
+
+    const getAssociatedCompanies =()=>{
         const params = { q: '' };
-        if (advanceFilter) {
-            dispatch(
-                getAssociatedCompaniesL({
-                    params,
-                    onSuccess: (response) => () => {
+
+        dispatch(
+            getAssociatedCompaniesL({
+                params,
+                onSuccess: (response) => () => {
 
 
-                    },
-                    onError: () => () => {
-                    },
-                })
-            );
-        }
-    }, [advanceFilter]);
+                },
+                onError: () => () => {
+                },
+            })
+        );
+
+    }
 
 
     const getDesignation = (items: any) => {
@@ -102,52 +108,38 @@ console.log(associatedCompaniesL,"associatedCompaniesL==>")
 
     }
 
-    // useEffect(() => {
-    //     if (company?.value?.id || department.value?.id !== 'ALL' || designation.value?.id !== 'ALL') {
-    //         getCompanyEmployeeApi()
-       
-
-    //     }
-    // }, [designation?.value, department?.value, company?.value?.id,])
-
-
-    // function getCompanyEmployeeApi() {
-
-    //     const params = {
-    //         branch_id: company?.value?.id ? company.value.id : dashboardDetails?.permission_details?.branch_id,
-    //         ...(department && { department_id: department?.value?.id }),
-    //         ...(designation && { designation_id: designation?.value?.id }),
-    //         per_page_count: -1,
-    //     };
-    //     console.log(params, "rrrr=000000000000000>>>>>")
-
-    //     dispatch(
-    //         getEmployees({
-    //             params,
-    //             onSuccess: (response: any) => () => {
-
-                  
-
-    //             },
-    //             onError: () => () => { },
-    //         })
-    //     );
-    // }
-
-
-
+  
     function proceedParams(object: any) {
+       
         const updatedParams = { ...params, ...object }
+        console.log(updatedParams,"updatedParams")
 
         if (onParams) {
             onParams(updatedParams)
         }
         setParams(updatedParams)
+dispatch(
+    selectedTicketParams(updatedParams)
+)        
     }
 
 
+    useEffect(() => {
+        updateField();
+    }, [ticketParams])
+
+    const updateField =()=>{
+        const {tickets_by,ticket_status, priority,company,department_id, designation_id}=ticketParams
+       
+        filteredTicket.set(getObjectFromArrayByKey(TICKET_FILTER_LIST, 'id', tickets_by))
+        ticketStatus.set(getObjectFromArrayByKey(TICKET_STATUS_LIST, 'id', ticket_status))
+        ticketPriority.set(getObjectFromArrayByKey(TICKET_PRIORITY_LIST, 'id', priority))
+       companies.set(getObjectFromArrayByKey(modifiedCompany, 'id', company))
+        department.set(getObjectFromArrayByKey( modifiedDepartment, 'id',department_id))
+        designation.set(getObjectFromArrayByKey( modifiedDesignation, 'id',designation_id))
 
 
+    }
 
 
     return (
@@ -204,15 +196,14 @@ console.log(associatedCompaniesL,"associatedCompaniesL==>")
                     <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
                         if (el.id === FILTER_MENU[1].id) {
                             setAdvanceFilter(true)
-                            console.log('ccccccc')
-
-                            company.onChange({})
-                            proceedParams({ company: '', designation_id: 'ALL', department_id: 'ALL' })
+                         console.log(DEFAULT_COMPANY_PARAMS,"DEFAULT_COMPANY_PARAMS")
+                            companies.onChange({})
+                            proceedParams({...ticketParams,...DEFAULT_COMPANY_PARAMS})
 
                         } else {
                             setAdvanceFilter(false)
-                            console.log('yttttttt')
-                            company.onChange({})
+                          
+                            companies.onChange({})
 
                         }
                     }} />
@@ -228,12 +219,12 @@ console.log(associatedCompaniesL,"associatedCompaniesL==>")
                         className="form-control-sm"
                         heading={translate("common.company")}
                         data={getDropDownCompanyDisplayData(modifiedCompany)}
-                        selected={company.value}
+                        selected={companies.value}
                         onChange={(item) => {
-                            company.onChange(item)
+                            companies.onChange(item)
                             getDesignation(item)
                             getDepartment(item)
-                            proceedParams({ company: item.id, designation_id: 'ALL', department_id: 'ALL' })
+                            proceedParams({ ...DEFAULT_COMPANY_PARAMS,company: item.id })
                             department.onChange({ id: 'ALL', text: 'All' })
                             designation.onChange({ id: 'ALL', text: 'All' })
                         }}

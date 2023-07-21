@@ -5,7 +5,7 @@ import { TaskGroups } from '@Modules'
 import { CommonTable, Image, Priority, Status } from '@Components'
 import { paginationHandler, getPhoto, getDisplayDateTimeFromMoment, getMomentObjFromServer, capitalizeFirstLetter, getDates } from '@Utils'
 import { getTasks, setSelectedTask } from '@Redux'
-import { useNavigation } from '@Hooks'
+import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { translate } from "@I18n";
 
@@ -16,13 +16,9 @@ function CompanyTasks() {
   const { tasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
   const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company } = dashboardDetails || ''
-
-  console.log(selectedCompany.branch_id, "selectedCompany.branch_id ====>")
-
   const date = new Date();
   const time = date.getHours()
-
-  const { goTo } = useNavigation();
+  const { height } = useWindowDimensions()
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -42,7 +38,6 @@ function CompanyTasks() {
         onSuccess: (response) => () => {
           setLoading(false);
 
-          console.log(JSON.stringify(response) + '=====');
 
         },
         onError: () => () => {
@@ -56,9 +51,7 @@ function CompanyTasks() {
   const normalizedTableData = (data: any) => {
     if (data && data.length > 0)
       return data.map((el: any) => {
-        // const etaDate = new Date(el.eta_time)
-        // let etaTime = etaDate.getHours()
-        const { priority, parent, task_attachments, by_user, raised_by_company, created_at, task_status, eta_time, title, assigned_to, description } = el
+        const { priority, parent, task_attachments, by_user, raised_by_company,  task_status, eta_time, title, assigned_to, description } = el
 
         return {
           "task":
@@ -114,7 +107,7 @@ function CompanyTasks() {
                 </> : <div></div>
               }
             </div >,
-          // 'Assigned At': <div>{getDisplayDateTimeFromMoment(getMomentObjFromServer(created_at))}</div>,
+        
           status: <div><Status status={task_status} />
             <small>{getDates() > getDates(eta_time) ? 'ABOVE ETA' : ""}</small>
           </div>
@@ -123,14 +116,16 @@ function CompanyTasks() {
   };
 
   return (
-    <HomeContainer type={'card'} className="mt-3 100-vh">
+    <HomeContainer type={'card'} className="shadow-none overflow-auto overflow-hide" style={{
+      height: height - 85
+    }}>
       {loading && (
         <div className="d-flex align-items-center justify-content-center pointer" style={{ minHeight: '100px' }}>
           <Spinner />
         </div>
       )}
 
-      {!loading && <div style={{ marginLeft: "-23px", marginRight: "-23px" }}>
+      {!loading && <div>
         {tasks && tasks.length > 0 ?
           <CommonTable
             isPagination

@@ -28,7 +28,6 @@ function AddReferenceTask() {
     }
   }, [isEnterPressed]);
 
-  console.log("dashboardDetails-->",dashboardDetails)
   
   useEffect(() => {
     getTasksApiHandler(taskCurrentPages)
@@ -143,7 +142,7 @@ function AddReferenceTask() {
               getTasksApiHandler(INITIAL_PAGE, text)
             }} />
 
-            <Button className="ml-3" size={'sm'} text={translate("common.submit")}
+            <Button className="ml-3 mr-3" size={'sm'} text={translate("common.submit")}
               loading={loginLoader.loader}
              onClick={addReferenceTaskHandler} />
           </div>

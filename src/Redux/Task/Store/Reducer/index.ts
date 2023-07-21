@@ -39,6 +39,7 @@ const initialState: TaskStateProp = {
   addNormalMessage: undefined,
   addAttachmentsMessage: undefined,
   getAttachmentsMessage: undefined,
+  selectedMicroModal:false,
   taskParams: { q_many: "", assigned_tasks_by: "assigned_to", assigned_company: 'ALL', created_company: 'ALL', "created_tasks_by": "ALL", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL", "created_department_id": "ALL", "created_designation_id": "ALL", page_number: 1, assigned_emp_id: "", created_emp_id: "" },
 };
 
@@ -433,6 +434,13 @@ const TaskReducer = (state = initialState, action: any) => {
 
     case ActionTypes.SET_TASK_PARAMS:
       state = { ...state, taskParams: action.payload };
+      break;
+
+      // SELEECTED MODAL
+
+      
+    case ActionTypes.SET_SELECTED_MODAL:
+      state = { ...state, selectedMicroModal: action.payload };
       break;
 
 

@@ -149,7 +149,7 @@ function TaskChat({ }: TaskChatProps) {
                                 title={title} subTitle={subTitle}
                                 time={getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(created_at))} >
 
-                                <div className='pt-2' onClick={() => {
+                                <div onClick={() => {
                                     if (imageUrls) {
 
                                         imageModal.show()
@@ -165,9 +165,6 @@ function TaskChat({ }: TaskChatProps) {
                                                         <div key={index}>
                                                             <PhotoView src={item}>
                                                                 <img className={'p-1'} src={item} alt={'Task Attachments'} width={100} height={100} />
-                                                                {/* <div className='pointer'>
-                                                                    <ImageDownloadButton Url={item} title={item} />
-                                                                </div> */}
                                                             </PhotoView>
                                                         </div>
                                                     ))}

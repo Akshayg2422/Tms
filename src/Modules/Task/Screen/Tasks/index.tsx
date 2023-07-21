@@ -1,22 +1,25 @@
-import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon, NoDataFound, Priority, Spinner, Status } from "@Components";
+import { icons } from "@Assets";
+import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon,  MicroPhoneModal, Modal, NoDataFound, Priority, Spinner, Status } from "@Components";
 import { getFilter } from "@Components//Core/ImageColorIcon";
-import { useNavigation } from '@Hooks';
+import { useModal, useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { TaskFilters, TaskGroups } from '@Modules';
-import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams } from '@Redux';
+import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams ,setSelectedModal} from '@Redux';
 import { ROUTES } from '@Routes';
 import { capitalizeFirstLetter, getDates, getPhoto, paginationHandler } from '@Utils';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 
 function Tasks() {
   const dispatch = useDispatch()
-  const { tasks, taskNumOfPages, taskCurrentPages, taskParams } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, taskParams ,selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company } = dashboardDetails || ''
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
+   const microPhoneModals=useModal(false);
+  
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
@@ -114,7 +117,7 @@ function Tasks() {
 
                   <div className={"ml-2"}>
                     <div className={"h5 mb-0"}> {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.display_name}</div>
-                    <div className={`h5 mb-0 text-truncate ${company?.name === raised_by_company?.display_name ? 'mt--3' : ""} `}>@<span className="h5"> {capitalizeFirstLetter(assigned_to?.name)} </span></div>
+                    <div className={`h5 mb-0 text-truncate ${company?.name === raised_by_company?.display_name ? 'mt--3' : ""} `}> @<span className="h5"> {capitalizeFirstLetter(assigned_to?.name)} </span></div>
                     <small className={'text-uppercase mb-0  text-muted'}>
                       {raised_by_company?.place}
                     </small>
@@ -122,7 +125,7 @@ function Tasks() {
 
 
                 </>
-                : <div></div>
+                : <div className={'text-center'}>-</div>
               }
             </div >,
        
@@ -148,10 +151,70 @@ function Tasks() {
   };
 
 
+  const [stream,setStream]=useState<any>()
+    const mediaRecorderRef=useRef<any>()
+    const [recording, setRecording]=useState<any>()
+    // const microPhoneModal=useModal(false)
+    const [audioData,setAudioData]=useState()
+
+    // useEffect(()=>{
+    //     getMicrophonePermission()
+
+    // },[])
+console.log(recording,"recording===>")
+
+     const handleDataAvailable = (event: any) => {
+        if (event.data.size > 0) {
+          const audioBlob = new Blob([event.data], { type: 'audio/wav' });
+          const reader: any = new FileReader();
+          reader.onload = () => {
+            const base64Audio = reader.result.split(',')[1];
+            setAudioData(base64Audio)
+            console.log(base64Audio)
+          };
+          reader.readAsDataURL(audioBlob);
+        }
+      };
+
+
+    const getMicrophonePermission = async () => {
+        if ("MediaRecorder" in window) {
+          try {
+            const streamData = await navigator.mediaDevices.getUserMedia({
+              audio: true,
+            });
+            setStream(streamData);
+          } catch (err) {
+            alert(err);
+          }
+        } else {
+          alert("The MediaRecorder API is not supported in your browser.");
+        }
+      };
+    
+      const startVoiceRecording = () => {
+        if (stream) {
+          mediaRecorderRef.current = new MediaRecorder(stream);
+          mediaRecorderRef.current.addEventListener("dataavailable", handleDataAvailable);
+          mediaRecorderRef.current.start();
+          setRecording(true);
+        }
+      };
+    
+      const stopVoiceRecording = () => {
+        if (mediaRecorderRef.current) {
+          mediaRecorderRef.current.stop();
+          setRecording(false);
+        }
+      };
+ 
+
+  
+
 
   return (
     <div className="mx-3 mt-3">
-      <div className="d-flex justify-content-end">
+      <div className="d-flex justify-content-end mr-2">
         <Button
           className="text-white"
           size={'sm'}
@@ -160,6 +223,18 @@ function Tasks() {
             goTo(ROUTES["task-module"]["add-task"])
           }}
         />
+        <div onClick={()=>{
+          microPhoneModals.show()
+            getMicrophonePermission()
+            dispatch(
+              setSelectedModal(true)
+            )
+            
+            }}>
+        <ImageIcon src={icons.microPhone} height={25} width={25}/>
+
+        </div>
+    
       </div>
 
 
@@ -210,16 +285,70 @@ function Tasks() {
                   goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'task');
                 }
                 }
+
               />
+              
               :
-              <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
+              <div className="mb-3">
+              <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton  />
+              </div>
             }
           </div>}
+
+          {selectedMicroModal && <MicroPhoneModal />}
 
 
 
 
       </HomeContainer>
+
+      {/* <Modal size={'md'} isOpen={microPhoneModal.visible} onClose={microPhoneModal.hide}>
+    <div>
+
+        <div className="h4 mt--5 mb-3 text-primary" onClick={()=>{startVoiceRecording()}}>
+          CreateRecord
+          
+        </div>
+
+        </div>
+
+
+
+<Button text={'submit'} onClick={()=>{stopVoiceRecording()}}/>
+
+</Modal> */}
+
+
+{/* <Modal size={'md'} isOpen={microPhoneModal.visible} onClose={microPhoneModal.hide} title={'CreateRecorder'}>
+  <div >
+ { recording &&  <div className="row justify-content-center mb-4 mt--4">
+    <ImageIcon src={icons.microPhone} width={25} height={25}/>
+
+    </div>
+}
+  
+    <div className={'row justify-content-between px-2'}>
+       {recording!==true && <Button text={'Start'} onClick={()=>{startVoiceRecording()}} size="sm"/>}
+       {recording && <Button text={'ReCapture'} onClick={()=>{
+     
+     startVoiceRecording()
+
+    }} size={'sm'}/>}
+
+       {recording && <Button text={'Stop'}onClick={()=>{stopVoiceRecording()}} size={'sm'}/>}
+   
+        </div>
+        
+        <div className={' pt-3'}>
+     { recording &&  <Button text={'submit'} onClick={()=>{stopVoiceRecording()}} size={'sm'}/>}
+
+        </div>
+
+        </div>
+
+
+</Modal> */}
+
 
     </div>
 

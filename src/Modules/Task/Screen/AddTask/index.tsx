@@ -13,6 +13,7 @@ import {
     InputHeading,
     TextAreaInput,
     Button,
+    DateRangePickers,
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -43,6 +44,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
+import { CalenderView } from "@Modules//UserCompany";
 
 
 
@@ -284,187 +286,189 @@ function AddTask() {
 
 
     return (
-        <Card className="m-3">
-            <div className='col'>
-                <div className="row mt--2">
-                    <Back />
-                    <h3 className="ml-3">{translate("common.addTask")!}</h3>
-                </div>
-            </div>
-            <hr className='mt-2'></hr>
+        <>
+        <CalenderView/>
+        </>
+        // <Card className="m-3">
+        //     <div className='col'>
+        //         <div className="row mt--2">
+        //             <Back />
+        //             <h3 className="ml-3">{translate("common.addTask")!}</h3>
+        //         </div>
+        //     </div>
+        //     <hr className='mt-2'></hr>
 
-            <div className="col-auto pb-4 mt--4">
-                <div className="row">
-                    <ImagePicker
-                        icon={image}
-                        size='xl'
-                        heading={translate("common.attach")!}
-                        noOfFileImagePickers={3}
-                        onSelect={(image) => { }}
-                        onSelectImagePickers={(el) => {
-                            let array: any = []
+        //     <div className="col-auto pb-4 mt--4">
+        //         <div className="row">
+        //             <ImagePicker
+        //                 icon={image}
+        //                 size='xl'
+        //                 heading={translate("common.attach")!}
+        //                 noOfFileImagePickers={3}
+        //                 onSelect={(image) => { }}
+        //                 onSelectImagePickers={(el) => {
+        //                     let array: any = []
 
-                            for (let i = 0; i <= el.length; i++) {
-                                let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                                if (eventPickers !== undefined) {
-                                    array.push(eventPickers)
-                                }
+        //                     for (let i = 0; i <= el.length; i++) {
+        //                         let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+        //                         if (eventPickers !== undefined) {
+        //                             array.push(eventPickers)
+        //                         }
 
-                            }
-                            setPhoto(array)
+        //                     }
+        //                     setPhoto(array)
 
-                        }}
-                    />
+        //                 }}
+        //             />
 
-                </div>
-
-
-            </div>
-
-            <div className="col-md-9 col-lg-5">
-
-                <Input
-
-                    heading={translate("common.title")}
-                    value={title.value}
-                    onChange={title.onChange}
-                />
+        //         </div>
 
 
+        //     </div>
+
+        //     <div className="col-md-9 col-lg-5">
+
+        //         <Input
+
+        //             heading={translate("common.title")}
+        //             value={title.value}
+        //             onChange={title.onChange}
+        //         />
 
 
 
-                <TextAreaInput
-                    heading={translate('auth.description')!}
-                    value={description.value}
-                    onChange={description.onChange}
-                    className="form-control form-control-sm "
-
-                />
 
 
-                <Input
-                    type={"text"}
-                    heading={translate("auth.referenceNo")}
-                    value={referenceNo}
-                    onChange={(e) => { setReferenceNo(e.target.value) }}
-                />
+        //         <TextAreaInput
+        //             heading={translate('auth.description')!}
+        //             value={description.value}
+        //             onChange={description.onChange}
+        //             className="form-control form-control-sm "
 
-                <DropDown
-                    heading={translate("auth.Task Priority")!}
-                    selected={selectedTicketPriority.value}
-                    placeHolder={translate('order.please select a task priority')!}
-                    data={PRIORITY}
-                    onChange={selectedTicketPriority.onChange}
-                />
-
-                <div className="my-3">
-                    <Radio
-                        data={type}
-                        selectItem={taskType}
-                        disableId={disableTaskType}
-                        onRadioChange={(selected) => {
-                            // company.onChange({})
-                            department.onChange({})
-                            designation.onChange({})
-                            dispatch(
-                                getSubTaskGroupsSuccess([])
-                            )
-                            if (selected) {
-                                setTaskType(selected);
+        //         />
 
 
-                            }
-                        }}
-                    />
-                </div>
+        //         <Input
+        //             type={"text"}
+        //             heading={translate("auth.referenceNo")}
+        //             value={referenceNo}
+        //             onChange={(e) => { setReferenceNo(e.target.value) }}
+        //         />
 
-                {
-                    taskType && taskType?.id === "1" && (
-                        <DropDown
-                            heading={translate("common.company")!}
-                            placeHolder={translate('order.Select a company')!}
-                            data={getDropDownCompanyDisplayData(associatedCompaniesL)}
-                            onChange={(item) => {
-                                company.onChange(item)
-                            }}
-                            selected={company.value}
-                        />
-                    )
-                }
+        //         <DropDown
+        //             heading={translate("auth.Task Priority")!}
+        //             selected={selectedTicketPriority.value}
+        //             placeHolder={translate('order.please select a task priority')!}
+        //             data={PRIORITY}
+        //             onChange={selectedTicketPriority.onChange}
+        //         />
 
-                {
-                    getExternalCompanyStatus() && departments && departments.length > 0 &&
-                    <DropDown
-                        heading={translate("common.department")!}
-                        placeHolder={translate("order.Select a Department")!}
-                        data={getDropDownDisplayData(departments)}
-                        onChange={(item) => {
-                            department.onChange(item)
-                        }}
-                        selected={department.value}
-                    />
-                }
-
-                {
-                    getExternalCompanyStatus() && designations && designations.length > 0 &&
-                    <DropDown
-                        heading={translate("auth.designation")}
-                        placeHolder={translate('order.Select a Designation')!}
-                        data={getDropDownDisplayData(designations)}
-                        onChange={(item) => {
-                            designation.onChange(item)
-                        }}
-                        selected={designation.value}
-                    />
-                }
-
-                {
-                    getExternalCompanyStatus() && employees && employees.length > 0 &&
-                    <AutoComplete
-                        variant={'custom'}
-                        heading={translate("common.user")!}
-                        data={getDropDownCompanyUser(employees)}
-                        selected={selectedUserId}
-                        onChange={(item) => {
-                            setSelectedUserId(item)
-                        }}
-                    />
-                }
-                {
-                    subTaskGroups && subTaskGroups.length > 0 &&
-                    <DropDown
-                        heading={translate("common.selectGroup")}
-                        placeHolder={translate('order.Select a Group')!}
-                        data={getDropDownDisplayData(subTaskGroups)}
-                        onChange={taskGroup.onChange}
-                        selected={taskGroup.value}
-                    />
-
-                }
-
-                <div>
-                    <DateTimePicker
-                        heading={'ETA'}
-                        id="eta-picker"
-                        placeholder={'Select ETA'}
-                        type="both"
-                        onChange={handleEtaChange}
+        //         <div className="my-3">
+        //             <Radio
+        //                 data={type}
+        //                 selectItem={taskType}
+        //                 disableId={disableTaskType}
+        //                 onRadioChange={(selected) => {
+        //                     // company.onChange({})
+        //                     department.onChange({})
+        //                     designation.onChange({})
+        //                     dispatch(
+        //                         getSubTaskGroupsSuccess([])
+        //                     )
+        //                     if (selected) {
+        //                         setTaskType(selected);
 
 
-                    />
-                </div>
+        //                     }
+        //                 }}
+        //             />
+        //         </div>
+
+        //         {
+        //             taskType && taskType?.id === "1" && (
+        //                 <DropDown
+        //                     heading={translate("common.company")!}
+        //                     placeHolder={translate('order.Select a company')!}
+        //                     data={getDropDownCompanyDisplayData(associatedCompaniesL)}
+        //                     onChange={(item) => {
+        //                         company.onChange(item)
+        //                     }}
+        //                     selected={company.value}
+        //                 />
+        //             )
+        //         }
+
+        //         {
+        //             getExternalCompanyStatus() && departments && departments.length > 0 &&
+        //             <DropDown
+        //                 heading={translate("common.department")!}
+        //                 placeHolder={translate("order.Select a Department")!}
+        //                 data={getDropDownDisplayData(departments)}
+        //                 onChange={(item) => {
+        //                     department.onChange(item)
+        //                 }}
+        //                 selected={department.value}
+        //             />
+        //         }
+
+        //         {
+        //             getExternalCompanyStatus() && designations && designations.length > 0 &&
+        //             <DropDown
+        //                 heading={translate("auth.designation")}
+        //                 placeHolder={translate('order.Select a Designation')!}
+        //                 data={getDropDownDisplayData(designations)}
+        //                 onChange={(item) => {
+        //                     designation.onChange(item)
+        //                 }}
+        //                 selected={designation.value}
+        //             />
+        //         }
+
+        //         {
+        //             getExternalCompanyStatus() && employees && employees.length > 0 &&
+        //             <AutoComplete
+        //                 variant={'custom'}
+        //                 heading={translate("common.user")!}
+        //                 data={getDropDownCompanyUser(employees)}
+        //                 selected={selectedUserId}
+        //                 onChange={(item) => {
+        //                     setSelectedUserId(item)
+        //                 }}
+        //             />
+        //         }
+        //         {
+        //             subTaskGroups && subTaskGroups.length > 0 &&
+        //             <DropDown
+        //                 heading={translate("common.selectGroup")}
+        //                 placeHolder={translate('order.Select a Group')!}
+        //                 data={getDropDownDisplayData(subTaskGroups)}
+        //                 onChange={taskGroup.onChange}
+        //                 selected={taskGroup.value}
+        //             />
+
+        //         }
+
+        //         <div>
+        //             <DateTimePicker
+        //                 heading={'ETA'}
+        //                 id="eta-picker"
+        //                 placeholder={'Select ETA'}
+        //                 type="both"
+        //                 onChange={handleEtaChange}
 
 
-            </div >
+        //             />
+        //         </div>
 
-            <div className="col">
-                <Button size={'md'}
-                    loading={loginLoader.loader}
-                    text={translate('common.submit')}
-                    onClick={submitTaskHandler} />
-            </div>
-        </Card >
+        //     </div >
+
+        //     <div className="col">
+        //         <Button size={'md'}
+        //             loading={loginLoader.loader}
+        //             text={translate('common.submit')}
+        //             onClick={submitTaskHandler} />
+        //     </div>
+        // </Card >
 
     );
 }

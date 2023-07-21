@@ -15,6 +15,7 @@ export interface TaskStateProp {
     referencesTasksCurrentPages: number,
     taskUsers: any,
     eventsMessage:any,
+    selectedMicroModal:boolean ,
     refreshTaskEvents: boolean,
     refreshEventMessage:boolean,
     refreshEventsMessage:boolean,

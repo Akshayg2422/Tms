@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getReferenceTasks, getSelectedReference, selectedTaskIds, setSelectedTask } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
-import { NoDataFound, Card, CommonTable, Button, Spinner } from "@Components";
+import { NoDataFound, Card, CommonTable, Button, Spinner, HomeContainer } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
@@ -68,9 +68,12 @@ function ReferenceTasks() {
 
   return (
 
-    <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 85 }}>
-      {referencesTasks && referencesTasks?.length > 0 && item!=='reference-task' && <div className="col text-right">
-        <Button size={'sm'} className={'text-white'} text={translate("auth.addReferenceTask")} onClick={() => {
+    // <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 85 }}>
+    <HomeContainer  className="card" >
+         <div className={'overflow-auto overflow-hide '} style={{ height: height - 85 }}>
+      {referencesTasks && referencesTasks?.length > 0 && item!=='reference-task' &&
+       <div className="mr-3 mb-1 justify-content-end text-right ">
+        <Button size={'sm'} className={'text-white mt-3 mb-1 '} text={translate("auth.addReferenceTask")} onClick={() => {
           dispatch(setSelectedTask(id))
 
           goTo(ROUTES["task-module"]["reference-task"])
@@ -78,6 +81,8 @@ function ReferenceTasks() {
         }} />
       </div>
       }
+
+   
 
       {referencesTasks && referencesTasks?.length > 0 ?
 
@@ -109,6 +114,7 @@ function ReferenceTasks() {
           }}
 
         />
+
         :item==="reference-task" ? <div className="d-flex h-100 justify-content-center align-items-center">
           <NoDataFound  
        
@@ -118,7 +124,9 @@ function ReferenceTasks() {
         isButton 
         />
         </div>}
-    </Card>
+        </div>
+        </HomeContainer>
+    // </Card>
 
 
   );

@@ -22,6 +22,7 @@ export * from './IndividualChat'
 export * from './EventChatting'
 export * from './AddEventChat'
 export * from './EventChat'
+export * from './CalenderView'
 
 
 
