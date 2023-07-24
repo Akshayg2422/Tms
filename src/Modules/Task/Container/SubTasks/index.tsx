@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { SubTasksProps } from './interfaces'
-import { Card, H, Button, CommonTable, Priority, NoDataFound } from '@Components'
+import { Card, H, Button, CommonTable, Priority, NoDataFound, HomeContainer } from '@Components'
 import { getSubTasks, setSelectedTask, setSelectedTabPosition, selectedTaskIds, getSelectedReference } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useWindowDimensions } from '@Hooks'
@@ -8,7 +8,7 @@ import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
 import { translate } from '@I18n'
 
-    
+
 function SubTasks({ cardHeight }: SubTasksProps) {
     const { id } = useParams()
     const { goTo } = useNavigation();
@@ -16,7 +16,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
 
-  
+
 
     useEffect(() => {
         getSubTasksApi()
@@ -39,8 +39,8 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         if (data && data?.length > 0) {
 
             return data?.map((el: any) => {
-           
-                
+
+
                 return {
                     "Sub task":
                         <div className='row'>
@@ -55,41 +55,48 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
     return (
 
-        <Card className="h-100  shadow-none overflow-auto overflow-hide" style={{ maxHeight: '65vh' }}>
-            {(subTasks && subTasks.length > 0) && <div className='row justify-content-between px-3'>
-                <H tag={'h5'} text={translate("auth.subTask")} />
-                <Button
-                    className={'text-white shadow-none '}
-                    size={"sm"}
-                    text={translate("common.addSubTask")}
-                    onClick={() => {
-                        goTo(ROUTES["task-module"]["add-sub-task"])
-                        dispatch(setSelectedTask(id))
-                    }}
-                />
-            </div>
-            }
 
-            {/* <Card className='h-100 mt-1 mx--4 overflow-auto overflow-hide shadow-none' style={{ maxHeight: '39vh' }}> */}
-            <div className='pt-2 ' style={{marginRight:'-21px',marginLeft:'-21px'}}>
-                {subTasks && subTasks.length > 0 ?
-                    <CommonTable
-                        tableDataSet={subTasks}
-                        displayDataSet={normalizedTableData(subTasks)}
-                        tableOnClick={(e, index, item) => {
-                            dispatch(setSelectedTask(item?.code))
-                            dispatch(selectedTaskIds(item))
-                            dispatch(getSelectedReference({code:item?.code,refer:true}))
-                            dispatch(setSelectedTabPosition({ id: '1' }))
-                            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'sub-task')
+        <HomeContainer className='card' >
+            <div className={'overflow-auto overflow-hide '} style={{ height: height - 370 }} >
 
+                {(subTasks && subTasks.length > 0) && <div className='d-flex justify-content-between pt-3 px-3 pb-2'>
+                    <H tag={'h4'} text={translate("auth.subTask")} />
+                    <Button
+                        className={'text-white shadow-none '}
+                        size={"sm"}
+                        text={translate("common.addSubTask")}
+                        onClick={() => {
+                            goTo(ROUTES["task-module"]["add-sub-task"])
+                            dispatch(setSelectedTask(id))
                         }}
-                    /> :
-                    <div className='d-flex h-100 justify-content-center align-items-center'> <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton /></div>
-                }
+                    />
                 </div>
-            {/* </Card> */}
-        </Card>
+                }
+                <div >
+                    {subTasks && subTasks.length > 0 ?
+                        <CommonTable
+                            tableDataSet={subTasks}
+                            displayDataSet={normalizedTableData(subTasks)}
+                            tableOnClick={(e, index, item) => {
+                                dispatch(setSelectedTask(item?.code))
+                                dispatch(selectedTaskIds(item))
+                                dispatch(getSelectedReference({ code: item?.code, refer: true }))
+                                dispatch(setSelectedTabPosition({ id: '1' }))
+                                goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'sub-task')
+
+                            }}
+                        /> :
+                        <div className='pt-5' >
+                            <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton />
+                        </div>
+                    }
+                </div>
+
+
+            </div>
+
+
+        </HomeContainer>
     )
 }
 

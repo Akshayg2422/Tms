@@ -56,7 +56,7 @@ export const URL_ADD_TASK_EVENTS = TASK + 'addTaskEvent';
  */
 
 export const BRAND_SECTORS = COMPANY + 'getBrandSectors';
-export const UPDATE_EMPLOYEE_PROFILE_PHOTO = EMPLOYEE + 'updateEmployeeProfilePhoto';
+export const UPDATE_EMPLOYEE_PROFILE_PHOTO = EMPLOYEE +'updateEmployeeProfilePhoto';
 
 
 /**
@@ -66,6 +66,7 @@ export const POST_ADD_DEPARTMENT = COMPANY + 'addDepartment';
 export const POST_ADD_DESIGNATION = EMPLOYEE + 'addDesignation';
 export const FETCH_DESIGNATION = EMPLOYEE + 'getDesignations';
 export const FETCH_DEPARTMENT = COMPANY + 'getDepartments';
+export const FETCH_COMPANY_LABEL=COMPANY+'addCompanyWhiteLabel';
 
 export const GET_BRAND_SECTOR = COMPANY + 'getBrandSectors';
 export const ADD_BRAND_SECTOR = COMPANY + 'addBrandSectors';
@@ -175,7 +176,11 @@ export const GET_TIMELINE_BREAKDOWN=TASK+'getTimelineBreakdown'
 
 // event chatting 
 export const ADD_ATTACHMENTS_MESSAGE = TASK +'addEventMessage'
-export const GET_ATTACHMENTS_MESSAGE = TASK + 'getEventMessage'
+export const GET_ATTACHMENTS_MESSAGE = TASK +'getEventMessage'
+
+export const ADD_TASK_USING_VOICE = TASK +'createTaskUsingVoice'
+
+
 
 
 

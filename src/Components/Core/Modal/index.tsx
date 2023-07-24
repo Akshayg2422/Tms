@@ -1,14 +1,13 @@
 import React from "react";
 import { ModalProps } from "./interfaces";
 import { Modal as RsModal } from "reactstrap";
-import { useDynamicHeight } from "@Hooks";
 
 function Modal({ isOpen, children, title, size = "lg",style, onClose, ...rest }: ModalProps) {
 
   return (
     <RsModal
       fade={false}
-      className={`modal-dialog-centered modal-${size}`}
+      className={`modal-dialog-centered   modal-${size}`}
       isOpen={isOpen}
       {...rest}
     >
@@ -28,7 +27,7 @@ function Modal({ isOpen, children, title, size = "lg",style, onClose, ...rest }:
           <span aria-hidden={true}>×</span>
         </button>
       </div>
-      <div className="modal-body scroll-hidden" style={style}>
+      <div className="modal-body scroll-hidden  " style={style}>
         {children}
         </div>
     </RsModal>

@@ -508,5 +508,63 @@ export const setTaskParams = (params: any) => {
     }
 }
 
+export const setSelectedModal = (params: any) => {
+    return {
+        type: ActionTypes.SET_SELECTED_MODAL,
+        payload: params
+    }
+}
+
+
+export const fetchUsingVoice = (params: any) => {
+    console.log('Acccccct--->aarrrvoice')
+    return {
+        type: ActionTypes.FETCH_USING_VOICE,
+        payload: params
+    }
+}
+
+export const fetchUsingVoiceSuccess = (response: any) => {
+    console.log('Accccccsssss--->aarrrvoice')
+
+    return {
+        type: ActionTypes.FETCH_USING_VOICE_SUCCESS,
+        payload: response
+    }
+}
+
+export const fetchUsingVoiceFailure = (error: any) => {
+    console.log('Accccccfffffffff--->aarrrvoice')
+    return {
+        type: ActionTypes.FETCH_USING_VOICE_FAILURE,
+        payload:error
+    }
+}
+
+
+export const fetchUsingCompanyLabel = (params: any) => {
+    return {
+        type: ActionTypes.FETCH_COMPANY_LABEL,
+        payload: params
+    }
+}
+
+export const  fetchUsingCompanyLabelSuccess = (response: any) => {
+    return {
+        type: ActionTypes.FETCH_COMPANY_LABEL_SUCCESS,
+        payload: response
+    }
+}
+
+
+export const  fetchUsingCompanyLabelFailure = (error: any) => {
+    return {
+        type: ActionTypes.FETCH_COMPANY_LABEL_FAILURE,
+        payload:error
+    }
+}
+
+
+
 
 

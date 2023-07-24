@@ -300,6 +300,51 @@ function* addAttachmentsMessageSaga(action) {
     }
 }
 
+
+// add voice record
+
+function* fetchUsingVoiceSaga(action) {
+    console.log(action,"aaaaaaaaaaaccccccccrrrrrrrrrrr")
+    try {
+        const response = yield call(Services.addTaskUsingVoiceApi, action.payload.params);
+        if (response.success) {
+            console.log(response,"rrrrrrrrrr=====>")
+            yield put(Action.fetchUsingVoiceSuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            console.log('errorr')
+            yield put(Action.fetchUsingVoiceFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+        yield put(Action.fetchUsingVoiceFailure("Invalid Request"));
+        yield call(action.payload.onError(error));
+    }
+}
+
+
+
+// add company label
+
+function* fetchCompanyLabelSaga(action) {
+    console.log(action,"aaaaaaaaaaaccccccccrrrrrrrrrrr")
+    try {
+        const response = yield call(Services.fetchCompanyLabelApi, action.payload.params);
+        if (response.success) {
+            console.log(response,"rrrrrrrrrr=====>")
+            yield put(Action.fetchUsingCompanyLabelSuccess(response));
+            yield call(action.payload.onSuccess(response));
+        } else {
+            console.log('errorr')
+            yield put(Action.fetchUsingCompanyLabelFailure(response.error_message));
+            yield call(action.payload.onError(response));
+        }
+    } catch (error) {
+        yield put(Action.fetchUsingCompanyLabelFailure("Invalid Request"));
+        yield call(action.payload.onError(error));
+    }
+}
+
 // get Attachments Message
 
 function* getAttachmentsMessageSaga(action){
@@ -335,6 +380,10 @@ function* TaskSaga() {
     yield takeLatest(Action.GET_TIMELINE_BREAKDOWN, getTimeLineBreakDownSaga)
     yield takeLatest(Action.ADD_ATTACHMENTS_MESSAGE,addAttachmentsMessageSaga)
     yield takeLatest(Action.GET_ATTACHMENTS_MESSAGE,getAttachmentsMessageSaga)
+    yield takeLatest(Action.FETCH_USING_VOICE,fetchUsingVoiceSaga)
+    yield takeLatest(Action.FETCH_COMPANY_LABEL,fetchCompanyLabelSaga)
+
+
     
 }
 

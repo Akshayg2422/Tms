@@ -13,6 +13,7 @@ import {
     InputHeading,
     TextAreaInput,
     Button,
+    DateRangePickers,
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -43,6 +44,8 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
+
+// import { CalenderView } from "@Modules";
 
 
 
@@ -284,6 +287,7 @@ function AddTask() {
 
 
     return (
+      
         <Card className="m-3">
             <div className='col'>
                 <div className="row mt--2">
@@ -296,7 +300,7 @@ function AddTask() {
             <div className="col-auto pb-4 mt--4">
                 <div className="row">
                     <ImagePicker
-                        icon={image}
+                        // icon={image}
                         size='xl'
                         heading={translate("common.attach")!}
                         noOfFileImagePickers={3}
@@ -450,11 +454,10 @@ function AddTask() {
                         placeholder={'Select ETA'}
                         type="both"
                         onChange={handleEtaChange}
-
-
                     />
                 </div>
 
+             
 
             </div >
 

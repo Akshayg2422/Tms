@@ -176,13 +176,16 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
 
     return (
         <div  >
-            <div className='row mt--4'>
-                <div className='col-4 mt-1 '>
+            
+            <div className='row '>
+                <div className='col-4  '>
                     <SearchInput onSearch={(search) => {
                         getEmployeeApi(search)
-                    }} />
+                    }} 
+                    />
                 </div>
-                {isCompanyExist && <>
+                {isCompanyExist && 
+                <>
                     <div className='col-4 mt--4'>
                         <DropDown
                             className="form-control-sm"
@@ -210,7 +213,7 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
                         />
                     </div>}
 
-                    {designations && designations.length > 0 && <div className='col-4 mt--2 '>
+                    {designations && designations.length > 0 && <div className='col-4 mt--4'>
                         <DropDown
                             className="form-control-sm"
                             heading={translate("auth.designation")}
@@ -227,47 +230,8 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
                 }
             </div>
 
-            <div className='shadow-none overflow-auto overflow-hide my-3' style={{ maxHeight: '50vh' }}>
+            <div className='shadow-none overflow-auto overflow-hide ' style={{ maxHeight: '55vh' }}>
                 
-                {/* {
-                    employees && employees?.length > 0 ? employees?.map((employee: any, index: number) => {
-                        const { profile_image, name, designation, department, id } = employee
-
-                        const isSelected = selectedEmployee && selectedEmployee.length > 0 && selectedEmployee.some((each: any) => {
-                            return each.id === id
-                        })
-
-                     console.log('isSelected========>',selectedEmployee);
-                     
-                        return (
-                            <div className='container pointer' key={id} onClick={selection !== 'none' ? () => proceedSelectEmployee(employee) : undefined}>
-                                <div className='row d-flex align-items-center'>
-                                    <div>
-                                        {profile_image ? <Image variant={'rounded'} src={getPhoto(profile_image)} /> : <Image variant={'rounded'} src={icons.profilePick} />}
-                                    </div>
-                                    <div className='ml-2'>
-                                        <H
-                                            className="py-1 m-0 pointer mb-0"
-                                            tag={'h4'}
-                                            text={capitalizeFirstLetter(name)}
-                                        />
-                                        <div className={'d-flex align-items-center mt--2'}>
-                                            <div className={'h6 mb-0 text-uppercase text-muted '} >{department ? department.name : '-'}</div>
-                                            <div className='text-muted'><Image src={icons.verticalLine} height={12} width={7} /></div>
-                                            <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation.name : '-'}</div>
-                                        </div>
-                                    </div>
-                                   
-                                </div>
-
-                                <div className={'mx--4'}>
-                                    {index !== employees.length - 1 && <Divider space={'3'} />}
-                                </div>
-                            </div>)
-                    }) : <NoDataFound type={'text'} />
-                } */}
-                   
-
                    {
                     employees && employees.length > 0 ? employees.map((employee: any, index: number) => {
                         const { profile_image, name, designation, department, id } = employee
@@ -278,7 +242,7 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
 
                         return (
                             <div className='container pointer' key={id} onClick={selection !== 'none' ? () => proceedSelectEmployee(employee) : undefined}>
-                                <div className='row d-flex align-items-center'>
+                                <div className='row d-flex align-items-center my-3'>
                                     <div>
                                         {profile_image ? <Image variant={'rounded'} src={getPhoto(profile_image)} /> : <Image variant={'rounded'} src={icons.profilePick} />}
                                     </div>
@@ -304,7 +268,9 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
                                 <div className={'mx--4 my--2'}>
                                     {index !== employees.length - 1 && <Divider space={'3'} />}
                                 </div>
-                            </div>)
+
+                            </div>
+                            )
                     }) : <NoDataFound type={'text'} text={''} />
                 }
 

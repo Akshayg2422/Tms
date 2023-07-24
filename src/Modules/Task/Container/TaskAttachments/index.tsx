@@ -38,13 +38,12 @@ function TaskAttachments() {
     );
   }
 
-
-console.log('taskAttachments==============>')
   return (
     <>
       <Card className="overflow-auto" style={{
         height: height - 85
-      }}>
+      }}
+      >
         <div className="row text-right">
           <div className="col-5" >
             <SearchInput onSearch={search.set} />

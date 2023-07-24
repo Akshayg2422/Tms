@@ -34,6 +34,7 @@ import {
     getDropDownCompanyDisplayData,
     getDropDownCompanyUser,
     generateReferenceNo,
+    getDropDownDisplayData,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,7 +48,7 @@ function AddSubTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails,associatedCompaniesL,employees } = useSelector(
+    const { dashboardDetails, associatedCompaniesL, employees, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { selectedTask } = useSelector(
@@ -70,34 +71,36 @@ function AddSubTask() {
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [date, setDate] = useState<any>(moment().format())
     const [eta, setEta] = useState("")
- 
+
 
     const isEnterPressed = useKeyPress("Enter");
 
     useEffect(() => {
-      if (isEnterPressed) {
-        submitTaskHandler()
-      }
+        if (isEnterPressed) {
+            submitTaskHandler()
+        }
     }, [isEnterPressed]);
 
     useEffect(() => {
         getAssociatedCompaniesApi();
+        getDepartmentsApiHandler();
+        getDesignationApiHandler()
 
     }, [])
 
     useEffect(() => {
         getCompanyEmployeeApi()
     }, [designation.value, department.value, company.value])
+    useEffect(() => {
+        getDepartmentsApiHandler();
+        getDesignationApiHandler()
+
+    }, [company.value])
 
     const getBranchId = () =>
         taskType?.id === type[1].id
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
-
-    // const handleImagePicker = ( file: any) => {
-    //     let newUpdatedPhoto = [...photo, file];
-    //     setPhoto(newUpdatedPhoto);
-    // };
 
     function getCompanyEmployeeApi() {
 
@@ -118,18 +121,57 @@ function AddSubTask() {
         );
     }
 
+    function getDepartmentsApiHandler() {
+
+        const params = {
+            branch_id: getBranchId()
+        }
+
+
+
+        dispatch(getDepartments({
+            params,
+            onSuccess: () => () => {
+            },
+            onError: () => () => {
+            },
+        }))
+    }
+
+
+
+    function getDesignationApiHandler() {
+
+        const params = {
+            branch_id: getBranchId()
+        }
+
+
+
+        dispatch(getDesignations({
+            params,
+            onSuccess: (response) => () => {
+
+            },
+            onError: () => () => {
+            },
+        }))
+    }
+
+    const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
+
     const submitTaskHandler = () => {
         const params = {
             title: title?.value,
             description: description?.value,
-           ...(referenceNo?.value &&{reference_number: referenceNo?.value}),
+            ...(referenceNo?.value && { reference_number: referenceNo?.value }),
             brand_branch_id: company?.value ? company?.value?.id : '',
             assigned_to_id: selectedUserId?.id,
             priority: selectedTicketPriority?.value?.id,
             task_attachments: [{ attachments: photo }],
             is_parent: false,
             eta_time: eta,
-            parent_code:selectedTask
+            parent_code: selectedTask
         };
 
 
@@ -147,7 +189,7 @@ function AddSubTask() {
                             showToast(response.message, "success");
                         }
                     },
-                    onError: (error) => () => {         
+                    onError: (error) => () => {
                         loginLoader.hide()
 
                         showToast(error.error_message);
@@ -169,7 +211,7 @@ function AddSubTask() {
                 onSuccess: (response: any) => () => {
                     const companies = response.details
                     if (companies && companies.length > 0) {
-                      
+
                         setDisableTaskType([]);
 
                     } else {
@@ -190,9 +232,6 @@ function AddSubTask() {
     };
 
 
-    const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
-
-
     return (
         <Card className="m-3">
             <div className='col'>
@@ -207,33 +246,33 @@ function AddSubTask() {
 
             <div className="col-auto pb-2">
                 <div className="row">
-                <ImagePicker
-                    icon={image}
-                    size='xl'
-                    heading={translate("common.addAttachment")!}
-                    noOfFileImagePickers={3}
-                    onSelect={(image) => {
-                     
-                    }}
-                  
-                    onSelectImagePickers={(el)=>{
-                        let array: any = []
-  
-                        for (let i = 0; i <= el.length; i++) {
-                          let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
-                          if(eventPickers !==undefined){
-                          array.push(eventPickers)
-                          }
-                          
-                        }
-                        setPhoto(array)
+                    <ImagePicker
+                        icon={image}
+                        size='xl'
+                        heading={translate("common.addAttachment")!}
+                        noOfFileImagePickers={3}
+                        onSelect={(image) => {
 
-          
-                      }}
-                />
+                        }}
+
+                        onSelectImagePickers={(el) => {
+                            let array: any = []
+
+                            for (let i = 0; i <= el.length; i++) {
+                                let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                if (eventPickers !== undefined) {
+                                    array.push(eventPickers)
+                                }
+
+                            }
+                            setPhoto(array)
+
+
+                        }}
+                    />
 
                 </div>
-              
+
 
             </div>
 
@@ -244,19 +283,19 @@ function AddSubTask() {
                     onChange={title.onChange}
                 />
 
-                  <TextAreaInput
-                heading={translate('auth.description')!}
-                value={description.value}
-                onChange={description.onChange}
-                className="form-control form-control-sm"
-                
+                <TextAreaInput
+                    heading={translate('auth.description')!}
+                    value={description.value}
+                    onChange={description.onChange}
+                    className="form-control form-control-sm"
+
                 />
                 <Input
                     type={"text"}
                     heading={translate("auth.referenceNo")}
                     value={referenceNo.value}
                     onChange={referenceNo.onChange}
-                    
+
                 />
                 <div className="mb-2">
                     <Radio
@@ -279,45 +318,63 @@ function AddSubTask() {
                     <DropDown
                         heading={translate("common.company")!}
                         placeHolder={'Select a company'}
-                        data={getDropDownCompanyDisplayData( associatedCompaniesL )}
+                        data={getDropDownCompanyDisplayData(associatedCompaniesL)}
                         onChange={(item) => {
                             company.onChange(item)
+
                         }}
                         selected={company.value}
                     />
                 )}
 
-            
-{getExternalCompanyStatus() && employees && employees.length > 0 &&
-                    <AutoComplete
-                    variant={'custom'}
-                        heading={translate("common.user")!}
-                         data={getDropDownCompanyUser(employees)}
-                         selected={selectedUserId}
-                onChange={(item)=>{
-                    setSelectedUserId(item)
+                {getExternalCompanyStatus() && (
+                    <DropDown
+                        heading={translate("common.department")!}
+                        data={getDropDownDisplayData(departments)}
+                        onChange={(item) => {
+                            department.onChange(item)
+                        }}
+                        selected={department.value}
+                    />
+                )}
+                {getExternalCompanyStatus() && (
+                    <DropDown
+                        heading={translate("auth.designation")}
+                        data={getDropDownDisplayData(designations)}
+                        onChange={(item) => {
+                            designation.onChange(item)
+                        }}
+                        selected={designation.value}
+                    />
+                )}
 
-                }} 
+
+
+                {getExternalCompanyStatus() && employees && employees.length > 0 &&
+                    <AutoComplete
+                        variant={'custom'}
+                        heading={translate("common.user")!}
+                        data={getDropDownCompanyUser(employees)}
+                        selected={selectedUserId}
+                        onChange={(item) => {
+                            setSelectedUserId(item)
+
+                        }}
                     />}
 
-               
+
                 <DateTimePicker
                     heading={translate("auth.eta")}
                     id="eta-picker"
                     placeholder={'Select ETA'}
                     type="both"
                     onChange={handleEtaChange}
-                    // value={date ? getMomentObjFromServer(date) : null!}
                 />
             </div>
 
-        
-
-           
-
             <div className="col mt-4">
                 <Button
-                   loading={loginLoader.loader}
+                    loading={loginLoader.loader}
                     text={translate("common.submit")}
                     onClick={submitTaskHandler}
                 />

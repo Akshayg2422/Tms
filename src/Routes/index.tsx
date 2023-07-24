@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -71,7 +71,8 @@ export const ROUTES = {
     'event-chatting': '/event-chatting',
     Groups: '/groups',
     'individual-chat': '/chat',
-    'add-event': '/add-event'
+    'add-event': '/add-event',
+    'calender-view':'/calender-view',
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -193,6 +194,14 @@ export const HOME_ROUTES = [
         component: <VirtualConference />,
         layout: '/admin',
       },
+      // {
+      //   path: ROUTES['user-company-module']['calender-view'],
+      //   name:'Calender',
+      //   miniName: "ca",
+      //   component: <CalendarView/>,
+      //   layout: '/admin',
+
+      // }
     ],
 
 

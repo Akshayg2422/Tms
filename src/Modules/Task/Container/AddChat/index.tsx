@@ -97,13 +97,6 @@ function AddChat() {
         setSelectDropzone([{}]);
         setPhoto([])
     };
-
-    // const handleImagePicker = (file: any) => {
-    //     let updatedPhoto = [...selectDropzone, file]
-    //     let newUpdatedPhoto = [...photo, file]
-    //     setSelectDropzone(updatedPhoto)
-    //     setPhoto(newUpdatedPhoto)
-    // }
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -132,16 +125,16 @@ function AddChat() {
             </div >
             <Modal isOpen={attachmentModal.visible} onClose={attachmentModal.hide} size='md'>
 
-                <div className='col-10 mt--5'>
-                    <div className={'mt-3'}><Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} /></div>
-                    <div className='row mt--3'>
+                    <div className={'mt--3'}>
+                        <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange}  />
+                        </div>
+                    <div className='row mt--2'>
                         <ImagePicker
                             noOfFileImagePickers={3}
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-                                // let file = image.toString().replace(/^data:(.*,)?/, "")
-                                // handleImagePicker(file)
+                              
                             }}
 
                             onSelectImagePickers={(el) => {
@@ -159,16 +152,16 @@ function AddChat() {
 
                             }}
                         />
-                    </div>
-                </div>
 
-                <div className='col-6 pt-3'>
+                    </div>
+              
                     <Button
                     
           loading={loginLoader.loader}
+          className='mt-3'
                 text={translate("common.submit")}
                         onClick={addTaskEventAttachment} />
-                </div>
+               
 
             </Modal>
 

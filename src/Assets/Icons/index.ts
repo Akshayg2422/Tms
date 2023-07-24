@@ -27,6 +27,7 @@ export const icons = {
   calenderLine: require('./CalenderLine/icon.png'),
   calenderTick: require('./CalenderTick/icon.png'),
   calenderTime: require('./CalenderTime/icon.png'),
+  microPhone: require('./Micke/icon.png'),
   call: require('./Call/icon.png'),
   cart: require('./Cart/icon.png'),
   locationFill: require('./LocationFill/icon.png'),
@@ -213,4 +214,6 @@ export const icons = {
 
 
 
+  tmsLogo:require('./TmsLogo/icon.png'),
+  
 };

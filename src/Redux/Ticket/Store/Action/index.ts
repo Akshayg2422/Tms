@@ -316,6 +316,14 @@ export const getTicketEventAttachmentsFailure = (error: any) => {
   };
 };
 
+export const selectedTicketParams =(params:any)=>{
+  return {
+    type: ActionTypes.GET_TICKET_PARAMS,
+    payload: params,
+};
+
+}
+
 
 
 
