@@ -135,9 +135,6 @@ function AddReferenceTicket() {
   };
 
 
-  console.log(JSON.stringify(tickets) + "=====tickets");
-
-
   return (
     <HomeContainer type={'card'} className="m-3">
       <div  >
@@ -148,7 +145,7 @@ function AddReferenceTicket() {
               getTicketsApiHandler(INITIAL_PAGE, text)
             }} />
 
-            <Button className="ml-3" size={'sm'} text={translate('common.submit')!}
+            <Button className="ml-3 mr-3" size={'sm'} text={translate('common.submit')!}
               loading={loginLoader.loader}
              onClick={addReferenceTicketHandler} />
           </div>

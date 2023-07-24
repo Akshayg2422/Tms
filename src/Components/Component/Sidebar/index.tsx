@@ -18,6 +18,7 @@ import { Image, ImageIcon } from '@Components'
 import { url } from "inspector";
 import { useSelector } from "react-redux";
 import { getPhoto } from "@Utils";
+import { icons } from "@Assets";
 function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }: SidebarProps) {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { user_details, } = dashboardDetails || ''
@@ -211,7 +212,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
             <img
               alt={logo.imgAlt}
               className="navbar-brand-img fixed-bottom ml-3 mb-4"
-              src={logo.imgSrc}
+              src={icons.tmsLogo}
             />
           </NavbarBrand>
         )}

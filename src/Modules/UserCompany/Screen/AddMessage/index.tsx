@@ -77,7 +77,7 @@ function AddGroupChat({ }: AddGroupChatProps) {
                 setSuccess(false);
                 const params = {
                     group_id: selectedGroupChat.id,
-                    group_attachments: [response.attachments],
+                    chat_attachments: [response.attachments],
                     ...response.type
                 };
                 addGroupMessageApiHandler(params);

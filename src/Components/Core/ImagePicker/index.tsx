@@ -193,8 +193,8 @@ const ImagePicker = ({
         return (
 
           <div className={`${className} col-auto ml-0  pr-3`}>
-            <div >
-              <div >
+        
+              <div  >
                 <Image
                   src={photo[index]?.base64}
                   variant={imageVariant}
@@ -203,8 +203,6 @@ const ImagePicker = ({
                   style={{ backgroundColor: "#e3e5e8" }}
                 />
               </div>
-            </div>
-            {/* index !== photo.length - 1 */}
             {trashIcons === true ? index !== photo.length - 1 : el.id !== 0 && (
               <div
                 className="justify-content-top"

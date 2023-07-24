@@ -190,6 +190,19 @@ export const generateReferenceNo = () => {
 };
 
 
+// export const handleDataAvailable = (event: any) => {
+//   if (event.data.size > 0) {
+//     const audioBlob = new Blob([event.data], { type: 'audio/wav' });
+//     const reader: any = new FileReader();
+//     reader.onload = () => {
+//       const base64Audio = reader.result.split(',')[1];
+//       setAudioData(base64Audio)
+//       getChatDetails(base64Audio, 'audio')
+//     };
+//     reader.readAsDataURL(audioBlob);
+//   }
+// };
+
 
 
 

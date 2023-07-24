@@ -2,32 +2,34 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getTickets } from '@Redux';
-import { Card, CommonTable, HomeContainer, NoDataFound, Status ,Image, Priority} from '@Components';
+import { Card, CommonTable, HomeContainer, NoDataFound, Status, Image, Priority } from '@Components';
 import { capitalizeFirstLetter, getDates, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getStatusFromCode, paginationHandler } from '@Utils';
 import { translate } from "@I18n";
+import { useWindowDimensions } from '@Hooks';
 
 function CompanyTickets() {
 
   const dispatch = useDispatch();
-  const { tickets,ticketNumOfPages,ticketCurrentPages } = useSelector((state: any) => state.TicketReducer);
-  const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-  
-  console.log(tickets,"tickets====>")
-  console.log(ticketCurrentPages, ticketNumOfPages,'===========>')
+  const { tickets, ticketNumOfPages, ticketCurrentPages } = useSelector((state: any) => state.TicketReducer);
+  const { selectedCompany } = useSelector((state: any) => state.UserCompanyReducer);
+  const { height } = useWindowDimensions()
+
 
   useEffect(() => {
     getTicketHandler(ticketCurrentPages)
-    // getCompanyTasksApi()
+
   }, []);
 
 
   function getTicketHandler(page_number: number) {
-    const params = { branch_id: selectedCompany.branch_id,
-      page_number }
+    const params = {
+      branch_id: selectedCompany.branch_id,
+      page_number
+    }
     dispatch(getTickets({
       params,
       onSuccess: (response) => () => {
-        console.log(response,"rrrrrrrrrrrrr")
+    
       },
       onError: () => () => { }
     }))
@@ -48,10 +50,10 @@ function CompanyTickets() {
                 }
               </div>
             </div>,
-             'description': <div>
-             {el?.description}
- 
-           </div>,
+          'description': <div>
+            {el?.description}
+
+          </div>,
 
           "":
             <div className="avatar-group">
@@ -98,33 +100,33 @@ function CompanyTickets() {
   };
 
   return (
-    // <Card className='my-3 vh-100'>
-    //   {tickets && tickets.length > 0 ? <CommonTable card title={'Issue'} displayDataSet={normalizedTableData(tickets)} /> : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={'No Issues Found'} /></div>}
-    // </Card>
-    <HomeContainer type={'card'} className="mt-3 100-vh">
-    {tickets&& tickets.length > 0 ?
-      <CommonTable
-        isPagination
-        tableDataSet={tickets}
-        displayDataSet={normalizedTableData(tickets)}
-        noOfPage={ticketNumOfPages}
-        currentPage={ticketCurrentPages}
-        paginationNumberClick={(currentPage) => {
-          getTicketHandler(paginationHandler("current", currentPage));
-        }}
-        previousClick={() => {
-          getTicketHandler(paginationHandler("prev", ticketCurrentPages))
-        }
-        }
-        nextClick={() => {
-          getTicketHandler(paginationHandler("next",ticketCurrentPages));
-        }
-        }
-    
-      />
-      : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={translate("auth.noTaskFound")!} /></div>
-    }
-  </HomeContainer>
+
+    <HomeContainer type={'card'} className="shadow-none overflow-auto overflow-hide" style={{
+      height: height - 85
+    }}>
+      {tickets && tickets.length > 0 ?
+        <CommonTable
+          isPagination
+          tableDataSet={tickets}
+          displayDataSet={normalizedTableData(tickets)}
+          noOfPage={ticketNumOfPages}
+          currentPage={ticketCurrentPages}
+          paginationNumberClick={(currentPage) => {
+            getTicketHandler(paginationHandler("current", currentPage));
+          }}
+          previousClick={() => {
+            getTicketHandler(paginationHandler("prev", ticketCurrentPages))
+          }
+          }
+          nextClick={() => {
+            getTicketHandler(paginationHandler("next", ticketCurrentPages));
+          }
+          }
+
+        />
+        : <div className={'d-flex justify-content-center align-items-center'} style={{ height: '90vh' }}><NoDataFound text={translate("auth.noTaskFound")!} /></div>
+      }
+    </HomeContainer>
 
   )
 }

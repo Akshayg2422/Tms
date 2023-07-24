@@ -27,6 +27,7 @@ export const icons = {
   calenderLine: require('./CalenderLine/icon.png'),
   calenderTick: require('./CalenderTick/icon.png'),
   calenderTime: require('./CalenderTime/icon.png'),
+  microPhone: require('./Micke/icon.png'),
   call: require('./Call/icon.png'),
   cart: require('./Cart/icon.png'),
   locationFill: require('./LocationFill/icon.png'),
@@ -172,5 +173,7 @@ export const icons = {
   admin: require('./Admin/icon.png'),
   vcCall: require('./VcCall/icon.png'),
   deleteRounded: require('./DeleteRounded/icon.png'),
-  VideoIcon:require('./VideoIcon/icon1.png')
+  VideoIcon:require('./VideoIcon/icon1.png'),
+  tmsLogo:require('./TmsLogo/icon.png'),
+  
 };

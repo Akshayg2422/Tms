@@ -18,4 +18,5 @@ export interface TicketStateProps {
   ticketDetails: any;
   ticketEventAttachments: any,
   ticketEventAttachmentsCurrentPage: number,
+  ticketParams:any,
 }

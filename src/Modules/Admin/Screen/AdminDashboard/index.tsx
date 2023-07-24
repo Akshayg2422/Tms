@@ -85,7 +85,7 @@ function AdminDashboard() {
         rtlActive={false}
         logo={{
           innerLink: "/",
-          imgSrc: icons.logo,
+          imgSrc: icons.tmsLogo,
           imgAlt: "...",
         }}
       />

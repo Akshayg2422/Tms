@@ -11,7 +11,6 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
-import { CardFooter } from "reactstrap";
 import { TaskInfoProps } from './interfaces';
 
 
@@ -338,12 +337,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                     onChange={editTitle.onChange}
                 />
                 <div >
-                    {/* <InputHeading heading={translate('auth.description')}/>
-                    <textarea 
-                    style={{height:'140px'}}
-                        value={editDescription.value}
-                        onChange={editDescription.onChange}
-                        className="form-control form-control-sm" /> */}
+
                     <TextAreaInput
                         heading={translate('auth.description')!}
                         value={editDescription.value}

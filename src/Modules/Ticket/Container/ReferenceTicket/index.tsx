@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getReferenceTickets, setSelectedTicket } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
-import { NoDataFound, Card, CommonTable, Button } from "@Components";
+import { NoDataFound, Card, CommonTable, Button, HomeContainer } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
 import { useParams } from 'react-router-dom';
@@ -61,14 +61,16 @@ function ReferenceTickets() {
 
     return (
 
-        <Card className={'overflow-auto overflow-hide mb--1 '} style={{ height: height - 15 }}>
-            <div className="col d-flex justify-content-end ml-3 mt--2">
+        // <Card className={'overflow-auto overflow-hide mb--1 '} style={{ height: height - 15 }}>
+        <HomeContainer  className="card">
+            <div className={'overflow-auto overflow-hide '} style={{ height: height - 15 }}>
+            <div className=" d-flex justify-content-end m-3 ">
                 {referenceTickets && referenceTickets?.length > 0 && <Button size={'sm'} text={translate('order.Add Reference Ticket')} onClick={() => {
                     goTo(ROUTES['ticket-module']['reference-ticket'])
                 }} />
                 }
             </div>
-            <div className="mt-3">
+            <div className="">
                 {referenceTickets && referenceTickets?.length > 0 ?
                     <CommonTable
                         isPagination
@@ -98,9 +100,14 @@ function ReferenceTickets() {
                     /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton />
                     </div>}
             </div>
-        </Card>
+            </div>
+            </HomeContainer>
+
+        // </Card>
+        
 
 
     );
 }
 export { ReferenceTickets };
+

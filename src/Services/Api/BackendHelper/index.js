@@ -165,3 +165,7 @@ export const getAttachmentsMessageApi = (payload) => post(URL.GET_ATTACHMENTS_ME
 
 export const  getReSendOtpApi=(payload)=>post(URL.RESEND_OTP,payload,{})
 
+export const  addTaskUsingVoiceApi = (payload)=>post(URL.ADD_TASK_USING_VOICE,payload,{})
+
+export const fetchCompanyLabelApi=(payload)=>post(URL.FETCH_COMPANY_LABEL,payload,{})
+

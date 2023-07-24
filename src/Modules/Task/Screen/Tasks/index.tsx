@@ -1,22 +1,25 @@
-import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon, NoDataFound, Priority, Spinner, Status } from "@Components";
+import { icons } from "@Assets";
+import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon,  MicroPhoneModal, Modal, NoDataFound, Priority, Spinner, Status } from "@Components";
 import { getFilter } from "@Components//Core/ImageColorIcon";
-import { useNavigation } from '@Hooks';
+import { useModal, useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { TaskFilters, TaskGroups } from '@Modules';
-import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams } from '@Redux';
+import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams ,setSelectedModal} from '@Redux';
 import { ROUTES } from '@Routes';
 import { capitalizeFirstLetter, getDates, getPhoto, paginationHandler } from '@Utils';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 
 function Tasks() {
   const dispatch = useDispatch()
-  const { tasks, taskNumOfPages, taskCurrentPages, taskParams } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, taskParams ,selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company } = dashboardDetails || ''
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
+   const microPhoneModals=useModal(false);
+  
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
@@ -114,7 +117,7 @@ function Tasks() {
 
                   <div className={"ml-2"}>
                     <div className={"h5 mb-0"}> {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.display_name}</div>
-                    <div className={`h5 mb-0 text-truncate ${company?.name === raised_by_company?.display_name ? 'mt--3' : ""} `}>@<span className="h5"> {capitalizeFirstLetter(assigned_to?.name)} </span></div>
+                    <div className={`h5 mb-0 text-truncate ${company?.name === raised_by_company?.display_name ? 'mt--3' : ""} `}> @<span className="h5"> {capitalizeFirstLetter(assigned_to?.name)} </span></div>
                     <small className={'text-uppercase mb-0  text-muted'}>
                       {raised_by_company?.place}
                     </small>
@@ -122,7 +125,7 @@ function Tasks() {
 
 
                 </>
-                : <div></div>
+                : <div className={'text-center'}>-</div>
               }
             </div >,
        
@@ -149,9 +152,13 @@ function Tasks() {
 
 
 
+
+  
+
+
   return (
     <div className="mx-3 mt-3">
-      <div className="d-flex justify-content-end">
+      <div className="d-flex justify-content-end mr-2">
         <Button
           className="text-white"
           size={'sm'}
@@ -160,6 +167,16 @@ function Tasks() {
             goTo(ROUTES["task-module"]["add-task"])
           }}
         />
+        <div onClick={()=>{
+            dispatch(
+              setSelectedModal(true)
+            )
+            
+            }}>
+        {/* <ImageIcon src={icons.microPhone} height={25} width={25}/> */}
+
+        </div>
+    
       </div>
 
 
@@ -210,11 +227,17 @@ function Tasks() {
                   goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'task');
                 }
                 }
+
               />
+              
               :
-              <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
+              <div className="mb-3">
+              <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton  />
+              </div>
             }
           </div>}
+
+          {selectedMicroModal && <MicroPhoneModal />}
 
 
 

@@ -90,12 +90,12 @@ function AddChatTicket() {
                 </div >
             </div >
             <Modal isOpen={attachmentModal.visible}
-                onClose={attachmentModal.hide}>
-                <div className='col-6'>
-                    <Input heading={'Name'} value={attachmentName.value} onChange={attachmentName.onChange} />
+                onClose={attachmentModal.hide} size={'md'}>
+                <div >
+                    <Input heading={'Note'} value={attachmentName.value} onChange={attachmentName.onChange} />
                     <div >
                        
-                          <div className='row mt--4'>
+                          <div className='row mt--3 '>
                         <ImagePicker
                             noOfFileImagePickers={3}
                             icon={image}
@@ -121,7 +121,7 @@ function AddChatTicket() {
                         />
                     </div>
                     </div>
-                    <div className=' pt-4'>
+                    <div className=' pt-3'>
                         <Button text={translate("common.submit")}  onClick={addTicketEventAttachment} />
                     </div>
                 </div>

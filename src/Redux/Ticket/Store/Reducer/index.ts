@@ -21,6 +21,7 @@ const initialState: TicketStateProps = {
   ticketDetails: {},
   ticketEventAttachments: [],
   ticketEventAttachmentsCurrentPage: 1,
+  ticketParams:{ q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
 
 };
 
@@ -242,6 +243,9 @@ const TicketReducer = (state = initialState, action: any) => {
         state = { ...state, ticketEventAttachments: undefined };
         break;
 
+        case ActionTypes.GET_TICKET_PARAMS:
+          state = { ...state, ticketParams: action.payload };
+          break;
 
 
 

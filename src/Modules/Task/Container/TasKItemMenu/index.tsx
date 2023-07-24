@@ -59,7 +59,7 @@ function TaskItemMenu() {
 
         const params = {
             ...(taskEventParams && { ...taskEventParams }),
-            // id: selectedTask.id
+       
             code: id
         };
 

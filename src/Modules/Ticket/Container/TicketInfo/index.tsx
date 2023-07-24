@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, TextAreaInput, ProfileCard } from "@Components";
+import { H, Image, Card, Modal, Input, Button, DateTimePicker, Back, Alert, TextAreaInput, ProfileCard, ImageIcon, P } from "@Components";
 import { getDisplayDateFromMoment, getDisplayDateTimeFromMoment, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, capitalizeFirstLetter, TASK_EVENT_ETA, getDisplayDateFromMomentByType, HDD_MMMM_YYYY_HH_MM_A, getDates } from '@Utils'
 import { icons } from "@Assets";
 import { TicketInfoProps } from "./interface";
 import { TicketItemMenu, TicketEventHistory } from "@Modules";
 import { translate } from "@I18n";
-import { useModal, useInput, useWindowDimensions, useLoader,useNavigation } from '@Hooks'
+import { useModal, useInput, useWindowDimensions, useLoader, useNavigation } from '@Hooks'
 import { addTicketEvent, getTicketDetails, selectedVcDetails } from '@Redux'
 import { useParams } from "react-router-dom";
 import { PhotoProvider, PhotoView } from "react-photo-view";
@@ -19,22 +19,26 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
 
 
     const loginLoader = useLoader(false)
-const {goTo}=useNavigation()
+    const updateLoader=useLoader(false)
+    const { goTo } = useNavigation()
     const { id } = useParams()
     const dispatch = useDispatch()
     const { ticketDetails, selectedTicket } = useSelector((state: any) => state.TicketReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
 
     const { title, code, description, by_user, raised_by_company, ticket_attachments, assigned_to, created_at, eta_time, start_time, end_time } = ticketDetails || {};
+    const editTitle = useInput(title)
+    const editDescription = useInput(description)
     const [eta, setEta] = useState(eta_time)
     const editEtaModal = useModal(false)
     const editEtaReason = useInput('')
     const ticketEventModal = useModal(false)
     const userModal = useModal(false)
+    const editTicketModal = useModal(false)
     const alertModal = useModal(false)
     const [actionTask, setActionTask] = useState<number>()
     const { height } = useWindowDimensions()
-    console.log(selectedTicket, "selectedTicket====>")
+
 
     useEffect(() => {
         getTicketDetailsHandler()
@@ -54,7 +58,6 @@ const {goTo}=useNavigation()
         }
         loginLoader.show()
 
-        console.log("eta==========>>>", eta)
         dispatch(
             addTicketEvent({
                 params,
@@ -72,12 +75,39 @@ const {goTo}=useNavigation()
     }
 
 
+    const editTicketApiHandler = () => {
+        const params = {
+            code: id,
+            title: editTitle.value,
+            description: editDescription.value,
+            event_type: "TKE"
+        }
+        updateLoader.show()
+        dispatch(
+            
+            addTicketEvent({
+                params,
+                onSuccess: () => () => {
+                    updateLoader.hide()
+                    editTicketModal.hide()
+                    // resetValues()
+                    getTicketDetailsHandler();
+                    editDescription.set('')
+                    editTitle.set('')
+                },
+                onError: () => () => {
+                    updateLoader.hide()
+                }
+            })
+        )
+    }
+
 
     const getTicketDetailsHandler = () => {
         const params = {
             code: id,
         }
-        console.log(params,"pppp---->")
+
         dispatch(
             getTicketDetails({
                 params,
@@ -112,153 +142,151 @@ const {goTo}=useNavigation()
 
     return (
         <div >
-            <Card className={'overflow-auto'}
+            <Card className={'overflow-auto overflow-hide'}
                 style={{
                     height: height / 2
                 }}
             >
-                <div className="col">
+                <div className="col ">
                     <div className="row justify-content-between">
-                        <div className="ml--2">
-                            <Back />
+                        <div className=" row ">
+                            <div className="col">
+                                <Back />
+                            </div>
+                            <div className=" pt-1">
+                                {title && <H tag={"h4"} className="mb-0" text={title} />}
+                                {code && <small className="mt-0">{`#${code}`}</small>}
+                            </div>
+
                         </div>
-                        <TicketItemMenu />
-                    </div>
+                        <div onClick={()=>{ editTicketModal.show()
+                                editTitle.set(title)
+                                editDescription.set(description)}}>
 
-                    <div className="mt--4 ml-2">
-                        {title && <H tag={"h4"} className="mb-0" text={title} />}
-                    </div>
-                    <div className="mt--0 ml-2">
-                        {code && <H tag={"h4"} className="text-muted" text={`# ${code}`} />}
-                    </div>
+                      
+                        <ImageIcon src={icons.editEta} height={16} width={16} />
+                        </div>
 
+                    </div>
                     <div className="row justify-content-between mt-3">
-                        <div>
-                            <div className="mt-3 ml--1">
-                                {description && <H tag={'h5'} text={capitalizeFirstLetter(description)} />}
 
+                        <div >
+                            {description && <div className="text-sm text-muted mb-2">{capitalizeFirstLetter(description)}</div>}
+                            {
+                                <PhotoProvider>
+                                    <div className={'pointer'}>
+                                        {
+                                            ticket_attachments && ticket_attachments.length > 0 &&
+                                            ticket_attachments?.map((item: any, index: number) => (
+                                                <PhotoView src={getPhoto(item?.attachment_file)}>
+                                                    <Image
+                                                        className={index === 0 ? 'ml-0' : "ml-1"}
+                                                        variant={'avatar'}
+                                                        size={'md'}
+                                                        src={getPhoto(item?.attachment_file)} />
+                                                </PhotoView>
 
-                                {/* <div className="row">
-                                    {
-                                        ticket_attachments &&
-                                        ticket_attachments?.length > 0 && ticket_attachments?.map((item) => {
-                                            return <div
-                                                className="ml-3"
-                                                onClick={(e) => e.preventDefault()}>
-
-                                                <Image
-                                                    variant={'avatar'}
-                                                    src={getPhoto(item?.attachment_file)} />
-
-                                            </div>
-                                        })
-                                    }
-                                </div> */}
-
-                                <div className="container mt-2 ml-2">
-                        {
-                            <PhotoProvider>
-                                <div className={'pointer'}>
-                                    {
-                                       ticket_attachments  && ticket_attachments .length > 0 && ticket_attachments ?.map((item, index) => (
-
-                                            <PhotoView src={getPhoto(item?.attachment_file)}>
-
-                                                <Image className={'border ml--4'}
-                                                    variant={'avatar'}
-                                                    size={'md'}
-                                                    src={getPhoto(item?.attachment_file)} />
-                                            </PhotoView>
-                                        ))
-                                    }
-                                </div>
-                            </PhotoProvider>
-                        }
-                    </div>
-
-
-                                
-                            </div>
+                                            ))
+                                        }
+                                    </div>
+                                </PhotoProvider>
+                            }
                         </div>
 
-                        <div className="mr-3 row">
+                    </div>
+                    <div className={'row justify-content-between mt-2'}>
+                        <div className="row mt-2  pointer ml-1 " onClick={userModal.show}>
+                            <div className={'align-self-center mr-2'}>
+                                {by_user?.profile_photo && <Image size={'sm'} variant={'rounded'} src={getPhoto(by_user?.profile_photo)} />}
+                            </div>
+                            <div className={'align-self-center'}>
+                                <div className="h5 mb-0"> {by_user?.name}</div>
+                            </div>
+                        </div>
+                        <div className="row mt-3 mr-3">
+                            <div className={'align-self-center '}>
+                                {raised_by_company?.attachment_logo && <Image variant={'rounded'} size={'sm'} src={getPhoto(raised_by_company?.attachment_logo)} />
+                                }</div>
+                            <div className="align-self-center">
+                                <div className="h5 mb-0 ml-2"> {raised_by_company?.display_name}</div>
+                                {assigned_to?.name !== undefined && <div className="text-xs ml-2"><span>{`@ ${assigned_to?.name}`} </span></div>}
+                            </div>
+                        </div>
+                    </div>
+                    <hr className="my-3 mx--1" />
 
-                            <div className="mt-3">
+                    <div className="row mt-2">
 
-                                { eta_time ?
-
-                                    <div>
-                                        <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={'ETA :'} />
+                        <div className="col">
+                            {
+                                eta_time ?
+                                    <>
+                                        <H className="mb-0 text-uppercase text-muted " tag={"h6"} text={'ETA :'} />
                                         <h5 className="text-uppercase">{getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(eta_time))}</h5>
-                                    </div>
+                                    </>
                                     :
-                                    <div>
-                                        <H className="mb-0 text-uppercase text-muted" tag={"h6"} text={translate('common.CREATED AT :')} />
-                                        <h5 className="text-uppercase ">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
-                                    </div>
-                                }
+                                    <>
+                                        <H className=" text-uppercase text-muted " tag={"h6"} text={'CREATED AT :'} />
+                                        <h5 className="text-uppercase mt--2">{getDisplayDateFromMoment(getMomentObjFromServer(created_at))}</h5>
+                                    </>
 
-                            </div>
-
-                            <div className="row ml-3 pt-4 mr-3">
-                                <div className="pointer" onClick={() => editEtaModal.show()}>
-                                    <Image src={icons.edit} height={18} width={18} />
-                                </div>
-                                <div className="ml-2 pointer" onClick={() => { ticketEventModal.show() }}>
-                                    <Image src={icons.history} height={18} width={18} />
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div className="row justify-content-between mt-4 mr-3">
-                        <div className="row">
-                        <div className={'align-self-center pr-2 pl-2 '} onClick={() => userModal.show()}>{by_user?.profile_photo && <Image size={'sm'} variant={'rounded'} src={getPhoto(by_user?.profile_photo)} />}</div>
-                       
-                        <div className="pt-3" >
-                       
-                            <div className="h5 mb-0"> {by_user?.name} </div>
-                            <div className="mt--1"><small > {by_user?.phone} </small></div>
-                            <div className="mt--2"><small > {by_user?.email} </small></div>
-                        </div>
+                            }
                         </div>
 
-                        <div className="mt-4">
+                        <div className="col-auto">
                             <div className="row">
-                                {raised_by_company?.attachment_logo && <Image variant={'rounded'}
-                                    src={getPhoto(raised_by_company?.attachment_logo)} />}
-                                <div className="ml-2">
-                                    <h4 className="mb-0">{raised_by_company?.display_name} </h4>
-                                    <div className="mt--2">
-                                        <small className="text-xs"> {`@ ${assigned_to?.name}`}</small>
-                                    </div>
-                                    <div className="mt--2">
-                                        <small className={'text-xs'}>{raised_by_company?.address}</small>
-                                    </div>
+                                <div className="pointer" onClick={() => editEtaModal.show()}>
+                                    {eta_time && <ImageIcon src={icons.editEta} height={16} width={16} />}
+                                </div>
+                                <div className="ml-3 pointer" onClick={() => { ticketEventModal.show() }}>
+                                    <ImageIcon src={icons.timeline} height={17} width={17} />
+                                </div>
+                                <div className="ml-2 pointer" >
+                                    <TicketItemMenu />
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                    {/* <div className="col text-right mt-3">
-                        {assigned_to?.id === dashboardDetails?.user_details?.id && < Button size={'sm'} text={'Start'}
-                            onClick={() => {
-                                alertModal.show()
-                                setActionTask(START_TASK)
-                            }} />}
-                        {assigned_to?.id === dashboardDetails?.user_details?.id && < Button size={'sm'} text={'End'} onClick={() => {
-                            alertModal.show()
-                            setActionTask(END_TASK)
-                        }} />}
-                    </div> */}
+
                 </div>
             </Card >
+
+            {/* edit ticket modal */}
+
+            <Modal size={'md'} title={translate('auth.EditTicketDetails')!} isOpen={editTicketModal.visible} onClose={editTicketModal.hide} >
+
+                <Input
+                    type={"text"}
+                    heading={translate("common.title")}
+                    value={editTitle.value}
+                    onChange={editTitle.onChange}
+                />
+                <div >
+
+                    <TextAreaInput
+                        heading={translate('auth.description')!}
+                        value={editDescription.value}
+                        onChange={editDescription.onChange}
+                        className="form-control form-control-sm"
+
+                    />
+                </div>
+
+                <div className="text-right pt-3">
+                    <Button text={translate('order.Update')}
+                        loading={updateLoader.loader}
+                        onClick={editTicketApiHandler} />
+                </div>
+
+            </Modal>
 
             {/**
              * Edit Eta Modal
              */}
             <Modal isOpen={editEtaModal.visible} onClose={() => { editEtaModal.hide() }} >
                 <div className="col-6">
-                 
+
                     <TextAreaInput
                         heading={translate("common.reason")!}
                         value={editEtaReason.value}
@@ -284,21 +312,21 @@ const {goTo}=useNavigation()
 
             <Modal size={'sm'} isOpen={userModal.visible} onClose={userModal.hide}>
 
-<ProfileCard
-    coverPhoto={by_user?.profile_photo}
-    profilePhoto={by_user?.profile_photo}
-    name={by_user?.name}
-    department={by_user?.department?.name}
-    designation={by_user?.designation?.name}
-    company={raised_by_company?.display_name}
-    userId={by_user?.id}
-    messageOnClick={() => {
-        dispatch(selectedVcDetails(by_user))
-        goTo(ROUTES['user-company-module']['individual-chat'], false)
-    }}
-/>
+                <ProfileCard
+                    coverPhoto={by_user?.profile_photo}
+                    profilePhoto={by_user?.profile_photo}
+                    name={by_user?.name}
+                    department={by_user?.department?.name}
+                    designation={by_user?.designation?.name}
+                    company={raised_by_company?.display_name}
+                    userId={by_user?.id}
+                    messageOnClick={() => {
+                        dispatch(selectedVcDetails(by_user))
+                        goTo(ROUTES['user-company-module']['individual-chat'], false)
+                    }}
+                />
 
-</Modal>
+            </Modal>
             {/**
              * show Event Time Line
              */}

@@ -159,7 +159,7 @@ function TicketChat({ }: TicketChatProps) {
                                 <div className='pt-2' onClick={() => {
                                     imageModal.show()
                                     setImage(imageUrls)
-                                    console.log('mnsbvhdfggu ,cmnbjgyh')
+                                  
                                 }} >
 
                                     <div>
@@ -167,8 +167,6 @@ function TicketChat({ }: TicketChatProps) {
                                         {
                                             imageUrls && imageUrls.length > 0 && imageUrls.map(each => {
                                                 
-                                                console.log('imageUrls=========>>',each)
-
                                                 return (<Image className='ml-1 mb-1' src={each} width={100} height={100}
                                                  />
                                                 )
