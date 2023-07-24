@@ -597,6 +597,9 @@ function Cards() {
                         <Button
                           className="btn-round pull-right"
                           color="primary"
+                          onClick={() => {
+
+                          }}
                         >
                           Send Message
                         </Button>

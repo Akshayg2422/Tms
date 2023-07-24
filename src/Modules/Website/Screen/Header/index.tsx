@@ -48,7 +48,7 @@ function Header() {
 
     <>
       <Navbar
-        className="navbar-horizontal navbar-main navbar-dark bg-customGradient-primary py-1 sticky-top"
+        className="navbar-horizontal navbar-main navbar-dark bg-customGradient-primary py-3 sticky-top"
         expand="lg"
         id="navbar-main"
       >
@@ -56,8 +56,8 @@ function Header() {
           <NavbarBrand to="/" tag={Link}>
             <img
               alt="..."
-              // src={icons.logo}
               src={icons.logo}
+
             />
             <span className='nav-link-inner--text ml-2 text-white'>
               Quanta-TMS
@@ -107,28 +107,34 @@ function Header() {
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink tag={Link}>
-                  <span className="nav-link-inner--text">Dashboard</span>
+                  {/* <span className="nav-link-inner--text">Dashboard</span> */}
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link}>
-                  <span className="nav-link-inner--text">Pricing</span>
+                  {/* <span className="nav-link-inner--text">Pricing</span> */}
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link}>
-                  <span className="nav-link-inner--text">Login</span>
+                  {/* <span className="nav-link-inner--text">Login</span> */}
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link}>
-                  <span className="nav-link-inner--text">Register</span>
+                  {/* <span className="nav-link-inner--text">Register</span> */}
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link}>
-                  <span className="nav-link-inner--text">Lock</span>
-                </NavLink>
+                <Button
+                  className='bg-default text-white border-0'
+                  onClick={() => {
+                    goTo(ROUTES['auth-module'].login)
+                  }}
+                  text={'Login'}
+                  size={'sm'}
+                />
+
               </NavItem>
             </Nav>
             {/* <hr className="d-lg-none" /> */}

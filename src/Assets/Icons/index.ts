@@ -51,7 +51,7 @@ export const icons = {
   homeFill: require('./HomeFill/icon.png'),
   leftArrow: require('./LeftArrow/icon.png'),
   location: require('./Location/icon.png'),
-  logo: require('./Logo/TMS 01.png'),
+  logo: require('./Logo/TMS 22 7.png'),
   logout: require('./Logout/icon.png'),
   logoWhite: require('./LogoWhite/icon.png'),
   marker: require('./Marker/icon.png'),
