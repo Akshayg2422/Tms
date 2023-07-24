@@ -173,5 +173,7 @@ export const icons = {
   admin: require('./Admin/icon.png'),
   vcCall: require('./VcCall/icon.png'),
   deleteRounded: require('./DeleteRounded/icon.png'),
-  VideoIcon:require('./VideoIcon/icon1.png')
+  VideoIcon:require('./VideoIcon/icon1.png'),
+  tmsLogo:require('./TmsLogo/icon.png'),
+  
 };

@@ -34,6 +34,7 @@ import {
     getDropDownCompanyDisplayData,
     getDropDownCompanyUser,
     generateReferenceNo,
+    getDropDownDisplayData,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,7 +48,7 @@ function AddSubTask() {
     const { goBack } = useNavigation();
 
 
-    const { dashboardDetails, associatedCompaniesL, employees } = useSelector(
+    const { dashboardDetails, associatedCompaniesL, employees, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { selectedTask } = useSelector(
@@ -82,22 +83,24 @@ function AddSubTask() {
 
     useEffect(() => {
         getAssociatedCompaniesApi();
+        getDepartmentsApiHandler();
+        getDesignationApiHandler()
 
     }, [])
 
     useEffect(() => {
         getCompanyEmployeeApi()
     }, [designation.value, department.value, company.value])
+    useEffect(() => {
+        getDepartmentsApiHandler();
+        getDesignationApiHandler()
+
+    }, [company.value])
 
     const getBranchId = () =>
         taskType?.id === type[1].id
             ? dashboardDetails?.permission_details?.branch_id
             : company?.value?.id
-
-    // const handleImagePicker = ( file: any) => {
-    //     let newUpdatedPhoto = [...photo, file];
-    //     setPhoto(newUpdatedPhoto);
-    // };
 
     function getCompanyEmployeeApi() {
 
@@ -117,6 +120,45 @@ function AddSubTask() {
             })
         );
     }
+
+    function getDepartmentsApiHandler() {
+
+        const params = {
+            branch_id: getBranchId()
+        }
+
+
+
+        dispatch(getDepartments({
+            params,
+            onSuccess: () => () => {
+            },
+            onError: () => () => {
+            },
+        }))
+    }
+
+
+
+    function getDesignationApiHandler() {
+
+        const params = {
+            branch_id: getBranchId()
+        }
+
+
+
+        dispatch(getDesignations({
+            params,
+            onSuccess: (response) => () => {
+
+            },
+            onError: () => () => {
+            },
+        }))
+    }
+
+    const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
     const submitTaskHandler = () => {
         const params = {
@@ -188,9 +230,6 @@ function AddSubTask() {
         setEta(value);
         setDate(value)
     };
-
-
-    const getExternalCompanyStatus = () => ((taskType && taskType?.id === "2") || company.value?.id)
 
 
     return (
@@ -282,10 +321,33 @@ function AddSubTask() {
                         data={getDropDownCompanyDisplayData(associatedCompaniesL)}
                         onChange={(item) => {
                             company.onChange(item)
+
                         }}
                         selected={company.value}
                     />
                 )}
+
+                {getExternalCompanyStatus() && (
+                    <DropDown
+                        heading={translate("common.department")!}
+                        data={getDropDownDisplayData(departments)}
+                        onChange={(item) => {
+                            department.onChange(item)
+                        }}
+                        selected={department.value}
+                    />
+                )}
+                {getExternalCompanyStatus() && (
+                    <DropDown
+                        heading={translate("auth.designation")}
+                        data={getDropDownDisplayData(designations)}
+                        onChange={(item) => {
+                            designation.onChange(item)
+                        }}
+                        selected={designation.value}
+                    />
+                )}
+
 
 
                 {getExternalCompanyStatus() && employees && employees.length > 0 &&

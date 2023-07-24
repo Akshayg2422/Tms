@@ -128,7 +128,7 @@ const PushNotification = () => {
             const title = payload?.data?.title;
             const options = {
                 body: payload?.data?.message,
-                icon: icons.quantaTms,
+                icon: icons.tmsLogo,
             };
 
             const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type

@@ -1,10 +1,10 @@
 import { icons } from '@Assets';
 import { Button, ImageIcon, Modal } from '@Components';
-import { useModal } from '@Hooks';
+import { useLoader, useModal } from '@Hooks';
 import  { useEffect, useRef, useState } from 'react'
 import { MicroPhoneProps} from './interfaces'
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedModal} from '@Redux';
+import { fetchUsingVoice, setSelectedModal} from '@Redux';
 
 
 function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
@@ -12,15 +12,53 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     const [stream,setStream]=useState<any>()
     const mediaRecorderRef=useRef<any>()
     const [recording, setRecording]=useState<any>()
+    const [isSelected,setSelected]=useState<any>(false)
     const [audioData,setAudioData]=useState()
     const { selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
+    const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    console.log(JSON.stringify(dashboardDetails),"dashboardDetails ==>")
     const microPhoneModals=useModal(selectedMicroModal)
+    const loginLoader = useLoader(false);
 
     useEffect(()=>{
         getMicrophonePermission()
-
+      
     },[])
+    
+  useEffect(()=>{
+    if(audioData){
+    addVoiceUsingRecord()
+    }
 
+  },[audioData])
+
+    const addVoiceUsingRecord =()=>{
+    
+      const params={
+        code:dashboardDetails?.company_branch?.code,
+        voice_task:audioData
+        }
+        loginLoader.show()
+       
+        dispatch(
+          fetchUsingVoice({
+            params,
+            onSuccess:()=>()=>{
+              loginLoader.hide()
+              microPhoneModals.hide()
+              setSelected(false)
+              
+            },
+            onError:()=>()=>{
+              microPhoneModals.hide()
+              loginLoader.hide()
+              setSelected(false)
+
+            }
+          })
+
+        )
+    }
 
      const handleDataAvailable = (event: any) => {
         if (event.data.size > 0) {
@@ -87,7 +125,9 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
 }
   
     <div className={'row justify-content-between px-2'}>
-       {recording!==true && <Button text={'Start'} onClick={()=>{startVoiceRecording()}} size="sm"/>}
+       {recording!==true && <Button text={'Start'} onClick={()=>{
+        startVoiceRecording()
+        setSelected(true)}} size="sm"/>}
        {recording && <Button text={'ReCapture'} onClick={()=>{
      
      startVoiceRecording()
@@ -99,7 +139,13 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
         </div>
         
         <div className={' pt-3'}>
-     { recording &&  <Button text={'submit'} onClick={()=>{stopVoiceRecording()}} size={'sm'}/>}
+     { isSelected &&  <Button text={'submit'}
+      loading={loginLoader.loader}
+       onClick={()=>{
+      
+      stopVoiceRecording()
+    
+      }} size={'sm'}/>}
 
         </div>
 

@@ -151,63 +151,7 @@ function Tasks() {
   };
 
 
-  const [stream,setStream]=useState<any>()
-    const mediaRecorderRef=useRef<any>()
-    const [recording, setRecording]=useState<any>()
-    // const microPhoneModal=useModal(false)
-    const [audioData,setAudioData]=useState()
 
-    // useEffect(()=>{
-    //     getMicrophonePermission()
-
-    // },[])
-console.log(recording,"recording===>")
-
-     const handleDataAvailable = (event: any) => {
-        if (event.data.size > 0) {
-          const audioBlob = new Blob([event.data], { type: 'audio/wav' });
-          const reader: any = new FileReader();
-          reader.onload = () => {
-            const base64Audio = reader.result.split(',')[1];
-            setAudioData(base64Audio)
-            console.log(base64Audio)
-          };
-          reader.readAsDataURL(audioBlob);
-        }
-      };
-
-
-    const getMicrophonePermission = async () => {
-        if ("MediaRecorder" in window) {
-          try {
-            const streamData = await navigator.mediaDevices.getUserMedia({
-              audio: true,
-            });
-            setStream(streamData);
-          } catch (err) {
-            alert(err);
-          }
-        } else {
-          alert("The MediaRecorder API is not supported in your browser.");
-        }
-      };
-    
-      const startVoiceRecording = () => {
-        if (stream) {
-          mediaRecorderRef.current = new MediaRecorder(stream);
-          mediaRecorderRef.current.addEventListener("dataavailable", handleDataAvailable);
-          mediaRecorderRef.current.start();
-          setRecording(true);
-        }
-      };
-    
-      const stopVoiceRecording = () => {
-        if (mediaRecorderRef.current) {
-          mediaRecorderRef.current.stop();
-          setRecording(false);
-        }
-      };
- 
 
   
 
@@ -224,14 +168,12 @@ console.log(recording,"recording===>")
           }}
         />
         <div onClick={()=>{
-          microPhoneModals.show()
-            getMicrophonePermission()
             dispatch(
               setSelectedModal(true)
             )
             
             }}>
-        <ImageIcon src={icons.microPhone} height={25} width={25}/>
+        {/* <ImageIcon src={icons.microPhone} height={25} width={25}/> */}
 
         </div>
     
@@ -301,54 +243,6 @@ console.log(recording,"recording===>")
 
 
       </HomeContainer>
-
-      {/* <Modal size={'md'} isOpen={microPhoneModal.visible} onClose={microPhoneModal.hide}>
-    <div>
-
-        <div className="h4 mt--5 mb-3 text-primary" onClick={()=>{startVoiceRecording()}}>
-          CreateRecord
-          
-        </div>
-
-        </div>
-
-
-
-<Button text={'submit'} onClick={()=>{stopVoiceRecording()}}/>
-
-</Modal> */}
-
-
-{/* <Modal size={'md'} isOpen={microPhoneModal.visible} onClose={microPhoneModal.hide} title={'CreateRecorder'}>
-  <div >
- { recording &&  <div className="row justify-content-center mb-4 mt--4">
-    <ImageIcon src={icons.microPhone} width={25} height={25}/>
-
-    </div>
-}
-  
-    <div className={'row justify-content-between px-2'}>
-       {recording!==true && <Button text={'Start'} onClick={()=>{startVoiceRecording()}} size="sm"/>}
-       {recording && <Button text={'ReCapture'} onClick={()=>{
-     
-     startVoiceRecording()
-
-    }} size={'sm'}/>}
-
-       {recording && <Button text={'Stop'}onClick={()=>{stopVoiceRecording()}} size={'sm'}/>}
-   
-        </div>
-        
-        <div className={' pt-3'}>
-     { recording &&  <Button text={'submit'} onClick={()=>{stopVoiceRecording()}} size={'sm'}/>}
-
-        </div>
-
-        </div>
-
-
-</Modal> */}
-
 
     </div>
 
