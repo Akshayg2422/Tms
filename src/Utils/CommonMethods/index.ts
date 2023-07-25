@@ -56,7 +56,7 @@ export const ifObjectHasKey = (object: any, key: string) => {
 
 
 export const getObjectFromArrayByKey = (array: any, key: string, value: any) => {
-  return array.find(item => {
+  return array?.find(item => {
     return item[key] === value;
   });
 };
