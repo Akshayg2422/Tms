@@ -52,7 +52,7 @@ export const icons = {
   homeFill: require('./HomeFill/icon.png'),
   leftArrow: require('./LeftArrow/icon.png'),
   location: require('./Location/icon.png'),
-  logo: require('./Logo/icon.png'),
+  logo: require('./Logo/TMS 22 7.png'),
   logout: require('./Logout/icon.png'),
   logoWhite: require('./LogoWhite/icon.png'),
   marker: require('./Marker/icon.png'),
@@ -173,7 +173,47 @@ export const icons = {
   admin: require('./Admin/icon.png'),
   vcCall: require('./VcCall/icon.png'),
   deleteRounded: require('./DeleteRounded/icon.png'),
-  VideoIcon:require('./VideoIcon/icon1.png'),
+  VideoIcon: require('./VideoIcon/icon1.png'),
+
+
+
+  landingImg: require('./LandingImage/Screenshot 2023-07-19 at 4.15.15 PM.png'),
+  landingImg1: require('./LandingImage/Screenshot 2023-07-19 at 4.15.33 PM.png'),
+  landingImg2: require('./LandingImage/Screenshot 2023-07-19 at 4.17.55 PM.png'),
+  landingImg3: require('./LandingImage/Screenshot 2023-07-19 at 4.18.25 PM.png'),
+  landingImg4: require('./LandingImage/Screenshot 2023-07-19 at 4.39.20 PM.png'),
+  landingImg5: require('./LandingImage/Screenshot 2023-07-19 at 4.43.37 PM.png'),
+  landingImg6: require('./LandingImage/Screenshot 2023-07-19 at 4.44.39 PM.png'),
+  landingImg7: require('./LandingImage/Screenshot 2023-07-19 at 4.50.20 PM.png'),
+  landingImg8: require('./LandingImage/Screenshot 2023-07-19 at 4.57.54 PM.png'),
+  landingImg9: require('./LandingImage/Screenshot 2023-07-19 at 4.59.30 PM.png'),
+  landingImg10: require('./LandingImage/Screenshot 2023-07-19 at 4.59.37 PM.png'),
+  landingImg11: require('./LandingImage/Screenshot 2023-07-19 at 5.01.52 PM.png'),
+  landingImg12: require('./LandingImage/Screenshot 2023-07-19 at 5.02.56 PM.png'),
+  landingImg13: require('./LandingImage/Screenshot 2023-07-19 at 5.03.08 PM.png'),
+  landingImg14: require('./LandingImage/Screenshot 2023-07-19 at 5.03.41 PM.png'),
+  landingImg15: require('./LandingImage/Screenshot 2023-07-19 at 5.03.59 PM.png'),
+  landingImg16: require('./LandingImage/Screenshot 2023-07-19 at 5.04.12 PM.png'),
+  landingImg17: require('./LandingImage/Screenshot 2023-07-19 at 5.04.21 PM.png'),
+  landingImg18: require('./LandingImage/Screenshot 2023-07-19 at 5.04.38 PM.png'),
+  landingImg19: require('./LandingImage/Screenshot 2023-07-19 at 5.04.53 PM.png'),
+  landingImg20: require('./LandingImage/Screenshot 2023-07-19 at 5.05.13 PM.png'),
+  landingImg21: require('./LandingImage/Screenshot 2023-07-19 at 5.05.32 PM.png'),
+  landingImg22: require('./LandingImage/Screenshot 2023-07-19 at 5.11.16 PM.png'),
+  landingImg23: require('./LandingImage/Screenshot 2023-07-19 at 5.12.02 PM.png'),
+  landingImg24: require('./LandingImage/Screenshot 2023-07-19 at 5.12.10 PM.png'),
+  landingImg25: require('./LandingImage/Screenshot 2023-07-19 at 5.12.18 PM.png'),
+  landingImg26: require('./LandingImage/Screenshot 2023-07-19 at 5.12.29 PM.png'),
+  landingImg27: require('./LandingImage/Screenshot 2023-07-19 at 5.12.44 PM.png'),
+  landingImg28: require('./LandingImage/Screenshot 2023-07-19 at 5.13.09 PM.png'),
+  avatarImg: require('./LandingImage/Site Stats-amico (1).png'),
+  avatarImg1: require('./LandingImage/Visual data-amico.png'),
+  avatarImg2: require('./LandingImage/Visual data-pana.png'),
+  avatarImg3: require('./LandingImage/Visual data-rafiki.png'),
+
+
+
+
   tmsLogo:require('./TmsLogo/icon.png'),
   
 };

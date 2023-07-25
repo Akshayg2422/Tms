@@ -27,7 +27,7 @@
     .nav-link.active,
     .show > .nav-link {
         color: $nav-pills-link-active-color;
-        background-color: $nav-pills-link-active-bg;
+        background: linear-gradient(269deg, #191924 0, #6e0ff3 100%) !important
     }
 
     @include media-breakpoint-down(xs) {
