@@ -14,6 +14,7 @@ import {
     TextAreaInput,
     Button,
     DateRangePickers,
+    DatePicker,
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -456,8 +457,6 @@ function AddTask() {
                         onChange={handleEtaChange}
                     />
                 </div>
-
-             
 
             </div >
 
