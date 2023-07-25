@@ -4,7 +4,7 @@ import { getFilter } from "@Components//Core/ImageColorIcon";
 import { useModal, useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { TaskFilters, TaskGroups } from '@Modules';
-import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams ,setSelectedModal} from '@Redux';
+import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams ,setSelectedModal, setSelectedCodeId} from '@Redux';
 import { ROUTES } from '@Routes';
 import { capitalizeFirstLetter, getDates, getPhoto, paginationHandler } from '@Utils';
 import { useEffect, useRef, useState } from "react";
@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Tasks() {
   const dispatch = useDispatch()
-  const { tasks, taskNumOfPages, taskCurrentPages, taskParams ,selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, taskParams ,selectedMicroModal,selectedTaskId} = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company } = dashboardDetails || ''
   const { goTo } = useNavigation();
@@ -221,10 +221,13 @@ function Tasks() {
                 }
                 tableOnClick={(idx, index, item) => {
                   dispatch(setSelectedTask(item?.code));
-                  dispatch(selectedTaskIds(item))
+                  dispatch(selectedTaskIds([item?.code]))
+                  dispatch(
+                    setSelectedCodeId([])
+                )
                   dispatch(getSelectedReference({ code: item?.code, refer: true }))
                   dispatch(setSelectedTabPosition({ id: '1' }))
-                  goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'task');
+                  goTo(ROUTES["task-module"]["tasks-details"] +'/' + item?.code + '/' + 'task');
                 }
                 }
 

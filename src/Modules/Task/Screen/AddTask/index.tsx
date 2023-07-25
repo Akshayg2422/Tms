@@ -14,6 +14,7 @@ import {
     TextAreaInput,
     Button,
     DateRangePickers,
+    FilePicker,
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -457,7 +458,6 @@ function AddTask() {
                     />
                 </div>
 
-             
 
             </div >
 

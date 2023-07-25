@@ -12,7 +12,7 @@ import { translate } from '@I18n'
 function SubTasks({ cardHeight }: SubTasksProps) {
     const { id } = useParams()
     const { goTo } = useNavigation();
-    const { subTasks } = useSelector((state: any) => state.TaskReducer);
+    const { subTasks,selectedTaskId } = useSelector((state: any) => state.TaskReducer);
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
 
@@ -79,7 +79,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                             displayDataSet={normalizedTableData(subTasks)}
                             tableOnClick={(e, index, item) => {
                                 dispatch(setSelectedTask(item?.code))
-                                dispatch(selectedTaskIds(item))
+                                dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
                                 dispatch(getSelectedReference({ code: item?.code, refer: true }))
                                 dispatch(setSelectedTabPosition({ id: '1' }))
                                 goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'sub-task')

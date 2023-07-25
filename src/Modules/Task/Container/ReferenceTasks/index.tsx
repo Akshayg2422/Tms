@@ -12,7 +12,7 @@ import { translate } from "@I18n";
 function ReferenceTasks() {
   const dispatch = useDispatch();
   const { id,item } = useParams();
-  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages } = useSelector(
+  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages,selectedTaskId } = useSelector(
     (state: any) => state.TaskReducer
   );
 
@@ -109,7 +109,7 @@ function ReferenceTasks() {
             dispatch(getSelectedReference(false))
             dispatch(getSelectedReference({code: item?.code,refer:false}))
             dispatch(setSelectedTask(item?.code))
-           dispatch(selectedTaskIds(item))
+           dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'reference-task')
           }}
 

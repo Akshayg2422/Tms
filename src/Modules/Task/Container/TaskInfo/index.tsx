@@ -3,7 +3,7 @@ import { Alert, Back, Button, Card, DateTimePicker, H, Image, ImageIcon, Input, 
 import { useInput, useLoader, useModal, useNavigation } from '@Hooks';
 import { translate } from "@I18n";
 import { TaskEventHistory, TaskItemMenu } from "@Modules";
-import { addTaskEvent, getTaskDetails, refreshTaskEvent, selectedVcDetails } from '@Redux';
+import { addTaskEvent, getTaskDetails, refreshTaskEvent, selectedVcDetails, selectedTaskIds, setSelectedCodeId } from '@Redux';
 import { ROUTES } from "@Routes";
 import { HDD_MMMM_YYYY_HH_MM_A, TASK_EVENT_ETA, capitalizeFirstLetter, getDates, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils';
 import { forwardRef, useEffect, useState } from "react";
@@ -12,6 +12,9 @@ import 'react-photo-view/dist/react-photo-view.css';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { TaskInfoProps } from './interfaces';
+import {
+    Breadcrumb, BreadcrumbItem,
+} from "reactstrap";
 
 
 const START_TASK = 1
@@ -20,7 +23,7 @@ const END_TASK = 2
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     const { id, item } = useParams()
-    const { refreshTaskEvents } = useSelector((state: any) => state.TaskReducer);
+    const { refreshTaskEvents, selectedTaskId ,selectedCodeId} = useSelector((state: any) => state.TaskReducer);
 
     const dispatch = useDispatch()
     const { taskDetails, selectedReferenceDetails, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
@@ -39,9 +42,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const userModal = useModal(false)
     const { goTo } = useNavigation()
     const [selected, setSelected] = useState()
-    const [selectedTaskId, setSelectedTaskId] = useState<boolean>(true)
-    const loginLoader = useLoader(false);
 
+    console.log(selectedCodeId,"lastIndex===>selectedCodeId")
+
+    const loginLoader = useLoader(false);
 
     useEffect(() => {
         getTaskDetailsHandler()
@@ -60,7 +64,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         if (tasks.length > 0) {
             let isSelectedTask
             isSelectedTask = tasks?.some((filter: any) => (filter?.code === code || taskDetails?.code))
-            setSelectedTaskId(isSelectedTask)
+            // setSelectedTaskId(isSelectedTask)
 
         }
 
@@ -76,6 +80,43 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         editTitle.set('')
         editDescription.set('')
     }
+
+    const codeHandler = () => {
+        let array:any
+        if(selectedTaskId.length>=selectedCodeId.length){
+            console.log('iiiiiiii',selectedTaskId)
+            array = selectedTaskId.filter((el: any) => el !== id)
+            dispatch(
+                setSelectedCodeId([])
+            )
+        }
+        else{
+           
+            array = selectedCodeId
+
+        }
+        console.log(array,"eeeeeeeeeeeeeellllllll")
+
+        return array
+
+    }
+
+    const codeNavigationHandler =(data)=>{
+
+        const reArrangeNavigation=selectedTaskId.slice(0,selectedTaskId.indexOf(data)+1)
+        dispatch(
+            setSelectedCodeId(selectedTaskId)
+        )
+
+        dispatch(
+            selectedTaskIds(reArrangeNavigation)
+        )
+
+        console.log(reArrangeNavigation,"reArrangeNavigation========>") 
+        goTo(ROUTES["task-module"]["tasks-details"] + '/' + data + '/' + 'sub-task')
+
+    }
+
 
 
     const editEtaSubmitApiHandler = () => {
@@ -165,18 +206,52 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             })
         )
     }
+
+
     return (
         <div ref={ref} >
             <div className={'card p-4'}>
 
+                <div className=" col row mb-1">
+                    {selectedTaskId.map((el, index) => {
+                        return (
 
+                            <div>
+                                {index !== selectedTaskId.length - 1 ?
+                                    <div onClick={()=>{
+                                        codeNavigationHandler(el)
+                                        
+                                    }}>
+                                        <small className="mt-0 text-primary">{`#${el}`}</small>
+                                        <small className={'mx-1'}>-</small>
+                                    </div>
+                                    : <small className="mt-0 ">{`#${el}`}</small>
+
+                                }
+                            </div>
+
+
+
+                        )
+                    })}
+
+                </div>
                 <div className="row justify-content-center">
-                    <div className="col-auto">
-                        <Back />
+
+                    <div className="col-auto" onClick={() => {
+                        dispatch(
+                            selectedTaskIds(codeHandler())
+                        )
+
+                    }}>
+                        <Back
+                        />
                     </div>
                     <div className="col">
                         {title && <H tag={"h4"} className="mb-0 bg-white" text={capitalizeFirstLetter(title)} />}
-                        {code && <small className="mt-0">{`#${code}`}</small>}
+
+                        {/* {code && <small className="mt-0">{`#${code}`}</small>} */}
+
                     </div>
 
                     {item !== 'reference-task' &&

@@ -130,7 +130,9 @@ function Department() {
               }} />
             </div>
         } : {}),
-        '': <MenuBar menuData={getDepartmentMenu(is_parent)} onClick={(el) => {
+        '':
+        ((isUserAdmin||isUserSuperAdmin) &&
+        <MenuBar menuData={getDepartmentMenu(is_parent)} onClick={(el) => {
 
 
           if (el?.id === '0') {
@@ -151,6 +153,7 @@ function Department() {
 
 
         }} />
+        )
       };
     });
   };
