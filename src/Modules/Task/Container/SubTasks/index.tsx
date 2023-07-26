@@ -16,8 +16,6 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
 
-
-
     useEffect(() => {
         getSubTasksApi()
     }, [id])
@@ -57,7 +55,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
 
 
         <HomeContainer className='card' >
-            <div className={'overflow-auto overflow-hide '} style={{ height: height - 370 }} >
+            <div className={'overflow-auto overflow-hide '} style={{ height: height - 389}} >
 
                 {(subTasks && subTasks.length > 0) && <div className='d-flex justify-content-between pt-3 px-3 pb-2'>
                     <H tag={'h4'} text={translate("auth.subTask")} />

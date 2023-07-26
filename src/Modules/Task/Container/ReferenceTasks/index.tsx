@@ -70,7 +70,7 @@ function ReferenceTasks() {
 
     // <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 85 }}>
     <HomeContainer  className="card" >
-         <div className={'overflow-auto overflow-hide '} style={{ height: height - 85 }}>
+         <div className={'overflow-auto overflow-hide '} style={{ height: height - 75 }}>
       {referencesTasks && referencesTasks?.length > 0 && item!=='reference-task' &&
        <div className="mr-3 mb-1 justify-content-end text-right ">
         <Button size={'sm'} className={'text-white mt-3 mb-1 '} text={translate("auth.addReferenceTask")} onClick={() => {

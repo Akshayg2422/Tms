@@ -51,7 +51,7 @@ function TaskDetails() {
                     </div>
 
                     <div className="mt--3" style={{
-                        height: height - (infoHeight + 48),
+                        height: height - (infoHeight + 40),
                         minHeight: 50
                     }}>
                         <SubTasks />

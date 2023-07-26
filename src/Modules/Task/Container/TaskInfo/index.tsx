@@ -15,6 +15,7 @@ import { TaskInfoProps } from './interfaces';
 import {
     Breadcrumb, BreadcrumbItem,
 } from "reactstrap";
+import React from "react";
 
 
 const START_TASK = 1
@@ -51,6 +52,18 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         getTaskDetailsHandler()
     }, [refreshTaskEvents, id])
 
+    // useEffect(()=>{
+    //     codeHandler()
+
+    // },[])
+
+    React.useEffect(() => {
+        window.addEventListener('keydown', (event) => {
+            console.log('eeeeeeeee',event)
+          // ...
+        });
+      }, []);
+
 
 
     useEffect(() => {
@@ -80,6 +93,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         editTitle.set('')
         editDescription.set('')
     }
+
+    
 
     const codeHandler = () => {
         let array:any
@@ -336,7 +351,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         <div className="col-auto">
                             <div className="row">
                                 <div className="pointer" onClick={() => editEtaModal.show()}>
-                                    {eta_time && <ImageIcon src={icons.editEta} height={16} width={16} />}
+                                    { <ImageIcon src={icons.editEta} height={16} width={16} />}
                                 </div>
                                 <div className="ml-3 pointer" onClick={() => { taskEventModal.show() }}>
                                     <ImageIcon src={icons.timeline} height={17} width={17} />

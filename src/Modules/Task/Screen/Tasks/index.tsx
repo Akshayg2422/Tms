@@ -18,12 +18,18 @@ function Tasks() {
   const { company } = dashboardDetails || ''
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
-   const microPhoneModals=useModal(false);
+ 
   
-
+console.log(selectedMicroModal,"selectedMicroModal===========>")
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [taskParams])
+  useEffect(()=>{
+    dispatch(
+      setSelectedModal(false)
+    )
+
+  },[])
 
   const getTaskHandler = (page_number: number) => {
 
@@ -167,13 +173,14 @@ function Tasks() {
             goTo(ROUTES["task-module"]["add-task"])
           }}
         />
-        <div onClick={()=>{
-            dispatch(
+        <div 
+            >
+        <ImageIcon src={icons.microPhone} height={25} width={25} onClick={()=>{
+          console.log('cccccccc')
+             dispatch(
               setSelectedModal(true)
             )
-            
-            }}>
-        {/* <ImageIcon src={icons.microPhone} height={25} width={25}/> */}
+        }}/>
 
         </div>
     

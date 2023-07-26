@@ -61,7 +61,6 @@ function Broadcast() {
           }
           }>
          
-
           <div>
             {
               broadCastDetails?.map((company: any, index: number) => {
@@ -82,12 +81,16 @@ function Broadcast() {
         </InfiniteScroll>
         : <div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
               {
-          loading && (
+          loading ? (
             <div className="d-flex justify-content-center align-item-center" style={{minHeight:'200px'}}>
             <Spinner/>
             </div>
-          )
+          ):<div className="vh-100 d-flex d-flex align-items-center justify-content-center my-3">
+          <NoDataFound  />
+        </div>
         }
+        
+        
           {/* {!loading && <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />} */}
         </div>
       }
