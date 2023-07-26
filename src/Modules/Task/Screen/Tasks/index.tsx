@@ -176,7 +176,7 @@ console.log(selectedMicroModal,"selectedMicroModal===========>")
         <div 
             >
         <ImageIcon src={icons.microPhone} height={25} width={25} onClick={()=>{
-          console.log('cccccccc')
+      
              dispatch(
               setSelectedModal(true)
             )
