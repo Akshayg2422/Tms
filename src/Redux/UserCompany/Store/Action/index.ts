@@ -1117,6 +1117,15 @@ export const handleOneToOneChat = (response: any) => {
 }
 
 
+export const handleUserDetails = (response: any) => {
+  return {
+    type: ActionTypes.USER_DETAILS_DATA,
+    payload: response,
+  }
+}
+
+
+
 /**
  *one to one notifi
  */

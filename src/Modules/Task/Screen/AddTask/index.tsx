@@ -42,11 +42,13 @@ import {
     getDropDownCompanyUser,
     generateReferenceNo,
     TODAY,
+    getDisplayTimeDateMonthYearTime,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
 import { icons } from "@Assets";
+import moment from "moment";
 
 // import { CalenderView } from "@Modules";
 
@@ -68,6 +70,7 @@ function AddTask() {
         (state: any) => state.TaskReducer
     );
 
+    console.log(TODAY, "ttttttt")
     const title = useInput("");
     const description = useInput("");
 
@@ -87,8 +90,7 @@ function AddTask() {
     // let attach = photo.slice(-selectNoPickers)
     const [date, setDate] = useState<any>()
     const loginLoader = useLoader(false);
-
-
+    
     const isEnterPressed = useKeyPress("Enter");
 
     useEffect(() => {
@@ -112,16 +114,16 @@ function AddTask() {
 
     }, [company.value, taskType])
 
-    useEffect (()=>{
+    useEffect(() => {
         getDesignationApiHandler();
 
-    },[department.value])
+    }, [department.value])
 
     useEffect(() => {
-       
+
         getSubTaskGroupsApi();
 
-     
+
     }, [company.value, taskType])
 
 
@@ -266,7 +268,7 @@ function AddTask() {
 
         const params = {
             branch_id: getBranchId(),
-         ...(department?.value?.id &&{department_id:department?.value?.id}),
+            ...(department?.value?.id && { department_id: department?.value?.id }),
             per_page_count: -1
         }
 
@@ -281,7 +283,7 @@ function AddTask() {
     }
 
     const handleEtaChange = (value: any) => {
-        console.log(value,"vvvvvvvvv")
+    
         setEta(value);
         setDate(value)
     };
@@ -294,7 +296,7 @@ function AddTask() {
 
 
     return (
-      
+
         <Card className="m-3">
             <div className='col'>
                 <div className="row mt--2">
@@ -420,7 +422,7 @@ function AddTask() {
                         data={getDropDownDisplayData(designations)}
                         onChange={(item) => {
                             designation.onChange(item)
-                            
+
                         }}
                         selected={designation.value}
                     />
@@ -457,14 +459,11 @@ function AddTask() {
                         placeholder={'Select ETA'}
                         type="both"
                         onChange={handleEtaChange}
+
                     />
                 </div>
 
-                <DatePickers
-                 ClassName='pt-1'
-                placeholder={"Select Date"}
-                minDate={TODAY}
-              />
+             
 
 
             </div >

@@ -78,5 +78,7 @@ export interface UserCompanyStateProp {
   chatMessageCurrentPages: number,
   chatMessages: any,
   groupMessageCurrentPage: number;
-  refreshPrivateChat?: boolean
+  refreshPrivateChat?: boolean;
+  userDataList?:any;
+
 }

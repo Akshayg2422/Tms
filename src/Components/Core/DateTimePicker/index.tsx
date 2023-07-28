@@ -47,6 +47,8 @@ function DateTimePicker({ id, heading, placeholder, type = 'both', format = "", 
 
                         if (onChange) {
                             if (isMoment(date)) {
+                                console.log('[[[[[[')
+                                console.log(date,'>>>>>>>>>>')
                                 onChange(date.format(format).toString())
                             }
                             else {

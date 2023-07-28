@@ -13,5 +13,8 @@ export interface DatePickerProps {
     name?: string
     disabled?:boolean
     formate?:'date-time'|'date'|'time'
-    format ?:any,
+    format?:string,
+    disableFuture?:any,
+    heading?:string,
+    id?:any
   }

@@ -38,12 +38,15 @@ export const getServerTimeFromMoment = (momentObj: any) => {
   return momentObj.format(YYYY_MM_DD_HH_MM_SS);
 };
 
+
 export const getDisplayDateFromMomentByType = (
   type: string,
   momentObj: any,
 ) => {
   return momentObj.format(type);
 };
+
+
 
 export const getDisplayTimeDateMonthYearTime = (momentObj: any) => {
   return momentObj.format("D MMM YYYY, h:mm A")

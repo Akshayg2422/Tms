@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, CommonTable, Image, MenuBar, Dropzone, Modal, SearchInput } from '@Components'
-import { getEmployees, addUpdateEmployeePhoto } from '@Redux'
+import { getEmployees, addUpdateEmployeePhoto, handleUserDetails } from '@Redux'
 import { useInput, useModal, useNavigation } from '@Hooks'
 import { HOME_PATH } from '@Routes'
 import { translate } from "@I18n";
@@ -20,7 +20,7 @@ function CompanyUsers() {
   useEffect(() => {
     getCompanyEmployeesApi(employeesCurrentPages,search?.value)
   }, [search.value]);
-  console.log(search.value,"pppppp")
+  
   function getCompanyEmployeesApi(page_number: number,q_many:string = '') {
 
     const params = { branch_id: selectedCompany.branch_id ,
@@ -57,7 +57,8 @@ function CompanyUsers() {
   return (
     <div>
       <div className='text-right mt--3'>
-        <Button text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.ADD_USER) }} />
+        <Button text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.ADD_USER)
+             dispatch(handleUserDetails({})) }} />
       </div>
       <div className='mx--3 mt-3'>
         <CommonTable card title={<div className='row'><div className='h3 '>{'Users'}</div>

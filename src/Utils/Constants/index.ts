@@ -5,6 +5,7 @@ import moment from "moment";
 export const DEFAULT_TASK_GROUP = { id: 'ALL', Photo: null, code: "ALL" }
 
 export const TODAY = moment().format("YYYY-MM-DD");
+// export const TODAY = moment().format(" MMM DD YYYY hh:mm A"); 
 
 export const ERRORS = {
   SOMETHING_WENT_WRONG: 'Something went wrong, please try again later',
