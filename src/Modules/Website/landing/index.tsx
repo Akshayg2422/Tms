@@ -1,4 +1,4 @@
-import { Header, Home, Form, Data, Features, UserFriend, EvantManagSystem, RealTime, Experiences, Footer, Cards } from "@Modules"
+import { Header, Home, Form, Data, Features, UserFriend, EvantManagSystem, RealTime, Experiences, Footer, Cards } from '@Modules'
 import './index.css';
 import React, { useEffect } from "react";
 import { useDispatch} from 'react-redux'
@@ -22,16 +22,16 @@ function Landing() {
   
 
   return (
-    <div className=''>
+    <div>
       <Header />
       <Home />
       <Form />
       <Data />
       <Features />  
-      {/* <UserFriend/> */}
-      {/* <EvantManagSystem/> */}
-      {/* <RealTime/> */}
-      {/* <Experiences/> */}
+      <UserFriend/>
+      <EvantManagSystem/>
+      <RealTime/>
+      <Experiences/>
       <Cards/>
       <Footer /> 
     </div>

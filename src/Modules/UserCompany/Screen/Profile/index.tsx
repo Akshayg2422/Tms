@@ -22,7 +22,7 @@ function Profile() {
   const dispatch = useDispatch()
   const { goTo } = useNavigation()
 
-// jiohoiho
+
 
 
   const userProfileEdit = (item: any) => {
