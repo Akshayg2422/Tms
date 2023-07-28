@@ -9,18 +9,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getTokenByUser, selectedVcDetails } from '@Redux';
 
 
-function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = true, onVideoPress }: SendProps) {
+function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = true, onVideoPress}: SendProps) {
 
+    console.log(isSuccess,"isSuccess====>")
 
     const message = useInput('')
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [photos, setPhotos] = useState<any>([])
+    const [isSelect,setIsSelect]=useState(true)
 
 
     useEffect(() => {
         if (isSuccess) {
             resetValues();
+            setIsSelect(isSuccess)
+    
         }
     }, [isSuccess]);
 
@@ -36,7 +40,12 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
             e.preventDefault();
             const param = { message: message.value.trim(), event_type: 'TEM' };
             if (onMessagePress && message.value.trim()) {
+
+                if(isSelect){
+                   
+                    setIsSelect(false)
                 onMessagePress(param);
+                }
             }
         }
     };
@@ -62,7 +71,18 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                     {message.value?.trim().length > 0 && <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
                         const param = { message: message.value.trim(), event_type: 'TEM' };
                         if (onMessagePress && message.value.trim()) {
+                         if(isSelect){
+                            console.log('tttt========>')
+                            setIsSelect(false)
                             onMessagePress(param);
+                           
+                         }
+                           
+
+                        
+                              
+                          
+                            
                         }
 
                     }} />

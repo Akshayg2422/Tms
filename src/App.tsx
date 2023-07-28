@@ -29,6 +29,8 @@ function App() {
   const AUTH = 1
   const HOME = 2
 
+  
+
   const getRoutes = (routes, type?: any) => {
     return routes.map((prop, key) => {
       if (prop.collapse) {

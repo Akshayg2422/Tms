@@ -16,15 +16,9 @@ import { useInput, useDropDown, useNavigation, useLoader } from "@Hooks";
 import { translate } from "@I18n";
 import { addEmployee, getDepartments, getDesignations, } from "@Redux";
 
-
-
-
 function AddUser() {
-
-
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
-
 
   const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch } = dashboardDetails || ''
@@ -33,9 +27,6 @@ function AddUser() {
   const { designations, departments } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-
-  console.log(designations,"designationsdesignationsdesignations")
-
 
   const firstName = useInput("");
   const contactNumber = useInput("");
@@ -50,6 +41,7 @@ function AddUser() {
 
     const params = {
       branch_id: selectedCompany?.branch_id ? selectedCompany?.branch_id : company_branch?.id,
+      ...(department?.value?.id &&{department_id:department?.value?.id}),
       per_page_count: -1,
     };
 
@@ -62,7 +54,7 @@ function AddUser() {
         },
       })
     );
-  }, []);
+  }, [department.value]);
 
 
   useEffect(() => {
@@ -181,24 +173,7 @@ function AddUser() {
           onChange={designation.onChange}
         />
 
-        
-
-        {/* <div >
-          <label className={`form-control-label`}>
-            {translate('common.photo')}
-          </label>
-        </div> */}
-        {/* <div className=" pb-2 pt-1">
-          <Dropzone
-            variant="ICON"
-            icon={photo}
-            size="xl"
-            onSelect={(image) => {
-              let encoded = image.toString().replace(/^data:(.*,)?/, "");
-              setPhoto(encoded);
-            }}
-          />
-        </div> */}
+      
       </div>
       <div className="mt--2">
              <ImagePicker

@@ -1,17 +1,18 @@
 import { icons } from '@Assets';
 import { Button, ImageIcon, Modal } from '@Components';
-import { useLoader, useModal } from '@Hooks';
+import { useLoader, useModal,useNavigation } from '@Hooks';
 import  { useEffect, useRef, useState } from 'react'
 import { MicroPhoneProps} from './interfaces'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsingVoice, getSelectedReference, setSelectedModal, setSelectedTabPosition} from '@Redux';
+import { fetchUsingVoice, getSelectedReference, selectedTaskIds, setSelectedCodeId, setSelectedModal, setSelectedTabPosition, setSelectedTask} from '@Redux';
 import { ROUTES } from '@Routes';
-import { useNavigation } from 'react-router';
+
+
 
 
 function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     const dispatch = useDispatch()
-    // const {goTo}=useNavigation()
+    const {goTo}=useNavigation()
     const [stream,setStream]=useState<any>()
     const mediaRecorderRef=useRef<any>()
     const [recording, setRecording]=useState<any>()
@@ -48,15 +49,24 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
         dispatch(
           fetchUsingVoice({
             params,
-            onSuccess:()=>()=>{
+            onSuccess:(response)=>()=>{
+              let code=response?.details?.task_code
+              console.log(code,"cccccccc")
+              
               loginLoader.hide()
               microPhoneModals.hide()
               setSelected(false)
               setCounting(false)
+              dispatch(setSelectedTask(code));
+              dispatch(selectedTaskIds([code]))
+              dispatch(
+                setSelectedCodeId([])
+            )
+              dispatch(getSelectedReference({ code:code, refer: true }))
+              dispatch(setSelectedTabPosition({ id: '1' }))
+              goTo(ROUTES["task-module"]["tasks-details"] +'/' + code + '/' + 'task');
 
-              // dispatch(getSelectedReference({ code: item?.code, refer: true }))
-              // dispatch(setSelectedTabPosition({ id: '1' }))
-              // goTo(ROUTES["task-module"]["tasks-details"] +'/' + item?.code + '/' + 'task');
+          
               
             },
             onError:()=>()=>{

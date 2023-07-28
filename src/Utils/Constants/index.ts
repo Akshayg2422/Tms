@@ -1,7 +1,10 @@
 import { icons } from "@Assets";
 import { translate } from "@I18n";
+import moment from "moment";
 
 export const DEFAULT_TASK_GROUP = { id: 'ALL', Photo: null, code: "ALL" }
+
+export const TODAY = moment().format("YYYY-MM-DD");
 
 export const ERRORS = {
   SOMETHING_WENT_WRONG: 'Something went wrong, please try again later',
@@ -80,7 +83,8 @@ export const TASK_FILTER_LIST = [
   // { id: 'created_by', text: translate('product.Created by me')! },
   { id: 'assigned_to', text: translate('product.assigned To Me')! },
   // { id: 'tagged_to', text: translate('product.tagged')! },
-  { id: 'advance', text: 'Advanced' }
+  { id: 'advance', text: 'Advanced' },
+  { id: 'assigned_by_company', text: 'Assigned By Company'},
 
 ];
 
@@ -89,7 +93,9 @@ export const TASK_FILTER_LIST_CREATED_BY = [
    { id: 'created_by', text: translate('product.Created by me')! },
   // { id: 'assigned_to', text: translate('product.assigned To Me')! },
   // { id: 'tagged_to', text: translate('product.tagged')! },
-  { id: 'advance', text: 'Advanced' }
+  { id: 'advance', text: 'Advanced' },
+  { id: 'created_by_company', text: 'Created by Company' },
+ 
 ];
 
 export const TASK_FILTER_ALL={id: 'ALL', name: 'All' }

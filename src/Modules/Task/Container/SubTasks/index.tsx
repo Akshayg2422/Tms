@@ -54,8 +54,8 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     return (
 
 
-        <HomeContainer className='card' >
-            <div className={'overflow-auto overflow-hide '} style={{ height: height - 389}} >
+        <HomeContainer className='card mt--3' >
+            <div className={'overflow-auto overflow-hide '} style={{ height: height - 373}} >
 
                 {(subTasks && subTasks.length > 0) && <div className='d-flex justify-content-between pt-3 px-3 pb-2'>
                     <H tag={'h4'} text={translate("auth.subTask")} />

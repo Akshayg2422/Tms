@@ -1,6 +1,6 @@
 import { icons } from "@Assets";
 import { Alert, Back, Button, Card, DateTimePicker, H, Image, ImageIcon, Input, Modal, ProfileCard, TextAreaInput } from "@Components";
-import { useInput, useLoader, useModal, useNavigation } from '@Hooks';
+import { useInput, useLoader, useModal, useNavigation,useWindowDimensions } from '@Hooks';
 import { translate } from "@I18n";
 import { TaskEventHistory, TaskItemMenu } from "@Modules";
 import { addTaskEvent, getTaskDetails, refreshTaskEvent, selectedVcDetails, selectedTaskIds, setSelectedCodeId } from '@Redux';
@@ -23,8 +23,10 @@ const END_TASK = 2
 
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
+    const {  height } = useWindowDimensions()
+
     const { id, item } = useParams()
-    const { refreshTaskEvents, selectedTaskId ,selectedCodeId} = useSelector((state: any) => state.TaskReducer);
+    const { refreshTaskEvents, selectedTaskId, selectedCodeId } = useSelector((state: any) => state.TaskReducer);
 
     const dispatch = useDispatch()
     const { taskDetails, selectedReferenceDetails, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
@@ -44,7 +46,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const { goTo } = useNavigation()
     const [selected, setSelected] = useState()
 
-    console.log(selectedCodeId,"lastIndex===>selectedCodeId")
+    console.log(selectedCodeId, "lastIndex===>selectedCodeId")
 
     const loginLoader = useLoader(false);
 
@@ -56,13 +58,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     //     codeHandler()
 
     // },[])
-
-    React.useEffect(() => {
-        window.addEventListener('keydown', (event) => {
-            console.log('eeeeeeeee',event)
-          // ...
-        });
-      }, []);
 
 
 
@@ -94,31 +89,31 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         editDescription.set('')
     }
 
-    
+
 
     const codeHandler = () => {
-        let array:any
-        if(selectedTaskId.length>=selectedCodeId.length){
-            console.log('iiiiiiii',selectedTaskId)
+        let array: any
+        if (selectedTaskId.length >= selectedCodeId.length) {
+            console.log('iiiiiiii', selectedTaskId)
             array = selectedTaskId.filter((el: any) => el !== id)
             dispatch(
                 setSelectedCodeId([])
             )
         }
-        else{
-           
+        else {
+
             array = selectedCodeId
 
         }
-        console.log(array,"eeeeeeeeeeeeeellllllll")
+        console.log(array, "eeeeeeeeeeeeeellllllll")
 
         return array
 
     }
 
-    const codeNavigationHandler =(data)=>{
+    const codeNavigationHandler = (data) => {
 
-        const reArrangeNavigation=selectedTaskId.slice(0,selectedTaskId.indexOf(data)+1)
+        const reArrangeNavigation = selectedTaskId.slice(0, selectedTaskId.indexOf(data) + 1)
         dispatch(
             setSelectedCodeId(selectedTaskId)
         )
@@ -127,7 +122,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             selectedTaskIds(reArrangeNavigation)
         )
 
-        console.log(reArrangeNavigation,"reArrangeNavigation========>") 
+        console.log(reArrangeNavigation, "reArrangeNavigation========>")
         goTo(ROUTES["task-module"]["tasks-details"] + '/' + data + '/' + 'sub-task')
 
     }
@@ -224,8 +219,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
     return (
-        <div ref={ref} >
-            <div className={'card p-4'}>
+        <div >
+            <div className={'card p-4 overflow-auto overflow-hide '} style={{height:height-260}}>
 
                 <div className=" col row mb-1">
                     {selectedTaskId.map((el, index) => {
@@ -233,9 +228,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
                             <div>
                                 {index !== selectedTaskId.length - 1 ?
-                                    <div onClick={()=>{
+                                    <div onClick={() => {
                                         codeNavigationHandler(el)
-                                        
+
                                     }}>
                                         <small className="mt-0 text-primary">{`#${el}`}</small>
                                         <small className={'mx-1'}>-</small>
@@ -351,7 +346,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         <div className="col-auto">
                             <div className="row">
                                 <div className="pointer" onClick={() => editEtaModal.show()}>
-                                    { <ImageIcon src={icons.editEta} height={16} width={16} />}
+                                    {<ImageIcon src={icons.editEta} height={16} width={16} />}
                                 </div>
                                 <div className="ml-3 pointer" onClick={() => { taskEventModal.show() }}>
                                     <ImageIcon src={icons.timeline} height={17} width={17} />

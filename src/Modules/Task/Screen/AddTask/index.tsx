@@ -13,8 +13,8 @@ import {
     InputHeading,
     TextAreaInput,
     Button,
-    DateRangePickers,
-    FilePicker,
+    DatePickers,
+
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -40,11 +40,13 @@ import {
     getDropDownDisplayData,
     getPhoto,
     getDropDownCompanyUser,
-    generateReferenceNo
+    generateReferenceNo,
+    TODAY,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
+import { icons } from "@Assets";
 
 // import { CalenderView } from "@Modules";
 
@@ -69,7 +71,6 @@ function AddTask() {
     const title = useInput("");
     const description = useInput("");
 
-
     const [referenceNo, setReferenceNo] = useState(generateReferenceNo());
     const [taskType, setTaskType] = useState(type[1]);
     const [disableTaskType, setDisableTaskType] = useState([]);
@@ -79,7 +80,6 @@ function AddTask() {
     const designation = useDropDown({})
     const company = useDropDown(DEFAULT_COMPANY)
     const taskGroup = useDropDown({})
-    const [selectNoPickers, setSelectNoPickers] = useState<any>();
     const [image, setImage] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
@@ -101,7 +101,6 @@ function AddTask() {
         getAssociatedCompaniesApi();
     }, [])
 
-
     useEffect(() => {
         getCompanyEmployeeApi()
     }, [designation.value, department.value, company.value,])
@@ -113,12 +112,17 @@ function AddTask() {
 
     }, [company.value, taskType])
 
+    useEffect (()=>{
+        getDesignationApiHandler();
+
+    },[department.value])
+
     useEffect(() => {
-        // if(taskType?.id==='2'){
+       
         getSubTaskGroupsApi();
 
-        // }
-    }, [company.value])
+     
+    }, [company.value, taskType])
 
 
 
@@ -222,7 +226,7 @@ function AddTask() {
 
         const params = {
             per_page_count: -1,
-            branch_id: company.value?.id ? company.value?.id : dashboardDetails?.permission_details?.branch_id
+            branch_id: getBranchId()
 
         };
 
@@ -243,7 +247,8 @@ function AddTask() {
     function getDepartmentsApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            branch_id: getBranchId(),
+            per_page_count: -1
         }
 
 
@@ -260,10 +265,10 @@ function AddTask() {
     function getDesignationApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            branch_id: getBranchId(),
+         ...(department?.value?.id &&{department_id:department?.value?.id}),
+            per_page_count: -1
         }
-
-
 
         dispatch(getDesignations({
             params,
@@ -276,6 +281,7 @@ function AddTask() {
     }
 
     const handleEtaChange = (value: any) => {
+        console.log(value,"vvvvvvvvv")
         setEta(value);
         setDate(value)
     };
@@ -334,11 +340,6 @@ function AddTask() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-
-
-
-
-
                 <TextAreaInput
                     heading={translate('auth.description')!}
                     value={description.value}
@@ -419,6 +420,7 @@ function AddTask() {
                         data={getDropDownDisplayData(designations)}
                         onChange={(item) => {
                             designation.onChange(item)
+                            
                         }}
                         selected={designation.value}
                     />
@@ -457,6 +459,12 @@ function AddTask() {
                         onChange={handleEtaChange}
                     />
                 </div>
+
+                <DatePickers
+                 ClassName='pt-1'
+                placeholder={"Select Date"}
+                minDate={TODAY}
+              />
 
 
             </div >

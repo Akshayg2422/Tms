@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -68,6 +68,7 @@ export const ROUTES = {
     'my-portfolio': '/my-portfolio',
     'admin-feeds': '/admin-feeds',
     Events: '/events',
+    'my-events': '/my-events',
     'event-chatting': '/event-chatting',
     Groups: '/groups',
     'individual-chat': '/chat',
@@ -144,12 +145,20 @@ export const HOME_ROUTES = [
     layout: "",
     component: <Companies />
   },
+
   {
     path: ROUTES['message-module'].broadcast,
     name: translate("sideNav.Feeds"),
     icon: icons.broadCast,
     layout: "",
     component: <Broadcast />
+  },
+  {
+    path: ROUTES['user-company-module']['my-events'],
+    name:'My Events',
+    icon: icons.broadCast,
+    layout: "",
+    component: <Events />
   },
 
   {
@@ -160,8 +169,7 @@ export const HOME_ROUTES = [
     views: [
       {
         path: ROUTES['user-company-module'].employee,
-        name: translate("sideNav.Employee Portfolio"),
-        // icon:icons.protfolio,
+        name: translate("auth.employees"),
         miniName: "EP",
         component: <EmployeesList />,
         layout: '/admin',
@@ -182,9 +190,9 @@ export const HOME_ROUTES = [
       },
       {
         path: ROUTES['user-company-module'].Events,
-        name: translate("sideNav.Events"),
+        name: 'Admin Events',
         miniName: "ET",
-        component: <Events />,
+        component: <AdminEvents/>,
         layout: '/admin',
       },
       {
@@ -206,6 +214,7 @@ export const HOME_ROUTES = [
 
 
   },
+  
 
   {
     path: ROUTES['user-company-module']['my-portfolio'],
@@ -332,7 +341,7 @@ export const USER_COMPANY_ROTES = [
   {
     key: 6,
     path: ROUTES['user-company-module'].Events,
-    component: <Events />
+    component: <AdminEvents/>
   },
   {
     key: 7,

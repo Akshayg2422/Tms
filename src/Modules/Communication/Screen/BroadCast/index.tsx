@@ -89,9 +89,6 @@ function Broadcast() {
           <NoDataFound  />
         </div>
         }
-        
-        
-          {/* {!loading && <NoDataFound buttonText={'create post'} onClick={proceedCreateBroadcast} isButton />} */}
         </div>
       }
     </>

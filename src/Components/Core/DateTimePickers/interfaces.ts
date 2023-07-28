@@ -8,8 +8,10 @@ export interface DatePickerProps {
     placeholder?: string;
     minDate?: any;
     disabledDate?: any
-    additionalClass?: string
+    ClassName?: string
     maxDate?: string
     name?: string
     disabled?:boolean
+    formate?:'date-time'|'date'|'time'
+    format ?:any,
   }

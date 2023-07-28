@@ -14,10 +14,27 @@ type RequireAuthProps = {
 
 export const RequireAuth = ({ children }: RequireAuthProps) => {
     const dispatch = useDispatch()
+    const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
 
     const [sideNavOpen, setSideNavOpen] = useState(false);
     const mainContentRef = React.useRef<HTMLDivElement | null>(null);
     const location = useLocation();
+
+    let homeRoutes =HOME_ROUTES.slice(5,6)
+    let HOME_ADMIN_ROUTES 
+    
+if(dashboardDetails?.permission_details?.is_super_admin || dashboardDetails?.permission_details?.is_admin){
+
+    HOME_ADMIN_ROUTES=HOME_ROUTES
+       }
+       else{
+        HOME_ADMIN_ROUTES = HOME_ROUTES.filter(
+            (filterItem: any) => filterItem.name!== homeRoutes[0].name
+          );
+
+       }
+  
+ 
 
 
     const fcmToken = localStorage.getItem(FCM_TOKEN)
@@ -76,11 +93,15 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
         }
         setSideNavOpen(!sideNavOpen);
     };
+ 
+
+    console.log(dashboardDetails);
+    
 
     return (
         <>
             <Sidebar
-                routes={HOME_ROUTES}
+                routes={HOME_ADMIN_ROUTES}
                 toggleSideNav={toggleSideNav}
                 sideNavOpen={sideNavOpen}
                 logo={{

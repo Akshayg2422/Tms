@@ -23,7 +23,7 @@ function TaskDetails() {
     const ref = useRef<HTMLDivElement>(null)
 
     const { width, height } = useWindowDimensions()
-    const [infoHeight, setInfoHeight] = useState(0)
+
 
     const TABS = [
         { id: "1", title: <div className="text-center pointer"><Image src={selectedTabPositions.id === '1' ? icons.CommentsPink : icons.Comments} height={20} width={20} /></div>, component: <Comments /> },
@@ -33,11 +33,11 @@ function TaskDetails() {
     ];
 
 
-    useEffect(() => {
-        if (ref.current) {
-            setInfoHeight(ref.current.clientHeight)
-        }
-    })
+    // useEffect(() => {
+    //     if (ref.current) {
+    //         setInfoHeight(ref.current.clientHeight)
+    //     }
+    // })
 
     return (
 
@@ -46,14 +46,11 @@ function TaskDetails() {
                 <div className="col mr--3 h-100vh overflow-hide" style={{
                     overflowY: 'scroll'
                 }}>
-                    <div ref={ref}>
+                    <div >
                         <TaskInfo />
                     </div>
 
-                    <div className="mt--3" style={{
-                        height: height - (infoHeight + 40),
-                        minHeight: 50
-                    }}>
+                    <div >
                         <SubTasks />
                     </div>
                 </div>
