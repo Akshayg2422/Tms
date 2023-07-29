@@ -527,7 +527,7 @@ function Features() {
                             height: '10%'
                           }}
                           variant='rounded'
-                          src={require('file:///C:/Users/tamil_hfh9g6g/Downloads/attachments/sankar.jpg')}
+                          src={icons.avatarImg3}
                         />
                       </div>
                       <h4 className="info-title py-2 mt-2">{item.name}</h4>

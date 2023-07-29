@@ -255,7 +255,6 @@ function Form() {
                 alt="..."
                 className="img-fluid"
                 src={icons.landingImg5}
-              // src={require("assets/img/theme/landing-2.png")}
               />
             </Col>
             <Col md="6">
@@ -283,7 +282,6 @@ function Form() {
                 alt="..."
                 className="img-fluid"
                 src={icons.landingImg6}
-              // src={require("assets/img/theme/landing-2.png")}
               />
             </Col>
             <Col md="6">
