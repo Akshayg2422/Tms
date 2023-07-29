@@ -32,6 +32,7 @@ export * from './TextAreaInput'
 export * from './ImageColor'
 export * from './ImageIcon'
 export * from './DateTimePickers'
+export * from './DatePicker'
 
 
 
