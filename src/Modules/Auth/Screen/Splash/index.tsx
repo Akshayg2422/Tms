@@ -25,9 +25,9 @@ function Splash() {
       }
     }, SPLASH_STAY_TIME_MILE_SECONDS);
   }, []);
-
+// custom-gradient
   return (
-    <div className={"d-flex vh-100 custom-gradient justify-content-center align-items-center"}>
+    <div className={"d-flex vh-100  justify-content-center align-items-center"}>
       <Logo />
     </div>
   );

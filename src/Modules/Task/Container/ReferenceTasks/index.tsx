@@ -12,7 +12,7 @@ import { translate } from "@I18n";
 function ReferenceTasks() {
   const dispatch = useDispatch();
   const { id,item } = useParams();
-  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages } = useSelector(
+  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages,selectedTaskId } = useSelector(
     (state: any) => state.TaskReducer
   );
 
@@ -70,7 +70,7 @@ function ReferenceTasks() {
 
     // <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 85 }}>
     <HomeContainer  className="card" >
-         <div className={'overflow-auto overflow-hide '} style={{ height: height - 85 }}>
+         <div className={'overflow-auto overflow-hide '} style={{ height: height - 75 }}>
       {referencesTasks && referencesTasks?.length > 0 && item!=='reference-task' &&
        <div className="mr-3 mb-1 justify-content-end text-right ">
         <Button size={'sm'} className={'text-white mt-3 mb-1 '} text={translate("auth.addReferenceTask")} onClick={() => {
@@ -109,7 +109,7 @@ function ReferenceTasks() {
             dispatch(getSelectedReference(false))
             dispatch(getSelectedReference({code: item?.code,refer:false}))
             dispatch(setSelectedTask(item?.code))
-           dispatch(selectedTaskIds(item))
+           dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'reference-task')
           }}
 

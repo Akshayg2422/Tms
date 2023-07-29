@@ -85,6 +85,7 @@ const initialState: UserCompanyStateProp = {
   groupMessages: undefined,
   groupMessageCurrentPage: INITIAL_PAGE,
   refreshPrivateChat: false,
+  userDataList:undefined,
 
 }
 
@@ -999,9 +1000,19 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = { ...state, oneToOneVcNoti: action.payload }
       break;
 
+
+      // user details data
+
+      case ActionTypes.USER_DETAILS_DATA:
+        state = { ...state, userDataList: action.payload }
+        break;
+  
+
     /**
      * refresh private chat
      */
+
+
 
 
     case ActionTypes.REFRESH_PRIVATE_CHAT:

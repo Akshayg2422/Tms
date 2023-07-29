@@ -12,11 +12,9 @@ import { translate } from '@I18n'
 function SubTasks({ cardHeight }: SubTasksProps) {
     const { id } = useParams()
     const { goTo } = useNavigation();
-    const { subTasks } = useSelector((state: any) => state.TaskReducer);
+    const { subTasks,selectedTaskId } = useSelector((state: any) => state.TaskReducer);
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
-
-
 
     useEffect(() => {
         getSubTasksApi()
@@ -56,8 +54,8 @@ function SubTasks({ cardHeight }: SubTasksProps) {
     return (
 
 
-        <HomeContainer className='card' >
-            <div className={'overflow-auto overflow-hide '} style={{ height: height - 370 }} >
+        <HomeContainer className='card mt--3' >
+            <div className={'overflow-auto overflow-hide '} style={{ height: height - 373}} >
 
                 {(subTasks && subTasks.length > 0) && <div className='d-flex justify-content-between pt-3 px-3 pb-2'>
                     <H tag={'h4'} text={translate("auth.subTask")} />
@@ -79,7 +77,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                             displayDataSet={normalizedTableData(subTasks)}
                             tableOnClick={(e, index, item) => {
                                 dispatch(setSelectedTask(item?.code))
-                                dispatch(selectedTaskIds(item))
+                                dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
                                 dispatch(getSelectedReference({ code: item?.code, refer: true }))
                                 dispatch(setSelectedTabPosition({ id: '1' }))
                                 goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'sub-task')

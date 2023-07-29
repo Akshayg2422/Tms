@@ -1,10 +1,10 @@
 import { icons } from "@Assets";
-import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon,  MicroPhoneModal, Modal, NoDataFound, Priority, Spinner, Status } from "@Components";
+import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon, MicroPhoneModal, Modal, NoDataFound, Priority, Spinner, Status } from "@Components";
 import { getFilter } from "@Components//Core/ImageColorIcon";
 import { useModal, useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { TaskFilters, TaskGroups } from '@Modules';
-import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams ,setSelectedModal} from '@Redux';
+import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams, setSelectedModal, setSelectedCodeId } from '@Redux';
 import { ROUTES } from '@Routes';
 import { capitalizeFirstLetter, getDates, getPhoto, paginationHandler } from '@Utils';
 import { useEffect, useRef, useState } from "react";
@@ -13,17 +13,23 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Tasks() {
   const dispatch = useDispatch()
-  const { tasks, taskNumOfPages, taskCurrentPages, taskParams ,selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, taskParams, selectedMicroModal, selectedTaskId } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { company } = dashboardDetails || ''
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
-   const microPhoneModals=useModal(false);
-  
 
+
+  console.log(selectedMicroModal, "selectedMicroModal===========>")
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [taskParams])
+  useEffect(() => {
+    dispatch(
+      setSelectedModal(false)
+    )
+
+  }, [])
 
   const getTaskHandler = (page_number: number) => {
 
@@ -128,7 +134,7 @@ function Tasks() {
                 : <div className={'text-center'}>-</div>
               }
             </div >,
-       
+
           status:
             <>
               <div className="d-flex">
@@ -153,7 +159,7 @@ function Tasks() {
 
 
 
-  
+
 
 
   return (
@@ -167,16 +173,17 @@ function Tasks() {
             goTo(ROUTES["task-module"]["add-task"])
           }}
         />
-        <div onClick={()=>{
+        <div
+        >
+          <ImageIcon src={icons.microPhone} height={25} width={25} onClick={() => {
+
             dispatch(
               setSelectedModal(true)
             )
-            
-            }}>
-        {/* <ImageIcon src={icons.microPhone} height={25} width={25}/> */}
+          }} />
 
         </div>
-    
+
       </div>
 
 
@@ -221,7 +228,11 @@ function Tasks() {
                 }
                 tableOnClick={(idx, index, item) => {
                   dispatch(setSelectedTask(item?.code));
-                  dispatch(selectedTaskIds(item))
+                  dispatch(selectedTaskIds([item?.code]))
+                  dispatch(
+                    setSelectedCodeId([])
+                  )
+
                   dispatch(getSelectedReference({ code: item?.code, refer: true }))
                   dispatch(setSelectedTabPosition({ id: '1' }))
                   goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'task');
@@ -229,15 +240,15 @@ function Tasks() {
                 }
 
               />
-              
+
               :
               <div className="mb-3">
-              <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton  />
+                <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
               </div>
             }
           </div>}
 
-          {selectedMicroModal && <MicroPhoneModal />}
+        {selectedMicroModal && <MicroPhoneModal />}
 
 
 

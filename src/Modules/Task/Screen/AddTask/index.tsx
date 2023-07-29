@@ -13,8 +13,8 @@ import {
     InputHeading,
     TextAreaInput,
     Button,
-    DateRangePickers,
-    DatePicker,
+    DatePickers,
+
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -40,11 +40,15 @@ import {
     getDropDownDisplayData,
     getPhoto,
     getDropDownCompanyUser,
-    generateReferenceNo
+    generateReferenceNo,
+    TODAY,
+    getDisplayTimeDateMonthYearTime,
 } from "@Utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
+import { icons } from "@Assets";
+import moment from "moment";
 
 // import { CalenderView } from "@Modules";
 
@@ -66,9 +70,9 @@ function AddTask() {
         (state: any) => state.TaskReducer
     );
 
+    console.log(TODAY, "ttttttt")
     const title = useInput("");
     const description = useInput("");
-
 
     const [referenceNo, setReferenceNo] = useState(generateReferenceNo());
     const [taskType, setTaskType] = useState(type[1]);
@@ -79,7 +83,6 @@ function AddTask() {
     const designation = useDropDown({})
     const company = useDropDown(DEFAULT_COMPANY)
     const taskGroup = useDropDown({})
-    const [selectNoPickers, setSelectNoPickers] = useState<any>();
     const [image, setImage] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
@@ -87,8 +90,7 @@ function AddTask() {
     // let attach = photo.slice(-selectNoPickers)
     const [date, setDate] = useState<any>()
     const loginLoader = useLoader(false);
-
-
+    
     const isEnterPressed = useKeyPress("Enter");
 
     useEffect(() => {
@@ -100,7 +102,6 @@ function AddTask() {
     useEffect(() => {
         getAssociatedCompaniesApi();
     }, [])
-
 
     useEffect(() => {
         getCompanyEmployeeApi()
@@ -114,11 +115,16 @@ function AddTask() {
     }, [company.value, taskType])
 
     useEffect(() => {
-        // if(taskType?.id==='2'){
+        getDesignationApiHandler();
+
+    }, [department.value])
+
+    useEffect(() => {
+
         getSubTaskGroupsApi();
 
-        // }
-    }, [company.value])
+
+    }, [company.value, taskType])
 
 
 
@@ -222,7 +228,7 @@ function AddTask() {
 
         const params = {
             per_page_count: -1,
-            branch_id: company.value?.id ? company.value?.id : dashboardDetails?.permission_details?.branch_id
+            branch_id: getBranchId()
 
         };
 
@@ -243,7 +249,8 @@ function AddTask() {
     function getDepartmentsApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            branch_id: getBranchId(),
+            per_page_count: -1
         }
 
 
@@ -260,10 +267,10 @@ function AddTask() {
     function getDesignationApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            branch_id: getBranchId(),
+            ...(department?.value?.id && { department_id: department?.value?.id }),
+            per_page_count: -1
         }
-
-
 
         dispatch(getDesignations({
             params,
@@ -276,6 +283,8 @@ function AddTask() {
     }
 
     const handleEtaChange = (value: any) => {
+        
+    
         setEta(value);
         setDate(value)
     };
@@ -288,7 +297,7 @@ function AddTask() {
 
 
     return (
-      
+
         <Card className="m-3">
             <div className='col'>
                 <div className="row mt--2">
@@ -334,11 +343,6 @@ function AddTask() {
                     value={title.value}
                     onChange={title.onChange}
                 />
-
-
-
-
-
                 <TextAreaInput
                     heading={translate('auth.description')!}
                     value={description.value}
@@ -419,6 +423,7 @@ function AddTask() {
                         data={getDropDownDisplayData(designations)}
                         onChange={(item) => {
                             designation.onChange(item)
+
                         }}
                         selected={designation.value}
                     />
