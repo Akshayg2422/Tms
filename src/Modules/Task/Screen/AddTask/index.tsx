@@ -283,6 +283,7 @@ function AddTask() {
     }
 
     const handleEtaChange = (value: any) => {
+        
     
         setEta(value);
         setDate(value)
@@ -459,12 +460,8 @@ function AddTask() {
                         placeholder={'Select ETA'}
                         type="both"
                         onChange={handleEtaChange}
-
                     />
                 </div>
-
-             
-
 
             </div >
 

@@ -130,7 +130,7 @@ function Profile() {
             </div>
             <div className="col-xl-6">
               <h5 className="ct-title text-muted mb-0">{translate('auth.designation')}</h5>
-              <h4 className="ct-title">{user_details?.designation}</h4>
+              <h4 className="ct-title">{user_details?.designation?.name}</h4>
             </div>
           </div>
         </div>

@@ -33,11 +33,6 @@ function TaskDetails() {
     ];
 
 
-    // useEffect(() => {
-    //     if (ref.current) {
-    //         setInfoHeight(ref.current.clientHeight)
-    //     }
-    // })
 
     return (
 

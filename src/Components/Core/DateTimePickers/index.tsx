@@ -3,6 +3,7 @@ import Flatpickr from "react-flatpickr";
 import { DatePickerProps } from './interfaces';
 import { InputHeading ,Image} from '@Components';
 import { Moment, isMoment } from 'moment';
+import moment from 'moment';
 
 
 
@@ -57,11 +58,18 @@ function DatePickers({  icon,
           
                 if (onChange) {
                     if (isMoment(date)) {
+
+                      const dateObject = moment(date, '[ddd] MMM DD YYYY HH:mm:ss [GMT]ZZ (z)')
                     
-                        onChange(date.format(format).toString())
+                        onChange(dateObject.format(format).toString())
                     }
                     else {
-                        onChange(date)
+                      
+                      const dateObject = moment(date, '[ddd] MMM DD YYYY HH:mm:ss [GMT]ZZ (z)')
+                      const convertedDateString = dateObject.format('YYYY-MM-DDTHH:mm:ssZ');
+
+
+                        onChange(convertedDateString)
                     }
                 }
             }

@@ -44,7 +44,7 @@ function EmployeesList() {
 
     function getCompanyEmployeesApi(page_number: number) {
         setLoading(true)
-
+if(page_number){
         const params = {
             branch_id: company_branch?.id,
             q_many:searchEmployee.value,
@@ -61,6 +61,7 @@ function EmployeesList() {
                 setLoading(false)
             }
         }));
+    }
    
     }
 

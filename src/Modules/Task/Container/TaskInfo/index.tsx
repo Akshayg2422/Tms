@@ -46,7 +46,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const { goTo } = useNavigation()
     const [selected, setSelected] = useState()
 
-    console.log(selectedCodeId, "lastIndex===>selectedCodeId")
+
 
     const loginLoader = useLoader(false);
 
@@ -54,10 +54,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         getTaskDetailsHandler()
     }, [refreshTaskEvents, id])
 
-    // useEffect(()=>{
-    //     codeHandler()
 
-    // },[])
 
 
 
@@ -94,7 +91,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const codeHandler = () => {
         let array: any
         if (selectedTaskId.length >= selectedCodeId.length) {
-            console.log('iiiiiiii', selectedTaskId)
+        
             array = selectedTaskId.filter((el: any) => el !== id)
             dispatch(
                 setSelectedCodeId([])
@@ -105,7 +102,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             array = selectedCodeId
 
         }
-        console.log(array, "eeeeeeeeeeeeeellllllll")
+     
 
         return array
 
@@ -121,8 +118,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         dispatch(
             selectedTaskIds(reArrangeNavigation)
         )
-
-        console.log(reArrangeNavigation, "reArrangeNavigation========>")
         goTo(ROUTES["task-module"]["tasks-details"] + '/' + data + '/' + 'sub-task')
 
     }
@@ -222,7 +217,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         <div >
             <div className={'card p-4 overflow-auto overflow-hide '} style={{height:height-260}}>
 
-                <div className=" col row mb-1">
+                {/* <div className=" col row mb-1">
                     {selectedTaskId.map((el, index) => {
                         return (
 
@@ -245,13 +240,13 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         )
                     })}
 
-                </div>
+                </div> */}
                 <div className="row justify-content-center">
 
                     <div className="col-auto" onClick={() => {
-                        dispatch(
-                            selectedTaskIds(codeHandler())
-                        )
+                        // dispatch(
+                        //     selectedTaskIds(codeHandler())
+                        // )
 
                     }}>
                         <Back

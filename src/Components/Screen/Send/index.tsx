@@ -49,9 +49,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
             }
         }
     };
-
-
-
+   
     return (
         <>
             <div className='col'>
@@ -64,7 +62,13 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                             className="form-control form-control-sm"
                             onKeyDown={handleKeyDown}
                             onChange={message.onChange}
-                            style={{ resize: 'vertical', minHeight: '50px' }}
+                            onInput={(e) => {
+                                e.currentTarget.style.height = 'auto';
+                                e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+                              }}
+                            
+                            style={{ resize:'vertical', minHeight: '50px',  maxHeight:'100px',position:'absolute', bottom:-20,
+                          width: '95%',}}
                         >
                         </textarea>
                     </div>
@@ -72,7 +76,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                         const param = { message: message.value.trim(), event_type: 'TEM' };
                         if (onMessagePress && message.value.trim()) {
                          if(isSelect){
-                            console.log('tttt========>')
+                          
                             setIsSelect(false)
                             onMessagePress(param);
                            

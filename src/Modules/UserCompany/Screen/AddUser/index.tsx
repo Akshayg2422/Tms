@@ -9,7 +9,8 @@ import {
   validate,
   ifObjectExist,
   getValidateError,
-  getDropDownDisplayData
+  getDropDownDisplayData,
+  getObjectFromArrayByKey
 } from "@Utils";
 
 import { useInput, useDropDown, useNavigation, useLoader } from "@Hooks";
@@ -43,6 +44,14 @@ function AddUser() {
   const designation = useDropDown( userDesignation)
   const [photo, setPhoto] = useState("");
   const   loginLoader =useLoader(false)
+
+
+  useEffect  (()=>{
+    if(userDataList?.gender){
+    gender.set(getObjectFromArrayByKey(GENDER_LIST, 'id',userDataList?.gender));
+    }
+
+  },[])
 
   useEffect(() => {
 
@@ -204,7 +213,6 @@ function AddUser() {
           
           :
              <ImagePicker
-               
                  size='xl'
                  heading="photo"
                  noOfFileImagePickers={0}
