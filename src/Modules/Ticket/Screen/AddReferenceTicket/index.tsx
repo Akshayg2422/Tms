@@ -139,7 +139,14 @@ function AddReferenceTicket() {
     <HomeContainer type={'card'} className="m-3">
       <div  >
         <div className="row justify-content-between m-3">
-          <Back />
+        <div className={'row col'}> <div className={'mr-2'}>
+        <Back />
+          </div>
+          <div>
+            <h3>Add ReferenceTicket</h3>
+
+          </div>
+</div> 
           <div className="row ">
             <SearchInput onSearch={(text) => {
               getTicketsApiHandler(INITIAL_PAGE, text)

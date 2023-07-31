@@ -28,6 +28,7 @@ function IndividualChat() {
     const loader = useLoader(false);
     const messageLoader = useLoader(false);
     const [success, setSuccess] = useState(false);
+    const [isSelect,setIsSelect]=useState<any>(false)
 
 
     useEffect(() => {
@@ -95,10 +96,12 @@ function IndividualChat() {
             onSuccess: () => () => {
                 loader.hide();
                 setSuccess(true)
+              
                 dispatch(setRefreshPrivateChat())
             },
             onError: () => () => {
                 console.log('error');
+                setSuccess(true)
 
                 loader.hide();
             },
@@ -181,6 +184,7 @@ function IndividualChat() {
                                         selectedPrivateUser &&
                                         <Chat
                                             isSuccess={success}
+                                            
                                             height={dynamicHeight.dynamicHeight}
                                             variant={'private'}
                                             data={chatMessages}

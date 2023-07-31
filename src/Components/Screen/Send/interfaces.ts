@@ -5,5 +5,6 @@ export interface SendProps {
     onVideoPress?: () => void
     isSuccess?: boolean
     hasVideo?: boolean
+   
 
 }

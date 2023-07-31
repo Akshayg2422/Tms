@@ -9,7 +9,7 @@ function Comments() {
   return (
     <div className="h-100">
       <Card style={{
-        height: height - 85
+        height: height - 75
       }}>
         <TaskChat />
         <AddChat />

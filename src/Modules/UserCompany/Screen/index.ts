@@ -24,6 +24,8 @@ export * from './AddEventChat'
 export * from './EventChat'
 export * from './CalenderView'
 export * from './CompanyConfig'
+export * from './AdminEvents'
+export * from './MyTimeSheet'
 
 
 

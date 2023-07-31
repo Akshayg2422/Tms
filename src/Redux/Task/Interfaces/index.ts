@@ -39,6 +39,7 @@ export interface TaskStateProp {
     selectedReferenceDetails:any,
     addNormalMessage:any,
     addAttachmentsMessage:any,
-    getAttachmentsMessage:any
+    getAttachmentsMessage:any,
+    selectedCodeId:any
     
 }

@@ -38,8 +38,6 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
-import moment from "moment";
-
 function AddTicket() {
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
@@ -84,6 +82,11 @@ function AddTicket() {
         getDepartmentsApiHandler();
         getDesignationApiHandler();
     }, [company.value, ticketType])
+
+    useEffect (()=>{
+        getDesignationApiHandler();
+
+    },[department.value])
 
     const getBranchId = () =>
         ticketType?.id === type[1].id
@@ -184,7 +187,8 @@ function AddTicket() {
     function getDepartmentsApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            branch_id: getBranchId(),
+            per_page_count: -1,
         }
 
 
@@ -201,7 +205,9 @@ function AddTicket() {
     function getDesignationApiHandler() {
 
         const params = {
-            branch_id: getBranchId()
+            branch_id: getBranchId(),
+            ...(department?.value?.id &&{department_id:department?.value?.id}),
+            per_page_count: -1,
         }
 
 
@@ -290,9 +296,7 @@ function AddTicket() {
                     value={referenceNo.value}
                     onChange={referenceNo.onChange}
                 />
-
                </div>
-              
                 <div className="mb-1">
                     <Radio
                         data={type}

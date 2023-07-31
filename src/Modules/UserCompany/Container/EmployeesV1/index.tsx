@@ -49,19 +49,25 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
     useEffect(() => {
         if (dashboardDetails) {
             getDepartmentAndDesignationsApi(DEFAULT_COMPANY);
+            getDesignationHandler(DEFAULT_COMPANY,'')
         }
     }, [dashboardDetails]);
+
+  
 
     useEffect(() => {
         getEmployeeApi()
     }, [company?.value?.id, department?.value?.id, designation?.value?.id])
 
 
-    function getDepartmentAndDesignationsApi(item: any) {
+console.log(company?.value?.id)
+    const getDesignationHandler =(item: any,id:any)=>{
+        console.log(item,"iiiiiii")
 
         const params = {
-            branch_id: item.id,
+            branch_id: item?.id,
             per_page_count: -1,
+            ...(id && {department_id:id})
         };
 
         dispatch(
@@ -74,6 +80,17 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
             })
 
         );
+
+    }
+
+
+    function getDepartmentAndDesignationsApi(item: any) {
+
+        const params = {
+            branch_id: item.id,
+            per_page_count: -1,
+        };
+
 
         dispatch(
             getDepartments({
@@ -197,10 +214,11 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
                                 department.set(DEFAULT_DATA);
                                 designation.set(DEFAULT_DATA);
                                 getDepartmentAndDesignationsApi(item);
+                                getDesignationHandler(item,'')
                             }}
                         />
                     </div>
-
+                    
                     {departments && departments.length > 0 && <div className='col-4 mt--4'>
                         <DropDown
                             className="form-control-sm"
@@ -209,6 +227,8 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
                             selected={department.value}
                             onChange={(item) => {
                                 department.onChange(item)
+                                getDesignationHandler(company?.value,item?.id)
+                            
                             }}
                         />
                     </div>}

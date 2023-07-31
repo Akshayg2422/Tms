@@ -85,9 +85,11 @@ const PushNotification = () => {
         console.log('route_type======>1111111', JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
 
         if (route_type === NOTIFICATION_GROUP_MESSAGE) {
+            console.log('ttteeeee',"group")
             goTo(ROUTES['user-company-module'].Groups);
         }
         else if (route_type === NOTIFICATION_CHAT_MESSAGE) {
+            console.log('ttteeeee',"indiiiicchh")
             goTo(ROUTES["user-company-module"]["individual-chat"])
         }
         else if (route_type === NOTIFICATION_TASK_RAISED) {
@@ -108,7 +110,9 @@ const PushNotification = () => {
                 dispatch(handleOneToOneChat(true))
                 dispatch(handleOneToOneVcNoti(extra_data?.route_params?.videocall_id))
                 dispatch(vcNotificationDetails(extra_data))
+                console.log('text===>')
                 goTo(ROUTES['user-company-module']['individual-chat'], false)
+                console.log('ttteeeee',"indiiiicchh")
             }
             else {
                 dispatch(vcNotificationDetails(route_type))

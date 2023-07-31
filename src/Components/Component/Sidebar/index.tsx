@@ -174,7 +174,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
              <Image
                 alt={logo.imgAlt}
                 className="navbar-brand-img rounded-circle "
-                src={getPhoto(user_details?.profile_photo)}
+                src={getPhoto(user_details?.profile_image)}
                  height={35}
                  width={35}
             

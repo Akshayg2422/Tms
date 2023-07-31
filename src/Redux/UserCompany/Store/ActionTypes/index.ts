@@ -277,3 +277,6 @@ export const USER_CHAT = 'USER_CHAT';
 
 
 export const REFRESH_PRIVATE_CHAT = 'REFRESH_PRIVATE_CHAT';
+
+
+export const USER_DETAILS_DATA = 'USER_DETAILS_DATA'

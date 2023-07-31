@@ -9,47 +9,55 @@ import {
   validate,
   ifObjectExist,
   getValidateError,
-  getDropDownDisplayData
+  getDropDownDisplayData,
+  getObjectFromArrayByKey
 } from "@Utils";
 
 import { useInput, useDropDown, useNavigation, useLoader } from "@Hooks";
 import { translate } from "@I18n";
-import { addEmployee, getDepartments, getDesignations, } from "@Redux";
-
-
-
+import { addEmployee, getDepartments, getDesignations } from "@Redux";
 
 function AddUser() {
-
-
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
 
-
-  const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+  const { selectedCompany, dashboardDetails,userDataList } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch } = dashboardDetails || ''
  
+
+  console.log(userDataList,"userDataList===>")
+
+  const {name,id,mobile_number,profile_image }=userDataList||''
+  const userDepartment=userDataList ? {id:'',name:userDataList?.department?.name} :{}
+  const userDesignation=userDataList ? {id:userDataList?.designation?.id,name:userDataList?.designation?.name} :{}
+  
 
   const { designations, departments } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
 
-  console.log(designations,"designationsdesignationsdesignations")
-
-
-  const firstName = useInput("");
-  const contactNumber = useInput("");
-  const email = useInput("");
+  const firstName = useInput(name);
+  const contactNumber = useInput(mobile_number);
+  const email = useInput(userDataList?.email);
   const gender = useDropDown(GENDER_LIST[0]);
-  const department = useDropDown({})
-  const designation = useDropDown({})
+  const department = useDropDown(userDepartment)
+  const designation = useDropDown( userDesignation)
   const [photo, setPhoto] = useState("");
   const   loginLoader =useLoader(false)
+
+
+  useEffect  (()=>{
+    if(userDataList?.gender){
+    gender.set(getObjectFromArrayByKey(GENDER_LIST, 'id',userDataList?.gender));
+    }
+
+  },[])
 
   useEffect(() => {
 
     const params = {
       branch_id: selectedCompany?.branch_id ? selectedCompany?.branch_id : company_branch?.id,
+      ...(department?.value?.id &&{department_id:department?.value?.id}),
       per_page_count: -1,
     };
 
@@ -62,7 +70,7 @@ function AddUser() {
         },
       })
     );
-  }, []);
+  }, [department.value]);
 
 
   useEffect(() => {
@@ -88,6 +96,7 @@ function AddUser() {
   const submitAddUserHandler = () => {
 
     const params = {
+      ...(id && {id:id}),
       branch_id: selectedCompany?.branch_id ? selectedCompany?.branch_id : company_branch?.id,
       first_name: firstName.value,
       mobile_number: contactNumber.value,
@@ -97,7 +106,6 @@ function AddUser() {
       designation_id: designation?.value?.id,
       profile_image: photo,
     };
-
 
     const validation = validate(ADD_USER_RULES, params);
 
@@ -171,6 +179,7 @@ function AddUser() {
           selected={department.value}
           value={department.value}
           onChange={department.onChange}
+          placeHolder={userDataList?.department?.name}
         />
          
         <DropDown
@@ -179,30 +188,31 @@ function AddUser() {
           selected={designation.value}
           value={designation.value}
           onChange={designation.onChange}
+          placeHolder={userDataList?.designation?.name}
         />
 
-        
-
-        {/* <div >
-          <label className={`form-control-label`}>
-            {translate('common.photo')}
-          </label>
-        </div> */}
-        {/* <div className=" pb-2 pt-1">
-          <Dropzone
-            variant="ICON"
-            icon={photo}
-            size="xl"
-            onSelect={(image) => {
-              let encoded = image.toString().replace(/^data:(.*,)?/, "");
-              setPhoto(encoded);
-            }}
-          />
-        </div> */}
+      
       </div>
       <div className="mt--2">
-             <ImagePicker
+
+      {profile_image ?
+            <ImagePicker
+              size='xl'
+              heading="photo"
+              defaultValue={[{ id: 1, photo: profile_image }]}
+              noOfFileImagePickers={1}
+              defaultPicker={true}
+              onSelect={(image) => {
+                let file = image.toString().replace(/^data:(.*,)?/, "")
+                setPhoto(file)
                
+              }}
+              onSelectImagePicker={() => {
+              }}
+            />
+          
+          :
+             <ImagePicker
                  size='xl'
                  heading="photo"
                  noOfFileImagePickers={0}
@@ -211,10 +221,10 @@ function AddUser() {
                      setPhoto(file)
                  }}
                  onSelectImagePicker={(el)=>{
-                     
-
+                    
                  }}
              />
+                }
             
              </div>
 

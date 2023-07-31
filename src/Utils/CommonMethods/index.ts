@@ -37,8 +37,6 @@ export function getStatusFromCode(dashboardDetails: any, status: string) {
       statusCodes[code] = description;
     });
 
-
-
   return statusCodes[status];
 
 }
@@ -54,9 +52,11 @@ export const ifObjectHasKey = (object: any, key: string) => {
   return isExist;
 };
 
+export const adminDate= true
+
 
 export const getObjectFromArrayByKey = (array: any, key: string, value: any) => {
-  return array.find(item => {
+  return array?.find(item => {
     return item[key] === value;
   });
 };
@@ -75,7 +75,7 @@ export function getArrayFromArrayOfObject(data: Array<any>, key: string) {
 }
 
 export function capitalizeFirstLetter(string: any) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return string?.charAt(0).toUpperCase() + string?.slice(1);
 }
 
 export function stringSlice(string: any, slice: number = 3) {

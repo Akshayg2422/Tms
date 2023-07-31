@@ -9,18 +9,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getTokenByUser, selectedVcDetails } from '@Redux';
 
 
-function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = true, onVideoPress }: SendProps) {
+function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = true, onVideoPress}: SendProps) {
 
+    console.log(isSuccess,"isSuccess====>")
 
     const message = useInput('')
     const attachmentModal = useModal(false)
     const attachmentName = useInput('')
     const [photos, setPhotos] = useState<any>([])
+    const [isSelect,setIsSelect]=useState(true)
 
 
     useEffect(() => {
         if (isSuccess) {
             resetValues();
+            setIsSelect(isSuccess)
+    
         }
     }, [isSuccess]);
 
@@ -36,13 +40,16 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
             e.preventDefault();
             const param = { message: message.value.trim(), event_type: 'TEM' };
             if (onMessagePress && message.value.trim()) {
+
+                if(isSelect){
+                   
+                    setIsSelect(false)
                 onMessagePress(param);
+                }
             }
         }
     };
-
-
-
+   
     return (
         <>
             <div className='col'>
@@ -55,14 +62,31 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                             className="form-control form-control-sm"
                             onKeyDown={handleKeyDown}
                             onChange={message.onChange}
-                            style={{ resize: 'vertical', minHeight: '50px' }}
+                            onInput={(e) => {
+                                e.currentTarget.style.height = 'auto';
+                                e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+                              }}
+                            
+                            style={{ resize:'vertical', minHeight: '50px',  maxHeight:'100px',position:'absolute', bottom:-20,
+                          width: '95%',}}
                         >
                         </textarea>
                     </div>
                     {message.value?.trim().length > 0 && <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
                         const param = { message: message.value.trim(), event_type: 'TEM' };
                         if (onMessagePress && message.value.trim()) {
+                         if(isSelect){
+                          
+                            setIsSelect(false)
                             onMessagePress(param);
+                           
+                         }
+                           
+
+                        
+                              
+                          
+                            
                         }
 
                     }} />

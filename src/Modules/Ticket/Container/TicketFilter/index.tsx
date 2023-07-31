@@ -134,6 +134,8 @@ dispatch(
         filteredTicket.set(getObjectFromArrayByKey(TICKET_FILTER_LIST, 'id', tickets_by))
         ticketStatus.set(getObjectFromArrayByKey(TICKET_STATUS_LIST, 'id', ticket_status))
         ticketPriority.set(getObjectFromArrayByKey(TICKET_PRIORITY_LIST, 'id', priority))
+
+        
        companies.set(getObjectFromArrayByKey(modifiedCompany, 'id', company))
         department.set(getObjectFromArrayByKey( modifiedDepartment, 'id',department_id))
         designation.set(getObjectFromArrayByKey( modifiedDesignation, 'id',designation_id))

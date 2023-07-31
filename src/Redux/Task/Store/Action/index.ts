@@ -62,6 +62,16 @@ export const setSelectedTask = (task: any) => {
 }
 
 
+//SELECTED CODCE ID
+
+export const setSelectedCodeId=(params)=>{
+    return{
+        type:ActionTypes.SET_SELECTED_CODE_ID,
+        payload:params
+    }
+}
+
+
 /*ADD TASK EVENTS*/
 
 export const addTaskEvent = (params: any) => {

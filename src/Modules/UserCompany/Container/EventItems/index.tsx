@@ -25,8 +25,7 @@ function EventItem({ item }: EventItemProps) {
 
     const { title, attachments, place, start_time, end_time, description, event_by, created_at, applicable_branches, for_internal_company, for_external_company } = item;
 
-    const imageModal = useModal(false)
-    const [image, setImage] = useState([])
+
 
     const handleCarouselClick = (e) => {
         e.preventDefault();

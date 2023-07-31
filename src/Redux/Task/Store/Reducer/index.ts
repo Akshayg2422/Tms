@@ -42,7 +42,9 @@ const initialState: TaskStateProp = {
   selectedMicroModal:false,
   addVoiceRecord:undefined,
   addCompanyLabel:undefined,
-  taskParams: { q_many: "", assigned_tasks_by: "assigned_to", assigned_company: 'ALL', created_company: 'ALL', "created_tasks_by": "ALL", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL", "created_department_id": "ALL", "created_designation_id": "ALL", page_number: 1, assigned_emp_id: "", created_emp_id: "" },
+  selectedCodeId:undefined,
+  taskParams: { q_many: "", assigned_tasks_by: "assigned_to", assigned_company: 'ALL', created_company: 'ALL',association_created_company:'ALL', "created_tasks_by": "ALL", "task_status": "INP", "priority": "ALL", "group": "ALL", "include_subtask": false, "assigned_department_id": "ALL", "assigned_designation_id": "ALL", "created_department_id": "ALL", "created_designation_id": "ALL", page_number: 1, assigned_emp_id: "", created_emp_id: "" ,
+  association_assigned_company:'ALL'},
 };
 
 const TaskReducer = (state = initialState, action: any) => {
@@ -97,6 +99,14 @@ const TaskReducer = (state = initialState, action: any) => {
      */
     case ActionTypes.SELECTED_TASK_ITEM:
       state = { ...state, selectedTask: action.payload }
+      break;
+
+
+          /**
+     * selected Task id
+     */
+    case ActionTypes.SET_SELECTED_CODE_ID:
+      state = { ...state, selectedCodeId: action.payload }
       break;
     /**
         * selected Task Id

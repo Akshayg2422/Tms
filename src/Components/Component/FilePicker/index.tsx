@@ -7,13 +7,12 @@ import { icons } from "@Assets";
 const FilePicker = ({ }: FilePickerProps) => {
 
     const [files, setFiles] = useState<any>([]);
+    console.log(files,"fffffff")
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
             'image/*': []
         },
         onDrop: acceptedFiles => {
-
-
 
             setFiles(acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
@@ -23,6 +22,7 @@ const FilePicker = ({ }: FilePickerProps) => {
     });
 
     const thumbs = files.map((file: any) => (
+    
 
         <img
             className="bg-red"
