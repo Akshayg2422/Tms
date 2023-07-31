@@ -54,7 +54,7 @@ function Home() {
         </div>
       </div> */}
 
-      <div className=" bg-customGradient-primary  pt-5 pb-7" >
+      <div className=" bg-customGradient-primary  pt-3 pb-7" >
         <Container>
           <div className="header-body">
             <Row className="align-items-center">
