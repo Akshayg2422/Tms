@@ -12,7 +12,7 @@ function Footer() {
   const { goTo } = useNavigation();
   return (
     <>
-      <footer className="py-5" id="footer-main">
+      <footer className="" id="footer-main">
         <Container>
           <Row className="align-items-center justify-content-xl-between">
             <Col xl="6">
@@ -23,7 +23,7 @@ function Footer() {
                   // href="https://www.creative-tim.com?ref=adpr-auth-footer"
                   // target="_blank"
                 >
-                  Quanta-TMS
+                  Quanta TMS
                 </a>
               </div>
             </Col>
@@ -46,15 +46,23 @@ function Footer() {
                 <NavItem>
                   <NavLink
                   >
-                    Terms & Conditions
+                    <p style={{ cursor: 'pointer' }} className='small h4 text-lg-right mr-sm-0  text-sm-center'>  <a className='h4' onClick={() => goTo(ROUTES["auth-module"].privacy)}><b> {translate('auth.PrivacyPolicy')} </b> </a></p>
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                   >
-                    License
+                    {/* Terms & Conditions */}
+                    <p style={{ cursor: 'pointer' }} className='small h4 text-lg-right mr-sm-0  text-sm-center  '>  <a className='h4' onClick={() => goTo(ROUTES["auth-module"].TermsAndConditions)}><b> {translate('auth.Term & Conditions')} </b> </a></p>
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink
+                  >
+                    <p style={{ cursor: 'pointer' }} className='small h4 text-lg-right mr-sm-0  text-sm-center'>  <a className='h4' onClick={() => goTo(ROUTES["auth-module"].ReturnAndRefund)}><b> {translate('auth.Return & Refund')} </b> </a></p>
+                  </NavLink>
+                </NavItem>
+                
               </Nav>
             </Col>
           </Row>

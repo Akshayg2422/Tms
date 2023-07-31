@@ -9,7 +9,7 @@ function Form() {
   return (
     <>
 
-      <section className="py-6 pb-9 ">
+      <section className="py-5 pb-9 ">
         <Container fluid>
           <Row className="justify-content-center text-center">
             <Col md="11">
@@ -23,7 +23,7 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="section section-lg pt-lg-0 mt--7">
+      <section className="section section-lg pt-lg-0 mt--8">
         <Container>
           <Row className="justify-content-center">
             <h2 className="display-4 ">
@@ -88,7 +88,7 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="py-6">
+      <section className="py-4">
         <Container>
           <Row className="row-grid align-items-center">
             <Col className="order-md-2" md="6">
@@ -109,7 +109,7 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="py-6">
+      <section className="py-4">
         <Container>
           <Row className="row-grid align-items-center">
             <Col md="6">
@@ -130,7 +130,7 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="py-6">
+      <section className="py-4">
         <Container>
           <Row className="row-grid align-items-center">
             <Col className="order-md-2" md="6">
@@ -157,7 +157,7 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="py-6">
+      <section className="py-4">
         <Container>
           <Row className="row-grid align-items-center">
             <Col md="6">
@@ -178,7 +178,7 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="py-6">
+      <section className="py-4">
         <Container>
           <Row className="row-grid align-items-center">
             <Col className="order-md-2" md="6">
@@ -199,7 +199,7 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="py-6">
+      <section className="py-4">
         <Container>
           <Row className="row-grid align-items-center">
             <Col md="6">
@@ -226,7 +226,7 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="py-6">
+      <section className="py-4">
         <Container>
           <Row className="row-grid align-items-center">
             <Col md="6" className='order-md-2'>

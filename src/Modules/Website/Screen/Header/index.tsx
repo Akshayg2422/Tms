@@ -26,7 +26,7 @@ function Header() {
 
             />
             <span className='nav-link-inner--text ml-2 text-white'>
-              Quanta-TMS
+              Quanta TMS
             </span>
           </NavbarBrand>
           <button

@@ -13,7 +13,7 @@ function Cards() {
 
   return (
     <>
-      <div className='container-fluid py-6 px-6'
+      <div className='container-fluid px-6 pt-5'
         style={{
           zoom: '95%'
         }}
@@ -28,7 +28,7 @@ function Cards() {
             </p>
           </div>
         </div>
-        <div className='py-5'>
+        <div className='py-3'>
           <div className='card shadow '
             style={{
               backgroundColor: '#1f2251'
