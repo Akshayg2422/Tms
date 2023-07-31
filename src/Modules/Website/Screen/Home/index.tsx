@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function Home() {
   return (
     <>
-      <div className=" bg-customGradient-primary  pt-3 pb-7" >
+      <div className=" bg-customGradient-primary  pt-6 pb-9" >
         <Container>
           <div className="header-body">
             <Row className="align-items-center">
@@ -43,8 +43,8 @@ function Home() {
               <Col lg="6">
                 <Image
                   src={icons.ScreenShort}
-                  height={"250px"}
-                  width={"350px"}
+                  height={"100%"}
+                  width={"100%"}
 
                 />
               </Col>
