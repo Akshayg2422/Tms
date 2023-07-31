@@ -12,40 +12,6 @@ function Header() {
 
   return (
 
-    // <div className='fixed-top border-0 bg-secondary pt-3 pb-3 transparent'>
-    //   <div className='row m-0'>
-    //     <div className={'col-6'}>
-    //       <div className='ml-md-5 ml-lg--5  ml-sm-0 ml--3'>
-    //         <Image
-    //           src={image.TMS_Logo}
-    //           alt='nav-icon'
-    //           width={'50px'}
-    //           height={'50px'}
-    //           className='ml-sm-0 ml-4 ml-lg-6'
-    //         />
-    //       </div>
-    //     </div>
-    //     <div className={'col-6'}>
-    //       <div className='row justify-content-end m-0'>
-    //         <form className='mr-md-5 pr-sm-0 pr-2'>
-    //           <Button
-    //             text={translate('common.signIn')}
-    //             size={'md'}
-    //             outline
-    //             color={'default'}
-    //             onClick={() => {
-    //               goTo(ROUTES['auth-module'].splash);
-    //             }}
-    //             className={' bg-primary border-0 px-4 py-3  text-white shadow-none'}
-    //           />
-
-    //         </form>
-    //       </div>
-    //     </div>
-
-    //   </div>
-    // </div>
-
     <>
       <Navbar
         className="navbar-horizontal navbar-main navbar-dark bg-customGradient-primary py-3 sticky-top"
@@ -137,84 +103,6 @@ function Header() {
 
               </NavItem>
             </Nav>
-            {/* <hr className="d-lg-none" /> */}
-            {/* <Nav className="align-items-lg-center ml-lg-auto" navbar>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  href="https://www.facebook.com/creativetim?ref=creative-tim"
-                  id="tooltip601201423"
-                  target="_blank"
-                >
-                  <i className="fab fa-facebook-square" />
-                  <span className="nav-link-inner--text d-lg-none">
-                    Facebook
-                  </span>
-                </NavLink>
-                <UncontrolledTooltip delay={0} target="tooltip601201423">
-                  Like us on Facebook
-                </UncontrolledTooltip>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  href="https://www.instagram.com/creativetimofficial?ref=creative-tim"
-                  id="tooltip871243015"
-                  target="_blank"
-                >
-                  <i className="fab fa-instagram" />
-                  <span className="nav-link-inner--text d-lg-none">
-                    Instagram
-                  </span>
-                </NavLink>
-                <UncontrolledTooltip delay={0} target="tooltip871243015">
-                  Follow us on Instagram
-                </UncontrolledTooltip>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  href="https://twitter.com/creativetim?ref=creative-tim"
-                  id="tooltip366258619"
-                  target="_blank"
-                >
-                  <i className="fab fa-twitter-square" />
-                  <span className="nav-link-inner--text d-lg-none">
-                    Twitter
-                  </span>
-                </NavLink>
-                <UncontrolledTooltip delay={0} target="tooltip366258619">
-                  Follow us on Twitter
-                </UncontrolledTooltip>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  href="https://github.com/creativetimofficial?ref=creative-tim"
-                  id="tooltip931502898"
-                  target="_blank"
-                >
-                  <i className="fab fa-github" />
-                  <span className="nav-link-inner--text d-lg-none">Github</span>
-                </NavLink>
-                <UncontrolledTooltip delay={0} target="tooltip931502898">
-                  Star us on Github
-                </UncontrolledTooltip>
-              </NavItem>
-              <NavItem className="d-none d-lg-block ml-lg-4">
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  href="https://www.creative-tim.com/product/argon-dashboard-pro-react?ref=adpr-index-navbar"
-                  target="_blank"
-                >
-                  <span className="btn-inner--icon">
-                    <i className="fas fa-shopping-cart mr-2" />
-                  </span>
-                  <span className="nav-link-inner--text">Purchase now</span>
-                </Button>
-              </NavItem>
-            </Nav> */}
           </UncontrolledCollapse>
         </Container>
       </Navbar>
