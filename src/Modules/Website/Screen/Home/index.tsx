@@ -8,14 +8,14 @@ import { Link } from 'react-router-dom';
 function Home() {
   return (
     <>
-      <div className=" bg-customGradient-primary  pt-3 pb-7" >
+      <div className=" bg-customGradient-primary  pt-6 pb-9" >
         <Container>
           <div className="header-body">
             <Row className="align-items-center">
               <Col lg="6">
                 <div className="pr-5">
                   <h1 className="display-1 text-white font-weight-bold mb-0">
-                    Quanta-TMS
+                    Quanta TMS
                   </h1>
                   <h2 className="display-4 text-white font-weight-light">
                     Streamline Your Ticket Management
@@ -23,7 +23,7 @@ function Home() {
                   <p className="text-white mt-4 text-justify">
                     “Quanta Ticket Management”  is a state-of-the-art web and mobile application designed to simplify and optimize ticket management for companies and associations. With a user-friendly interface and a comprehensive set of modules, TicketMaster empowers teams to streamline ticket creation, tracking, and resolution, fostering seamless collaboration among team members.
                   </p>
-                  <div className="mt-5">
+                  {/* <div className="mt-5">
                     <Button
                       className="btn-neutral my-2"
                       color="default"
@@ -37,12 +37,12 @@ function Home() {
                     >
                       Purchase now
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
               </Col>
               <Col lg="6">
                 <Image
-                  src={icons.avatarImg2}
+                  src={icons.ScreenShort}
                   height={"100%"}
                   width={"100%"}
 
@@ -52,7 +52,6 @@ function Home() {
           </div>
         </Container>
       </div>
-
 
     </>
   )

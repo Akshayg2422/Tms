@@ -68,7 +68,7 @@ function Data() {
         </div>
         <Divider space='6'/>
       </div> */}
-      <div className='container'>
+      <div className='container pt-5'>
         <div className='row'>
           {navData && navData.map((el, index) => {
             return (

@@ -26,7 +26,7 @@ function Header() {
 
             />
             <span className='nav-link-inner--text ml-2 text-white'>
-              Quanta-TMS
+              Quanta TMS
             </span>
           </NavbarBrand>
           <button
@@ -93,12 +93,13 @@ function Header() {
               </NavItem>
               <NavItem>
                 <Button
-                  className='bg-default text-white border-0'
+                  className='bg-primary text-white border-0'
                   onClick={() => {
                     goTo(ROUTES['auth-module'].login)
                   }}
                   text={'Login'}
                   size={'sm'}
+                  // style={{backgroundColor:'#1616ff'}}
                 />
 
               </NavItem>
