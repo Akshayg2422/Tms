@@ -276,6 +276,7 @@ const AdminReducer = (state: AdminStateProp = initialState, action: any) => {
     case GET_TASKS_ITEM:
       state = { ...state, taskItem: action.payload }
       break;
+      
     case LOGIN_USER:
 
       state = { ...state, loginUserSuccess: action.payload };
