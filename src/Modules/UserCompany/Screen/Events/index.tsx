@@ -44,7 +44,7 @@ function Events() {
 
 
   function proceedEventsChatting(el: any) {
-    console.log("el=======>>", el)
+
     dispatch(
       refreshEventsMessage(el)
     )
