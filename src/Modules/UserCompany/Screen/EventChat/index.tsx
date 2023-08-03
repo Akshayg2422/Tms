@@ -34,7 +34,7 @@ function GetEventChat({ }: EventChatProps) {
     function getEventsChatDisplayData(data: any) {
         if (data && data.length > 0) {
             return data.map(each => {
-                console.log(each,"tttttttttt")
+            
                 return {
                     ...getIconsFromStatus(each)
                 }
@@ -42,8 +42,10 @@ function GetEventChat({ }: EventChatProps) {
         }
 
     }
+
+
     const getAttachmentsMessageApi = (page_number: number) => {
-        console.log('getAttachmentsMessageApi========>>>', eventsMessage);
+      
 
         const params = {
             event_id: eventsMessage,
@@ -55,16 +57,24 @@ function GetEventChat({ }: EventChatProps) {
                 params,
                 onSuccess: (response: any) => () => {
                     const getEventsResponse = response.details
+                    setGetEventsCurrentPage(getEventsResponse.next_page)
+                  
                     let updatedData = []
+               
                     if (getEventsResponse.data && getEventsResponse.data.length > 0) {
+                       
                         if (page_number === 1) {
-                            updatedData = getEventsChatDisplayData(getEventsResponse.data)
+                           
+                            updatedData = getEventsChatDisplayData(getEventsResponse?.data)
+                          
                         } else {
                             updatedData = getEventsChatDisplayData([...getEvents, ...getEventsResponse.data] as any)
+                          
                         }
                     }
+                   
                     setGetEvents(updatedData)
-                    setGetEventsCurrentPage(getEventsResponse.next_page)
+                    
                 },
                 onError: () => () => { },
             })
@@ -73,7 +83,8 @@ function GetEventChat({ }: EventChatProps) {
 
     function getIconsFromStatus(each: any) {
 
-        const { event_type, event_by, message, eta_time, tagged_users, assigned_to, attachments, events_status, end_time, start_time } = each
+        const { event_type, event_by, message, eta_time, tagged_users, assigned_to, chat_attachments, events_status, end_time, start_time } = each
+       
         let modifiedData = {}
         switch (event_type) {
             case 'TEM':
@@ -93,7 +104,7 @@ function GetEventChat({ }: EventChatProps) {
                 modifiedData = { ...each, icon: icons.reassignedUserWhiteIcon, subTitle: event_by?.name, title: "Task Reassigned to " + assigned_to.name }
                 break;
             case 'MEA':
-                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: event_by?.name, title: attachments.name }
+                modifiedData = { ...each, icon: icons.attachmentWhiteIcon, subTitle: event_by?.name, title: chat_attachments?.name }
                 break;
             case 'RTS':
                 modifiedData = { ...each, icon: icons.referenceTaskWhiteIcon, subTitle: event_by?.name, title: 'User Attached Reference Task' }
@@ -106,9 +117,11 @@ function GetEventChat({ }: EventChatProps) {
                 break;
             case 'ETS':
                 modifiedData = { ...each, icon: icons.startTime, subTitle: event_by?.name, title: 'Event Start time is ' + getDisplayDateFromMomentByType(HDD_MMMM_YYYY_HH_MM_A, getMomentObjFromServer(start_time)) }
+                
                 break;
 
         }
+      
         return modifiedData
     }
 
@@ -134,9 +147,8 @@ function GetEventChat({ }: EventChatProps) {
                     {/* <Spinner /> */}
                 </h4>}
                 next={() => {
-                    console.log('came');
+               
 
-                    console.log(getEventsCurrentPage + '====');
                     if (getEventsCurrentPage !== -1) {
                         getAttachmentsMessageApi(getEventsCurrentPage)
                     }
@@ -144,11 +156,12 @@ function GetEventChat({ }: EventChatProps) {
                 }>
                 {getEvents && getEvents.length > 0 &&
                     getEvents.map((Events: any, index: number) => {
-                        console.log('Events========>', Events);
+                      
 
-                        const { icon, title, subTitle, created_at, attachments } = Events
+                        const { icon, title, subTitle, created_at,chat_attachments
+                        } = Events
                         const showDotLine = index !== 0
-                        const imageUrls = attachments?.attachments?.map(each => getPhoto(each.attachment_file))
+                        const imageUrls =chat_attachments?.attachments?.map(each => getPhoto(each.attachment_file))
 
                         return (
                             <TimeLine
@@ -163,6 +176,7 @@ function GetEventChat({ }: EventChatProps) {
                                 }} >
                                     {
                                         imageUrls && imageUrls.length > 0 && imageUrls.map((each, index) => {
+                                        
 
                                             return (
                                                 <div onClick={() => { setCorouselIndex(index) }}>
