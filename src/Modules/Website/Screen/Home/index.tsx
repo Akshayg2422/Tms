@@ -21,7 +21,7 @@ function Home() {
                     Streamline Your Ticket Management
                   </h2>
                   <p className="text-white mt-4 text-justify">
-                    “Quanta Ticket Management”  is a state-of-the-art web and mobile application designed to simplify and optimize ticket management for companies and associations. With a user-friendly interface and a comprehensive set of modules, TicketMaster empowers teams to streamline ticket creation, tracking, and resolution, fostering seamless collaboration among team members.
+                  "Quanta Ticket Management" is a cutting-edge web and mobile app simplifying ticket creation, tracking, and resolution for teams, fostering seamless collaboration and productivity. Its user-friendly interface and comprehensive modules empower businesses and associations to optimize their ticket management process.
                   </p>
                   {/* <div className="mt-5">
                     <Button
