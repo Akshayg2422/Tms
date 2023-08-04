@@ -19,7 +19,7 @@ export const getDisplayDateFromMoment = (momentObj: any) => {
 };
 
 export const getDisplayTimeFromMoment = (momentObj: any) => {
-  return momentObj.format(HH_MM_A);
+ return momentObj.format(HH_MM_A);
 };
 
 export const getDisplayTimeWithoutSuffixFromMoment = (momentObj: any) => {

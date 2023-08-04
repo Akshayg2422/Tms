@@ -116,7 +116,6 @@ function Tasks() {
             <div className="row">
               {assigned_to ?
                 <>
-
                   {company?.name === raised_by_company?.display_name ? '' : raised_by_company?.attachment_logo &&
                     <Image variant={'rounded'} src={getPhoto(raised_by_company?.attachment_logo)} size={"sm"} />
                   }
