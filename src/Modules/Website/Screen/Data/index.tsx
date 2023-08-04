@@ -83,7 +83,7 @@ function Data() {
                     <NavItem>
                       <NavLink
                         aria-selected={selectedNav === index}
-                        className={classnames("mb-sm-3 mb-md-0", {
+                        className={classnames("mb-sm-3 mb-md-0 ", {
                           active: selectedNav === index
                         })}
                         onClick={e => setSelectedNav(index)}
