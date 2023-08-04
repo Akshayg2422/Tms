@@ -21,8 +21,7 @@ function AddEventChat() {
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
 
-    console.log('eventsMessage==========>>>', eventsMessage)
-
+   
     const proceedAddEventsApiHandler = () => {
 
         if (message.value.trim()) {
@@ -32,12 +31,12 @@ function AddEventChat() {
                 message: message.value,
                 event_type: TEM
             }
-            console.log('eventsMessage========', eventsMessage)
+         
             dispatch(
                 addAttachmentsMessage({
                     params,
                     onSuccess: (response) => () => {
-                        console.log('response======', response)
+                
                         message.set('')
                         dispatch(refreshEventMessage())
                     },
@@ -115,8 +114,7 @@ function AddEventChat() {
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-                                // let file = image.toString().replace(/^data:(.*,)?/, "")
-                                // handleImagePicker(file)
+                          
                             }}
 
                             onSelectImagePickers={(el) => {

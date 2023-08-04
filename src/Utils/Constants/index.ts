@@ -16,6 +16,9 @@ export const USER_TOKEN = 'USER_TOKEN'
 
 export const FCM_TOKEN = 'FCM_TOKEN'
 
+
+
+
 // export const GENDER_LIST = [
 //   { id: 'M', text: 'Male' },
 //   { id: 'F', text: 'Female' },
@@ -113,6 +116,58 @@ export const TASK_STATUS_LIST = [
   { id: 'REJ', text: translate('product.Reject')!, color: "red" }
 
 ]
+
+export const USER_RECORDS = [
+  {id:'TSK',   text: 'Task', type: 'TSK'},
+  {
+  id: 'MET',
+
+  text: 'Meeting',
+  type: 'MET',
+  },
+  {id:'BRK', text: 'Break', Type: 'BRK'},
+  {
+  id: 'STP',
+
+  text: 'StandUp',
+  type: 'STP',
+  },
+  {
+  id: 'GRO',
+
+  text: 'Grooming',
+  type: 'GRO',
+  },
+  {
+  id: 'HOL',
+ 
+  text: 'Technical Discussion',
+  type: 'HOL',
+  },
+  {
+  id: 'TDN',
+
+  text: 'knowledge Transfer',
+  type: 'TDN',
+  },
+  {
+  id: 'KTR',
+ 
+  text: 'Holiday',
+  type: 'KTR',
+  },
+  {
+  id:'PER',
+ 
+  text: 'Permission',
+  type: 'PER',
+  },
+  {
+  id:'WKF',
+ text: 'Week Off',
+  type: 'WKF',
+  },
+  ];
 
 
 export const TASK_PRIORITY_LIST = [

@@ -18,6 +18,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
     const attachmentName = useInput('')
     const [photos, setPhotos] = useState<any>([])
     const [isSelect,setIsSelect]=useState(true)
+    
 
 
     useEffect(() => {
@@ -49,7 +50,8 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
             }
         }
     };
-   
+
+    
     return (
         <>
             <div className='col'>
@@ -63,29 +65,38 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                             onKeyDown={handleKeyDown}
                             onChange={message.onChange}
                             onInput={(e) => {
+                              
+                              if(message){
                                 e.currentTarget.style.height = 'auto';
                                 e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+                         
+                              }
+                              else{
+                                e.currentTarget.style.height = 'auto';
+                                e.currentTarget.style.height = '50px';
+
+                              }
+                                
                               }}
+
                             
                             style={{ resize:'vertical', minHeight: '50px',  maxHeight:'100px',position:'absolute', bottom:-20,
                           width: '95%',}}
+                          
                         >
                         </textarea>
                     </div>
                     {message.value?.trim().length > 0 && <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
                         const param = { message: message.value.trim(), event_type: 'TEM' };
                         if (onMessagePress && message.value.trim()) {
+                       
                          if(isSelect){
+                    
                           
                             setIsSelect(false)
                             onMessagePress(param);
                            
-                         }
-                           
-
-                        
-                              
-                          
+                         } 
                             
                         }
 

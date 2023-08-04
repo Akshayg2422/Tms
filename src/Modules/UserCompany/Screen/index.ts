@@ -26,6 +26,8 @@ export * from './CalenderView'
 export * from './CompanyConfig'
 export * from './AdminEvents'
 export * from './MyTimeSheet'
+export * from './GetEventMessage'
+
 
 
 

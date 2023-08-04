@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getMomentObjFromServer, getDisplayDateFromMomentByType, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A, getDisplayDateFromMoment, EDIT_TIME_SHEET_DETAILS } from '@Utils'
+import { getMomentObjFromServer, getDisplayDateFromMomentByType, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A, getDisplayDateFromMoment, EDIT_TIME_SHEET_DETAILS, USER_RECORDS } from '@Utils'
 import {
   addEmployeeTimeline,
   addEnableRequest,
@@ -42,12 +42,13 @@ function MyTimeSheet() {
   let currentMonth = currentDate.getMonth()
   let currentYear = currentDate.getFullYear()
 
-  let dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
+  let dateFormate = `${currentYear}-${0}${currentMonth + 1}-${0}${currentDay}`
 
   //start date
   const [startDate, setStartDate] = useState(moment().startOf('week'))
   const [endDate, setEndDate] = useState(moment().endOf('week'))
   const [currentDates, setCurrentDates] = useState(new Date());
+  const selectedType = useDropDown({})
 
   const { employeeTimeline ,dashboardDetails} = useSelector((state: any) => state.UserCompanyReducer);
 
@@ -255,6 +256,7 @@ function MyTimeSheet() {
   }
 
 
+
   function restValue() {
     setStatTimeEta('')
     setEndTimeEta('')
@@ -347,7 +349,8 @@ function MyTimeSheet() {
     const editAssignedId = editAssignedTaskSelect?.value?.id
     const assignedTaskId = selectedTask?.id
     const params = {
-      task_id: editAssignedId || assignedTaskId,
+      type:selectedType?.value?.id,
+            ...(editAssignedId||assignedTaskId) && {task_id: editAssignedId || assignedTaskId},
       start_time: editStartTimeEta ? getServerTimeFromMoment(getMomentObjFromServer(editStartTimeEta)) : startTimeEta,
       end_time: editEndTimeEta ? getServerTimeFromMoment(getMomentObjFromServer(editEndTimeEta)) : endTimeEta,
       ...(assignedTasksId && { id: assignedTasksId }),
@@ -426,7 +429,6 @@ function MyTimeSheet() {
 
 
 
-
   return (
     <div className='m-3'>
 
@@ -443,10 +445,9 @@ function MyTimeSheet() {
 
         <div>
           {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
-            // console.log(formattedShift[index]?.date,"datata====>")
+          
 
-            const filterDate=dashboardDetails?.freezed_dates&& dashboardDetails?.freezed_dates.some((el:any)=>el===formattedShift[index]?.date)
-            // console.log(filterDate,"filterDate")
+            const filterDate=dashboardDetails?.freezed_dates && dashboardDetails?.freezed_dates.some((el:any)=>el===formattedShift[index]?.date)
             return (
               <CollapseButton
                 selectedIds={formattedShift[index]?.date}
@@ -464,13 +465,14 @@ function MyTimeSheet() {
                 // }
                 selectButton={
                   filterDate?false:formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.date===dateFormate?true:false
+           
                 }
                 // selectButtonReject={
                 //   formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ?false:formattedShift[index]?.date===dateFormate?true:false
                 // }
 
                 selectButtonReject={
-                  filterDate?false:formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ?false:formattedShift[index]?.date===dateFormate?true:false
+                  filterDate?false:formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ? false:formattedShift[index]?.taskListedArray[0]?.timeline_status===''?false:formattedShift[index]?.date===dateFormate?true:false
                 }
                 textReject={'Submit'}
                 onClickReject={() => {
@@ -554,7 +556,19 @@ function MyTimeSheet() {
       >
 
 
-        {
+      
+
+          <DropDown
+           heading={'Type'}
+           placeHolder={'Type'}
+            data={USER_RECORDS}
+           onChange={(item) => {
+            selectedType.onChange(item)
+           }}
+           selected={selectedType.value}
+          />
+
+            {selectedType?.value?.id==='TSK' &&
           <AutoComplete
             heading={translate('auth.task')!}
             data={assignedTaskDetails}
@@ -564,14 +578,7 @@ function MyTimeSheet() {
 
             }}
           />}
-        <div>
-          <TextAreaInput
-            heading={translate('auth.description')!}
-            placeholder={translate('auth.description')!}
-            value={description.value}
-            onChange={description.onChange} />
-        </div>
-        <div className="row">
+             <div className="row">
           <div className="col-6">
             <DateTimePicker
               id="eta-picker"
@@ -591,6 +598,14 @@ function MyTimeSheet() {
             />
           </div>
         </div>
+        <div>
+          <TextAreaInput
+            heading={'Note'}
+            placeholder={'Note'}
+            value={description.value}
+            onChange={description.onChange} />
+        </div>
+     
         <div className='text-right'>
           <Button
             color={"secondary"}

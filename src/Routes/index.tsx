@@ -121,8 +121,6 @@ export const AUTH_ROUTES = [
 
 ];
 
-
-
 export const HOME_ROUTES = [
   {
     path: ROUTES['task-module'].tasks,

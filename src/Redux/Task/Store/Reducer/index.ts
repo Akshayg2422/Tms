@@ -38,7 +38,9 @@ const initialState: TaskStateProp = {
   selectedReferenceDetails: true,
   addNormalMessage: undefined,
   addAttachmentsMessage: undefined,
-  getAttachmentsMessage: undefined,
+  eventAttachmentsMessage: undefined,
+  eventAttachmentsMessageNumOfPages: undefined,
+  eventAttachmentsMessageCurrentPages: undefined,
   selectedMicroModal:false,
   addVoiceRecord:undefined,
   addCompanyLabel:undefined,
@@ -422,22 +424,42 @@ const TaskReducer = (state = initialState, action: any) => {
   */
 
 
-    case ActionTypes.GET_ATTACHMENTS_MESSAGE:
-      state = {
-        ...state,
-        getAttachmentsMessage: action.payload
-      };
-      break;
-    case ActionTypes.GET_ATTACHMENTS_MESSAGE_SUCCESS:
-      state = {
-        ...state,
-        getAttachmentsMessage: action.payload,
-      };
-      break;
+    // case ActionTypes.GET_ATTACHMENTS_MESSAGE:
+    //   state = {
+    //     ...state,
+    //     eventAttachmentsMessage: action.payload
+    //   };
+    //   break;
+    // case ActionTypes.GET_ATTACHMENTS_MESSAGE_SUCCESS:
+    //   state = {
+    //     ...state,
+    //     eventAttachmentsMessage: action.payload,
+    //   };
+    //   break;
 
-    case ActionTypes.GET_ATTACHMENTS_MESSAGE_FAILURE:
-      state = { ...state, getAttachmentsMessage: undefined };
-      break;
+    // case ActionTypes.GET_ATTACHMENTS_MESSAGE_FAILURE:
+    //   state = { ...state, eventAttachmentsMessage: undefined };
+    //   break;
+
+      case ActionTypes.GET_ATTACHMENTS_MESSAGE:
+        state = {
+          ...state,
+          eventAttachmentsMessage: action.payload.params.page_number === 1 ? [] : state.eventAttachmentsMessage,
+        };
+        break;
+      case ActionTypes.GET_ATTACHMENTS_MESSAGE_SUCCESS:
+        state = {
+          ...state,
+          eventAttachmentsMessage: [...state.eventAttachmentsMessage, ...action.payload.details.data],
+          eventAttachmentsMessageCurrentPages: action.payload.details.next_page
+        };
+        break;
+      case ActionTypes.GET_ATTACHMENTS_MESSAGE_FAILURE:
+        state = { ...state, eventAttachmentsMessage: undefined };
+        break;
+
+
+
 
          //fetch using voice
 

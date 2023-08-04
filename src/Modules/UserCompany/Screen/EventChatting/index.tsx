@@ -1,5 +1,5 @@
 import React from "react";
-import { AddEventChat, GetEventChat } from "@Modules";
+import { AddEventChat, GetEventChat, GetEventMessage } from "@Modules";
 import { Back, Card } from '@Components'
 
 function EventChatting() {
@@ -12,8 +12,13 @@ function EventChatting() {
         <Back/>
       </div>
       <Card>
-        <GetEventChat />
+        <GetEventMessage/>
+
+        <div className={'mt-3'}>
         <AddEventChat />
+
+        </div>
+    
       </Card>
     </div>
     </>
