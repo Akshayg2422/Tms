@@ -12,13 +12,13 @@ function Data() {
   const [navData, setNavData] = useState(["Benefits", "Security", "Features"])
   const [listData, setListData] = useState([
     {
-      title: 'Benefits',img:icons.avatarImg, data: ["Streamlined Ticket Handling", "Enhanced Collaboration", "Improved Tracking and Reporting", "Time and Cost Savings", "Centralized Information", "Increased Accountability", "Better Customer Experience", "Customization", "Data Security", "Scalability"],
+      title: 'Benefits',img:icons.avatarImg, data: [ "Efficient Task Management" ,"Accurate Time Tracking","Streamlined Ticket Handling", "Enhanced Collaboration", "Improved Tracking and Reporting", "Timely Issue Resolution", "Centralized Information", "Increased Accountability", "Better Customer Experience", "Customizable Settings", "Data Security", "Scalability"],
     },
     {
-      title: 'Security',img:icons.avatarImg1, data: ["User Authentication", "Role-Based Access Control", "Data Encryption", "Secure Socket Layer (SSL)", "Regular Backups", "Audit Trails", "Firewall Protection", "Data Access Control", "Two-Factor Authentication (2FA)", "Security Audits"]
+      title: 'Security',img:icons.avatarImg1, data: ["User Authentication", "Role-Based Access Control", "Data Encryption", "Secure Socket Layer (SSL)", "Regular Backups", "Secure Server Configurations", "Firewall Protection", "Data Access Control", "Two-Factor Authentication (2FA)", "Secure Communication (HTTPS)"]
     },
     {
-      title: 'Features',img:icons.avatarImg3, data: ["Task Creation and Assignment", "Ticket Management", "Filtering and Tracking", "Sub-task Creation", "User Management", "Timesheet Management", "Group Chats", "One-on-One Chats", "Company Listing", "Customizable"]
+      title: 'Features',img:icons.avatarImg3, data: ["Task Creation and Assignment", "Task Tracking", "Ticket Management", "Real-Time Updates", "Event Management", "Virtual Conferences", "Timesheet Tracking", "Group Chats", "Customizable Settings","Centralized Company Management","Efficient Communication"]
     }
   ])
 
@@ -68,7 +68,7 @@ function Data() {
         </div>
         <Divider space='6'/>
       </div> */}
-      <div className='container pt-5'>
+      <div className='container pt-5 '>
         <div className='row'>
           {navData && navData.map((el, index) => {
             return (

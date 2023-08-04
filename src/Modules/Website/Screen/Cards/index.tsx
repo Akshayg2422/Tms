@@ -63,6 +63,7 @@ function Cards() {
                           }}
 
                         />
+                        
                       </Col>
                       <Col md="6">
                         <label className='text-white'>Last name</label>
@@ -108,6 +109,7 @@ function Cards() {
 
                           }}
                         >
+                          <i className="bi bi-send pr-2"></i>
                           Send Message
                         </Button>
                       </Col>
@@ -166,6 +168,7 @@ function Cards() {
                 </div>
               </div>
             </div>
+            
           </div>
 
         </div>

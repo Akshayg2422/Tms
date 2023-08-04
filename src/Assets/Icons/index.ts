@@ -152,12 +152,14 @@ export const icons = {
   startTime: require('./StartTime/icon.png'),
   endTime: require('./EndTime/icon.png'),
   broadCast: require('./BroadcastMessage/icon.png'),
+  goldPack: require('./GoldPremium/icons.png'),
   downArrowBlack: require('./DownArrowBlack/icon.png'),
   videoConference: require('./VideoConference/icon.png'),
   verticalLine: require('./VerticalLine/icon.png'),
   protfolio: require('./Protfolio/icon.png'),
   myTimeSheet: require('./MyTimeSheet/icons.png'),
   previousBackArrow: require('./PreviousBackArrow/icons.png'),
+  taskCommunication: require('./TaskCommunication/icons.png'),
   nextArrow: require('./NextArrow/icons.png'),
   download: require('./Download/icon.png'),
   VideoImage: require('./VideoImage/Icon.png'),
@@ -178,7 +180,7 @@ export const icons = {
 
 
 
-  landingImg: require('./LandingImage/Screenshot 2023-07-19 at 4.15.15 PM.png'),
+  landingImg: require('./LandingImage/TaskLanding.png'),
   landingImg1: require('./LandingImage/Screenshot 2023-07-19 at 4.15.33 PM.png'),
   landingImg2: require('./LandingImage/Screenshot 2023-07-19 at 4.17.55 PM.png'),
   landingImg3: require('./LandingImage/Screenshot 2023-07-19 at 4.18.25 PM.png'),
