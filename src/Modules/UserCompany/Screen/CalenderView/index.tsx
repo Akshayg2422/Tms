@@ -280,9 +280,9 @@ function CalendarView() {
           <div className="col">
             <Card className="card-calendar">
               <CardHeader>
-                <h5 className="h3 mb-0">Calendar</h5>
+                <h5 className="h2 mb-0">Calendar</h5>
               </CardHeader>
-              <CardBody className="p-0">
+              <CardBody className="mx-3">
                 <div
                   className="calendar"
                   data-toggle="calendar"
