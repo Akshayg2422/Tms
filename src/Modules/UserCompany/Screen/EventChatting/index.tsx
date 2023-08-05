@@ -14,7 +14,7 @@ function EventChatting() {
       <Card>
         <GetEventMessage/>
 
-        <div className={'mt-3'}>
+        <div className={'mt-4'}>
         <AddEventChat />
 
         </div>

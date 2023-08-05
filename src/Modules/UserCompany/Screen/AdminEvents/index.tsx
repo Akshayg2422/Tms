@@ -73,7 +73,8 @@ function AdminEvents() {
     setLoading(true)
     const params = { 
       id: user_details?.id,
-      page_number }
+      page_number
+     }
     dispatch(
       getEvents({
         params,
@@ -204,7 +205,6 @@ function AdminEvents() {
   }
 
   function processMarkAsClosedHandler(item) {
-    console.log('element');
 
     const params = {
       id: item.id,
@@ -238,7 +238,7 @@ function AdminEvents() {
   }
 
   function proceedEventsChatting(el: any) {
-    console.log("el=======>>", el)
+  
     dispatch(
       refreshEventsMessage(el)
     )

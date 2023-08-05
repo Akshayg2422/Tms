@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getMomentObjFromServer, getDisplayDateFromMomentByType, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A, getDisplayDateFromMoment, EDIT_TIME_SHEET_DETAILS, USER_RECORDS, getObjectFromArrayByKey, getDisplayTimeDateMonthYearTime } from '@Utils'
+import { getMomentObjFromServer, getDisplayDateFromMomentByType, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A, getDisplayDateFromMoment, EDIT_TIME_SHEET_DETAILS, USER_RECORDS, getObjectFromArrayByKey, getDisplayTimeDateMonthYearTime, getDisplayTimeFromMoment } from '@Utils'
 import {
   addEmployeeTimeline,
   addEnableRequest,
@@ -27,6 +27,8 @@ function MyTimeSheet() {
   const [endTimeEta, setEndTimeEta] = useState<any>("")
   const editAssignedTaskSelect = useDropDown({})
   const [editStartTimeEta, setEditStatTimeEta] = useState<any>("")
+  const [editStartTime, setEditStatTime] = useState<any>("")
+  const [editEndTime, setEditEndTime] = useState<any>("")
   const [assignedTasksId, setAssignedTaskId] = useState("")
   const [editEndTimeEta, setEditEndTimeEta] = useState<any>("")
   const [assignedTaskList, setAssignedTaskList] = useState([])
@@ -109,6 +111,7 @@ function MyTimeSheet() {
 
   };
 
+
   //shift with date
   const dateWithTask = () => {
     const convertedShift: any = []
@@ -183,11 +186,13 @@ function MyTimeSheet() {
   };
 
   const handleEditStartTimeEtaChange = (value: any) => {
+    console.log(value,"value")
 
     setEditStatTimeEta(value)
   };
 
   const handleEditEndTimeEtaChange = (value: any) => {
+    console.log(value,"value")
 
     setEditEndTimeEta(value)
   };
@@ -227,6 +232,7 @@ function MyTimeSheet() {
       is_resubmitted: true
 
     }
+    console.log(params,"pppppppp")
 
     dispatch(
       employeeTimeLineStatus({
@@ -282,11 +288,12 @@ function MyTimeSheet() {
   function editRestValue() {
     setEditStatTimeEta('')
     setEditEndTimeEta('')
+    editDescriptions.set('')
     editAssignedTaskSelect.onChange({})
     editEtaTime.hide()
     setAssignedTaskId('')
     editSelectedType.set('')
-    editDescriptions.set('')
+
 
   }
 
@@ -408,17 +415,24 @@ function MyTimeSheet() {
 
 
       return data?.map((el: any) => {
+    
 
 
         return {
           Date: getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(el?.created_at)),
-          Task: <div data-toggle="tooltip" title={el?.task?.name} onClick={() => { goTo(ROUTES["task-module"]["tasks-details"] + '/' + el?.task?.id); }}>{el?.task?.code}</div>,
+          Type:<div>
+            {el?.type?el?.type:'-'}
+          </div>,
+          Task: <div data-toggle="tooltip" title={el?.task?.name} onClick={() => { goTo(ROUTES["task-module"]["tasks-details"] + '/' + el?.task?.code+'/'+'task'); }}>{
+            (el?.task?.code?el?.task?.code:'-')
+            }</div>,
           Description: el?.description,
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
           Status: el?.is_completed ? "complete" : "",
           "Edit":
-            <div >{(el?.timeline_status === 'PAL' || el?.timeline_status === '') &&
+            <div >{(el?.timeline_status === 'PAL' || el?.timeline_status === ''||el?.timeline_status === 'REJ') &&
+
               <MenuBar menuData={getGroupMenuItem} onClick={(element) => {
 
                 const { start_time, end_time, task, id, description, type } = el
@@ -430,8 +444,11 @@ function MyTimeSheet() {
                 if (element.id === '0') {
                   setEditStatTimeEta(getDisplayTimeDateMonthYearTime(getMomentObjFromServer(start_time)))
                   setEditEndTimeEta(getDisplayTimeDateMonthYearTime(getMomentObjFromServer(end_time)))
+                  setEditStatTime(getDisplayTimeFromMoment(getMomentObjFromServer(start_time)))
+                  setEditEndTime(getDisplayTimeFromMoment(getMomentObjFromServer(end_time)))
                   editAssignedTaskSelect.onChange(tasks)
                   editSelectedType.set(getObjectFromArrayByKey(USER_RECORDS, 'id', type));
+                
                   setAssignedTaskId(id)
                   editEtaTime.show()
                   handleEditDescription(description)
@@ -457,7 +474,6 @@ function MyTimeSheet() {
 
   return (
     <div className='m-3'>
-
       <div className='card  p-4' style={{ flexDirection: 'row' }}>
         <div className="h3">{translate('order.This Week')}</div>
         <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
@@ -471,7 +487,7 @@ function MyTimeSheet() {
 
         <div>
           {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
-
+         
 
             const filterDate = dashboardDetails?.freezed_dates && dashboardDetails?.freezed_dates.some((el: any) => el === formattedShift[index]?.date)
             return (
@@ -484,7 +500,7 @@ function MyTimeSheet() {
                   addEtaTime.show()
                 }}
                 enableButton={
-                  filterDate ? false : formattedShift[index]?.date === dateFormate ? false : formattedShift[index]?.date > dateFormate ? false : true}
+                  filterDate ? false : formattedShift[index]?.date === dateFormate ? false : formattedShift[index]?.date > dateFormate ? false : formattedShift[index]?.taskListedArray.length>0?true:false}
 
                 selectButton={
                   filterDate ? false : formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : formattedShift[index]?.date === dateFormate ? true : false
@@ -492,7 +508,7 @@ function MyTimeSheet() {
                 }
 
                 selectButtonReject={
-                  filterDate ? false : formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ? false : formattedShift[index]?.taskListedArray[0]?.timeline_status === '' ? false : formattedShift[index]?.date === dateFormate ? true : false
+                  filterDate ? false :formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ? false : formattedShift[index]?.taskListedArray.length<=0? false : formattedShift[index]?.date === dateFormate ? true : false
                 }
                 textReject={'Submit'}
                 onClickReject={() => {
@@ -657,15 +673,22 @@ function MyTimeSheet() {
             data={USER_RECORDS}
             onChange={(item) => {
               editSelectedType.onChange(item)
+              console.log(item,"iiiiiiiii--->")
+              if(item?.id!=='TSK'){
+                editAssignedTaskSelect.set('')
+
+              }
+
+
             }}
             selected={editSelectedType.value}
           />
 
 
-          {editAssignedTaskSelect?.value && <DropDown
+          {( editSelectedType?.value?.id==='TSK' ||editAssignedTaskSelect?.value) && <DropDown
             heading={translate('auth.assignedTask')}
             selected={editAssignedTaskSelect.value}
-            placeHolder={editAssignedTaskSelect.value.text}
+            placeHolder={editAssignedTaskSelect?.value?.text}
             data={assignedTaskList}
             onChange={editAssignedTaskSelect.onChange}
           />
@@ -675,14 +698,15 @@ function MyTimeSheet() {
               <DateTimePicker
                 placeholder={translate('order.Start Time')!}
                 type="time"
-                initialValue={editStartTimeEta}
+                // editStartTime
+                initialValue={editStartTime}
                 onChange={handleEditStartTimeEtaChange}
               />
             </div>
             <div className="col-6">
               <DateTimePicker
                 type="time"
-                initialValue={editEndTimeEta}
+                initialValue={editEndTime}
                 placeholder={translate('order.end Time')!}
                 onChange={handleEditEndTimeEtaChange}
               />

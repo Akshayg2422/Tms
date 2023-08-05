@@ -16,13 +16,14 @@ function EmployeesTimeSheet() {
   const { id,name } = selectedEmployee
   useEffect(() => {
     const params = {emp_id:id,
-      timeline_by:"" }
+      timeline_by:"  " }
 
     dispatch(
       getEmployeeTimeline({
         params,
         onSuccess: (response) => () => {
-          setEmployeesTimeSheets(response?.details?.data)
+          setEmployeesTimeSheets(response?.details)
+          console.log(response?.details,"==========>")
         },
         onError: (error) => () => {
 
@@ -41,7 +42,11 @@ function EmployeesTimeSheet() {
       return data?.map((el: any) => {
         return {
           Date: getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(el?.created_at)),
-          Task: <div className=''>{el?.task?.name}</div>,
+          Type:<div>
+          {el?.type?el?.type:'-'}
+        </div>,
+          Task: <div className=''>{el?.task?.code?el?.task?.code:'-'}</div>,
+         
           Description:el?.description,
           Start: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),

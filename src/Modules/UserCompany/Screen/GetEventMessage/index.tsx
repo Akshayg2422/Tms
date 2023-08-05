@@ -12,8 +12,7 @@ function GetEventMessage() {
     const { id } = useParams();
     const dispatch = useDispatch()
     const { eventsMessage, refreshEventMessage, eventAttachmentsMessage ,eventAttachmentsMessageCurrentPages} = useSelector((state: any) => state.TaskReducer);
-    console.log(eventAttachmentsMessage,"eventAttachmentsMessage==========>")
-    console.log(eventAttachmentsMessageCurrentPages,"eventAttachmentsMessageCurrentPages===='''")
+  
 
     const { height } = useWindowDimensions()
     const [hasSuccess, setHasSuccess] = useState(false)
@@ -34,7 +33,7 @@ function GetEventMessage() {
             getAttachmentsMessage({
                 params,
                 onSuccess: (response: any) => () => {
-                    console.log(response,"rrrrrrrrrrr====>")
+                  
 
                     
                 },
@@ -80,7 +79,6 @@ function GetEventMessage() {
                 setHasSuccess(false)
                 addGroupMessageApiHandler(params)
             }}
-
             variant={'group'}
             height={height}
             data={eventAttachmentsMessage}

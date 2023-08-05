@@ -5,12 +5,6 @@ export const MOBILE_NUMBER_RULES = {
   },
 };
 
-// export const FIRST_NAME_RULES = {
-//   first_name: {
-//     presence: { message: 'Full Name cannot be empty' },
-//     length: { minimum: 3, message: 'First name minimum 3 chars' },
-//   },
-// };
 
 export const ADD_USER_RULES = {
   first_name: {
@@ -119,16 +113,7 @@ export const CREATE_SUB_TASK_EXTERNAL = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  // reference_number: {
-  //   presence: { allowEmpty: false, message: "reference no cannot be empty" },
-  // },
-  // brand_branch_id: {
-  //   presence: { allowEmpty: false, message: "Please select company" },
-  // },
 
-  // assigned_to_id: {
-  //   presence: { allowEmpty: false, message: "please select User" },
-  // },
   priority: {
     presence: { allowEmpty: false, message: "please select priority" },
 
@@ -144,13 +129,7 @@ export const CREATE_SUB_TASK_INTERNAL = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  // reference_number: {
-  //   presence: { allowEmpty: false, message: "reference no cannot be empty" },
-  // },
 
-  // assigned_to_id: {
-  //   presence: { allowEmpty: false, message: "please select User" },
-  // },
   priority: {
     presence: { allowEmpty: false, message: "please select priority" },
 
@@ -308,9 +287,9 @@ export const ADD_TIME_SHEET_DETAILS = {
 
 
 export const EDIT_TIME_SHEET_DETAILS = {
-  type: {
-    presence: { allowEmpty: false, message: "  Type cannot be empty" },
-  },
+  // type: {
+  //   presence: { allowEmpty: false, message: "  Type cannot be empty" },
+  // },
   start_time: {
     presence: { allowEmpty: false, message: " StartTime cannot be empty" },
   },

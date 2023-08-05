@@ -11,7 +11,7 @@ import { getTokenByUser, selectedVcDetails } from '@Redux';
 
 function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = true, onVideoPress}: SendProps) {
 
-    console.log(isSuccess,"isSuccess====>")
+ 
 
     const message = useInput('')
     const attachmentModal = useModal(false)
@@ -51,6 +51,12 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
         }
     };
 
+    const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+        const target = e.currentTarget;
+        target.style.height = 'auto'; // Reset the height to fit the content
+        target.style.height = `${target.scrollHeight}px`; // Adjust the height to fit the new content
+      };
+
     
     return (
         <>
@@ -64,25 +70,9 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                             className="form-control form-control-sm"
                             onKeyDown={handleKeyDown}
                             onChange={message.onChange}
-                            onInput={(e) => {
-                              
-                              if(message){
-                                e.currentTarget.style.height = 'auto';
-                                e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
-                         
-                              }
-                              else{
-                                e.currentTarget.style.height = 'auto';
-                                e.currentTarget.style.height = '50px';
-
-                              }
-                                
-                              }}
-
-                            
+                            onInput={handleInput}
                             style={{ resize:'vertical', minHeight: '50px',  maxHeight:'100px',position:'absolute', bottom:-20,
                           width: '95%',}}
-                          
                         >
                         </textarea>
                     </div>
@@ -91,8 +81,6 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                         if (onMessagePress && message.value.trim()) {
                        
                          if(isSelect){
-                    
-                          
                             setIsSelect(false)
                             onMessagePress(param);
                            
@@ -158,7 +146,14 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                                     type: { event_type: 'MEA' }
                                 };
                                 if (onAttachPress) {
-                                    onAttachPress(param);
+                                    if(isSelect){
+                    
+                          
+                                        setIsSelect(false)
+                                        onAttachPress(param);
+                                       
+                                     } 
+                                   
                                 }
                             }}
                             loading={loading} />

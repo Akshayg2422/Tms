@@ -56,6 +56,7 @@ function TimeApproval() {
       ...(reason.value && { reason: reason.value })
 
     }
+    console.log(params,"=======>")
   
       dispatch(
          employeeTimeLineStatus({
@@ -64,6 +65,7 @@ function TimeApproval() {
             addRejectReasonModal.hide()
             
             getEmployeesTimeList()
+            reason.set('')
 
         },
         onError: (error) => () => {
@@ -196,7 +198,7 @@ function TimeApproval() {
 
         return {
           Date: getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(el?.created_at)),
-          Task: <div data-toggle="tooltip" title={el?.task?.name} onClick={() => { goTo(ROUTES["task-module"]["tasks-details"] + '/' + el?.task?.id); }}>{el?.task?.code}</div>,
+          Task: <div data-toggle="tooltip" title={el?.task?.name} onClick={() => { goTo(ROUTES["task-module"]["tasks-details"] + '/' + el?.task?.code+'/'+'type'); }}>{(el?.task?.code?el?.task?.code:el?.type)}</div>,
           Description: el?.description,
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),

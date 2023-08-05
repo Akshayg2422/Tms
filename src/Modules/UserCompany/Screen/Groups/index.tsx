@@ -28,8 +28,11 @@ function Groups() {
                 <div className='col-8' ref={ref}>
                     <Card>
                         <GroupMessage />
-                        <div className='mb-3'></div>
-                        <AddGroupChat />
+                      <div className='mt-4'>
+                      <AddGroupChat />
+
+                      </div>
+                   
                     </Card>
 
                 </div>

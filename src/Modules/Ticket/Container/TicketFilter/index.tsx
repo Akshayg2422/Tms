@@ -21,7 +21,7 @@ const FILTER_MENU = [
 
 function TicketFilter({ onParams }: TicketFilterProps) {
 
-    const { departments, designations, associatedCompaniesL ,dashboardDetails,employees} = useSelector((state: any) => state.UserCompanyReducer);
+    const { departments, designations, associatedCompaniesL} = useSelector((state: any) => state.UserCompanyReducer);
 
     const dispatch = useDispatch()
     
@@ -110,9 +110,13 @@ function TicketFilter({ onParams }: TicketFilterProps) {
 
   
     function proceedParams(object: any) {
+        console.log(object,"p0000")
+        console.log(params,"ppppp")
        
-        const updatedParams = { ...params, ...object }
-        console.log(updatedParams,"updatedParams")
+        const updatedParams = { ...ticketParams, ...object }
+        console.log(updatedParams,
+            "updatedParams====>")
+       
 
         if (onParams) {
             onParams(updatedParams)
@@ -129,7 +133,8 @@ dispatch(
     }, [ticketParams])
 
     const updateField =()=>{
-        const {tickets_by,ticket_status, priority,company,department_id, designation_id}=ticketParams
+        const {tickets_by,ticket_status, priority,company,department_id, designation_id} = ticketParams
+        console.log(ticketParams,'ticketParamsticketParams')
        
         filteredTicket.set(getObjectFromArrayByKey(TICKET_FILTER_LIST, 'id', tickets_by))
         ticketStatus.set(getObjectFromArrayByKey(TICKET_STATUS_LIST, 'id', ticket_status))

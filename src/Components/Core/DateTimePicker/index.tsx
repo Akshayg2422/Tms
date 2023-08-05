@@ -43,12 +43,11 @@ function DateTimePicker({ id, heading, placeholder, type = 'both', format = "", 
 
                 onChange={
                     (date: Moment | string) => {
-                        console.log(date,"ddddddddddddddd")
+                       
 
                         if (onChange) {
                             if (isMoment(date)) {
-                                console.log('[[[[[[')
-                                console.log(date,'>>>>>>>>>>')
+                               
                                 onChange(date.format(format).toString())
                             }
                             else {

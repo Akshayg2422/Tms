@@ -87,8 +87,9 @@ export const TASK_FILTER_LIST = [
   // { id: 'created_by', text: translate('product.Created by me')! },
   { id: 'assigned_to', text: translate('product.assigned To Me')! },
   // { id: 'tagged_to', text: translate('product.tagged')! },
-  { id: 'advance', text: 'Advanced' },
   { id: 'assigned_by_company', text: 'Assigned By Company'},
+  { id: 'advance', text: 'Advanced' },
+ 
 
 ];
 
@@ -97,8 +98,10 @@ export const TASK_FILTER_LIST_CREATED_BY = [
    { id: 'created_by', text: translate('product.Created by me')! },
   // { id: 'assigned_to', text: translate('product.assigned To Me')! },
   // { id: 'tagged_to', text: translate('product.tagged')! },
-  { id: 'advance', text: 'Advanced' },
+
   { id: 'created_by_company', text: 'Created by Company' },
+  { id: 'advance', text: 'Advanced' },
+ 
  
 ];
 
@@ -117,7 +120,9 @@ export const TASK_STATUS_LIST = [
 
 ]
 
-export const USER_RECORDS = [
+export const 
+USER_RECORDS = [
+  
   {id:'TSK',   text: 'Task', type: 'TSK'},
   {
   id: 'MET',
@@ -183,7 +188,7 @@ export const TICKET_FILTER_LIST = [
   { id: 'ALL', text: translate('common.All')! },
   { id: 'created_by', text: translate('product.Created by me')! },
   { id: 'assigned_to', text: translate('product.assigned To Me')! },
-  { id: 'tagged', text: translate('product.tagged')! }
+  { id: 'tagged_to', text: translate('product.tagged')! }
 ];
 
 export const TICKET_STATUS_LIST = [

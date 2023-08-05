@@ -66,13 +66,15 @@ if(page_number){
     }
 
     const normalizedTableData = (data: any) => {
+        
 
         if (data && data?.length > 0) {
             return data?.map((el: any) => {
+                console.log(el,"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
                 return {
                     profile:
                         <div className='row ' onClick={() => { goTo(ROUTES['user-company-module']['employee-time-sheet']) 
-                        dispatch(setSelectedEmployee(data))}}>
+                        dispatch(setSelectedEmployee(el))}}>
                             <div className='col-auto '>{el?.profile_image ? <Image variant={'rounded'} size='sm' src={getPhoto(el?.profile_image)} /> : <Image variant={'rounded'} size='sm' src={icons.profilePick} />}</div>
                             <div className='col mt--3 '> <div className='row h5 mb-0 '>{el.name}</div>
                             </div>
@@ -82,7 +84,6 @@ if(page_number){
                     '':<MenuBar  menuData={TASK_STATUS_MENU} onClick={()=>{
                         goTo(HOME_PATH.ADD_USER)
                         dispatch(handleUserDetails(el))
-                        console.log(data,"ddddddd====>")
                     }}/>
                     
 
