@@ -4,9 +4,9 @@ import { translate } from '@I18n'
 import React from 'react'
 import { Icons } from 'react-toastify'
 
-function PaymentCards() {
+function  PaymentCards() {
   return (
-    <div className='d-flex justify-content-center pt-5 '>
+    <div className='d-flex justify-content-center pt-5 ' style={{backgroundColor:'#c5d7ff'}}>
       <div className='container'>
         <div className={' row d-flex justify-content-center  align-item-center'}>
         <i className="bi bi-collection-play-fill mr-3 text-primary" style={{fontSize:'27px'}}></i>
@@ -121,7 +121,7 @@ function PaymentCards() {
                 <div className="display-4 text-black">₹999</div>
                 <div className='pt-3'>
                   <a href='https://tmsprimary.quantaedat.com/authentication/payment/?name=Gold&amount=999'
-                    className=' border-0 col btn btn-primary ' style={{ borderRadius: '20px' }}>{translate('auth.Buy Now')}</a>
+                    className=' bg-primary border-0 col btn btn-primary ' style={{ borderRadius: '20px' }}>{translate('auth.Buy Now')}</a>
                 </div>
                 <ul className="list-unstyled my-4">
                   <li>
@@ -212,7 +212,7 @@ function PaymentCards() {
                 <div className="display-4 text-black">₹1499</div>
                 <div className='pt-3'>
                   <a href='https://tmsprimary.quantaedat.com/authentication/payment/?name=Platinum&amount=1499'
-                    className=' border-0 col btn btn-primary ' style={{ borderRadius: '20px' }}>{translate('auth.Buy Now')}</a>
+                    className=' bg-primary border-0 col btn btn-primary ' style={{ borderRadius: '20px' }}>{translate('auth.Buy Now')}</a>
                 </div>
                 <ul className="list-unstyled my-4">
                   <li>
@@ -305,7 +305,7 @@ function PaymentCards() {
                 <div className="display-4 text-black">₹1999</div>
                 <div className='pt-3'>
                   <a href='https://tmsprimary.quantaedat.com/authentication/payment/?name=Diamond&amount=1999'
-                    className=' border-0 col btn btn-primary ' style={{ borderRadius: '20px' }}>{translate('auth.Buy Now')}</a>
+                    className='bg-primary border-0 col btn btn-primary ' style={{ borderRadius: '20px' }}>{translate('auth.Buy Now')}</a>
                 </div>
                 <ul className="list-unstyled my-4">
                   <li>

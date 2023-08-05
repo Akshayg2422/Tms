@@ -177,6 +177,7 @@ export const icons = {
   deleteRounded: require('./DeleteRounded/icon.png'),
   VideoIcon: require('./VideoIcon/icon1.png'),
   ScreenShort:require('./ScreenShort/icon1.png'),
+  TMS_home:require('./TMS_Home/icon3.png'),
 
 
 
@@ -213,6 +214,7 @@ export const icons = {
   avatarImg1: require('./LandingImage/Visual data-amico.png'),
   avatarImg2: require('./LandingImage/Visual data-pana.png'),
   avatarImg3: require('./LandingImage/Visual data-rafiki.png'),
+  TaskList1:require('./LandingImage/Task List1.png'),
 
 
 

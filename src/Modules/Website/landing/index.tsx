@@ -1,4 +1,4 @@
-import { Header, Home, Form, Data, Features, UserFriend, EvantManagSystem, RealTime, Experiences, Footer, Cards, PaymentCards } from "@Modules"
+import { Header, Home, Form, Data, Features, UserFriend, EvantManagSystem, RealTime, Experiences, Footer, Cards, PaymentCards, Documentation } from "@Modules"
 import './index.css';
 import React, { useEffect } from "react";
 import { useDispatch } from 'react-redux'
@@ -26,12 +26,15 @@ function Landing() {
     <>
       <Header />
       <Home />
+      <div style={{backgroundColor:"#dfe6fc"}}>
       <Form />
       <Data />
       <PaymentCards/>
       <Cards />
       <Footer />
-       
+      </div>
+      
+       {/* <Documentation/> */}
         {/* <Features />   */}
       {/* <UserFriend/> */}
       {/* <EvantManagSystem/> */}

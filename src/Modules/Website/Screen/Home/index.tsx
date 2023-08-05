@@ -8,43 +8,28 @@ import { Link } from 'react-router-dom';
 function Home() {
   return (
     <>
-      <div className=" bg-customGradient-primary  pt-6 pb-9" >
+      <div className="pt-6 pb-9 bg-customGradient-primary">
         <Container>
-          <div className="header-body">
+          <div className="header-body ">
             <Row className="align-items-center">
-              <Col lg="6">
+              <Col lg="6" className='justify-content-center text-center d-flex pt-6'>
                 <div className="pr-5">
-                  <h1 className="display-1 text-white font-weight-bold mb-0">
-                    Quanta TMS
-                  </h1>
-                  <h2 className="display-4 text-white font-weight-light">
-                    Streamline Your Ticket Management
+                  <h2 className=" display-3 mx--3 text-white font-weight-bold  ">
+                    Streamline Your Task & Ticket Management
                   </h2>
                   <p className="text-white mt-4 text-justify">
-                  "Quanta Ticket Management" is a cutting-edge web and mobile app simplifying ticket creation, tracking, and resolution for teams, fostering seamless collaboration and productivity. Its user-friendly interface and comprehensive modules empower businesses and associations to optimize their ticket management process.
-                  </p>
-                  {/* <div className="mt-5">
-                    <Button
-                      className="btn-neutral my-2"
-                      color="default"
-                      tag={Link}
-                    >
-                      Explore Dashboard
-                    </Button>
-                    <Button
-                      className="my-2"
-                      color="default"
-                    >
-                      Purchase now
-                    </Button>
-                  </div> */}
+                  Quanta TMS transforms task and ticket management, boosting productivity and collaboration. 
+                  Create swift resolutions, embrace dynamic news feeds, and enhance remote teamwork. 
+                  With comprehensive timesheets and efficient communication, Quanta TMS shapes the future of collaboration.
+                  </p>  
                 </div>
               </Col>
-              <Col lg="6">
+              <Col lg="6" className='pt-4 justify-content-center d-flex'>
                 <Image
-                  src={icons.ScreenShort}
-                  height={"100%"}
-                  width={"100%"}
+                  src={icons.TMS_home}
+                  // height={"100%"}
+                  width={"110%"}
+                  className=''
 
                 />
               </Col>
