@@ -17,22 +17,19 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     const mediaRecorderRef=useRef<any>()
     const [recording, setRecording]=useState<any>()
     const [isSelected,setSelected]=useState<any>(false)
-    const [audioData,setAudioData]=useState<any>()
+    const [audioData,setAudioData]=useState()
     const { selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    console.log(JSON.stringify(dashboardDetails),"dashboardDetails ==>")
     const microPhoneModals=useModal(true)
     const loginLoader = useLoader(false);
     const [counting,setCounting]=useState(false)
-    const [stopAudio,setStopAudio]=useState<any>()
-    const [isSelect,setSelect]=useState<boolean>(true)
+    const [stopAudio,setStopAudio]=useState(true)
 
     useEffect(()=>{
         getMicrophonePermission()
       
     },[])
-    useEffect(()=>{
-
-    },[isSelect])
     
   useEffect(()=>{
     if(audioData){
@@ -54,10 +51,15 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
             params,
             onSuccess:(response)=>()=>{
               let code=response?.details?.task_code
+            
+              
               loginLoader.hide()
               microPhoneModals.hide()
               setSelected(false)
               setCounting(false)
+              dispatch(
+                setSelectedModal(false)
+            )
               dispatch(setSelectedTask(code));
               dispatch(selectedTaskIds([code]))
               dispatch(
@@ -82,29 +84,14 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     }
 
      const handleDataAvailable = (event: any) => {
+      console.log('iiiitterr')
         if (event.data.size > 0) {
           const audioBlob = new Blob([event.data], { type: 'audio/wav' });
           const reader: any = new FileReader();
           reader.onload = () => {
             const base64Audio = reader.result.split(',')[1];
-if(isSelect){
-  console.log('tttt')
-  if(stopAudio){
-  let stopData=stopAudio?.concat(base64Audio)
 
-            setAudioData(stopData)
-  }
-  else{
-    setAudioData(base64Audio)
-    
-  }
-
-}
-else{
-  console.log('pppp')
-  setStopAudio(base64Audio)
-
-}
+            setAudioData(base64Audio)
 
           };
           reader.readAsDataURL(audioBlob);
@@ -128,9 +115,9 @@ else{
       };
     
       const startVoiceRecording = () => {
-
+        console.log(stream,"stream")
         if (stream) {
-          console.log('iiiiii',stream)
+          console.log('oooooo')
           mediaRecorderRef.current = new MediaRecorder(stream);
           mediaRecorderRef.current.addEventListener("dataavailable", handleDataAvailable);
           mediaRecorderRef.current.start();
@@ -138,7 +125,9 @@ else{
         }
       };
     
-      const stopVoiceRecording = () => {
+      const stopVoiceRecording = (item) => {
+        console.log(mediaRecorderRef.current,"mediaRecorderRef.current==>")
+        
         if (mediaRecorderRef.current) {
           mediaRecorderRef.current.stop();
           setRecording(false);
@@ -236,13 +225,11 @@ else{
         <div className={'d-flex justify-content-center pt-2'}>
         {recording!==true && <Button text={'Start'} onClick={()=>{
         startVoiceRecording()
-        setSelect(true)
         setSelected(true)}} size="sm"/>}
 
 {recording && <Button text={'ReCapture'} onClick={()=>{
      
      startVoiceRecording()
-     setSelect(true)
 
     }} size={'sm'}/>}
 
@@ -253,17 +240,16 @@ else{
        onClick={()=>{
 
         setCounting(true)
-      stopVoiceRecording()
-   
+      stopVoiceRecording(true)
+      setStopAudio(true)
     
       }} size={'sm'}/>
     
       }
 
 {recording && <Button text={'Stop'}onClick={()=>{
-        //  stopVoiceRecording()
-        
-        setSelect(false)
+        stopVoiceRecording(false)
+        setStopAudio(false)
         }} size={'sm'}/>}
 
 
