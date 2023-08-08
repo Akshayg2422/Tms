@@ -4,7 +4,7 @@ import { getFilter } from "@Components//Core/ImageColorIcon";
 import { useModal, useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { TaskFilters, TaskGroups } from '@Modules';
-import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams, setSelectedModal, setSelectedCodeId } from '@Redux';
+import { getSelectedReference, getTasks, selectedTaskIds, setSelectedTabPosition, setSelectedTask, setTaskParams, setSelectedModal, setSelectedCodeId, setSelectedTaskstatus, setSelectedTaskCode } from '@Redux';
 import { ROUTES } from '@Routes';
 import { capitalizeFirstLetter, getDates, getPhoto, paginationHandler } from '@Utils';
 import { useEffect, useRef, useState } from "react";
@@ -19,8 +19,6 @@ function Tasks() {
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
 
-
-  console.log(selectedMicroModal, "selectedMicroModal===========>")
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
   }, [taskParams])
@@ -228,9 +226,13 @@ function Tasks() {
                 tableOnClick={(idx, index, item) => {
                   dispatch(setSelectedTask(item?.code));
                   dispatch(selectedTaskIds([item?.code]))
+                  dispatch(setSelectedTaskstatus([item]))
                   dispatch(
                     setSelectedCodeId([])
                   )
+              dispatch(
+                setSelectedTaskCode(item?.code)
+              )
 
                   dispatch(getSelectedReference({ code: item?.code, refer: true }))
                   dispatch(setSelectedTabPosition({ id: '1' }))

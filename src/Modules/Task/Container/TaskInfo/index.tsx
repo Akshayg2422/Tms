@@ -3,7 +3,7 @@ import { Alert, Back, Button, Card, DateTimePicker, H, Image, ImageIcon, Input, 
 import { useInput, useLoader, useModal, useNavigation,useWindowDimensions } from '@Hooks';
 import { translate } from "@I18n";
 import { TaskEventHistory, TaskItemMenu } from "@Modules";
-import { addTaskEvent, getTaskDetails, refreshTaskEvent, selectedVcDetails, selectedTaskIds, setSelectedCodeId } from '@Redux';
+import { addTaskEvent, getTaskDetails, refreshTaskEvent, selectedVcDetails, selectedTaskIds, setSelectedCodeId, setSelectedTaskCode } from '@Redux';
 import { ROUTES } from "@Routes";
 import { HDD_MMMM_YYYY_HH_MM_A, TASK_EVENT_ETA, capitalizeFirstLetter, getDates, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils';
 import { forwardRef, useEffect, useState } from "react";
@@ -12,10 +12,7 @@ import 'react-photo-view/dist/react-photo-view.css';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { TaskInfoProps } from './interfaces';
-import {
-    Breadcrumb, BreadcrumbItem,
-} from "reactstrap";
-import React from "react";
+
 
 
 const START_TASK = 1
@@ -26,7 +23,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const {  height } = useWindowDimensions()
 
     const { id, item } = useParams()
-    const { refreshTaskEvents, selectedTaskId, selectedCodeId } = useSelector((state: any) => state.TaskReducer);
+    const { refreshTaskEvents, selectedTaskId, selectedCodeId ,selectedTaskStatus,selectedTaskCode} = useSelector((state: any) => state.TaskReducer);
 
     const dispatch = useDispatch()
     const { taskDetails, selectedReferenceDetails, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
@@ -45,16 +42,22 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const userModal = useModal(false)
     const { goTo } = useNavigation()
     const [selected, setSelected] = useState()
-
-
-
     const loginLoader = useLoader(false);
+
+
+  
+
+
+    // useEffect(()=>{
+    //     eventCodeHandler()
+    //     console.log('iiittt')
+    // },[id])
+
+ 
 
     useEffect(() => {
         getTaskDetailsHandler()
     }, [refreshTaskEvents, id])
-
-
 
 
 
@@ -63,7 +66,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             let isSelect
 
             isSelect = subTasks?.some((filter: any) => filter?.code === selectedReferenceDetails?.code)
-            setSelected(isSelect)
+          
         }
         // /
         if (tasks.length > 0) {
@@ -86,13 +89,38 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         editDescription.set('')
     }
 
+//  console.log(selectedCodeId,"selectedCodeId")
+//     const eventCodeHandler =()=>{
+//         let array:any
+//         console.log(selectedTaskId,"selectedTaskId")
+//         console.log(id,"iiiiiiiiiii")
+//         let isSelect=selectedTaskId?.some((el:any)=>el===id)
+//         console.log(isSelect,"come in===>")
+
+//         if(!isSelect){
+//             console.log('yytttt')
+//             let isSelect=selectedTaskId?.filter((el:any)=>el===selectedTaskCode)
+
+//             dispatch(
+//                 setSelectedTaskCode(id)
+//               )
+            // let isFilter=selectedTaskId?.some()
+        // }
+        // else{
+        //     console.log('come in===>')
+        // }
+        
+
+
+    // }
+
 
 
     const codeHandler = () => {
         let array: any
-        if (selectedTaskId.length >= selectedCodeId.length) {
+        if (selectedTaskId?.length >= selectedCodeId?.length) {
         
-            array = selectedTaskId.filter((el: any) => el !== id)
+            array = selectedTaskId?.filter((el: any) => el !== id)
             dispatch(
                 setSelectedCodeId([])
             )
@@ -102,11 +130,12 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             array = selectedCodeId
 
         }
-     
-
+    
         return array
 
     }
+
+
 
     const codeNavigationHandler = (data) => {
 
@@ -216,9 +245,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     return (
         <div >
             <div className={'card p-4 overflow-auto overflow-hide '} style={{height:height-260}}>
-
-                {/* <div className=" col row mb-1">
-                    {selectedTaskId.map((el, index) => {
+{/* 
+                <div className=" col row mb-1">
+                    {selectedTaskId?.map((el, index) => {
                         return (
 
                             <div>
@@ -240,13 +269,14 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         )
                     })}
 
-                </div> */}
+                </div>  */}
+
                 <div className="row justify-content-center">
 
                     <div className="col-auto" onClick={() => {
-                        // dispatch(
-                        //     selectedTaskIds(codeHandler())
-                        // )
+                        dispatch(
+                            selectedTaskIds(codeHandler())
+                        )
 
                     }}>
                         <Back

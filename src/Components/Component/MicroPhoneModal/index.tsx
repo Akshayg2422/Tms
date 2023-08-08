@@ -51,8 +51,6 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
             params,
             onSuccess:(response)=>()=>{
               let code=response?.details?.task_code
-              console.log(code,"cccccccc")
-              
               loginLoader.hide()
               microPhoneModals.hide()
               setSelected(false)

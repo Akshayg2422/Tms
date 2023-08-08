@@ -4,7 +4,7 @@ import { DropDown, Checkbox, SearchInput, MenuBar, AutoComplete } from '@Compone
 import { translate } from '@I18n'
 import { TICKET_FILTER_LIST, TICKET_STATUS_LIST, TICKET_PRIORITY_LIST, getDropDownDisplayData, getDropDownCompanyDisplayData, getDropDownCompanyUser, getObjectFromArrayByKey, } from '@Utils'
 import { useDropDown } from '@Hooks'
-import { getAssociatedCompaniesL, getDepartments, getDesignations, selectedTicketParams } from '@Redux'
+import { getAssociatedCompaniesL, getDepartments, getDesignations, selectAdvanceTicketFilter, selectedTicketParams } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { icons } from '@Assets'
 
@@ -25,7 +25,8 @@ function TicketFilter({ onParams }: TicketFilterProps) {
 
     const dispatch = useDispatch()
     
-    const {ticketParams} = useSelector((state: any) => state.TicketReducer);
+    const {ticketParams,advanceTicketFilter} = useSelector((state: any) => state.TicketReducer);
+    console.log(advanceTicketFilter,"advanceTicketFilter===>")
     
 
     const filteredTicket = useDropDown(TICKET_FILTER_LIST[0]);
@@ -35,13 +36,16 @@ function TicketFilter({ onParams }: TicketFilterProps) {
     const department = useDropDown({ id: 'ALL', name: 'All' })
     const designation = useDropDown({ id: 'ALL', name: 'All' })
     const [params, setParams] = useState({})
-    const [advanceFilter, setAdvanceFilter] = useState(false)
+    const [advanceFilter, setAdvanceFilter] = useState(advanceTicketFilter)
     const DEFAULT_COMPANY_PARAMS={ company:'', designation_id: 'ALL', department_id: 'ALL' }
     const modifiedDepartment = departments ? [{ id: 'ALL', name: 'All' }, ...departments] : [{ id: 'ALL', name: 'All' }]
     const modifiedDesignation = designations ? [{ id: 'ALL', name: 'All' }, ...designations] : [{ id: 'ALL', name: 'All' }]
     const modifiedCompany = associatedCompaniesL && associatedCompaniesL.length > 0 && [{ id: '', display_name: '𝗦𝗘𝗟𝗙', name: 'self' }, ...associatedCompaniesL]
  
 
+    useEffect(()=>{
+        setAdvanceFilter(advanceTicketFilter)
+    },[advanceTicketFilter])
     useEffect(() => {
         getAssociatedCompanies()
     }, []);
@@ -134,7 +138,6 @@ dispatch(
 
     const updateField =()=>{
         const {tickets_by,ticket_status, priority,company,department_id, designation_id} = ticketParams
-        console.log(ticketParams,'ticketParamsticketParams')
        
         filteredTicket.set(getObjectFromArrayByKey(TICKET_FILTER_LIST, 'id', tickets_by))
         ticketStatus.set(getObjectFromArrayByKey(TICKET_STATUS_LIST, 'id', ticket_status))
@@ -202,16 +205,24 @@ dispatch(
 
                     <MenuBar toggleIcon={icons.Equalizer} menuData={FILTER_MENU} onClick={(el) => {
                         if (el.id === FILTER_MENU[1].id) {
-                            setAdvanceFilter(true)
+                            dispatch(
+                                selectAdvanceTicketFilter(true)
+                            )
+                            // setAdvanceFilter(advanceTicketFilter)
                          console.log(DEFAULT_COMPANY_PARAMS,"DEFAULT_COMPANY_PARAMS")
                             companies.onChange({})
                             proceedParams({...ticketParams,...DEFAULT_COMPANY_PARAMS})
+                      
 
                         } else {
-                            setAdvanceFilter(false)
+                            dispatch(
+                                selectAdvanceTicketFilter(false)
+                            )
+
+                            // setAdvanceFilter(advanceTicketFilter)
                           
                             companies.onChange({})
-
+                         
                         }
                     }} />
 

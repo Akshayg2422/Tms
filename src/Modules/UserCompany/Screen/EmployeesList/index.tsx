@@ -70,7 +70,6 @@ if(page_number){
 
         if (data && data?.length > 0) {
             return data?.map((el: any) => {
-                console.log(el,"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
                 return {
                     profile:
                         <div className='row ' onClick={() => { goTo(ROUTES['user-company-module']['employee-time-sheet']) 

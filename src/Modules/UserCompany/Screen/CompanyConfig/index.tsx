@@ -29,7 +29,7 @@ function CompanyConfig() {
       code: 'CDFG',
       profile_banner: photo
     }
-    console.log(params,"ppppp==<")
+
     dispatch(
       fetchUsingCompanyLabel({
         params,

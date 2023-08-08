@@ -35,7 +35,7 @@ export const raiseNewTicketFailure = (error: any) => {
  */
 
 export const getTickets = (params: any) => {
-  console.log('cation' +"====getTickets");
+
   
   return {
     type: ActionTypes.GET_TICKETS,
@@ -228,7 +228,7 @@ export const referenceIssueDetails = (params) => {
 }
 
 export const setSelectedTicketTabPosition = (params: any) => {
-  console.log(" action params",params)
+
   return {
       type: ActionTypes.SELECTED_TICKET_TAB_POSITION,
       payload: params,
@@ -304,6 +304,13 @@ export const getTicketDetailsFailure = (error: any) => {
 export const getTicketEventAttachmentsSuccess = (response: any) => {
   return {
       type: ActionTypes.GET_TICKET_EVENT_ATTACHMENTS_SUCCESS,
+      payload: response,
+  };
+};
+
+export const selectAdvanceTicketFilter = (response: any) => {
+  return {
+      type: ActionTypes.ADVANCE_TICKET_FILTER,
       payload: response,
   };
 };

@@ -21,6 +21,7 @@ const initialState: TicketStateProps = {
   ticketDetails: {},
   ticketEventAttachments: [],
   ticketEventAttachmentsCurrentPage: 1,
+  advanceTicketFilter:undefined,
   ticketParams:{ q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
 
 };
@@ -246,6 +247,11 @@ const TicketReducer = (state = initialState, action: any) => {
         case ActionTypes.GET_TICKET_PARAMS:
           state = { ...state, ticketParams: action.payload };
           break;
+
+          case ActionTypes.ADVANCE_TICKET_FILTER:
+            state = { ...state, advanceTicketFilter: action.payload }
+            break;
+          
 
 
 

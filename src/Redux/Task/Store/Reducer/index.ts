@@ -7,6 +7,7 @@ const initialState: TaskStateProp = {
   taskNumOfPages: undefined,
   taskCurrentPages: 1,
   selectedTask: undefined,
+  selectedTaskStatus:undefined,
   addTaskEvents: undefined,
   taskEventHistories: undefined,
   assignedDepartment: undefined,
@@ -27,6 +28,7 @@ const initialState: TaskStateProp = {
   refreshTaskEvents: false,
   refreshEventMessage: false,
   refreshEventsMessage: false,
+  selectedTaskCode:undefined,
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
   selectedTabPositions: { id: '1' },
@@ -104,12 +106,24 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
 
 
+      case ActionTypes.SELECTED_TASK_STATUS:
+        state = { ...state, selectedTaskStatus: action.payload }
+        break;
+  
+
           /**
      * selected Task id
      */
     case ActionTypes.SET_SELECTED_CODE_ID:
       state = { ...state, selectedCodeId: action.payload }
       break;
+
+
+      // 
+
+      case ActionTypes.SELECTED_TASK_CODE:
+        state = { ...state, selectedTaskCode: action.payload }
+        break;
     /**
         * selected Task Id
         */

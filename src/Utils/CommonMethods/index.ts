@@ -82,7 +82,7 @@ export function stringSlice(string: any, slice: number = 3) {
   return string.slice(0, slice)
 }
 
-export function stringSlices(string: any, slice: number = 20) {
+export function stringSlices(string: any, slice: number = 35) {
   return string.slice(0, slice)
 }
 

@@ -52,10 +52,12 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
     };
 
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
-        const target = e.currentTarget;
+        const target = e.currentTarget; 
         target.style.height = 'auto'; // Reset the height to fit the content
         target.style.height = `${target.scrollHeight}px`; // Adjust the height to fit the new content
       };
+
+     
 
     
     return (

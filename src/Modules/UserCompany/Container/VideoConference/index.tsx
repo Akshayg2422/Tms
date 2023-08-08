@@ -59,7 +59,7 @@ const VideoConference = ({ iframeHeight = "100vh", chatCall = false }: VideoConf
             params,
             onSuccess: (success: any) => () => {
 
-                console.log("success============>", success)
+              
             },
             onError: (error: string) => () => {
 

@@ -186,13 +186,13 @@ function MyTimeSheet() {
   };
 
   const handleEditStartTimeEtaChange = (value: any) => {
-    console.log(value,"value")
+    
 
     setEditStatTimeEta(value)
   };
 
   const handleEditEndTimeEtaChange = (value: any) => {
-    console.log(value,"value")
+
 
     setEditEndTimeEta(value)
   };
@@ -232,7 +232,7 @@ function MyTimeSheet() {
       is_resubmitted: true
 
     }
-    console.log(params,"pppppppp")
+
 
     dispatch(
       employeeTimeLineStatus({
@@ -673,7 +673,7 @@ function MyTimeSheet() {
             data={USER_RECORDS}
             onChange={(item) => {
               editSelectedType.onChange(item)
-              console.log(item,"iiiiiiiii--->")
+             
               if(item?.id!=='TSK'){
                 editAssignedTaskSelect.set('')
 
