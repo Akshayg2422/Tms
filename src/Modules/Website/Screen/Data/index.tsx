@@ -26,7 +26,7 @@ function Data() {
 
   return (
     <>
-      <div className='container pt-5 overflow-auto overflow-hide' style={{overflowY:'hidden'}}>
+      <div className='container pt-5 ' >
         <div className='row'>
           {navData && navData.map((el, index) => {
             return (

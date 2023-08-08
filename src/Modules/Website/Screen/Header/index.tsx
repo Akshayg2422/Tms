@@ -12,7 +12,7 @@ function Header() {
 
   return (
 
-    // <div className='overflow-auto overflow-hide'>
+   
       <Navbar
         className="navbar-horizontal navbar-main navbar-dark bg-navGradient-primary py-2 sticky-top"
         expand="lg"
@@ -152,7 +152,6 @@ function Header() {
           </UncontrolledCollapse>
         </Container>
       </Navbar>
-    // </div>
 
 
   )
