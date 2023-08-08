@@ -37,12 +37,13 @@ function Footer() {
                    About
                   </NavLink> */}
                 </NavItem>
-                <NavItem>
+                {/* <NavItem>
                   <NavLink
                   >
-                  <div className={'pt-1'}>  About Us</div> 
+                  
                   </NavLink>
-                </NavItem>
+                </NavItem> */}
+                <p  className={'pt-1'} style={{cursor:'pointer'}} >About Us</p> 
                 <NavItem>
                   <NavLink
                   >

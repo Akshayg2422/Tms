@@ -35,11 +35,7 @@ function Cards() {
               <div className='col-sm-7'
 
               >
-                <div className='pb-0 d-flex justify-content-center pt-4'
-                  style={{
-                    // backgroundColor: '#5f6aa0'
-                  }}
-                >
+                <div className='pb-0 d-flex justify-content-center pt-4'>
                   <h1 className='display-4 text-white'>Send us a message</h1>
                 </div>
                 <CardBody className=''>
@@ -55,7 +51,7 @@ function Cards() {
                         <Input
                           size={'sm'}
                           style={{
-                            backgroundColor: '#c5d7ff',
+                            backgroundColor: '#ecefff',
                             border: '1px solid white'
                           }}
 
@@ -67,7 +63,7 @@ function Cards() {
                         <Input
                           size={'sm'}
                           style={{
-                            backgroundColor: '#c5d7ff',
+                            backgroundColor: '#ecefff',
                             border: '1px solid white'
                           }}
                         />
@@ -78,7 +74,7 @@ function Cards() {
                       <Input
                         size={'sm'}
                         style={{
-                          backgroundColor: '#c5d7ff',
+                          backgroundColor: '#ecefff',
                           border: '1px solid white'
                         }}
                       />
@@ -91,7 +87,7 @@ function Cards() {
                         rows="4"
                         type="textarea"
                         style={{
-                          backgroundColor: '#c5d7ff',
+                          backgroundColor: '#ecefff',
                           border: '1px solid white'
 
                         }}
