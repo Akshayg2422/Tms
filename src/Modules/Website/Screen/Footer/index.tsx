@@ -11,7 +11,7 @@ function Footer() {
 
   const { goTo } = useNavigation();
   return (
-    <div className='overflow-auto overflow-hide'>
+    <div>
       <footer className="" id="footer-main">
         <Container>
           <Row className=" justify-content-xl-between">

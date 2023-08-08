@@ -10,9 +10,9 @@ function Cards() {
 
   return (
     <>
-      <div className='container-fluid px-6 pt-5 overflow-auto overflow-hide'
+      <div className='container-fluid px-6 pt-5'
         style={{
-          zoom: '95%',overflowY:'hidden'
+          zoom: '95%'
         }}
       >
         <div className='row justify-content-center '>
