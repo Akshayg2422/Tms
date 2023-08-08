@@ -17,19 +17,22 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     const mediaRecorderRef=useRef<any>()
     const [recording, setRecording]=useState<any>()
     const [isSelected,setSelected]=useState<any>(false)
-    const [audioData,setAudioData]=useState()
+    const [audioData,setAudioData]=useState<any>()
     const { selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const microPhoneModals=useModal(true)
     const loginLoader = useLoader(false);
     const [counting,setCounting]=useState(false)
-    const [stopAudio,setStopAudio]=useState(true)
+    const [stopAudio,setStopAudio]=useState<any>()
     const [isSelect,setSelect]=useState<boolean>(true)
 
     useEffect(()=>{
         getMicrophonePermission()
       
     },[])
+    useEffect(()=>{
+
+    },[isSelect])
     
   useEffect(()=>{
     if(audioData){
@@ -84,9 +87,24 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
           const reader: any = new FileReader();
           reader.onload = () => {
             const base64Audio = reader.result.split(',')[1];
+if(isSelect){
+  console.log('tttt')
+  if(stopAudio){
+  let stopData=stopAudio?.concat(base64Audio)
 
-            setAudioData(base64Audio)
+            setAudioData(stopData)
+  }
+  else{
+    setAudioData(base64Audio)
+    
+  }
 
+}
+else{
+  console.log('pppp')
+  setStopAudio(base64Audio)
+
+}
 
           };
           reader.readAsDataURL(audioBlob);
@@ -218,11 +236,13 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
         <div className={'d-flex justify-content-center pt-2'}>
         {recording!==true && <Button text={'Start'} onClick={()=>{
         startVoiceRecording()
+        setSelect(true)
         setSelected(true)}} size="sm"/>}
 
 {recording && <Button text={'ReCapture'} onClick={()=>{
      
      startVoiceRecording()
+     setSelect(true)
 
     }} size={'sm'}/>}
 
@@ -234,15 +254,16 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
 
         setCounting(true)
       stopVoiceRecording()
-      setStopAudio(true)
+   
     
       }} size={'sm'}/>
     
       }
 
 {recording && <Button text={'Stop'}onClick={()=>{
-         stopVoiceRecording()
-        setStopAudio(false)
+        //  stopVoiceRecording()
+        
+        setSelect(false)
         }} size={'sm'}/>}
 
 
