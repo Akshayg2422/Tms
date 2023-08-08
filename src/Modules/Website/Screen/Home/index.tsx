@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <>
-      <div className="pt-6 pb-9 bg-customGradient-primary">
-        <Container>
+ 
+      <div className="pt-6 pb-9 bg-customGradient-primary " >
+        <Container className='overflow-auto overflow-hide' style={{overflowY:'hidden'}}>
           <div className="header-body scrolled fade-in-bottom">
             <Row className="align-items-center">
               <Col lg="6" className='justify-content-center text-center d-flex pt-6'>
@@ -40,7 +40,7 @@ function Home() {
 
       </div>
 
-    </>
+   
   )
 }
 

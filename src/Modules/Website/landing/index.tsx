@@ -23,25 +23,16 @@ function Landing() {
 
 
   return (
-<>
-    {/* <div className="bg-navGradient-primary"> */}
+
+    <div>
       <Header />
-      <Home />
-      {/* </div> */}
+      <Home />  
       <Form />
       <Data />
       <PaymentCards/>
       <Cards />
       <Footer />
-      
-      
-       {/* <Documentation/> */}
-        {/* <Features />   */}
-      {/* <UserFriend/> */}
-      {/* <EvantManagSystem/> */}
-      {/* <RealTime/> */}
-      {/* <Experiences/> */}
-      </>
+      </div>
 
 
     
