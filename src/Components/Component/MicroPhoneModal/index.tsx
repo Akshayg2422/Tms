@@ -24,6 +24,7 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     const loginLoader = useLoader(false);
     const [counting,setCounting]=useState(false)
     const [stopAudio,setStopAudio]=useState(true)
+    const [isSelect,setSelect]=useState<boolean>(true)
 
     useEffect(()=>{
         getMicrophonePermission()
@@ -86,6 +87,7 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
 
             setAudioData(base64Audio)
 
+
           };
           reader.readAsDataURL(audioBlob);
         }
@@ -108,7 +110,9 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
       };
     
       const startVoiceRecording = () => {
+
         if (stream) {
+          console.log('iiiiii',stream)
           mediaRecorderRef.current = new MediaRecorder(stream);
           mediaRecorderRef.current.addEventListener("dataavailable", handleDataAvailable);
           mediaRecorderRef.current.start();
