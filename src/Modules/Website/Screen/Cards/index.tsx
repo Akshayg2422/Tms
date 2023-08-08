@@ -8,9 +8,6 @@ import { Container, Row, Col, Form, CardHeader, CardTitle, CardBody, InputGroup,
 function Cards() {
 
 
-
-
-
   return (
     <>
       <div className='container-fluid px-6 pt-5'
@@ -31,20 +28,16 @@ function Cards() {
         <div className='py-3'>
           <div className='card shadow '
             style={{
-              backgroundColor: '#1f2251'
+              backgroundColor: '#5f6aa0'
             }}
           >
-            <div className='row'>
+            <div className='row bg-cardGradient-primary'>
               <div className='col-sm-7'
 
               >
-                <CardHeader className='pb-0'
-                  style={{
-                    backgroundColor: '#1f2251'
-                  }}
-                >
-                  <CardTitle className='display-4 text-white'>Send us a message</CardTitle>
-                </CardHeader>
+                <div className='pb-0 d-flex justify-content-center pt-4'>
+                  <h1 className='display-4 text-white'>Send us a message</h1>
+                </div>
                 <CardBody className=''>
                   <Form
                     className="p-3"
@@ -58,18 +51,19 @@ function Cards() {
                         <Input
                           size={'sm'}
                           style={{
-                            backgroundColor: '#1f2251',
+                            backgroundColor: '#ecefff',
                             border: '1px solid white'
                           }}
 
                         />
+                        
                       </Col>
                       <Col md="6">
                         <label className='text-white'>Last name</label>
                         <Input
                           size={'sm'}
                           style={{
-                            backgroundColor: '#1f2251',
+                            backgroundColor: '#ecefff',
                             border: '1px solid white'
                           }}
                         />
@@ -80,7 +74,7 @@ function Cards() {
                       <Input
                         size={'sm'}
                         style={{
-                          backgroundColor: '#1f2251',
+                          backgroundColor: '#ecefff',
                           border: '1px solid white'
                         }}
                       />
@@ -93,7 +87,7 @@ function Cards() {
                         rows="4"
                         type="textarea"
                         style={{
-                          backgroundColor: '#1f2251',
+                          backgroundColor: '#ecefff',
                           border: '1px solid white'
 
                         }}
@@ -108,6 +102,7 @@ function Cards() {
 
                           }}
                         >
+                          <i className="bi bi-send pr-2"></i>
                           Send Message
                         </Button>
                       </Col>
@@ -116,6 +111,7 @@ function Cards() {
                 </CardBody>
 
               </div>
+
               <hr className='py-1 my-1'
                 style={{
                   border: " 1px solid white",
@@ -125,14 +121,9 @@ function Cards() {
                   borderBottom: "0px"
                 }}
               ></hr>
-              <div className='col-sm-4 '
-                style={{
-                  borderRadius: '0px 5px 5px 0px',
-                  backgroundColor: '#1f2251'
-                }}
-              >
+              
 
-                <div className=" pb-6 pt-4 ml-5">
+                <div className=" pb-6 pt-4 ml-5 col-sm-4">
                   <CardTitle className='text-white pb-4 display-4 ml--4'>Contact information</CardTitle>
                   <div className="row  align-items-center py-4">
                     <div className="icon ">
@@ -166,10 +157,10 @@ function Cards() {
                 </div>
               </div>
             </div>
+            
           </div>
 
         </div>
-      </div>
     </>
   )
 }

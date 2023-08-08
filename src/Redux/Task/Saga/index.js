@@ -357,7 +357,8 @@ function* getAttachmentsMessageSaga(action){
             yield put(Action.getAttachmentsMessageFailure(response.error_message));
             yield call(action.payload.onError(response));
         }
-    } catch (error) {
+    } 
+    catch (error) {
         yield put(Action.getAttachmentsMessageFailure("Invalid Request"));
         yield call(action.payload.onError(error));
     }
@@ -388,3 +389,4 @@ function* TaskSaga() {
 }
 
 export default TaskSaga;
+

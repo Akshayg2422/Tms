@@ -1,4 +1,4 @@
-import { Header, Home, Form, Data, Features, UserFriend, EvantManagSystem, RealTime, Experiences, Footer, Cards, PaymentCards } from "@Modules"
+import { Header, Home, Form, Data, Features, UserFriend, EvantManagSystem, RealTime, Experiences, Footer, Cards, PaymentCards, Documentation } from "@Modules"
 import './index.css';
 import React, { useEffect } from "react";
 import { useDispatch } from 'react-redux'
@@ -23,22 +23,17 @@ function Landing() {
 
 
   return (
-    <>
+
+    <div>
       <Header />
-      <Home />
+      <Home />  
       <Form />
       <Data />
       <PaymentCards/>
       <Cards />
       <Footer />
-       
-        {/* <Features />   */}
-      {/* <UserFriend/> */}
-      {/* <EvantManagSystem/> */}
-      {/* <RealTime/> */}
-      {/* <Experiences/> */}
+      </div>
 
-     </>
 
     
 
