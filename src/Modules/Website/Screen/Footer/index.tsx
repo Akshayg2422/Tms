@@ -11,15 +11,15 @@ function Footer() {
 
   const { goTo } = useNavigation();
   return (
-    <>
+    <div className='overflow-auto overflow-hide'>
       <footer className="" id="footer-main">
         <Container>
-          <Row className="align-items-center justify-content-xl-between">
-            <Col xl="6">
-              <div className="copyright text-center text-xl-left text-muted">
+          <Row className=" justify-content-xl-between">
+            <Col xl="6 ">
+              <div className="copyright text-center text-xl-left text-muted text-sm pt-1">
                 © {new Date().getFullYear()}{" "}
                 <a
-                  className="font-weight-bold ml-1"
+                  className=" ml-1" style={{fontWeight:'bold'}}
                   // href="https://www.creative-tim.com?ref=adpr-auth-footer"
                   // target="_blank"
                 >
@@ -37,29 +37,31 @@ function Footer() {
                    About
                   </NavLink> */}
                 </NavItem>
-                <NavItem>
+                {/* <NavItem>
                   <NavLink
                   >
-                    About Us
+                  
                   </NavLink>
-                </NavItem>
+                </NavItem> */}
+                <p  className={'pt-1'} style={{cursor:'pointer'}} >About Us</p> 
                 <NavItem>
                   <NavLink
                   >
-                    <p style={{ cursor: 'pointer' }} className='small h4 text-lg-right mr-sm-0  text-sm-center'>  <a className='h4' onClick={() => goTo(ROUTES["auth-module"].privacy)}><b> {translate('auth.PrivacyPolicy')} </b> </a></p>
+                    {/* small h4 text-lg-right mr-sm-0  text-sm-center */}
+                    <p style={{ cursor: 'pointer' }} className='text-sm mr-sm-0  text-sm-center'>  <a className='text-black' onClick={() => goTo(ROUTES["auth-module"].privacy)}><b> {translate('auth.PrivacyPolicy')} </b> </a></p>
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                   >
                     {/* Terms & Conditions */}
-                    <p style={{ cursor: 'pointer' }} className='small h4 text-lg-right mr-sm-0  text-sm-center  '>  <a className='h4' onClick={() => goTo(ROUTES["auth-module"].TermsAndConditions)}><b> {translate('auth.Term & Conditions')} </b> </a></p>
+                    <p style={{ cursor: 'pointer' }} className='text-sm mr-sm-0  text-sm-center '>  <a className='text-black' onClick={() => goTo(ROUTES["auth-module"].TermsAndConditions)}><b> {translate('auth.Term & Conditions')} </b> </a></p>
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                   >
-                    <p style={{ cursor: 'pointer' }} className='small h4 text-lg-right mr-sm-0  text-sm-center'>  <a className='h4' onClick={() => goTo(ROUTES["auth-module"].ReturnAndRefund)}><b> {translate('auth.Return & Refund')} </b> </a></p>
+                    <p style={{ cursor: 'pointer' }} className=' text-sm mr-sm-0  text-sm-center'>  <a className='text-black' onClick={() => goTo(ROUTES["auth-module"].ReturnAndRefund)}><b> {translate('auth.Return & Refund')} </b> </a></p>
                   </NavLink>
                 </NavItem>
                 
@@ -68,7 +70,7 @@ function Footer() {
           </Row>
         </Container>
       </footer>
-    </>
+    </div>
   )
 }
 

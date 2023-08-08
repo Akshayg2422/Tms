@@ -1489,11 +1489,15 @@ $tag-box-shadow: 0 1px 2px rgba(68, 68, 68, 0.25);
 }
 
 .bg-customGradient-primary {
-  background: linear-gradient(269deg, #191924 0, #6e0ff3 100%) !important
+  background: linear-gradient(269deg, #6e0ff3 0, #191924 90%) !important
 }
 
 .bg-cardGradient-primary {
-  background: linear-gradient(200deg, #61d0bf 0, #6e0ff3 100%) !important
+  background: linear-gradient(200deg, #6c10ef 0, #4a139b 100%) !important
+}
+
+.bg-navGradient-primary{
+  background: linear-gradient(269deg, #6e0ff3 0 ,  #191924 90%) !important
 }
 
 // 61d0bf

@@ -12,13 +12,13 @@ function Header() {
 
   return (
 
-    <>
+   
       <Navbar
-        className="navbar-horizontal navbar-main navbar-dark bg-customGradient-primary py-3 sticky-top"
+        className="navbar-horizontal navbar-main navbar-dark bg-navGradient-primary py-2 sticky-top"
         expand="lg"
         id="navbar-main"
       >
-        <Container>
+        <Container >
           <NavbarBrand to="/" tag={Link}>
             <img
               alt="..."
@@ -29,6 +29,8 @@ function Header() {
               Quanta TMS
             </span>
           </NavbarBrand>
+
+          
           <button
             aria-controls="navbar-collapse"
             aria-expanded={false}
@@ -70,30 +72,73 @@ function Header() {
                 </Col>
               </Row>
             </div>
+          
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink tag={Link}>
-                  {/* <span className="nav-link-inner--text">Dashboard</span> */}
+             <NavItem>
+                <NavLink
+                  className="nav-link-icon"
+                  href="https://www.facebook.com/creativetim?ref=creative-tim"
+                  id="tooltip601201423"
+                  target="_blank"
+                >
+                  <i className="fab fa-facebook-square" />
+                  <span className="nav-link-inner--text d-lg-none">
+                    Facebook
+                  </span>
                 </NavLink>
+                {/* <UncontrolledTooltip delay={0} target="tooltip601201423">
+                  Like us on Facebook
+                </UncontrolledTooltip> */}
               </NavItem>
               <NavItem>
-                <NavLink tag={Link}>
-                  {/* <span className="nav-link-inner--text">Pricing</span> */}
+                <NavLink
+                  className="nav-link-icon"
+                  href="https://www.instagram.com/creativetimofficial?ref=creative-tim"
+                  id="tooltip871243015"
+                  target="_blank"
+                >
+                  <i className="fab fa-instagram" />
+                  <span className="nav-link-inner--text d-lg-none">
+                    Instagram
+                  </span>
                 </NavLink>
+                {/* <UncontrolledTooltip delay={0} target="tooltip871243015">
+                  Follow us on Instagram
+                </UncontrolledTooltip> */}
               </NavItem>
               <NavItem>
-                <NavLink tag={Link}>
-                  {/* <span className="nav-link-inner--text">Login</span> */}
+                <NavLink
+                  className="nav-link-icon"
+                  href="https://twitter.com/creativetim?ref=creative-tim"
+                  id="tooltip366258619"
+                  target="_blank"
+                >
+                  <i className="fab fa-twitter-square" />
+                  <span className="nav-link-inner--text d-lg-none">
+                    Twitter
+                  </span>
                 </NavLink>
+                {/* <UncontrolledTooltip delay={0} target="tooltip366258619">
+                  Follow us on Twitter
+                </UncontrolledTooltip> */}
               </NavItem>
               <NavItem>
-                <NavLink tag={Link}>
-                  {/* <span className="nav-link-inner--text">Register</span> */}
+                <NavLink
+                  className="nav-link-icon"
+                  href="https://www.google.com/maps/place/Leora+Infotech+Private+Limited/@13.4210932,80.1274008,15z/data=!4m6!3m5!1s0x3a4d81c5e166d809:0xc9ff7b04d36a6217!8m2!3d13.4207649!4d80.1275711!16s%2Fg%2F11j0s11_vq?entry=ttu"
+                  id="tooltip366258619"
+                  target="_blank"
+                >
+                  <i className="bi bi-geo-alt-fill mr-3 text-white" />
+                  <span className="nav-link-inner--text d-lg-none">
+                    Location
+                  </span>
                 </NavLink>
+
               </NavItem>
               <NavItem>
                 <Button
-                  className='bg-primary text-white border-0'
+                  className='bg-white text-primary border-0 mt-3 '
                   onClick={() => {
                     goTo(ROUTES['auth-module'].login)
                   }}
@@ -107,7 +152,6 @@ function Header() {
           </UncontrolledCollapse>
         </Container>
       </Navbar>
-    </>
 
 
   )

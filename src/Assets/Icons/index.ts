@@ -152,12 +152,14 @@ export const icons = {
   startTime: require('./StartTime/icon.png'),
   endTime: require('./EndTime/icon.png'),
   broadCast: require('./BroadcastMessage/icon.png'),
+  goldPack: require('./GoldPremium/icons.png'),
   downArrowBlack: require('./DownArrowBlack/icon.png'),
   videoConference: require('./VideoConference/icon.png'),
   verticalLine: require('./VerticalLine/icon.png'),
   protfolio: require('./Protfolio/icon.png'),
   myTimeSheet: require('./MyTimeSheet/icons.png'),
   previousBackArrow: require('./PreviousBackArrow/icons.png'),
+  taskCommunication: require('./TaskCommunication/icons.png'),
   nextArrow: require('./NextArrow/icons.png'),
   download: require('./Download/icon.png'),
   VideoImage: require('./VideoImage/Icon.png'),
@@ -175,10 +177,11 @@ export const icons = {
   deleteRounded: require('./DeleteRounded/icon.png'),
   VideoIcon: require('./VideoIcon/icon1.png'),
   ScreenShort:require('./ScreenShort/icon1.png'),
+  TMS_home:require('./TMS_Home/icon3.png'),
 
 
 
-  landingImg: require('./LandingImage/Screenshot 2023-07-19 at 4.15.15 PM.png'),
+  landingImg: require('./LandingImage/TaskLanding.png'),
   landingImg1: require('./LandingImage/Screenshot 2023-07-19 at 4.15.33 PM.png'),
   landingImg2: require('./LandingImage/Screenshot 2023-07-19 at 4.17.55 PM.png'),
   landingImg3: require('./LandingImage/Screenshot 2023-07-19 at 4.18.25 PM.png'),
@@ -211,6 +214,15 @@ export const icons = {
   avatarImg1: require('./LandingImage/Visual data-amico.png'),
   avatarImg2: require('./LandingImage/Visual data-pana.png'),
   avatarImg3: require('./LandingImage/Visual data-rafiki.png'),
+  TaskList1:require('./LandingImage/Task List1.png'),
+  TaskList2:require('./LandingImage/Task List2.png'),
+  TicketsModule:require('./LandingImage/TicketsModule.png'),
+  Association:require('./LandingImage/Association.png'),
+  CompanyManage:require('./LandingImage/CompanyManage.png'),
+  EventsScreen:require('./LandingImage/EventsScreen.png'),
+  FeedScreen:require('./LandingImage/FeedScreen.png'),
+  VirutualScreen:require('./LandingImage/Virutual screen.png'),
+
 
 
 

@@ -14,7 +14,6 @@ export const image = {
     Benefits: require('./brand/benefits.png'),
     EaseOfUse: require('./brand/Ease of use.png'),
     Rev: require('./brand/revolution image.png'),
-
     TMS_Logo: require('./brand/TMS_Logo.png'),
     TMS_Img1: require('./brand/TMS_Img1.png'),
     TMS_Img2: require('./brand/TMS_Img2.png'),
@@ -26,7 +25,23 @@ export const image = {
     TMS_Img8: require('./brand/TMS_Img8.png'),
     TMS_Img9: require('./brand/TMS_Img9.png'),
     Ticket1: require('./brand/Ticket1.png'),
-    RED_DOT: require('./theme/full-stop.png')
+    RED_DOT: require('./theme/full-stop.png'),
+    Doc1:require('./Documents/Doc1.png'),
+    Doc2:require('./Documents/Doc2.png'),
+    Doc3:require('./Documents/Doc3.png'),
+    Doc4:require('./Documents/Doc4.png'),
+    Doc5:require('./Documents/Doc5.png'),
+    Doc6:require('./Documents/Doc6.png'),
+    Doc7:require('./Documents/Doc7.png'),
+    Doc8:require('./Documents/Doc8.png'),
+    Doc9:require('./Documents/Doc9.png'),
+    Doc10:require('./Documents/Doc10.png'),
+    Doc11:require('./Documents/Doc11.png'),
+    Doc12:require('./Documents/Doc12.png'),
+    Doc13:require('./Documents/Doc13.png'),
+    Doc14:require('./Documents/Doc14.png'),
+    Doc15:require('./Documents/Doc15.png'),
+    Doc16:require('./Documents/Doc16.png'),
 
 
 }
