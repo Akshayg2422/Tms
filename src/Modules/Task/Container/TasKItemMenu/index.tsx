@@ -43,23 +43,38 @@ function TaskItemMenu() {
     const loginLoader = useLoader(false);
 
     const dispatch = useDispatch()
-    const { selectedTaskId } = useSelector((state: any) => state.TaskReducer);
+    const { selectedTaskId, selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
 
+   
+    const status = useDropDown({});
 
     const tagUserModal = useModal(false);
     const reassignUserModal = useModal(false);
     const taskCloseModal = useModal(false);
-    const taskStatusReason = useInput('')
-    const status = useDropDown(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', selectedTaskId?.task_status));
+    const taskStatusReason = useInput('');
+  
+
+
+
+
+    let isSelected
+    useEffect(() => {
+
+        isSelected = selectedTaskStatus.filter((el: any) => el?.code === id)
+        status.set(getObjectFromArrayByKey(TASK_STATUS_LIST, 'id', isSelected && isSelected[0]?.task_status))
+
+    }, [id])
+ 
 
     const [taggedUsers, setTaggedUsers] = useState([])
     const [reassignUser, setReassignUser] = useState<any>({})
+
 
     function proceedAddTaskEvents(taskEventParams: any) {
 
         const params = {
             ...(taskEventParams && { ...taskEventParams }),
-       
+
             code: id
         };
 

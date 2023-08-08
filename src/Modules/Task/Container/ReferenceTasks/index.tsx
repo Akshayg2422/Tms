@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTasks, getSelectedReference, selectedTaskIds, setSelectedTask } from "@Redux";
+import { getReferenceTasks, getSelectedReference, selectedTaskIds, setSelectedTask, setSelectedTaskCode, setSelectedTaskstatus } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 import { NoDataFound, Card, CommonTable, Button, Spinner, HomeContainer } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
@@ -12,7 +12,7 @@ import { translate } from "@I18n";
 function ReferenceTasks() {
   const dispatch = useDispatch();
   const { id,item } = useParams();
-  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages,selectedTaskId } = useSelector(
+  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages,selectedTaskId ,selectedTaskStatus} = useSelector(
     (state: any) => state.TaskReducer
   );
 
@@ -110,6 +110,10 @@ function ReferenceTasks() {
             dispatch(getSelectedReference({code: item?.code,refer:false}))
             dispatch(setSelectedTask(item?.code))
            dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
+           dispatch(setSelectedTaskstatus([item,...selectedTaskStatus]))
+           dispatch(
+            setSelectedTaskCode(item?.code)
+          )
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'reference-task')
           }}
 

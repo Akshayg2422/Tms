@@ -19,4 +19,5 @@ export interface TicketStateProps {
   ticketEventAttachments: any,
   ticketEventAttachmentsCurrentPage: number,
   ticketParams:any,
+  advanceTicketFilter:any,
 }

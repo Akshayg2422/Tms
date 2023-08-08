@@ -284,6 +284,7 @@ function TaskFilters({ }: TaskFilterProps) {
     }
     function proceedParams(object: any) {
         console.log(object,"oooppp")
+        console.log(taskParams,"taskParams")
         const updatedParams = { ...taskParams, ...object }
         dispatch(setTaskParams(updatedParams))
     }
@@ -384,7 +385,7 @@ function TaskFilters({ }: TaskFilterProps) {
                             
                                 <DropDown
                                     className="form-control-sm"
-                                    heading={translate("common.company")}
+                                    heading={'Assigned Company'}
                                     data={getDropDownCompanyDisplayData([DEFAULT_COMPANY, ...associatedCompaniesL])}
                                     selected={associationAssignedCompany.value}
                                     onChange={(item) => {
@@ -403,7 +404,7 @@ function TaskFilters({ }: TaskFilterProps) {
                             <div className="col-lg-3 col-md-3 col-sm-12">
                                 <DropDown
                                     className="form-control-sm"
-                                    heading={translate("common.company")}
+                                    heading={'Created Company'}
                                     data={getDropDownCompanyDisplayData([DEFAULT_COMPANY, ...associatedCompaniesL])}
                                     selected={associationCreatedCompany.value}
                                     onChange={(item) => {

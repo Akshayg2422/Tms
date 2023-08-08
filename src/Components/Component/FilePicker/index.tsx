@@ -7,7 +7,7 @@ import { icons } from "@Assets";
 const FilePicker = ({ }: FilePickerProps) => {
 
     const [files, setFiles] = useState<any>([]);
-    console.log(files,"fffffff")
+  
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
             'image/*': []

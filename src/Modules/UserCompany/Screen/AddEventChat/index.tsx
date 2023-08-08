@@ -20,9 +20,9 @@ function AddEventChat() {
     const [selectDropzone, setSelectDropzone] = useState<any>([{}])
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
+    const [isSelect,setIsSelect]=useState(true)
 
-    console.log('eventsMessage==========>>>', eventsMessage)
-
+   
     const proceedAddEventsApiHandler = () => {
 
         if (message.value.trim()) {
@@ -32,14 +32,15 @@ function AddEventChat() {
                 message: message.value,
                 event_type: TEM
             }
-            console.log('eventsMessage========', eventsMessage)
+         
             dispatch(
                 addAttachmentsMessage({
                     params,
                     onSuccess: (response) => () => {
-                        console.log('response======', response)
+                
                         message.set('')
                         dispatch(refreshEventMessage())
+                        setIsSelect(true)
                     },
                     onError: () => () => { },
                 })
@@ -67,6 +68,7 @@ function AddEventChat() {
                     onSuccess: () => () => {
                         resetValues();
                         attachmentModal.hide()
+                        setIsSelect(true)
                         dispatch(refreshEventMessage())
                     },
                     onError: (error) => () => { },
@@ -87,10 +89,18 @@ function AddEventChat() {
             e.preventDefault();
 
             if (message.value.trim().length > 0) {
+                if(isSelect){
+                    setIsSelect(false)
                 proceedAddEventsApiHandler();
+                }
             }
         }
     };
+    const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+        const target = e.currentTarget;
+        target.style.height = 'auto'; // Reset the height to fit the content
+        target.style.height = `${target.scrollHeight}px`; // Adjust the height to fit the new content
+      };
 
     return (
         <>
@@ -98,9 +108,22 @@ function AddEventChat() {
                 <div className='row justify-content-center align-items-center'>
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
-                        <textarea placeholder={translate('order.Write your comment')!} value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
+                        <textarea placeholder={translate('order.Write your comment')!} 
+                        value={message.value} className="form-control form-control-sm" 
+                        onKeyDown={handleKeyDown}
+                         onChange={message.onChange}
+                         onInput={handleInput}
+                         style={{ resize:'vertical', minHeight: '50px',  maxHeight:'100px',position:'absolute', bottom:-20,
+                         width: '95%',}}
+                         ></textarea>
                     </div>
-                    <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={proceedAddEventsApiHandler} />
+                    <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={()=>{
+                        if(isSelect){
+                        proceedAddEventsApiHandler()
+                        setIsSelect(false)
+                        }
+                    }
+                        } />
                 </div >
                
             </div >
@@ -115,8 +138,7 @@ function AddEventChat() {
                             icon={image}
                             size='xl'
                             onSelect={(image) => {
-                                // let file = image.toString().replace(/^data:(.*,)?/, "")
-                                // handleImagePicker(file)
+                          
                             }}
 
                             onSelectImagePickers={(el) => {
@@ -139,7 +161,13 @@ function AddEventChat() {
 
                 <div className='col-6 pt-3'>
                     <Button text={translate("common.submit")}
-                        onClick={addEventsAttachments} />
+                        onClick={()=>{
+                            if(isSelect){
+                                setIsSelect(true)
+                            addEventsAttachments()
+                            }
+                        }
+                            } />
                 </div>
 
             </Modal>

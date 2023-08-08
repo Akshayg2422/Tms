@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getMomentObjFromServer, getDisplayDateFromMomentByType, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A, getDisplayDateFromMoment, EDIT_TIME_SHEET_DETAILS } from '@Utils'
+import { getMomentObjFromServer, getDisplayDateFromMomentByType, validate, ADD_TIME_SHEET_DETAILS, ifObjectExist, DD_MMMM_YYYY, getValidateError, getServerTimeFromMoment, HH_MM_A, getDisplayDateFromMoment, EDIT_TIME_SHEET_DETAILS, USER_RECORDS, getObjectFromArrayByKey, getDisplayTimeDateMonthYearTime, getDisplayTimeFromMoment } from '@Utils'
 import {
   addEmployeeTimeline,
   addEnableRequest,
@@ -27,6 +27,8 @@ function MyTimeSheet() {
   const [endTimeEta, setEndTimeEta] = useState<any>("")
   const editAssignedTaskSelect = useDropDown({})
   const [editStartTimeEta, setEditStatTimeEta] = useState<any>("")
+  const [editStartTime, setEditStatTime] = useState<any>("")
+  const [editEndTime, setEditEndTime] = useState<any>("")
   const [assignedTasksId, setAssignedTaskId] = useState("")
   const [editEndTimeEta, setEditEndTimeEta] = useState<any>("")
   const [assignedTaskList, setAssignedTaskList] = useState([])
@@ -41,22 +43,38 @@ function MyTimeSheet() {
   let currentDay = currentDate.getDate()
   let currentMonth = currentDate.getMonth()
   let currentYear = currentDate.getFullYear()
+  let dateFormate
+  if (currentDay <= 9 && currentMonth <= 9) {
+    dateFormate = `${currentYear}-${0}${currentMonth + 1}-${0}${currentDay}`
+  }
+  else if (currentDay <= 9 && currentMonth > 9) {
+    dateFormate = `${currentYear}-${currentMonth + 1}-${0}${currentDay}`
+  }
+  else if (currentDay > 9 && currentMonth <= 9) {
+    dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
+  }
 
-  let dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
+  else {
+    dateFormate = `${currentYear}-${currentMonth + 1}-${currentDay}`
+
+  }
+
 
   //start date
   const [startDate, setStartDate] = useState(moment().startOf('week'))
   const [endDate, setEndDate] = useState(moment().endOf('week'))
   const [currentDates, setCurrentDates] = useState(new Date());
+  const selectedType = useDropDown({})
+  const editSelectedType = useDropDown({})
 
-  const { employeeTimeline ,dashboardDetails} = useSelector((state: any) => state.UserCompanyReducer);
+  const { employeeTimeline, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
 
   const getGroupMenuItem = [
     { id: '0', name: translate("common.Edit"), icon: icons.edit },
     { id: '1', name: 'Delete', icon: icons.delete },
 
   ]
-   const  data=['2023-06-18','2023-06-19','2023-06-20']
+  const data = ['2023-06-18', '2023-06-19', '2023-06-20']
 
 
 
@@ -92,6 +110,7 @@ function MyTimeSheet() {
     return dates;
 
   };
+
 
   //shift with date
   const dateWithTask = () => {
@@ -167,11 +186,13 @@ function MyTimeSheet() {
   };
 
   const handleEditStartTimeEtaChange = (value: any) => {
+    
 
     setEditStatTimeEta(value)
   };
 
   const handleEditEndTimeEtaChange = (value: any) => {
+
 
     setEditEndTimeEta(value)
   };
@@ -211,6 +232,7 @@ function MyTimeSheet() {
       is_resubmitted: true
 
     }
+
 
     dispatch(
       employeeTimeLineStatus({
@@ -255,6 +277,7 @@ function MyTimeSheet() {
   }
 
 
+
   function restValue() {
     setStatTimeEta('')
     setEndTimeEta('')
@@ -265,9 +288,12 @@ function MyTimeSheet() {
   function editRestValue() {
     setEditStatTimeEta('')
     setEditEndTimeEta('')
+    editDescriptions.set('')
     editAssignedTaskSelect.onChange({})
     editEtaTime.hide()
     setAssignedTaskId('')
+    editSelectedType.set('')
+
 
   }
 
@@ -345,9 +371,11 @@ function MyTimeSheet() {
   const addEmployeeTimeSheet = () => {
 
     const editAssignedId = editAssignedTaskSelect?.value?.id
+    const editTypeSelectedId = editSelectedType.value.id
     const assignedTaskId = selectedTask?.id
     const params = {
-      task_id: editAssignedId || assignedTaskId,
+      type: editTypeSelectedId ? editTypeSelectedId : selectedType?.value?.id,
+      ...(editAssignedId || assignedTaskId) && { task_id: editAssignedId || assignedTaskId },
       start_time: editStartTimeEta ? getServerTimeFromMoment(getMomentObjFromServer(editStartTimeEta)) : startTimeEta,
       end_time: editEndTimeEta ? getServerTimeFromMoment(getMomentObjFromServer(editEndTimeEta)) : endTimeEta,
       ...(assignedTasksId && { id: assignedTasksId }),
@@ -355,7 +383,7 @@ function MyTimeSheet() {
     }
 
     const validation = validate(editEndTimeEta ? EDIT_TIME_SHEET_DETAILS : ADD_TIME_SHEET_DETAILS, params);
-    
+
 
     if (ifObjectExist(validation)) {
       dispatch(
@@ -385,37 +413,55 @@ function MyTimeSheet() {
   const normalizedTableDatas = (data: any) => {
     if (data && data?.length > 0) {
 
+
       return data?.map((el: any) => {
+    
+
 
         return {
           Date: getDisplayDateFromMomentByType(DD_MMMM_YYYY, getMomentObjFromServer(el?.created_at)),
-          Task: <div data-toggle="tooltip" title={el?.task?.name} onClick={() => { goTo(ROUTES["task-module"]["tasks-details"] + '/' + el?.task?.id); }}>{el?.task?.code}</div>,
+          Type:<div>
+            {el?.type?el?.type:'-'}
+          </div>,
+          Task: <div data-toggle="tooltip" title={el?.task?.name} onClick={() => { goTo(ROUTES["task-module"]["tasks-details"] + '/' + el?.task?.code+'/'+'task'); }}>{
+            (el?.task?.code?el?.task?.code:'-')
+            }</div>,
           Description: el?.description,
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
           Status: el?.is_completed ? "complete" : "",
           "Edit":
-            <div ><MenuBar menuData={getGroupMenuItem} onClick={(element) => {
+            <div >{(el?.timeline_status === 'PAL' || el?.timeline_status === ''||el?.timeline_status === 'REJ') &&
 
-              const { start_time, end_time, task, id, description } = el
-              const tasks = { id: task.id, text: task.name }
+              <MenuBar menuData={getGroupMenuItem} onClick={(element) => {
 
-              if (element.id === '0') {
-                setEditStatTimeEta(getDisplayDateFromMoment(getMomentObjFromServer(start_time)))
-                setEditEndTimeEta(getDisplayDateFromMoment(getMomentObjFromServer(end_time)))
-                editAssignedTaskSelect.onChange(tasks)
-                setAssignedTaskId(id)
-                editEtaTime.show()
-                handleEditDescription(description)
-              }
-              if (element.id === '1') {
+                const { start_time, end_time, task, id, description, type } = el
+                let tasks 
+                if(task?.id){
+                  tasks= { id: task?.id, text: task?.name }
+                }
 
-                deleteTimeLineTask(id)
+                if (element.id === '0') {
+                  setEditStatTimeEta(getDisplayTimeDateMonthYearTime(getMomentObjFromServer(start_time)))
+                  setEditEndTimeEta(getDisplayTimeDateMonthYearTime(getMomentObjFromServer(end_time)))
+                  setEditStatTime(getDisplayTimeFromMoment(getMomentObjFromServer(start_time)))
+                  setEditEndTime(getDisplayTimeFromMoment(getMomentObjFromServer(end_time)))
+                  editAssignedTaskSelect.onChange(tasks)
+                  editSelectedType.set(getObjectFromArrayByKey(USER_RECORDS, 'id', type));
+                
+                  setAssignedTaskId(id)
+                  editEtaTime.show()
+                  handleEditDescription(description)
+                }
+                if (element.id === '1') {
 
-              }
+                  deleteTimeLineTask(id)
+
+                }
 
 
-            }} />
+              }} />
+            }
             </div>
 
         }
@@ -426,10 +472,8 @@ function MyTimeSheet() {
 
 
 
-
   return (
     <div className='m-3'>
-
       <div className='card  p-4' style={{ flexDirection: 'row' }}>
         <div className="h3">{translate('order.This Week')}</div>
         <div className="h3  col">{`(${startDate.format('MMMM DD, YYYY')} - ${endDate.format('MMMM DD, YYYY')})`}</div>
@@ -443,10 +487,9 @@ function MyTimeSheet() {
 
         <div>
           {formattedShift && formattedShift.length > 0 && formattedShift.map((el, index) => {
-            // console.log(formattedShift[index]?.date,"datata====>")
+         
 
-            const filterDate=dashboardDetails?.freezed_dates&& dashboardDetails?.freezed_dates.some((el:any)=>el===formattedShift[index]?.date)
-            // console.log(filterDate,"filterDate")
+            const filterDate = dashboardDetails?.freezed_dates && dashboardDetails?.freezed_dates.some((el: any) => el === formattedShift[index]?.date)
             return (
               <CollapseButton
                 selectedIds={formattedShift[index]?.date}
@@ -457,20 +500,15 @@ function MyTimeSheet() {
                   addEtaTime.show()
                 }}
                 enableButton={
-                  filterDate?false:formattedShift[index]?.date===dateFormate?false:formattedShift[index]?.date>dateFormate?false:true}
-                // selectButtonReject={true}
-                // selectButton={
-                //   formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.date===dateFormate?true:false
-                // }
+                  filterDate ? false : formattedShift[index]?.date === dateFormate ? false : formattedShift[index]?.date > dateFormate ? false : formattedShift[index]?.taskListedArray.length>0?true:false}
+
                 selectButton={
-                  filterDate?false:formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.date===dateFormate?true:false
+                  filterDate ? false : formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : formattedShift[index]?.date === dateFormate ? true : false
+
                 }
-                // selectButtonReject={
-                //   formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ?false:formattedShift[index]?.date===dateFormate?true:false
-                // }
 
                 selectButtonReject={
-                  filterDate?false:formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false :formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ?false:formattedShift[index]?.date===dateFormate?true:false
+                  filterDate ? false :formattedShift[index]?.taskListedArray[0]?.timeline_status === 'APT' ? false : formattedShift[index]?.taskListedArray[0]?.timeline_status === 'PAL' ? false : formattedShift[index]?.taskListedArray.length<=0? false : formattedShift[index]?.date === dateFormate ? true : false
                 }
                 textReject={'Submit'}
                 onClickReject={() => {
@@ -503,20 +541,16 @@ function MyTimeSheet() {
         size='sm'
         title={'Enable Request'}
 
-      > 
+      >
         <div className="col-12">
-          {/* <Input
-            placeholder={'Enable Reason'}
+
+          <TextAreaInput
+            heading={'Enable Reason'}
             value={reason.value}
             onChange={reason.onChange}
-          /> */}
-           <TextAreaInput
-               heading={'Enable Reason'}
-               value={reason.value}
-            onChange={reason.onChange}
-                className="form-control form-control-sm"
-                
-                />
+            className="form-control form-control-sm"
+
+          />
         </div>
 
         <div className="text-right">
@@ -554,7 +588,19 @@ function MyTimeSheet() {
       >
 
 
-        {
+
+
+        <DropDown
+          heading={'Type'}
+          placeHolder={'Type'}
+          data={USER_RECORDS}
+          onChange={(item) => {
+            selectedType.onChange(item)
+          }}
+          selected={selectedType.value}
+        />
+
+        {selectedType?.value?.id === 'TSK' &&
           <AutoComplete
             heading={translate('auth.task')!}
             data={assignedTaskDetails}
@@ -564,13 +610,6 @@ function MyTimeSheet() {
 
             }}
           />}
-        <div>
-          <TextAreaInput
-            heading={translate('auth.description')!}
-            placeholder={translate('auth.description')!}
-            value={description.value}
-            onChange={description.onChange} />
-        </div>
         <div className="row">
           <div className="col-6">
             <DateTimePicker
@@ -591,6 +630,14 @@ function MyTimeSheet() {
             />
           </div>
         </div>
+        <div>
+          <TextAreaInput
+            heading={'Note'}
+            placeholder={'Note'}
+            value={description.value}
+            onChange={description.onChange} />
+        </div>
+
         <div className='text-right'>
           <Button
             color={"secondary"}
@@ -621,38 +668,59 @@ function MyTimeSheet() {
       >
         <div>
           <DropDown
+            heading={'Type'}
+
+            data={USER_RECORDS}
+            onChange={(item) => {
+              editSelectedType.onChange(item)
+             
+              if(item?.id!=='TSK'){
+                editAssignedTaskSelect.set('')
+
+              }
+
+
+            }}
+            selected={editSelectedType.value}
+          />
+
+
+          {( editSelectedType?.value?.id==='TSK' ||editAssignedTaskSelect?.value) && <DropDown
             heading={translate('auth.assignedTask')}
             selected={editAssignedTaskSelect.value}
-            placeHolder={editAssignedTaskSelect.value.text}
+            placeHolder={editAssignedTaskSelect?.value?.text}
             data={assignedTaskList}
             onChange={editAssignedTaskSelect.onChange}
           />
+          }
+          <div className="row">
+            <div className="col-6">
+              <DateTimePicker
+                placeholder={translate('order.Start Time')!}
+                type="time"
+                // editStartTime
+                initialValue={editStartTime}
+                onChange={handleEditStartTimeEtaChange}
+              />
+            </div>
+            <div className="col-6">
+              <DateTimePicker
+                type="time"
+                initialValue={editEndTime}
+                placeholder={translate('order.end Time')!}
+                onChange={handleEditEndTimeEtaChange}
+              />
+            </div>
+          </div>
         </div>
         <div>
           <TextAreaInput
-            heading={translate('auth.description')!}
-            placeholder={translate('auth.description')}
+            heading={'Note'}
+            placeholder={'Note'}
             value={editDescriptions.value}
             onChange={editDescriptions.onChange} />
         </div>
-        <div className="row">
-          <div className="col-6">
-            <DateTimePicker
-              placeholder={translate('order.Start Time')!}
-              type="time"
-              initialValue={editStartTimeEta}
-              onChange={handleEditStartTimeEtaChange}
-            />
-          </div>
-          <div className="col-6">
-            <DateTimePicker
-              type="time"
-              initialValue={editEndTimeEta}
-              placeholder={translate('order.end Time')!}
-              onChange={handleEditEndTimeEtaChange}
-            />
-          </div>
-        </div>
+
         <div className='text-right'>
           <Button
             color={"secondary"}

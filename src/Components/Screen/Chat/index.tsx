@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ChatProps } from './interfaces'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Spinner, Badge, Image, Modal, Button, ImagePicker, FilterLinkMessage } from '@Components'
+import { Spinner, Badge, Image, Modal, Button, ImagePicker, FilterLinkMessage, ImageIcon } from '@Components'
 import { Provider, useSelector } from 'react-redux'
 import {
     capitalizeFirstLetter,
@@ -122,7 +122,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
     }
 
     function Received({ item }: any) {
-        const { id, name, message, display_created_at, attachments, date, profile_pic } = item;
+        const { id, name, message, display_created_at, attachments, date, profile_pic ,is_in_call} = item;
 
         let modifiedArray = attachments;
 
@@ -136,6 +136,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
         return (
             <div className='col'>
                 {ifObjectHasKey(item, 'date') && <DateViewer date={date} />}
+                
 
                 <div className='d-flex row mt-3'>
                     {variant === 'group' && profile_pic ?
@@ -167,6 +168,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
 
                             {name && variant === 'group' && (<h6 className="h5 mt-0 mb-0">{name}</h6>)}
                             <p className="text-sm lh-160 mb-0" style={{ whiteSpace: 'pre-line' }}>{message}</p>
+              
                             <div>
 
                                 {attachments && attachments.length === 1 && (
@@ -273,7 +275,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
 
     function Sent({ item }: any) {
 
-        const { id, message, filter, display_created_at, attachments, date, chat_attachments, event_type } = item;
+        const { id, message, filter, display_created_at, attachments, date, chat_attachments, event_type,is_in_call } = item;
 
 
         let modifiedArray = attachments;
@@ -285,7 +287,63 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
         return (
             <div>
                 {ifObjectHasKey(item, 'date') ? <DateViewer date={date} /> : <></>}
-                <div className='d-flex justify-content-end mt-3'>
+               
+                            
+
+                            
+        {is_in_call? <div className='d-flex justify-content-center  mt-2 mb-3'>
+                    <div
+                        // className={`${"media-comment-text"} ${true ? 'hovered' : ''}`}
+                        // style={{
+                        //     maxWidth: '15%',
+                        // }}
+                        onMouseEnter={() => {
+                            setHasHover(true)
+                        }}
+                        onMouseLeave={() => {
+                            setHasHover(false)
+                        }}>
+                        <Hover
+                            show={hasHover}
+                            // onEdit={() => {
+                            //     setEdit(item);
+                            //     if (event_type === 'TEM') {
+                            //         editMessage.set(filter)
+                            //         setSelectDropzone(undefined)
+                            //     } else if (event_type === 'MEA') {
+                            //         editMessage.set(chat_attachments?.name)
+                            //         setSelectDropzone(chat_attachments.attachments)
+                            //     }
+                            //     editModal.show()
+                            // }}
+                            onDelete={() => {
+                                setEdit(item);
+                                deleteModal.show()
+                            }}
+                        />
+                        <div>
+                        {is_in_call?
+                                // <div className='icon icon-shape bg-gradient-info text-white rounded-circle '>
+
+                              
+                              <div style={{borderRadius:'24px 24px', border:'2px solid blue' ,width:'30px', height:'30px'}}> 
+                              <div className=' text-center align-item-center mb-0'>
+                              <ImageIcon src={icons.videoCall}  height={15} width={15}/>
+                                </div>
+                          
+
+                              {/* </div> */}
+
+                                </div>
+                                :''}
+                        </div>
+                   
+                      
+                    </div>
+                </div>
+
+
+             :   <div className='d-flex justify-content-end mt-3'>
                     <div
                         className={`${"media-comment-text"} ${true ? 'hovered' : ''}`}
                         style={{
@@ -317,6 +375,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                         />
                         <div>
                             <p className="text-sm mb-0 d-inline" style={{ whiteSpace: 'pre-line' }}>{message}</p>
+                            
                             <div>
                                 {attachments && attachments.length === 1 && (
                                     <PhotoProvider>
@@ -376,6 +435,8 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                         </div>
                     </div>
                 </div>
+    }
+
             </div >
         );
     }
@@ -392,7 +453,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
 
     function getItemData(each: any) {
         const { event_type, message, chat_attachments, event_by, created_at } = each;
-        console.log(message, 'message===>')
+       
         const isCurrentUser = event_by?.id === dashboardDetails?.user_details?.id;
         let modifiedData = { type: isCurrentUser ? 'sent' : 'received', ...each };
 

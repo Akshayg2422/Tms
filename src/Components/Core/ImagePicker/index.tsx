@@ -105,7 +105,7 @@ const ImagePicker = ({
       let updatedPhoto
 
       new Compressor(file, {
-        quality: 0.6,
+        quality: 0.9,
         success: (file) => {
           const reader = new FileReader();
           reader.onload = (e) => {
@@ -174,6 +174,8 @@ const ImagePicker = ({
           reader.readAsDataURL(file);
 
         },
+
+   
       });
     }
   };

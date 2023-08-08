@@ -160,7 +160,7 @@ function TaskGroup() {
               showToast(success.message, "success");
             },
             onError: (error: string) => () => {
-              showToast('Task is already exists');
+              showToast('Task code is already exists');
               loginLoader.hide()
             },
           })
@@ -241,6 +241,7 @@ function TaskGroup() {
             onError: (error: string) => () => {
               showToast('Task is already exists');
               loginLoader.hide()
+
             },
           })
         );
@@ -356,6 +357,7 @@ function TaskGroup() {
           else if (el.id === '1') {
             addSubTaskGroupModal.show();
             setIsEdit(false)
+            resetSubTaskValues()
             setSelectedSubTaskGroup(taskGroup)
           }
           else if (el.id === '2') {
@@ -397,6 +399,8 @@ function TaskGroup() {
     setSubTaskPhoto('')
     setEndTimeEta('')
     setStatTimeEta('')
+    setDate('')
+    setEndDate('')
   }
 
   async function toDataUrl(url, callback) {
@@ -570,6 +574,7 @@ function TaskGroup() {
         onClose={() => {
           addSubTaskGroupModal.hide();
           resetSubTaskValues();
+      
         }}
         title={translate("auth.task")!}
       >

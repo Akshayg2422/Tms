@@ -16,6 +16,9 @@ export const USER_TOKEN = 'USER_TOKEN'
 
 export const FCM_TOKEN = 'FCM_TOKEN'
 
+
+
+
 // export const GENDER_LIST = [
 //   { id: 'M', text: 'Male' },
 //   { id: 'F', text: 'Female' },
@@ -84,8 +87,9 @@ export const TASK_FILTER_LIST = [
   // { id: 'created_by', text: translate('product.Created by me')! },
   { id: 'assigned_to', text: translate('product.assigned To Me')! },
   // { id: 'tagged_to', text: translate('product.tagged')! },
-  { id: 'advance', text: 'Advanced' },
   { id: 'assigned_by_company', text: 'Assigned By Company'},
+  { id: 'advance', text: 'Advanced' },
+ 
 
 ];
 
@@ -94,8 +98,10 @@ export const TASK_FILTER_LIST_CREATED_BY = [
    { id: 'created_by', text: translate('product.Created by me')! },
   // { id: 'assigned_to', text: translate('product.assigned To Me')! },
   // { id: 'tagged_to', text: translate('product.tagged')! },
-  { id: 'advance', text: 'Advanced' },
+
   { id: 'created_by_company', text: 'Created by Company' },
+  { id: 'advance', text: 'Advanced' },
+ 
  
 ];
 
@@ -114,6 +120,60 @@ export const TASK_STATUS_LIST = [
 
 ]
 
+export const 
+USER_RECORDS = [
+  
+  {id:'TSK',   text: 'Task', type: 'TSK'},
+  {
+  id: 'MET',
+
+  text: 'Meeting',
+  type: 'MET',
+  },
+  {id:'BRK', text: 'Break', Type: 'BRK'},
+  {
+  id: 'STP',
+
+  text: 'StandUp',
+  type: 'STP',
+  },
+  {
+  id: 'GRO',
+
+  text: 'Grooming',
+  type: 'GRO',
+  },
+  {
+  id: 'HOL',
+ 
+  text: 'Technical Discussion',
+  type: 'HOL',
+  },
+  {
+  id: 'TDN',
+
+  text: 'knowledge Transfer',
+  type: 'TDN',
+  },
+  {
+  id: 'KTR',
+ 
+  text: 'Holiday',
+  type: 'KTR',
+  },
+  {
+  id:'PER',
+ 
+  text: 'Permission',
+  type: 'PER',
+  },
+  {
+  id:'WKF',
+ text: 'Week Off',
+  type: 'WKF',
+  },
+  ];
+
 
 export const TASK_PRIORITY_LIST = [
   { id: 'ALL', text: translate('common.All')! },
@@ -128,7 +188,7 @@ export const TICKET_FILTER_LIST = [
   { id: 'ALL', text: translate('common.All')! },
   { id: 'created_by', text: translate('product.Created by me')! },
   { id: 'assigned_to', text: translate('product.assigned To Me')! },
-  { id: 'tagged', text: translate('product.tagged')! }
+  { id: 'tagged_to', text: translate('product.tagged')! }
 ];
 
 export const TICKET_STATUS_LIST = [

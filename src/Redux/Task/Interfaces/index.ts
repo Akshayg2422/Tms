@@ -8,11 +8,13 @@ export interface TaskStateProp {
     taskEventHistories: any,
     subTasks: any,
     taskEvents: any,
+    selectedTaskStatus:any,
     taskEventsNumOfPages: any,
     taskEventsCurrentPages: number,
     referencesTasks: any,
     referencesTasksNumOfPages: any,
     referencesTasksCurrentPages: number,
+    selectedTaskCode:any,
     taskUsers: any,
     eventsMessage:any,
     selectedMicroModal:boolean ,
@@ -25,6 +27,8 @@ export interface TaskStateProp {
     selectedTabPositions: any,
     taskDetails: any,
     subTaskGroups: any,
+    eventAttachmentsMessageNumOfPages:any,
+    eventAttachmentsMessageCurrentPages:any,
     assignedTask: any,
     taskParams: any,
     assignedDepartment:any,
@@ -39,7 +43,7 @@ export interface TaskStateProp {
     selectedReferenceDetails:any,
     addNormalMessage:any,
     addAttachmentsMessage:any,
-    getAttachmentsMessage:any,
+    eventAttachmentsMessage:any,
     selectedCodeId:any
     
 }

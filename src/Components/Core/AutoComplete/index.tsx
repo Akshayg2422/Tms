@@ -7,7 +7,7 @@ import { Option, InputHeading } from '@Components'
 function AutoComplete({ variant = 'default', data, id, heading, selected, className, onChange, inputType, placeHolder }: AutoCompleteProps) {
 
     const formatOption = (option: any) => {
-        console.log(option, "oooooooooooo")
+      
 
 
         let others = {} as any

@@ -71,6 +71,15 @@ export const setSelectedCodeId=(params)=>{
     }
 }
 
+//SELECTED CODCE 
+
+export const setSelectedTaskCode=(params)=>{
+    return{
+        type:ActionTypes.SELECTED_TASK_CODE,
+        payload:params
+    }
+}
+
 
 /*ADD TASK EVENTS*/
 
@@ -242,6 +251,13 @@ export const getTaskUsersFailure = (error: any) => {
 export const selectedTaskIds = (params) => {
     return {
         type: ActionTypes.SELECTED_TASK_ID,
+        payload: params
+    }
+}
+
+export const setSelectedTaskstatus= (params) => {
+    return {
+        type: ActionTypes.SELECTED_TASK_STATUS,
         payload: params
     }
 }

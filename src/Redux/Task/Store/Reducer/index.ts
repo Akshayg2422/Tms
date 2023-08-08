@@ -7,6 +7,7 @@ const initialState: TaskStateProp = {
   taskNumOfPages: undefined,
   taskCurrentPages: 1,
   selectedTask: undefined,
+  selectedTaskStatus:undefined,
   addTaskEvents: undefined,
   taskEventHistories: undefined,
   assignedDepartment: undefined,
@@ -27,6 +28,7 @@ const initialState: TaskStateProp = {
   refreshTaskEvents: false,
   refreshEventMessage: false,
   refreshEventsMessage: false,
+  selectedTaskCode:undefined,
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
   selectedTabPositions: { id: '1' },
@@ -38,7 +40,9 @@ const initialState: TaskStateProp = {
   selectedReferenceDetails: true,
   addNormalMessage: undefined,
   addAttachmentsMessage: undefined,
-  getAttachmentsMessage: undefined,
+  eventAttachmentsMessage: undefined,
+  eventAttachmentsMessageNumOfPages: undefined,
+  eventAttachmentsMessageCurrentPages: undefined,
   selectedMicroModal:false,
   addVoiceRecord:undefined,
   addCompanyLabel:undefined,
@@ -102,12 +106,24 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
 
 
+      case ActionTypes.SELECTED_TASK_STATUS:
+        state = { ...state, selectedTaskStatus: action.payload }
+        break;
+  
+
           /**
      * selected Task id
      */
     case ActionTypes.SET_SELECTED_CODE_ID:
       state = { ...state, selectedCodeId: action.payload }
       break;
+
+
+      // 
+
+      case ActionTypes.SELECTED_TASK_CODE:
+        state = { ...state, selectedTaskCode: action.payload }
+        break;
     /**
         * selected Task Id
         */
@@ -422,22 +438,42 @@ const TaskReducer = (state = initialState, action: any) => {
   */
 
 
-    case ActionTypes.GET_ATTACHMENTS_MESSAGE:
-      state = {
-        ...state,
-        getAttachmentsMessage: action.payload
-      };
-      break;
-    case ActionTypes.GET_ATTACHMENTS_MESSAGE_SUCCESS:
-      state = {
-        ...state,
-        getAttachmentsMessage: action.payload,
-      };
-      break;
+    // case ActionTypes.GET_ATTACHMENTS_MESSAGE:
+    //   state = {
+    //     ...state,
+    //     eventAttachmentsMessage: action.payload
+    //   };
+    //   break;
+    // case ActionTypes.GET_ATTACHMENTS_MESSAGE_SUCCESS:
+    //   state = {
+    //     ...state,
+    //     eventAttachmentsMessage: action.payload,
+    //   };
+    //   break;
 
-    case ActionTypes.GET_ATTACHMENTS_MESSAGE_FAILURE:
-      state = { ...state, getAttachmentsMessage: undefined };
-      break;
+    // case ActionTypes.GET_ATTACHMENTS_MESSAGE_FAILURE:
+    //   state = { ...state, eventAttachmentsMessage: undefined };
+    //   break;
+
+      case ActionTypes.GET_ATTACHMENTS_MESSAGE:
+        state = {
+          ...state,
+          eventAttachmentsMessage: action.payload.params.page_number === 1 ? [] : state.eventAttachmentsMessage,
+        };
+        break;
+      case ActionTypes.GET_ATTACHMENTS_MESSAGE_SUCCESS:
+        state = {
+          ...state,
+          eventAttachmentsMessage: [...state.eventAttachmentsMessage, ...action.payload.details.data],
+          eventAttachmentsMessageCurrentPages: action.payload.details.next_page
+        };
+        break;
+      case ActionTypes.GET_ATTACHMENTS_MESSAGE_FAILURE:
+        state = { ...state, eventAttachmentsMessage: undefined };
+        break;
+
+
+
 
          //fetch using voice
 

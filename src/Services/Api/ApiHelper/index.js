@@ -5,7 +5,7 @@ export const BUILD_TYPE_LIVE_DEMO = 2;
 export const BUILD_TYPE_STAGING = 3;
 export const BUILD_TYPE_LOCAL = 4;
 
-export const BUILD_TYPE =BUILD_TYPE_STAGING;
+export const BUILD_TYPE = BUILD_TYPE_STAGING;
 
 export const SERVER =
 
@@ -14,7 +14,7 @@ export const SERVER =
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_staging'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
-        ? 'http://192.168.124.5:8003' 
+        ? 'http://192.168.130.5:8007' 
         : BUILD_TYPE === BUILD_TYPE_STAGING
           ? 'http://103.118.188.135:8003'
           : 'http://localhost:8000'

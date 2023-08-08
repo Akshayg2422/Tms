@@ -20,7 +20,6 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     const [audioData,setAudioData]=useState()
     const { selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    console.log(JSON.stringify(dashboardDetails),"dashboardDetails ==>")
     const microPhoneModals=useModal(true)
     const loginLoader = useLoader(false);
     const [counting,setCounting]=useState(false)
@@ -51,8 +50,6 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
             params,
             onSuccess:(response)=>()=>{
               let code=response?.details?.task_code
-              console.log(code,"cccccccc")
-              
               loginLoader.hide()
               microPhoneModals.hide()
               setSelected(false)
@@ -240,7 +237,7 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
       }
 
 {recording && <Button text={'Stop'}onClick={()=>{
-        stopVoiceRecording()
+         stopVoiceRecording()
         setStopAudio(false)
         }} size={'sm'}/>}
 

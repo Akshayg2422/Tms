@@ -25,7 +25,7 @@ function AddUser() {
   const { company_branch } = dashboardDetails || ''
  
 
-  console.log(userDataList,"userDataList===>")
+
 
   const {name,id,mobile_number,profile_image }=userDataList||''
   const userDepartment=userDataList ? {id:'',name:userDataList?.department?.name} :{}

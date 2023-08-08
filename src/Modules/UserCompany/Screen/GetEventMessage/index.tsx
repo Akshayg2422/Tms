@@ -1,41 +1,45 @@
 import { useWindowDimensions } from '@Hooks';
-import { getGroupMessage, addGroupMessage, refreshChatMessage, setRefreshGroupChat } from '@Redux';
+import { getGroupMessage, addGroupMessage, refreshChatMessage, setRefreshGroupChat, getAttachmentsMessage } from '@Redux';
 import { INITIAL_PAGE } from '@Utils';
 import { useEffect, useState } from 'react';
 import 'react-photo-view/dist/react-photo-view.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { GroupMessageProps } from './interfaces';
+
 import { Chat } from '@Components'
+import { useParams } from 'react-router-dom';
 
-function GroupMessage({ }: GroupMessageProps) {
-
+function GetEventMessage() {
+    const { id } = useParams();
     const dispatch = useDispatch()
-    const { selectedGroupChat, refreshGroupChat, groupMessages, groupMessageCurrentPage, refreshGroupEvents } = useSelector((state: any) => state.UserCompanyReducer);
+    const { eventsMessage, refreshEventMessage, eventAttachmentsMessage ,eventAttachmentsMessageCurrentPages} = useSelector((state: any) => state.TaskReducer);
+  
 
     const { height } = useWindowDimensions()
     const [hasSuccess, setHasSuccess] = useState(false)
 
     useEffect(() => {
-        getGroupMessageApiHandler(INITIAL_PAGE)
-    }, [selectedGroupChat, refreshGroupChat, refreshGroupEvents])
+        getAttachmentsMessageApi(INITIAL_PAGE)
+    }, [eventsMessage, id, refreshEventMessage])
 
-    const getGroupMessageApiHandler = (page_number: number) => {
+    const getAttachmentsMessageApi = (page_number: number) => {
+      
 
         const params = {
-            group_id: selectedGroupChat?.id,
-            page_number,
+            event_id: eventsMessage,
+            page_number
         }
 
         dispatch(
-            getGroupMessage({
+            getAttachmentsMessage({
                 params,
-                onSuccess: () => () => {
+                onSuccess: (response: any) => () => {
+                  
+
+                    
                 },
-                onError: () => () => {
-                },
+                onError: () => () => { },
             })
         );
-
     };
 
 
@@ -75,14 +79,13 @@ function GroupMessage({ }: GroupMessageProps) {
                 setHasSuccess(false)
                 addGroupMessageApiHandler(params)
             }}
-
             variant={'group'}
             height={height}
-            data={groupMessages}
-            hasMore={groupMessageCurrentPage !== -1}
+            data={eventAttachmentsMessage}
+            hasMore={eventAttachmentsMessageCurrentPages !== -1}
             onNext={() => {
-                if (groupMessageCurrentPage !== -1) {
-                    getGroupMessageApiHandler(groupMessageCurrentPage)
+                if (eventAttachmentsMessageCurrentPages !== -1) {
+                    getAttachmentsMessageApi(eventAttachmentsMessageCurrentPages)
                 }
             }}
         />
@@ -90,6 +93,6 @@ function GroupMessage({ }: GroupMessageProps) {
     );
 }
 
-export { GroupMessage };
+export {GetEventMessage };
 
 

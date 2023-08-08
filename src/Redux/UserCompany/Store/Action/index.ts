@@ -532,7 +532,7 @@ export const setSelectedEmployee = (response: any) => {
 
 //GET EVENTS
 export const getEvents = (params: any) => {
-  console.log('params,"pppppp', params)
+  
   return {
     type: ActionTypes.GET_EVENTS,
     payload: params,
@@ -540,7 +540,7 @@ export const getEvents = (params: any) => {
 };
 
 export const getEventsSuccess = (response: any) => {
-  console.log('ssssssssss', response)
+
   return {
     type: ActionTypes.GET_EVENTS_SUCCESS,
     payload: response,
@@ -548,7 +548,7 @@ export const getEventsSuccess = (response: any) => {
 };
 
 export const getEventsFailure = (error: any) => {
-  console.log('Action ,errior', error)
+
   return {
     type: ActionTypes.GET_EVENTS_FAILURE,
     payload: error,
@@ -756,7 +756,7 @@ export const refreshChatMessage = () => {
 ///USERcHAT
 
 export const setSelectedPrivateUser = (params) => {
-  console.log(params, "pppppppppppppppp")
+
   return {
     type: ActionTypes.USER_CHAT,
     payload: params,
@@ -1021,7 +1021,7 @@ export const selectedVcDetails = (response: any) => {
 
 
 export const vcNotificationDetails = (response: any) => {
-  console.log("response090909===>", response)
+
   return {
     type: ActionTypes.VC_NOTIFICATION_DETAILS,
     payload: response,

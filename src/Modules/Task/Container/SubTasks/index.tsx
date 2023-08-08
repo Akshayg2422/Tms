@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { SubTasksProps } from './interfaces'
 import { Card, H, Button, CommonTable, Priority, NoDataFound, HomeContainer } from '@Components'
-import { getSubTasks, setSelectedTask, setSelectedTabPosition, selectedTaskIds, getSelectedReference } from '@Redux'
+import { getSubTasks, setSelectedTask, setSelectedTabPosition, selectedTaskIds, getSelectedReference, setSelectedTaskstatus, setSelectedTaskCode } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
@@ -12,7 +12,8 @@ import { translate } from '@I18n'
 function SubTasks({ cardHeight }: SubTasksProps) {
     const { id } = useParams()
     const { goTo } = useNavigation();
-    const { subTasks,selectedTaskId } = useSelector((state: any) => state.TaskReducer);
+    const { subTasks,selectedTaskId,selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
+    
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
 
@@ -77,9 +78,13 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                             displayDataSet={normalizedTableData(subTasks)}
                             tableOnClick={(e, index, item) => {
                                 dispatch(setSelectedTask(item?.code))
+                                dispatch(setSelectedTaskstatus([item,...selectedTaskStatus]))
                                 dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
                                 dispatch(getSelectedReference({ code: item?.code, refer: true }))
                                 dispatch(setSelectedTabPosition({ id: '1' }))
+                                dispatch(
+                                    setSelectedTaskCode(item?.code)
+                                  )
                                 goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'sub-task')
 
                             }}
