@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, CardBody, UncontrolledTooltip } from 'reactstrap';
 function Form() {
   return (
-    <div>
+    <div className="overflow-auto overflow-hide">
 
-      <section className="py-5 pb-9 scrolled fade-in-bottom">
+      <section className="pt-5 pb-9 ">
         <Container fluid>
           <Row className="justify-content-center text-center">
             <Col md="11">
@@ -25,7 +25,7 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="section section-lg pt-lg-0 mt--8 scrolled fade-in-bottom">
+      <section className="section section-lg pt-lg-0 mt--8">
         <Container>
           <Row className=" justify-content-center">
             <h2 className="display-4 container text-center ">
@@ -39,7 +39,7 @@ function Form() {
                   <Card className="card-lift--hover shadow border-1"
 
                   >
-                    <CardBody className="py-3">
+                    <CardBody className="pt-3">
                       <div className="icon icon-shape bg-gradient-info text-white rounded-circle mb-4">
                         {/* <i className="ni ni-check-bold" /> */}
                         <i className="bi bi-clock-fill text-white " style={{ fontSize: '24px' }}></i>
@@ -91,25 +91,30 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="py-4">
+      <section className="pt-4">
         <Container >
           <Row className="row-grid align-items-center" >
-            <Col className="order-md-2 justify-content-center d-flex align-item-center" md="6" >
+            <Col className="order-md-2 justify-content-center d-flex " md="6" >
               <Image
                 alt="..."
                 className=" "
-                src={icons.TaskList1}
-                height={'120%'}
-                width={'125%'}
+                src={icons.TaskList2}
+                height={'100%'}
+                width={'100%'}
 
 
               />
             </Col>
-            <Col className="order-md-1" md="6" >
+            <Col className="order-md-1 justify-content-center d-flex " md="6" >
               <div className="pr-md-5">
-                <h1>Filtering and Tracking Tasks </h1>
+                <h1>Task Progress and Management</h1>
                 <p>
-                  Quanta TMS simplifies task management by providing users with the ability to prioritize and organize tasks according to their importance and deadlines. The platform's real-time tracking feature ensures that progress can be monitored transparently, leading to improved efficiency and productivity across the board.
+                  Quanta TMS streamlines task management and collaboration by enabling effective communication between task initiators and team members.
+                  Its intuitive interface ensures seamless progress tracking, enhancing transparency and accountability.
+                  The sub-task functionality empowers users to handle complex projects by creating sub-tasks within parent tasks.
+                  User tagging facilitates collaboration, engaging the right team members for specific tasks and fostering teamwork.
+                  Additionally, Quanta TMS allows easy ETA updates for tasks, aiding decision-making and progress tracking.
+                  This system optimizes task management for heightened project efficiency.
                 </p>
               </div>
             </Col>
@@ -117,21 +122,28 @@ function Form() {
         </Container>
       </section>
 
-      <section className="py-4">
+      <section className="pt-4">
         <Container>
           <Row className="row-grid align-items-center">
-            <Col md="6" >
-              <img
+            <Col md="6" className='justify-content-center d-flex align-item-center'>
+              <Image
                 alt="..."
-                className="img-fluid"
-                src={icons.landingImg1}
+                className=""
+                src={icons.TicketsModule}
+                height={'100%'}
+                width={'100%'}
               />
             </Col>
-            <Col md="6">
+            <Col md="6" className='justify-content-center d-flex '>
               <div className="pr-md-5">
-                <h1>Ticket Module &  Creation </h1>
+                <h1>Ticket Progress and Management</h1>
                 <p>
-                  The Ticket Module in a system enables users to create, manage, and track tasks and issues. It streamlines communication by providing a structured way to initiate and monitor tickets. Users can input details, assign tasks, and prioritize them for efficient resolution. This module enhances collaboration and ensures timely problem-solving within the organization.
+                  Quanta TMS streamlines ticket management, fostering smooth collaboration between initiators and assignees.
+                  Efficiently monitor ticket progress, promoting accountability.
+                  It facilitates collaborative ticket handling through user tagging, involving the right team members.
+                  Moreover, it simplifies reassignment for optimal resource utilization.
+                  Quanta TMS allows easy ETA updates, ensuring everyone is informed about project timelines.
+                  The platform offers timeline tracking for significant ticket events, enhancing transparency and workflow visibility.
 
                 </p>
               </div>
@@ -139,44 +151,48 @@ function Form() {
           </Row>
         </Container>
       </section>
-      <section className="py-4">
+      <section className="pt-4">
         <Container>
           <Row className="row-grid align-items-center">
-            <Col className="order-md-2" md="6">
-              <img
+            <Col className="order-md-2 justify-content-center d-flex align-item-center" md="6">
+              <Image
                 alt="..."
-                className="img-fluid"
-                src={icons.landingImg2}
+                className=""
+                src={icons.Association}
+                height={'100%'}
+                width={'100%'}
               />
             </Col>
-            <Col className="order-md-1" md="6">
+            <Col className="order-md-1 justify-content-center d-flex " md="6">
               <div className="pr-md-5">
                 <h1>Association </h1>
                 <p>
-                  The Association Module within TMS allows users to observe registered companies
-                  affiliated with their association and add new entities if needed.
-                  This module oversees company-specific data, encouraging cooperation.
-                  Users can access a consolidated perspective of linked companies and their particulars,
-                  promoting streamlined organization within the system.
+
+                  Quanta TMS enables easy integration of associate companies, efficient user information management,
+                  and streamlined task and ticket tracking for both your company and associated entities.
+                  It offers organized access to stored associate company data, allowing quick retrieval of specific details.
+                  By adding individual associate companies, complete with essential information and primary contacts, communication and organization are enhanced.
                 </p>
               </div>
             </Col>
           </Row>
         </Container>
       </section>
-      <section className="py-4">
+      <section className="pt-4">
         <Container>
           <Row className="row-grid align-items-center">
-            <Col md="6">
-              <img
+            <Col md="6" className='justify-content-center d-flex '>
+              <Image
                 alt="..."
-                className="img-fluid"
-                src={icons.landingImg3}
+                className=""
+                src={icons.CompanyManage}
+                height={'100%'}
+                width={'100%'}
               />
             </Col>
-            <Col md="6">
-              <div className="pr-md-5">
-                <h1>Streamlined Company Management</h1>
+            <Col md="6" className='justify-content-center d-flex '>
+              <div className="pr-md-5 ">
+                <h1>Company Insights</h1>
                 <p>
                   Quanta TMS offers centralized company management, displaying registered companies under an association and allowing efficient addition of new company information, streamlining company organization within the system.
                 </p>
@@ -187,36 +203,31 @@ function Form() {
       </section>
 
       <section>
-        <Container className='py-4'>
-          {/* icon icon-shape bg-gradient-success text-white rounded-circle shadow mb-4 */}
+        <Container className='pt-4'>
           <Row className="row-grid align-items-center justify-content-center ">
             <h2 className="display-4 container text-center mb-5 ">
 
               Integrated Features
 
             </h2>
-            <Col className={'col-lg-3 col-sm-12 '}>
-              <div className=''>
-                <Card className='' style={{ height: '360px' }}>
-                  <div className={'text-center justify-content-center  mb-2 mt--2 '}>
-                    {/* <Image src={icons.taskCommunication} height={110} width={120} /> */}
 
-                    <i className="bi bi-chat-text-fill text-white icon icon-shape bg-gradient-success rounded-circle shadow " style={{ fontSize: '22px' }}></i>
+            <Col className={'col-lg-3 col-sm-12 check'}>
+              <div className='card1' style={{ height: '370px' }}>
+                <div className={'text-center d-flex justify-content-center  mb-2 mt--2 '}>
 
-                  </div>
+                  <i className="bi bi-chat-text-fill text-white icon icon-shape bg-gradient-success rounded-circle shadow " style={{ fontSize: '22px' }}></i>
 
-
-
-                  <h5 className="h3 text-center">Comments</h5>
-                  <p>
-                    Quanta TMS's dedicated comment section fosters seamless communication among team members, ensuring smooth and effective collaboration throughout the project.
-                  </p>
-                </Card>
+                </div>
+                <h5 className="h3 text-center">Comments</h5>
+                <p>
+                  Quanta TMS's dedicated comment section fosters seamless communication among team members, ensuring smooth and effective collaboration throughout the project.
+                </p>
               </div>
             </Col>
-            <Col className={'col-lg-3 col-sm-12'}>
-              <CardBody className={'card '} style={{ height: '360px' }}>
-                <div className={'text-center justify-content-center  mb-2 mt--2'}>
+
+            <Col className={'col-lg-3 col-sm-12 check'}>
+              <div className='card2' style={{ height: '370px' }}>
+                <div className={'text-center d-flex justify-content-center  mb-2 mt--2'}>
 
                   <i className="bi bi-image-fill text-white icon icon-shape bg-gradient-primary rounded-circle shadow " style={{ fontSize: '22px' }}></i>
                 </div>
@@ -225,12 +236,12 @@ function Form() {
                   Quanta TMS allows users to view and attach relevant files, documents, or images to tasks, ensuring comprehensive documentation and easy access to essential task-related information.
 
                 </p>
-              </CardBody>
+              </div>
 
             </Col>
-            <Col className={'col-lg-3 col-sm-12'}>
-              <CardBody className={'card '} style={{ height: '360px' }}>
-                <div className={'text-center justify-content-center  mb-2 mt--2'}>
+            <Col className={'col-lg-3 col-sm-12 check'}>
+              <div className='card3' style={{ height: '370px' }}>
+                <div className={'text-center d-flex justify-content-center  mb-2 mt--2'}>
                   <i className="bi bi-search text-white icon icon-shape bg-gradient-info rounded-circle shadow  " style={{ fontSize: '22px' }}></i>
                 </div>
 
@@ -238,13 +249,13 @@ function Form() {
                 <p>
                   Users can add reference tasks to gain insights into previously handled similar tasks, providing valuable context for better decision-making and task management.
                 </p>
-              </CardBody>
+              </div>
 
             </Col>
 
-            <Col className={'col-lg-3 col-sm-12'}>
-              <CardBody className={'card '} style={{ height: '360px' }}>
-                <div className={'text-center justify-content-center  mb-2 mt--2'}>
+            <Col className={'col-lg-3 col-sm-12 check'}>
+              <div className='card4 ' style={{ height: '370px' }}>
+                <div className={'text-center d-flex justify-content-center  mb-2 mt--2'}>
                   <i className="bi bi-people-fill text-white icon icon-shape bg-gradient-warning rounded-circle shadow " style={{ fontSize: '22px' }}></i>
                 </div>
 
@@ -252,7 +263,7 @@ function Form() {
                 <p>
                   Quanta TMS, users can effortlessly identify the task initiator, view the list of involved individuals, and determine the assigned person responsible for each task.
                 </p>
-              </CardBody>
+              </div>
 
             </Col>
 
@@ -261,38 +272,45 @@ function Form() {
         </Container>
       </section>
 
-      <section className="py-4">
+
+
+      <section className="pt-4">
         <Container>
           <Row className="row-grid align-items-center">
-            <Col className="order-md-2" md="6">
-              <img
+            <Col className="order-md-2 justify-content-center d-flex align-item-center" md="6">
+              <Image
                 alt="..."
-                className="img-fluid"
-                src={icons.landingImg4}
+                className=""
+                src={icons.VirutualScreen}
+                height={'100%'}
+                width={'100%'}
               />
             </Col>
-            <Col className="order-md-1" md="6">
+            <Col className="order-md-1 justify-content-center d-flex " md="6">
               <div className="pr-md-5">
                 <h1>Virtual Conference</h1>
                 <p>
-                  Virtual Conference in TMS facilitates seamless online meetings between users and companies. It enables video calls, file sharing, and real-time discussions, promoting collaboration and communication for effective team interactions and decision-making.
+                  Virtual Conference in TMS facilitates seamless online meetings between users and companies. 
+                  It enables video calls, file sharing, and real-time discussions, promoting collaboration and communication for effective team interactions and decision-making.
                 </p>
               </div>
             </Col>
           </Row>
         </Container>
       </section>
-      <section className="py-4">
+      <section className="pt-4">
         <Container>
           <Row className="row-grid align-items-center">
-            <Col md="6">
-              <img
+            <Col md="6" className='d-flex justify-content-center'>
+              <Image
                 alt="..."
-                className="img-fluid"
-                src={icons.landingImg5}
+                className=""
+                src={icons.EventsScreen}
+                height={'100%'}
+                width={'100%'}
               />
             </Col>
-            <Col md="6">
+            <Col md="6" className='justify-content-center d-flex '>
               <div className="pr-md-5">
                 <h1>Event Management</h1>
                 <p>
@@ -301,28 +319,24 @@ function Form() {
                   Set locations and times for efficient planning and communication.
                   Admins maintain control through editing, deleting, or closing events, ensuring a streamlined event management process for diverse occasions.
                 </p>
-                {/* <Link
-                  className="font-weight-bold text-warning mt-5"
-                  to="/admin/profile"
-                >
-                  Explore pages
-                </Link> */}
               </div>
             </Col>
           </Row>
         </Container>
       </section>
-      <section className="py-4">
+      <section className="pt-4">
         <Container>
           <Row className="row-grid align-items-center">
-            <Col md="6" className='order-md-2'>
-              <img
+            <Col md="6" className='order-md-2 d-flex justify-content-center'>
+              <Image
                 alt="..."
-                className="img-fluid"
-                src={icons.landingImg6}
+                className=""
+                src={icons.FeedScreen}
+                height={"100%"}
+                width={'100%'}
               />
             </Col>
-            <Col md="6">
+            <Col md="6" className='justify-content-center d-flex '>
               <div className="pr-md-5">
                 <h1>Feeds Module</h1>
                 <p>
@@ -336,12 +350,6 @@ function Form() {
           </Row>
         </Container>
       </section>
-
-
-
-
-
-
 
     </div>
   )

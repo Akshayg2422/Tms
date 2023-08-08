@@ -23,16 +23,17 @@ function Landing() {
 
 
   return (
-    <>
+<>
+    {/* <div className="bg-navGradient-primary"> */}
       <Header />
       <Home />
-      <div style={{backgroundColor:"#dfe6fc"}}>
+      {/* </div> */}
       <Form />
       <Data />
       <PaymentCards/>
       <Cards />
       <Footer />
-      </div>
+      
       
        {/* <Documentation/> */}
         {/* <Features />   */}
@@ -40,8 +41,8 @@ function Landing() {
       {/* <EvantManagSystem/> */}
       {/* <RealTime/> */}
       {/* <Experiences/> */}
+      </>
 
-     </>
 
     
 

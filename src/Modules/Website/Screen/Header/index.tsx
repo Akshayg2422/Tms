@@ -12,9 +12,9 @@ function Header() {
 
   return (
 
-    <>
+    // <div className='overflow-auto overflow-hide'>
       <Navbar
-        className="navbar-horizontal navbar-main navbar-dark bg-customGradient-primary py-2 sticky-top"
+        className="navbar-horizontal navbar-main navbar-dark bg-navGradient-primary py-2 sticky-top"
         expand="lg"
         id="navbar-main"
       >
@@ -134,17 +134,8 @@ function Header() {
                     Location
                   </span>
                 </NavLink>
-                {/* <UncontrolledTooltip delay={0} target="tooltip366258619">
-                  Follow us on  Location
-                </UncontrolledTooltip> */}
+
               </NavItem>
-
-
-              {/* <NavItem>
-                <NavLink tag={Link}> */}
-                  {/* <span className="nav-link-inner--text">Register</span> */}
-                {/* </NavLink>
-              </NavItem> */}
               <NavItem>
                 <Button
                   className='bg-white text-primary border-0 mt-3 '
@@ -161,7 +152,7 @@ function Header() {
           </UncontrolledCollapse>
         </Container>
       </Navbar>
-    </>
+    // </div>
 
 
   )

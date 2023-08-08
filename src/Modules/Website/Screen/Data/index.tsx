@@ -26,7 +26,7 @@ function Data() {
 
   return (
     <>
-      <div className='container pt-5 '>
+      <div className='container pt-5 overflow-auto overflow-hide'>
         <div className='row'>
           {navData && navData.map((el, index) => {
             return (
@@ -62,7 +62,7 @@ function Data() {
             <>
               {selectedNav === index &&
                 <Row className="pt-5 justify-content-center">
-                  <Col lg="6" className='pl-8'>
+                  <Col lg="6" className='pl-8 d-flex justify-content-center'>
                     <div className="pr-5">
                       <h1 className="display-2 text-black font-weight-bold mb-0">
                         {el.title}
@@ -79,7 +79,7 @@ function Data() {
                       </ul>
                     </div>
                   </Col>
-                  <Col lg="6">
+                  <Col lg="6" className='d-flex justify-content-center'>
 
                     <Image
                       src={el.img}

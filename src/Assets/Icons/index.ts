@@ -215,6 +215,14 @@ export const icons = {
   avatarImg2: require('./LandingImage/Visual data-pana.png'),
   avatarImg3: require('./LandingImage/Visual data-rafiki.png'),
   TaskList1:require('./LandingImage/Task List1.png'),
+  TaskList2:require('./LandingImage/Task List2.png'),
+  TicketsModule:require('./LandingImage/TicketsModule.png'),
+  Association:require('./LandingImage/Association.png'),
+  CompanyManage:require('./LandingImage/CompanyManage.png'),
+  EventsScreen:require('./LandingImage/EventsScreen.png'),
+  FeedScreen:require('./LandingImage/FeedScreen.png'),
+  VirutualScreen:require('./LandingImage/Virutual screen.png'),
+
 
 
 

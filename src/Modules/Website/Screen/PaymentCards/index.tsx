@@ -6,7 +6,7 @@ import { Icons } from 'react-toastify'
 
 function  PaymentCards() {
   return (
-    <div className='d-flex justify-content-center pt-5 ' style={{backgroundColor:'#c5d7ff'}}>
+    <div className='d-flex justify-content-center pt-5 overflow-auto overflow-hide' style={{backgroundColor:'#e8ecfa'}}>
       <div className='container'>
         <div className={' row d-flex justify-content-center  align-item-center'}>
         <i className="bi bi-collection-play-fill mr-3 text-primary" style={{fontSize:'27px'}}></i>
