@@ -25,24 +25,61 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     const loginLoader = useLoader(false);
     const [counting,setCounting]=useState(false)
     const [stopAudio,setStopAudio]=useState(true)
+    const [stopAudioData,setStopAudioData]=useState<any>()
+    const [stopAudioAllData,setStopAudioAllData]=useState<any>()
 
     useEffect(()=>{
         getMicrophonePermission()
       
     },[])
     
-  useEffect(()=>{
+  // useEffect(()=>{
+  //   if(audioData){
+  //   addVoiceUsingRecord()
+  //   }
+    
+
+  // },[audioData])
+
+
+  useEffect (()=>{
     if(audioData){
+    if(stopAudio && stopAudioData){
+let data=stopAudioData?.concat(audioData)
+setStopAudioAllData(data)
+ 
+     
+console.log(stopAudioAllData,'audioData')
+    }
+    else if (stopAudio){
+      setStopAudioAllData(audioData)
+
+    }
+    else{
+      setStopAudioData(audioData)
+
+
+    }
+  }
+  },[stopAudio,audioData])
+
+  useEffect (()=>{
+    if(stopAudioAllData){
     addVoiceUsingRecord()
     }
 
-  },[audioData])
+  },[stopAudioAllData])
+
+
+
+
+
 
     const addVoiceUsingRecord =()=>{
     
       const params={
         code:dashboardDetails?.company_branch?.code,
-        voice_task:audioData
+        voice_task:stopAudioAllData
         }
         loginLoader.show()
        
@@ -238,10 +275,10 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
               <Button text={'submit'}
       loading={loginLoader.loader}
        onClick={()=>{
-
+        setStopAudio(true)
         setCounting(true)
       stopVoiceRecording(true)
-      setStopAudio(true)
+      
     
       }} size={'sm'}/>
     
@@ -249,7 +286,7 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
 
 {recording && <Button text={'Stop'}onClick={()=>{
         stopVoiceRecording(false)
-        setStopAudio(false)
+         setStopAudio(false)
         }} size={'sm'}/>}
 
 

@@ -29,11 +29,14 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         dispatch(getSubTasks({
             params,
             onSuccess: () => () => {
+            
             },
             onError: () => () => {
             },
         }))
     }
+
+
     const normalizedTableData = (data: any) => {
         if (data && data?.length > 0) {
 
@@ -83,7 +86,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                                 dispatch(getSelectedReference({ code: item?.code, refer: true }))
                                 dispatch(setSelectedTabPosition({ id: '1' }))
                                 dispatch(
-                                    setSelectedTaskCode(item?.code)
+                                    setSelectedTaskCode(true)
                                   )
                                 goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'sub-task')
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTaskEvent, getTasks } from "@Redux";
+import { addTaskEvent, getTasks, setSelectedTaskCode } from "@Redux";
 import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back, Spinner, InputHeading } from "@Components";
 import { useInput, useKeyPress, useLoader, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE, INITIAL_PAGE } from "@Utils";
@@ -50,6 +50,9 @@ function AddReferenceTask() {
 
             if (response.success) {
               goBack()
+              dispatch(
+                setSelectedTaskCode(false)
+              )
               loginLoader.hide()
               showToast(response.message, "success");
             }

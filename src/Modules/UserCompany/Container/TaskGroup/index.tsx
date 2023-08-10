@@ -90,8 +90,8 @@ function TaskGroup() {
   const [date, setDate] = useState<any>(moment().format())
   const [endDate, setEndDate] = useState<any>(moment().format())
 
-  const [startTimeValue, setStartTimeValue] = useState(null);
-  const [endTimeValue, setEndTimeValue] = useState(null);
+  // const [startTimeValue, setStartTimeValue] = useState(null);
+  // const [endTimeValue, setEndTimeValue] = useState(null);
 
 
 
@@ -128,13 +128,13 @@ function TaskGroup() {
   const addTaskGroupApiHandler = async () => {
 
 
-    toDataUrl(photo, function (myBase64) {
+    // toDataUrl(photo, function (myBase64) {
 
-      let updatedPhoto = photo
-      if (photo.includes('http')) {
-        let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
-        updatedPhoto = encoded
-      }
+    //   let updatedPhoto = photo
+    //   if (photo.includes('http')) {
+    //     let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
+    //     updatedPhoto = encoded
+    //   }
 
       const params = {
 
@@ -143,7 +143,7 @@ function TaskGroup() {
         name: taskGroupName.value,
         description: taskGroupDescription.value,
         code: taskGroupCode.value.trim(),
-        photo: updatedPhoto
+        photo: photo
       };
       const validation = validate(ADD_TASK_GROUP, params)
       if (ifObjectExist(validation)) {
@@ -169,7 +169,7 @@ function TaskGroup() {
       else {
         showToast(getValidateError(validation));
       }
-    });
+    // });
 
 
   };
@@ -199,13 +199,13 @@ function TaskGroup() {
   // add sub task
   const addSubTaskGroupApiHandler = () => {
 
-    toDataUrl(subTaskPhoto, function (myBase64) {
+    // toDataUrl(subTaskPhoto, function (myBase64) {
 
-      let updatedPhoto = subTaskPhoto
-      if (subTaskPhoto.includes('http')) {
-        let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
-        updatedPhoto = encoded
-      }
+    //   let updatedPhoto = subTaskPhoto
+    //   if (subTaskPhoto.includes('http')) {
+    //     let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
+    //     updatedPhoto = encoded
+    //   }
 
 
       const params = {
@@ -213,7 +213,7 @@ function TaskGroup() {
         description: convertToUpperCase(subTaskGroupDescription.value),
         branch_id: company?.id,
         code: subTaskGroupCode.value.trim(),
-        photo: updatedPhoto,
+        photo: subTaskPhoto,
         parent_id: selectedSubTaskGroup?.id,
         ...(startTimeEta && { start_time: startTimeEta }),
         ...(endTimeEta && { end_time: endTimeEta }),
@@ -251,7 +251,7 @@ function TaskGroup() {
       }
 
 
-    })
+    // })
 
 
   };

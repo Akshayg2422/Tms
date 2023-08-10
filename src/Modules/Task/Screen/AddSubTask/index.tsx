@@ -18,7 +18,8 @@ import {
     addTask,
     getDepartments,
     getDesignations,
-    getAssociatedCompaniesL
+    getAssociatedCompaniesL,
+    setSelectedTaskCode
 
 } from "@Redux";
 import {
@@ -185,6 +186,9 @@ function AddSubTask() {
                     onSuccess: (response: any) => () => {
                         if (response.success) {
                             goBack();
+                            dispatch(
+                                setSelectedTaskCode(false)
+                              )
                             loginLoader.hide()
                             showToast(response.message, "success");
                         }

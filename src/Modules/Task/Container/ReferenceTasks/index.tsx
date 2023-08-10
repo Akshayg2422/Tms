@@ -39,6 +39,7 @@ function ReferenceTasks() {
       getReferenceTasks({
         params,
         onSuccess: (response) => () => {
+       
          
         },
         onError: () => () => {
@@ -112,7 +113,7 @@ function ReferenceTasks() {
            dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
            dispatch(setSelectedTaskstatus([item,...selectedTaskStatus]))
            dispatch(
-            setSelectedTaskCode(item?.code)
+            setSelectedTaskCode(true)
           )
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'reference-task')
           }}

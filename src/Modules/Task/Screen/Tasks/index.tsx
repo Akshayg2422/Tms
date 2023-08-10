@@ -231,7 +231,7 @@ function Tasks() {
                     setSelectedCodeId([])
                   )
               dispatch(
-                setSelectedTaskCode(item?.code)
+                setSelectedTaskCode(true)
               )
 
                   dispatch(getSelectedReference({ code: item?.code, refer: true }))
