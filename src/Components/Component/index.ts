@@ -27,6 +27,7 @@ export* from './MicroPhoneModal'
 export*from'./MicroPhoneAnimation'
 export*from'./ColorPicker'
 export*from'./FormInput'
+export*from'./VideoUploader'
 
 
 

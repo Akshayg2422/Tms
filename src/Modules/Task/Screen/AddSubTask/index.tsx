@@ -52,7 +52,7 @@ function AddSubTask() {
     const { dashboardDetails, associatedCompaniesL, employees, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-    const { selectedTask } = useSelector(
+    const { selectedTask ,selectedTaskCode} = useSelector(
         (state: any) => state.TaskReducer
     );
     const loginLoader = useLoader(false);
@@ -139,7 +139,7 @@ function AddSubTask() {
         }))
     }
 
-
+    console.log(selectedTaskCode,"selectedTaskCode//////----")
 
     function getDesignationApiHandler() {
 
@@ -147,7 +147,7 @@ function AddSubTask() {
             branch_id: getBranchId()
         }
 
-
+      
 
         dispatch(getDesignations({
             params,
@@ -185,10 +185,11 @@ function AddSubTask() {
                     params,
                     onSuccess: (response: any) => () => {
                         if (response.success) {
+                            // dispatch(
+                            //     setSelectedTaskCode(false)
+                            //   )
                             goBack();
-                            dispatch(
-                                setSelectedTaskCode(false)
-                              )
+                         
                             loginLoader.hide()
                             showToast(response.message, "success");
                         }

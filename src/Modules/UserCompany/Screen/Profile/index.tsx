@@ -91,7 +91,6 @@ function Profile() {
           <div className="pb-4">
           <ImagePicker
           size='xxl'
-          // defaultValue={[{ id: 1, photo: user_details?.profile_image }]}
           className="text-center"
           noOfFileImagePickers={1}
           imageVariant={'rounded'}

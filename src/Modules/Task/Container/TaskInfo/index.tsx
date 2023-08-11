@@ -25,6 +25,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const { id, item } = useParams()
     const { refreshTaskEvents, selectedTaskId, selectedCodeId, selectedTaskStatus, selectedTaskCode } = useSelector((state: any) => state.TaskReducer);
 
+
     const dispatch = useDispatch()
     const { taskDetails, selectedReferenceDetails, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
 
@@ -56,6 +57,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
     useEffect(() => {
+
         if (subTasks !== undefined) {
             let isSelect
 
@@ -86,9 +88,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const codeHandler = () => {
 
         let array: any
+        console.log(selectedTaskId,"selectedTaskId===>",selectedCodeId)
         if (selectedTaskId?.length >= selectedCodeId?.length) {
 
             array = selectedTaskId?.filter((el: any) => el !== id)
+            console.log(array,"aaaaaaattt")
 
             dispatch(
                 setSelectedCodeId([])
@@ -101,6 +105,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
         }
+        console.log(array,"outterr")
 
         return array
 
@@ -108,30 +113,33 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
 
+    console.log(selectedTaskCode,"selectedTaskCode--------------++")
 
 
-    function handleBackButtonClick(event) {
-        // Your logic here
+    // function handleBackButtonClick(event) {
+    //     // Your logic here
 
-        if (selectedTaskId.length > 0 && selectedTaskCode) {
-            dispatch(selectedTaskIds(codeHandler()));
+    //     if (selectedTaskId.length > 0 && selectedTaskCode) {
+    //         dispatch(selectedTaskIds(codeHandler()));
+           
 
-        }
-        if (selectedTaskCode === false) {
+    //     }
+    //     if (selectedTaskCode === false) {
 
-            setTimeout(filter, 4000)
+    //         setTimeout(filter, 4000)
 
-        }
+    //     }
 
-    }
-    const filter = () => {
-        dispatch(
-            setSelectedTaskCode(true)
-        )
-    }
+    // }
+    // const filter = () => {
+    //     console.log('filter')
+    //     // dispatch(
+    //     //     setSelectedTaskCode(true)
+    //     // )
+    // }
 
 
-    window.onpopstate = handleBackButtonClick;
+    // window.onpopstate = handleBackButtonClick;
 
 
 
@@ -278,9 +286,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         dispatch(
                             selectedTaskIds(codeHandler())
                         )
-                        dispatch(
-                            setSelectedTaskCode(true)
-                        )
+                        // dispatch(
+                        //     setSelectedTaskCode(true)
+                        // )
+                        console.log('back')
 
                     }}>
                         <Back

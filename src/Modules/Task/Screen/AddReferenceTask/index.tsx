@@ -12,7 +12,7 @@ function AddReferenceTask() {
 
   const dispatch = useDispatch();
 
-  const { tasks, selectedTask, referencesTasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, selectedTask, referencesTasks, taskNumOfPages, taskCurrentPages,selectedTaskCode } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
   const { goBack } = useNavigation();
@@ -28,7 +28,7 @@ function AddReferenceTask() {
     }
   }, [isEnterPressed]);
 
-  
+ 
   useEffect(() => {
     getTasksApiHandler(taskCurrentPages)
   }, [])
@@ -49,10 +49,11 @@ function AddReferenceTask() {
           onSuccess: (response: any) => () => {
 
             if (response.success) {
+              // dispatch(
+              //   setSelectedTaskCode(false)
+              // )
               goBack()
-              dispatch(
-                setSelectedTaskCode(false)
-              )
+            
               loginLoader.hide()
               showToast(response.message, "success");
             }

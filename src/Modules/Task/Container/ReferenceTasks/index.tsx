@@ -76,6 +76,9 @@ function ReferenceTasks() {
        <div className="mr-3 mb-1 justify-content-end text-right ">
         <Button size={'sm'} className={'text-white mt-3 mb-1 '} text={translate("auth.addReferenceTask")} onClick={() => {
           dispatch(setSelectedTask(id))
+          // dispatch(
+          //   setSelectedTaskCode(false)
+          // )
 
           goTo(ROUTES["task-module"]["reference-task"])
           
@@ -112,9 +115,10 @@ function ReferenceTasks() {
             dispatch(setSelectedTask(item?.code))
            dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
            dispatch(setSelectedTaskstatus([item,...selectedTaskStatus]))
-           dispatch(
-            setSelectedTaskCode(true)
-          )
+           console.log('rreeffee')
+          //  dispatch(
+          //   setSelectedTaskCode(true)
+          // )
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'reference-task')
           }}
 

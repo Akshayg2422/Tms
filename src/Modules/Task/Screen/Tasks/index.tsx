@@ -230,10 +230,10 @@ function Tasks() {
                   dispatch(
                     setSelectedCodeId([])
                   )
-              dispatch(
-                setSelectedTaskCode(true)
-              )
-
+              // dispatch(
+              //   setSelectedTaskCode(true)
+              // )
+console.log('fasskkklltask')
                   dispatch(getSelectedReference({ code: item?.code, refer: true }))
                   dispatch(setSelectedTabPosition({ id: '1' }))
                   goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'task');
