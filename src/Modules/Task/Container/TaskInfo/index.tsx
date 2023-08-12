@@ -1,6 +1,6 @@
 import { icons } from "@Assets";
 import { Alert, Back, Button, Card, DateTimePicker, H, Image, ImageIcon, Input, Modal, ProfileCard, TextAreaInput } from "@Components";
-import { useInput, useLoader, useModal, useNavigation,useWindowDimensions } from '@Hooks';
+import { useInput, useLoader, useModal, useNavigation, useWindowDimensions } from '@Hooks';
 import { translate } from "@I18n";
 import { TaskEventHistory, TaskItemMenu } from "@Modules";
 import { addTaskEvent, getTaskDetails, refreshTaskEvent, selectedVcDetails, selectedTaskIds, setSelectedCodeId, setSelectedTaskCode } from '@Redux';
@@ -20,10 +20,11 @@ const END_TASK = 2
 
 const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
-    const {  height } = useWindowDimensions()
+    const { height } = useWindowDimensions()
 
     const { id, item } = useParams()
-    const { refreshTaskEvents, selectedTaskId, selectedCodeId ,selectedTaskStatus,selectedTaskCode} = useSelector((state: any) => state.TaskReducer);
+    const { refreshTaskEvents, selectedTaskId, selectedCodeId, selectedTaskStatus, selectedTaskCode } = useSelector((state: any) => state.TaskReducer);
+
 
     const dispatch = useDispatch()
     const { taskDetails, selectedReferenceDetails, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
@@ -41,32 +42,27 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const [actionTask, setActionTask] = useState<number>()
     const userModal = useModal(false)
     const { goTo } = useNavigation()
-    const [selected, setSelected] = useState()
+
     const loginLoader = useLoader(false);
 
 
-  
-
-
-    // useEffect(()=>{
-    //     eventCodeHandler()
-    //     console.log('iiittt')
-    // },[id])
-
- 
-
     useEffect(() => {
+
         getTaskDetailsHandler()
+
     }, [refreshTaskEvents, id])
 
 
 
+
+
     useEffect(() => {
+
         if (subTasks !== undefined) {
             let isSelect
 
             isSelect = subTasks?.some((filter: any) => filter?.code === selectedReferenceDetails?.code)
-          
+
         }
         // /
         if (tasks.length > 0) {
@@ -89,51 +85,63 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         editDescription.set('')
     }
 
-//  console.log(selectedCodeId,"selectedCodeId")
-//     const eventCodeHandler =()=>{
-//         let array:any
-//         console.log(selectedTaskId,"selectedTaskId")
-//         console.log(id,"iiiiiiiiiii")
-//         let isSelect=selectedTaskId?.some((el:any)=>el===id)
-//         console.log(isSelect,"come in===>")
-
-//         if(!isSelect){
-//             console.log('yytttt')
-//             let isSelect=selectedTaskId?.filter((el:any)=>el===selectedTaskCode)
-
-//             dispatch(
-//                 setSelectedTaskCode(id)
-//               )
-            // let isFilter=selectedTaskId?.some()
-        // }
-        // else{
-        //     console.log('come in===>')
-        // }
-        
-
-
-    // }
-
-
-
     const codeHandler = () => {
+
         let array: any
+        console.log(selectedTaskId,"selectedTaskId===>",selectedCodeId)
         if (selectedTaskId?.length >= selectedCodeId?.length) {
-        
+
             array = selectedTaskId?.filter((el: any) => el !== id)
+            console.log(array,"aaaaaaattt")
+
             dispatch(
                 setSelectedCodeId([])
             )
+
         }
         else {
 
             array = selectedCodeId
 
+
         }
-    
+        console.log(array,"outterr")
+
         return array
 
     }
+
+
+
+    console.log(selectedTaskCode,"selectedTaskCode--------------++")
+
+
+    // function handleBackButtonClick(event) {
+    //     // Your logic here
+
+    //     if (selectedTaskId.length > 0 && selectedTaskCode) {
+    //         dispatch(selectedTaskIds(codeHandler()));
+           
+
+    //     }
+    //     if (selectedTaskCode === false) {
+
+    //         setTimeout(filter, 4000)
+
+    //     }
+
+    // }
+    // const filter = () => {
+    //     console.log('filter')
+    //     // dispatch(
+    //     //     setSelectedTaskCode(true)
+    //     // )
+    // }
+
+
+    // window.onpopstate = handleBackButtonClick;
+
+
 
 
 
@@ -244,10 +252,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
     return (
         <div >
-            <div className={'card p-4 overflow-auto overflow-hide '} style={{height:height-260}}>
-{/* 
+            <div className={'card p-4 overflow-auto overflow-hide '} style={{ height: height - 260 }}>
+
                 <div className=" col row mb-1">
                     {selectedTaskId?.map((el, index) => {
+
                         return (
 
                             <div>
@@ -269,7 +278,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         )
                     })}
 
-                </div>  */}
+                </div>
 
                 <div className="row justify-content-center">
 
@@ -277,6 +286,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         dispatch(
                             selectedTaskIds(codeHandler())
                         )
+                        // dispatch(
+                        //     setSelectedTaskCode(true)
+                        // )
+                        console.log('back')
 
                     }}>
                         <Back

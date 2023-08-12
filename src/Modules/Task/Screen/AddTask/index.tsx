@@ -14,6 +14,9 @@ import {
     TextAreaInput,
     Button,
     DatePickers,
+    VideoUploader,
+    FileUploader,
+  
 
 
 } from "@Components";
@@ -49,6 +52,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
 import { icons } from "@Assets";
 import moment from "moment";
+
 
 // import { CalenderView } from "@Modules";
 
@@ -90,7 +94,7 @@ function AddTask() {
     // let attach = photo.slice(-selectNoPickers)
     const [date, setDate] = useState<any>()
     const loginLoader = useLoader(false);
-    
+
     const isEnterPressed = useKeyPress("Enter");
 
     useEffect(() => {
@@ -283,8 +287,8 @@ function AddTask() {
     }
 
     const handleEtaChange = (value: any) => {
-        
-    
+
+
         setEta(value);
         setDate(value)
     };
@@ -462,9 +466,14 @@ function AddTask() {
                         onChange={handleEtaChange}
                     />
                 </div>
-
             </div >
 
+            <FileUploader
+            onSelect={(e)=>{
+                console.log('tessttt',e)
+
+            }}/>
+            {/* <img src={"" } /> */}
             <div className="col">
                 <Button size={'md'}
                     loading={loginLoader.loader}
@@ -477,3 +486,4 @@ function AddTask() {
 }
 
 export { AddTask };
+

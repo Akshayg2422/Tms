@@ -37,6 +37,7 @@ const Dropzone = ({
           };
           reader.readAsDataURL(file);
         },
+        
       });
     }
   };

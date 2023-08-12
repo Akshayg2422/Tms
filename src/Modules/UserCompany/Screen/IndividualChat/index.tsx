@@ -15,7 +15,7 @@ import { ROUTES } from '@Routes'
 
 function IndividualChat() {
 
-    const { dashboardDetails, oneToOneChat, employees, chatMessageCurrentPages, selectedPrivateUser, chatEmployees, chatMessages, refreshPrivateChat } = useSelector(
+    const { dashboardDetails, oneToOneChat, employees, chatMessageCurrentPages, selectedPrivateUser, chatEmployees, chatMessages, refreshPrivateChat,refreshChatMessage } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || {}
@@ -44,7 +44,7 @@ function IndividualChat() {
         if (selectedPrivateUser) {
             getChatMessage(INITIAL_PAGE)
         }
-    }, [selectedPrivateUser, refreshPrivateChat])
+    }, [selectedPrivateUser, refreshPrivateChat,refreshChatMessage])
 
     const getChatEmployeeList = () => {
 

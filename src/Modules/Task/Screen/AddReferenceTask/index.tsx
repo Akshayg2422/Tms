@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTaskEvent, getTasks } from "@Redux";
+import { addTaskEvent, getTasks, setSelectedTaskCode } from "@Redux";
 import { NoDataFound, CommonTable, Checkbox, showToast, HomeContainer, SearchInput, Button, Back, Spinner, InputHeading } from "@Components";
 import { useInput, useKeyPress, useLoader, useNavigation } from "@Hooks";
 import { RTS, getStatusFromCode, getArrayFromArrayOfObject, validate, ifObjectExist, getValidateError, ADD_REFERENCE_TASK, paginationHandler, SEARCH_PAGE, INITIAL_PAGE } from "@Utils";
@@ -12,7 +12,7 @@ function AddReferenceTask() {
 
   const dispatch = useDispatch();
 
-  const { tasks, selectedTask, referencesTasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
+  const { tasks, selectedTask, referencesTasks, taskNumOfPages, taskCurrentPages,selectedTaskCode } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
   const { goBack } = useNavigation();
@@ -28,7 +28,7 @@ function AddReferenceTask() {
     }
   }, [isEnterPressed]);
 
-  
+ 
   useEffect(() => {
     getTasksApiHandler(taskCurrentPages)
   }, [])
@@ -49,7 +49,11 @@ function AddReferenceTask() {
           onSuccess: (response: any) => () => {
 
             if (response.success) {
+              // dispatch(
+              //   setSelectedTaskCode(false)
+              // )
               goBack()
+            
               loginLoader.hide()
               showToast(response.message, "success");
             }

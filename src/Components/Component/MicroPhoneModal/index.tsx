@@ -20,28 +20,66 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     const [audioData,setAudioData]=useState()
     const { selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+    console.log(JSON.stringify(dashboardDetails),"dashboardDetails ==>")
     const microPhoneModals=useModal(true)
     const loginLoader = useLoader(false);
     const [counting,setCounting]=useState(false)
     const [stopAudio,setStopAudio]=useState(true)
+    const [stopAudioData,setStopAudioData]=useState<any>()
+    const [stopAudioAllData,setStopAudioAllData]=useState<any>()
 
     useEffect(()=>{
         getMicrophonePermission()
       
     },[])
     
-  useEffect(()=>{
+  // useEffect(()=>{
+  //   if(audioData){
+  //   addVoiceUsingRecord()
+  //   }
+    
+
+  // },[audioData])
+
+
+  useEffect (()=>{
     if(audioData){
+    if(stopAudio && stopAudioData){
+let data=stopAudioData?.concat(audioData)
+setStopAudioAllData(data)
+ 
+     
+console.log(stopAudioAllData,'audioData')
+    }
+    else if (stopAudio){
+      setStopAudioAllData(audioData)
+
+    }
+    else{
+      setStopAudioData(audioData)
+
+
+    }
+  }
+  },[stopAudio,audioData])
+
+  useEffect (()=>{
+    if(stopAudioAllData){
     addVoiceUsingRecord()
     }
 
-  },[audioData])
+  },[stopAudioAllData])
+
+
+
+
+
 
     const addVoiceUsingRecord =()=>{
     
       const params={
         code:dashboardDetails?.company_branch?.code,
-        voice_task:audioData
+        voice_task:stopAudioAllData
         }
         loginLoader.show()
        
@@ -50,10 +88,15 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
             params,
             onSuccess:(response)=>()=>{
               let code=response?.details?.task_code
+            
+              
               loginLoader.hide()
               microPhoneModals.hide()
               setSelected(false)
               setCounting(false)
+              dispatch(
+                setSelectedModal(false)
+            )
               dispatch(setSelectedTask(code));
               dispatch(selectedTaskIds([code]))
               dispatch(
@@ -78,6 +121,7 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     }
 
      const handleDataAvailable = (event: any) => {
+      console.log('iiiitterr')
         if (event.data.size > 0) {
           const audioBlob = new Blob([event.data], { type: 'audio/wav' });
           const reader: any = new FileReader();
@@ -108,7 +152,9 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
       };
     
       const startVoiceRecording = () => {
+        console.log(stream,"stream")
         if (stream) {
+          console.log('oooooo')
           mediaRecorderRef.current = new MediaRecorder(stream);
           mediaRecorderRef.current.addEventListener("dataavailable", handleDataAvailable);
           mediaRecorderRef.current.start();
@@ -116,7 +162,9 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
         }
       };
     
-      const stopVoiceRecording = () => {
+      const stopVoiceRecording = (item) => {
+        console.log(mediaRecorderRef.current,"mediaRecorderRef.current==>")
+        
         if (mediaRecorderRef.current) {
           mediaRecorderRef.current.stop();
           setRecording(false);
@@ -227,18 +275,18 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
               <Button text={'submit'}
       loading={loginLoader.loader}
        onClick={()=>{
-
+        setStopAudio(true)
         setCounting(true)
-      stopVoiceRecording()
-      setStopAudio(true)
+      stopVoiceRecording(true)
+      
     
       }} size={'sm'}/>
     
       }
 
 {recording && <Button text={'Stop'}onClick={()=>{
-         stopVoiceRecording()
-        setStopAudio(false)
+        stopVoiceRecording(false)
+         setStopAudio(false)
         }} size={'sm'}/>}
 
 

@@ -76,7 +76,7 @@ function Profile() {
           </div>
 
 
-          {user_details && <div className="pb-4">
+          {user_details?.profile_image ? <div className="pb-4">
             <ImagePicker
               size='xxl'
               defaultValue={[{ id: 1, photo: user_details?.profile_image }]}
@@ -92,8 +92,26 @@ function Profile() {
               onSelectImagePicker={() => {
               }}
             />
-          </div>
+          </div>:
+          <div className="pb-4">
+          <ImagePicker
+          size='xxl'
+          className="text-center"
+          noOfFileImagePickers={1}
+          imageVariant={'rounded'}
+          defaultPicker={true}
+          trashIcons={true}
+          onSelect={(image) => {
+            let file = image.toString().replace(/^data:(.*,)?/, "")
+            userProfileEdit(file)
+          }}
+          onSelectImagePicker={() => {
+          }}
+        />
+        </div>
           }
+
+
 
 
           <h3 className="ct-title undefined">{translate('common.Basic Information')}</h3>
