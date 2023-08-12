@@ -8,6 +8,7 @@ import { ROUTES } from "@Routes"
 import { translate } from "@I18n";
 import { useEffect } from "react";
 import { icons } from "@Assets";
+import { DocxView } from "@Components//Component/UploadFile";
 
 
 function Profile() {
@@ -68,6 +69,10 @@ function Profile() {
           <div className="col text-right">
             <Button color={'white'} size={'sm'} text={translate('common.Logout')} onClick={logoutModal.show} />
             <Button color={'white'} size={'sm'} text={translate('common.Language')} onClick={languageModal.show} />
+          </div>
+
+          <div>
+            <DocxView/>
           </div>
 
 
