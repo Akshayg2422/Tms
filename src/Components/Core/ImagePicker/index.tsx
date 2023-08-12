@@ -196,7 +196,7 @@ const ImagePicker = ({
         <InputHeading heading={heading} />
       </div>
       {photo && photo.map((el, index) => {
-        console.log(photo[index]?.base64,"photo[index]?.base64===>")
+      
         return (
 
           <div className={`${className} col-auto ml-0  pr-3`}>

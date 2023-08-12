@@ -1,15 +1,15 @@
-import React, { useRef } from 'react'
-import { VideoUploaderProps } from './interfaces'
+import React, { useRef, useState } from 'react'
+import { FileUploaderProps } from './interfaces'
 import { ImageIcon } from '@Components';
 import { icons } from '@Assets';
 
 
 
-function VideoUploader
-  ({ onChange, onSelect, }: VideoUploaderProps) {
+function FileUploader
+  ({ onChange, onSelect, }: FileUploaderProps) {
 
   const fileInputRef = useRef<any>(null)
-
+  const [fileUpload,setFileUpload]=useState<any>()
   const handleRefClick = () => {
     fileInputRef.current.click();
   };
@@ -19,16 +19,7 @@ function VideoUploader
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      // const maxSizeInBytes = 1024 * 1024 * 25;
-      // console.log(file.size,"---------->")
-      // console.log(maxSizeInBytes,"maxSizeInBytes===>")
-
-      // if (file.size > maxSizeInBytes) {
-      //   // You can display an error message or take appropriate action here
-      //   console.log('Uploaded video exceeds size limit');
-      //   return;
-      // }
-
+     
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -39,7 +30,7 @@ function VideoUploader
           onSelect(e.target?.result);
           console.log(e.target?.result,"eeeeeeeeeeeeee")
 
-          // setImage(e.target?.result);
+          setFileUpload(e.target?.result);
         }
       };
       reader.readAsDataURL(file);
@@ -52,7 +43,7 @@ function VideoUploader
         type={'file'}
           style={{ display: "none" }}
         ref={fileInputRef}
-        accept="video/*"
+        accept="file/*"
         onChange={handleChange}
       />
 
@@ -67,11 +58,7 @@ function VideoUploader
      
     </div>
 
-
-
-
-  
   )
 }
 
-export { VideoUploader }
+export { FileUploader }

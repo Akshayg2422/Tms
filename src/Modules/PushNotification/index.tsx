@@ -76,51 +76,75 @@ const PushNotification = () => {
     const routingHandler = (payload: any) => {
 
         console.log('payload=====>', JSON.stringify(payload))
+       
 
         const extra_data = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"'))
 
         const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
+        const route_task_code=(payload?.data?.extra_data.replace(/'/g, '"')).route_params
+      
+        console.log(route_task_code,"route_task_code---->")
+        console.log('route_type======>1111111', JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
 
         console.log('route_type--->', JSON.stringify(route_type))
         console.log('route_type======>1111111', JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
 
         if (route_type === NOTIFICATION_GROUP_MESSAGE) {
-          
+          console.log('11111')
             goTo(ROUTES['user-company-module'].Groups);
         }
         else if (route_type === NOTIFICATION_CHAT_MESSAGE) {
           
+            console.log('222222')
+            dispatch(refreshChatMessage())
+            
+           
             goTo(ROUTES["user-company-module"]["individual-chat"])
         }
         else if (route_type === NOTIFICATION_TASK_RAISED) {
             goTo(ROUTES["task-module"].tasks)
+            console.log('3333333')
         }
         else if (route_type === NOTIFICATION_TICKET_RAISED) {
             goTo(ROUTES['ticket-module'].tickets)
+            console.log('44444')
         }
         else if (route_type === NOTIFICATION_BROADCAST_MESSAGE) {
+            console.log('555555')
             goTo(ROUTES['message-module'].broadcast)
+           
         }
         else if (route_type === NOTIFICATION_TASK_CHANNEL_EVENT) {
-            goTo(ROUTES['task-module']['tasks-details'])
+            dispatch(refreshTaskEvent())
+            console.log(route_type,"route_typeroute_typeroute_typeroute_type")
+            console.log('66666')
+            goTo(ROUTES['task-module']['tasks-details']+'/' +route_task_code?.code + '/' + 'task')
+           
         }
         else if (route_type === NOTIFICATION_VIDEO_CONFERENCE) {
+            
 
             if (extra_data?.route_params?.one_to_one) {
+               
                 dispatch(handleOneToOneChat(true))
                 dispatch(handleOneToOneVcNoti(extra_data?.route_params?.videocall_id))
                 dispatch(vcNotificationDetails(extra_data))
+                console.log('77777')
              
                 goTo(ROUTES['user-company-module']['individual-chat'], false)
+             
               
             }
             else {
                 dispatch(vcNotificationDetails(route_type))
+                console.log('8888888')
                 goTo(ROUTES['user-company-module']['video-conference'], false)
+               
             }
         }
         else {
             goTo(ROUTES['user-company-module'].Groups)
+            console.log('99999')
         }
 
     }
@@ -146,15 +170,18 @@ const PushNotification = () => {
 
                 }
             } else if (route_type === NOTIFICATION_TASK_CHANNEL_EVENT) {
+                console.log(route_type,"route_typeroute_typeroute_typeroute_type")
 
                 try {
+                    console.log('777777777');
                     dispatch(refreshTaskEvent())
-                    goTo(ROUTES['tasks-details']['tasks-details'])
+                    goTo(ROUTES['tasks-details']['tasks-details']+ '/' +route_type?.code + '/' + 'task')
                 } catch (e) {
 
                 }
             } else if (route_type === NOTIFICATION_EVENT_MESSAGE) {
                 try {
+                    console.log('777777777');
                     dispatch(refreshEventsMessage(eventsMessage))
                 } catch (e) {
 
@@ -162,6 +189,7 @@ const PushNotification = () => {
             }
             else if (route_type === NOTIFICATION_EVENT_MESSAGE) {
                 try {
+                    console.log('777777777');
                     dispatch(refreshEventsMessage(eventsMessage))
                  
                 } catch (e) {
@@ -171,7 +199,7 @@ const PushNotification = () => {
 
             else if (route_type === NOTIFICATION_CHAT_MESSAGE) {
                 try {
-
+                    console.log('4444444444');
                     dispatch(refreshChatMessage())
                   
                 } catch (e) {
