@@ -12,9 +12,10 @@ function Splash() {
   const dispatch = useDispatch()
 
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
-  
+  console.log('pppreeeee',loginDetails)
 
   useEffect(() => {
+    // console.log('kjfhiufdjknvknl')
     setTimeout(() => {
       if (loginDetails?.isLoggedIn) {
 

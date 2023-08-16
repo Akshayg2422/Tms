@@ -22,6 +22,7 @@ function Otp() {
   const { seconds, setSeconds } = useTimer(OTP_RESEND_DEFAULT_TIME);
   const otp = useInput("");
   const isEnterPressed = useKeyPress("Enter");
+  console.log(loginDetails,"loginDetails--->")
 
   useEffect(() => {
     if (isEnterPressed) {
@@ -66,7 +67,7 @@ function Otp() {
     dispatch(getDashboard({
       params,
       onSuccess: () => () => {
-        // goTo(ROUTES["auth-module"].splash)
+        goTo(ROUTES["auth-module"].splash)
       },
       onError: () => () => { }
     }));
@@ -88,7 +89,13 @@ function Otp() {
         otpLogin({
           params,
           onSuccess: response => () => {
+          
             otpLoader.hide()
+            goTo(ROUTES["auth-module"].splash)
+            
+           
+            localStorage.setItem(USER_TOKEN, response.details.token);
+            getDashboardDetails();
 
             dispatch(
               userLoginDetails({
@@ -97,9 +104,6 @@ function Otp() {
                 is_admin: response.details?.company?.type_is_provider,
               }),
             );
-           
-            localStorage.setItem(USER_TOKEN, response.details.token);
-            getDashboardDetails();
             
 
           },

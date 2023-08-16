@@ -23,10 +23,11 @@ import {
 } from "@Utils";
 
 import { useDispatch, useSelector } from "react-redux";
-import { registerCompany, registerAdmin,getDashboard } from "@Redux";
+import { registerCompany, registerAdmin,getDashboard, userLoginDetails } from "@Redux";
 import { useInput, useDropDown, useNavigation, useLoader } from "@Hooks";
+import { ROUTES } from "@Routes";
 
-console.log('1111111111111??',JSON.stringify(getDashboard));
+// console.log('1111111111111??',JSON.stringify(getDashboard));
 
 
 function Register() {
@@ -45,18 +46,22 @@ function Register() {
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
   const loginLoader = useLoader(false)
+  const { loginDetails } = useSelector((state: any) => state.AppReducer);
+  const { goTo } = useNavigation()
+  console.log('login========>',JSON.stringify(loginDetails));
+  
 
 
-
-  // function getDashboardDetails() {
-  //   const params = {}
-  //   dispatch(getDashboard({
-  //     params,
-  //     onSuccess: () => () => {
-  //     },
-  //     onError: () => () => { }
-  //   }));
-  // }
+  function getDashboardDetails() {
+    const params = {}
+    dispatch(getDashboard({
+      params,
+      onSuccess: () => () => {
+        goTo(ROUTES["auth-module"].splash)
+      },
+      onError: () => () => { }
+    }));
+  }
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -90,11 +95,13 @@ function Register() {
         registerAdmin({
           params,
           onSuccess: (response: any) => () => {
+            console.log(response.details.token,"response.details.token===>")
+            localStorage.setItem(USER_TOKEN, response.details.token);
             onRegisterCompany();
             loginLoader.hide()
+            
+        
 
-            // localStorage.setItem(USER_TOKEN, response.details.token);
-            // getDashboardDetails();
           },
           onError: (error) => {
             showToast(error.error_message, "info");
@@ -128,8 +135,24 @@ function Register() {
           if (response.success) {
             loginLoader.hide()
             showToast(response.message, "success");
+            console.log('response=========>>>',response);
+          
             goBack();
           }
+          goTo(ROUTES["auth-module"].splash)
+          dispatch(
+            userLoginDetails({  
+              ...loginDetails,
+              isLoggedIn: true,
+              is_admin: response.details?.company?.type_is_provider,
+            }),
+           
+            
+          );
+          getDashboardDetails();
+          // localStorage.setItem(USER_TOKEN, response.details.token);
+        
+
         },
         onError: (error: any) => () => {
           loginLoader.hide()
