@@ -51,7 +51,6 @@ const FilePicker = ({ }: FilePickerProps) => {
                 <input {...getInputProps()} />
                 <img src={icons.plus} alt="Plus" style={{ objectFit: "contain", height: '60px', width: '60px' }} />
 
-
             </div>
 
             <div>

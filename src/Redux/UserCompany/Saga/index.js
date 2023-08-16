@@ -777,6 +777,139 @@ function* fetchChatEmployeeListSaga(action) {
   }
 }
 
+//add company caregory
+function* addProductServiceSaga(action) {
+  try {
+    const response = yield call(Api.addProductServiceApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.addProductServiceSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.addProductServiceFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.addProductServiceFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+function* getProductServiceSaga(action) {
+  try {
+    const response = yield call(Api.getProductServiceApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getProductServiceSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getProductServiceFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getProductServiceFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+function* addProductCategorySaga(action) {
+  try {
+    const response = yield call(Api.addProductCategoryApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.addProductCategorySuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.addProductCategoryFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.addProductCategoryFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+function* getProductCategorySaga(action) {
+  try {
+    const response = yield call(Api.getProductCategoryApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getProductCategorySuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getProductCategoryFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getProductCategoryFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+///add  brand service category
+
+
+function* addBrandServiceSaga(action) {
+  try {
+    const response = yield call(Api.addBrandServiceApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.addBrandServiceSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.addBrandServiceFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.addBrandServiceFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+function* getBrandServiceSaga(action) {
+  try {
+    const response = yield call(Api.getBrandServiceApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getBrandServiceSuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getBrandServiceFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getBrandServiceFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+function* addServiceCategorySaga(action) {
+  try {
+    const response = yield call(Api.addServiceCategoryApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.addServiceCategorySuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.addServiceCategoryFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.addServiceCategoryFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+function* getServiceCategorySaga(action) {
+  try {
+    const response = yield call(Api.getServiceCategoryApi, action.payload.params);
+    if (response.success) {
+      yield put(Action.getServiceCategorySuccess(response));
+      yield call(action.payload.onSuccess(response));
+    } else {
+      yield put(Action.getServiceCategoryFailure(response));
+      yield call(action.payload.onError(response));
+    }
+  } catch (error) {
+    yield put(Action.getServiceCategoryFailure(error));
+    yield call(action.payload.onError(error));
+  }
+}
+
+
+
 function* UserCompanySaga() {
 
   yield takeEvery(Action.GET_EMPLOYEES, getEmployeesSaga);
@@ -819,6 +952,16 @@ function* UserCompanySaga() {
   yield takeLatest(Action.POST_CHAT_MESSAGE, postChatMessageSaga)
   yield takeLatest(Action.FETCH_CHAT_MESSAGE, fetchChatMessageSaga)
   yield takeLatest(Action.FETCH_CHAT_EMPLOYEE_LIST, fetchChatEmployeeListSaga)
+
+  yield takeLatest(Action.ADD_PRODUCT_SERVICE,addProductServiceSaga)
+  yield takeLatest(Action.GET_PRODUCT_SERVICE, getProductServiceSaga)
+  yield takeLatest(Action.ADD_PRODUCT_CATEGORY,addProductCategorySaga)
+  yield takeLatest(Action.GET_PRODUCT_CATEGORY, getProductCategorySaga)
+
+  yield takeLatest(Action.ADD_BRAND_SERVICE,addBrandServiceSaga)
+  yield takeLatest(Action.GET_BRAND_SERVICE, getBrandServiceSaga)
+  yield takeLatest(Action.ADD_SERVICE_CATEGORY,addServiceCategorySaga)
+  yield takeLatest(Action.GET_SERVICE_CATEGORY, getServiceCategorySaga)
 
 }
 

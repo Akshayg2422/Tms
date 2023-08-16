@@ -77,7 +77,7 @@ const VideoConference = ({ iframeHeight = "100vh", chatCall = false }: VideoConf
         dispatch(postChatMessage({
             params,
             onSuccess: (success: any) => async () => {
-                console.log(success,"sssssssssss->")
+         
 
             },
             onError: (error: string) => () => {
@@ -165,7 +165,7 @@ const VideoConference = ({ iframeHeight = "100vh", chatCall = false }: VideoConf
 
     useEffect(() => {
         generateRoomName()
-        console.log('3ntersed')
+      
         
     }, [])
 

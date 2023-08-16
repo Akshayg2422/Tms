@@ -29,11 +29,14 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         dispatch(getSubTasks({
             params,
             onSuccess: () => () => {
+            
             },
             onError: () => () => {
             },
         }))
     }
+
+
     const normalizedTableData = (data: any) => {
         if (data && data?.length > 0) {
 
@@ -65,7 +68,13 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                         size={"sm"}
                         text={translate("common.addSubTask")}
                         onClick={() => {
+                            // dispatch(
+                            //     setSelectedTaskCode(false)
+
+                            //   )
                             goTo(ROUTES["task-module"]["add-sub-task"])
+                         
+                              
                             dispatch(setSelectedTask(id))
                         }}
                     />
@@ -82,9 +91,12 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                                 dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
                                 dispatch(getSelectedReference({ code: item?.code, refer: true }))
                                 dispatch(setSelectedTabPosition({ id: '1' }))
-                                dispatch(
-                                    setSelectedTaskCode(item?.code)
-                                  )
+                               
+                                //    dispatch(
+                                //     setSelectedTaskCode(true)
+
+                                //   )
+                                  console.log('subtask')
                                 goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'sub-task')
 
                             }}

@@ -9,6 +9,7 @@ const AUTH = '/authentication/';
 const EMPLOYEE = '/employee/'
 const TASK = '/task/'
 const AUTHENTICATION = '/authentication/'
+const SERVICE = '/service/';
 
 export const GET_ASSOCIATED_COMPANIES = COMPANY + 'getAssociatedCompanies';
 export const GET_ASSOCIATED_COMPANIES_L = COMPANY + 'getAssociatedCompaniesl';
@@ -76,7 +77,7 @@ export const ADD_TICKET_TAG = TICKET + 'addTicketTags';
 /**
  *  Service
  */
-const SERVICE = '/service/';
+
 
 export const SECTOR_SERVICE_TYPES = SERVICE + 'getSectorServiceTypes';
 
@@ -179,6 +180,30 @@ export const ADD_ATTACHMENTS_MESSAGE = TASK +'addEventMessage'
 export const GET_ATTACHMENTS_MESSAGE = TASK +'getEventMessage'
 
 export const ADD_TASK_USING_VOICE = TASK +'createTaskUsingVoice'
+
+
+///COMPANY PRODUCT LIST ADD AND GET
+
+export const ADD_PRODUCT_SERVICE= SERVICE +'addProductService'
+export const GET_PRODUCT_SERVICE= SERVICE +'getProductService'
+
+//COMPANY PRODUCT CATEGORY LIST GET AND ADD
+
+export const ADD_PRODUCT_CATEGORY= SERVICE +'addProductCategory'
+export const GET_PRODUCT_CATEGORY = SERVICE +'getProductCategory'
+
+//COMPANY SERVICE CATEGORY ADD AND GET
+
+export const ADD_SERVICE_CATEGORY= SERVICE +'addServiceCategory'
+export const GET_SERVICE_CATEGORY= SERVICE +'getServiceCategory'
+
+
+//COMPANY bRAND SERVICE CATEGORY ADD AND GET
+
+export const ADD_BRAND_SERVICE_CATEGORY= SERVICE +'addBrandService'
+export const GET_BRAND_SERVICE_CATEGORY= SERVICE +'getBrandService'
+
+
 
 
 

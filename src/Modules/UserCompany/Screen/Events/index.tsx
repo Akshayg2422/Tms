@@ -16,6 +16,9 @@ function Events() {
   const { events, eventsCurrentPages } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+  // const {eventsMessage } = useSelector(
+  //   (state: any) => state.TaskReducerReducer
+  // );
 
 
   useEffect(() => {

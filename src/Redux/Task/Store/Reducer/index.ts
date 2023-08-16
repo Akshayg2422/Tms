@@ -28,7 +28,7 @@ const initialState: TaskStateProp = {
   refreshTaskEvents: false,
   refreshEventMessage: false,
   refreshEventsMessage: false,
-  selectedTaskCode:undefined,
+  selectedTaskCode:false,
   taskEventAttachments: [],
   taskEventAttachmentsCurrentPage: 1,
   selectedTabPositions: { id: '1' },
@@ -284,11 +284,11 @@ const TaskReducer = (state = initialState, action: any) => {
       state = { ...state, refreshEventMessage: !state.refreshEventMessage }
       break;
 
-    case ActionTypes.REFRESH_EVENTS_MESSAGE:
-      console.log("aaaaaaaaaaaa=====", action)
+    // case ActionTypes.REFRESH_EVENTS_MESSAGE:
+    
 
-      state = { ...state, eventsMessage: action.payload }
-      break;
+    //   state = { ...state, eventsMessage: action.payload }
+    //   break;
 
 
 
