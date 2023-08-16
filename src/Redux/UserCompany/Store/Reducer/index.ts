@@ -86,6 +86,20 @@ const initialState: UserCompanyStateProp = {
   groupMessageCurrentPage: INITIAL_PAGE,
   refreshPrivateChat: false,
   userDataList:undefined,
+  companiesServiceProduct:undefined,
+  companiesServiceProductCurrentPages:1,
+  companiesServiceProductNumOfPages:undefined,
+  addProductServiceList:undefined,
+  fetchProductCategoryData:undefined,
+  addProductCategoryData:undefined,
+
+  companiesBrandService:undefined,
+  companiesBrandServiceCurrentPages:1,
+  companiesBrandServiceNumOfPages:undefined,
+  addBrandServiceData:undefined,
+  fetchServiceCategoryData:undefined,
+  addServiceCategoryData:undefined
+
 
 }
 
@@ -317,7 +331,7 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
       state = {
         ...state,
         loading: false,
-        // taskGroupDetails: [...state.taskGroupDetails, ...action.payload?.details?.data],
+     
         getTaskGroupCurrentPages:
           action.payload?.details?.next_page,
 
@@ -979,6 +993,177 @@ const UserCompanyReducer = (state: UserCompanyStateProp = initialState, action: 
     case ActionTypes.FETCH_CHAT_EMPLOYEE_LIST_FAILURE:
       state = { ...state, chatEmployees: undefined };
       break;
+
+
+      /// getCOMPANY PRODUCT SERVICE 
+
+      case ActionTypes.GET_PRODUCT_SERVICE:
+
+      state = {
+        ...state,
+        companiesServiceProduct: undefined,
+        companiesServiceProductCurrentPages: 1,
+        companiesServiceProductNumOfPages: 0,
+      };
+      break;
+    case ActionTypes.GET_PRODUCT_SERVICE_SUCCESS:
+      state = {
+        ...state,
+        companiesServiceProduct: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
+        companiesServiceProductCurrentPages: action.payload?.details.next_page === -1
+          ? action?.payload?.details.num_pages
+          : action?.payload?.details.next_page - 1,
+          companiesServiceProductNumOfPages: action.payload.details.num_pages,
+      };
+      break;
+    case ActionTypes.GET_PRODUCT_SERVICE_FAILURE:
+      state = { ...state, companiesServiceProduct: undefined };
+      break;
+
+      
+
+
+
+    // add COMPANY PRODUCT SERVICE 
+
+    case ActionTypes.ADD_PRODUCT_SERVICE:
+      state = {
+        ...state,
+        addProductServiceList: undefined,
+      };
+      break;
+    case ActionTypes.ADD_PRODUCT_SERVICE_SUCCESS:
+      state = {
+        ...state,
+        addProductServiceList: action.payload.details,
+      };
+      break;
+    case ActionTypes.ADD_PRODUCT_SERVICE_FAILURE:
+      state = { ...state, addProductServiceList: undefined };
+      break;
+
+      // add COMPANY PRODUCT CATEGORY 
+
+    case ActionTypes.ADD_PRODUCT_CATEGORY:
+      state = {
+        ...state,
+        addProductCategoryData: undefined,
+      };
+      break;
+    case ActionTypes.ADD_PRODUCT_CATEGORY_SUCCESS:
+      state = {
+        ...state,
+        addProductCategoryData: action.payload.details,
+      };
+      break;
+    case ActionTypes.ADD_PRODUCT_CATEGORY_FAILURE:
+      state = { ...state, addProductCategoryData: undefined };
+      break;
+
+
+      // GET COMPANY PRODUCT CATEGORY
+
+    case ActionTypes.GET_PRODUCT_CATEGORY:
+      state = {
+        ...state,
+        fetchProductCategoryData: undefined,
+      };
+      break;
+    case ActionTypes.GET_PRODUCT_CATEGORY_SUCCESS:
+      state = {
+        ...state,
+        fetchProductCategoryData: action.payload.details,
+      };
+      break;
+    case ActionTypes.GET_PRODUCT_CATEGORY_FAILURE:
+      state = { ...state, addProductServiceList: undefined };
+      break;
+
+//COMAPNY BRAND
+
+case ActionTypes.GET_BRAND_SERVICE:
+
+state = {
+  ...state,
+  companiesBrandService: undefined,
+  companiesBrandServiceCurrentPages: 1,
+  companiesBrandServiceNumOfPages: 0,
+};
+break;
+case ActionTypes.GET_BRAND_SERVICE_SUCCESS:
+state = {
+  ...state,
+  companiesBrandService: action.payload?.details?.data ? action.payload?.details?.data : action.payload?.details,
+  companiesBrandServiceCurrentPages: action.payload?.details.next_page === -1
+    ? action?.payload?.details.num_pages
+    : action?.payload?.details.next_page - 1,
+    companiesBrandServiceNumOfPages: action.payload.details.num_pages,
+};
+break;
+case ActionTypes.GET_BRAND_SERVICE_FAILURE:
+state = { ...state, companiesBrandService: undefined };
+break;
+
+
+
+
+
+// add COMPANY PRODUCT SERVICE 
+
+case ActionTypes.ADD_BRAND_SERVICE:
+state = {
+  ...state,
+  addBrandServiceData: undefined,
+};
+break;
+case ActionTypes.ADD_BRAND_SERVICE_SUCCESS:
+state = {
+  ...state,
+  addBrandServiceData: action.payload.details,
+};
+break;
+case ActionTypes.ADD_BRAND_SERVICE_FAILURE:
+state = { ...state, addBrandServiceData: undefined };
+break;
+
+// add COMPANY PRODUCT CATEGORY 
+
+case ActionTypes.ADD_SERVICE_CATEGORY:
+state = {
+  ...state,
+  addServiceCategoryData: undefined,
+};
+break;
+case ActionTypes.ADD_SERVICE_CATEGORY_SUCCESS:
+state = {
+  ...state,
+  addServiceCategoryData: action.payload.details,
+};
+break;
+case ActionTypes.ADD_SERVICE_CATEGORY_FAILURE:
+state = { ...state, addServiceCategoryData: undefined };
+break;
+
+
+// GET COMPANY PRODUCT CATEGORY
+
+case ActionTypes.GET_SERVICE_CATEGORY:
+state = {
+  ...state,
+  fetchServiceCategoryData: undefined,
+};
+break;
+case ActionTypes.GET_SERVICE_CATEGORY_SUCCESS:
+state = {
+  ...state,
+  fetchServiceCategoryData: action.payload.details,
+};
+break;
+case ActionTypes.GET_SERVICE_CATEGORY_FAILURE:
+state = { ...state, fetchServiceCategoryData: undefined };
+break;
+
+
 
 
 

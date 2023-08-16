@@ -116,7 +116,7 @@ function IndividualChat() {
             page_number
         }
 
-        console.log(JSON.stringify(params) + "====");
+   
 
         messageLoader.show();
         dispatch(fetchChatMessage({

@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents,CompanyConfig  } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents,CompanyConfig, AddProduct, AddServiceCategory  } from '@Modules'
 import { Login, Otp, Landing, Splash } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -75,6 +75,8 @@ export const ROUTES = {
     'individual-chat': '/chat',
     'add-event': '/add-event',
     'calender-view':'/calender-view',
+    'add-product':'/add-Product',
+    'add-service':'/add-service',
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -374,6 +376,18 @@ export const USER_COMPANY_ROTES = [
     path: ROUTES['user-company-module']['re-submit-request'],
     component: <ReSubmitRequest />
   },
+  {
+    key: 13,
+    path: ROUTES['user-company-module']['add-product'],
+    component: <AddProduct/>
+  },
+  {
+    key: 14,
+    path: ROUTES['user-company-module']['add-service'],
+    component: <AddServiceCategory/>
+  },
+
+
 ];
 
 

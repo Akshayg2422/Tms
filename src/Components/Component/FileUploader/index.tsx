@@ -28,8 +28,7 @@ function FileUploader
         if (onSelect && e.target) {
 
           onSelect(e.target?.result);
-          console.log(e.target?.result,"eeeeeeeeeeeeee")
-
+        
           setFileUpload(e.target?.result);
         }
       };

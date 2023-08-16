@@ -117,7 +117,7 @@ function ScheduleMeeting() {
         dispatch(postVideoConference({
             params,
             onSuccess: (success: any) => () => {
-                console.log("success============>", success)
+              
                 goBack()
             },
             onError: (error: string) => () => {

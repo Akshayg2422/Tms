@@ -23,3 +23,4 @@ console.log(config,"config===========>")
 // getMessaging takes the config constant as a parameter and returns a Firebase messaging instance. This messaging instance is stored in the messaging constant, and can be used to send and receive push notifications.
 
 export const messaging = getMessaging(config)
+

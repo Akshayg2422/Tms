@@ -9,7 +9,7 @@ function FileViewer() {
     if (file) {
       const url = URL.createObjectURL(file);
       setFileUrl(url);
-      console.log("uuuuu999oooo--->",url)
+     
     }
   };
 

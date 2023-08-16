@@ -80,6 +80,35 @@ export const USER_FORM_RULES = {
 };
 
 
+export const PRODUCT_SERVICE = {
+  name: {
+    presence: { allowEmpty: false, message: "name cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  photo: {
+    presence: { allowEmpty: false, message: "photo cannot be empty" },
+  },
+  service_category_id: {
+    presence: { allowEmpty: false, message: "please select category" },
+  }
+
+};
+
+export const PRODUCT_CATEGORY = {
+  name: {
+    presence: { allowEmpty: false, message: "name cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  photo: {
+    presence: { allowEmpty: false, message: "photo cannot be empty" },
+  },
+
+};
+
 export const CREATE_EXTERNAL = {
   title: {
     presence: { allowEmpty: false, message: "title cannot be empty" },

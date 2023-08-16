@@ -68,10 +68,10 @@ function* addTaskEventSaga(action) {
  */
 
 function* getTaskEventHistorySaga(action) {
-    // console.log('getTaskEventsHistorySaga====>' + JSON.stringify(action));
+   
     try {
         const response = yield call(Services.getTaskEventHistoryApi, action.payload.params);
-        // console.log(JSON.stringify(response) + 'getTaskEventsSaga======>');
+     
         if (response.success) {
             yield put(Action.getTaskEventHistorySuccess(response));
             yield call(action.payload.onSuccess(response));
@@ -282,15 +282,15 @@ function* getTimeLineBreakDownSaga(action) {
 // add Attachments Message
 
 function* addAttachmentsMessageSaga(action) {
-    console.log(action,"aaaaaaaaaaaccccccccrrrrrrrrrrr")
+   
     try {
         const response = yield call(Services.addAttachmentsMessageApi, action.payload.params);
         if (response.success) {
-            console.log(response,"rrrrrrrrrr=====>")
+        
             yield put(Action.addAttachmentsMessageSuccess(response));
             yield call(action.payload.onSuccess(response));
         } else {
-            console.log('errorr')
+         
             yield put(Action.addAttachmentsMessageFailure(response.error_message));
             yield call(action.payload.onError(response));
         }
@@ -304,15 +304,15 @@ function* addAttachmentsMessageSaga(action) {
 // add voice record
 
 function* fetchUsingVoiceSaga(action) {
-    console.log(action,"aaaaaaaaaaaccccccccrrrrrrrrrrr")
+  
     try {
         const response = yield call(Services.addTaskUsingVoiceApi, action.payload.params);
         if (response.success) {
-            console.log(response,"rrrrrrrrrr=====>")
+          
             yield put(Action.fetchUsingVoiceSuccess(response));
             yield call(action.payload.onSuccess(response));
         } else {
-            console.log('errorr')
+        
             yield put(Action.fetchUsingVoiceFailure(response.error_message));
             yield call(action.payload.onError(response));
         }
@@ -327,15 +327,15 @@ function* fetchUsingVoiceSaga(action) {
 // add company label
 
 function* fetchCompanyLabelSaga(action) {
-    console.log(action,"aaaaaaaaaaaccccccccrrrrrrrrrrr")
+   
     try {
         const response = yield call(Services.fetchCompanyLabelApi, action.payload.params);
         if (response.success) {
-            console.log(response,"rrrrrrrrrr=====>")
+          
             yield put(Action.fetchUsingCompanyLabelSuccess(response));
             yield call(action.payload.onSuccess(response));
         } else {
-            console.log('errorr')
+      
             yield put(Action.fetchUsingCompanyLabelFailure(response.error_message));
             yield call(action.payload.onError(response));
         }

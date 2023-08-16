@@ -14,10 +14,6 @@ import {
     TextAreaInput,
     Button,
     DatePickers,
-    VideoUploader,
-    FileUploader,
-  
-
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -392,6 +388,7 @@ function AddTask() {
                     />
                 </div>
 
+
                 {
                     taskType && taskType?.id === "1" && (
                         <DropDown
@@ -468,12 +465,8 @@ function AddTask() {
                 </div>
             </div >
 
-            <FileUploader
-            onSelect={(e)=>{
-                console.log('tessttt',e)
-
-            }}/>
-            {/* <img src={"" } /> */}
+            
+            
             <div className="col">
                 <Button size={'md'}
                     loading={loginLoader.loader}
