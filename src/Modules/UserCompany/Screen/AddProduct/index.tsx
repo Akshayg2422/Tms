@@ -15,7 +15,7 @@ function AddProduct() {
     const loginLoader = useLoader(false)
     const { goBack } = useNavigation()
     const CategoryHandlerModal = useModal(false)
-    const { dashboardDetails,  fetchProductCategoryData ,selectedCompany} = useSelector((state: any) => state.UserCompanyReducer)
+    const { dashboardDetails, fetchProductCategoryData, selectedCompany } = useSelector((state: any) => state.UserCompanyReducer)
 
     const productCategoryName = useInput('')
     const ProductCategoryDescription = useInput('')
@@ -59,18 +59,18 @@ function AddProduct() {
         }
 
     }
-    const reTryValue =()=>{
+    const reTryValue = () => {
         productName.set('')
         Description.set('')
         setPhoto('')
         ProductCategory.set({})
     }
-const reTryCategory =()=>{
-    productCategoryName.set('')
-    ProductCategoryDescription.set('')
-    setCategoryPhoto('')
+    const reTryCategory = () => {
+        productCategoryName.set('')
+        ProductCategoryDescription.set('')
+        setCategoryPhoto('')
 
-}
+    }
 
 
     useEffect(() => {
@@ -84,7 +84,7 @@ const reTryCategory =()=>{
 
         const params = {
             brand__id: selectedCompany?.id,
-             per_page_count: -1,
+            per_page_count: -1,
         }
         dispatch(
             getProductCategory({
@@ -168,16 +168,16 @@ const reTryCategory =()=>{
 
 
 
-              {fetchProductCategoryData && fetchProductCategoryData.length>0 
-              &&  <DropDown
-                    heading={'Category'}
-                  data={getDropDownDisplayData(fetchProductCategoryData)}
-                    selected={ProductCategory.value}
-                    value={ProductCategory.value}
-                    onChange={ProductCategory.onChange}
-                //   placeHolder={userDataList?.designation?.name}
-                />
-              }
+                {fetchProductCategoryData && fetchProductCategoryData.length > 0
+                    && <DropDown
+                        heading={'Category'}
+                        data={getDropDownDisplayData(fetchProductCategoryData)}
+                        selected={ProductCategory.value}
+                        value={ProductCategory.value}
+                        onChange={ProductCategory.onChange}
+                    //   placeHolder={userDataList?.designation?.name}
+                    />
+                }
 
 
             </div>
@@ -188,7 +188,7 @@ const reTryCategory =()=>{
                     size='xl'
                     heading="photo"
                     noOfFileImagePickers={0}
-                  
+
                     onSelect={(image) => {
                         let file = image.toString().replace(/^data:(.*,)?/, "")
                         setPhoto(file)
@@ -208,8 +208,10 @@ const reTryCategory =()=>{
                 />
             </div>
         </Card>
-        <Modal title={'Add Category'} isOpen={CategoryHandlerModal.visible} size={'md'} onClose={()=>{CategoryHandlerModal.hide()
-        reTryCategory()} } >
+        <Modal title={'Add Category'} isOpen={CategoryHandlerModal.visible} size={'md'} onClose={() => {
+            CategoryHandlerModal.hide()
+            reTryCategory()
+        }} >
             <div className={''}>
                 <Input
                     heading={'Product Name'}
