@@ -22,6 +22,7 @@ const GetToken = () => {
                     .register("./firebase-messaging-sw.js")
                     .then(async function (registration) {
                         console.log("Registration successful, scope is:", registration.scope);
+                        
                         await getToken(messaging, { vapidKey: "BJ6Zhlt6n6SvJ1vb6ERTdgbdPfa-mQY0_2ojN28VyUAXoNI0TqRdFpZisYdrHz6aHps1f2jnTElAr0FXF4aIJME", serviceWorkerRegistration: registration })
                             .then((currentToken) => {
                                 if (currentToken) {

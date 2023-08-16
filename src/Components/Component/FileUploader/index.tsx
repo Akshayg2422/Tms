@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { FileUploaderProps } from './interfaces'
-import { ImageIcon } from '@Components';
+import { Button, ImageIcon } from '@Components';
 import { icons } from '@Assets';
 
 
@@ -12,6 +12,8 @@ function FileUploader
   const [fileUpload,setFileUpload]=useState<any>()
   const handleRefClick = () => {
     fileInputRef.current.click();
+    // console.log('999999999999',fileInputRef);
+    
   };
 
 
@@ -28,13 +30,16 @@ function FileUploader
         if (onSelect && e.target) {
 
           onSelect(e.target?.result);
-          console.log(e.target?.result,"eeeeeeeeeeeeee")
+          
 
           setFileUpload(e.target?.result);
         }
       };
       reader.readAsDataURL(file);
+      
     }
+    console.log('44444444444444',handleChange);
+    
   };
   return (
     <div>
@@ -47,15 +52,13 @@ function FileUploader
         onChange={handleChange}
       />
 
-      <ImageIcon
-      src={icons.videoPlayer}
+      <Button
+      color={'white'} size={'lg'} className='ml-3'
+      variant={'icon-rounded'} icon={icons.Files}
       onClick={handleRefClick}
-      height={40}
-      width={40}
-
+      height={50}
+      width={50}
       />
-
-     
     </div>
 
   )

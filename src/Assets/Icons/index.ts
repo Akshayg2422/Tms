@@ -179,6 +179,8 @@ export const icons = {
   VideoIcon: require('./VideoIcon/icon1.png'),
   ScreenShort:require('./ScreenShort/icon1.png'),
   TMS_home:require('./TMS_Home/icon3.png'),
+  ImageIcon:require('./ImageIcon/icon.png'),
+  Files:require('./Files/icon1.png'),
 
 
 

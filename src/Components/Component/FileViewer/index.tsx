@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Input } from 'reactstrap';
+import { FileUpViwerProps } from './interfaces'
+import { translate } from '@I18n';
 
-function FileViewer() {
+function FileViewer({ onChange, onSelect, }: FileUpViwerProps) {
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,10 +25,12 @@ function FileViewer() {
     <div style={{ backgroundColor: 'lightgrey' }}>
       <div>
         <Input type='file' className='form-control' id="file-input" accept='.docx,.pdf,.txt' placeholder="select file" onChange={handleFileUpload} />
-        <Button className="btn btn-primary" onClick={openFileInNewTab}>Read File in New Tab</Button>
+        <Button className="btn btn-primary" >{translate("common.submit")}</Button>
       </div>
     </div>
   );
 }
 
 export { FileViewer };
+
+

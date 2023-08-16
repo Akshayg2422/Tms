@@ -1,4 +1,4 @@
-export interface FileUploaderProps {
+export interface FileUpViwerProps {
     onChange?:any,
     onSelect?:any;
 }

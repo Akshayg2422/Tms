@@ -467,12 +467,7 @@ function AddTask() {
                     />
                 </div>
             </div >
-
-            <FileUploader
-            onSelect={(e)=>{
-                console.log('tessttt',e)
-
-            }}/>
+            
             {/* <img src={"" } /> */}
             <div className="col">
                 <Button size={'md'}

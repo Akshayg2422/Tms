@@ -26,9 +26,7 @@ function Login() {
   const loginLoader = useLoader(false);
 
   const validateUserBusinessApiHandler = () => {
-
-
-
+    
     const params = {
       mobile_number: mobileNumber.value,
       ln: language.value,
@@ -100,7 +98,13 @@ function Login() {
             validateUserBusinessApiHandler();
           }}
         />
+
+        <div className="mt-3 text-center">
+          Don't have an account ?<strong className="text-primary pointer ml-1 " onClick={()=>goTo(ROUTES["auth-module"].Register)}>Register</strong> 
+        </div>
+
       </div>
+
     </div>
   );
 }

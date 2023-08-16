@@ -105,7 +105,9 @@
         "Are you sure want to Logout?":"நீங்கள் நிச்சயமாக வெளியேற விரும்புகிறீர்களா?",
         "No":"இல்லை",
         "Yes":"ஆம்",
-        "Mark as closed":"மூடப்பட்டதாகக் குறிக்கவும்"
+        "Mark as closed":"மூடப்பட்டதாகக் குறிக்கவும்",
+        "RegisterCompany":"பதிவு நிறுவனம்",
+        "Don't have an account ?Register":"கணக்கு இல்லையா ?பதிவு செய்யவும்"
         
     },
     "errors": {
@@ -188,7 +190,10 @@
         "Edit task Details":"பணி விவரங்களைத் திருத்தவும்",
         "Change Task Status":"பணி நிலையை மாற்றவும்",
         "Edit eta time":"Eta நேரத்தை திருத்தவும்",
-        "Latest Events":"சமீபத்திய நிகழ்வுகள்"
+        "Latest Events":"சமீபத்திய நிகழ்வுகள்",
+        "DocumentsUploader":"ஆவணங்கள் பதிவேற்றி",
+        "PhotosUploader":"புகைப்படங்கள் பதிவேற்றி",
+        "VideoUploader":"வீடியோ பதிவேற்றி"
     },
     "product": {
         "Store": "ஸ்டோர்",

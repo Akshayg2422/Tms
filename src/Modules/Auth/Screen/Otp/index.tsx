@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard, validateUserBusiness, setRegisteredMobileNumber, getReSendOtp } from "@Redux";
 import { ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
+import { Console } from "console";
 
 function Otp() {
 
@@ -65,7 +66,7 @@ function Otp() {
     dispatch(getDashboard({
       params,
       onSuccess: () => () => {
-        goTo(ROUTES["auth-module"].splash)
+        // goTo(ROUTES["auth-module"].splash)
       },
       onError: () => () => { }
     }));
@@ -99,6 +100,7 @@ function Otp() {
            
             localStorage.setItem(USER_TOKEN, response.details.token);
             getDashboardDetails();
+            
 
           },
           onError: (error) => () => {

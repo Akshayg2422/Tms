@@ -19,15 +19,6 @@ function VideoUploader
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      // const maxSizeInBytes = 1024 * 1024 * 25;
-      // console.log(file.size,"---------->")
-      // console.log(maxSizeInBytes,"maxSizeInBytes===>")
-
-      // if (file.size > maxSizeInBytes) {
-      //   // You can display an error message or take appropriate action here
-      //   console.log('Uploaded video exceeds size limit');
-      //   return;
-      // }
 
       const reader = new FileReader();
 
@@ -58,9 +49,10 @@ function VideoUploader
 
       <ImageIcon
       src={icons.videoPlayer}
+      size={'lg'} className='ml-3'
       onClick={handleRefClick}
-      height={40}
-      width={40}
+      height={50}
+      width={50}
 
       />
 
