@@ -28,7 +28,8 @@ function AddProduct() {
             description: Description.value,
             tagline: "",
             photo: photo,
-            product_category_id: ProductCategory?.value?.id
+            product_category_id: ProductCategory?.value?.id,
+            brand_id: selectedCompany?.id
         }
 
         const validation = validate(PRODUCT_SERVICE, params);
@@ -109,7 +110,7 @@ function AddProduct() {
             description: ProductCategoryDescription.value,
             tagline: "",
             photo: categoryPhoto,
-            brand__id: selectedCompany?.id,
+            brand_id: selectedCompany?.id,
         }
         const validation = validate(PRODUCT_CATEGORY, params);
         if (ifObjectExist(validation)) {

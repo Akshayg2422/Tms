@@ -41,6 +41,7 @@ function TaskDetails() {
                 <div className="col mr--3 h-100vh overflow-hide" style={{
                     overflowY: 'scroll'
                 }}>
+                    
                     <div >
                         <TaskInfo />
                     </div>

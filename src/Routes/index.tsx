@@ -1,10 +1,9 @@
 import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents,CompanyConfig, AddProduct, AddServiceCategory  } from '@Modules'
-import { Login, Otp, Landing, Splash } from '@Modules'
+import { Login, Otp, Landing, Splash,Register } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
 import { MyTimeSheet } from '@Modules//UserCompany/Screen/MyTimeSheet'
 import { translate } from '@I18n'
-
 
 
 export const HOME_PATH = {
@@ -36,7 +35,8 @@ export const ROUTES = {
     landing: '/',
     privacy: '/privacy-policy',
     TermsAndConditions: '/terms-and-condition',
-    ReturnAndRefund: '/return-and-refund'
+    ReturnAndRefund: '/return-and-refund',
+    Register:'/register',
   },
   'task-module': {
     tasks: '/tasks',
@@ -120,6 +120,11 @@ export const AUTH_ROUTES = [
     key: 7,
     path: ROUTES['auth-module'].ReturnAndRefund,
     component: <ReturnAndRefund />
+  },
+  {
+    key:8 ,
+    path: ROUTES['auth-module'].Register,
+    component: <Register />
   },
 
 ];

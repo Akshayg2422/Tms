@@ -14,6 +14,7 @@ import {
     TextAreaInput,
     Button,
     DatePickers,
+    VideoPlayer,
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -48,6 +49,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
 import { icons } from "@Assets";
 import moment from "moment";
+import { FileViewer } from "@Components//Component/FileViewer";
 
 
 // import { CalenderView } from "@Modules";
@@ -70,7 +72,7 @@ function AddTask() {
         (state: any) => state.TaskReducer
     );
 
-    console.log(TODAY, "ttttttt")
+   
     const title = useInput("");
     const description = useInput("");
 
@@ -463,10 +465,10 @@ function AddTask() {
                         onChange={handleEtaChange}
                     />
                 </div>
+                {/* <VideoPlayer/> */}
+              
+         
             </div >
-
-            
-            
             <div className="col">
                 <Button size={'md'}
                     loading={loginLoader.loader}

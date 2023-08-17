@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useInput, useDropDown, useNavigation, useLoader, useModal } from "@Hooks";
 import { translate } from '@I18n';
 import { addServiceCategory, addBrandService, getServiceCategory } from '@Redux';
-import { PRODUCT_CATEGORY, PRODUCT_SERVICE, getDropDownDisplayData, getValidateError, ifObjectExist, validate } from '@Utils';
+import { PRODUCT_BRAND_SERVICE, PRODUCT_CATEGORY, PRODUCT_SERVICE, getDropDownDisplayData, getValidateError, ifObjectExist, validate } from '@Utils';
 
 function AddServiceCategory() {
     const dispatch = useDispatch()
@@ -28,10 +28,11 @@ function AddServiceCategory() {
             description: Description.value,
             tagline: "",
             photo: photo,
-            service_category_id: ProductCategory?.value?.id
+            service_category_id: ProductCategory?.value?.id,
+            brand_id: selectedCompany?.id
         }
 
-        const validation = validate(PRODUCT_SERVICE, params);
+        const validation = validate(PRODUCT_BRAND_SERVICE, params);
         if (ifObjectExist(validation)) {
             loginLoader.show()
             dispatch(
@@ -112,7 +113,7 @@ function AddServiceCategory() {
             description: ProductCategoryDescription.value,
             tagline: "",
             photo: categoryPhoto,
-            brand__id: selectedCompany?.id,
+            brand_id: selectedCompany?.id,
         }
         const validation = validate(PRODUCT_CATEGORY, params);
         if (ifObjectExist(validation)) {

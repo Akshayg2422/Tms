@@ -23,10 +23,6 @@ function AddUser() {
 
   const { selectedCompany, dashboardDetails,userDataList } = useSelector((state: any) => state.UserCompanyReducer);
   const { company_branch } = dashboardDetails || ''
- 
-
-
-
   const {name,id,mobile_number,profile_image }=userDataList||''
   const userDepartment=userDataList ? {id:'',name:userDataList?.department?.name} :{}
   const userDesignation=userDataList ? {id:userDataList?.designation?.id,name:userDataList?.designation?.name} :{}

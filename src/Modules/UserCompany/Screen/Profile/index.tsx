@@ -1,4 +1,4 @@
-import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker, ImageDownloadButton, H, Radio } from "@Components";
+import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker, ImageDownloadButton, H, Radio, FileUploader } from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
@@ -8,6 +8,8 @@ import { ROUTES } from "@Routes"
 import { translate } from "@I18n";
 import { useEffect } from "react";
 import { icons } from "@Assets";
+import { DocxView } from "@Components//Component/UploadFile";
+import { FileViewer } from "@Components//Component/FileViewer";
 
 
 function Profile() {
@@ -70,6 +72,9 @@ function Profile() {
             <Button color={'white'} size={'sm'} text={translate('common.Language')} onClick={languageModal.show} />
           </div>
 
+          {/* <div>
+            <FileViewer/>
+          </div> */}
 
           {user_details?.profile_image ? <div className="pb-4">
             <ImagePicker

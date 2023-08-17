@@ -196,6 +196,7 @@ const ImagePicker = ({
         <InputHeading heading={heading} />
       </div>
       {photo && photo.map((el, index) => {
+       
       
         return (
 

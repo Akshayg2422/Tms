@@ -21,12 +21,13 @@ export const ADD_USER_RULES = {
   gender: {
     presence: { message: "Please Select Gender" },
   },
-  designation_id: {
-    presence: { allowEmpty: false, message: "Designation cannot be empty" },
-  },
   department_id: {
     presence: { allowEmpty: false, message: "Department cannot be empty" },
   },
+  designation_id: {
+    presence: { allowEmpty: false, message: "Designation cannot be empty" },
+  },
+
   profile_image: {
     presence: { allowEmpty: false, message: "profile image cannot be empty" }
   },
@@ -81,6 +82,23 @@ export const USER_FORM_RULES = {
 
 
 export const PRODUCT_SERVICE = {
+  name: {
+    presence: { allowEmpty: false, message: "name cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  photo: {
+    presence: { allowEmpty: false, message: "photo cannot be empty" },
+  },
+  product_category_id: {
+    presence: { allowEmpty: false, message: "please select category" },
+  }
+
+};
+
+
+export const PRODUCT_BRAND_SERVICE = {
   name: {
     presence: { allowEmpty: false, message: "name cannot be empty" },
   },

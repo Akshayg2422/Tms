@@ -38,6 +38,7 @@ export const icons = {
   chatSmall: require('./ChatSmall/icon.png'),
   clock: require('./Clock/icon.png'),
   closeBtn: require('./CloseBtn/icon.png'),
+  document: require('./Document/icons.png'),
   closeFill: require('./CloseFill/icon.png'),
   cross: require('./Cross/icon.png'),
   delete: require('./Delete/icon.png'),
@@ -181,6 +182,8 @@ export const icons = {
   VideoIcon: require('./VideoIcon/icon1.png'),
   ScreenShort:require('./ScreenShort/icon1.png'),
   TMS_home:require('./TMS_Home/icon3.png'),
+  ImageIcon:require('./ImageIcon/icon.png'),
+  Files:require('./Files/icon1.png'),
 
 
 
