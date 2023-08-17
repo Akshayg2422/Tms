@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard, validateUserBusiness, setRegisteredMobileNumber, getReSendOtp } from "@Redux";
 import { ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
-import { Console } from "console";
 
 function Otp() {
 
@@ -22,7 +21,6 @@ function Otp() {
   const { seconds, setSeconds } = useTimer(OTP_RESEND_DEFAULT_TIME);
   const otp = useInput("");
   const isEnterPressed = useKeyPress("Enter");
-  console.log(loginDetails,"loginDetails--->")
 
   useEffect(() => {
     if (isEnterPressed) {
@@ -66,7 +64,9 @@ function Otp() {
     const params = {}
     dispatch(getDashboard({
       params,
-      onSuccess: () => () => {
+      onSuccess: (response) => () => {
+        console.log('log2======>',response);
+        
         goTo(ROUTES["auth-module"].splash)
       },
       onError: () => () => { }
@@ -89,24 +89,24 @@ function Otp() {
         otpLogin({
           params,
           onSuccess: response => () => {
-          
+            console.log('log1======>',response);
             otpLoader.hide()
-            goTo(ROUTES["auth-module"].splash)
+            getDashboardDetails()
             
-           
-            localStorage.setItem(USER_TOKEN, response.details.token);
-            getDashboardDetails();
-
             dispatch(
               userLoginDetails({
                 ...loginDetails,
                 isLoggedIn: true,
                 is_admin: response.details?.company?.type_is_provider,
+                
               }),
+              
             );
-            
-
+           
+            localStorage.setItem(USER_TOKEN, response.details.token);
+      
           },
+          
           onError: (error) => () => {
             otpLoader.hide()
             showToast(error.error_message, 'error')

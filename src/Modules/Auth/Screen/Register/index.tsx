@@ -48,20 +48,7 @@ function Register() {
   const loginLoader = useLoader(false)
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
   const { goTo } = useNavigation()
-  console.log('login========>',JSON.stringify(loginDetails));
   
-
-
-  function getDashboardDetails() {
-    const params = {}
-    dispatch(getDashboard({
-      params,
-      onSuccess: () => () => {
-        goTo(ROUTES["auth-module"].splash)
-      },
-      onError: () => () => { }
-    }));
-  }
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -87,7 +74,7 @@ function Register() {
       attachment_logo: photo,
     });
 
-    console.log("validation==========>>>", validation)
+    // console.log("validation==========>>>", validation)
 
     if (ifObjectExist(validation)) {
       loginLoader.show()
@@ -95,8 +82,8 @@ function Register() {
         registerAdmin({
           params,
           onSuccess: (response: any) => () => {
-            console.log(response.details.token,"response.details.token===>")
             localStorage.setItem(USER_TOKEN, response.details.token);
+            console.log("response.details.token===>",response.details.token)
             onRegisterCompany();
             loginLoader.hide()
             
@@ -113,6 +100,20 @@ function Register() {
       showToast(getValidateError(validation));
     }
   };
+
+
+  function getDashboardDetails() {
+    const params = {}
+    dispatch(getDashboard({
+      params,
+      onSuccess: response => () => {
+        console.log('log1======>',response);
+        
+        goTo(ROUTES["auth-module"].splash)
+      },
+      onError: () => () => { }
+    }));
+  }
 
   
   const onRegisterCompany = () => {
@@ -132,24 +133,26 @@ function Register() {
       registerCompany({
         params,
         onSuccess: (response: any) => () => {
+          getDashboardDetails();
           if (response.success) {
             loginLoader.hide()
             showToast(response.message, "success");
-            console.log('response=========>>>',response);
+            console.log('log2=========>>>',response);
           
             goBack();
           }
-          goTo(ROUTES["auth-module"].splash)
+         
+          // goTo(ROUTES["auth-module"].splash)
+
           dispatch(
             userLoginDetails({  
               ...loginDetails,
               isLoggedIn: true,
               is_admin: response.details?.company?.type_is_provider,
             }),
-           
-            
           );
-          getDashboardDetails();
+
+         
           // localStorage.setItem(USER_TOKEN, response.details.token);
         
 
