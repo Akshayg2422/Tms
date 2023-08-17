@@ -140,7 +140,7 @@ function Register() {
             goBack();
           }
          
-          goTo(ROUTES["auth-module"].splash)
+          goTo(ROUTES["auth-module"].login)
 
           dispatch(
             userLoginDetails({  
