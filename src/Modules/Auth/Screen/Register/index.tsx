@@ -16,7 +16,6 @@ import {
 import {
   GENDER_LIST,
   validate,
-  USER_FORM_RULES,
   getValidateError,
   ifObjectExist,
   USER_TOKEN,
@@ -26,8 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerCompany, registerAdmin,getDashboard, userLoginDetails } from "@Redux";
 import { useInput, useDropDown, useNavigation, useLoader } from "@Hooks";
 import { ROUTES } from "@Routes";
-
-// console.log('1111111111111??',JSON.stringify(getDashboard));
+import { USER_FORM_RULES } from "@Utils//Validate/Rules";
 
 
 function Register() {
@@ -82,13 +80,13 @@ function Register() {
         registerAdmin({
           params,
           onSuccess: (response: any) => () => {
+
             localStorage.setItem(USER_TOKEN, response.details.token);
-            console.log("response.details.token===>",response.details.token)
+            // console.log("response.details.token===>",response.details.token)
+
             onRegisterCompany();
             loginLoader.hide()
-            
         
-
           },
           onError: (error) => {
             showToast(error.error_message, "info");
@@ -142,7 +140,7 @@ function Register() {
             goBack();
           }
          
-          // goTo(ROUTES["auth-module"].splash)
+          goTo(ROUTES["auth-module"].splash)
 
           dispatch(
             userLoginDetails({  

@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { Button, AuthContainer, showToast, ComponentLoader } from "@Components";
 import { useInput, useTimer, useNavigation, useLoader, useKeyPress } from "@Hooks";
-import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, OTP_RULES, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
+import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
 import { useSelector, useDispatch } from "react-redux";
 import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard, validateUserBusiness, setRegisteredMobileNumber, getReSendOtp } from "@Redux";
-import { ROUTES } from '@Routes'
+import { AUTH_PATH, ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
+import { OTP_RULES } from "@Utils//Validate/Rules";
+// import { OTP_RULES } from "@Utils//Validate/Rules";
 
 function Otp() {
 
@@ -67,7 +69,7 @@ function Otp() {
       onSuccess: (response) => () => {
         console.log('log2======>',response);
         
-        goTo(ROUTES["auth-module"].splash)
+        goTo(AUTH_PATH.splash)
       },
       onError: () => () => { }
     }));

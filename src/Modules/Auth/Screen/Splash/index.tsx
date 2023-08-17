@@ -13,9 +13,14 @@ function Splash() {
 
   const { loginDetails } = useSelector((state: any) => state.AppReducer);
 
+  console.log('log11+++',JSON.stringify(loginDetails));
+  
+
   useEffect(() => {
 
     setTimeout(() => {
+      console.log('ihyutfygh')
+      
       if (loginDetails?.isLoggedIn) {
 
         goTo(ROUTES["task-module"].tasks, true)

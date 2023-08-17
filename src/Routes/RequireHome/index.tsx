@@ -18,9 +18,9 @@ export const RequireHome = ({ children }: RequireHomeProps) => {
         (state: any) => state.AppReducer
     );
 
-    if (loginDetails?.isLoggedIn) {
-        return <Navigate to={ROUTES['task-module'].tasks} state={{ path: location.pathname }} />
-    }
+    // if (loginDetails?.isLoggedIn) {
+    //     return <Navigate to={ROUTES['task-module'].tasks} state={{ path: location.pathname }} />
+    // }
 
     return (
         <ScreenWrapper>

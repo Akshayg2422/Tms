@@ -1,5 +1,5 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents,CompanyConfig  } from '@Modules'
-import { Login, Otp, Landing, Splash,Register } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents, CompanyConfig } from '@Modules'
+import { Login, Otp, Landing, Splash, Register } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
 import { MyTimeSheet } from '@Modules//UserCompany/Screen/MyTimeSheet'
@@ -26,6 +26,20 @@ export const HOME_PATH = {
   GROUPS: './groups',
 }
 
+export const AUTH_PATH = {
+
+  login: '/login',
+  otp: '/otp',
+  splash: '/splash',
+  register: '/register',
+  landing: '/',
+  privacy: '/privacy-policy',
+  TermsAndConditions: '/terms-and-condition',
+  ReturnAndRefund: '/return-and-refund',
+  Register: '/register',
+
+}
+
 export const ROUTES = {
   'auth-module': {
     login: '/login',
@@ -36,7 +50,7 @@ export const ROUTES = {
     privacy: '/privacy-policy',
     TermsAndConditions: '/terms-and-condition',
     ReturnAndRefund: '/return-and-refund',
-    Register:'/register',
+    Register: '/register',
   },
   'task-module': {
     tasks: '/tasks',
@@ -74,7 +88,7 @@ export const ROUTES = {
     Groups: '/groups',
     'individual-chat': '/chat',
     'add-event': '/add-event',
-    'calender-view':'/calender-view',
+    'calender-view': '/calender-view',
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -83,7 +97,6 @@ export const ROUTES = {
 }
 
 export const AUTH_ROUTES = [
-
   {
     key: 1,
     path: ROUTES['auth-module'].landing,
@@ -120,7 +133,7 @@ export const AUTH_ROUTES = [
     component: <ReturnAndRefund />
   },
   {
-    key:8 ,
+    key: 8,
     path: ROUTES['auth-module'].Register,
     component: <Register />
   },
@@ -159,7 +172,7 @@ export const HOME_ROUTES = [
   },
   {
     path: ROUTES['user-company-module']['my-events'],
-    name:'My Events',
+    name: 'My Events',
     icon: icons.broadCast,
     layout: "",
     component: <Events />
@@ -196,7 +209,7 @@ export const HOME_ROUTES = [
         path: ROUTES['user-company-module'].Events,
         name: 'Admin Events',
         miniName: "ET",
-        component: <AdminEvents/>,
+        component: <AdminEvents />,
         layout: '/admin',
       },
       {
@@ -208,9 +221,9 @@ export const HOME_ROUTES = [
       },
       {
         path: ROUTES['user-company-module']['calender-view'],
-        name:'Calender',
+        name: 'Calender',
         miniName: "ca",
-        component: <CalendarView/>,
+        component: <CalendarView />,
         layout: '/admin',
 
       }
@@ -218,7 +231,7 @@ export const HOME_ROUTES = [
 
 
   },
-  
+
 
   {
     path: ROUTES['user-company-module']['my-portfolio'],
@@ -345,7 +358,7 @@ export const USER_COMPANY_ROTES = [
   {
     key: 6,
     path: ROUTES['user-company-module'].Events,
-    component: <AdminEvents/>
+    component: <AdminEvents />
   },
   {
     key: 7,
