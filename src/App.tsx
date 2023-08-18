@@ -1,6 +1,6 @@
 import { PageNotFound, ScreenWrapper } from "@Components";
 import { Route, Routes } from "react-router-dom";
-import { HOME_ROUTES, AUTH_ROUTES, TASK_ROUTES, TICKET_ROUTES, USER_COMPANY_ROTES, MESSAGE_ROUTES, RequireAuth, RequireHome } from "@Routes";
+import { HOME_ROUTES, AUTH_ROUTES, TASK_ROUTES, TICKET_ROUTES, USER_COMPANY_ROTES, MESSAGE_ROUTES, RequireAuth, RequireHome, SPLASH_ROUTER } from "@Routes";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 import { changeLanguage } from "@I18n";
@@ -17,6 +17,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { DateTimePicker } from '@Components'
+import { Splash } from "./Modules";
 
 
 
@@ -31,11 +32,13 @@ function App() {
 
   
 
-  const getRoutes = (routes, type?: any) => {
+  const   getRoutes = (routes, type?: any) => {
+
     return routes.map((prop, key) => {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
+      console.log(type,"type===>")
 
       const path = prop.layout ? prop.layout + prop.path : prop.path;
 
@@ -54,6 +57,7 @@ function App() {
   return (
     <ScreenWrapper>
       <Routes>
+      <Route path="/splash" element={<Splash/>} />
         {getRoutes(AUTH_ROUTES, AUTH)}
         {getRoutes(HOME_ROUTES, HOME)}
         {getRoutes(TASK_ROUTES, HOME)}

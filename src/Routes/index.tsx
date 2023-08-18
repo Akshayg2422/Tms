@@ -101,33 +101,44 @@ export const AUTH_ROUTES = [
     path: ROUTES['auth-module'].otp,
     component: <Otp />
   },
+  // {
+  //   key: 4,
+  //   path: ROUTES['auth-module'].splash,
+  //   component: <Splash />
+  // },
   {
     key: 4,
-    path: ROUTES['auth-module'].splash,
-    component: <Splash />
-  },
-  {
-    key: 5,
     path: ROUTES['auth-module'].privacy,
     component: <PrivacyPolicy />
   },
   {
-    key: 6,
+    key: 5,
     path: ROUTES['auth-module'].TermsAndConditions,
     component: <TermsAndConditions />
   },
   {
-    key: 7,
+    key: 6,
     path: ROUTES['auth-module'].ReturnAndRefund,
     component: <ReturnAndRefund />
   },
   {
-    key:8 ,
+    key:7 ,
     path: ROUTES['auth-module'].Register,
     component: <Register />
   },
 
 ];
+
+export const SPLASH_ROUTER =[
+  
+      {
+    key: 1,
+    path: ROUTES['auth-module'].splash,
+    component: <Splash />
+  },
+
+  
+]
 
 export const HOME_ROUTES = [
   {

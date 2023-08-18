@@ -70,7 +70,6 @@ function Otp() {
     dispatch(getDashboard({
       params,
       onSuccess: () => () => {
-        goTo(ROUTES["auth-module"].splash)
       },
       onError: () => () => { }
     }));
@@ -93,6 +92,8 @@ function Otp() {
           params,
           onSuccess: response => () => {
             otpLoader.hide()
+        goTo(ROUTES["auth-module"].splash)
+
 
             dispatch(
               userLoginDetails({

@@ -42,7 +42,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
     const [isFileType,setIsFileType]=useState<any>()
     const [isSelect, setIsSelect] = useState(true)
     const [menuSelected, setMenuSelected] = useState<any>()
-    console.log(menuSelected, "menuSelecteds===>")
+  
 
 
 

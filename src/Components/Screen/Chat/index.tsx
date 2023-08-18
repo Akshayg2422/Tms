@@ -572,6 +572,18 @@ console.log(attachments,"attachments===>")
                         profile_pic: getPhoto(event_by?.profile_image),
                     };
                     break;
+                    case 'TXT':
+                        modifiedData = {
+                            ...modifiedData,
+                            name: capitalizeFirstLetter(event_by?.name),
+                            message: capitalizeFirstLetter(chat_attachments?.name),
+                            display_created_at: getDisplayTimeFromMoment(
+                                getMomentObjFromServer(created_at),
+                            ),
+                            attachments: chat_attachments?.attachments,
+                            profile_pic: getPhoto(event_by?.profile_image),
+                        };
+                        break;
                
 
             default:
