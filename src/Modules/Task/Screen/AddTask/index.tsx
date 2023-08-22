@@ -71,6 +71,8 @@ function AddTask() {
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
+    const currentDate= new Date()
+    console.log(currentDate,"currentDate====>")
 
    
     const title = useInput("");
@@ -465,8 +467,12 @@ function AddTask() {
                         onChange={handleEtaChange}
                     />
                 </div>
-                {/* <VideoPlayer/> */}
-              
+{/*                 
+               <DatePickers
+                onChange={handleEtaChange}
+                 maxDate={}
+                />
+               */}
          
             </div >
             <div className="col">

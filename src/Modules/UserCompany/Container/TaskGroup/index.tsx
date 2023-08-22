@@ -66,6 +66,7 @@ function TaskGroup() {
   const taskGroupCode = useInput("");
   const taskGroupDescription = useInput("");
   const [photo, setPhoto] = useState("");
+  const [editPhoto,setEditPhoto]=useState('')
   const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(undefined);
   const loginLoader = useLoader(false)
 
@@ -81,6 +82,7 @@ function TaskGroup() {
   const [startTimeEta, setStatTimeEta] = useState<any>("")
   const [endTimeEta, setEndTimeEta] = useState<any>("")
   const [subTaskPhoto, setSubTaskPhoto] = useState("");
+  const [editSubTaskPhoto, setEditSubTaskPhoto] = useState("");
   const addMemberModal = useModal(false);
   const [taggedUsers, setTaggedUsers] = useState([])
   const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
@@ -143,7 +145,7 @@ function TaskGroup() {
         name: taskGroupName.value,
         description: taskGroupDescription.value,
         code: taskGroupCode.value.trim(),
-        photo: photo
+        ...(photo && {photo: photo})
       };
       const validation = validate(ADD_TASK_GROUP, params)
       if (ifObjectExist(validation)) {
@@ -213,7 +215,7 @@ function TaskGroup() {
         description: convertToUpperCase(subTaskGroupDescription.value),
         branch_id: company?.id,
         code: subTaskGroupCode.value.trim(),
-        photo: subTaskPhoto,
+       ...(subTaskPhoto &&{ photo: subTaskPhoto}),
         parent_id: selectedSubTaskGroup?.id,
         ...(startTimeEta && { start_time: startTimeEta }),
         ...(endTimeEta && { end_time: endTimeEta }),
@@ -339,7 +341,9 @@ function TaskGroup() {
               taskGroupName.set(name)
               taskGroupDescription.set(description)
               taskGroupCode.set(code)
-              setPhoto(getPhoto(photo))
+              setEditPhoto(getPhoto(photo))
+
+              // setPhoto(getPhoto(photo))
 
             } else {
               addSubTaskGroupModal.show()
@@ -348,7 +352,8 @@ function TaskGroup() {
               subTaskGroupName.set(name)
               subTaskGroupDescription.set(description)
               subTaskGroupCode.set(code)
-              setSubTaskPhoto(getPhoto(photo))
+              // setSubTaskPhoto(getPhoto(photo))
+              setEditSubTaskPhoto(getPhoto(photo))
               setStatTimeEta(start_time)
               setEndTimeEta(end_time)
               setIsEdit(true)
@@ -388,6 +393,7 @@ function TaskGroup() {
     taskGroupCode.set('')
     taskGroupDescription.set('')
     setPhoto('')
+    setEditPhoto('')
   }
 
 
@@ -401,6 +407,7 @@ function TaskGroup() {
     setStatTimeEta('')
     setDate('')
     setEndDate('')
+    setEditSubTaskPhoto('')
   }
 
   async function toDataUrl(url, callback) {
@@ -542,11 +549,12 @@ function TaskGroup() {
         <div className="pb-3">
           <Dropzone
             variant="ICON"
-            icon={photo}
+            icon={photo?photo:editPhoto}
             size="xl"
             onSelect={(image) => {
               let encoded = image.toString().replace(/^data:(.*,)?/, "");
               setPhoto(encoded);
+              
             }}
           />
         </div>
@@ -634,7 +642,7 @@ function TaskGroup() {
         <div className="pb-3">
           <Dropzone
             variant="ICON"
-            icon={subTaskPhoto}
+            icon={subTaskPhoto?subTaskPhoto:editSubTaskPhoto}
             size="xl"
             onSelect={(image) => {
               let encoded = image.toString().replace(/^data:(.*,)?/, "");

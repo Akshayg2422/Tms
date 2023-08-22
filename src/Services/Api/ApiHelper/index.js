@@ -14,7 +14,7 @@ export const SERVER =
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_staging'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
-        ? 'https://87a9-103-118-189-10.ngrok-free.app/' 
+        ? 'http://192.168.208.5:8000' 
         : BUILD_TYPE === BUILD_TYPE_STAGING
           ? 'http://103.118.188.135:8003'
           : 'http://localhost:8000'

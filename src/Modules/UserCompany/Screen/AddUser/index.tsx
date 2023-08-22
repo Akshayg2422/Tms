@@ -10,7 +10,8 @@ import {
   ifObjectExist,
   getValidateError,
   getDropDownDisplayData,
-  getObjectFromArrayByKey
+  getObjectFromArrayByKey,
+  EDIT_USER_RULES
 } from "@Utils";
 
 import { useInput, useDropDown, useNavigation, useLoader } from "@Hooks";
@@ -22,11 +23,13 @@ function AddUser() {
   const { goBack } = useNavigation();
 
   const { selectedCompany, dashboardDetails,userDataList } = useSelector((state: any) => state.UserCompanyReducer);
+  console.log(userDataList,"userDataList===>")
   const { company_branch } = dashboardDetails || ''
   const {name,id,mobile_number,profile_image }=userDataList||''
-  const userDepartment=userDataList ? {id:'',name:userDataList?.department?.name} :{}
+  const userDepartment=userDataList ? {id:userDataList?.department?.id,name:userDataList?.department?.name} :{}
   const userDesignation=userDataList ? {id:userDataList?.designation?.id,name:userDataList?.designation?.name} :{}
   
+console.log(userDepartment,"userDepartment====>")
 
   const { designations, departments } = useSelector(
     (state: any) => state.UserCompanyReducer
@@ -39,7 +42,9 @@ function AddUser() {
   const department = useDropDown(userDepartment)
   const designation = useDropDown( userDesignation)
   const [photo, setPhoto] = useState("");
+  const [editPhoto,setEditPhoto]=useState("")
   const   loginLoader =useLoader(false)
+
 
 
   useEffect  (()=>{
@@ -100,10 +105,13 @@ function AddUser() {
       gender: gender.value?.id,
       department_id: department?.value?.id,
       designation_id: designation?.value?.id,
-      profile_image: photo,
+      ...(photo && {profile_image: photo}),
     };
+    console.log(params,"ppppppppppppppp")
+   
 
-    const validation = validate(ADD_USER_RULES, params);
+
+    const validation = validate(id?EDIT_USER_RULES:ADD_USER_RULES, params);
 
     console.log(JSON.stringify(validation) + '======' + ifObjectExist(validation));
 
@@ -201,12 +209,11 @@ function AddUser() {
               onSelect={(image) => {
                 let file = image.toString().replace(/^data:(.*,)?/, "")
                 setPhoto(file)
-               
-              }}
-              onSelectImagePicker={() => {
-              }}
-            />
           
+              }}
+        
+              
+            />
           :
              <ImagePicker
                  size='xl'
@@ -217,8 +224,9 @@ function AddUser() {
                      setPhoto(file)
                  }}
                  onSelectImagePicker={(el)=>{
-                    
+             
                  }}
+                
              />
                 }
             

@@ -34,6 +34,31 @@ export const ADD_USER_RULES = {
 
 };
 
+
+export const EDIT_USER_RULES = {
+  first_name: {
+    presence: { message: "First name cannot be empty" },
+    length: { minimum: 3, message: "First name minimum 3 chars" },
+  },
+  mobile_number: {
+    presence: { message: "Mobile number cannot be empty" },
+    length: { is: 10, message: "Mobile number should be 10 number" },
+  },
+  email: {
+    email: { message: "doesn't look like a valid email" },
+  },
+  gender: {
+    presence: { message: "Please Select Gender" },
+  },
+  department_id: {
+    presence: { allowEmpty: false, message: "Department cannot be empty" },
+  },
+  designation_id: {
+    presence: { allowEmpty: false, message: "Designation cannot be empty" },
+  },
+
+};
+
 export const OTP_RULES = {
   mobile_number: {
     presence: { message: "Mobile number cannot be empty" },
@@ -261,11 +286,11 @@ export const ADD_TASK_GROUP = {
   },
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
-  },
-  photo: {
-    presence: { allowEmpty: false, message: "Photo cannot be empty" }
-
   }
+  // photo: {
+  //   presence: { allowEmpty: false, message: "Photo cannot be empty" }
+
+  // }
 
 }
 
@@ -280,9 +305,9 @@ export const ADD_SUB_TASK_GROUP = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  photo: {
-    presence: { allowEmpty: false, message: "Photo cannot be empty" }
-  },
+  // photo: {
+  //   presence: { allowEmpty: false, message: "Photo cannot be empty" }
+  // },
 
 }
 
@@ -298,9 +323,9 @@ export const ADD_SUB_TASK_GROUP_WITH_TIME = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  photo: {
-    presence: { allowEmpty: false, message: "Photo cannot be empty" }
-  },
+  // photo: {
+  //   presence: { allowEmpty: false, message: "Photo cannot be empty" }
+  // },
   start_time: {
     presence: { allowEmpty: false, message: " please select Stat Time  cannot be empty" },
   },

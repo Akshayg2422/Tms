@@ -95,7 +95,8 @@ const PushNotification = () => {
         console.log('route_type======>1111111', JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
 
         if (route_type === NOTIFICATION_GROUP_MESSAGE) {
-      
+           
+         
             goTo(ROUTES['user-company-module'].Groups);
         }
         else if (route_type === NOTIFICATION_CHAT_MESSAGE) {
@@ -141,6 +142,7 @@ const PushNotification = () => {
               
              
                 goTo(ROUTES['user-company-module']['individual-chat'], false)
+             
              
               
             }
@@ -213,7 +215,7 @@ const PushNotification = () => {
 
             else if (route_type === NOTIFICATION_CHAT_MESSAGE) {
                 try {
-                 
+           
                     dispatch(refreshChatMessage())
                   
                 } catch (e) {
