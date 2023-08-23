@@ -88,6 +88,7 @@ function TaskGroup() {
   const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
   const [addGroupId, setGroupId] = useState<any>()
   const startDate = new Date(startTimeEta)
+  const endDateTime=new Date(endTimeEta)
   const startTime = startDate.getHours()
   const [date, setDate] = useState<any>(moment().format())
   const [endDate, setEndDate] = useState<any>(moment().format())
@@ -98,11 +99,13 @@ function TaskGroup() {
 
 
   const handleStartTimeEtaChange = (value: any) => {
+  
     setStatTimeEta(value)
     setDate(value)
   };
 
   const handleEndTimeEtaChange = (value: any) => {
+
     setEndTimeEta(value)
     setEndDate(value)
   };
@@ -342,6 +345,7 @@ function TaskGroup() {
               taskGroupDescription.set(description)
               taskGroupCode.set(code)
               setEditPhoto(getPhoto(photo))
+              console.log('================nnnnnnnn=>')
 
               // setPhoto(getPhoto(photo))
 
@@ -352,8 +356,10 @@ function TaskGroup() {
               subTaskGroupName.set(name)
               subTaskGroupDescription.set(description)
               subTaskGroupCode.set(code)
+              console.log('=================>')
               // setSubTaskPhoto(getPhoto(photo))
               setEditSubTaskPhoto(getPhoto(photo))
+              console.log(start_time,"start_time======>")
               setStatTimeEta(start_time)
               setEndTimeEta(end_time)
               setIsEdit(true)
@@ -616,7 +622,7 @@ function TaskGroup() {
               <DateTimePicker
                 placeholder={'Start Time'}
                 type="both"
-                value={date ? getMomentObjFromServer(date) : null!}
+                value={date ? getMomentObjFromServer(date) : startDate?startDate:null!}
                 onChange={handleStartTimeEtaChange}
 
               />
@@ -624,7 +630,7 @@ function TaskGroup() {
             <div className="col-6">
               <DateTimePicker
                 type="both"
-                value={endDate ? getMomentObjFromServer(endDate) : null!}
+                value={endDate ? getMomentObjFromServer(endDate) :endDateTime?endDateTime:null!}
                 onChange={handleEndTimeEtaChange}
                 placeholder={'End Time'}
 

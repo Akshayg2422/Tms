@@ -231,7 +231,7 @@ function AddProduct() {
                     <ImagePicker
                         size='xl'
                         heading="photo"
-                        noOfFileImagePickers={1}
+                        noOfFileImagePickers={0}
                         defaultPicker={true}
                         onSelect={(image) => {
                             let file = image.toString().replace(/^data:(.*,)?/, "")

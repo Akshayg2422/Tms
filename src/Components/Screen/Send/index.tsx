@@ -50,6 +50,8 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
         if (isSuccess) {
             resetValues();
             setIsSelect(isSuccess)
+            //  handleInput()
+            
 
         }
     }, [isSuccess]);
@@ -66,6 +68,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
+        console.log(';ttttttt')
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             const param = {
@@ -75,26 +78,39 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
             if (onMessagePress && message.value.trim()) {
 
                 if (isSelect) {
-
+                    const target = e.currentTarget as HTMLTextAreaElement; // Cast to HTMLTextAreaElement
+                    target.style.height = 'auto';
+                    target.style.height = `0px`;
                     setIsSelect(false)
                     onMessagePress(param);
                 }
             }
         }
+  
     };
 
+    // const handleKeyDowns = (e) => {
+    //     console.log('jjjjjjjjjjjjjj')
+  
+    //                 const target = e.currentTarget as HTMLTextAreaElement; // Cast to HTMLTextAreaElement
+    //                 target.style.height = 'auto';
+    //                 target.style.height = `0px`;
+                  
+  
+    // };
+    
+
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+     
         const target = e.currentTarget;
         target.style.height = 'auto';
         target.style.height = `${target.scrollHeight}px`;
     };
 
+
     return (
         <>
             <div className='col'>
-
-
-
                 <div className='row justify-content-center align-items-center'>
                     <div className='mt--3 '>
                         <AttachmentMenu menuData={FILE_MENU} onClick={(element) => {
@@ -130,19 +146,24 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                         >
                         </textarea>
                     </div>
-                    {message.value?.trim().length > 0 && <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
+                    {message.value?.trim().length > 0 && 
+                   
+                      
+                    <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
+                
                         const param = { message: message.value.trim(), event_type: 'TEM' };
                         if (onMessagePress && message.value.trim()) {
 
                             if (isSelect) {
                                 setIsSelect(false)
                                 onMessagePress(param);
-
+                                // handleKeyDowns()
                             }
 
                         }
 
                     }} />
+                   
                     }
                     {hasVideo && <Button
                         size={'lg'}
@@ -244,6 +265,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                         </div>
 }
                        {menuSelected && menuSelected===1 &&  <div className='row mt--3'>
+                        
                         <FileUploader
                             onSelect={(file: any) => {
                               
@@ -270,8 +292,6 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                                 
 
                             }}
-
-
                         />
 
 

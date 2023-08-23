@@ -5,12 +5,12 @@ export const BUILD_TYPE_LIVE_DEMO = 2;
 export const BUILD_TYPE_STAGING = 3;
 export const BUILD_TYPE_LOCAL = 4;
 
-export const BUILD_TYPE = BUILD_TYPE_LOCAL;
+export const BUILD_TYPE = BUILD_TYPE_STAGING;
 
 export const SERVER =
 
   BUILD_TYPE === BUILD_TYPE_LIVE
-    ? 'https://tmsprimary.quantaedat.com'
+    ? 'https://tmsprimary.leorainfotech.in'
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_staging'
       : BUILD_TYPE === BUILD_TYPE_LOCAL

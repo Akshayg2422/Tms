@@ -278,10 +278,10 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
     function Sent({ item }: any) {
 
         const { id, message, filter, display_created_at, attachments, date, chat_attachments, event_type,is_in_call } = item;
-console.log(attachments,"attachments===>")
+
 
         let modifiedArray = attachments;
-        console.log(modifiedArray,"modifiedArray++++++++")
+   
         if (attachments && attachments.length > 3) {
             modifiedArray = attachments?.slice(0, 4);
         }

@@ -174,7 +174,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
              <Image
                 alt={logo.imgAlt}
                 className="navbar-brand-img rounded-circle "
-                src={getPhoto(user_details?.profile_image)}
+                src={getPhoto(user_details?.profile_photo)}
                  height={35}
                  width={35}
             
@@ -194,7 +194,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
           >
             <div className="sidenav-toggler-inner">
               <i className="sidenav-toggler-line" />
-              <i className="sidenav-toggler-line" />
+              <i className="sidenav-toggler-line" />  
               <i className="sidenav-toggler-line" />
             </div>
           </div>
