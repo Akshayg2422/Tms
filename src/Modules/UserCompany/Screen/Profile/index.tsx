@@ -104,10 +104,7 @@ function Profile() {
           }}
         />
         </div>
-          }
-
-
-
+}
 
           <h3 className="ct-title undefined">{translate('common.Basic Information')}</h3>
 
