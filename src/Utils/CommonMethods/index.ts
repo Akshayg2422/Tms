@@ -132,8 +132,6 @@ export async function imagePickerConvertBase64(array) {
 }
 
 
-
-
 export const getCurrentDayAndDate = (date: any) => {
   const currentDate = new Date(date);
   const options: any = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
