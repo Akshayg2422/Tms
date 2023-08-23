@@ -90,7 +90,6 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
   
     };
 
-
     
 
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
@@ -351,116 +350,6 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
 
                 </Modal >
             </div>
-
-{/* 
-            <Modal isOpen={docsModal.visible}
-                onClose={docsModal.hide}>
-
-                <div className='col-7 mt--5'>
-                    <Input variant={'text-area'} heading={'Note'} value={docsName.value} onChange={docsName.onChange} />
-                    <div className='row mt--3'>
-                        <FileUploader
-                            onSelect={(file: any) => {
-                                console.log("file============>>>", file)
-                                let eventPickers = file?.toString().replace(/^data:(.*,)?/, "")
-
-                                console.log(eventPickers, "eventPickers")
-                                setPtfFiles(eventPickers)
-                            }}
-
-
-                        />
-
-
-                    </div>
-                </div>
-
-                <div className='col-6 mt-3'>
-                    <div className=''>
-                        <Button
-                            text={translate("common.submit")}
-                            // onClick={openFileInNewTab}
-                            onClick={() => {
-                                const params = {
-                                    attachments: {
-                                        name: docsName.value,
-                                        attachments: [pdfFiles]
-                                    },
-                                    type: { event_type: 'PDF' },
-
-                                }
-
-                                if (onAttachPress) {
-                                    if (isSelect) {
-
-
-                                        setIsSelect(false)
-                                        onAttachPress(params);
-
-                                    }
-
-                                }
-                            }}
-
-                        />
-                    </div>
-                </div>
-
-            </Modal >
-
-
-
-
-            <Modal isOpen={videosModal.visible}
-                onClose={videosModal.hide}>
-
-                <div className='col-7 mt--5'>
-                    <Input variant={'text-area'} heading={'Note'} value={videoName.value} onChange={videoName.onChange} />
-                    <div className='row mt--3'>
-                        <VideoUploader
-                            onSelect={(file: any) => {
-                                console.log("file============>>>", file)
-                                let eventPickers = file?.toString().replace(/^data:(.*,)?/, "")
-
-                                console.log(eventPickers, "eventPickers")
-                                setVideoFiles(eventPickers)
-                            }}
-                        />
-                    </div>
-                </div>
-
-                <div className='col-6 mt-3'>
-                    <div className=''>
-                        <Button
-                            text={translate("common.submit")}
-                            onClick={() => {
-                                const params = {
-                                    attachments: {
-                                        name: videoName.value,
-                                        attachments: [videoFiles]
-                                    },
-                                    type: { event_type: 'MP4' },
-
-                                }
-
-                                if (onAttachPress) {
-                                    if (isSelect) {
-
-
-                                        setIsSelect(false)
-                                        onAttachPress(params);
-
-
-                                    }
-
-                                }
-                            }}
-
-                        />
-                    </div>
-                </div>
-
-            </Modal > */}
 
 
         </>

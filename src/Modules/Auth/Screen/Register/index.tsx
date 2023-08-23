@@ -16,22 +16,21 @@ import {
 import {
   GENDER_LIST,
   validate,
-  USER_FORM_RULES,
   getValidateError,
   ifObjectExist,
   USER_TOKEN,
 } from "@Utils";
 
 import { useDispatch, useSelector } from "react-redux";
-import { registerCompany, registerAdmin,getDashboard } from "@Redux";
+import { registerCompany, registerAdmin,getDashboard, userLoginDetails } from "@Redux";
 import { useInput, useDropDown, useNavigation, useLoader } from "@Hooks";
-
-console.log('1111111111111??',JSON.stringify(getDashboard));
+import { ROUTES } from "@Routes";
+import { USER_FORM_RULES } from "@Utils//Validate/Rules";
 
 
 function Register() {
-  const { isSync } = useSelector((state: any) => state.AppReducer);
 
+  const { isSync } = useSelector((state: any) => state.AppReducer);
   const [photo, setPhoto] = useState("");
   const { goBack } = useNavigation();
   const dispatch = useDispatch();
@@ -45,18 +44,9 @@ function Register() {
   const pinCode = useInput("");
   const companyContactNumber = useInput("");
   const loginLoader = useLoader(false)
-
-
-
-  // function getDashboardDetails() {
-  //   const params = {}
-  //   dispatch(getDashboard({
-  //     params,
-  //     onSuccess: () => () => {
-  //     },
-  //     onError: () => () => { }
-  //   }));
-  // }
+  const { loginDetails } = useSelector((state: any) => state.AppReducer);
+  const { goTo } = useNavigation()
+  
 
   const submitRegisteredAdminHandler = () => {
     const params = {
@@ -68,6 +58,7 @@ function Register() {
     }
 
     const validation = validate(USER_FORM_RULES, {
+
       first_name: fullName.value,
       mobile_number: contactNumber.value,
       ...(email.value && { email: email.value }),
@@ -82,19 +73,22 @@ function Register() {
       attachment_logo: photo,
     });
 
-    console.log("validation==========>>>", validation)
+    // console.log("validation==========>>>", validation)
 
     if (ifObjectExist(validation)) {
+
       loginLoader.show()
       dispatch(
         registerAdmin({
           params,
           onSuccess: (response: any) => () => {
+
+            localStorage.setItem(USER_TOKEN, response.details.token);
+            // console.log("response.details.token===>",response.details.token)
+
             onRegisterCompany();
             loginLoader.hide()
-
-            // localStorage.setItem(USER_TOKEN, response.details.token);
-            // getDashboardDetails();
+        
           },
           onError: (error) => {
             showToast(error.error_message, "info");
@@ -106,6 +100,20 @@ function Register() {
       showToast(getValidateError(validation));
     }
   };
+
+
+  function getDashboardDetails() {
+    const params = {}
+    dispatch(getDashboard({
+      params,
+      onSuccess: response => () => {
+        // console.log('log1======>',response);
+        
+        goTo(ROUTES["auth-module"].splash)
+      },
+      onError: () => () => { }
+    }));
+  }
 
   
   const onRegisterCompany = () => {
@@ -125,11 +133,25 @@ function Register() {
       registerCompany({
         params,
         onSuccess: (response: any) => () => {
+          getDashboardDetails();
           if (response.success) {
             loginLoader.hide()
             showToast(response.message, "success");
-            goBack();
+            // console.log('log2=========>>>',response);
+          
+            // goBack();
           }
+         
+          // goTo(ROUTES["auth-module"].login)
+
+          dispatch(
+            userLoginDetails({  
+              ...loginDetails,
+              isLoggedIn: true,
+              is_admin: response.details?.company?.type_is_provider,
+            }),
+          );
+
         },
         onError: (error: any) => () => {
           loginLoader.hide()
@@ -160,17 +182,7 @@ function Register() {
         />
         {/* <label className={`form-control-label`}>{translate("auth.logo")}</label> */}
       </div>
-      {/* <div className="col-md-9 col-lg-7 pb-4 pt-3">
-        <Dropzone
-          variant="ICON"
-          icon={photo}
-          size="xl"
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, "");
-            setPhoto(encoded);
-          }}
-        />
-      </div> */}
+     
       <div className="col-auto pb-2">
         <div className="row">
           <ImagePicker

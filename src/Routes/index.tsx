@@ -26,6 +26,20 @@ export const HOME_PATH = {
   GROUPS: './groups',
 }
 
+export const AUTH_PATH = {
+
+  login: '/login',
+  otp: '/otp',
+  splash: '/splash',
+  register: '/register',
+  landing: '/',
+  privacy: '/privacy-policy',
+  TermsAndConditions: '/terms-and-condition',
+  ReturnAndRefund: '/return-and-refund',
+  Register: '/register',
+
+}
+
 export const ROUTES = {
   'auth-module': {
     login: '/login',
@@ -36,7 +50,7 @@ export const ROUTES = {
     privacy: '/privacy-policy',
     TermsAndConditions: '/terms-and-condition',
     ReturnAndRefund: '/return-and-refund',
-    Register:'/register',
+    Register: '/register',
   },
   'task-module': {
     tasks: '/tasks',
@@ -85,7 +99,6 @@ export const ROUTES = {
 }
 
 export const AUTH_ROUTES = [
-
   {
     key: 1,
     path: ROUTES['auth-module'].landing,
@@ -172,7 +185,7 @@ export const HOME_ROUTES = [
   },
   {
     path: ROUTES['user-company-module']['my-events'],
-    name:'My Events',
+    name: 'My Events',
     icon: icons.broadCast,
     layout: "",
     component: <Events />
@@ -209,7 +222,7 @@ export const HOME_ROUTES = [
         path: ROUTES['user-company-module'].Events,
         name: 'Admin Events',
         miniName: "ET",
-        component: <AdminEvents/>,
+        component: <AdminEvents />,
         layout: '/admin',
       },
       {
@@ -221,9 +234,9 @@ export const HOME_ROUTES = [
       },
       {
         path: ROUTES['user-company-module']['calender-view'],
-        name:'Calender',
+        name: 'Calender',
         miniName: "ca",
-        component: <CalendarView/>,
+        component: <CalendarView />,
         layout: '/admin',
 
       }
@@ -231,7 +244,7 @@ export const HOME_ROUTES = [
 
 
   },
-  
+
 
   {
     path: ROUTES['user-company-module']['my-portfolio'],
@@ -358,7 +371,7 @@ export const USER_COMPANY_ROTES = [
   {
     key: 6,
     path: ROUTES['user-company-module'].Events,
-    component: <AdminEvents/>
+    component: <AdminEvents />
   },
   {
     key: 7,

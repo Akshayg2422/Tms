@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { Button, AuthContainer, showToast, ComponentLoader } from "@Components";
 import { useInput, useTimer, useNavigation, useLoader, useKeyPress } from "@Hooks";
-import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, OTP_RULES, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
+import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
 import { useSelector, useDispatch } from "react-redux";
 import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard, validateUserBusiness, setRegisteredMobileNumber, getReSendOtp } from "@Redux";
-import { ROUTES } from '@Routes'
+import { AUTH_PATH, ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
-import { Console } from "console";
+import { OTP_RULES } from "@Utils//Validate/Rules";
 import { translate } from "@I18n";
+// import { OTP_RULES } from "@Utils//Validate/Rules";
 
 function Otp() {
 
@@ -36,7 +37,6 @@ function Otp() {
 
   const proceedOtpResentApiHandler = () => {
    
-
     setSeconds(OTP_RESEND_DEFAULT_TIME);
 
     const params = {
@@ -49,7 +49,6 @@ function Otp() {
         getReSendOtp({
           params,
           onSuccess: () => () => {
-        
          
           },
           onError: (error) => () => {
@@ -60,16 +59,16 @@ function Otp() {
       );
 
   };
-  // mobile_number: mobileNumber.value,
-  // ln: language.value,
-  // app_user_type: BUSINESS,
-
+  
 
   function getDashboardDetails() {
     const params = {}
     dispatch(getDashboard({
       params,
-      onSuccess: () => () => {
+      onSuccess: (response) => () => {
+        console.log('log2======>',response);
+        
+        goTo(AUTH_PATH.splash)
       },
       onError: () => () => { }
     }));
@@ -91,23 +90,24 @@ function Otp() {
         otpLogin({
           params,
           onSuccess: response => () => {
+            console.log('log1======>',response);
             otpLoader.hide()
-        goTo(ROUTES["auth-module"].splash)
-
-
+            getDashboardDetails()
+            
             dispatch(
               userLoginDetails({
                 ...loginDetails,
                 isLoggedIn: true,
                 is_admin: response.details?.company?.type_is_provider,
+                
               }),
+              
             );
            
             localStorage.setItem(USER_TOKEN, response.details.token);
-            getDashboardDetails();
-            
-
+      
           },
+          
           onError: (error) => () => {
             otpLoader.hide()
             showToast(error.error_message, 'error')
