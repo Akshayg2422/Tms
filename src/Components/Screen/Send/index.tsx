@@ -68,7 +68,8 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        console.log(';ttttttt')
+        console.log(e,"eeeeeeeeee")
+     
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             const param = {
@@ -89,23 +90,27 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
   
     };
 
-    // const handleKeyDowns = (e) => {
-    //     console.log('jjjjjjjjjjjjjj')
-  
-    //                 const target = e.currentTarget as HTMLTextAreaElement; // Cast to HTMLTextAreaElement
-    //                 target.style.height = 'auto';
-    //                 target.style.height = `0px`;
-                  
-  
-    // };
+
     
 
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+      
      
         const target = e.currentTarget;
+
         target.style.height = 'auto';
         target.style.height = `${target.scrollHeight}px`;
+        
     };
+
+    
+    // const handleInputs =(e)=>
+    // {
+    //     const target = e.currentTarget as HTMLTextAreaElement;
+    //     target.style.height = 'auto';
+    //     target.style.height = `${target.scrollHeight}px`;
+
+    // }
 
 
     return (
@@ -149,7 +154,9 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                     {message.value?.trim().length > 0 && 
                    
                       
-                    <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
+                    <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} 
+        
+                    onClick={() => {
                 
                         const param = { message: message.value.trim(), event_type: 'TEM' };
                         if (onMessagePress && message.value.trim()) {
@@ -264,7 +271,8 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                             />
                         </div>
 }
-                       {menuSelected && menuSelected===1 &&  <div className='row mt--3'>
+                    
+                       { menuSelected===1 &&  <div className='row mt--3'>
                         
                         <FileUploader
                             onSelect={(file: any) => {
@@ -297,7 +305,8 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
 
                     </div>
 }
-                  {menuSelected && menuSelected===2 &&   <div className='row mt--3'>
+                
+                  {menuSelected===2 &&   <div className='row mt--3'>
                         <VideoUploader
                             onSelect={(file: any) => {
                               
