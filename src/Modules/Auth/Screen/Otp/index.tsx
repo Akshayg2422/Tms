@@ -33,7 +33,6 @@ function Otp() {
 
   const proceedOtpResentApiHandler = () => {
    
-
     setSeconds(OTP_RESEND_DEFAULT_TIME);
 
     const params = {
@@ -46,7 +45,6 @@ function Otp() {
         getReSendOtp({
           params,
           onSuccess: () => () => {
-        
          
           },
           onError: (error) => () => {
@@ -57,10 +55,7 @@ function Otp() {
       );
 
   };
-  // mobile_number: mobileNumber.value,
-  // ln: language.value,
-  // app_user_type: BUSINESS,
-
+  
 
   function getDashboardDetails() {
     const params = {}

@@ -29,8 +29,8 @@ import { USER_FORM_RULES } from "@Utils//Validate/Rules";
 
 
 function Register() {
-  const { isSync } = useSelector((state: any) => state.AppReducer);
 
+  const { isSync } = useSelector((state: any) => state.AppReducer);
   const [photo, setPhoto] = useState("");
   const { goBack } = useNavigation();
   const dispatch = useDispatch();
@@ -58,6 +58,7 @@ function Register() {
     }
 
     const validation = validate(USER_FORM_RULES, {
+
       first_name: fullName.value,
       mobile_number: contactNumber.value,
       ...(email.value && { email: email.value }),
@@ -75,6 +76,7 @@ function Register() {
     // console.log("validation==========>>>", validation)
 
     if (ifObjectExist(validation)) {
+
       loginLoader.show()
       dispatch(
         registerAdmin({
@@ -137,10 +139,10 @@ function Register() {
             showToast(response.message, "success");
             console.log('log2=========>>>',response);
           
-            goBack();
+            // goBack();
           }
          
-          goTo(ROUTES["auth-module"].login)
+          // goTo(ROUTES["auth-module"].login)
 
           dispatch(
             userLoginDetails({  
