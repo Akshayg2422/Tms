@@ -9,18 +9,17 @@ interface TableProps {
 }
 
 function Table({ tableDataSet, displayDataSet, tableOnClick }: TableProps) {
-
   const renderTableHeader = () => {
     if (displayDataSet) {
       const header = Object.keys(displayDataSet[0])
-      return header.map(key => {
+      return header?.map(key => {
         return <th scope="col"  key={key}>{key}</th>
       })
     }
   }
 
   function renderTableValue(eachObject: object) {
-    return Object.keys(eachObject).map((key: string) => {
+    return Object.keys(eachObject)?.map((key: string) => {
       let value = eachObject[key as keyof object]
       return <td style={{ whiteSpace: 'pre-wrap' }} key={key}  ><span >{value}</span></td>
     })

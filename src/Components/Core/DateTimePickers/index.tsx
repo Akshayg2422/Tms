@@ -84,8 +84,7 @@ function DatePickers({  icon,
           ...formate==='time' && { noCalendar: true },
           ...formate ==='date' && {...maxDate && { maxDate: maxDate }, ...disabledDate && { disable: disabledDate }, ...minDate && { minDate: minDate }} ,
           ...formate==='date-time' && { enableTime: true },
-          ...formate ==='date-time' && {...maxDate && { maxDate: maxDate }, ...disabledDate && { disable: disabledDate }, ...minDate && { minDate: minDate }} ,
-
+          ...formate ==='date-time' && {...maxDate && { maxDate: maxDate },...disabledDate && { disable: disabledDate }, ...minDate && { minDate: minDate }},
         }}
         className="form-control bg-white pl-2 "
         value={value}

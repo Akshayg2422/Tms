@@ -1,4 +1,4 @@
-import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker, ImageDownloadButton, H, Radio } from "@Components";
+import { Image, Card, Modal, Button, Dropzone, showToast, ImagePicker, ImageDownloadButton, H, Radio, FileUploader } from "@Components";
 import { getPhoto } from '@Utils';
 import { useSelector, useDispatch } from "react-redux";
 import { useWindowDimensions, useModal, useNavigation } from '@Hooks'
@@ -8,6 +8,8 @@ import { ROUTES } from "@Routes"
 import { translate } from "@I18n";
 import { useEffect } from "react";
 import { icons } from "@Assets";
+import { DocxView } from "@Components//Component/UploadFile";
+import { FileViewer } from "@Components//Component/FileViewer";
 
 
 function Profile() {
@@ -69,12 +71,10 @@ function Profile() {
             <Button color={'white'} size={'sm'} text={translate('common.Logout')} onClick={logoutModal.show} />
             <Button color={'white'} size={'sm'} text={translate('common.Language')} onClick={languageModal.show} />
           </div>
-
-
-          {user_details && <div className="pb-4">
+          {user_details?.profile_photo ? <div className="pb-4">
             <ImagePicker
               size='xxl'
-              defaultValue={[{ id: 1, photo: user_details?.profile_image }]}
+              defaultValue={[{ id: 1, photo: user_details?.profile_photo }]}
               className="text-center"
               noOfFileImagePickers={1}
               imageVariant={'rounded'}
@@ -87,9 +87,24 @@ function Profile() {
               onSelectImagePicker={() => {
               }}
             />
-          </div>
-          }
-
+          </div>:
+          <div className="pb-4">
+          <ImagePicker
+          size='xxl'
+          className="text-center"
+          noOfFileImagePickers={1}
+          imageVariant={'rounded'}
+          defaultPicker={true}
+          trashIcons={true}
+          onSelect={(image) => {
+            let file = image.toString().replace(/^data:(.*,)?/, "")
+            userProfileEdit(file)
+          }}
+          onSelectImagePicker={() => {
+          }}
+        />
+        </div>
+}
 
           <h3 className="ct-title undefined">{translate('common.Basic Information')}</h3>
 

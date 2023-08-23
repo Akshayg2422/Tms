@@ -16,11 +16,14 @@ const ImagePicker = ({
   onSelectImagePicker,
   defaultPicker = false,
   trashIcons = false,
+  defaultPhoto,
+  initialValue = { id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }
 }: DropZoneImageProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [count, setCount] = useState(1)
-  const initialValue = { id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }
+  // const initialValue = { id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }
   const [photo, setPhoto] = useState<any>()
+
 
   const updatedProfile = photo && photo.filter((element: any) => element.id !== 0)
   if (onSelectImagePicker && onSelectImagePicker) {
@@ -29,6 +32,7 @@ const ImagePicker = ({
   // if( onSelectImagePickers && onSelectImagePickers){
   //   onSelectImagePickers(updatedProfile)
   //   }
+
 
   useEffect(() => {
 
@@ -108,10 +112,12 @@ const ImagePicker = ({
         quality: 0.9,
         success: (file) => {
           const reader = new FileReader();
+         
           reader.onload = (e) => {
 
             if (onSelect && e.target) {
               onSelect(e.target?.result);
+              console.log(e.target?.result,"e.target?.result==>")
 
               updatedPhoto = { id: count, base64: e.target?.result }
 
@@ -192,6 +198,8 @@ const ImagePicker = ({
         <InputHeading heading={heading} />
       </div>
       {photo && photo.map((el, index) => {
+       
+      
         return (
 
           <div className={`${className} col-auto ml-0  pr-3`}>

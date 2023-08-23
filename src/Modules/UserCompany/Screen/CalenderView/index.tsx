@@ -77,7 +77,6 @@ function CalendarView() {
       },
     });
 
-    console.log(calendar,"calender====>")
     
     calendar.render();
     setCurrentDate(calendar.view.title);

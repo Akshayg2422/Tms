@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard, validateUserBusiness, setRegisteredMobileNumber, getReSendOtp } from "@Redux";
 import { ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
+import { Console } from "console";
+import { translate } from "@I18n";
 
 function Otp() {
 
@@ -21,6 +23,9 @@ function Otp() {
   const { seconds, setSeconds } = useTimer(OTP_RESEND_DEFAULT_TIME);
   const otp = useInput("");
   const isEnterPressed = useKeyPress("Enter");
+
+  // console.log('login=======',loginDetails);
+  
 
   useEffect(() => {
     if (isEnterPressed) {
@@ -65,7 +70,6 @@ function Otp() {
     dispatch(getDashboard({
       params,
       onSuccess: () => () => {
-        goTo(ROUTES["auth-module"].splash)
       },
       onError: () => () => { }
     }));
@@ -88,6 +92,8 @@ function Otp() {
           params,
           onSuccess: response => () => {
             otpLoader.hide()
+        goTo(ROUTES["auth-module"].splash)
+
 
             dispatch(
               userLoginDetails({
@@ -99,6 +105,7 @@ function Otp() {
            
             localStorage.setItem(USER_TOKEN, response.details.token);
             getDashboardDetails();
+            
 
           },
           onError: (error) => () => {
@@ -128,7 +135,7 @@ function Otp() {
         </div>
         <div className="mb-4">
           <small className="d-block">
-            Have not received the Verification Code?
+           {translate('common. Have not received the Verification Code?')}
           </small>
           {seconds === 0 ? (
             <div onClick={proceedOtpResentApiHandler}>

@@ -21,14 +21,40 @@ export const ADD_USER_RULES = {
   gender: {
     presence: { message: "Please Select Gender" },
   },
+  department_id: {
+    presence: { allowEmpty: false, message: "Department cannot be empty" },
+  },
   designation_id: {
     presence: { allowEmpty: false, message: "Designation cannot be empty" },
+  },
+
+  profile_image: {
+    presence: { allowEmpty: false, message: "profile image cannot be empty" }
+  },
+
+};
+
+
+export const EDIT_USER_RULES = {
+  first_name: {
+    presence: { message: "First name cannot be empty" },
+    length: { minimum: 3, message: "First name minimum 3 chars" },
+  },
+  mobile_number: {
+    presence: { message: "Mobile number cannot be empty" },
+    length: { is: 10, message: "Mobile number should be 10 number" },
+  },
+  email: {
+    email: { message: "doesn't look like a valid email" },
+  },
+  gender: {
+    presence: { message: "Please Select Gender" },
   },
   department_id: {
     presence: { allowEmpty: false, message: "Department cannot be empty" },
   },
-  profile_image: {
-    presence: { allowEmpty: false, message: "profile image cannot be empty" }
+  designation_id: {
+    presence: { allowEmpty: false, message: "Designation cannot be empty" },
   },
 
 };
@@ -79,6 +105,52 @@ export const USER_FORM_RULES = {
   },
 };
 
+
+export const PRODUCT_SERVICE = {
+  name: {
+    presence: { allowEmpty: false, message: "name cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  photo: {
+    presence: { allowEmpty: false, message: "photo cannot be empty" },
+  },
+  product_category_id: {
+    presence: { allowEmpty: false, message: "please select category" },
+  }
+
+};
+
+
+export const PRODUCT_BRAND_SERVICE = {
+  name: {
+    presence: { allowEmpty: false, message: "name cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  photo: {
+    presence: { allowEmpty: false, message: "photo cannot be empty" },
+  },
+  service_category_id: {
+    presence: { allowEmpty: false, message: "please select category" },
+  }
+
+};
+
+export const PRODUCT_CATEGORY = {
+  name: {
+    presence: { allowEmpty: false, message: "name cannot be empty" },
+  },
+  description: {
+    presence: { allowEmpty: false, message: "description cannot be empty" },
+  },
+  photo: {
+    presence: { allowEmpty: false, message: "photo cannot be empty" },
+  },
+
+};
 
 export const CREATE_EXTERNAL = {
   title: {
@@ -214,11 +286,11 @@ export const ADD_TASK_GROUP = {
   },
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
-  },
-  photo: {
-    presence: { allowEmpty: false, message: "Photo cannot be empty" }
-
   }
+  // photo: {
+  //   presence: { allowEmpty: false, message: "Photo cannot be empty" }
+
+  // }
 
 }
 
@@ -233,9 +305,9 @@ export const ADD_SUB_TASK_GROUP = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  photo: {
-    presence: { allowEmpty: false, message: "Photo cannot be empty" }
-  },
+  // photo: {
+  //   presence: { allowEmpty: false, message: "Photo cannot be empty" }
+  // },
 
 }
 
@@ -251,9 +323,9 @@ export const ADD_SUB_TASK_GROUP_WITH_TIME = {
   description: {
     presence: { allowEmpty: false, message: "description cannot be empty" },
   },
-  photo: {
-    presence: { allowEmpty: false, message: "Photo cannot be empty" }
-  },
+  // photo: {
+  //   presence: { allowEmpty: false, message: "Photo cannot be empty" }
+  // },
   start_time: {
     presence: { allowEmpty: false, message: " please select Stat Time  cannot be empty" },
   },

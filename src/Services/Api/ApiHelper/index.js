@@ -10,11 +10,11 @@ export const BUILD_TYPE = BUILD_TYPE_STAGING;
 export const SERVER =
 
   BUILD_TYPE === BUILD_TYPE_LIVE
-    ? 'https://tmsprimary.quantaedat.com'
+    ? 'https://tmsprimary.leorainfotech.in'
     : BUILD_TYPE === BUILD_TYPE_LIVE_DEMO
       ? 'live_staging'
       : BUILD_TYPE === BUILD_TYPE_LOCAL
-        ? 'http://192.168.130.5:8007' 
+        ? 'http://192.168.208.5:8000' 
         : BUILD_TYPE === BUILD_TYPE_STAGING
           ? 'http://103.118.188.135:8003'
           : 'http://localhost:8000'
@@ -50,6 +50,7 @@ axiosApi.interceptors.response.use(
 );
 
 export async function get(url, config) {
+ 
   return await axiosApi
     .get(url, {
       ...config,
@@ -60,7 +61,7 @@ export async function get(url, config) {
 
 export async function post(url, data, config) {
   let headers = { ...(await getHeaders()) };
-console.log(headers,"headers")
+
   return await axiosApi
     .post(url, data, {
       ...config,

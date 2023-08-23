@@ -64,6 +64,7 @@ const initialState: AuthSliceStateProp = {
   alternativeNumber: undefined,
   notification: undefined,
   reSendOtp:undefined,
+  selectedAuthId:undefined
 };
 
 const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
@@ -206,6 +207,7 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
       state = { ...state, language: action.payload };
       break;
 
+    
     /*PUSH NOTIFICATION */
 
     case PUSH_NOTIFICATION:

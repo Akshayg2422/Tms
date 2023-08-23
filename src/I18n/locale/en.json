@@ -112,7 +112,10 @@
     "Are you sure want to Logout?":"Are you sure want to Logout?",
     "No":"No",
     "Yes":"Yes",
-    "Mark as closed":"Mark as closed"
+    "Mark as closed":"Mark as closed",
+    "RegisterCompany":"RegisterCompany",
+    "Don't have an account ?Register":"Don't have an account ?Register",
+    " Have not received the Verification Code?":" Have not received the Verification Code?"
   },
   "errors": {
     "invalidEmail": "Invalid email address.",
@@ -197,7 +200,10 @@
     "EditTicketDetails":"Edit Ticket Details",
     "Change Task Status":"Change Task Status",
     "Edit eta time":"Edit eta time",
-    "Latest Events":"Latest Events"
+    "Latest Events":"Latest Events",
+    "DocumentsUploader":"DocumentsUploader",
+    "PhotosUploader":"PhotosUploader",
+    "VideoUploader":"VideoUploader"
 
   },
   "product": {

@@ -169,3 +169,17 @@ export const  addTaskUsingVoiceApi = (payload)=>post(URL.ADD_TASK_USING_VOICE,pa
 
 export const fetchCompanyLabelApi=(payload)=>post(URL.FETCH_COMPANY_LABEL,payload,{})
 
+
+///COMPANY PRODUCT CATEGORY ADD AND GET
+export const  addProductServiceApi = (payload)=>post(URL.ADD_PRODUCT_SERVICE,payload,{})
+export const  getProductServiceApi=(payload)=>post(URL.GET_PRODUCT_SERVICE,payload,{})
+
+export const  addProductCategoryApi = (payload)=>post(URL.ADD_PRODUCT_CATEGORY,payload,{})
+export const  getProductCategoryApi=(payload)=>post(URL.GET_PRODUCT_CATEGORY,payload,{})
+
+export const  addServiceCategoryApi = (payload)=>post(URL.ADD_SERVICE_CATEGORY,payload,{})
+export const  getServiceCategoryApi=(payload)=>post(URL.GET_SERVICE_CATEGORY,payload,{})
+
+export const  addBrandServiceApi = (payload)=>post(URL.ADD_BRAND_SERVICE_CATEGORY,payload,{})
+export const  getBrandServiceApi=(payload)=>post(URL.GET_BRAND_SERVICE_CATEGORY,payload,{})
+

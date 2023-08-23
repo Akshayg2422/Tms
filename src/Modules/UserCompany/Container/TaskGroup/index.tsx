@@ -66,6 +66,7 @@ function TaskGroup() {
   const taskGroupCode = useInput("");
   const taskGroupDescription = useInput("");
   const [photo, setPhoto] = useState("");
+  const [editPhoto,setEditPhoto]=useState('')
   const [selectedTaskGroup, setSelectedTaskGroup] = useState<any>(undefined);
   const loginLoader = useLoader(false)
 
@@ -81,26 +82,30 @@ function TaskGroup() {
   const [startTimeEta, setStatTimeEta] = useState<any>("")
   const [endTimeEta, setEndTimeEta] = useState<any>("")
   const [subTaskPhoto, setSubTaskPhoto] = useState("");
+  const [editSubTaskPhoto, setEditSubTaskPhoto] = useState("");
   const addMemberModal = useModal(false);
   const [taggedUsers, setTaggedUsers] = useState([])
   const [defaultSelectedUsers, setDefaultSelectedUser] = useState<any>([])
   const [addGroupId, setGroupId] = useState<any>()
   const startDate = new Date(startTimeEta)
+  const endDateTime=new Date(endTimeEta)
   const startTime = startDate.getHours()
   const [date, setDate] = useState<any>(moment().format())
   const [endDate, setEndDate] = useState<any>(moment().format())
 
-  const [startTimeValue, setStartTimeValue] = useState(null);
-  const [endTimeValue, setEndTimeValue] = useState(null);
+  // const [startTimeValue, setStartTimeValue] = useState(null);
+  // const [endTimeValue, setEndTimeValue] = useState(null);
 
 
 
   const handleStartTimeEtaChange = (value: any) => {
+  
     setStatTimeEta(value)
     setDate(value)
   };
 
   const handleEndTimeEtaChange = (value: any) => {
+
     setEndTimeEta(value)
     setEndDate(value)
   };
@@ -128,13 +133,13 @@ function TaskGroup() {
   const addTaskGroupApiHandler = async () => {
 
 
-    toDataUrl(photo, function (myBase64) {
+    // toDataUrl(photo, function (myBase64) {
 
-      let updatedPhoto = photo
-      if (photo.includes('http')) {
-        let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
-        updatedPhoto = encoded
-      }
+    //   let updatedPhoto = photo
+    //   if (photo.includes('http')) {
+    //     let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
+    //     updatedPhoto = encoded
+    //   }
 
       const params = {
 
@@ -143,7 +148,7 @@ function TaskGroup() {
         name: taskGroupName.value,
         description: taskGroupDescription.value,
         code: taskGroupCode.value.trim(),
-        photo: updatedPhoto
+        ...(photo && {photo: photo})
       };
       const validation = validate(ADD_TASK_GROUP, params)
       if (ifObjectExist(validation)) {
@@ -169,7 +174,7 @@ function TaskGroup() {
       else {
         showToast(getValidateError(validation));
       }
-    });
+    // });
 
 
   };
@@ -199,13 +204,13 @@ function TaskGroup() {
   // add sub task
   const addSubTaskGroupApiHandler = () => {
 
-    toDataUrl(subTaskPhoto, function (myBase64) {
+    // toDataUrl(subTaskPhoto, function (myBase64) {
 
-      let updatedPhoto = subTaskPhoto
-      if (subTaskPhoto.includes('http')) {
-        let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
-        updatedPhoto = encoded
-      }
+    //   let updatedPhoto = subTaskPhoto
+    //   if (subTaskPhoto.includes('http')) {
+    //     let encoded = myBase64.toString().replace(/^data:(.*,)?/, "")
+    //     updatedPhoto = encoded
+    //   }
 
 
       const params = {
@@ -213,7 +218,7 @@ function TaskGroup() {
         description: convertToUpperCase(subTaskGroupDescription.value),
         branch_id: company?.id,
         code: subTaskGroupCode.value.trim(),
-        photo: updatedPhoto,
+       ...(subTaskPhoto &&{ photo: subTaskPhoto}),
         parent_id: selectedSubTaskGroup?.id,
         ...(startTimeEta && { start_time: startTimeEta }),
         ...(endTimeEta && { end_time: endTimeEta }),
@@ -251,7 +256,7 @@ function TaskGroup() {
       }
 
 
-    })
+    // })
 
 
   };
@@ -339,7 +344,10 @@ function TaskGroup() {
               taskGroupName.set(name)
               taskGroupDescription.set(description)
               taskGroupCode.set(code)
-              setPhoto(getPhoto(photo))
+              setEditPhoto(getPhoto(photo))
+              console.log('================nnnnnnnn=>')
+
+              // setPhoto(getPhoto(photo))
 
             } else {
               addSubTaskGroupModal.show()
@@ -348,7 +356,10 @@ function TaskGroup() {
               subTaskGroupName.set(name)
               subTaskGroupDescription.set(description)
               subTaskGroupCode.set(code)
-              setSubTaskPhoto(getPhoto(photo))
+              console.log('=================>')
+              // setSubTaskPhoto(getPhoto(photo))
+              setEditSubTaskPhoto(getPhoto(photo))
+              console.log(start_time,"start_time======>")
               setStatTimeEta(start_time)
               setEndTimeEta(end_time)
               setIsEdit(true)
@@ -388,6 +399,7 @@ function TaskGroup() {
     taskGroupCode.set('')
     taskGroupDescription.set('')
     setPhoto('')
+    setEditPhoto('')
   }
 
 
@@ -401,6 +413,7 @@ function TaskGroup() {
     setStatTimeEta('')
     setDate('')
     setEndDate('')
+    setEditSubTaskPhoto('')
   }
 
   async function toDataUrl(url, callback) {
@@ -542,11 +555,12 @@ function TaskGroup() {
         <div className="pb-3">
           <Dropzone
             variant="ICON"
-            icon={photo}
+            icon={photo?photo:editPhoto}
             size="xl"
             onSelect={(image) => {
               let encoded = image.toString().replace(/^data:(.*,)?/, "");
               setPhoto(encoded);
+              
             }}
           />
         </div>
@@ -608,7 +622,7 @@ function TaskGroup() {
               <DateTimePicker
                 placeholder={'Start Time'}
                 type="both"
-                value={date ? getMomentObjFromServer(date) : null!}
+                value={date ? getMomentObjFromServer(date) : startDate?startDate:null!}
                 onChange={handleStartTimeEtaChange}
 
               />
@@ -616,7 +630,7 @@ function TaskGroup() {
             <div className="col-6">
               <DateTimePicker
                 type="both"
-                value={endDate ? getMomentObjFromServer(endDate) : null!}
+                value={endDate ? getMomentObjFromServer(endDate) :endDateTime?endDateTime:null!}
                 onChange={handleEndTimeEtaChange}
                 placeholder={'End Time'}
 
@@ -634,7 +648,7 @@ function TaskGroup() {
         <div className="pb-3">
           <Dropzone
             variant="ICON"
-            icon={subTaskPhoto}
+            icon={subTaskPhoto?subTaskPhoto:editSubTaskPhoto}
             size="xl"
             onSelect={(image) => {
               let encoded = image.toString().replace(/^data:(.*,)?/, "");

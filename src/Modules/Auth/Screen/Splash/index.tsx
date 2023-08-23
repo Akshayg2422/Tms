@@ -5,6 +5,7 @@ import { useNavigation } from "@Hooks";
 import { useSelector, useDispatch } from 'react-redux'
 
 
+
 function Splash() {
 
   const SPLASH_STAY_TIME_MILE_SECONDS = 1500;

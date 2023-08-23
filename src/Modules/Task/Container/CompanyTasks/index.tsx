@@ -15,6 +15,7 @@ function CompanyTasks() {
   const dispatch = useDispatch()
   const { tasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
   const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+  console.log(selectedCompany,"selectedCompany===>")
   const { company } = dashboardDetails || ''
   const date = new Date();
   const time = date.getHours()
@@ -116,7 +117,7 @@ function CompanyTasks() {
   };
 
   return (
-    <HomeContainer type={'card'} className="shadow-none overflow-auto overflow-hide" style={{
+    <HomeContainer type={'card'} className="shadow-none overflow-auto overflow-hide mt-3 pt-3" style={{
       height: height - 85
     }}>
       {loading && (

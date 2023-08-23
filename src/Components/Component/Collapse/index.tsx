@@ -83,13 +83,15 @@ dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
 
 
 
-                {selectButtonReject ? <div className='col-auto '>
+                {selectButtonReject && <div className='col-auto '>
                   <Button className={'text-white'} text={textReject} size='sm' onClick={onClickReject} />
-                </div> : <div className='h5 text-primary mr-5'>
+                </div> 
+  }
+                 <div className='h5 text-primary mr-5'>
                   {ApprovedStatus === 'APT' ? "Approved" : ApprovedStatus === 'REJ' ? 'Reject' : ''}
 
                 </div>
-                }
+                
 
                 {selectButton && <div className='col-auto '>
                   <Button className={'text-white'} text={text} size='sm' onClick={onClick} />

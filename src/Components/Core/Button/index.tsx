@@ -1,6 +1,4 @@
 
-
-
 import React from 'react';
 import { Button as RSButton } from 'reactstrap';
 import { ButtonProps } from './interfaces';

@@ -6,6 +6,7 @@ import {
 import { BreadcrumbsProps, BreadCrumbItem } from './interfaces';
 
 function Breadcrumbs({ defaultSelected, items, ...rest }: BreadcrumbsProps) {
+  console.log(items,"items")
   return (
     <Breadcrumb {...rest}>
       {
@@ -14,20 +15,18 @@ function Breadcrumbs({ defaultSelected, items, ...rest }: BreadcrumbsProps) {
           return (
             <>{isSelected ?
               <BreadcrumbItem key={breadCrumbItem.id} className={'active'}>
-                {breadCrumbItem.title}
+                #{breadCrumbItem.title}
               </BreadcrumbItem>
               :
               <BreadcrumbItem key={breadCrumbItem.id}>
                 <a href={'/'} >
-                  {breadCrumbItem.title}
+                  #{breadCrumbItem.title}
                 </a>
               </BreadcrumbItem>
             }
             </>
           )
         })
-
-
       }
     </Breadcrumb >
   )

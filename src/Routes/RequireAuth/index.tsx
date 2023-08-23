@@ -33,8 +33,6 @@ if(dashboardDetails?.permission_details?.is_super_admin || dashboardDetails?.per
           );
 
        }
-  
- 
 
 
     const fcmToken = localStorage.getItem(FCM_TOKEN)

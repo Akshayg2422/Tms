@@ -14,7 +14,7 @@ import {
     TextAreaInput,
     Button,
     DatePickers,
-
+    VideoPlayer,
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -49,6 +49,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
 import { icons } from "@Assets";
 import moment from "moment";
+import { FileViewer } from "@Components//Component/FileViewer";
+
 
 // import { CalenderView } from "@Modules";
 
@@ -69,8 +71,10 @@ function AddTask() {
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );
+    const currentDate= new Date()
+    console.log(currentDate,"currentDate====>")
 
-    console.log(TODAY, "ttttttt")
+   
     const title = useInput("");
     const description = useInput("");
 
@@ -90,7 +94,7 @@ function AddTask() {
     // let attach = photo.slice(-selectNoPickers)
     const [date, setDate] = useState<any>()
     const loginLoader = useLoader(false);
-    
+
     const isEnterPressed = useKeyPress("Enter");
 
     useEffect(() => {
@@ -283,8 +287,8 @@ function AddTask() {
     }
 
     const handleEtaChange = (value: any) => {
-        
-    
+
+
         setEta(value);
         setDate(value)
     };
@@ -388,6 +392,7 @@ function AddTask() {
                     />
                 </div>
 
+
                 {
                     taskType && taskType?.id === "1" && (
                         <DropDown
@@ -462,9 +467,14 @@ function AddTask() {
                         onChange={handleEtaChange}
                     />
                 </div>
-
+{/*                 
+               <DatePickers
+                onChange={handleEtaChange}
+                 maxDate={}
+                />
+               */}
+         
             </div >
-
             <div className="col">
                 <Button size={'md'}
                     loading={loginLoader.loader}
@@ -477,3 +487,4 @@ function AddTask() {
 }
 
 export { AddTask };
+

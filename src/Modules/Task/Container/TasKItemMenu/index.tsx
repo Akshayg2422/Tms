@@ -112,7 +112,7 @@ function TaskItemMenu() {
 
     return (
         <>
-            <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-center">
                 <MenuBar menuData={TASK_STATUS_MENU} onClick={(element) => {
                     if (element.id === TASK_STATUS_MENU[0].id) {
                         tagUserModal.show()
@@ -129,6 +129,8 @@ function TaskItemMenu() {
                  * Tag User
                  */
             }
+
+            <div className="d-flex justify-content-end">
 
             <Modal fade={false} isOpen={tagUserModal.visible} onClose={tagUserModal.hide} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }}>
                 <EmployeesV1 selection={'multiple'} onSelected={(users) => {
@@ -197,6 +199,8 @@ function TaskItemMenu() {
                         }} />
                 </div>
             </Modal>
+
+            </div>
 
         </>
     )

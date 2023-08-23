@@ -101,7 +101,7 @@ function CompanyTickets() {
 
   return (
 
-    <HomeContainer type={'card'} className="shadow-none overflow-auto overflow-hide" style={{
+    <HomeContainer type={'card'} className="shadow-none overflow-auto overflow-hide mt-3 pt-3" style={{
       height: height - 85
     }}>
       {tickets && tickets.length > 0 ?
