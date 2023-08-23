@@ -107,7 +107,7 @@ function Register() {
     dispatch(getDashboard({
       params,
       onSuccess: response => () => {
-        console.log('log1======>',response);
+        // console.log('log1======>',response);
         
         goTo(ROUTES["auth-module"].splash)
       },
@@ -137,7 +137,7 @@ function Register() {
           if (response.success) {
             loginLoader.hide()
             showToast(response.message, "success");
-            console.log('log2=========>>>',response);
+            // console.log('log2=========>>>',response);
           
             // goBack();
           }
@@ -151,10 +151,6 @@ function Register() {
               is_admin: response.details?.company?.type_is_provider,
             }),
           );
-
-         
-          // localStorage.setItem(USER_TOKEN, response.details.token);
-        
 
         },
         onError: (error: any) => () => {
@@ -186,17 +182,7 @@ function Register() {
         />
         {/* <label className={`form-control-label`}>{translate("auth.logo")}</label> */}
       </div>
-      {/* <div className="col-md-9 col-lg-7 pb-4 pt-3">
-        <Dropzone
-          variant="ICON"
-          icon={photo}
-          size="xl"
-          onSelect={(image) => {
-            let encoded = image.toString().replace(/^data:(.*,)?/, "");
-            setPhoto(encoded);
-          }}
-        />
-      </div> */}
+     
       <div className="col-auto pb-2">
         <div className="row">
           <ImagePicker
