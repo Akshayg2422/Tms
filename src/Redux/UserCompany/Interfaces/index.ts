@@ -80,5 +80,17 @@ export interface UserCompanyStateProp {
   groupMessageCurrentPage: number;
   refreshPrivateChat?: boolean;
   userDataList?:any;
+  companiesServiceProduct:any,
+  companiesServiceProductCurrentPages:any,
+  companiesServiceProductNumOfPages:any,
+  addProductServiceList:any,
+  fetchProductCategoryData:any,
+  addProductCategoryData:any,
+  companiesBrandService:any,
+  companiesBrandServiceCurrentPages:any,
+  companiesBrandServiceNumOfPages:any,
+  addBrandServiceData:any,
+  fetchServiceCategoryData:any,
+  addServiceCategoryData:any
 
 }

@@ -98,6 +98,7 @@ function Tasks() {
                         variant={'avatar'}
                         src={getPhoto(item?.attachment_file)}
                         className="row"
+                        
                       />
 
 

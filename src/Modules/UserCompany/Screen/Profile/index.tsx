@@ -71,15 +71,10 @@ function Profile() {
             <Button color={'white'} size={'sm'} text={translate('common.Logout')} onClick={logoutModal.show} />
             <Button color={'white'} size={'sm'} text={translate('common.Language')} onClick={languageModal.show} />
           </div>
-
-          {/* <div>
-            <FileViewer/>
-          </div> */}
-
-          {user_details?.profile_image ? <div className="pb-4">
+          {user_details?.profile_photo ? <div className="pb-4">
             <ImagePicker
               size='xxl'
-              defaultValue={[{ id: 1, photo: user_details?.profile_image }]}
+              defaultValue={[{ id: 1, photo: user_details?.profile_photo }]}
               className="text-center"
               noOfFileImagePickers={1}
               imageVariant={'rounded'}

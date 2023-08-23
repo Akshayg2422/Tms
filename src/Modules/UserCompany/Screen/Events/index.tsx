@@ -16,6 +16,9 @@ function Events() {
   const { events, eventsCurrentPages } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
+  // const {eventsMessage } = useSelector(
+  //   (state: any) => state.TaskReducerReducer
+  // );
 
 
   useEffect(() => {
@@ -91,6 +94,7 @@ function Events() {
                         <div className="col-12" onClick={() => {
                           if (item.mark_as_completed !== true) {
                             proceedEventsChatting(item.id)
+                            console.log(item.id,"item.id====>")
                           }
                         }}></div>
 

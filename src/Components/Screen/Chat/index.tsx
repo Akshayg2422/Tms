@@ -17,6 +17,7 @@ import { icons } from '@Assets'
 import { useModal, useInput } from '@Hooks';
 import { translate } from '@I18n'
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { FileViewer } from '@Components//Component/FileViewer';
 
 
 function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 100, onDelete, isSuccess, onEdit, }: ChatProps) {
@@ -220,6 +221,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                                         }
                                     </PhotoProvider>
                                 </div>
+                                
                             </div>
                             <div className='text-right'>
                                 <small style={{
@@ -279,6 +281,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
 
 
         let modifiedArray = attachments;
+   
         if (attachments && attachments.length > 3) {
             modifiedArray = attachments?.slice(0, 4);
         }
@@ -291,12 +294,9 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                             
 
                             
-        {is_in_call? <div className='d-flex justify-content-center  mt-2 mb-3'>
+        {is_in_call? 
+        <div className='d-flex justify-content-center  mt-2 mb-3'>
                     <div
-                        // className={`${"media-comment-text"} ${true ? 'hovered' : ''}`}
-                        // style={{
-                        //     maxWidth: '15%',
-                        // }}
                         onMouseEnter={() => {
                             setHasHover(true)
                         }}
@@ -305,27 +305,14 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                         }}>
                         <Hover
                             show={hasHover}
-                            // onEdit={() => {
-                            //     setEdit(item);
-                            //     if (event_type === 'TEM') {
-                            //         editMessage.set(filter)
-                            //         setSelectDropzone(undefined)
-                            //     } else if (event_type === 'MEA') {
-                            //         editMessage.set(chat_attachments?.name)
-                            //         setSelectDropzone(chat_attachments.attachments)
-                            //     }
-                            //     editModal.show()
-                            // }}
                             onDelete={() => {
                                 setEdit(item);
                                 deleteModal.show()
                             }}
                         />
+
                         <div>
                         {is_in_call?
-                                // <div className='icon icon-shape bg-gradient-info text-white rounded-circle '>
-
-                              
                               <div style={{borderRadius:'24px 24px', border:'2px solid blue' ,width:'30px', height:'30px'}}> 
                               <div className=' text-center align-item-center mb-0'>
                               <ImageIcon src={icons.videoCall}  height={15} width={15}/>
@@ -343,7 +330,9 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                 </div>
 
 
-             :   <div className='d-flex justify-content-end mt-3'>
+             : 
+             ( (event_type ==='MEA'||event_type ==='TEM') ?
+                <div className='d-flex justify-content-end mt-3'>
                     <div
                         className={`${"media-comment-text"} ${true ? 'hovered' : ''}`}
                         style={{
@@ -377,7 +366,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                             <p className="text-sm mb-0 d-inline" style={{ whiteSpace: 'pre-line' }}>{message}</p>
                             
                             <div>
-                                {attachments && attachments.length === 1 && (
+                                {attachments && attachments.length === 1 &&event_type === 'MEA' && (
                                     <PhotoProvider>
                                         <PhotoView src={getPhoto(attachments[0].attachment_file)}>
                                             <Image
@@ -391,6 +380,8 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                                         </PhotoView>
                                     </PhotoProvider>
                                 )}
+
+
                                 <div className='row mt-2' style={{
                                     flexWrap: "wrap",
                                     justifyContent: 'flex-start',
@@ -427,6 +418,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                                     </PhotoProvider>
                                 </div>
                             </div>
+                          
                             <div className='text-right'>
                                 <small style={{
                                     fontSize: 10
@@ -435,6 +427,88 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                         </div>
                     </div>
                 </div>
+                :
+                <div className='d-flex justify-content-end mt-3'>
+                <div
+                    className={`${"media-comment-text"} ${true ? 'hovered' : ''}`}
+                    style={{
+                        maxWidth: '70%',
+                    }}
+                    onMouseEnter={() => {
+                        setHasHover(true)
+                    }}
+                    onMouseLeave={() => {
+                        setHasHover(false)
+                    }}>
+                    <Hover
+                        show={hasHover}
+                        // onEdit={() => {
+                        //     setEdit(item);
+                        //     if (event_type === 'TEM') {
+                        //         editMessage.set(filter)
+                        //         setSelectDropzone(undefined)
+                        //     } 
+                        //     else if (event_type === 'MEA') {
+                        //         editMessage.set(chat_attachments?.name)
+                        //         setSelectDropzone(chat_attachments.attachments)
+                        //     }
+                        //     editModal.show()
+                        // }}
+                        onDelete={() => {
+                            setEdit(item);
+                            deleteModal.show()
+                        }}
+                    />
+                    <div>
+                        <p className="text-sm mb-0 d-inline" style={{ whiteSpace: 'pre-line' }}>{message}</p>
+                        
+                        <div>
+                            <div className='row mt-2' style={{
+                                flexWrap: "wrap",
+                                justifyContent: 'flex-start',
+                                alignItems: 'center'
+                            }}>
+                                {/* <PhotoProvider> */}
+                                    {attachments &&
+                                        attachments.length > 0 &&
+                                        modifiedArray.map((each: any, index: number) => {
+                                    
+                                            return (
+                                                <div key={index} style={{
+                                                    alignItems: "center",
+                                                    justifyContent: 'center',
+                                                    
+                                                }} className='test-center'>
+                                                    <div className='pl-3 pb-2 ' >
+
+                                                    <FileViewer
+                                                    icons={icons.document} height={70} width={70} selectedFileUrl={each?.attachment_file}/>
+                                                    </div>
+
+                                                </div>
+                                            );
+                                        }
+                                        )
+                                    }
+                                      
+                                {/* </PhotoProvider> */}
+                              
+                            </div>
+                        </div>
+                      
+                        <div className='text-right'>
+                            <small style={{
+                                fontSize: 10
+                            }} className="d-block text-muted mt-0 ml-4">{display_created_at}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             )
+
+
+
+
     }
 
             </div >
@@ -486,6 +560,31 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                     profile_pic: getPhoto(event_by?.profile_image),
                 };
                 break;
+                case 'PDF':
+                    modifiedData = {
+                        ...modifiedData,
+                        name: capitalizeFirstLetter(event_by?.name),
+                        message: capitalizeFirstLetter(chat_attachments?.name),
+                        display_created_at: getDisplayTimeFromMoment(
+                            getMomentObjFromServer(created_at),
+                        ),
+                        attachments: chat_attachments?.attachments,
+                        profile_pic: getPhoto(event_by?.profile_image),
+                    };
+                    break;
+                    case 'TXT':
+                        modifiedData = {
+                            ...modifiedData,
+                            name: capitalizeFirstLetter(event_by?.name),
+                            message: capitalizeFirstLetter(chat_attachments?.name),
+                            display_created_at: getDisplayTimeFromMoment(
+                                getMomentObjFromServer(created_at),
+                            ),
+                            attachments: chat_attachments?.attachments,
+                            profile_pic: getPhoto(event_by?.profile_image),
+                        };
+                        break;
+               
 
             default:
                 modifiedData = modifiedData;

@@ -7,6 +7,7 @@ import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard, validat
 import { AUTH_PATH, ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
 import { OTP_RULES } from "@Utils//Validate/Rules";
+import { translate } from "@I18n";
 // import { OTP_RULES } from "@Utils//Validate/Rules";
 
 function Otp() {
@@ -23,6 +24,9 @@ function Otp() {
   const { seconds, setSeconds } = useTimer(OTP_RESEND_DEFAULT_TIME);
   const otp = useInput("");
   const isEnterPressed = useKeyPress("Enter");
+
+  // console.log('login=======',loginDetails);
+  
 
   useEffect(() => {
     if (isEnterPressed) {
@@ -131,7 +135,7 @@ function Otp() {
         </div>
         <div className="mb-4">
           <small className="d-block">
-            Have not received the Verification Code?
+           {translate('common. Have not received the Verification Code?')}
           </small>
           {seconds === 0 ? (
             <div onClick={proceedOtpResentApiHandler}>

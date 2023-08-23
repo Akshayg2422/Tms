@@ -14,6 +14,8 @@ export * from './EmployeesV1'
 export * from './ReSubmitRequest'
 export * from './CarouselImages'
 export * from './ChatGroups'
+export *from'./ProductList'
+export *from'./BrandService'
 
 
 

@@ -490,6 +490,7 @@ function MyTimeSheet() {
          
 
             const filterDate = dashboardDetails?.freezed_dates && dashboardDetails?.freezed_dates.some((el: any) => el === formattedShift[index]?.date)
+          
             return (
               <CollapseButton
                 selectedIds={formattedShift[index]?.date}

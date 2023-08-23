@@ -114,7 +114,8 @@
     "Yes":"Yes",
     "Mark as closed":"Mark as closed",
     "RegisterCompany":"RegisterCompany",
-    "Don't have an account ?Register":"Don't have an account ?Register"
+    "Don't have an account ?Register":"Don't have an account ?Register",
+    " Have not received the Verification Code?":" Have not received the Verification Code?"
   },
   "errors": {
     "invalidEmail": "Invalid email address.",

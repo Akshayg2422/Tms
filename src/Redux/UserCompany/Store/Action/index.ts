@@ -1150,3 +1150,180 @@ export const setRefreshPrivateChat = () => {
     type: ActionTypes.REFRESH_PRIVATE_CHAT,
   }
 }
+
+//COMPANY CATEGORY
+
+export const getProductService = (params: any) => {
+  return {
+    type: ActionTypes.GET_PRODUCT_SERVICE,
+    payload: params,
+  };
+};
+
+export const getProductServiceSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_PRODUCT_SERVICE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getProductServiceFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_PRODUCT_SERVICE_FAILURE,
+    payload: error,
+  };
+};
+
+export const addProductService = (params: any) => {
+  return {
+    type: ActionTypes.ADD_PRODUCT_SERVICE,
+    payload: params,
+  };
+};
+
+export const addProductServiceSuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_PRODUCT_SERVICE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addProductServiceFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_PRODUCT_SERVICE_FAILURE,
+    payload: error,
+  };
+};
+
+
+export const addProductCategory = (params: any) => {
+  return {
+    type: ActionTypes.ADD_PRODUCT_CATEGORY,
+    payload: params,
+  };
+};
+
+export const addProductCategorySuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_PRODUCT_CATEGORY_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addProductCategoryFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_PRODUCT_CATEGORY_FAILURE,
+    payload: error,
+  };
+};
+
+export const getProductCategory = (params: any) => {
+  return {
+    type: ActionTypes.GET_PRODUCT_CATEGORY,
+    payload: params,
+  };
+};
+
+export const getProductCategorySuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_PRODUCT_CATEGORY_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getProductCategoryFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_PRODUCT_CATEGORY_FAILURE,
+    payload: error,
+  };
+};
+
+
+///BRAND SERVICE
+
+
+export const getBrandService = (params: any) => {
+  return {
+    type: ActionTypes.GET_BRAND_SERVICE,
+    payload: params,
+  };
+};
+
+export const getBrandServiceSuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_BRAND_SERVICE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getBrandServiceFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_BRAND_SERVICE_FAILURE,
+    payload: error,
+  };
+};
+
+export const addBrandService = (params: any) => {
+  return {
+    type: ActionTypes.ADD_BRAND_SERVICE,
+    payload: params,
+  };
+};
+
+export const addBrandServiceSuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_BRAND_SERVICE_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addBrandServiceFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_BRAND_SERVICE_FAILURE,
+    payload: error,
+  };
+};
+
+
+export const addServiceCategory = (params: any) => {
+  return {
+    type: ActionTypes.ADD_SERVICE_CATEGORY,
+    payload: params,
+  };
+};
+
+export const addServiceCategorySuccess = (response: any) => {
+  return {
+    type: ActionTypes.ADD_SERVICE_CATEGORY_SUCCESS,
+    payload: response,
+  };
+};
+
+export const addServiceCategoryFailure = (error: any) => {
+  return {
+    type: ActionTypes.ADD_SERVICE_CATEGORY_FAILURE,
+    payload: error,
+  };
+};
+
+export const getServiceCategory = (params: any) => {
+  return {
+    type: ActionTypes.GET_SERVICE_CATEGORY,
+    payload: params,
+  };
+};
+
+export const getServiceCategorySuccess = (response: any) => {
+  return {
+    type: ActionTypes.GET_SERVICE_CATEGORY_SUCCESS,
+    payload: response,
+  };
+};
+
+export const getServiceCategoryFailure = (error: any) => {
+  return {
+    type: ActionTypes.GET_SERVICE_CATEGORY_FAILURE,
+    payload: error,
+  };
+};
+

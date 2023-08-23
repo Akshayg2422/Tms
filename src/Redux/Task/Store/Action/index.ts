@@ -458,7 +458,7 @@ export const getTimeLineBreakdownFailure = (response: any) => {
 // addAttachmentsMessage
 
 export const getSelectedReference = (params: any) => {
-    console.log(params, "ppppppppppppp")
+  
     return {
         type: ActionTypes.SELECTED_REFERENCE,
         payload: params
@@ -543,7 +543,7 @@ export const setSelectedModal = (params: any) => {
 
 
 export const fetchUsingVoice = (params: any) => {
-    console.log('Acccccct--->aarrrvoice')
+
     return {
         type: ActionTypes.FETCH_USING_VOICE,
         payload: params
@@ -551,7 +551,7 @@ export const fetchUsingVoice = (params: any) => {
 }
 
 export const fetchUsingVoiceSuccess = (response: any) => {
-    console.log('Accccccsssss--->aarrrvoice')
+
 
     return {
         type: ActionTypes.FETCH_USING_VOICE_SUCCESS,
@@ -560,7 +560,7 @@ export const fetchUsingVoiceSuccess = (response: any) => {
 }
 
 export const fetchUsingVoiceFailure = (error: any) => {
-    console.log('Accccccfffffffff--->aarrrvoice')
+
     return {
         type: ActionTypes.FETCH_USING_VOICE_FAILURE,
         payload:error

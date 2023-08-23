@@ -132,6 +132,8 @@ export async function imagePickerConvertBase64(array) {
 }
 
 
+
+
 export const getCurrentDayAndDate = (date: any) => {
   const currentDate = new Date(date);
   const options: any = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
@@ -158,6 +160,16 @@ export function getDropDownCompanyDisplayData(data: any) {
 }
 
 
+export function setDataCode(data: any) {
+  return data && data?.map((item: any) => {
+    console.log(data,"====0000>")
+    return {
+      ...item,
+      title: item
+    }
+  })
+}
+
 export function getDropDownCompanyUser(data: any) {
   return data && data?.map((item: any) => {
     return {
@@ -167,6 +179,7 @@ export function getDropDownCompanyUser(data: any) {
     }
   })
 }
+
 
 
 export const generateReferenceNo = () => {

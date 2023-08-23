@@ -12,15 +12,19 @@ type RequireHomeProps = {
 
 export const RequireHome = ({ children }: RequireHomeProps) => {
 
+    const {selectedAuthId}=useSelector((state:any)=>state.AuthReducer)
+
     const location = useLocation()
 
     const { loginDetails } = useSelector(
         (state: any) => state.AppReducer
     );
+    // && selectedAuthId
 
-    // if (loginDetails?.isLoggedIn) {
-    //     return <Navigate to={ROUTES['task-module'].tasks} state={{ path: location.pathname }} />
-    // }
+    if (loginDetails?.isLoggedIn) {
+        
+        return <Navigate to={ROUTES['auth-module'].splash} state={{ path: location.pathname }} />
+    }
 
     return (
         <ScreenWrapper>

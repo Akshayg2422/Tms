@@ -107,7 +107,8 @@
         "Yes":"ஆம்",
         "Mark as closed":"மூடப்பட்டதாகக் குறிக்கவும்",
         "RegisterCompany":"பதிவு நிறுவனம்",
-        "Don't have an account ?Register":"கணக்கு இல்லையா ?பதிவு செய்யவும்"
+        "Don't have an account ?Register":"கணக்கு இல்லையா ?பதிவு செய்யவும்",
+        " Have not received the Verification Code?":"சரிபார்ப்புக் குறியீட்டைப் பெறவில்லையா?"
         
     },
     "errors": {

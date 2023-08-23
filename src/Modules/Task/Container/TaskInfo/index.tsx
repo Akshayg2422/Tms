@@ -1,11 +1,11 @@
 import { icons } from "@Assets";
-import { Alert, Back, Button, Card, DateTimePicker, H, Image, ImageIcon, Input, Modal, ProfileCard, TextAreaInput } from "@Components";
+import { Alert, Back, Breadcrumbs, Button, Card, DateTimePicker, H, Image, ImageIcon, Input, Modal, ProfileCard, TextAreaInput } from "@Components";
 import { useInput, useLoader, useModal, useNavigation, useWindowDimensions } from '@Hooks';
 import { translate } from "@I18n";
 import { TaskEventHistory, TaskItemMenu } from "@Modules";
 import { addTaskEvent, getTaskDetails, refreshTaskEvent, selectedVcDetails, selectedTaskIds, setSelectedCodeId, setSelectedTaskCode } from '@Redux';
 import { ROUTES } from "@Routes";
-import { HDD_MMMM_YYYY_HH_MM_A, TASK_EVENT_ETA, capitalizeFirstLetter, getDates, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment } from '@Utils';
+import { HDD_MMMM_YYYY_HH_MM_A, TASK_EVENT_ETA, capitalizeFirstLetter, getDates, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, setDataCode } from '@Utils';
 import { forwardRef, useEffect, useState } from "react";
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
@@ -146,8 +146,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
     const codeNavigationHandler = (data) => {
+        console.log(data,"ddddae")
 
         const reArrangeNavigation = selectedTaskId.slice(0, selectedTaskId.indexOf(data) + 1)
+        console.log(selectedTaskId,"selectedTaskId testeddd")
+        console.log(reArrangeNavigation,"reArrangeNavigation----->")
         dispatch(
             setSelectedCodeId(selectedTaskId)
         )
@@ -253,8 +256,10 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     return (
         <div >
             <div className={'card p-4 overflow-auto overflow-hide '} style={{ height: height - 260 }}>
+                <Breadcrumbs
+                items={setDataCode(selectedTaskId)}/>
 
-                <div className=" col row mb-1">
+                {/* <div className=" col row mb-1">
                     {selectedTaskId?.map((el, index) => {
 
                         return (
@@ -278,7 +283,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                         )
                     })}
 
-                </div>
+                </div> */}
 
                 <div className="row justify-content-center">
 

@@ -16,12 +16,14 @@ const ImagePicker = ({
   onSelectImagePicker,
   defaultPicker = false,
   trashIcons = false,
+  defaultPhoto,
   initialValue = { id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }
 }: DropZoneImageProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [count, setCount] = useState(1)
   // const initialValue = { id: 0, base64: icons.addFillSquare, base111: icons.addFillSquare }
   const [photo, setPhoto] = useState<any>()
+
 
   const updatedProfile = photo && photo.filter((element: any) => element.id !== 0)
   if (onSelectImagePicker && onSelectImagePicker) {
@@ -196,6 +198,7 @@ const ImagePicker = ({
         <InputHeading heading={heading} />
       </div>
       {photo && photo.map((el, index) => {
+       
       
         return (
 

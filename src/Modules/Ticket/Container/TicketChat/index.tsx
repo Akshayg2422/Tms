@@ -17,7 +17,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 function TicketChat({ }: TicketChatProps) {
 
     const { id } = useParams();
-
     const dispatch = useDispatch()
     const { refreshTicketEvents } = useSelector((state: any) => state.TicketReducer);
     const [ticketEvents, setTicketEvents] = useState([])

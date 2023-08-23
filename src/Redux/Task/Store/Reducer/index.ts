@@ -285,8 +285,7 @@ const TaskReducer = (state = initialState, action: any) => {
       break;
 
     case ActionTypes.REFRESH_EVENTS_MESSAGE:
-      console.log("aaaaaaaaaaaa=====", action)
-
+  
       state = { ...state, eventsMessage: action.payload }
       break;
 

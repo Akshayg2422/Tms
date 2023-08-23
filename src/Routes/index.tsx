@@ -1,5 +1,5 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents, CompanyConfig } from '@Modules'
-import { Login, Otp, Landing, Splash, Register } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents,CompanyConfig, AddProduct, AddServiceCategory  } from '@Modules'
+import { Login, Otp, Landing, Splash,Register } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
 import { MyTimeSheet } from '@Modules//UserCompany/Screen/MyTimeSheet'
@@ -88,7 +88,9 @@ export const ROUTES = {
     Groups: '/groups',
     'individual-chat': '/chat',
     'add-event': '/add-event',
-    'calender-view': '/calender-view',
+    'calender-view':'/calender-view',
+    'add-product':'/add-Product',
+    'add-service':'/add-service',
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -112,33 +114,44 @@ export const AUTH_ROUTES = [
     path: ROUTES['auth-module'].otp,
     component: <Otp />
   },
+  // {
+  //   key: 4,
+  //   path: ROUTES['auth-module'].splash,
+  //   component: <Splash />
+  // },
   {
     key: 4,
-    path: ROUTES['auth-module'].splash,
-    component: <Splash />
-  },
-  {
-    key: 5,
     path: ROUTES['auth-module'].privacy,
     component: <PrivacyPolicy />
   },
   {
-    key: 6,
+    key: 5,
     path: ROUTES['auth-module'].TermsAndConditions,
     component: <TermsAndConditions />
   },
   {
-    key: 7,
+    key: 6,
     path: ROUTES['auth-module'].ReturnAndRefund,
     component: <ReturnAndRefund />
   },
   {
-    key: 8,
+    key:7 ,
     path: ROUTES['auth-module'].Register,
     component: <Register />
   },
 
 ];
+
+export const SPLASH_ROUTER =[
+  
+      {
+    key: 1,
+    path: ROUTES['auth-module'].splash,
+    component: <Splash />
+  },
+
+  
+]
 
 export const HOME_ROUTES = [
   {
@@ -392,6 +405,18 @@ export const USER_COMPANY_ROTES = [
     path: ROUTES['user-company-module']['re-submit-request'],
     component: <ReSubmitRequest />
   },
+  {
+    key: 13,
+    path: ROUTES['user-company-module']['add-product'],
+    component: <AddProduct/>
+  },
+  {
+    key: 14,
+    path: ROUTES['user-company-module']['add-service'],
+    component: <AddServiceCategory/>
+  },
+
+
 ];
 
 

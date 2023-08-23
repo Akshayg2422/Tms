@@ -15,5 +15,6 @@ export interface DropZoneImageProps {
     onSelectImagePickers?: any,
     trashIcons?: boolean,
     initialValue?:any,
+    defaultPhoto?:any
 
 }

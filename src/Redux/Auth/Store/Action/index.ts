@@ -85,6 +85,8 @@ export const validateRegisterUserFailure = (error: any) => {
   };
 };
 
+
+
 export const clearValidateRegisterUser = () => {
   return {
     type: CLEAR_VALIDATE_REGISTER_USER,

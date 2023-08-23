@@ -27,6 +27,7 @@ function TaskChat({ }: TaskChatProps) {
     useEffect(() => {
         getTaskEventsApi(INITIAL_PAGE)
     }, [refreshTaskEvents, id])
+   
 
     function getTaskEventsDisplayData(data: any) {
         if (data && data.length > 0) {

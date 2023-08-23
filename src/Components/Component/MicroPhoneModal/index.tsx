@@ -121,7 +121,7 @@ console.log(stopAudioAllData,'audioData')
     }
 
      const handleDataAvailable = (event: any) => {
-      console.log('iiiitterr')
+    
         if (event.data.size > 0) {
           const audioBlob = new Blob([event.data], { type: 'audio/wav' });
           const reader: any = new FileReader();

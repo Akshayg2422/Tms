@@ -38,10 +38,11 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
     const docsName = useInput('')
     const [photos, setPhotos] = useState<any>([])
     const [pdfFiles, setPtfFiles] = useState<any>([])
-    const [videoFiles,setVideoFiles]=useState<any>([])
+    const [videoFiles, setVideoFiles] = useState<any>([])
+    const [isFileType,setIsFileType]=useState<any>()
     const [isSelect, setIsSelect] = useState(true)
-    
-    // console.log(pdfFiles, "pdfFiles===>")
+    const [menuSelected, setMenuSelected] = useState<any>()
+  
 
 
 
@@ -49,6 +50,8 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
         if (isSuccess) {
             resetValues();
             setIsSelect(isSuccess)
+            //  handleInput()
+            
 
         }
     }, [isSuccess]);
@@ -65,6 +68,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
+        console.log(';ttttttt')
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             const param = {
@@ -74,37 +78,47 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
             if (onMessagePress && message.value.trim()) {
 
                 if (isSelect) {
-
+                    const target = e.currentTarget as HTMLTextAreaElement; // Cast to HTMLTextAreaElement
+                    target.style.height = 'auto';
+                    target.style.height = `0px`;
                     setIsSelect(false)
                     onMessagePress(param);
                 }
             }
         }
+  
     };
 
+    
+
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+     
         const target = e.currentTarget;
         target.style.height = 'auto';
         target.style.height = `${target.scrollHeight}px`;
     };
 
+
     return (
         <>
             <div className='col'>
-
-
-
                 <div className='row justify-content-center align-items-center'>
                     <div className='mt--3 '>
                         <AttachmentMenu menuData={FILE_MENU} onClick={(element) => {
-                            if (element.id === FILE_MENU[0].id) {
-                                imageModal.show()
-                            } else if (element.id === FILE_MENU[1].id) {
-                                docsModal.show()
-                            }
-                            else if (element.id === FILE_MENU[2].id) {
-                                videosModal.show()
-                            }
+                              setMenuSelected(element.id)
+                             imageModal.show()
+                           
+                            // if (element.id === FILE_MENU[0].id) {
+                            //     setMenuSelected(element.id)
+                            //     imageModal.show()
+                            // } else if (element.id === FILE_MENU[1].id) {
+                            //     docsModal.show()
+                            //     setMenuSelected(element.id)
+                            // }
+                            // else if (element.id === FILE_MENU[2].id) {
+                            //     videosModal.show()
+                            //     setMenuSelected(element.id)
+                            // }
 
                         }} />
                     </div>
@@ -123,19 +137,24 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                         >
                         </textarea>
                     </div>
-                    {message.value?.trim().length > 0 && <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
+                    {message.value?.trim().length > 0 && 
+                   
+                      
+                    <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={() => {
+                
                         const param = { message: message.value.trim(), event_type: 'TEM' };
                         if (onMessagePress && message.value.trim()) {
 
                             if (isSelect) {
                                 setIsSelect(false)
                                 onMessagePress(param);
-
+                                // handleKeyDowns()
                             }
 
                         }
 
                     }} />
+                   
                     }
                     {hasVideo && <Button
                         size={'lg'}
@@ -149,8 +168,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                 </div >
             </div >
 
-
-            <div className="d-flex justify-content-center">
+            {/* <div className="d-flex justify-content-center">
 
                 <Modal isOpen={imageModal.visible}
                     onClose={imageModal.hide}>
@@ -175,6 +193,7 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                                 }}
                             />
                         </div>
+
                     </div>
 
                     <div className='col-6 mt-3'>
@@ -206,83 +225,81 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                     </div>
 
                 </Modal >
-            </div>
+            </div> */}
+    
 
+            <div className="d-flex justify-content-center">
 
-            <Modal isOpen={docsModal.visible}
-                onClose={docsModal.hide}>
-
-                <div className='col-7 mt--5'>
-                    <Input variant={'text-area'} heading={'Note'} value={docsName.value} onChange={docsName.onChange} />
-                    <div className='row mt--3'>
-                       <FileUploader
-                            onSelect={(file: any) => {
-                                console.log("file============>>>",file )
-                                let eventPickers = file?.toString().replace(/^data:(.*,)?/, "")
-
-                                console.log(eventPickers, "eventPickers")
-                                setPtfFiles(eventPickers)
-                            }}
-
-                            
-                        /> 
-                         
-
-                    </div>
-                </div>
-
-                <div className='col-6 mt-3'>
-                    <div className=''>
-                        <Button
-                            text={translate("common.submit")}
-                            // onClick={openFileInNewTab}
-                            onClick={() => {
-                                const params = {
-                                    attachments: {
-                                        name: docsName.value,
-                                        attachments: [pdfFiles]
-                                    },
-                                    type: { event_type: 'PDF' },
-
-                                }
-
-                                if (onAttachPress) {
-                                    if (isSelect) {
-
-
-                                        setIsSelect(false)
-                                        onAttachPress(params);
-
-                                    }
-
-                                }
-                            }}
-
-                        />
-                    </div>
-                </div>
-
-            </Modal >
-
-
-          
-
-                <Modal isOpen={videosModal.visible}
-                    onClose={videosModal.hide}>
+                <Modal isOpen={imageModal.visible}
+                    onClose={imageModal.hide}>
 
                     <div className='col-7 mt--5'>
-                        <Input variant={'text-area'} heading={'Note'} value={videoName.value} onChange={videoName.onChange} />
-                        <div className='row mt--3'>
-                           <VideoUploader 
-                               onSelect={(file: any) => {
-                                console.log("file============>>>",file )
+                        <Input variant={'text-area'} heading={'Note'} value={imageName.value} onChange={imageName.onChange} />
+                    { menuSelected === 0 &&   <div className='row mt--3'>
+                            <ImagePicker
+                                heading={'Attachments'}
+                                size='xl'
+                                noOfFileImagePickers={3}
+                                onSelect={() => { }}
+                                onSelectImagePickers={(el) => {
+                                    let array: any = []
+                                    for (let i = 0; i <= el.length; i++) {
+                                        let eventPickers = el[i]?.base64?.toString().replace(/^data:(.*,)?/, "")
+                                        if (eventPickers !== undefined) {
+                                            array.push(eventPickers)
+                                        }
+                                    }
+                                    console.log(array,"array==>")
+                                    setPhotos(array)
+                                }}
+                            />
+                        </div>
+}
+                       {menuSelected && menuSelected===1 &&  <div className='row mt--3'>
+                        
+                        <FileUploader
+                            onSelect={(file: any) => {
+                              
                                 let eventPickers = file?.toString().replace(/^data:(.*,)?/, "")
 
-                                console.log(eventPickers, "eventPickers")
-                                setVideoFiles(eventPickers)
+                               console.log(eventPickers,"eventPickers===>")
+                                setPhotos([eventPickers])
                             }}
-                           />
-                        </div>
+                            fileType={(el)=>{
+                                if(el==='txt'){
+                                    setIsFileType('TXT')
+
+                                }
+                                else if(el==='zip'){
+                                    setIsFileType('zip')
+
+                                }
+                                else if(el==='pdf'){
+                                    setIsFileType('PDF')
+
+                                }
+
+                            
+                                
+
+                            }}
+                        />
+
+
+                    </div>
+}
+                  {menuSelected && menuSelected===2 &&   <div className='row mt--3'>
+                        <VideoUploader
+                            onSelect={(file: any) => {
+                              
+                                let eventPickers = file?.toString().replace(/^data:(.*,)?/, "")
+
+                              
+                                setPhotos([eventPickers])
+                            }}
+                        />
+                    </div>
+}
                     </div>
 
                     <div className='col-6 mt-3'>
@@ -290,34 +307,33 @@ function Send({ isSuccess, loading, onMessagePress, onAttachPress, hasVideo = tr
                             <Button
                                 text={translate("common.submit")}
                                 onClick={() => {
-                                    const params = {
+                                    const param = {
                                         attachments: {
-                                            name: videoName.value,
-                                            attachments: [videoFiles]
+                                            name: imageName.value,
+                                            attachments: photos
                                         },
-                                        type: { event_type: 'MP4' },
-    
+                                        
+                                        type: { event_type:menuSelected===0? 'MEA':menuSelected===1?isFileType:menuSelected===2?'MP4':'' }
+                                    };
+                                    if (onAttachPress) {
+                                        if (isSelect) {
+
+
+                                            setIsSelect(false)
+                                            onAttachPress(param);
+
+                                        }
+
                                     }
-                             
-                                           if (onAttachPress) {
-                                               if (isSelect) {
-           
-           
-                                                   setIsSelect(false)
-                                                   onAttachPress(params);
-                                                   
-           
-                                               }
-           
-                                           }
-                                       }}
+                                }}
 
                             />
                         </div>
                     </div>
 
                 </Modal >
-                                       
+            </div>
+
 
         </>
     )
