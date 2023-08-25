@@ -6,11 +6,6 @@ import { getObjectFromArrayByKey, GENDER_LIST, LANGUAGES } from '@Utils'
 import { addUpdateEmployeePhoto, getDashboard, setLanguage, userLogout } from '@Redux'
 import { ROUTES } from "@Routes"
 import { translate } from "@I18n";
-import { useEffect } from "react";
-import { icons } from "@Assets";
-import { DocxView } from "@Components//Component/UploadFile";
-import { FileViewer } from "@Components//Component/FileViewer";
-
 
 function Profile() {
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
@@ -23,10 +18,6 @@ function Profile() {
 
   const dispatch = useDispatch()
   const { goTo } = useNavigation()
-
-// jiohoiho
-
-
   const userProfileEdit = (item: any) => {
 
     const params = {
@@ -105,7 +96,6 @@ function Profile() {
         />
         </div>
 }
-
           <h3 className="ct-title undefined">{translate('common.Basic Information')}</h3>
 
           <div className="row  mt-4">

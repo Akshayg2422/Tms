@@ -62,7 +62,7 @@ function EmployeesV1({ selection = 'none', onSelected, defaultSelected }: GroupE
 
 console.log(company?.value?.id)
     const getDesignationHandler =(item: any,id:any)=>{
-        console.log(item,"iiiiiii")
+      
 
         const params = {
             branch_id: item?.id,

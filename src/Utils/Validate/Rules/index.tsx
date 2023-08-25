@@ -434,6 +434,15 @@ export const TASK_ATTACHMENT_RULES = {
   }
 }
 
+export const MESSAGE_ATTACHMENT = {
+  name: {
+    presence: { allowEmpty: false, message: "name cannot be empty." }
+  },
+  attachments: {
+    presence: { allowEmpty: false, message: "Attachment cannot be empty." }
+  }
+}
+
 export const EVENTS_ATTACHMENT_RULES = {
   name: {
     presence: { allowEmpty: false, message: "Note cannot be empty." }

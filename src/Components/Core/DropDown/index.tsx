@@ -10,7 +10,7 @@ function DropDown({ id, heading, disabled, placeHolder, selected, data, onChange
 
 
     function proceedOnChange(e: any) {
-        console.log('asjksnaskljan');
+       
 
         const selectedId = e.target.value
         if (onChange) {

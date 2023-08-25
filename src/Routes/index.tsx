@@ -1,4 +1,4 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents,CompanyConfig, AddProduct, AddServiceCategory  } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents,CompanyConfig, AddProduct, AddServiceCategory, VideoMeeting  } from '@Modules'
 import { Login, Otp, Landing, Splash,Register } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
@@ -229,7 +229,7 @@ export const HOME_ROUTES = [
         path: ROUTES['user-company-module']['virtual-conference'],
         name: translate("sideNav.Virtual Conference"),
         miniName: "VC",
-        component: <VirtualConference />,
+        component: <VideoMeeting />,
         layout: '/admin',
       },
       {

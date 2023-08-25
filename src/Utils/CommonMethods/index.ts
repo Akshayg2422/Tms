@@ -160,7 +160,7 @@ export function getDropDownCompanyDisplayData(data: any) {
 
 export function setDataCode(data: any) {
   return data && data?.map((item: any) => {
-    console.log(data,"====0000>")
+   
     return {
       ...item,
       title: item

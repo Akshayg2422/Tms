@@ -15,7 +15,7 @@ import { ROUTES } from '@Routes'
 
 function IndividualChat() {
 
-    const { dashboardDetails, oneToOneChat, employees, chatMessageCurrentPages, selectedPrivateUser, chatEmployees, chatMessages, refreshPrivateChat,refreshChatMessage } = useSelector(
+    const { dashboardDetails, oneToOneChat, employees, chatMessageCurrentPages, selectedPrivateUser, chatEmployees, chatMessages, refreshPrivateChat, refreshChatMessage } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
     const { user_details } = dashboardDetails || {}
@@ -24,29 +24,33 @@ function IndividualChat() {
     const dispatch = useDispatch()
     const [showAutoComplete, setAutoComplete] = useState<any>(false)
     const { goTo } = useNavigation()
-
     const loader = useLoader(false);
     const messageLoader = useLoader(false);
     const [success, setSuccess] = useState(false);
-    const [isSelect,setIsSelect]=useState<any>(false)
+
+
+    const SelectedUserId = selectedPrivateUser?.employee_id ? selectedPrivateUser?.employee_id : selectedPrivateUser?.id
+    const selectedUserName = selectedPrivateUser?.employee_name ? selectedPrivateUser?.employee_name : selectedPrivateUser?.name
 
 
     useEffect(() => {
         getCompanyEmployeeApi()
-    }, [])
+    }, [selectedPrivateUser])
 
     useEffect(() => {
         getChatEmployeeList()
-    }, [])
+    }, [selectedPrivateUser])
 
 
     useEffect(() => {
         if (selectedPrivateUser) {
             getChatMessage(INITIAL_PAGE)
         }
-    }, [selectedPrivateUser, refreshPrivateChat,refreshChatMessage])
+    }, [selectedPrivateUser, , refreshChatMessage])
+
 
     const getChatEmployeeList = () => {
+
 
         const params = {
             q_many: '',
@@ -59,9 +63,11 @@ function IndividualChat() {
             fetchChatEmployeeList({
                 params,
                 onSuccess: (res: any) => () => {
+
                     loader.hide();
                     const userList = res.details;
                     if (!selectedPrivateUser && userList && userList.length > 0) {
+
                         dispatch(setSelectedPrivateUser(userList[0]));
                     }
                 },
@@ -96,7 +102,7 @@ function IndividualChat() {
             onSuccess: () => () => {
                 loader.hide();
                 setSuccess(true)
-              
+
                 dispatch(setRefreshPrivateChat())
             },
             onError: () => () => {
@@ -111,12 +117,13 @@ function IndividualChat() {
 
 
     const getChatMessage = (page_number: number) => {
+
         const params = {
-            emp_id: selectedPrivateUser?.id,
+            emp_id: SelectedUserId,
             page_number
         }
 
-   
+
 
         messageLoader.show();
         dispatch(fetchChatMessage({
@@ -132,7 +139,7 @@ function IndividualChat() {
 
 
     const getUserToken = () => {
-        dispatch(selectedVcDetails(selectedPrivateUser.id))
+        dispatch(selectedVcDetails(SelectedUserId))
         const params = {
             id: selectedPrivateUser.id,
             user_name: user_details.name,
@@ -171,7 +178,7 @@ function IndividualChat() {
                                         <div className=''>
                                             <div className='row justify-content-between d-flex mx-2'>
                                                 <div className='h3'>
-                                                    <strong>{selectedPrivateUser?.name}</strong>
+                                                    <strong>{selectedUserName}</strong>
                                                 </div>
 
                                             </div>
@@ -184,7 +191,7 @@ function IndividualChat() {
                                         selectedPrivateUser &&
                                         <Chat
                                             isSuccess={success}
-                                            
+
                                             height={dynamicHeight.dynamicHeight}
                                             variant={'private'}
                                             data={chatMessages}
@@ -217,7 +224,7 @@ function IndividualChat() {
                                             onMessagePress={(message) => {
                                                 setSuccess(false);
                                                 const params = {
-                                                    receiver_by: selectedPrivateUser.id,
+                                                    receiver_by: SelectedUserId,
                                                     ...message,
                                                 };
                                                 addChatMessageApiHandler(params);
@@ -225,7 +232,7 @@ function IndividualChat() {
                                             onAttachPress={response => {
                                                 setSuccess(false);
                                                 const params = {
-                                                    receiver_by: selectedPrivateUser?.id,
+                                                    receiver_by: SelectedUserId,
                                                     chat_attachments: [response.attachments],
                                                     ...response.type
                                                 };
@@ -293,9 +300,10 @@ function IndividualChat() {
                                                     <div className={`pointer overflow-auto overflow-hide `}
                                                         onClick={() => {
                                                             dispatch(setSelectedPrivateUser(item))
+
                                                         }}
                                                     >
-                                                        <div className={`mx- ${item?.id === selectedPrivateUser?.id ? 'bg-lighter ' : ''} py-2 px-2`}>
+                                                        <div className={`mx- ${item?.id === SelectedUserId ? 'bg-lighter ' : ''} py-2 px-2`}>
                                                             <div className={`pl--2`}>
                                                                 <div className={``}>
                                                                     <div className="row align-items-center ml-2">
@@ -307,20 +315,20 @@ function IndividualChat() {
                                                                             alt="avatar 1"
                                                                         />
                                                                         <small className='ml-3 '>
-                                                                            <h5 className={`${item?.id === selectedPrivateUser?.id ? 'text-black' : 'text-muted'} mb-0 h5`}>
+                                                                            <h5 className={`${item?.id === SelectedUserId ? 'text-black' : 'text-muted'} mb-0 h5`}>
                                                                                 {convertToUpperCase(item?.name)}
                                                                             </h5>
                                                                             <div className={'row ml-0  pb-2'}>
                                                                                 <div className={`h6 mb-0 text-uppercase  `}
                                                                                     style={{
-                                                                                        color: item?.id === selectedPrivateUser?.id ? '#424242' : '#8898aa'
+                                                                                        color: item?.id === SelectedUserId ? '#424242' : '#8898aa'
                                                                                     }}
                                                                                 >{item?.department ? item?.department?.name : '-'}</div>
                                                                                 <div className={` mt--1`}><Image src={icons.verticalLine} height={12} width={7} /></div>
                                                                                 <div
                                                                                     className={`h6 mb-0 text-uppercase `}
                                                                                     style={{
-                                                                                        color: item?.id === selectedPrivateUser?.id ? '#424242' : '#8898aa'
+                                                                                        color: item?.id === SelectedUserId ? '#424242' : '#8898aa'
                                                                                     }}
                                                                                 >{item?.designation ? item?.designation?.name : '-'}</div>
                                                                             </div>

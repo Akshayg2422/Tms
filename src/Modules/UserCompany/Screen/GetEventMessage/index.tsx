@@ -1,5 +1,5 @@
 import { useWindowDimensions } from '@Hooks';
-import { getGroupMessage, addGroupMessage, refreshChatMessage, setRefreshGroupChat, getAttachmentsMessage } from '@Redux';
+import { setRefreshGroupChat, getAttachmentsMessage, addAttachmentsMessage } from '@Redux';
 import { INITIAL_PAGE } from '@Utils';
 import { useEffect, useState } from 'react';
 import 'react-photo-view/dist/react-photo-view.css';
@@ -11,19 +11,17 @@ import { useParams } from 'react-router-dom';
 function GetEventMessage() {
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { eventsMessage, refreshEventMessage, eventAttachmentsMessage ,eventAttachmentsMessageCurrentPages} = useSelector((state: any) => state.TaskReducer);
-  
-
+    const { eventsMessage, refreshEventMessage, eventAttachmentsMessage, eventAttachmentsMessageCurrentPages } = useSelector((state: any) => state.TaskReducer);
+    const { refreshGroupChat } = useSelector((state: any) => state.UserCompanyReducer);
     const { height } = useWindowDimensions()
     const [hasSuccess, setHasSuccess] = useState(false)
 
     useEffect(() => {
         getAttachmentsMessageApi(INITIAL_PAGE)
     }, [eventsMessage, id, refreshEventMessage])
-    console.log(eventsMessage,"eventsMessage====>")
+
 
     const getAttachmentsMessageApi = (page_number: number) => {
-      
 
         const params = {
             event_id: eventsMessage,
@@ -34,9 +32,7 @@ function GetEventMessage() {
             getAttachmentsMessage({
                 params,
                 onSuccess: (response: any) => () => {
-                  
 
-                    
                 },
                 onError: () => () => { },
             })
@@ -46,7 +42,7 @@ function GetEventMessage() {
 
     const addGroupMessageApiHandler = (params: any) => {
         dispatch(
-            addGroupMessage({
+            addAttachmentsMessage({
                 params,
                 onSuccess: () => () => {
                     setHasSuccess(true)
@@ -94,6 +90,6 @@ function GetEventMessage() {
     );
 }
 
-export {GetEventMessage };
+export { GetEventMessage };
 
 

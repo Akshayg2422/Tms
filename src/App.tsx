@@ -38,7 +38,7 @@ function App() {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
-      console.log(type,"type===>")
+     
 
       const path = prop.layout ? prop.layout + prop.path : prop.path;
 

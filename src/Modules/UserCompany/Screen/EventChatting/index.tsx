@@ -1,12 +1,10 @@
-import React from "react";
-import { AddEventChat, GetEventChat, GetEventMessage } from "@Modules";
+
+import { AddEventChat, GetEventMessage } from "@Modules";
 import { Back, Card } from '@Components'
 
 function EventChatting() {
   return (
      <>
-    
-
     <div className="h-100 m-3">
     <div className="">
         <Back/>

@@ -55,8 +55,6 @@ function GroupMessage({ }: GroupMessageProps) {
 
     };
 
-
-
     return (
 
         <Chat

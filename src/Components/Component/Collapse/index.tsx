@@ -80,9 +80,6 @@ dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
               }
 
               <div className='col-auto pl-5 row'>
-
-
-
                 {selectButtonReject && <div className='col-auto '>
                   <Button className={'text-white'} text={textReject} size='sm' onClick={onClickReject} />
                 </div> 
@@ -98,7 +95,7 @@ dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
                 </div>
                 }
 
-{enableButton&& <div className='col-auto'>
+{enableButton && <div className='col-auto'>
                   <Button className={'text-white'} text={textEnable} size='sm' onClick={onClickEnable} />
                 </div>
                 }
@@ -117,8 +114,6 @@ dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
 
 
           </CardHeader>
-
-
 
 
         </div>
