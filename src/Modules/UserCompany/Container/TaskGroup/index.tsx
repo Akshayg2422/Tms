@@ -439,7 +439,8 @@ function TaskGroup() {
             <h3>{translate("auth.group")}</h3>
           </div>
           <div className="col mb--4">
-            <Checkbox id={'group'} text={translate('order.Include Close')!} onCheckChange={(checked) => {
+            <Checkbox id={'group'} text={translate('order.Include Close')!}
+            onCheckChange={(checked) => {
               getTaskGroupList(taskGroupCurrentPages, checked);
             }} />
           </div>
@@ -684,7 +685,11 @@ function TaskGroup() {
          */
       }
 
-      <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide} style={{ maxHeight: '90vh', }}>
+      <Modal fade={false} isOpen={addMemberModal.visible} onClose={addMemberModal.hide}
+       style={{ maxHeight: '87vh', }}
+  
+       >
+        <div className="mt--3">
         <EmployeesV1
           selection={'multiple'}
           defaultSelected={defaultSelectedUsers}
@@ -693,7 +698,8 @@ function TaskGroup() {
             const taggedUserIds = getArrayFromArrayOfObject(users, 'id')
             setTaggedUsers(taggedUserIds)
           }} />
-        <div className="pt-3 mr-2 text-right">
+            </div>
+        <div className="pt-1 mr-2 text-right">
           <Button
             size={'sm'}
             text={translate("common.submit")}

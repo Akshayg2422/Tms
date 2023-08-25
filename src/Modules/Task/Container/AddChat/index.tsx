@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Button, Modal, Input, Dropzone, ImagePicker, showToast, FileUploader } from '@Components'
 import { icons } from '@Assets'
 import { addTaskEvent, refreshTaskEvent, } from '@Redux'
@@ -21,7 +21,7 @@ function AddChat() {
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
     const loginLoader = useLoader(false);
-
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const [isSendingMessage, setIsSendingMessage] = useState(false);
     const SEND_DELAY = 1000;
 
@@ -45,6 +45,9 @@ function AddChat() {
                         loginLoader.hide()
                         message.set('')
                         dispatch(refreshTaskEvent())
+                        if (textareaRef.current) {
+                            textareaRef.current.style.height = 'auto';
+                        }
                     },
                     onError: () => () => {
                         loginLoader.hide()
@@ -79,6 +82,7 @@ function AddChat() {
                     onSuccess: () => () => {
                         resetValues();
                         attachmentModal.hide()
+                      
                         
             loginLoader.hide()
                         dispatch(refreshTaskEvent()
@@ -112,6 +116,13 @@ function AddChat() {
         }
     };
 
+    const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+        const target = e.currentTarget;
+        target.style.height = 'auto';
+        target.style.height = `${target.scrollHeight}px`;
+
+    };
+
     return (
         <>
             <div className='col'>
@@ -119,7 +130,20 @@ function AddChat() {
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     {/* <FileUploader onSelect={attachmentModal.show}/> */}
                     <div className='col'>
-                        <textarea placeholder={translate('order.Write your comment')!} value={message.value} className="form-control form-control-sm" onKeyDown={handleKeyDown} onChange={message.onChange}></textarea>
+                        <textarea
+                         placeholder={translate('order.Write your comment')!} 
+                         ref={textareaRef}
+                         value={message.value} className="form-control form-control-sm overflow-hide" 
+                         onKeyDown={handleKeyDown}
+                          onChange={message.onChange}
+                          onInput={handleInput}
+                        
+                          style={{
+                              resize: 'vertical', minHeight: '50px', maxHeight: '100px', position: 'absolute', bottom: -20,
+                              width: '95%',
+
+                          }}
+                          ></textarea>
                     </div>
                     <Button size={'lg'} color={'white'} variant={'icon-rounded'} icon={icons.send} onClick={proceedTaskEventsApiHandler} />
                 </div >

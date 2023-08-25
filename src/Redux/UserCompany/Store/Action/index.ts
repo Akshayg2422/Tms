@@ -1110,7 +1110,7 @@ export const fetchChatEmployeeListFailure = (error: any) => {
 
 
 export const handleOneToOneChat = (response: any) => {
-  console.log(response,"=====")
+
   return {
     type: ActionTypes.HANDLE_ONE_TO_ONE_CHAT,
     payload: response,

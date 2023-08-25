@@ -1,4 +1,4 @@
- import React, { useState } from 'react'
+ import React, { useRef, useState } from 'react'
 import { Button, Modal, Input, Dropzone, ImagePicker, showToast } from '@Components'
 import { icons } from '@Assets'
 import { addAttachmentsMessage, refreshEventMessage } from '@Redux'
@@ -21,6 +21,7 @@ function AddEventChat() {
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState<any>([])
     const [isSelect,setIsSelect]=useState(true)
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
    
     const proceedAddEventsApiHandler = () => {
@@ -41,6 +42,9 @@ function AddEventChat() {
                         message.set('')
                         dispatch(refreshEventMessage())
                         setIsSelect(true)
+                        if (textareaRef.current) {
+                            textareaRef.current.style.height = 'auto';
+                        }
                     },
                     onError: () => () => { },
                 })
@@ -96,6 +100,7 @@ function AddEventChat() {
             }
         }
     };
+    
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
         const target = e.currentTarget;
         target.style.height = 'auto'; // Reset the height to fit the content
@@ -109,8 +114,9 @@ function AddEventChat() {
                     <Button color={'white'} size={'lg'} variant={'icon-rounded'} icon={icons.upload} onClick={attachmentModal.show} />
                     <div className='col'>
                         <textarea placeholder={translate('order.Write your comment')!} 
-                        value={message.value} className="form-control form-control-sm" 
+                        value={message.value} className="form-control form-control-sm overflow-hide" 
                         onKeyDown={handleKeyDown}
+                        ref={textareaRef}
                          onChange={message.onChange}
                          onInput={handleInput}
                          style={{ resize:'vertical', minHeight: '50px',  maxHeight:'100px',position:'absolute', bottom:-20,

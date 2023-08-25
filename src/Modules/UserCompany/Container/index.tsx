@@ -16,6 +16,7 @@ export * from './CarouselImages'
 export * from './ChatGroups'
 export *from'./ProductList'
 export *from'./BrandService'
+export *from'./VideoMeeting'
 
 
 

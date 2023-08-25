@@ -1,3 +1,4 @@
 export interface BackProps {
-    icon?: any,   
+    icon?: any, 
+    title?:any,  
 }

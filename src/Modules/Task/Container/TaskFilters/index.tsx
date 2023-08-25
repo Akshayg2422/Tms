@@ -20,8 +20,8 @@ function TaskFilters({ }: TaskFilterProps) {
 
     const { taskParams } = useSelector((state: any) => state.TaskReducer);
     const { associatedCompaniesL, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    const ASSIGN_TO_DEFAULT_PARAMS = { assigned_company: 'ALL', assigned_designation_id: 'ALL', assigned_department_id: 'ALL', assigned_emp_id: '',association_assigned_company:'ALL' }
-    const CREATED_BY_TO_DEFAULT_PARAMS = { created_company: 'ALL', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '' ,association_created_company:'ALL'}
+    const ASSIGN_TO_DEFAULT_PARAMS = { assigned_company: 'ALL', assigned_designation_id: 'ALL', assigned_department_id: 'ALL', assigned_emp_id: '', association_assigned_company: 'ALL' }
+    const CREATED_BY_TO_DEFAULT_PARAMS = { created_company: 'ALL', created_designation_id: 'ALL', created_department_id: 'ALL', created_emp_id: '', association_created_company: 'ALL' }
     const DEFAULT_COMPANY = { id: dashboardDetails?.permission_details?.branch_id, display_name: '𝗦𝗘𝗟𝗙', name: 'self' }
     const DEFAULT_DATA = { id: 'ALL', display_name: 'All', name: 'All' }
     const DEFAULT_EMPLOYEE = { id: '', display_name: 'All', name: 'All' }
@@ -49,7 +49,7 @@ function TaskFilters({ }: TaskFilterProps) {
     const assignToDepartment = useDropDown({})
     const assignToDesignation = useDropDown({})
     const assignToEmployee = useDropDown({})
-    const associationAssignedCompany =useDropDown({})
+    const associationAssignedCompany = useDropDown({})
 
 
     /**
@@ -61,7 +61,7 @@ function TaskFilters({ }: TaskFilterProps) {
     const [createByEmployees, setCreatedByEmployees] = useState([])
 
     const createByCompany = useDropDown({})
-    const associationCreatedCompany =useDropDown({})
+    const associationCreatedCompany = useDropDown({})
     const createdByDepartment = useDropDown({})
     const createdByDesignation = useDropDown({})
     const createdByEmployee = useDropDown({})
@@ -133,7 +133,7 @@ function TaskFilters({ }: TaskFilterProps) {
         createByDesignations,
         createByEmployees,
         assignedToEmployees,
-       
+
     ])
 
 
@@ -210,8 +210,8 @@ function TaskFilters({ }: TaskFilterProps) {
     }
 
     function updateField() {
-        const { assigned_tasks_by, created_tasks_by, q_many, task_status, priority, include_subtask, assigned_company, created_company, assigned_department_id, assigned_designation_id, created_department_id, created_designation_id, assigned_emp_id, created_emp_id ,association_assigned_company
-        ,association_created_company} = taskParams;
+        const { assigned_tasks_by, created_tasks_by, q_many, task_status, priority, include_subtask, assigned_company, created_company, assigned_department_id, assigned_designation_id, created_department_id, created_designation_id, assigned_emp_id, created_emp_id, association_assigned_company
+            , association_created_company } = taskParams;
 
 
         assignTo.set(getObjectFromArrayByKey(TASK_FILTER_LIST, 'id', assigned_tasks_by));
@@ -239,7 +239,7 @@ function TaskFilters({ }: TaskFilterProps) {
 
 
             if (assignedToEmployees && assignedToEmployees.length > 0) {
-              
+
 
                 console.log(getObjectFromArrayByKey(assignedToEmployees, 'id', assigned_emp_id));
 
@@ -250,16 +250,16 @@ function TaskFilters({ }: TaskFilterProps) {
 
         }
 
-        
+
         if (associatedCompaniesL && associatedCompaniesL.length > 0 && assigned_tasks_by === 'assigned_by_company') {
 
             associationAssignedCompany.onChange(getObjectFromArrayByKey([DEFAULT_COMPANY, ...associatedCompaniesL], 'id', association_assigned_company === 'ALL' ? dashboardDetails?.permission_details?.branch_id : association_assigned_company))
-          
+
         }
 
         if (associatedCompaniesL && associatedCompaniesL.length > 0 && created_tasks_by === 'created_by_company') {
             associationCreatedCompany.onChange(getObjectFromArrayByKey([DEFAULT_COMPANY, ...associatedCompaniesL], 'id', association_created_company === 'ALL' ? dashboardDetails?.permission_details?.branch_id : association_created_company))
-            
+
         }
 
 
@@ -283,8 +283,8 @@ function TaskFilters({ }: TaskFilterProps) {
         }
     }
     function proceedParams(object: any) {
-        console.log(object,"oooppp")
-        console.log(taskParams,"taskParams")
+
+        console.log(taskParams, "taskParams")
         const updatedParams = { ...taskParams, ...object }
         dispatch(setTaskParams(updatedParams))
     }
@@ -373,53 +373,54 @@ function TaskFilters({ }: TaskFilterProps) {
                     </div>
 
                     <div className='col-lg-3 col-md-3 col-sm-12  mt-4 pt-1'>
-                        <Checkbox text={translate('common.includeSubtask')!} defaultChecked={includeSubTask} onCheckChange={(checked) => {
-                            proceedParams({ include_subtask: checked })
-                            setIncludeSubTask(checked)
-                        }} />
+                        <Checkbox text={translate('common.includeSubtask')!}
+                            defaultChecked={includeSubTask} onCheckChange={(checked) => {
+                                proceedParams({ include_subtask: checked })
+                                setIncludeSubTask(checked)
+                            }} />
                     </div>
 
                     {
-                        associatedCompaniesL && associatedCompaniesL.length > 0 &&taskParams?.assigned_tasks_by === 'assigned_by_company' && 
+                        associatedCompaniesL && associatedCompaniesL.length > 0 && taskParams?.assigned_tasks_by === 'assigned_by_company' &&
                         <div className={'col-lg-3 col-md-3 col-sm-12'}>
-                            
-                                <DropDown
-                                    className="form-control-sm"
-                                    heading={'Assigned Company'}
-                                    data={getDropDownCompanyDisplayData([DEFAULT_COMPANY, ...associatedCompaniesL])}
-                                    selected={associationAssignedCompany.value}
-                                    onChange={(item) => {
-                                        associationAssignedCompany.onChange(item)
-                                        proceedParams({ association_assigned_company: item.id })
-                                    }}
-                                />
-                            
+
+                            <DropDown
+                                className="form-control-sm"
+                                heading={'Assigned Company'}
+                                data={getDropDownCompanyDisplayData([DEFAULT_COMPANY, ...associatedCompaniesL])}
+                                selected={associationAssignedCompany.value}
+                                onChange={(item) => {
+                                    associationAssignedCompany.onChange(item)
+                                    proceedParams({ association_assigned_company: item.id })
+                                }}
+                            />
+
                         </div>
                     }
 
-                    
-{  
+
+                    {
                         associatedCompaniesL && associatedCompaniesL.length > 0 && taskParams?.created_tasks_by === 'created_by_company' &&
-                    
-                            <div className="col-lg-3 col-md-3 col-sm-12">
-                                <DropDown
-                                    className="form-control-sm"
-                                    heading={'Created Company'}
-                                    data={getDropDownCompanyDisplayData([DEFAULT_COMPANY, ...associatedCompaniesL])}
-                                    selected={associationCreatedCompany.value}
-                                    onChange={(item) => {
-                                        associationCreatedCompany.onChange(item)
-                                        proceedParams({association_created_company: item.id })
-                                    }}
-                                />
-                            </div>
-                      
+
+                        <div className="col-lg-3 col-md-3 col-sm-12">
+                            <DropDown
+                                className="form-control-sm"
+                                heading={'Created Company'}
+                                data={getDropDownCompanyDisplayData([DEFAULT_COMPANY, ...associatedCompaniesL])}
+                                selected={associationCreatedCompany.value}
+                                onChange={(item) => {
+                                    associationCreatedCompany.onChange(item)
+                                    proceedParams({ association_created_company: item.id })
+                                }}
+                            />
+                        </div>
+
                     }
 
                     <div>
 
-                        
-      
+
+
 
                     </div>
 
@@ -427,7 +428,7 @@ function TaskFilters({ }: TaskFilterProps) {
 
             </div>
 
-       
+
             {/* {
                         associatedCompaniesL && associatedCompaniesL.length > 0 &&taskParams?.assigned_tasks_by === 'assigned_by_company' && 
                         <>
@@ -446,7 +447,7 @@ function TaskFilters({ }: TaskFilterProps) {
                         </>
                     } */}
 
-        
+
             {taskParams?.assigned_tasks_by === 'advance' && <div>
 
                 <div className='row'>
@@ -478,7 +479,7 @@ function TaskFilters({ }: TaskFilterProps) {
                             data={getDropDownDisplayData(assignedToDepartments)}
                             selected={assignToDepartment.value}
                             onChange={(item: any) => {
-                              
+
                                 assignToDepartment.onChange(item);
                                 proceedParams({ assigned_department_id: item.id, assigned_designation_id: "ALL", assigned_emp_id: '' })
                             }}
@@ -547,7 +548,7 @@ function TaskFilters({ }: TaskFilterProps) {
                             </div>
                         </>
                     }
-                    
+
                     {createByDepartments && createByDepartments.length > 0 && <div className="col-lg-3 col-md-3 col-sm-12">
                         <DropDown
                             className="form-control-sm"

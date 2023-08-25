@@ -13,8 +13,7 @@ import {
     InputHeading,
     TextAreaInput,
     Button,
-    DatePickers,
-    VideoPlayer,
+
 
 } from "@Components";
 import { translate } from "@I18n";
@@ -49,7 +48,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
 import { icons } from "@Assets";
 import moment from "moment";
-import { FileViewer } from "@Components//Component/FileViewer";
+import { ROUTES } from "@Routes";
 
 
 // import { CalenderView } from "@Modules";
@@ -61,7 +60,7 @@ function AddTask() {
 
 
     const dispatch = useDispatch();
-    const { goBack } = useNavigation();
+    const { goBack,goTo } = useNavigation();
     const { dashboardDetails, departments, designations, associatedCompaniesL, employees } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
@@ -72,9 +71,7 @@ function AddTask() {
         (state: any) => state.TaskReducer
     );
     const currentDate= new Date()
-    console.log(currentDate,"currentDate====>")
 
-   
     const title = useInput("");
     const description = useInput("");
 
@@ -129,7 +126,7 @@ function AddTask() {
 
 
     }, [company.value, taskType])
-
+console.log(photo,"pppppp=>")
 
 
     const getBranchId = () =>
@@ -473,6 +470,9 @@ function AddTask() {
                  maxDate={}
                 />
                */}
+               {/* <Button text={'jbjnkm'} onClick={()=>{
+                   history.push(goTo(ROUTES["task-module"]["add-sub-task"]));
+               }}/> */}
          
             </div >
             <div className="col">

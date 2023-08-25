@@ -27,6 +27,7 @@ export const icons = {
   calenderLine: require('./CalenderLine/icon.png'),
   calenderTick: require('./CalenderTick/icon.png'),
   calenderTime: require('./CalenderTime/icon.png'),
+  timeTable: require('./TimeTable/icons.png'),
   productList: require('./ProductList/icon.png'),
  service: require('./Service/icon.png'),
   microPhone: require('./Micke/icon.png'),

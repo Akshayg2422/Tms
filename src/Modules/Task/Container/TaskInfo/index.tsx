@@ -256,8 +256,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     return (
         <div >
             <div className={'card p-4 overflow-auto overflow-hide '} style={{ height: height - 260 }}>
-                <Breadcrumbs
-                items={setDataCode(selectedTaskId)}/>
+              
 
                 {/* <div className=" col row mb-1">
                     {selectedTaskId?.map((el, index) => {

@@ -7,7 +7,7 @@ import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
-import { handleOneToOneChat, handleOneToOneVcNoti, refreshChatMessage, refreshEventsMessage, refreshGroupEvents, refreshTaskEvent, vcNotificationDetails } from '@Redux'
+import { handleOneToOneChat, handleOneToOneVcNoti, refreshChatMessage, refreshEventsMessage, refreshGroupEvents, refreshTaskEvent, setSelectedPrivateUser, vcNotificationDetails } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { Groups } from "../UserCompany";
 
@@ -29,12 +29,8 @@ const PushNotification = () => {
     const [notification, setNotification] = useState<any>([]);
     const dispatch = useDispatch()
 
-
-    
     
     const notify = () => {
-
-
         notification.forEach((message: any) => {
             toast(<ToastDisplay data={message} />, {
                 position: 'top-right', duration: 3000,
@@ -67,8 +63,6 @@ const PushNotification = () => {
         );
     };
 
-
-
     useEffect(() => {
         if (notification && notification.length > 0) {
 
@@ -85,9 +79,9 @@ const PushNotification = () => {
 
         const route_type = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_type
 
-       const route_task_code = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_params.task_code;
-
-      
+       const route_task_code = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_params?.task_code;
+        const route_employee_chat =  JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')).route_params;
+    
         console.log(route_type,"route_task_code---->")
         console.log('route_type======>1111111', JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
 
@@ -95,14 +89,13 @@ const PushNotification = () => {
         console.log('route_type======>1111111', JSON.parse(payload?.data?.extra_data.replace(/'/g, '"')))
 
         if (route_type === NOTIFICATION_GROUP_MESSAGE) {
-           
-         
+        
             goTo(ROUTES['user-company-module'].Groups);
         }
         else if (route_type === NOTIFICATION_CHAT_MESSAGE) {
           
             dispatch(refreshChatMessage())
-            
+            dispatch(setSelectedPrivateUser(route_employee_chat))
            
             goTo(ROUTES["user-company-module"]["individual-chat"])
         }
@@ -139,8 +132,7 @@ const PushNotification = () => {
                 dispatch(handleOneToOneChat(true))
                 dispatch(handleOneToOneVcNoti(extra_data?.route_params?.videocall_id))
                 dispatch(vcNotificationDetails(extra_data))
-              
-             
+            
                 goTo(ROUTES['user-company-module']['individual-chat'], false)
              
              
@@ -163,7 +155,7 @@ const PushNotification = () => {
 
     onMessageListener()
         .then((payload: any) => {
-            console.log('payload=======>', payload);
+          
             setNotification(payload)
             const title = payload?.data?.title;
             const options = {
