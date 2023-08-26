@@ -43,7 +43,7 @@ function TaskItemMenu() {
     const loginLoader = useLoader(false);
 
     const dispatch = useDispatch()
-    const { selectedTaskId, selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
+    const { selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
 
    
     const status = useDropDown({});

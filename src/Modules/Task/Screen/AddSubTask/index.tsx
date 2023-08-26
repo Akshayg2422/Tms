@@ -19,7 +19,7 @@ import {
     getDepartments,
     getDesignations,
     getAssociatedCompaniesL,
-    setSelectedTaskCode
+   
 
 } from "@Redux";
 import {
@@ -52,7 +52,7 @@ function AddSubTask() {
     const { dashboardDetails, associatedCompaniesL, employees, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-    const { selectedTask ,selectedTaskCode} = useSelector(
+    const { selectedTask } = useSelector(
         (state: any) => state.TaskReducer
     );
     const loginLoader = useLoader(false);
@@ -139,7 +139,7 @@ function AddSubTask() {
         }))
     }
 
-    console.log(selectedTaskCode,"selectedTaskCode//////----")
+ 
 
     function getDesignationApiHandler() {
 
@@ -185,9 +185,7 @@ function AddSubTask() {
                     params,
                     onSuccess: (response: any) => () => {
                         if (response.success) {
-                            // dispatch(
-                            //     setSelectedTaskCode(false)
-                            //   )
+                         
                             goBack();
                          
                             loginLoader.hide()

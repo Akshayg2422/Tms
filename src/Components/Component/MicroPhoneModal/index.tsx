@@ -4,7 +4,7 @@ import { useLoader, useModal,useNavigation } from '@Hooks';
 import  { useEffect, useRef, useState } from 'react'
 import { MicroPhoneProps} from './interfaces'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsingVoice, getSelectedReference, selectedTaskIds, setSelectedCodeId, setSelectedModal, setSelectedTabPosition, setSelectedTask} from '@Redux';
+import { fetchUsingVoice, getSelectedReference, setSelectedModal, setSelectedTabPosition, setSelectedTask} from '@Redux';
 import { ROUTES } from '@Routes';
 
 
@@ -98,10 +98,7 @@ console.log(stopAudioAllData,'audioData')
                 setSelectedModal(false)
             )
               dispatch(setSelectedTask(code));
-              dispatch(selectedTaskIds([code]))
-              dispatch(
-                setSelectedCodeId([])
-            )
+            
               dispatch(getSelectedReference({ code:code, refer: true }))
               dispatch(setSelectedTabPosition({ id: '1' }))
               goTo(ROUTES["task-module"]["tasks-details"] +'/' + code + '/' + 'task');

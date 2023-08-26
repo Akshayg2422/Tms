@@ -3,8 +3,6 @@ import React from "react";
 import { useLocation, NavLink as NavLinkRRD, Link } from "react-router-dom";
 import classnames from "classnames";
 import PerfectScrollbar from "react-perfect-scrollbar";
-
-
 import {
   Collapse,
   NavbarBrand,
@@ -49,7 +47,6 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
   const getCollapseStates = (routes) => {
     let initialState = {};
     routes.map((prop, key) => {
-      
       if (prop.collapse) {
         initialState = {
           [prop.state]: getCollapseInitialState(prop.views),
@@ -227,6 +224,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
         "sidenav navbar-vertical navbar-expand-xs navbar-light bg-white " +
         (rtlActive ? "" : "fixed-left")
       }
+      // hiding the nav values for icon list time
       onMouseEnter={onMouseEnterSidenav}
       onMouseLeave={onMouseLeaveSidenav}
     >

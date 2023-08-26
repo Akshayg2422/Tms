@@ -8,15 +8,12 @@ import{Image}from '@Components'
 function FileViewer({ onChange, onSelect,icons,height,width ,selectedFileUrl}: FileUpViwerProps) {
   const [fileUrl, setFileUrl] = useState<string | null>(selectedFileUrl);
 
-
-
   const openFileInNewTab = () => {
     if (fileUrl) {
 
        window.open(getPhoto(fileUrl), '_blank');
     }
   };
-
   return (
     <div >
       <div  onClick={()=>openFileInNewTab()} >

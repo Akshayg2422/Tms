@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTasks, getSelectedReference, selectedTaskIds, setSelectedTask, setSelectedTaskCode, setSelectedTaskstatus } from "@Redux";
+import { getReferenceTasks, getSelectedReference, setSelectedTask, setSelectedTaskstatus } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 import { NoDataFound, Card, CommonTable, Button, Spinner, HomeContainer } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
@@ -12,7 +12,7 @@ import { translate } from "@I18n";
 function ReferenceTasks() {
   const dispatch = useDispatch();
   const { id,item } = useParams();
-  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages,selectedTaskId ,selectedTaskStatus} = useSelector(
+  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages,selectedTaskStatus} = useSelector(
     (state: any) => state.TaskReducer
   );
 
@@ -109,16 +109,10 @@ function ReferenceTasks() {
           }
           }
           tableOnClick={(index,id,item) => {
-            console.log(item.code)
-            dispatch(getSelectedReference(false))
-            dispatch(getSelectedReference({code: item?.code,refer:false}))
+  
             dispatch(setSelectedTask(item?.code))
-           dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
            dispatch(setSelectedTaskstatus([item,...selectedTaskStatus]))
-           console.log('rreeffee')
-          //  dispatch(
-          //   setSelectedTaskCode(true)
-          // )
+     
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'reference-task')
           }}
 
