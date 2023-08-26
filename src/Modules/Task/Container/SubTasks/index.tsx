@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { SubTasksProps } from './interfaces'
 import { Card, H, Button, CommonTable, Priority, NoDataFound, HomeContainer } from '@Components'
-import { getSubTasks, setSelectedTask, setSelectedTabPosition, selectedTaskIds, getSelectedReference, setSelectedTaskstatus, setSelectedTaskCode } from '@Redux'
+import { getSubTasks, setSelectedTask, setSelectedTabPosition, getSelectedReference, setSelectedTaskstatus,} from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useWindowDimensions } from '@Hooks'
 import { ROUTES } from '@Routes'
@@ -12,7 +12,7 @@ import { translate } from '@I18n'
 function SubTasks({ cardHeight }: SubTasksProps) {
     const { id } = useParams()
     const { goTo } = useNavigation();
-    const { subTasks,selectedTaskId,selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
+    const { subTasks,selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
     
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
@@ -68,10 +68,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                         size={"sm"}
                         text={translate("common.addSubTask")}
                         onClick={() => {
-                            // dispatch(
-                            //     setSelectedTaskCode(false)
-
-                            //   )
+                         
                             goTo(ROUTES["task-module"]["add-sub-task"])
                          
                               
@@ -88,15 +85,10 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                             tableOnClick={(e, index, item) => {
                                 dispatch(setSelectedTask(item?.code))
                                 dispatch(setSelectedTaskstatus([item,...selectedTaskStatus]))
-                                dispatch(selectedTaskIds([...selectedTaskId,item?.code]))
-                                dispatch(getSelectedReference({ code: item?.code, refer: true }))
-                                dispatch(setSelectedTabPosition({ id: '1' }))
-                               
-                                //    dispatch(
-                                //     setSelectedTaskCode(true)
 
-                                //   )
-                                  console.log('subtask')
+                                dispatch(setSelectedTabPosition({ id: '1' }))
+                            
+                            
                                 goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'sub-task')
 
                             }}

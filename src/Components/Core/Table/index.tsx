@@ -11,6 +11,7 @@ interface TableProps {
 function Table({ tableDataSet, displayDataSet, tableOnClick }: TableProps) {
   const renderTableHeader = () => {
     if (displayDataSet) {
+      console.log(displayDataSet,"displayDataSet===>")
       const header = Object.keys(displayDataSet[0])
       return header?.map(key => {
         return <th scope="col"  key={key}>{key}</th>

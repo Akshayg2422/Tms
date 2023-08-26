@@ -3,7 +3,7 @@ import { Alert, Back, Breadcrumbs, Button, Card, DateTimePicker, H, Image, Image
 import { useInput, useLoader, useModal, useNavigation, useWindowDimensions } from '@Hooks';
 import { translate } from "@I18n";
 import { TaskEventHistory, TaskItemMenu } from "@Modules";
-import { addTaskEvent, getTaskDetails, refreshTaskEvent, selectedVcDetails, selectedTaskIds, setSelectedCodeId, setSelectedTaskCode } from '@Redux';
+import { addTaskEvent, getTaskDetails, refreshTaskEvent, selectedVcDetails} from '@Redux';
 import { ROUTES } from "@Routes";
 import { HDD_MMMM_YYYY_HH_MM_A, TASK_EVENT_ETA, capitalizeFirstLetter, getDates, getDisplayDateFromMoment, getDisplayDateFromMomentByType, getDisplayTimeDateMonthYearTime, getMomentObjFromServer, getPhoto, getServerTimeFromMoment, setDataCode } from '@Utils';
 import { forwardRef, useEffect, useState } from "react";
@@ -23,11 +23,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const { height } = useWindowDimensions()
 
     const { id, item } = useParams()
-    const { refreshTaskEvents, selectedTaskId, selectedCodeId, selectedTaskStatus, selectedTaskCode } = useSelector((state: any) => state.TaskReducer);
+    const { refreshTaskEvents, selectedTaskStatus,  } = useSelector((state: any) => state.TaskReducer);
 
 
     const dispatch = useDispatch()
-    const { taskDetails, selectedReferenceDetails, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
+    const { taskDetails, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
 
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time } = taskDetails || {};
@@ -56,23 +56,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
 
 
 
-    useEffect(() => {
-
-        if (subTasks !== undefined) {
-            let isSelect
-
-            isSelect = subTasks?.some((filter: any) => filter?.code === selectedReferenceDetails?.code)
-
-        }
-        // /
-        if (tasks.length > 0) {
-            let isSelectedTask
-            isSelectedTask = tasks?.some((filter: any) => (filter?.code === code || taskDetails?.code))
-            // setSelectedTaskId(isSelectedTask)
-
-        }
-
-    }, [subTasks])
 
 
     useEffect(() => {
@@ -85,83 +68,18 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
         editDescription.set('')
     }
 
-    const codeHandler = () => {
-
-        let array: any
-        console.log(selectedTaskId,"selectedTaskId===>",selectedCodeId)
-        if (selectedTaskId?.length >= selectedCodeId?.length) {
-
-            array = selectedTaskId?.filter((el: any) => el !== id)
-            console.log(array,"aaaaaaattt")
-
-            dispatch(
-                setSelectedCodeId([])
-            )
-
-        }
-        else {
-
-            array = selectedCodeId
+   
 
 
-        }
-        console.log(array,"outterr")
-
-        return array
-
-    }
+   
 
 
-
-    console.log(selectedTaskCode,"selectedTaskCode--------------++")
-
-
-    // function handleBackButtonClick(event) {
-    //     // Your logic here
-
-    //     if (selectedTaskId.length > 0 && selectedTaskCode) {
-    //         dispatch(selectedTaskIds(codeHandler()));
-           
-
-    //     }
-    //     if (selectedTaskCode === false) {
-
-    //         setTimeout(filter, 4000)
-
-    //     }
-
-    // }
-    // const filter = () => {
-    //     console.log('filter')
-    //     // dispatch(
-    //     //     setSelectedTaskCode(true)
-    //     // )
-    // }
-
-
-    // window.onpopstate = handleBackButtonClick;
+    
 
 
 
 
-
-    const codeNavigationHandler = (data) => {
-        console.log(data,"ddddae")
-
-        const reArrangeNavigation = selectedTaskId.slice(0, selectedTaskId.indexOf(data) + 1)
-        console.log(selectedTaskId,"selectedTaskId testeddd")
-        console.log(reArrangeNavigation,"reArrangeNavigation----->")
-        dispatch(
-            setSelectedCodeId(selectedTaskId)
-        )
-
-        dispatch(
-            selectedTaskIds(reArrangeNavigation)
-        )
-        goTo(ROUTES["task-module"]["tasks-details"] + '/' + data + '/' + 'sub-task')
-
-    }
-
+  
 
 
     const editEtaSubmitApiHandler = () => {
@@ -258,51 +176,18 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             <div className={'card p-4 overflow-auto overflow-hide '} style={{ height: height - 260 }}>
               
 
-                {/* <div className=" col row mb-1">
-                    {selectedTaskId?.map((el, index) => {
-
-                        return (
-
-                            <div>
-                                {index !== selectedTaskId.length - 1 ?
-                                    <div onClick={() => {
-                                        codeNavigationHandler(el)
-
-                                    }}>
-                                        <small className="mt-0 text-primary">{`#${el}`}</small>
-                                        <small className={'mx-1'}>-</small>
-                                    </div>
-                                    : <small className="mt-0 ">{`#${el}`}</small>
-
-                                }
-                            </div>
-
-
-
-                        )
-                    })}
-
-                </div> */}
+             
 
                 <div className="row justify-content-center">
 
-                    <div className="col-auto" onClick={() => {
-                        dispatch(
-                            selectedTaskIds(codeHandler())
-                        )
-                        // dispatch(
-                        //     setSelectedTaskCode(true)
-                        // )
-                        console.log('back')
-
-                    }}>
+                    <div className="col-auto" >
                         <Back
                         />
                     </div>
                     <div className="col">
                         {title && <H tag={"h4"} className="mb-0 bg-white" text={capitalizeFirstLetter(title)} />}
 
-                        {/* {code && <small className="mt-0">{`#${code}`}</small>} */}
+                    
 
                     </div>
 
