@@ -17,22 +17,18 @@ function Groups() {
         }
     })
 
-
     return (
-        <div className='m-3 v-100vh  '>
+        <div className='m-3 v-100vh '>
             <div className='mx-3 mt-3 mb-0' >
                 <ChatGroups />
             </div>
-
             {selectedGroupChat ? <div className='row mt--3'>
                 <div className='col-8' ref={ref}>
                     <Card>
                         <GroupMessage />
                       <div className='mt-4'>
                       <AddGroupChat />
-
                       </div>
-                   
                     </Card>
 
                 </div>

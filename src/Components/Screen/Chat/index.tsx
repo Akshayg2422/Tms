@@ -380,8 +380,6 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                                                 </PhotoView>
                                             </PhotoProvider>
                                         )}
-
-
                                         <div className='row mt-2' style={{
                                             flexWrap: "wrap",
                                             justifyContent: 'flex-start',
@@ -457,7 +455,7 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                                                 justifyContent: 'flex-start',
                                                 alignItems: 'center'
                                             }}>
-                                                {/* <PhotoProvider> */}
+                                              
                                                 {attachments &&
                                                     attachments.length > 0 &&
                                                     modifiedArray.map((each: any, index: number) => {
@@ -478,9 +476,6 @@ function Chat({ loading, data, variant = 'private', hasMore, onNext, height = 10
                                                     }
                                                     )
                                                 }
-
-                                                {/* </PhotoProvider> */}
-
                                             </div>
                                         </div>
 

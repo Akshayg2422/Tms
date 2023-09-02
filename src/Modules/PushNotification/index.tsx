@@ -7,7 +7,7 @@ import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
-import { handleOneToOneChat, handleOneToOneVcNoti, refreshChatMessage, refreshEventsMessage, refreshGroupEvents, refreshTaskEvent, setSelectedPrivateUser, vcNotificationDetails } from '@Redux'
+import { handleOneToOneChat, handleOneToOneVcNoti, refreshChatMessage, refreshEventMessage, refreshEventsMessage, refreshGroupEvents, refreshTaskEvent, setSelectedPrivateUser, vcNotificationDetails } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { Groups } from "../UserCompany";
 
@@ -134,9 +134,7 @@ const PushNotification = () => {
                 dispatch(vcNotificationDetails(extra_data))
             
                 goTo(ROUTES['user-company-module']['individual-chat'], false)
-             
-             
-              
+            
             }
             else {
                 dispatch(vcNotificationDetails(route_type))
@@ -147,8 +145,6 @@ const PushNotification = () => {
         }
         else {
             goTo(ROUTES['user-company-module'].Groups)
-          
-          
         }
 
     }
@@ -187,12 +183,11 @@ const PushNotification = () => {
             } else if (route_type === NOTIFICATION_EVENT_MESSAGE) {
                 try {
                  
-                    dispatch(refreshEventsMessage(false))
+                    dispatch(refreshEventMessage())
                 
 
                 } catch (e) {
                   
-
                 }
             }
             // else if (route_type === NOTIFICATION_EVENT_MESSAGE) {

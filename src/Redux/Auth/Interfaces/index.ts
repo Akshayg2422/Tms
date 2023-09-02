@@ -31,6 +31,7 @@ export interface AuthSliceStateProp {
   selectedGoogleBusinessPlaceDetails?: BusinessPlaceDetailsDetailsItem;
   notification?: any;
   reSendOtp?:OtpRegister;
-  selectedAuthId:any
+  selectedAuthId:any;
+  selectedUserId:boolean,
 
 }

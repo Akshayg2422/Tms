@@ -14,7 +14,8 @@ import { EmployeeGroupsProps } from './interfaces';
 
 function GroupEmployees({ }: EmployeeGroupsProps) {
     const dispatch = useDispatch()
-    const { groupEmployees, selectedGroupChat, } = useSelector((state: any) => state.UserCompanyReducer);
+    const { groupEmployees, selectedGroupChat,dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+   
 
     const { goTo } = useNavigation()
 
@@ -28,7 +29,8 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
 
     const loader = useLoader(false)
     const addUserLoader = useLoader(false)
-
+    const  userId=dashboardDetails?.user_details?.id||''
+console.log(dashboardDetails,"dashboardDetails===>")
 
     const { height } = useWindowDimensions()
 
@@ -62,8 +64,6 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
             group_id: selectedGroupChat?.id,
             users_id: addUsers.tagged_users
         }
-
-
         addUserLoader.show()
 
         dispatch(
@@ -137,7 +137,7 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
                                                         <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
                                                     </div>
                                                 </div>
-                                                <div className='pointer'
+                                             {userId!==id &&   <div className='pointer'
                                                     onClick={() => {
                                                         goTo(ROUTES['user-company-module']['individual-chat'], false)
                                                         dispatch(setSelectedPrivateUser(el))
@@ -145,6 +145,7 @@ function GroupEmployees({ }: EmployeeGroupsProps) {
                                                     }}>
                                                     <Image src={icons.Comments} width={18} height={18} />
                                                 </div>
+                            }
 
                                             </div>
                                             <div className={'mx--2'} >

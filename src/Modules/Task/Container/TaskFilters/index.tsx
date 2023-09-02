@@ -34,8 +34,6 @@ function TaskFilters({ }: TaskFilterProps) {
     const taskPriority = useDropDown({});
     const [includeSubTask, setIncludeSubTask] = useState(false)
 
-
-
     /**
      * Advance  Assign
      */
@@ -247,10 +245,7 @@ function TaskFilters({ }: TaskFilterProps) {
                 assignToEmployee.set(getObjectFromArrayByKey(assignedToEmployees, 'id', assigned_emp_id))
             }
 
-
         }
-
-
         if (associatedCompaniesL && associatedCompaniesL.length > 0 && assigned_tasks_by === 'assigned_by_company') {
 
             associationAssignedCompany.onChange(getObjectFromArrayByKey([DEFAULT_COMPANY, ...associatedCompaniesL], 'id', association_assigned_company === 'ALL' ? dashboardDetails?.permission_details?.branch_id : association_assigned_company))
@@ -275,7 +270,6 @@ function TaskFilters({ }: TaskFilterProps) {
                     createdByDesignation.set(getObjectFromArrayByKey(createByDesignations, 'id', created_designation_id))
                 }
             }
-
             if (createByEmployees && createByEmployees.length > 0) {
                 createdByEmployee.set(getObjectFromArrayByKey(createByEmployees, 'id', created_emp_id))
             }
@@ -302,11 +296,6 @@ function TaskFilters({ }: TaskFilterProps) {
         );
 
     }
-
-
-
-
-
     return (
         <>
             <div className="row">

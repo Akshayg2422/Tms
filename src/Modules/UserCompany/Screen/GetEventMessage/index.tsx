@@ -19,8 +19,7 @@ function GetEventMessage() {
     useEffect(() => {
         getAttachmentsMessageApi(INITIAL_PAGE)
     }, [eventsMessage, id, refreshEventMessage])
-
-
+  
     const getAttachmentsMessageApi = (page_number: number) => {
 
         const params = {

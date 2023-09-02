@@ -7,15 +7,10 @@ import { Option, InputHeading } from '@Components'
 function AutoComplete({ variant = 'default', data, id, heading, selected, className, onChange, inputType, placeHolder }: AutoCompleteProps) {
 
     const formatOption = (option: any) => {
-      
-
-
         let others = {} as any
         if (option?.title) {
             others = JSON.parse(option.title);
         }
-
-
 
         return $(`<div class="col">
         <div class="row ">
@@ -38,8 +33,6 @@ function AutoComplete({ variant = 'default', data, id, heading, selected, classN
 
         const selectedId = e.target.value
         if (onChange) {
-
-
             const selectedItemById = data?.find((option: Option) => {
                 return option.id == selectedId
             })
@@ -50,9 +43,6 @@ function AutoComplete({ variant = 'default', data, id, heading, selected, classN
         }
 
     }
-
-
-
     return (
         <Form className='mb-3'>
             <InputHeading heading={heading} id={id} />

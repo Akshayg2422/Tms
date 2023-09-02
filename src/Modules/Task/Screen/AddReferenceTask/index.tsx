@@ -12,7 +12,7 @@ function AddReferenceTask() {
 
   const dispatch = useDispatch();
 
-  const { tasks, selectedTask, referencesTasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
+  const { tasks,  referencesTasks, taskNumOfPages, taskCurrentPages } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const [selectedReferenceTask, setSelectedReferenceTask] = useState([...referencesTasks])
   const { goBack } = useNavigation();
@@ -29,13 +29,14 @@ function AddReferenceTask() {
   }, [isEnterPressed]);
 
  
+  const {selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
   useEffect(() => {
     getTasksApiHandler(taskCurrentPages)
   }, [])
   const addReferenceTaskHandler = () => {
 
     const params = {
-      code: selectedTask,
+      code: selectedTaskStatus[0]?.code,
       event_type: RTS,
       reference_task: getArrayFromArrayOfObject(selectedReferenceTask, 'id'),
     };
@@ -71,7 +72,7 @@ function AddReferenceTask() {
   };
 
 
-  console.log("dashboardDetails---->",dashboardDetails)
+
 
 
   const onSelectedTask = (item: any) => {
@@ -99,7 +100,7 @@ function AddReferenceTask() {
     const params = {
       q_many,
       page_number,
-      task_code: selectedTask,
+      task_code: selectedTaskStatus[0]?.code,
     };
 
     dispatch(

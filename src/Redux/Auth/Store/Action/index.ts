@@ -42,7 +42,8 @@ import {
   PUSH_NOTIFICATION_SUCCESS,
   PUSH_NOTIFICATION_FAILURE,
   GET_RESEND_OTP,
-  GET_RESEND_OTP_FAILURE
+  GET_RESEND_OTP_FAILURE,
+  USER_SUCCESS_ID
 } from '../ActionTypes';
 
 
@@ -390,4 +391,11 @@ export const addPushNotificationFailure = (error: any) => {
     payload: error,
   };
 };
+
+export const setUserSuccess =(response:any)=>{
+  return{
+    type:USER_SUCCESS_ID,
+    payload:response
+  }
+}
 

@@ -49,7 +49,6 @@ export const getTasksFailure = (error: any) => {
         payload: error
     }
 }
-
 /**
  * store selected Task 
  */
@@ -60,7 +59,6 @@ export const setSelectedTask = (task: any) => {
         payload: task
     }
 }
-
 
 //SELECTED CODCE ID
 
@@ -471,7 +469,8 @@ export const getSelectedReference = (params: any) => {
  */
 export const refreshEventMessage = () => {
     return {
-        type: ActionTypes.REFRESH_EVENT_MESSAGE
+        type: ActionTypes.REFRESH_EVENT_MESSAGE,
+    
     }
 }
 

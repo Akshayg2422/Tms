@@ -72,7 +72,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                             goTo(ROUTES["task-module"]["add-sub-task"])
                          
                               
-                            dispatch(setSelectedTask(id))
+                            // dispatch(setSelectedTask(id))
                         }}
                     />
                 </div>
@@ -83,7 +83,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                             tableDataSet={subTasks}
                             displayDataSet={normalizedTableData(subTasks)}
                             tableOnClick={(e, index, item) => {
-                                dispatch(setSelectedTask(item?.code))
+                                // dispatch(setSelectedTask(item?.code))
                                 dispatch(setSelectedTaskstatus([item,...selectedTaskStatus]))
 
                                 dispatch(setSelectedTabPosition({ id: '1' }))

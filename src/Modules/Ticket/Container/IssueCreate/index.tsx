@@ -325,7 +325,7 @@ function IssueCreate() {
                   size="xl"
                   onSelect={(image) => {
                     let file = image.toString().replace(/^data:(.*,)?/, "");
-                    handleImagePicker(index, file);
+                    handleImagePicker(index);
                     { selectDropzone.length > 0 && setSelectDropzone([{ id: "1" }, { id: "2" }]); }
                     { selectDropzone.length > 1 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }]); }
                     { selectDropzone.length > 2 && setSelectDropzone([{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }]); }

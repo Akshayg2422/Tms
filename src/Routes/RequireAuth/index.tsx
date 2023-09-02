@@ -77,6 +77,7 @@ if(dashboardDetails?.permission_details?.is_super_admin || dashboardDetails?.per
 
 
     if (!loginDetails?.isLoggedIn) {
+        console.log('ppppp')
         return <Navigate to={ROUTES['auth-module'].login} state={{ path: location.pathname }} />
     }
 
@@ -91,11 +92,6 @@ if(dashboardDetails?.permission_details?.is_super_admin || dashboardDetails?.per
         }
         setSideNavOpen(!sideNavOpen);
     };
- 
-
-    console.log(dashboardDetails);
-    
-
     return (
         <>
             <Sidebar
