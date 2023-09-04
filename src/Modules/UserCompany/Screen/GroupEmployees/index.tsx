@@ -126,7 +126,8 @@ console.log(dashboardDetails,"dashboardDetails===>")
                                     <>
                                         <div >
                                             <div className='row justify-space-between align-items-center'>
-                                                <div className='col'>
+                                         
+                                            {userId!==id &&        <div className='col'>
                                                     <H
                                                         tag={'h4'}
                                                         text={name}
@@ -137,11 +138,11 @@ console.log(dashboardDetails,"dashboardDetails===>")
                                                         <div className={'h6 mb-0 text-uppercase text-muted'}>{designation ? designation : '-'}</div>
                                                     </div>
                                                 </div>
+                            }
                                              {userId!==id &&   <div className='pointer'
                                                     onClick={() => {
                                                         goTo(ROUTES['user-company-module']['individual-chat'], false)
-                                                        dispatch(setSelectedPrivateUser(el))
-                                                   
+                                                        dispatch(setSelectedPrivateUser(el)) 
                                                     }}>
                                                     <Image src={icons.Comments} width={18} height={18} />
                                                 </div>
