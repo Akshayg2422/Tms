@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTasks, getSelectedReference, setSelectedTask, setSelectedTaskstatus } from "@Redux";
+import { getReferenceTasks, setSelectedTaskstatus } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 import { NoDataFound, Card, CommonTable, Button, Spinner, HomeContainer } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'

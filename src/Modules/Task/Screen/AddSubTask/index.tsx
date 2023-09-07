@@ -51,7 +51,8 @@ function AddSubTask() {
     const { dashboardDetails, associatedCompaniesL, employees, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-    const {selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
+    const {selectedTaskStatus ,selectedTask} = useSelector((state: any) => state.TaskReducer);
+    console.log(selectedTask,"selectedTask====>")
     const loginLoader = useLoader(false);
     const title = useInput("");
     const description = useInput("");
@@ -165,7 +166,8 @@ function AddSubTask() {
             task_attachments: [{ attachments: photo }],
             is_parent: false,
             eta_time: eta,
-            parent_code: selectedTaskStatus[0].code
+            parent_code: selectedTask
+            // parent_code: selectedTaskStatus[0].code
         };
 
 

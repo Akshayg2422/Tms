@@ -9,8 +9,10 @@ import { useParams } from 'react-router-dom';
 import { translate } from '@I18n'
 
 
-function SubTasks({ cardHeight }: SubTasksProps) {
+function SubTasks({  }: SubTasksProps) {
     const { id } = useParams()
+    console.log(id,"=====>")
+   
     const { goTo } = useNavigation();
     const { subTasks,selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
     
@@ -70,9 +72,9 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                         onClick={() => {
                          
                             goTo(ROUTES["task-module"]["add-sub-task"])
-                         
-                              
-                            // dispatch(setSelectedTask(id))
+        
+                             dispatch(setSelectedTask(id))
+                           
                         }}
                     />
                 </div>
@@ -94,7 +96,10 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                             }}
                         /> :
                         <div className='pt-5' >
-                            <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton />
+                            <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() =>{ 
+                                       dispatch(setSelectedTask(id))
+                                goTo(ROUTES["task-module"]["add-sub-task"]) 
+                                  }} isButton />
                         </div>
                     }
                 </div>

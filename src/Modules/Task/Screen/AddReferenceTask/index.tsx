@@ -28,7 +28,6 @@ function AddReferenceTask() {
     }
   }, [isEnterPressed]);
 
- 
   const {selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
   useEffect(() => {
     getTasksApiHandler(taskCurrentPages)

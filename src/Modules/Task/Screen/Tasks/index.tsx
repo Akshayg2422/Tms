@@ -3,7 +3,7 @@ import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon, Micro
 import { useModal, useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { TaskFilters, TaskGroups } from '@Modules';
-import { getTasks, setSelectedTabPosition, setSelectedTask, setTaskParams, setSelectedModal, setSelectedTaskstatus } from '@Redux';
+import { getTasks, setSelectedTabPosition, setTaskParams, setSelectedModal, setSelectedTaskstatus, setUserSuccess } from '@Redux';
 import { ROUTES } from '@Routes';
 import { capitalizeFirstLetter, getDates, getPhoto, paginationHandler } from '@Utils';
 import { useEffect, useRef, useState } from "react";
@@ -14,9 +14,11 @@ function Tasks() {
   const dispatch = useDispatch()
   const { tasks, taskNumOfPages, taskCurrentPages, taskParams, selectedMicroModal } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+  const{selectedUserId}=useSelector((state:any)=>state.AuthReducer)
   const { company } = dashboardDetails || ''
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
+  console.log(selectedUserId,"selectedUserId====>")
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
@@ -25,8 +27,11 @@ function Tasks() {
     dispatch(
       setSelectedModal(false)
     )
-
+    // dispatch(
+    //   setUserSuccess(false)
+    // )
   }, [])
+  console.log('ijjjjjjjjjjjjjjjj')
 
   const getTaskHandler = (page_number: number) => {
 

@@ -24,7 +24,8 @@ import {
     getDesignations,
     getAssociatedCompaniesL,
     getSubTaskGroups,
-    getSubTaskGroupsSuccess
+    getSubTaskGroupsSuccess,
+    setUserSuccess
 } from "@Redux";
 import {
     CREATE_INTERNAL,
@@ -102,6 +103,7 @@ function AddTask() {
 
     useEffect(() => {
         getAssociatedCompaniesApi();
+    
     }, [])
 
     useEffect(() => {
@@ -126,7 +128,7 @@ function AddTask() {
 
 
     }, [company.value, taskType])
-console.log(photo,"pppppp=>")
+
 
 
     const getBranchId = () =>
