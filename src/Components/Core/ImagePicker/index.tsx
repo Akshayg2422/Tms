@@ -102,15 +102,19 @@ const ImagePicker = ({
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event,"pppppppppp")
 
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
+    
       // const reader = new FileReader();
       let updatedPhoto
 
       new Compressor(file, {
+
         quality: 0.9,
         success: (file) => {
+
           const reader = new FileReader();
          
           reader.onload = (e) => {

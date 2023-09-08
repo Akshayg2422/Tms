@@ -73,7 +73,6 @@ const PushNotification = () => {
     const routingHandler = (payload: any) => {
 
         console.log('payload=====>', JSON.stringify(payload))
-       
 
         const extra_data = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"'))
 
@@ -96,7 +95,7 @@ const PushNotification = () => {
           
             dispatch(refreshChatMessage())
             dispatch(setSelectedPrivateUser(route_employee_chat))
-           
+            console.log(';pppppp===>',route_employee_chat)
             goTo(ROUTES["user-company-module"]["individual-chat"])
         }
         else if (route_type === NOTIFICATION_TASK_RAISED) {
@@ -132,7 +131,7 @@ const PushNotification = () => {
                 dispatch(handleOneToOneChat(true))
                 dispatch(handleOneToOneVcNoti(extra_data?.route_params?.videocall_id))
                 dispatch(vcNotificationDetails(extra_data))
-            
+               
                 goTo(ROUTES['user-company-module']['individual-chat'], false)
             
             }

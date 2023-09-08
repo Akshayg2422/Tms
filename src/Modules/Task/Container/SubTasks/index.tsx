@@ -11,8 +11,6 @@ import { translate } from '@I18n'
 
 function SubTasks({  }: SubTasksProps) {
     const { id } = useParams()
-    console.log(id,"=====>")
-   
     const { goTo } = useNavigation();
     const { subTasks,selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
     
@@ -56,9 +54,7 @@ function SubTasks({  }: SubTasksProps) {
         }
         return []
     };
-
     return (
-
 
         <HomeContainer className='card mt--3' >
             <div className={'overflow-auto overflow-hide '} style={{ height: height - 372}} >

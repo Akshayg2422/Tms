@@ -6,9 +6,6 @@ import { FormGroup } from 'reactstrap'
 
 function DropDown({ id, heading, disabled, placeHolder, selected, data, onChange, className = 'form-control' }: DropDownProps) {
 
-
-
-
     function proceedOnChange(e: any) {
        
 

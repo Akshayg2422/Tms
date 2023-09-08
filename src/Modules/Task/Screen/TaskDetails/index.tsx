@@ -32,8 +32,6 @@ function TaskDetails() {
         { id: "4", title: <div className="text-center pointer"><Image src={selectedTabPositions.id === '4' ? icons.usersPink : icons.users} height={16} width={16} /></div>, component: <TaskUsers /> },
     ];
 
-
-
     return (
 
         <div className="h-100vh m-3">

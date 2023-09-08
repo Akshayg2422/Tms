@@ -82,6 +82,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
+      console.log(prop.path,"pppppppppppppaaaaaaaaa")
       if (prop.redirect) {
         return null;
       }
