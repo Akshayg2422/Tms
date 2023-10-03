@@ -18,7 +18,7 @@ function Tasks() {
   const { company } = dashboardDetails || ''
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
-  console.log(selectedUserId,"selectedUserId====>")
+
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
@@ -154,7 +154,7 @@ function Tasks() {
   };
 
   return (
-    <div className="mx-3 mt-3">
+    <div className="mx-3 mt-3  ">
       <div className="d-flex justify-content-end mr-2">
         <Button
           className="text-white"

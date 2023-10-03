@@ -14,8 +14,10 @@ import {
   Checkbox,
   Spinner,
   DropDown,
+  MenuBar,
 } from "@Components";
 import { translate } from "@I18n";
+import { icons } from '@Assets';
 
 
 function Designation() {
@@ -45,9 +47,20 @@ function Designation() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const loginLoader = useLoader(false)
+  const [ selectDesignation,setSelectedDesignation]=useState<any>()
+  const [isDelete,setDelete]=useState(false)
 
-  console.log(designationCurrentPages, "cccccccccccc")
+  console.log(selectDesignation,"selectDesignation====")
+ 
+
+  const getDesignationMenu = () => [
+    { id: '0', name: "Edit", icon: icons.edit },
+    { id: '1', name: "Delete", icon: icons.delete }
+  ]
+
   const getDesignationApiHandler = (page_number: number) => {
+
+    
 
     setLoading(true)
     const params = {
@@ -86,6 +99,7 @@ function Designation() {
             loginLoader.hide()
             getDesignationApiHandler(designationCurrentPages)
             resetValues()
+            setSelectedDesignation('')
           },
           onError: (error: string) => () => {
             loginLoader.hide()
@@ -160,8 +174,45 @@ function Designation() {
                 addDesignationApiHandler(params)
 
               }} />
+
+
             </div>
         }),
+
+'': 
+ ((isUserAdmin||isUserSuperAdmin) &&
+<MenuBar menuData={getDesignationMenu()} onClick={(item) => {
+
+
+  if (item?.id === '0') {
+ 
+    setSelectedDesignation(el)
+    const { name, is_admin, is_super_admin } = el
+    designationName.set(name)
+     department.set({id:'6137b9c7-c7e4-429b-8cb3-ed018fe544e9',text:'Mobile developer '})
+    setIsAdmin(is_admin)
+    resetValues()
+    setIsSuperAdmin(is_super_admin)
+    
+  addDesignationModal.show()
+    // setIsSubTask(false)
+  }
+   else if (item?.id === '1') {
+    const { name, is_admin, is_super_admin } = el
+    // setIsSubTask(true)
+    setSelectedDesignation(el)
+    setDelete(true)
+    designationName.set(name)
+    // department.set({})
+    // department.set({id:'6137b9c7-c7e4-429b-8cb3-ed018fe544e9',text:'Mobile developer',name:'Mobile developer'})
+    setIsAdmin(is_admin)
+    resetValues()
+    setIsSuperAdmin(is_super_admin)
+  }
+
+}} />
+)
+        
       };
     });
   };
@@ -172,6 +223,7 @@ function Designation() {
     department.set({})
     setIsAdmin(false)
     setIsSuperAdmin(false)
+    setDelete(false)
 
   }
 
@@ -314,9 +366,11 @@ function Designation() {
             onClick={() => {
 
               const params = {
+                ...(selectDesignation && { id: selectDesignation?.id }),
                 name: designationName.value,
                 department_id: department.value?.id,
                 is_admin: isAdmin,
+                ...(isDelete && {is_delete:isDelete}),
                 ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
               };
 

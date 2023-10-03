@@ -344,7 +344,7 @@ function AddTicket() {
 
                 {getExternalCompanyStatus() && designations && designations.length > 0 &&
                 <div> <DropDown
-                    heading={translate("common.department")!}
+                    heading={translate("auth.designation")!}
                     placeHolder={translate('order.Select a Designation')!}
                     data={getDropDownDisplayData(designations)}
                     onChange={(item) => {
