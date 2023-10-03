@@ -1,7 +1,7 @@
 import { addDesignation, getDepartments, getDesignations, getEmployees } from '@Redux';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE, type, getDropDownDisplayData } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE, type, getDropDownDisplayData, getObjectFromArrayByKey } from "@Utils";
 import { useDynamicHeight, useModal, useInput, useLoader, useDropDown } from "@Hooks";
 import {
   Button,
@@ -32,10 +32,10 @@ function Designation() {
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-  const DEFAULT_COMPANY = { id: dashboardDetails?.permission_details?.branch_id, display_name: '𝗦𝗘𝗟𝗙', name: 'self' }
+  // const DEFAULT_COMPANY = { id: dashboardDetails?.permission_details?.branch_id, display_name: '𝗦𝗘𝗟𝗙', name: 'self' }
   const isUserAdmin = dashboardDetails?.permission_details?.is_admin
   const isUserSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
-  const company = useDropDown(DEFAULT_COMPANY)
+  // const company = useDropDown(DEFAULT_COMPANY)
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   const [taskType, setTaskType] = useState(type[1]);
@@ -50,7 +50,7 @@ function Designation() {
   const [ selectDesignation,setSelectedDesignation]=useState<any>()
   const [isDelete,setDelete]=useState(false)
 
-  console.log(selectDesignation,"selectDesignation====")
+  console.log(department,"selectDesignation..====")
  
 
   const getDesignationMenu = () => [
@@ -99,6 +99,7 @@ function Designation() {
             loginLoader.hide()
             getDesignationApiHandler(designationCurrentPages)
             resetValues()
+            department.set({})
             setSelectedDesignation('')
           },
           onError: (error: string) => () => {
@@ -187,11 +188,18 @@ function Designation() {
   if (item?.id === '0') {
  
     setSelectedDesignation(el)
+  
     const { name, is_admin, is_super_admin } = el
     designationName.set(name)
-     department.set({id:'6137b9c7-c7e4-429b-8cb3-ed018fe544e9',text:'Mobile developer '})
+  
+    
+
+        console.log(el?.department.id,'el?.department')
+      department.set({id:el?.department?.id,text:el?.department?.name,name:el?.department?.name});
+    
+ 
     setIsAdmin(is_admin)
-    resetValues()
+    // resetValues()
     setIsSuperAdmin(is_super_admin)
     
   addDesignationModal.show()
@@ -203,8 +211,7 @@ function Designation() {
     setSelectedDesignation(el)
     setDelete(true)
     designationName.set(name)
-    // department.set({})
-    // department.set({id:'6137b9c7-c7e4-429b-8cb3-ed018fe544e9',text:'Mobile developer',name:'Mobile developer'})
+   
     setIsAdmin(is_admin)
     resetValues()
     setIsSuperAdmin(is_super_admin)
@@ -220,7 +227,7 @@ function Designation() {
 
   function resetValues() {
     designationName.set('')
-    department.set({})
+  
     setIsAdmin(false)
     setIsSuperAdmin(false)
     setDelete(false)
@@ -332,6 +339,7 @@ function Designation() {
             placeHolder={translate("order.Select a Department")!}
             data={getDropDownDisplayData(departments)}
             onChange={(item) => {
+              console.log(item,"rrrrrfrr")
               department.onChange(item)
             }}
             selected={department.value}

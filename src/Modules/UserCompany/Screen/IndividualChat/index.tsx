@@ -115,14 +115,12 @@ function IndividualChat() {
             emp_id: SelectedUserId,
             page_number
         }
-
-   
-
         messageLoader.show();
         dispatch(fetchChatMessage({
             params,
             onSuccess: () => () => {
                 messageLoader.hide()
+                getChatEmployeeList()
             },
             onError: () => () => {
                 messageLoader.hide()
@@ -298,7 +296,7 @@ function IndividualChat() {
 
                                                         }}
                                                     >
-                                                      {item.id !==selectedPrivateUser?.id &&   <div className={`mx- ${item?.id === SelectedUserId ? 'bg-lighter ' : ''} py-2 px-2`}>
+                                                      {  <div className={`mx- ${item?.id === SelectedUserId ? 'bg-lighter ' : ''} py-2 px-2`}>
                                                             <div className={`pl--2`}>
                                                                 <div className={``}>
                                                                     <div className="row align-items-center ml-2">
