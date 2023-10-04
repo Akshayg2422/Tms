@@ -112,13 +112,13 @@ function Companies() {
         Company:
           // <div className="col">
             <div className="row ">
-              <div className={'col-auto mx-0'}>
+              {/* <div className={'col-auto mx-0'}> */}
               <Image size={'md'} variant={'rounded'} src={getPhoto(el?.attachment_logo)} />
-              </div>
-              <div className="col row">
+              {/* </div> */}
+              {/* <div className="col row"> */}
 
-              <div className="text-start pt-3 pl--"> {el.display_name}<div></div></div>
-              </div>
+              <div className="text-start pt-3 pl-1"> {el.display_name}<div></div></div>
+              {/* </div> */}
             </div>
           // </div>,
           ,
