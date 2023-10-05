@@ -153,6 +153,8 @@ function Companies() {
 
           {associatedCompanies && associatedCompanies?.length > 0 &&
             <div className="text-right">
+             { 
+                dashboardDetails.permission_details.is_super_admin && 
               <Button
                 className={'text-white'}
                 size={'sm'}
@@ -160,7 +162,7 @@ function Companies() {
                 onClick={() => {
                   associatedCompanyModal.show()
                 }}
-              />
+              />}
             </div>
           }
         </div>
@@ -236,7 +238,8 @@ function Companies() {
             </div>
 
             <div className={'text-xs text-muted mb-2'}>{translate("order.Can't find Company?")}</div>
-
+            { dashboardDetails.permission_details.is_admin &&
+                            dashboardDetails.permission_details.is_super_admin &&  
             <Button
               className={'text-white'}
               size={'sm'}
@@ -245,6 +248,7 @@ function Companies() {
                 goTo(ROUTES["user-company-module"]["add-company"]);
               }}
             />
+            } 
           </div>
         }
 

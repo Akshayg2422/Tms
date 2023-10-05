@@ -6,6 +6,7 @@ import { MyTimeSheet } from '@Modules//UserCompany/Screen/MyTimeSheet'
 import { translate } from '@I18n'
 
 
+
 export const HOME_PATH = {
   DASHBOARD: "/admin",
   COMPANY: "/company",
@@ -276,6 +277,7 @@ export const HOME_ROUTES = [
     component: <Profile />
   },
   {
+
     path: ROUTES['user-company-module'].setting,
     name: "Settings",
     icon: icons.setting,

@@ -106,9 +106,11 @@ function ReferenceTasks() {
        
         />
         </div>:<div className="d-flex h-100 justify-content-center align-items-center">
+        {dashboardDetails.permission_details.is_admin &&
+                    dashboardDetails.permission_details.is_super_admin && 
           <NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} 
         isButton 
-        />
+        />}
         </div>}
         </div>
         </HomeContainer>

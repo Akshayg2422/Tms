@@ -17,6 +17,8 @@ function Tickets() {
   const dispatch = useDispatch();
   const [params, setParams] = useState(ticketParams)
   const [loading, setLoading] = useState(false)
+  const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+
 
 
 
@@ -138,6 +140,8 @@ function Tickets() {
       <div className="m-3">
         <div className="row justify-content-end m-0 mb-3">
           <div className=" ">
+            {
+            dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
             <Button
               className={'text-white shadow-none'}
               size={'sm'}
@@ -146,6 +150,7 @@ function Tickets() {
                 goTo(ROUTES["ticket-module"]["add-ticket"])
               }}
             />
+}
           </div>
         </div>
 

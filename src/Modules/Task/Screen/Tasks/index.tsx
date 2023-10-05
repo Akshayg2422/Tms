@@ -156,14 +156,17 @@ function Tasks() {
   return (
     <div className="mx-3 mt-3  ">
       <div className="d-flex justify-content-end mr-2">
+        {dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
         <Button
           className="text-white"
           size={'sm'}
+
           text={translate("common.createTask")}
           onClick={() => {
             goTo(ROUTES["task-module"]["add-task"])
           }}
         />
+}
         <div
         >
           {/* <ImageIcon src={icons.microPhone} height={25} width={25} onClick={() => {
@@ -225,8 +228,11 @@ function Tasks() {
 
               :
               <div className="mb-3">
+                {dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
                 <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
-              </div>
+                }
+                </div>
+
             }
           </div>}
 

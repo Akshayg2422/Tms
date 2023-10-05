@@ -13,7 +13,8 @@ function SubTasks({  }: SubTasksProps) {
     const { id } = useParams()
     const { goTo } = useNavigation();
     const { subTasks,selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
-    
+    const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+
     const dispatch = useDispatch()
     const { height } = useWindowDimensions()
 
@@ -92,10 +93,12 @@ function SubTasks({  }: SubTasksProps) {
                             }}
                         /> :
                         <div className='pt-5' >
+                             {
+            dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
                             <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() =>{ 
                                        dispatch(setSelectedTask(id))
                                 goTo(ROUTES["task-module"]["add-sub-task"]) 
-                                  }} isButton />
+                                  }} isButton />}
                         </div>
                     }
                 </div>

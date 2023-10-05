@@ -97,7 +97,10 @@ function ReferenceTickets() {
                             goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item.code)
                         }}
 
-                    /> : <div className="d-flex h-100 justify-content-center align-items-center"><NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton />
+                    /> : <div className="d-flex h-100 justify-content-center align-items-center">
+                                        {dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
+
+                        <NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton />}
                     </div>}
             </div>
             </div>
