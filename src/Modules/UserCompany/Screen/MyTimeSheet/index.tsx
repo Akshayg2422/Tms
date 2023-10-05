@@ -587,10 +587,6 @@ function MyTimeSheet() {
         }}
         title={translate('auth.addTimeSheet')!}
       >
-
-
-
-
         <DropDown
           heading={'Type'}
           placeHolder={'Type'}
@@ -679,8 +675,6 @@ function MyTimeSheet() {
                 editAssignedTaskSelect.set('')
 
               }
-
-
             }}
             selected={editSelectedType.value}
           />

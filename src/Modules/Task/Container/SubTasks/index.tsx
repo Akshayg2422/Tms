@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import { translate } from '@I18n'
 
 
-function SubTasks({ cardHeight }: SubTasksProps) {
+function SubTasks({  }: SubTasksProps) {
     const { id } = useParams()
     const { goTo } = useNavigation();
     const { subTasks,selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
@@ -54,9 +54,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
         }
         return []
     };
-
     return (
-
 
         <HomeContainer className='card mt--3' >
             <div className={'overflow-auto overflow-hide '} style={{ height: height - 372}} >
@@ -70,9 +68,9 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                         onClick={() => {
                          
                             goTo(ROUTES["task-module"]["add-sub-task"])
-                         
-                              
-                            dispatch(setSelectedTask(id))
+        
+                             dispatch(setSelectedTask(id))
+                           
                         }}
                     />
                 </div>
@@ -83,7 +81,7 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                             tableDataSet={subTasks}
                             displayDataSet={normalizedTableData(subTasks)}
                             tableOnClick={(e, index, item) => {
-                                dispatch(setSelectedTask(item?.code))
+                                // dispatch(setSelectedTask(item?.code))
                                 dispatch(setSelectedTaskstatus([item,...selectedTaskStatus]))
 
                                 dispatch(setSelectedTabPosition({ id: '1' }))
@@ -94,7 +92,10 @@ function SubTasks({ cardHeight }: SubTasksProps) {
                             }}
                         /> :
                         <div className='pt-5' >
-                            <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() => goTo(ROUTES["task-module"]["add-sub-task"])} isButton />
+                            <NoDataFound buttonText={translate("common.addSubTask")!} text="No SubTask found" onClick={() =>{ 
+                                       dispatch(setSelectedTask(id))
+                                goTo(ROUTES["task-module"]["add-sub-task"]) 
+                                  }} isButton />
                         </div>
                     }
                 </div>

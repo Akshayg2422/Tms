@@ -203,23 +203,7 @@ function TimeApproval() {
           Start_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.start_time)),
           End_Time: getDisplayDateFromMomentByType(HH_MM_A, getMomentObjFromServer(el?.end_time)),
           Status: el?.is_completed ? "complete" : "",
-          //     '':
-          //     <div>
-          //     {el?.timeline_status==='PAL' ?
-          //         <div>
-          //         <Button size={'sm'} text={'Approved'} onClick={() => {
-          //           setSelectApproval(true)
-
-          //           addEmployeeTimeSheet(el.id,'APT')
-          //         }} />
-          //         <Button size={'sm'} text={'Reject'} onClick={() => {
-          //           setSelectReject(true)
-          //           addEmployeeTimeSheet(el.id,'REJ')
-
-          //         }} />
-          //       </div>
-          // :el?.timeline_status==='APT'?<div className='text-primary h5'>Approved</div>:<div className='text-primary h5'>Rejected</div>}
-          // </div>
+         
 
         }
 
@@ -275,7 +259,6 @@ function TimeApproval() {
 
           goTo(ROUTES['user-company-module']['re-submit-request'])
         }} />
-
       </div>
       <div className='card  p-4' style={{ flexDirection: 'row' }}>
         <div className="h3">{translate('order.This Week')}</div>

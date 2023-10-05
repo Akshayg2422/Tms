@@ -12,7 +12,6 @@ import { VideoConference } from '../../Container'
 import { ROUTES } from '@Routes'
 
 
-
 function IndividualChat() {
 
     const { dashboardDetails, oneToOneChat, employees, chatMessageCurrentPages, selectedPrivateUser, chatEmployees, chatMessages, refreshPrivateChat,refreshChatMessage } = useSelector(
@@ -27,13 +26,9 @@ function IndividualChat() {
 
     const loader = useLoader(false);
     const messageLoader = useLoader(false);
-    const [success, setSuccess] = useState(false);
-  
-  
+    const [success, setSuccess] = useState(false)
     const SelectedUserId=selectedPrivateUser?.employee_id?selectedPrivateUser?.employee_id:selectedPrivateUser?.id
     const selectedUserName=selectedPrivateUser?.employee_name?selectedPrivateUser?.employee_name:selectedPrivateUser?.name
-
-
     useEffect(() => {
         getCompanyEmployeeApi()
     }, [selectedPrivateUser])
@@ -48,13 +43,11 @@ function IndividualChat() {
             getChatMessage(INITIAL_PAGE)
         }
     }, [selectedPrivateUser,refreshPrivateChat ,refreshChatMessage])
-
-  
     const getChatEmployeeList = () => {
     
 
         const params = {
-            q_many: '',
+            // q_many: '',
             per_page_count: -1
         }
 
@@ -64,7 +57,6 @@ function IndividualChat() {
             fetchChatEmployeeList({
                 params,
                 onSuccess: (res: any) => () => {
-           
                     loader.hide();
                     const userList = res.details;
                     if (!selectedPrivateUser && userList && userList.length > 0) {
@@ -123,14 +115,12 @@ function IndividualChat() {
             emp_id: SelectedUserId,
             page_number
         }
-
-   
-
         messageLoader.show();
         dispatch(fetchChatMessage({
             params,
             onSuccess: () => () => {
                 messageLoader.hide()
+                getChatEmployeeList()
             },
             onError: () => () => {
                 messageLoader.hide()
@@ -297,14 +287,16 @@ function IndividualChat() {
                                     <div>
                                         {chatEmployees && chatEmployees?.length > 0 &&
                                             chatEmployees?.map((item: any) => {
+                                                
                                                 return (
+
                                                     <div className={`pointer overflow-auto overflow-hide `}
                                                         onClick={() => {
                                                             dispatch(setSelectedPrivateUser(item))
-                                                            console.log(item,"iiiiiii0000=>")
+
                                                         }}
                                                     >
-                                                        <div className={`mx- ${item?.id === SelectedUserId ? 'bg-lighter ' : ''} py-2 px-2`}>
+                                                      {  <div className={`mx- ${item?.id === SelectedUserId ? 'bg-lighter ' : ''} py-2 px-2`}>
                                                             <div className={`pl--2`}>
                                                                 <div className={``}>
                                                                     <div className="row align-items-center ml-2">
@@ -340,6 +332,8 @@ function IndividualChat() {
                                                                 </div>
                                                             </div>
                                                         </div >
+                                            }
+                                                        
                                                     </div>
                                                 )
                                             })

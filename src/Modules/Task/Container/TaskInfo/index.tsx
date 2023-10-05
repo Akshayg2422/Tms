@@ -23,11 +23,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const { height } = useWindowDimensions()
 
     const { id, item } = useParams()
-    const { refreshTaskEvents, selectedTaskStatus,  } = useSelector((state: any) => state.TaskReducer);
+    const { refreshTaskEvents  } = useSelector((state: any) => state.TaskReducer);
 
 
     const dispatch = useDispatch()
-    const { taskDetails, subTasks, tasks } = useSelector((state: any) => state.TaskReducer);
+    const { taskDetails} = useSelector((state: any) => state.TaskReducer);
 
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
     const { title, code, description, by_user, raised_by_company, task_attachments, assigned_to, created_at, eta_time, start_time, end_time } = taskDetails || {};
@@ -44,19 +44,14 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     const { goTo } = useNavigation()
 
     const loginLoader = useLoader(false);
-
+    const { selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
+  
 
     useEffect(() => {
 
         getTaskDetailsHandler()
 
     }, [refreshTaskEvents, id])
-
-
-
-
-
-
 
     useEffect(() => {
         setEta(eta_time)
@@ -69,19 +64,6 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     }
 
    
-
-
-   
-
-
-    
-
-
-
-
-  
-
-
     const editEtaSubmitApiHandler = () => {
 
         const params = {

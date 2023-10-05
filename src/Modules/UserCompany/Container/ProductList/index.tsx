@@ -22,12 +22,10 @@ function ProductList() {
         getCompanyServiceHandler(companiesServiceProductCurrentPages)
 
     }, [])
-
     const getCompanyServiceHandler = (page_number: any) => {
         const params = {
             brand__id: selectedCompany?.id
         }
-
         dispatch(
             getProductService({
                 params,

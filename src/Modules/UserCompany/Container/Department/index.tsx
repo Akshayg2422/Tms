@@ -40,6 +40,7 @@ function Department() {
   const [isSubTask, setIsSubTask] = useState(false);
   const [loading, setLoading] = useState(false)
   const loginLoader = useLoader(false)
+  const [isDelete,setIsDelete]=useState(false)
 
 
 
@@ -52,6 +53,7 @@ function Department() {
         onSuccess: (success: any) => () => {
           getDepartmentList(departmentsCurrentPages)
           addDepartmentModal.hide()
+          setSelectedDepartment('')
           loginLoader.hide()
           resetValues()
         },
@@ -64,6 +66,7 @@ function Department() {
   }
   const getDepartmentMenu = (is_parent: boolean) => [
     { id: '0', name: "Edit", icon: icons.edit },
+    { id: '1', name: "Delete", icon: icons.delete },
     ...(is_parent ? [{ id: '1', name: "Create Sub Department", icon: icons.addSub }] : [])
   ]
 
@@ -140,15 +143,30 @@ function Department() {
             const { name, is_admin, is_super_admin } = item
             departmentName.set(name)
             setIsAdmin(is_admin)
+            addDepartmentModal.show()
             setIsSuperAdmin(is_super_admin)
             setIsSubTask(false)
-          } else if (el?.id === '1') {
+          } else if (el?.id === '2') {
             setIsSubTask(true)
             setSelectedDepartment(item)
             resetValues()
           }
 
-          addDepartmentModal.show()
+          else if (el?.id === '1') {
+            // setIsSubTask(true)
+            const { name, is_admin, is_super_admin } = item
+            console.log(item,"item======>")
+            departmentName.set(name)
+            setIsDelete(true)
+            setSelectedDepartment(item)
+            setIsAdmin(is_admin)
+            addDepartmentModal.show()
+            setIsSuperAdmin(is_super_admin)
+            setIsSubTask(false)
+            // resetValues()
+          }
+
+         
 
 
 
@@ -162,6 +180,7 @@ function Department() {
     departmentName.set('')
     setIsAdmin(false)
     setIsSuperAdmin(false)
+    setIsDelete(false)
   }
 
   return (
@@ -284,6 +303,7 @@ function Department() {
               const params = {
                 ...((!isSubTask && selectedDepartment) && { id: selectedDepartment?.id }),
                 ...((isSubTask && selectedDepartment) && { parent_id: selectedDepartment?.id }),
+                ...(isDelete && {is_delete:isDelete}),
                 name: departmentName.value,
                 is_admin: isAdmin,
                 is_super_admin: isSuperAdmin,

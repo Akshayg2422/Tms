@@ -82,6 +82,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
+      console.log(prop.path,"pppppppppppppaaaaaaaaa")
       if (prop.redirect) {
         return null;
       }
@@ -165,7 +166,7 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
     <div className="scrollbar-inner">
       <div className="sidenav-header d-flex align-items-center">
         {logo ? (
-          <NavbarBrand {...navbarBrandProps}>
+          <NavbarBrand>
             <div className="d-flex">
              <div >
              <Image
@@ -183,12 +184,14 @@ function Sidebar({ toggleSideNav, sideNavOpen = false, routes, logo, rtlActive }
           </NavbarBrand>
         ) : null}
         <div className="ml-auto">
+          
           <div
             className={classnames("sidenav-toggler d-none d-xl-block", {
               active: sideNavOpen,
             })}
             onClick={toggleSideNav}
           >
+            
             <div className="sidenav-toggler-inner">
               <i className="sidenav-toggler-line" />
               <i className="sidenav-toggler-line" />  

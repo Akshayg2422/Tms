@@ -255,7 +255,6 @@ const loginLoader= useLoader(false)
 
                     onSelectImagePickers={(el)=>{
                     
-
                         let array: any = []
   
                         for (let i = 0; i <= el.length; i++) {

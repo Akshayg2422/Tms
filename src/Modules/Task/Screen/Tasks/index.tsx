@@ -3,7 +3,7 @@ import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon, Micro
 import { useModal, useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { TaskFilters, TaskGroups } from '@Modules';
-import {  getTasks,  setSelectedTabPosition, setSelectedTask, setTaskParams, setSelectedModal,  setSelectedTaskstatus } from '@Redux';
+import { getTasks, setSelectedTabPosition, setTaskParams, setSelectedModal, setSelectedTaskstatus, setUserSuccess } from '@Redux';
 import { ROUTES } from '@Routes';
 import { capitalizeFirstLetter, getDates, getPhoto, paginationHandler } from '@Utils';
 import { useEffect, useRef, useState } from "react";
@@ -12,11 +12,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Tasks() {
   const dispatch = useDispatch()
-  const { tasks, taskNumOfPages, taskCurrentPages, taskParams, selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
+  const { tasks, taskNumOfPages, taskCurrentPages, taskParams, selectedMicroModal } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+  const{selectedUserId}=useSelector((state:any)=>state.AuthReducer)
   const { company } = dashboardDetails || ''
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
@@ -25,8 +27,11 @@ function Tasks() {
     dispatch(
       setSelectedModal(false)
     )
-
+    // dispatch(
+    //   setUserSuccess(false)
+    // )
   }, [])
+  console.log('ijjjjjjjjjjjjjjjj')
 
   const getTaskHandler = (page_number: number) => {
 
@@ -55,13 +60,8 @@ function Tasks() {
             <>
               <div className="row">
                 <div className="d-flex ">
-
-
                   <div className="col-auto ">
-
                     <div className="mr--3"><Priority priority={priority} /></div>
-
-
                   </div>
                   <div className="col-auto ml--3 ">
                     <span>{capitalizeFirstLetter(title)}</span>
@@ -97,7 +97,7 @@ function Tasks() {
                         variant={'avatar'}
                         src={getPhoto(item?.attachment_file)}
                         className="row"
-                        
+
                       />
 
 
@@ -154,7 +154,7 @@ function Tasks() {
   };
 
   return (
-    <div className="mx-3 mt-3">
+    <div className="mx-3 mt-3  ">
       <div className="d-flex justify-content-end mr-2">
         <Button
           className="text-white"
@@ -174,10 +174,7 @@ function Tasks() {
           }} /> */}
 
         </div>
-
       </div>
-
-
       <div className="row mt-3 mx-2 mb-2">
         <div className="col">
           <TaskGroups
@@ -218,7 +215,6 @@ function Tasks() {
                 }
                 }
                 tableOnClick={(idx, index, item) => {
-                  dispatch(setSelectedTask(item?.code));
                   dispatch(setSelectedTaskstatus([item]))
                   dispatch(setSelectedTabPosition({ id: '1' }))
                   goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'task');

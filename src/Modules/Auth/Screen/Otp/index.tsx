@@ -3,7 +3,7 @@ import { Button, AuthContainer, showToast, ComponentLoader } from "@Components";
 import { useInput, useTimer, useNavigation, useLoader, useKeyPress } from "@Hooks";
 import { OTP_RESEND_DEFAULT_TIME, BUSINESS, validate, ifObjectExist, USER_TOKEN, getValidateError } from "@Utils";
 import { useSelector, useDispatch } from "react-redux";
-import { validateRegisterUser, otpLogin, userLoginDetails, getDashboard, validateUserBusiness, setRegisteredMobileNumber, getReSendOtp } from "@Redux";
+import { otpLogin, userLoginDetails, getDashboard, getReSendOtp, setUserSuccess } from "@Redux";
 import { AUTH_PATH, ROUTES } from '@Routes'
 import OtpInput from "react-otp-input";
 import { OTP_RULES } from "@Utils//Validate/Rules";
@@ -93,7 +93,9 @@ function Otp() {
             console.log('log1======>',response);
             otpLoader.hide()
             getDashboardDetails()
-            
+            dispatch(
+              setUserSuccess(false)
+            )
             dispatch(
               userLoginDetails({
                 ...loginDetails,

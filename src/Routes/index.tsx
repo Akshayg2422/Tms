@@ -232,14 +232,14 @@ export const HOME_ROUTES = [
         component: <VideoMeeting />,
         layout: '/admin',
       },
-      {
-        path: ROUTES['user-company-module']['calender-view'],
-        name: 'Calender',
-        miniName: "ca",
-        component: <CalendarView />,
-        layout: '/admin',
+      // {
+      //   path: ROUTES['user-company-module']['calender-view'],
+      //   name: 'Calender',
+      //   miniName: "ca",
+      //   component: <CalendarView />,
+      //   layout: '/admin',
 
-      }
+      // }
     ],
 
 

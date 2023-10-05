@@ -1,7 +1,7 @@
 import { addDesignation, getDepartments, getDesignations, getEmployees } from '@Redux';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE, type, getDropDownDisplayData } from "@Utils";
+import { convertToUpperCase, paginationHandler, ADD_DESIGNATION, ifObjectExist, validate, getValidateError, INITIAL_PAGE, type, getDropDownDisplayData, getObjectFromArrayByKey } from "@Utils";
 import { useDynamicHeight, useModal, useInput, useLoader, useDropDown } from "@Hooks";
 import {
   Button,
@@ -14,8 +14,10 @@ import {
   Checkbox,
   Spinner,
   DropDown,
+  MenuBar,
 } from "@Components";
 import { translate } from "@I18n";
+import { icons } from '@Assets';
 
 
 function Designation() {
@@ -30,10 +32,10 @@ function Designation() {
   } = useSelector(
     (state: any) => state.UserCompanyReducer
   );
-  const DEFAULT_COMPANY = { id: dashboardDetails?.permission_details?.branch_id, display_name: '𝗦𝗘𝗟𝗙', name: 'self' }
+  // const DEFAULT_COMPANY = { id: dashboardDetails?.permission_details?.branch_id, display_name: '𝗦𝗘𝗟𝗙', name: 'self' }
   const isUserAdmin = dashboardDetails?.permission_details?.is_admin
   const isUserSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
-  const company = useDropDown(DEFAULT_COMPANY)
+  // const company = useDropDown(DEFAULT_COMPANY)
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   const [taskType, setTaskType] = useState(type[1]);
@@ -45,9 +47,20 @@ function Designation() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const loginLoader = useLoader(false)
+  const [ selectDesignation,setSelectedDesignation]=useState<any>()
+  const [isDelete,setDelete]=useState(false)
 
-  console.log(designationCurrentPages, "cccccccccccc")
+  console.log(department,"selectDesignation..====")
+ 
+
+  const getDesignationMenu = () => [
+    { id: '0', name: "Edit", icon: icons.edit },
+    { id: '1', name: "Delete", icon: icons.delete }
+  ]
+
   const getDesignationApiHandler = (page_number: number) => {
+
+    
 
     setLoading(true)
     const params = {
@@ -86,6 +99,8 @@ function Designation() {
             loginLoader.hide()
             getDesignationApiHandler(designationCurrentPages)
             resetValues()
+            department.set({})
+            setSelectedDesignation('')
           },
           onError: (error: string) => () => {
             loginLoader.hide()
@@ -160,8 +175,51 @@ function Designation() {
                 addDesignationApiHandler(params)
 
               }} />
+
+
             </div>
         }),
+
+'': 
+ ((isUserAdmin||isUserSuperAdmin) &&
+<MenuBar menuData={getDesignationMenu()} onClick={(item) => {
+
+
+  if (item?.id === '0') {
+ 
+    setSelectedDesignation(el)
+  
+    const { name, is_admin, is_super_admin } = el
+    designationName.set(name)
+  
+    
+
+        console.log(el?.department.id,'el?.department')
+      department.set({id:el?.department?.id,text:el?.department?.name,name:el?.department?.name});
+    
+ 
+    setIsAdmin(is_admin)
+    // resetValues()
+    setIsSuperAdmin(is_super_admin)
+    
+  addDesignationModal.show()
+    // setIsSubTask(false)
+  }
+   else if (item?.id === '1') {
+    const { name, is_admin, is_super_admin } = el
+    // setIsSubTask(true)
+    setSelectedDesignation(el)
+    setDelete(true)
+    designationName.set(name)
+   
+    setIsAdmin(is_admin)
+    resetValues()
+    setIsSuperAdmin(is_super_admin)
+  }
+
+}} />
+)
+        
       };
     });
   };
@@ -169,9 +227,10 @@ function Designation() {
 
   function resetValues() {
     designationName.set('')
-    department.set({})
+  
     setIsAdmin(false)
     setIsSuperAdmin(false)
+    setDelete(false)
 
   }
 
@@ -280,6 +339,7 @@ function Designation() {
             placeHolder={translate("order.Select a Department")!}
             data={getDropDownDisplayData(departments)}
             onChange={(item) => {
+              console.log(item,"rrrrrfrr")
               department.onChange(item)
             }}
             selected={department.value}
@@ -314,9 +374,11 @@ function Designation() {
             onClick={() => {
 
               const params = {
+                ...(selectDesignation && { id: selectDesignation?.id }),
                 name: designationName.value,
                 department_id: department.value?.id,
                 is_admin: isAdmin,
+                ...(isDelete && {is_delete:isDelete}),
                 ...(isSuperAdmin && { is_super_admin: isSuperAdmin })
               };
 

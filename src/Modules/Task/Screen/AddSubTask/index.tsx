@@ -41,22 +41,19 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput, useNavigation, useDropDown, useKeyPress, useLoader } from "@Hooks";
 import moment from "moment";
+import { useParams } from "react-router";
 
 function AddSubTask() {
-
 
     const dispatch = useDispatch();
     const { goBack } = useNavigation();
 
-
     const { dashboardDetails, associatedCompaniesL, employees, departments, designations } = useSelector(
         (state: any) => state.UserCompanyReducer
     );
-    const { selectedTask } = useSelector(
-        (state: any) => state.TaskReducer
-    );
+    const {selectedTaskStatus ,selectedTask} = useSelector((state: any) => state.TaskReducer);
+    console.log(selectedTask,"selectedTask====>")
     const loginLoader = useLoader(false);
-
     const title = useInput("");
     const description = useInput("");
     const referenceNo = useInput(generateReferenceNo());
@@ -67,13 +64,10 @@ function AddSubTask() {
     const designation = useDropDown({})
     const company = useDropDown({})
     const [image, setImage] = useState("");
-    const [selectedUser, setSelectedUser] = useState("");
     const [selectedUserId, setSelectedUserId] = useState<any>();
     const selectedTicketPriority = useDropDown(PRIORITY[1]);
     const [date, setDate] = useState<any>(moment().format())
     const [eta, setEta] = useState("")
-
-
     const isEnterPressed = useKeyPress("Enter");
 
     useEffect(() => {
@@ -173,6 +167,7 @@ function AddSubTask() {
             is_parent: false,
             eta_time: eta,
             parent_code: selectedTask
+            // parent_code: selectedTaskStatus[0].code
         };
 
 
@@ -306,7 +301,7 @@ function AddSubTask() {
                         selectItem={taskType}
                         disableId={disableTaskType}
                         onRadioChange={(selected) => {
-                            setSelectedUser('')
+                         
                             company.onChange({})
                             department.onChange({})
                             designation.onChange({})

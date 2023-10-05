@@ -82,20 +82,18 @@ dateFormate = `${currentYear}-${0}${currentMonth + 1}-${currentDay}`
               <div className='col-auto pl-5 row'>
                 {selectButtonReject && <div className='col-auto '>
                   <Button className={'text-white'} text={textReject} size='sm' onClick={onClickReject} />
-                </div> 
-  }
+                </div> }
                  <div className='h5 text-primary mr-5'>
                   {ApprovedStatus === 'APT' ? "Approved" : ApprovedStatus === 'REJ' ? 'Reject' : ''}
 
                 </div>
                 
-
                 {selectButton && <div className='col-auto '>
                   <Button className={'text-white'} text={text} size='sm' onClick={onClick} />
                 </div>
                 }
 
-{enableButton && <div className='col-auto'>
+                  {enableButton && <div className='col-auto'>
                   <Button className={'text-white'} text={textEnable} size='sm' onClick={onClickEnable} />
                 </div>
                 }

@@ -7,7 +7,7 @@ import GetToken from './GetToken';
 import { onMessageListener } from './OnMessaging';
 import { icons } from '@Assets';
 import { HOME_PATH, ROUTES } from "@Routes";
-import { handleOneToOneChat, handleOneToOneVcNoti, refreshChatMessage, refreshEventsMessage, refreshGroupEvents, refreshTaskEvent, setSelectedPrivateUser, vcNotificationDetails } from '@Redux'
+import { handleOneToOneChat, handleOneToOneVcNoti, refreshChatMessage, refreshEventMessage, refreshEventsMessage, refreshGroupEvents, refreshTaskEvent, setSelectedPrivateUser, vcNotificationDetails } from '@Redux'
 import { useDispatch, useSelector } from 'react-redux'
 import { Groups } from "../UserCompany";
 
@@ -73,7 +73,6 @@ const PushNotification = () => {
     const routingHandler = (payload: any) => {
 
         console.log('payload=====>', JSON.stringify(payload))
-       
 
         const extra_data = JSON.parse(payload?.data?.extra_data.replace(/'/g, '"'))
 
@@ -96,7 +95,7 @@ const PushNotification = () => {
           
             dispatch(refreshChatMessage())
             dispatch(setSelectedPrivateUser(route_employee_chat))
-           
+            console.log(';pppppp===>',route_employee_chat)
             goTo(ROUTES["user-company-module"]["individual-chat"])
         }
         else if (route_type === NOTIFICATION_TASK_RAISED) {
@@ -132,11 +131,9 @@ const PushNotification = () => {
                 dispatch(handleOneToOneChat(true))
                 dispatch(handleOneToOneVcNoti(extra_data?.route_params?.videocall_id))
                 dispatch(vcNotificationDetails(extra_data))
-            
+               
                 goTo(ROUTES['user-company-module']['individual-chat'], false)
-             
-             
-              
+            
             }
             else {
                 dispatch(vcNotificationDetails(route_type))
@@ -147,8 +144,6 @@ const PushNotification = () => {
         }
         else {
             goTo(ROUTES['user-company-module'].Groups)
-          
-          
         }
 
     }
@@ -187,12 +182,11 @@ const PushNotification = () => {
             } else if (route_type === NOTIFICATION_EVENT_MESSAGE) {
                 try {
                  
-                    dispatch(refreshEventsMessage(false))
+                    dispatch(refreshEventMessage())
                 
 
                 } catch (e) {
                   
-
                 }
             }
             // else if (route_type === NOTIFICATION_EVENT_MESSAGE) {

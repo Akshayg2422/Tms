@@ -58,8 +58,6 @@ function VideoMeeting() {
     }
 
     console.log("vcNotificationData", vcNotificationData)
-
-
     const getUserToken = (data) => {
 
         const params = {
@@ -78,13 +76,10 @@ function VideoMeeting() {
 
         }))
     }
-
     const styles = {
         height: '40px',
         filter: 'invert(100%) sepia(0%) saturate(701%) hue-rotate(304deg) brightness(107%) contrast(88%) '
     }
-
-
     return (
 
         <div className={'m-4'} >
@@ -96,10 +91,10 @@ function VideoMeeting() {
                     <Back />
                     <h3 className=' ml-2'>{translate('order.Session')}</h3>
                 </div>
-                <div className='mr-1'>
+                <div className='mr-1 mb-1'>
                     <Button
                         className={'text-white '}
-                        size='sm'
+                        size='md'
                         text={translate("order.Create Meeting")}
                         onClick={() => {
                             goTo(ROUTES['user-company-module']['schedule-meeting'], false)
@@ -148,11 +143,7 @@ function VideoMeeting() {
                                         <h6 className='text-black text-xs pr-1'> {moment(el.start_time).format('h:mm a')} -</h6>
                                         <h6 className='text-black text-xs '> {moment(el.end_time).format('h:mm a')}</h6>
                                     </div>
-
-
-
                                     <div className=' pt-3 d-flex justify-content-center'>
-                                      
                                         <Button 
                                         text={'Connect'}
                                         className={'px-6 btn btn-outline-primary shadow-none'}
@@ -164,8 +155,6 @@ function VideoMeeting() {
                                         }}
                                          size={'md'} 
                                         />
-
-
                                     </div>
 
                                 </Card>

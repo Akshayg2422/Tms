@@ -20,7 +20,6 @@ function MicroPhoneModal({selectedModal=false}:MicroPhoneProps) {
     const [audioData,setAudioData]=useState()
     const { selectedMicroModal} = useSelector((state: any) => state.TaskReducer);
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-    console.log(JSON.stringify(dashboardDetails),"dashboardDetails ==>")
     const microPhoneModals=useModal(true)
     const loginLoader = useLoader(false);
     const [counting,setCounting]=useState(false)
@@ -97,9 +96,9 @@ console.log(stopAudioAllData,'audioData')
               dispatch(
                 setSelectedModal(false)
             )
-              dispatch(setSelectedTask(code));
+              // dispatch(setSelectedTask(code));
             
-              dispatch(getSelectedReference({ code:code, refer: true }))
+              // dispatch(getSelectedReference({ code:code, refer: true }))
               dispatch(setSelectedTabPosition({ id: '1' }))
               goTo(ROUTES["task-module"]["tasks-details"] +'/' + code + '/' + 'task');
 

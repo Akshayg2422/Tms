@@ -39,6 +39,7 @@ import {
   GET_RESEND_OTP,
   GET_RESEND_OTP_SUCCESS,
   GET_RESEND_OTP_FAILURE,
+  USER_SUCCESS_ID,
 } from '../ActionTypes';
 import { AuthSliceStateProp } from '../../Interfaces';
 import { DEFAULT_LANGUAGE } from '@Utils';
@@ -64,7 +65,8 @@ const initialState: AuthSliceStateProp = {
   alternativeNumber: undefined,
   notification: undefined,
   reSendOtp:undefined,
-  selectedAuthId:undefined
+  selectedAuthId:undefined,
+  selectedUserId:true,
 };
 
 const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
@@ -207,7 +209,11 @@ const AuthReducer = (state: AuthSliceStateProp = initialState, action: any) => {
       state = { ...state, language: action.payload };
       break;
 
-    
+    //user success
+
+    case USER_SUCCESS_ID:
+      state = { ...state, selectedUserId: action.payload };
+      break;
     /*PUSH NOTIFICATION */
 
     case PUSH_NOTIFICATION:

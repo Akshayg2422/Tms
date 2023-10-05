@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReferenceTasks, getSelectedReference, setSelectedTask, setSelectedTaskstatus } from "@Redux";
+import { getReferenceTasks, setSelectedTaskstatus } from "@Redux";
 import { getStatusFromCode, paginationHandler } from "@Utils";
 import { NoDataFound, Card, CommonTable, Button, Spinner, HomeContainer } from "@Components";
 import { useNavigation, useWindowDimensions } from '@Hooks'
@@ -24,7 +24,6 @@ function ReferenceTasks() {
   useEffect(() => {
     proceedgetReferenceTasks(referencesTasksCurrentPages);
   }, [id]);
-
 
 
   const proceedgetReferenceTasks = (page_number: number) => {
@@ -65,31 +64,18 @@ function ReferenceTasks() {
     }
   };
 
-
-
   return (
-
-    // <Card className={'overflow-auto overflow-hide mb--1'} style={{ height: height - 85 }}>
     <HomeContainer  className="card" >
          <div className={'overflow-auto overflow-hide '} style={{ height: height - 75 }}>
       {referencesTasks && referencesTasks?.length > 0 && item!=='reference-task' &&
        <div className="mr-3 mb-1 justify-content-end text-right ">
         <Button size={'sm'} className={'text-white mt-3 mb-1 '} text={translate("auth.addReferenceTask")} onClick={() => {
-          dispatch(setSelectedTask(id))
-          // dispatch(
-          //   setSelectedTaskCode(false)
-          // )
-
           goTo(ROUTES["task-module"]["reference-task"])
           
         }} />
       </div>
       }
-
-   
-
       {referencesTasks && referencesTasks?.length > 0 ?
-
 
         <CommonTable
         isPagination
@@ -109,10 +95,7 @@ function ReferenceTasks() {
           }
           }
           tableOnClick={(index,id,item) => {
-  
-            dispatch(setSelectedTask(item?.code))
            dispatch(setSelectedTaskstatus([item,...selectedTaskStatus]))
-     
             goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'reference-task')
           }}
 
