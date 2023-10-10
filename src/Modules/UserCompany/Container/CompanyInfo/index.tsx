@@ -9,8 +9,11 @@ import { translate } from "@I18n";
 
 function CompanyInfo({ item }: CompanyInfoProps) {
 
-  const { selectedCompany } = useSelector((state: any) => state.UserCompanyReducer);
+  const { selectedCompany, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
   const { display_name, attachment_logo, address, phone, email } = selectedCompany;
+
+  const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
+
 
   return (
     <HomeContainer className="mt-3">

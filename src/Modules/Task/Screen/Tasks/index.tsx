@@ -1,12 +1,11 @@
-import { icons } from "@Assets";
-import { Button, CommonTable, HomeContainer, Image, ImageColor, ImageIcon, MicroPhoneModal, Modal, NoDataFound, Priority, Spinner, Status } from "@Components";
-import { useModal, useNavigation } from '@Hooks';
+import { Button, CommonTable, HomeContainer, Image, NoDataFound, Priority, Spinner, Status } from "@Components";
+import { useNavigation } from '@Hooks';
 import { translate } from '@I18n';
 import { TaskFilters, TaskGroups } from '@Modules';
-import { getTasks, setSelectedTabPosition, setTaskParams, setSelectedModal, setSelectedTaskstatus, setUserSuccess } from '@Redux';
+import { getTasks, setSelectedModal, setSelectedTabPosition, setSelectedTaskstatus, setTaskParams } from '@Redux';
 import { ROUTES } from '@Routes';
 import { capitalizeFirstLetter, getDates, getPhoto, paginationHandler } from '@Utils';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -14,11 +13,15 @@ function Tasks() {
   const dispatch = useDispatch()
   const { tasks, taskNumOfPages, taskCurrentPages, taskParams, selectedMicroModal } = useSelector((state: any) => state.TaskReducer);
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
-  const{selectedUserId}=useSelector((state:any)=>state.AuthReducer)
+
+  const { selectedUserId } = useSelector((state: any) => state.AuthReducer)
   const { company } = dashboardDetails || ''
   const { goTo } = useNavigation();
   const [loading, setLoading] = useState(false);
 
+  const isAdmin = dashboardDetails?.permission_details?.is_admin
+  const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
+  const showAction = isAdmin || isSuperAdmin
 
   useEffect(() => {
     getTaskHandler(taskCurrentPages)
@@ -156,17 +159,17 @@ function Tasks() {
   return (
     <div className="mx-3 mt-3  ">
       <div className="d-flex justify-content-end mr-2">
-        {dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
-        <Button
-          className="text-white"
-          size={'sm'}
+        {showAction &&
+          <Button
+            className="text-white"
+            size={'sm'}
 
-          text={translate("common.createTask")}
-          onClick={() => {
-            goTo(ROUTES["task-module"]["add-task"])
-          }}
-        />
-}
+            text={translate("common.createTask")}
+            onClick={() => {
+              goTo(ROUTES["task-module"]["add-task"])
+            }}
+          />
+        }
         <div
         >
           {/* <ImageIcon src={icons.microPhone} height={25} width={25} onClick={() => {
@@ -228,11 +231,11 @@ function Tasks() {
 
               :
               <div className="mb-3">
-                {dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
-                <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
+                {
+                  showAction &&
+                  <NoDataFound type={'action'} buttonText={translate("common.createTask")!} onClick={() => { goTo(ROUTES["task-module"]["add-task"]) }} isButton />
                 }
-                </div>
-
+              </div>
             }
           </div>}
 

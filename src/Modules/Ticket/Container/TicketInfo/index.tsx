@@ -84,6 +84,12 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
   const [actionTask, setActionTask] = useState<number>();
   const { height } = useWindowDimensions();
 
+
+  const isAdmin = dashboardDetails?.permission_details?.is_admin
+  const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
+
+  const showAction = isAdmin || isSuperAdmin
+
   useEffect(() => {
     getTicketDetailsHandler();
   }, [id]);
@@ -151,8 +157,8 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
     dispatch(
       getTicketDetails({
         params,
-        onSuccess: (success) => () => {},
-        onError: (error) => () => {},
+        onSuccess: (success) => () => { },
+        onError: (error) => () => { },
       })
     );
   };
@@ -207,10 +213,9 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                 editDescription.set(description);
               }}
             >
-              {dashboardDetails.permission_details.is_admin &&
-                dashboardDetails.permission_details.is_super_admin && (
-                  <ImageIcon src={icons.editEta} height={16} width={16} />
-                )}
+              {showAction && (
+                <ImageIcon src={icons.editEta} height={16} width={16} />
+              )}
             </div>
           </div>
           <div className="row justify-content-between mt-3">
@@ -315,12 +320,12 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
             <div className="col-auto">
               <div className="row">
                 <div className="pointer" onClick={() => editEtaModal.show()}>
-                    
-                  {eta_time && dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
-(
-                    
-                    <ImageIcon src={icons.editEta} height={16} width={16} />
-                  )}
+
+                  {eta_time && showAction &&
+                    (
+
+                      <ImageIcon src={icons.editEta} height={16} width={16} />
+                    )}
                 </div>
                 <div
                   className="ml-3 pointer"
@@ -331,9 +336,9 @@ const TicketInfo = ({ onClick }: TicketInfoProps, ref: any) => {
                   <ImageIcon src={icons.timeline} height={17} width={17} />
                 </div>
                 <div className="ml-2 pointer">
-                {dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
-
-                  <TicketItemMenu />}
+                  {showAction &&
+                    <TicketItemMenu />
+                  }
                 </div>
               </div>
             </div>

@@ -13,14 +13,15 @@ function Tickets() {
 
   const DEFAULT_PARAMS = { q_many: "", "tickets_by": "ALL", "ticket_status": "ALL", "priority": "ALL", "department_id": "ALL", "designation_id": "ALL", page_number: 1 }
   const { goTo } = useNavigation();
-  const { tickets, ticketNumOfPages, ticketCurrentPages,ticketParams } = useSelector((state: any) => state.TicketReducer);
+  const { tickets, ticketNumOfPages, ticketCurrentPages, ticketParams } = useSelector((state: any) => state.TicketReducer);
   const dispatch = useDispatch();
   const [params, setParams] = useState(ticketParams)
   const [loading, setLoading] = useState(false)
   const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+  const isAdmin = dashboardDetails?.permission_details?.is_admin
+  const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
 
-
-
+  const showAction = isAdmin || isSuperAdmin
 
   useEffect(() => {
     setLoading(true)
@@ -75,7 +76,7 @@ function Tickets() {
                 </div>
               </div>
 
-       
+
             </div>,
           'description': <div className="col-11">
             {el?.description}
@@ -141,27 +142,27 @@ function Tickets() {
         <div className="row justify-content-end m-0 mb-3">
           <div className=" ">
             {
-            dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
-            <Button
-              className={'text-white shadow-none'}
-              size={'sm'}
-              text={translate("common.createTicket")}
-              onClick={() => {
-                goTo(ROUTES["ticket-module"]["add-ticket"])
-              }}
-            />
-}
+              showAction &&
+              <Button
+                className={'text-white shadow-none'}
+                size={'sm'}
+                text={translate("common.createTicket")}
+                onClick={() => {
+                  goTo(ROUTES["ticket-module"]["add-ticket"])
+                }}
+              />
+            }
           </div>
         </div>
 
         <HomeContainer type={'card'}>
           <div className="m-4">
-            
-       
-          <TicketFilter onParams={(filteredParams) => {
-            setParams({ ...params, ...filteredParams })
-          }} />
-             </div>
+
+
+            <TicketFilter onParams={(filteredParams) => {
+              setParams({ ...params, ...filteredParams })
+            }} />
+          </div>
 
           {
             loading && (

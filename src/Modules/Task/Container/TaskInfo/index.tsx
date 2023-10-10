@@ -90,6 +90,11 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
   const userModal = useModal(false);
   const { goTo } = useNavigation();
 
+  const isAdmin = dashboardDetails?.permission_details?.is_admin
+  const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
+
+  const showAction = isAdmin || isSuperAdmin
+
   const loginLoader = useLoader(false);
   const { selectedTaskStatus } = useSelector((state: any) => state.TaskReducer);
 
@@ -123,7 +128,7 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
           getTaskDetailsHandler();
           dispatch(refreshTaskEvent());
         },
-        onError: () => () => {},
+        onError: () => () => { },
       })
     );
   };
@@ -135,8 +140,8 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
     dispatch(
       getTaskDetails({
         params,
-        onSuccess: () => () => {},
-        onError: () => () => {},
+        onSuccess: () => () => { },
+        onError: () => () => { },
       })
     );
   };
@@ -222,10 +227,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                 editDescription.set(description);
               }}
             >
-              {dashboardDetails.permission_details.is_admin &&
-                dashboardDetails.permission_details.is_super_admin && (
-                  <ImageIcon src={icons.editEta} height={16} width={16} />
-                )}
+              {showAction && (
+                <ImageIcon src={icons.editEta} height={16} width={16} />
+              )}
             </div>
           )}
         </div>
@@ -334,10 +338,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
             <div className="col-auto">
               <div className="row">
                 <div className="pointer" onClick={() => editEtaModal.show()}>
-                  {dashboardDetails.permission_details.is_admin &&
-                    dashboardDetails.permission_details.is_super_admin && (
-                      <ImageIcon src={icons.editEta} height={16} width={16} />
-                    )}
+                  {showAction && (
+                    <ImageIcon src={icons.editEta} height={16} width={16} />
+                  )}
                 </div>
                 <div
                   className="ml-3 pointer"
@@ -348,9 +351,9 @@ const TaskInfo = forwardRef(({ onClick }: TaskInfoProps, ref: any) => {
                   <ImageIcon src={icons.timeline} height={17} width={17} />
                 </div>
                 <div className="ml-2 pointer">
-                    {dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
-                  <TaskItemMenu />
-                    }
+                  {showAction &&
+                    <TaskItemMenu />
+                  }
                 </div>
               </div>
             </div>

@@ -18,8 +18,8 @@ function CompanyDetails() {
     { id: "1", title: <div className="text-center pointer"><Image src={selectedTabPositions.id === '1' ? icons.companyInfoPink : icons.companyInfo} height={16} width={16} /></div>, component: <CompanyInfo /> },
     { id: "2", title: <div className="text-center pointer"><Image src={selectedTabPositions.id === '2' ? icons.companyTaskPink : icons.companyTask} height={16} width={16} /></div>, component: <CompanyTasks /> },
     { id: "3", title: <div className="text-center pointer"><Image src={selectedTabPositions.id === '3' ? icons.issuesPink : icons.issues} height={16} width={16} /></div>, component: <CompanyTickets /> },
-    { id: "4", title: <div className="text-center pointer">{selectedTabPositions.id === '4'? <ImageIcon src={icons.productList}  height={16} width={16} />:<Image src={icons.productList}  height={17} width={17} />} </div>, component: <ProductList/> },
-    { id: "5", title: <div className="text-center pointer">{selectedTabPositions.id === '5'? <ImageIcon src={icons.service}  height={16} width={16} />:<Image src={icons.service}  height={17} width={17} />} </div>, component: <BrandService/> },
+    { id: "4", title: <div className="text-center pointer">{selectedTabPositions.id === '4' ? <ImageIcon src={icons.productList} height={16} width={16} /> : <Image src={icons.productList} height={17} width={17} />} </div>, component: <ProductList /> },
+    { id: "5", title: <div className="text-center pointer">{selectedTabPositions.id === '5' ? <ImageIcon src={icons.service} height={16} width={16} /> : <Image src={icons.service} height={17} width={17} />} </div>, component: <BrandService /> },
   ];
 
   return (

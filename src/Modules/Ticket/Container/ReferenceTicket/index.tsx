@@ -20,6 +20,13 @@ function ReferenceTickets() {
     const { goTo } = useNavigation()
     const { height } = useWindowDimensions()
 
+    const isAdmin = dashboardDetails?.permission_details?.is_admin
+    const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
+
+    const showAction = isAdmin || isSuperAdmin
+
+
+
     useEffect(() => {
         proceedgetReferenceTickets(referenceTicketCurrentPages);
     }, [id]);
@@ -62,52 +69,51 @@ function ReferenceTickets() {
     return (
 
         // <Card className={'overflow-auto overflow-hide mb--1 '} style={{ height: height - 15 }}>
-        <HomeContainer  className="card">
+        <HomeContainer className="card">
             <div className={'overflow-auto overflow-hide '} style={{ height: height - 15 }}>
-            <div className=" d-flex justify-content-end m-3 ">
-                {referenceTickets && referenceTickets?.length > 0 && <Button size={'sm'} text={translate('order.Add Reference Ticket')} onClick={() => {
-                    goTo(ROUTES['ticket-module']['reference-ticket'])
-                }} />
-                }
+                <div className=" d-flex justify-content-end m-3 ">
+                    {referenceTickets && referenceTickets?.length > 0 && showAction && <Button size={'sm'} text={translate('order.Add Reference Ticket')} onClick={() => {
+                        goTo(ROUTES['ticket-module']['reference-ticket'])
+                    }} />
+                    }
+                </div>
+                <div className="">
+                    {referenceTickets && referenceTickets?.length > 0 ?
+                        <CommonTable
+                            isPagination
+                            tableDataSet={referenceTickets}
+                            currentPage={referenceTicketCurrentPages}
+                            noOfPage={referenceTicketNoOfPages}
+                            displayDataSet={normalizedTableData(referenceTickets)}
+                            paginationNumberClick={(currentPage) => {
+                                proceedgetReferenceTickets(paginationHandler("current", currentPage));
+                            }}
+                            previousClick={() => {
+                                proceedgetReferenceTickets(paginationHandler("prev", referenceTicketCurrentPages))
+                            }
+                            }
+                            nextClick={() => {
+                                proceedgetReferenceTickets(paginationHandler("next", referenceTicketCurrentPages));
+                            }
+                            }
+                            tableOnClick={(e, index, item) => {
+
+                                console.log("item.code==>", item.code)
+
+                                dispatch(setSelectedTicket(item))
+                                goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item.code)
+                            }}
+
+                        /> : <div className="d-flex h-100 justify-content-center align-items-center">
+                            {showAction &&
+                                <NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton />}
+                        </div>}
+                </div>
             </div>
-            <div className="">
-                {referenceTickets && referenceTickets?.length > 0 ?
-                    <CommonTable
-                        isPagination
-                        tableDataSet={referenceTickets}
-                        currentPage={referenceTicketCurrentPages}
-                        noOfPage={referenceTicketNoOfPages}
-                        displayDataSet={normalizedTableData(referenceTickets)}
-                        paginationNumberClick={(currentPage) => {
-                            proceedgetReferenceTickets(paginationHandler("current", currentPage));
-                        }}
-                        previousClick={() => {
-                            proceedgetReferenceTickets(paginationHandler("prev", referenceTicketCurrentPages))
-                        }
-                        }
-                        nextClick={() => {
-                            proceedgetReferenceTickets(paginationHandler("next", referenceTicketCurrentPages));
-                        }
-                        }
-                        tableOnClick={(e, index, item) => {
-
-                            console.log("item.code==>", item.code)
-
-                            dispatch(setSelectedTicket(item))
-                            goTo(ROUTES['ticket-module']['tickets-details'] + '/' + item.code)
-                        }}
-
-                    /> : <div className="d-flex h-100 justify-content-center align-items-center">
-                                        {dashboardDetails.permission_details.is_admin&& dashboardDetails.permission_details.is_super_admin&&
-
-                        <NoDataFound buttonText={translate('order.Add Reference Ticket')!} onClick={() => goTo(ROUTES['ticket-module']['reference-ticket'])} isButton />}
-                    </div>}
-            </div>
-            </div>
-            </HomeContainer>
+        </HomeContainer>
 
         // </Card>
-        
+
 
 
     );

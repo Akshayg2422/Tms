@@ -12,11 +12,11 @@ type RequireHomeProps = {
 }
 
 export const RequireHome = ({ children }: RequireHomeProps) => {
-    
 
-    const{selectedUserId}=useSelector((state:any)=>state.AuthReducer)
-    console.log(selectedUserId,"selectedUserId====>")
-    
+
+    const { selectedUserId } = useSelector((state: any) => state.AuthReducer)
+    console.log(selectedUserId, "selectedUserId====>")
+
     const location = useLocation()
 
     const { loginDetails } = useSelector(
@@ -24,13 +24,13 @@ export const RequireHome = ({ children }: RequireHomeProps) => {
     );
     // && selectedAuthId
 
-    if (loginDetails?.isLoggedIn && selectedUserId ) {
-        
-        console.log(selectedUserId,"selectedUserId====>1")
+    if (loginDetails?.isLoggedIn && selectedUserId) {
+
+        console.log(selectedUserId, "selectedUserId====>1")
         return <Navigate to={ROUTES['auth-module'].splash} state={{ path: location.pathname }} />
     }
-    else if(loginDetails?.isLoggedIn){
-        console.log(selectedUserId,"selectedUserId====>2")
+    else if (loginDetails?.isLoggedIn) {
+        console.log(selectedUserId, "selectedUserId====>2")
         return <Navigate to={ROUTES['task-module'].tasks} state={{ path: location.pathname }} />
     }
     return (
