@@ -11,8 +11,8 @@ import { translate } from "@I18n";
 
 function ReferenceTasks() {
   const dispatch = useDispatch();
-  const { id,item } = useParams();
-  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages,selectedTaskStatus} = useSelector(
+  const { id, item } = useParams();
+  const { referencesTasks, referencesTasksNumOfPages, referencesTasksCurrentPages, selectedTaskStatus } = useSelector(
     (state: any) => state.TaskReducer
   );
 
@@ -20,6 +20,9 @@ function ReferenceTasks() {
   const { goTo } = useNavigation()
   const { height } = useWindowDimensions()
 
+  const isAdmin = dashboardDetails?.permission_details?.is_admin
+  const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
+  const showAction = isAdmin || isSuperAdmin
 
   useEffect(() => {
     proceedgetReferenceTasks(referencesTasksCurrentPages);
@@ -38,8 +41,8 @@ function ReferenceTasks() {
       getReferenceTasks({
         params,
         onSuccess: (response) => () => {
-       
-         
+
+
         },
         onError: () => () => {
 
@@ -65,55 +68,56 @@ function ReferenceTasks() {
   };
 
   return (
-    <HomeContainer  className="card" >
-         <div className={'overflow-auto overflow-hide '} style={{ height: height - 75 }}>
-      {referencesTasks && referencesTasks?.length > 0 && item!=='reference-task' &&
-       <div className="mr-3 mb-1 justify-content-end text-right ">
-        <Button size={'sm'} className={'text-white mt-3 mb-1 '} text={translate("auth.addReferenceTask")} onClick={() => {
-          goTo(ROUTES["task-module"]["reference-task"])
-          
-        }} />
+    <HomeContainer className="card" >
+      <div className={'overflow-auto overflow-hide '} style={{ height: height - 75 }}>
+        {referencesTasks && referencesTasks?.length > 0 && item !== 'reference-task' &&
+          <div className="mr-3 mb-1 justify-content-end text-right ">
+            <Button size={'sm'} className={'text-white mt-3 mb-1 '} text={translate("auth.addReferenceTask")} onClick={() => {
+              goTo(ROUTES["task-module"]["reference-task"])
+
+            }} />
+          </div>
+        }
+        {referencesTasks && referencesTasks?.length > 0 ?
+          <CommonTable
+            isPagination
+            tableDataSet={referencesTasks}
+            currentPage={referencesTasksCurrentPages}
+            noOfPage={referencesTasksNumOfPages}
+            displayDataSet={normalizedTableData(referencesTasks)}
+            paginationNumberClick={(currentPage) => {
+              proceedgetReferenceTasks(paginationHandler("current", currentPage));
+            }}
+            previousClick={() => {
+              proceedgetReferenceTasks(paginationHandler("prev", referencesTasksCurrentPages))
+            }
+            }
+            nextClick={() => {
+              proceedgetReferenceTasks(paginationHandler("next", referencesTasksCurrentPages));
+            }
+            }
+            tableOnClick={(index, id, item) => {
+              dispatch(setSelectedTaskstatus([item, ...selectedTaskStatus]))
+              goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code + '/' + 'reference-task')
+            }}
+
+          />
+
+          : item === "reference-task" ? <div className="d-flex h-100 justify-content-center align-items-center">
+            <NoDataFound
+
+            />
+          </div> : <div className="d-flex h-100 justify-content-center align-items-center">
+            {
+              showAction &&
+              <NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])}
+                isButton
+              />
+            }
+          </div>
+        }
       </div>
-      }
-      {referencesTasks && referencesTasks?.length > 0 ?
-
-        <CommonTable
-        isPagination
-          tableDataSet={referencesTasks}
-          currentPage={referencesTasksCurrentPages}
-          noOfPage={referencesTasksNumOfPages}
-          displayDataSet={normalizedTableData(referencesTasks)}
-          paginationNumberClick={(currentPage) => {
-            proceedgetReferenceTasks(paginationHandler("current", currentPage));
-          }}
-          previousClick={() => {
-            proceedgetReferenceTasks(paginationHandler("prev", referencesTasksCurrentPages))
-          }
-          }
-          nextClick={() => {
-            proceedgetReferenceTasks(paginationHandler("next", referencesTasksCurrentPages));
-          }
-          }
-          tableOnClick={(index,id,item) => {
-           dispatch(setSelectedTaskstatus([item,...selectedTaskStatus]))
-            goTo(ROUTES["task-module"]["tasks-details"] + '/' + item?.code+'/'+'reference-task')
-          }}
-
-        />
-
-        :item==="reference-task" ? <div className="d-flex h-100 justify-content-center align-items-center">
-          <NoDataFound  
-       
-        />
-        </div>:<div className="d-flex h-100 justify-content-center align-items-center">
-          <NoDataFound buttonText={translate("auth.addReferenceTask")!} onClick={() => goTo(ROUTES["task-module"]["reference-task"])} 
-        isButton 
-        />
-        </div>}
-        </div>
-        </HomeContainer>
-    // </Card>
-
+    </HomeContainer>
 
   );
 }

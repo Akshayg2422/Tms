@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux";
-import { ROUTES, HOME_ROUTES } from '@Routes'
+import { ROUTES, HOME_ROUTES, HOME_EMPLOYEE_ROUTES } from '@Routes'
 import { Sidebar } from '@Components'
 import { icons } from '@Assets'
 import { FCM_TOKEN, getDeviceInfo } from '@Utils'
@@ -16,24 +16,24 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
     const dispatch = useDispatch()
     const { dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
 
+
     const [sideNavOpen, setSideNavOpen] = useState(false);
     const mainContentRef = React.useRef<HTMLDivElement | null>(null);
     const location = useLocation();
 
-    let homeRoutes =HOME_ROUTES.slice(5,6)
-    let HOME_ADMIN_ROUTES 
-    
-if(dashboardDetails?.permission_details?.is_super_admin || dashboardDetails?.permission_details?.is_admin){
 
-    HOME_ADMIN_ROUTES=HOME_ROUTES
-       }
-       else{
-        HOME_ADMIN_ROUTES = HOME_ROUTES.filter(
-            (filterItem: any) => filterItem.name!== homeRoutes[0].name
-          );
+    const isAdmin = dashboardDetails?.permission_details?.is_admin
+    const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
+    const showAction = isAdmin || isSuperAdmin
 
-       }
+    // let homeRoutes = HOME_ROUTES.slice(5, 6)
+    let HOME_ADMIN_ROUTES: any = []
 
+    if (showAction) {
+        HOME_ADMIN_ROUTES = HOME_ROUTES
+    } else {
+        HOME_ADMIN_ROUTES = HOME_EMPLOYEE_ROUTES
+    }
 
     const fcmToken = localStorage.getItem(FCM_TOKEN)
 

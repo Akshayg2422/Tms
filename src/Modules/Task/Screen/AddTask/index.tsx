@@ -67,7 +67,7 @@ function AddTask() {
     );
 
     const DEFAULT_COMPANY = { id: dashboardDetails?.permission_details?.branch_id, display_name: '𝗦𝗘𝗟𝗙', name: 'self' }
-
+     console.log("====>",dashboardDetails)
     const { subTaskGroups } = useSelector(
         (state: any) => state.TaskReducer
     );

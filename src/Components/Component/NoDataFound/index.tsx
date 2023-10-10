@@ -4,7 +4,7 @@ import { Image, Button } from '@Components'
 import { translate } from '@I18n';
 
 
-function NoDataFound({ text = translate('common.No Data Found')!, type = 'action', buttonText, onClick ,isButton}: NoDataFoundProps) {
+function NoDataFound({ text = translate('common.No Data Found')!, type = 'action', buttonText, onClick, isButton }: NoDataFoundProps) {
     return (
         <>
             {type === 'text' && <div className="text-muted text-center" >{text}</div>}
@@ -13,7 +13,7 @@ function NoDataFound({ text = translate('common.No Data Found')!, type = 'action
                     <div>
                         <div className='text-center'>
                             <p className='mb-1'><u>{text}</u></p>
-                           {isButton && <Button size={'sm'} className={'text-white'} text={buttonText} onClick={onClick} />}
+                            {isButton && <Button size={'sm'} className={'text-white'} text={buttonText} onClick={onClick} />}
                         </div>
                     </div >
 

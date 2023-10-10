@@ -1,9 +1,10 @@
-import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents,CompanyConfig, AddProduct, AddServiceCategory, VideoMeeting  } from '@Modules'
-import { Login, Otp, Landing, Splash,Register } from '@Modules'
+import { Companies, Broadcast, Tasks, Profile, Setting, TaskDetails, TicketDetails, AddReferenceTicket, CompanyDetails, AddReferenceTask, AddTask, AddSubTask, CreateBroadCast, CreateCompany, AddUser, AddTicket, EmployeesList, EmployeesTimeSheet, MyPortfolio, Tickets, AdminFeeds, Events, AddEvent, VirtualConference, ScheduleMeeting, VideoConference, Groups, TimeApproval, ReSubmitRequest, IndividualChat, EventChatting, PrivacyPolicy, TermsAndConditions, ReturnAndRefund, CalendarView, AdminEvents, CompanyConfig, AddProduct, AddServiceCategory, VideoMeeting } from '@Modules'
+import { Login, Otp, Landing, Splash, Register } from '@Modules'
 import { icons } from '@Assets'
 import { Component } from 'react'
 import { MyTimeSheet } from '@Modules//UserCompany/Screen/MyTimeSheet'
 import { translate } from '@I18n'
+
 
 
 export const HOME_PATH = {
@@ -88,9 +89,9 @@ export const ROUTES = {
     Groups: '/groups',
     'individual-chat': '/chat',
     'add-event': '/add-event',
-    'calender-view':'/calender-view',
-    'add-product':'/add-Product',
-    'add-service':'/add-service',
+    'calender-view': '/calender-view',
+    'add-product': '/add-Product',
+    'add-service': '/add-service',
   },
   'message-module': {
     broadcast: '/broadcast',
@@ -135,23 +136,26 @@ export const AUTH_ROUTES = [
     component: <ReturnAndRefund />
   },
   {
-    key:7 ,
+    key: 7,
     path: ROUTES['auth-module'].Register,
     component: <Register />
   },
 
 ];
 
-export const SPLASH_ROUTER =[
-  
-      {
+export const SPLASH_ROUTER = [
+
+  {
     key: 1,
     path: ROUTES['auth-module'].splash,
     component: <Splash />
   },
 
-  
+
 ]
+
+
+
 
 export const HOME_ROUTES = [
   {
@@ -245,7 +249,6 @@ export const HOME_ROUTES = [
 
   },
 
-
   {
     path: ROUTES['user-company-module']['my-portfolio'],
     name: translate("sideNav.MyTimeSheet"),
@@ -276,6 +279,7 @@ export const HOME_ROUTES = [
     component: <Profile />
   },
   {
+
     path: ROUTES['user-company-module'].setting,
     name: "Settings",
     icon: icons.setting,
@@ -283,6 +287,76 @@ export const HOME_ROUTES = [
     component: <Setting />
   },
 ];
+
+
+export const HOME_EMPLOYEE_ROUTES = [
+  {
+    path: ROUTES['task-module'].tasks,
+    name: translate("sideNav.Tasks"),
+    icon: icons.task,
+    layout: "",
+    component: <Tasks />
+  },
+  {
+    path: ROUTES['ticket-module'].tickets,
+    name: translate("sideNav.Tickets"),
+    icon: icons.issue,
+    layout: "",
+    component: <Tickets />
+  },
+  {
+    path: ROUTES['user-company-module'].companies,
+    name: translate("sideNav.Associations"),
+    icon: icons.company,
+    layout: "",
+    component: <Companies />
+  },
+
+  {
+    path: ROUTES['message-module'].broadcast,
+    name: translate("sideNav.Feeds"),
+    icon: icons.broadCast,
+    layout: "",
+    component: <Broadcast />
+  },
+  {
+    path: ROUTES['user-company-module']['my-events'],
+    name: 'My Events',
+    icon: icons.broadCast,
+    layout: "",
+    component: <Events />
+  },
+  {
+    path: ROUTES['user-company-module']['my-portfolio'],
+    name: translate("sideNav.MyTimeSheet"),
+    miniName: "TS",
+    icon: icons.myTimeSheet,
+    component: <MyTimeSheet />,
+    layout: '',
+  },
+  {
+    path: ROUTES['user-company-module'].Groups,
+    name: translate("sideNav.Groups"),
+    icon: icons.group,
+    layout: "",
+    component: <Groups />
+  },
+  {
+    path: ROUTES['user-company-module']['individual-chat'],
+    name: 'Chat',
+    icon: icons.company,
+    layout: "",
+    component: <IndividualChat />
+  },
+  {
+    path: ROUTES['user-company-module'].profile,
+    name: translate("sideNav.Profile"),
+    icon: icons.profile,
+    layout: "",
+    component: <Profile />
+  }
+];
+
 
 export const TASK_ROUTES = [
   {
@@ -408,12 +482,12 @@ export const USER_COMPANY_ROTES = [
   {
     key: 13,
     path: ROUTES['user-company-module']['add-product'],
-    component: <AddProduct/>
+    component: <AddProduct />
   },
   {
     key: 14,
     path: ROUTES['user-company-module']['add-service'],
-    component: <AddServiceCategory/>
+    component: <AddServiceCategory />
   },
 
 

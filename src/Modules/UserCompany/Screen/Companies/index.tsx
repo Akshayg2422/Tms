@@ -28,6 +28,10 @@ function Companies() {
   const loginLoader = useLoader(false)
 
 
+  const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
+  const isAdmin = dashboardDetails?.permission_details?.is_admin
+
+
   useEffect(() => {
 
     getAssociatedCompanyApi()
@@ -111,17 +115,17 @@ function Companies() {
       return {
         Company:
           // <div className="col">
-            <div className="row ">
-              {/* <div className={'col-auto mx-0'}> */}
-              <Image size={'md'} variant={'rounded'} src={getPhoto(el?.attachment_logo)} />
-              {/* </div> */}
-              {/* <div className="col row"> */}
+          <div className="row ">
+            {/* <div className={'col-auto mx-0'}> */}
+            <Image size={'md'} variant={'rounded'} src={getPhoto(el?.attachment_logo)} />
+            {/* </div> */}
+            {/* <div className="col row"> */}
 
-              <div className="text-start pt-3 pl-1"> {el.display_name}<div></div></div>
-              {/* </div> */}
-            </div>
-          // </div>,
-          ,
+            <div className="text-start pt-3 pl-1"> {el.display_name}<div></div></div>
+            {/* </div> */}
+          </div>
+        // </div>,
+        ,
         phone: el?.phone,
         email: el?.email,
         address: el?.address,
@@ -153,14 +157,16 @@ function Companies() {
 
           {associatedCompanies && associatedCompanies?.length > 0 &&
             <div className="text-right">
-              <Button
-                className={'text-white'}
-                size={'sm'}
-                text={translate("auth.associatedCompany")}
-                onClick={() => {
-                  associatedCompanyModal.show()
-                }}
-              />
+              {
+                isSuperAdmin &&
+                <Button
+                  className={'text-white'}
+                  size={'sm'}
+                  text={translate("auth.associatedCompany")}
+                  onClick={() => {
+                    associatedCompanyModal.show()
+                  }}
+                />}
             </div>
           }
         </div>
@@ -200,9 +206,17 @@ function Companies() {
 
             }} />
           :
-          <div className="vh-100 d-flex align-item-center justify-content-center"><NoDataFound text={translate("common.No Companies found")!} buttonText={translate("common.addCompany")!} onClick={() => {
-            goTo(ROUTES["user-company-module"]["add-company"]);
-          }} isButton /></div>
+          <div className="vh-100 d-flex align-item-center justify-content-center">
+
+            {isSuperAdmin ?
+              <NoDataFound text={translate("common.No Companies found")!}
+                buttonText={translate("common.addCompany")!}
+                onClick={() => {
+                  goTo(ROUTES["user-company-module"]["add-company"]);
+                }} isButton /> :
+              <NoDataFound type={'text'} text={translate("common.No Companies found")!} />
+            }
+          </div>
 
         }
 
@@ -236,15 +250,16 @@ function Companies() {
             </div>
 
             <div className={'text-xs text-muted mb-2'}>{translate("order.Can't find Company?")}</div>
-
-            <Button
-              className={'text-white'}
-              size={'sm'}
-              text={translate("common.addNew")}
-              onClick={() => {
-                goTo(ROUTES["user-company-module"]["add-company"]);
-              }}
-            />
+            {isSuperAdmin &&
+              <Button
+                className={'text-white'}
+                size={'sm'}
+                text={translate("common.addNew")}
+                onClick={() => {
+                  goTo(ROUTES["user-company-module"]["add-company"]);
+                }}
+              />
+            }
           </div>
         }
 

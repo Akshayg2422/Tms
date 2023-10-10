@@ -15,23 +15,28 @@ function CompanyUsers() {
   const dispatch = useDispatch()
   const search = useInput("");
 
-  const { employees, selectedCompany ,employeesNumOfPages,employeesCurrentPages} = useSelector((state: any) => state.UserCompanyReducer);
+  const { employees, selectedCompany, employeesNumOfPages, employeesCurrentPages, dashboardDetails } = useSelector((state: any) => state.UserCompanyReducer);
+
+  const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
+
+
 
   useEffect(() => {
-    getCompanyEmployeesApi(employeesCurrentPages,search?.value)
+    getCompanyEmployeesApi(employeesCurrentPages, search?.value)
   }, [search.value]);
-  
-  function getCompanyEmployeesApi(page_number: number,q_many:string = '') {
 
-    const params = { branch_id: selectedCompany.branch_id ,
+  function getCompanyEmployeesApi(page_number: number, q_many: string = '') {
+
+    const params = {
+      branch_id: selectedCompany.branch_id,
       page_number,
       q_many,
-      
+
     };
     dispatch(getEmployees({
       params,
       onSuccess: (response) => () => {
-      
+
       },
       onError: () => () => { }
     }));
@@ -40,56 +45,59 @@ function CompanyUsers() {
   const normalizedTableData = (data: any) => {
     return data?.map((el: any) => {
       return {
-        profile: 
-        <div className='row '>
-          <div className='col-auto '>{el?.profile_image ?<Image variant={'rounded'} src={getPhoto(el?.profile_image)}/>:<Image variant={'rounded'} src={icons.profilePick}/>}</div>
-         <div className='col mt--3 '> <div className='row h5 mb-0 '>{ el.name}</div>
-          <div className=' row ' >{el?.department?.name} <div className='px-1'>/</div>  {el?.designation?.name}</div>
-          </div>
+        profile:
+          <div className='row '>
+            <div className='col-auto '>{el?.profile_image ? <Image variant={'rounded'} src={getPhoto(el?.profile_image)} /> : <Image variant={'rounded'} src={icons.profilePick} />}</div>
+            <div className='col mt--3 '> <div className='row h5 mb-0 '>{el.name}</div>
+              <div className=' row ' >{el?.department?.name} <div className='px-1'>/</div>  {el?.designation?.name}</div>
+            </div>
           </div>,
         phone: el?.mobile_number,
         email: el?.email,
-    
+
       };
     });
   };
 
   return (
     <div>
-      <div className='text-right mt--3'>
-        <Button text={translate('common.addUser')} size={'sm'} onClick={() => { goTo(HOME_PATH.ADD_USER)
-             dispatch(handleUserDetails({})) }} />
+      {isSuperAdmin && <div className='text-right mt--3'>
+        <Button text={translate('common.addUser')} size={'sm'} onClick={() => {
+          goTo(HOME_PATH.ADD_USER)
+          dispatch(handleUserDetails({}))
+        }} />
       </div>
+      }
       <div className='mx--3 mt-3'>
         <CommonTable card title={<div className='row'><div className='h3 '>{'Users'}</div>
-         <div className='col-4 text-right '>
-         <SearchInput onSearch={search.set
-            //  getCompanyEmployeesApi(employeesCurrentPages,search)
-         } 
-         defaultValue={search.value}/>
-     </div> 
-     </div>}
-        isPagination
-        tableDataSet={employees} 
-        displayDataSet={normalizedTableData(employees)} 
-        noOfPage={ employeesNumOfPages}
-        currentPage={employeesCurrentPages}
-        paginationNumberClick={(currentPage) => {
-          getCompanyEmployeesApi(paginationHandler("current", currentPage));
-      }}
-      previousClick={() => {
-          getCompanyEmployeesApi(paginationHandler("prev", employeesCurrentPages))
-      }
-      }
-      nextClick={() => {
-          getCompanyEmployeesApi(paginationHandler("next", employeesCurrentPages));
-      }
-      }
-        
+          <div className='col-4 text-right '>
+            <SearchInput onSearch={search.set
+              //  getCompanyEmployeesApi(employeesCurrentPages,search)
+            }
+              defaultValue={search.value} />
+          </div>
+        </div>}
+          isPagination
+          tableDataSet={employees}
+          displayDataSet={normalizedTableData(employees)}
+          noOfPage={employeesNumOfPages}
+          currentPage={employeesCurrentPages}
+          paginationNumberClick={(currentPage) => {
+            getCompanyEmployeesApi(paginationHandler("current", currentPage));
+          }}
+          previousClick={() => {
+            getCompanyEmployeesApi(paginationHandler("prev", employeesCurrentPages))
+          }
+          }
+          nextClick={() => {
+            getCompanyEmployeesApi(paginationHandler("next", employeesCurrentPages));
+          }
+          }
+
         />
       </div>
 
-    
+
     </div>
   )
 }

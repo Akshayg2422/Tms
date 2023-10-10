@@ -154,6 +154,7 @@ function Form() {
         <Container>
           <Row className="row-grid align-items-center">
             <Col className="order-md-2 justify-content-center d-flex align-item-center" md="6">
+
               <Image
                 alt="..."
                 className=""

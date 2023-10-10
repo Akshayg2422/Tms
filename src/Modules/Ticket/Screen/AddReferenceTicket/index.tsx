@@ -151,6 +151,7 @@ function AddReferenceTicket() {
             <SearchInput onSearch={(text) => {
               getTicketsApiHandler(INITIAL_PAGE, text)
             }} />
+                        
 
             <Button className="ml-3 mr-3" size={'sm'} text={translate('common.submit')!}
               loading={loginLoader.loader}

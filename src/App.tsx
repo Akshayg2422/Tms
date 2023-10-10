@@ -18,7 +18,7 @@ import "quill/dist/quill.core.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { DateTimePicker } from '@Components'
 import { Splash } from "./Modules";
-
+import { Tickets } from './Modules'
 
 
 function App() {
@@ -46,6 +46,7 @@ function App() {
           element={type === AUTH ? <RequireHome>{prop.component}</RequireHome> : <RequireAuth>{prop.component}</RequireAuth>}
           key={key}
         />
+      
       );
 
     });
@@ -63,8 +64,11 @@ function App() {
         {getRoutes(MESSAGE_ROUTES, HOME)}
         {getRoutes(USER_COMPANY_ROTES, HOME)}
         <Route path={"*"} element={<PageNotFound />} />
+        <Route  />
       </Routes>
+      
       <ToastContainer />
+    
     </ScreenWrapper>
 
   );
