@@ -1,0 +1,272 @@
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addAssociatedCompany, getAssociatedBranch, getTaskGroupsL, getAssociatedCompany, setSelectedCompany, setSelectedTabPosition } from "@Redux";
+import { Button, Card, Image, CommonTable, NoDataFound, Modal, DropDown, showToast, CollapseButton, Spinner, SearchInput, HomeContainer } from "@Components";
+import { useNavigation, useModal, useDynamicHeight, useDropDown, useLoader, useInput } from "@Hooks";
+import { ROUTES } from "@Routes";
+import { translate } from "@I18n";
+import { getPhoto, paginationHandler } from "@Utils";
+
+function Companies() {
+  const item = [{ id: '1', text: "welcome to my world" },
+  { id: '1', text: "welcome to my worlds" },
+  { id: '1', text: "welcome to my worldr" },
+  { id: '1', text: "welcome to my worlde" }]
+
+  const dispatch = useDispatch();
+  const { goTo, goBack } = useNavigation();
+
+  const associatedCompanyModal = useModal(false);
+  const associatedCompanyDropDown = useDropDown({})
+  const searchCompany = useInput('')
+  const dynamicHeight: any = useDynamicHeight()
+  const [loading, setLoading] = useState(false)
+  const { associatedCompanies, associatedCompaniesNumOfPages, associatedCompaniesCurrentPages, associatedCompany, dashboardDetails } = useSelector(
+    (state: any) => state.UserCompanyReducer
+  );
+
+  const loginLoader = useLoader(false)
+
+
+  const isSuperAdmin = dashboardDetails?.permission_details?.is_super_admin
+  const isAdmin = dashboardDetails?.permission_details?.is_admin
+
+
+  useEffect(() => {
+
+    getAssociatedCompanyApi()
+  }, [])
+
+  useEffect(() => {
+    getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
+
+  }, [searchCompany.value])
+
+
+
+  const getAssociatedCompaniesHandler = (page_number: number) => {
+    setLoading(true)
+    const params = {
+      page_number,
+      q: searchCompany.value
+    };
+
+    dispatch(
+      getAssociatedBranch({
+        params,
+        onSuccess: () => () => {
+          setLoading(false)
+        },
+        onError: () => () => {
+          setLoading(false)
+        },
+      })
+    );
+
+  }
+
+
+  const getAssociatedCompanyApi = () => {
+
+    const params = {}
+
+    dispatch(
+      getAssociatedCompany({
+        params,
+        onSuccess: (response: any) => () => {
+          associatedCompanyModal.hide()
+        },
+        onError: (error) => () => {
+          showToast(error.error_message)
+        },
+      })
+    )
+  }
+
+
+  const addAssociatedCompanyApi = () => {
+    const params = {
+      id: dashboardDetails.company_branch.id,
+      company_id: associatedCompanyDropDown.value.id,
+    }
+    loginLoader.show()
+    dispatch(
+      addAssociatedCompany({
+        params,
+        onSuccess: (response: any) => () => {
+          associatedCompanyModal.hide();
+          associatedCompanyDropDown.set({})
+          loginLoader.hide()
+          showToast(response.message)
+          // dispatch(getAssociatedBranch(params))
+          getAssociatedCompaniesHandler(associatedCompaniesCurrentPages)
+          getAssociatedCompanyApi()
+        },
+        onError: (error) => () => {
+          showToast(error.error_message)
+          loginLoader.hide()
+        },
+      })
+    )
+  }
+
+  const normalizedTableData = (data: any) => {
+    return data?.map((el: any) => {
+      return {
+        Company:
+          // <div className="col">
+          <div className="row ">
+            {/* <div className={'col-auto mx-0'}> */}
+            <Image size={'md'} variant={'rounded'} src={getPhoto(el?.attachment_logo)} />
+            {/* </div> */}
+            {/* <div className="col row"> */}
+
+            <div className="text-start pt-3 pl-1"> {el.display_name}<div></div></div>
+            {/* </div> */}
+          </div>
+        // </div>,
+        ,
+        phone: el?.phone,
+        email: el?.email,
+        address: el?.address,
+      };
+    });
+  };
+
+  function getAssociatedCompanyDropDownDisplayData(data: any, key: string = 'display_name') {
+    if (data && data.length > 0) {
+      return data.map(each => {
+        return { ...each, text: each[key] }
+      })
+    }
+  }
+
+
+
+  return (
+    <>
+      <HomeContainer type={'card'} className="m-3">
+        <div className="d-flex  justify-content-end m-3 align-items-center">
+          <div className="col-3">
+            <SearchInput onSearch={(search) => {
+              searchCompany.set(search)
+
+            }}
+            />
+          </div>
+
+          {associatedCompanies && associatedCompanies?.length > 0 &&
+            <div className="text-right">
+              {
+                isSuperAdmin &&
+                <Button
+                  className={'text-white'}
+                  size={'sm'}
+                  text={translate("auth.associatedCompany")}
+                  onClick={() => {
+                    associatedCompanyModal.show()
+                  }}
+                />}
+            </div>
+          }
+        </div>
+
+
+        {
+          loading && (
+            <div className="d-flex justify-content-center align-item-center " style={{ minHeight: '200px', marginTop: '250px' }}>
+              <Spinner />
+            </div>
+          )
+        }
+
+        {associatedCompanies && associatedCompanies?.length > 0 ?
+          <CommonTable
+            isPagination
+            title={'Companies'}
+            tableDataSet={associatedCompanies}
+            currentPage={associatedCompaniesCurrentPages}
+            noOfPage={associatedCompaniesNumOfPages}
+            displayDataSet={normalizedTableData(associatedCompanies)}
+            paginationNumberClick={(currentPage) => {
+              getAssociatedCompaniesHandler(paginationHandler("current", currentPage));
+            }}
+            previousClick={() => {
+              getAssociatedCompaniesHandler(paginationHandler("prev", associatedCompaniesCurrentPages))
+            }
+            }
+            nextClick={() => {
+              getAssociatedCompaniesHandler(paginationHandler("next", associatedCompaniesCurrentPages));
+            }
+            }
+            tableOnClick={(idx, index, item) => {
+              dispatch(setSelectedCompany(item));
+              goTo(ROUTES["user-company-module"]["company-details"]);
+              dispatch(setSelectedTabPosition({ id: '1' }))
+
+            }} />
+          :
+          <div className="vh-100 d-flex align-item-center justify-content-center">
+
+            {isSuperAdmin ?
+              <NoDataFound text={translate("common.No Companies found")!}
+                buttonText={translate("common.addCompany")!}
+                onClick={() => {
+                  goTo(ROUTES["user-company-module"]["add-company"]);
+                }} isButton /> :
+              <NoDataFound type={'text'} text={translate("common.No Companies found")!} />
+            }
+          </div>
+
+        }
+
+      </HomeContainer>
+
+      <Modal size={"md"} fade={false} isOpen={associatedCompanyModal.visible} style={{ overflowY: 'auto', maxHeight: dynamicHeight.dynamicHeight }} onClose={associatedCompanyModal.hide}>
+
+        {
+          <div className="col mt--4">
+            <DropDown
+              heading={translate('order.SELECTED COMPANIES :')}
+              data={getAssociatedCompanyDropDownDisplayData(associatedCompany)}
+              onChange={(item) => {
+                associatedCompanyDropDown.onChange(item)
+
+              }}
+              value={associatedCompanyDropDown.value}
+              selected={associatedCompanyDropDown.value}
+            />
+
+            <div className="text-right">
+              <Button
+                className={'text-white'}
+                size={'sm'}
+                loading={loginLoader.loader}
+                text={translate("common.submit")}
+                onClick={() => {
+                  addAssociatedCompanyApi()
+                  getAssociatedCompany({})
+                }} />
+            </div>
+
+            <div className={'text-xs text-muted mb-2'}>{translate("order.Can't find Company?")}</div>
+            {isSuperAdmin &&
+              <Button
+                className={'text-white'}
+                size={'sm'}
+                text={translate("common.addNew")}
+                onClick={() => {
+                  goTo(ROUTES["user-company-module"]["add-company"]);
+                }}
+              />
+            }
+          </div>
+        }
+
+      </Modal>
+    </>
+
+
+  );
+}
+export { Companies };

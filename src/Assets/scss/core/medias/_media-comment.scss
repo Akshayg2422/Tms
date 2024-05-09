@@ -1,0 +1,31 @@
+//
+// Media comment
+//
+
+
+.media-comment {
+	margin-top: 2rem;
+}
+
+.media-comment-avatar {
+	margin-top: -1rem;
+	margin-right: -2rem;
+	position: relative;
+	z-index: 1;
+	border: 4px solid $white;
+	@include transition($transition-base);
+}
+
+.media-comment-text {
+	border-radius: $border-radius-lg;
+	background-color: $gray-100;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.media-comment {
+	&:hover {
+		.media-comment-avatar {
+			transform: scale(1.1);
+		}
+	}
+}
